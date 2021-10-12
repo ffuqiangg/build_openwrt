@@ -13,6 +13,13 @@
 # Modify default IP
 sed -i 's/192.168.1.1/192.168.1.99/g' package/base-files/files/bin/config_generate
 
+# Set DISTRIB_REVISION
+sed -i "s|DISTRIB_REVISION='.*'|DISTRIB_REVISION='R$(date +%Y.%m.%d)'|g" package/lean/default-settings/files/zzz-default-settings
+
+# Add luci-app-filebrowser
+svn co https://github.com/immortalwrt/openwrt-filebrowser/trunk/luci-app-filebrowser package/luci-app-filebrowser
+svn co https://github.com/immortalwrt/openwrt-filebrowser/trunk/filebrowser package/filebrowser
+
 # Change menu
 sed -i "20c sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/vsftpd.lua" package/lean/default-settings/files/zzz-default-settings
 sed -i "22c sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/samba4.lua" package/lean/default-settings/files/zzz-default-settings
@@ -20,3 +27,4 @@ sed -i "22c sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/
 # Readd cpufreq for aarch64 & change menu
 sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=\@\(arm\|\|aarch64\)/g' package/lean/luci-app-cpufreq/Makefile
 # sed -i 's/services/system/g'  package/lean/luci-app-cpufreq/luasrc/controller/cpufreq.lua
+
