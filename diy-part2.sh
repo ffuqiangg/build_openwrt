@@ -13,17 +13,8 @@
 # Modify default IP
 sed -i 's/192.168.1.1/192.168.1.99/g' package/base-files/files/bin/config_generate
 
-# Set DISTRIB_REVISION
-sed -i "s|DISTRIB_REVISION='.*'|DISTRIB_REVISION='R$(date +%y.%m.%d)'|g" package/lean/default-settings/files/zzz-default-settings
-
-# Change menu
-sed -i "20c sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/vsftpd.lua" package/lean/default-settings/files/zzz-default-settings
-sed -i "20c sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/filebrowser.lua" package/lean/default-settings/files/zzz-default-settings
-sed -i "22c sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/samba4.lua" package/lean/default-settings/files/zzz-default-settings
-sed -i "28c sed -i 's/nas/services/g' /usr/lib/lua/luci/view/filebrowser/filebrowser_status.htm" package/lean/default-settings/files/zzz-default-settings
-
 # Add packages
-# -------passwal-------
+# passwal
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/brook package/brook
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/chinadns-ng package/chinadns-ng
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/tcping package/tcping
@@ -46,8 +37,17 @@ svn co https://github.com/xiaorouji/openwrt-passwall/trunk/kcptun package/kcptun
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/trojan package/trojan
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/hysteria package/hysteria
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/naiveproxy package/naiveproxy
-
+# filebrowser
 git clone https://github.com/immortalwrt-collections/openwrt-filebrowser.git package/luci-app-filebrowser
+
+# Set DISTRIB_REVISION
+sed -i "s|DISTRIB_REVISION='.*'|DISTRIB_REVISION='R$(date +%y.%m.%d)'|g" package/lean/default-settings/files/zzz-default-settings
+
+# Change menu
+sed -i "20c sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/vsftpd.lua" package/lean/default-settings/files/zzz-default-settings
+sed -i "20c sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/filebrowser.lua" package/lean/default-settings/files/zzz-default-settings
+sed -i "22c sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/samba4.lua" package/lean/default-settings/files/zzz-default-settings
+sed -i "28c sed -i 's/nas/services/g' /usr/lib/lua/luci/view/filebrowser/filebrowser_status.htm" package/lean/default-settings/files/zzz-default-settings
 
 # Readd cpufreq for aarch64 & change menu
 sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=\@\(arm\|\|aarch64\)/g' package/lean/luci-app-cpufreq/Makefile
