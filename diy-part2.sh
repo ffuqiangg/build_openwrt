@@ -39,8 +39,9 @@ svn co https://github.com/xiaorouji/openwrt-passwall/trunk/trojan package/trojan
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/hysteria package/hysteria
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/naiveproxy package/naiveproxy
 
-git clone https://github.com/immortalwrt-collections/openwrt-filebrowser.git package/luci-app-filebrowser
+git clone https://github.com/immortalwrt-collections/openwrt-filebrowser package/luci-app-filebrowser
 svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus package/luci-app-ssr-plus
+git clone https://github.com/QiuSimons/openwrt-mos package/luci-app-mosdns
 
 # Set DISTRIB_REVISION
 sed -i "s|DISTRIB_REVISION='.*'|DISTRIB_REVISION='R$(date +%y.%m.%d)'|g" package/lean/default-settings/files/zzz-default-settings
