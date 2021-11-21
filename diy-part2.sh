@@ -37,7 +37,8 @@ svn co https://github.com/xiaorouji/openwrt-passwall/trunk/simple-obfs package/s
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/kcptun package/kcptun
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/trojan package/trojan
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/hysteria package/hysteria
-svn co https://github.com/xiaorouji/openwrt-passwall/trunk/naiveproxy package/naiveproxy
+#svn co https://github.com/xiaorouji/openwrt-passwall/trunk/naiveproxy package/naiveproxy
+svn co https://github.com/fw876/helloworld/trunk/naiveproxy package/naiveproxy
 
 git clone https://github.com/immortalwrt-collections/openwrt-filebrowser package/luci-app-filebrowser
 #svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus package/luci-app-ssr-plus
