@@ -15,7 +15,7 @@ sed -i 's/192.168.1.1/192.168.1.99/g' package/base-files/files/bin/config_genera
 
 # Add packages
 git clone https://github.com/QiuSimons/openwrt-mos package/luci-app-mosdns
-svn co https://github.com/xiaorouji/openwrt-passwall/trunk/naiveproxy package/naiveproxy
+svn co https://github.com/fw876/helloworld/trunk/naiveproxy package/naiveproxy
 
 # Set DISTRIB_REVISION
 # sed -i "s|DISTRIB_REVISION='.*'|DISTRIB_REVISION='R$(date +%y.%m.%d)'|g" package/lean/default-settings/files/zzz-default-settings
