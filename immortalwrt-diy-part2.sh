@@ -25,10 +25,6 @@ sed -i '/dispatcher.lua/a\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/l
 sed -i '/dispatcher.lua/a\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/samba4.lua' package/emortal/default-settings/files/zzz-default-settings
 sed -i '/dispatcher.lua/a\sed -i '\''s/\\\"system\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/cpufreq.lua' package/emortal/default-settings/files/zzz-default-settings
 sed -i '/dispatcher.lua/a\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/hd_idle.lua' package/emortal/default-settings/files/zzz-default-settings
-
-# Readd cpufreq for aarch64 & change menu
-# sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=\@\(arm\|\|aarch64\)/g' package/lean/luci-app-cpufreq/Makefile
-# sed -i 's/services/system/g'  package/lean/luci-app-cpufreq/luasrc/controller/cpufreq.lua
  
 ./scripts/feeds update -a
 ./scripts/feeds install -a
