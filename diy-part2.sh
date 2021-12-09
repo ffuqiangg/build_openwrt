@@ -43,12 +43,12 @@ svn co https://github.com/fw876/helloworld/trunk/naiveproxy package/naiveproxy
 git clone https://github.com/immortalwrt-collections/openwrt-filebrowser package/luci-app-filebrowser
 #svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus package/luci-app-ssr-plus
 git clone https://github.com/QiuSimons/openwrt-mos package/luci-app-mosdns
-svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/luci-app-openclash
+#svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/luci-app-openclash
 
 # 编译 po2lmo (如果有po2lmo可跳过)
-pushd package/luci-app-openclash/tools/po2lmo
-make && sudo make install
-popd
+#pushd package/luci-app-openclash/tools/po2lmo
+#make && sudo make install
+#popd
 
 # Set DISTRIB_REVISION
 sed -i "s|DISTRIB_REVISION='.*'|DISTRIB_REVISION='R$(date +%y.%m.%d)'|g" package/lean/default-settings/files/zzz-default-settings
