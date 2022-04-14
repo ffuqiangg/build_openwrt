@@ -16,6 +16,7 @@ sed -i 's/192.168.1.1/192.168.1.99/g' package/base-files/files/bin/config_genera
 # Add packages
 # passwal
 git clone https://github.com/xiaorouji/openwrt-passwall package/luci-app-passwall
+git clone https://github.com/xiaorouji/openwrt-passwall2 package/luci-app-passwall2
 #svn co https://github.com/xiaorouji/openwrt-passwall/trunk/brook package/brook
 #svn co https://github.com/xiaorouji/openwrt-passwall/trunk/chinadns-ng package/chinadns-ng
 #svn co https://github.com/xiaorouji/openwrt-passwall/trunk/tcping package/tcping
