@@ -21,7 +21,7 @@ on:
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: openwrt-18.06-k5.4
+  REPO_BRANCH: openwrt-21.02
   FEEDS_CONF: immortalwrt.feeds.conf.default
   CONFIG_FILE: immortalwrt.config
   DIY_P1_SH: immortalwrt-diy-part1.sh
