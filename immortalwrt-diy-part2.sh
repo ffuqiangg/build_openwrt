@@ -24,5 +24,5 @@ sed -i 's/192.168.1.1/192.168.1.99/g' package/base-files/files/bin/config_genera
 #sed -i '/dispatcher.lua/a\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/hd_idle.lua' package/emortal/default-settings/files/99-default-settings
 #sed -i '/dispatcher.lua/a\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/vsftpd.lua' package/emortal/default-settings/files/99-default-settings
  
-#./scripts/feeds update -a
-#./scripts/feeds install -a
+./scripts/feeds update -a
+./scripts/feeds install -a
