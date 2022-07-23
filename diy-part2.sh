@@ -15,8 +15,8 @@ sed -i 's/192.168.1.1/192.168.1.99/g' package/base-files/files/bin/config_genera
 
 # Add packages
 # passwal
-git clone https://github.com/xiaorouji/openwrt-passwall package/openwrt-passwall
-git clone https://github.com/xiaorouji/openwrt-passwall2 package/luci-app-passwall2
+#git clone https://github.com/xiaorouji/openwrt-passwall package/openwrt-passwall
+#git clone https://github.com/xiaorouji/openwrt-passwall2 package/luci-app-passwall2
 #svn co https://github.com/xiaorouji/openwrt-passwall/branches/luci/luci-app-passwall package/luci-app-passwall
 #svn co https://github.com/xiaorouji/openwrt-passwall/trunk/brook package/brook
 #svn co https://github.com/xiaorouji/openwrt-passwall/trunk/chinadns-ng package/chinadns-ng
@@ -43,7 +43,7 @@ git clone https://github.com/xiaorouji/openwrt-passwall2 package/luci-app-passwa
 #svn co https://github.com/xiaorouji/openwrt-passwall/trunk/naiveproxy package/naiveproxy
 #svn co https://github.com/fw876/helloworld/trunk/naiveproxy package/naiveproxy
 
-git clone https://github.com/immortalwrt-collections/openwrt-filebrowser package/luci-app-filebrowser
+#git clone https://github.com/immortalwrt-collections/openwrt-filebrowser package/luci-app-filebrowser
 #svn co https://github.com/fw876/helloworld/trunk/luci-app-ssr-plus package/luci-app-ssr-plus
 #git clone https://github.com/QiuSimons/openwrt-mos package/luci-app-mosdns
 #svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/luci-app-openclash
@@ -66,5 +66,5 @@ sed -i "28c sed -i 's/nas/services/g' /usr/lib/lua/luci/view/filebrowser/filebro
 sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=\@\(arm\|\|aarch64\)/g' feeds/luci/applications/luci-app-cpufreq/Makefile
 # sed -i 's/services/system/g'  package/lean/luci-app-cpufreq/luasrc/controller/cpufreq.lua
 
-./scripts/feeds update -a
-./scripts/feeds install -a
+#./scripts/feeds update -a
+#./scripts/feeds install -a
