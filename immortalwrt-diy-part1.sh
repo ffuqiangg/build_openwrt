@@ -14,6 +14,5 @@
 #sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 
 # Add a feed source
-# echo 'src-svn luci-app-filebrowser https://github.com/Lienol/openwrt-package/trunk/luci-app-filebrowser' >> feeds.conf.default
-# echo 'src-git openwrt-passwall https://github.com/xiaorouji/openwrt-passwall' >> feeds.conf.default
-# echo 'src-git luci-app-passwall https://github.com/xiaorouji/openwrt-passwall;luci' >> feeds.conf.default
+#echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
+#echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
