@@ -172,13 +172,10 @@ jobs:
     - name: Telegram notification
       run: |
         COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | cut -d - -f 2-)
-        FIRMWARE_VAL=$(ls ${{ env.PACKAGED_OUTPUTPATH }}/*.7z | awk -F "[_-]" '{print $5}' | cut -b 2-)
-        FIRMWARE_LIST=$(echo "${FIRMWARE_VAL[*]}")
         MSG="
         ✅ *LEDE R${{ env.COMPILE_DATE }}*
         - - - - - - - - - - - - - - -
         🔘 编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
-        🔘 固件内核： ${FIRMWARE_LIST}
         🔘 管理后台： 192.168.1.99
         🔘 默认密码： password
         🔘 下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})
