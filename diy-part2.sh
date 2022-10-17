@@ -35,7 +35,7 @@ sed -i "${startLine}i\sed -i 's/\\\\\"NAS\\\\\"/\\\\\"Services\\\\\"/g' /usr/lib
 
 # Add applications
 git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
-git clone --single-branch --depth=1 https:/github.com/xiaorouji/openwrt-passwall.git  package/passwall-depends
+git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall.git  package/passwall-depends
 svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-filebrowser package/luci-app-filebrowser
 git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/alist
 
@@ -44,5 +44,5 @@ sed -i 's/GO_VERSION_MAJOR_MINOR:=.*/GO_VERSION_MAJOR_MINOR:=1.19/g' feeds/packa
 sed -i 's/GO_VERSION_PATCH:=.*/GO_VERSION_PATCH:=2/g' feeds/packages/lang/golang/golang/Makefile
 sed -i 's/PKG_HASH:=.*/PKG_HASH:=2ce930d70a931de660fdaf271d70192793b1b240272645bf0275779f6704df6b/g' feeds/packages/lang/golang/golang/Makefile
 
-./scripts/feeds update -ahttps://github.com/xiaorouji/openwrt-passwall.git
+./scripts/feeds update -a
 ./scripts/feeds install -a
