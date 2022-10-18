@@ -171,7 +171,7 @@ jobs:
     - name: Telegram notification
       run: |
         COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | cut -d - -f 2-)
-        FIRMWARE_LIST=$(ls ${{ env.PACKAGED_OUTPUTPATH }}/*.7z | awk -F '/' '{print $NF}')
+        FIRMWARE_LIST=$(ls ${{ env.PACKAGED_OUTPUTPATH }}/*.7z | awk -F '/' '{print $NF}'| sed 's/_/\\_/g')
         MSG="
         ✅ *LEDE R${{ env.COMPILE_DATE }}*
         - 基本信息 - - - - - - - - - -
