@@ -22,9 +22,9 @@ sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 sed -i "${startLine}i\sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/vsftpd.lua" package/lean/default-settings/files/zzz-default-settings
 sed -i "${startLine}i\sed -i 's/\\\\\"NAS\\\\\"/\\\\\"Services\\\\\"/g' /usr/lib/lua/luci/controller/vsftpd.lua" package/lean/default-settings/files/zzz-default-settings
 sed -i "${startLine}i\sed -i 's/\\\\\"system\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/cpufreq.lua" package/lean/default-settings/files/zzz-default-settings
-sed -i "${startLine}i\sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/filebrowser/filebrowser.lua" package/lean/default-settings/files/zzz-default-settings
-sed -i "${startLine}i\sed -i 's/\\\\\"NAS\\\\\"/\\\\\"Services\\\\\"/g' /usr/lib/lua/luci/filebrowser/filebrowser.lua" package/lean/default-settings/files/zzz-default-settings
-sed -i "${startLine}i\sed -i 's/nas/services/g' /usr/lib/lua/luci/view/filebrowser/filebrowser_status.htm" package/lean/default-settings/files/zzz-default-settings
+sed -i "${startLine}i\sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/filebrowser.lua" package/lean/default-settings/files/zzz-default-settings
+sed -i "${startLine}i\sed -i 's/\\\\\"NAS\\\\\"/\\\\\"Services\\\\\"/g' /usr/lib/lua/luci/controller/filebrowser.lua" package/lean/default-settings/files/zzz-default-settings
+sed -i "${startLine}i\sed -i 's/nas/services/g' /usr/lib/lua/luci/view/filebrowser/status.htm" package/lean/default-settings/files/zzz-default-settings
 sed -i "${startLine}i\sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/alist.lua" package/lean/default-settings/files/zzz-default-settings
 sed -i "${startLine}i\sed -i 's/\\\\\"NAS\\\\\"/\\\\\"Services\\\\\"/g' /usr/lib/lua/luci/controller/alist.lua" package/lean/default-settings/files/zzz-default-settings
 sed -i "${startLine}i\sed -i 's/nas/services/g' /usr/lib/lua/luci/view/alist/admin_info.htm" package/lean/default-settings/files/zzz-default-settings
