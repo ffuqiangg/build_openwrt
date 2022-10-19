@@ -25,6 +25,8 @@ sed -i "${startLine}i\sed -i 's/\\\\\"system\\\\\"/\\\\\"services\\\\\"/g' /usr/
 sed -i "${startLine}i\sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/filebrowser.lua" package/lean/default-settings/files/zzz-default-settings
 sed -i "${startLine}i\sed -i 's/\\\\\"NAS\\\\\"/\\\\\"Services\\\\\"/g' /usr/lib/lua/luci/controller/filebrowser.lua" package/lean/default-settings/files/zzz-default-settings
 sed -i "${startLine}i\sed -i 's/nas/services/g' /usr/lib/lua/luci/view/filebrowser/status.htm" package/lean/default-settings/files/zzz-default-settings
+sed -i "${startLine}i\sed -i 's/nas/services/g' /usr/lib/lua/luci/view/filebrowser/log.htm" package/lean/default-settings/files/zzz-default-settings
+sed -i "${startLine}i\sed -i 's/nas/services/g' /usr/lib/lua/luci/view/filebrowser/download.htm" package/lean/default-settings/files/zzz-default-settings
 sed -i "${startLine}i\sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/alist.lua" package/lean/default-settings/files/zzz-default-settings
 sed -i "${startLine}i\sed -i 's/\\\\\"NAS\\\\\"/\\\\\"Services\\\\\"/g' /usr/lib/lua/luci/controller/alist.lua" package/lean/default-settings/files/zzz-default-settings
 sed -i "${startLine}i\sed -i 's/nas/services/g' /usr/lib/lua/luci/view/alist/admin_info.htm" package/lean/default-settings/files/zzz-default-settings
