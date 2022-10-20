@@ -171,16 +171,14 @@ jobs:
     - name: Telegram notification
       run: |
         COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | cut -d - -f 2-)
-        FIRMWARE_LIST=$(ls ${{ env.PACKAGED_OUTPUTPATH }}/*.7z | awk -F '/' '{print $NF}'| sed -e 's/_/\\_/g' -e 's/+/\\+/g')
         MSG="
         ✅ *LEDE R${{ env.COMPILE_DATE }}*
+        
         - 基本信息 - - - - - - - - - -
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
         管理后台： 192.168.1.99
         默认密码： password
         下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})
-        - 固件列表 - - - - - - - - - -
-        ${FIRMWARE_LIST}
         - 主要插件 - - - - - - - - - -
          ├ Passwall
          ├ Alist
