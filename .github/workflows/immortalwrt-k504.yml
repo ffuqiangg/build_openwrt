@@ -52,9 +52,9 @@ jobs:
 
     - name: Load custom feeds
       run: |
-        chmod +x $DIY_P1_SH
+        chmod +x ${DIY_P1_SH}
         cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
+        ${GITHUB_WORKSPACE}/${DIY_P1_SH}
 
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
@@ -66,10 +66,10 @@ jobs:
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x $DIY_P2_SH
+        chmod +x ${DIY_P2_SH}
         cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P2_SH
-        echo "COMPILE_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
+        ${GITHUB_WORKSPACE}/${DIY_P2_SH}
+        echo "COMPILE_DATE=$(date +%Y%m%d)" >> ${GITHUB_ENV}
 
     - name: Download package
       id: package
@@ -86,10 +86,10 @@ jobs:
         cd openwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
-        echo "::set-output name=status::success"
+        echo "status=success" >> ${GITHUB_OUTPUT}
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
-        echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> ${GITHUB_ENV}
+        echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> ${GITHUB_ENV}
 
     - name: Check space usage
       if: (!cancelled())
@@ -97,16 +97,16 @@ jobs:
 
     - name: Organize files
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: ${{ env.UPLOAD_FIRMWARE }} == 'true' && !cancelled()
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
-        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-        echo "::set-output name=status::success"
+        echo "FIRMWARE=$PWD" >> ${GITHUB_ENV}
+        echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: ${{ steps.organize.outputs.status }} == 'success' && !cancelled()
       with:
         name: Immortalwrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
@@ -131,20 +131,20 @@ jobs:
 
     - name: Generate release tag
       id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: ${{ env.UPLOAD_RELEASE }} == 'true' && !cancelled()
       run: |
-        echo "::set-output name=release_tag::Immortalwrt-$(date +"%Y.%m.%d-%H%M")"
+        echo "release_tag=Immortalwrt-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
         touch release.txt
         echo "![](https://img.shields.io/badge/immortalwrt-${{ env.COMPILE_DATE }}-success?style=flat)" >> release.txt
         echo "- 默认IP：192.168.1.99 默认密码：password" >> release.txt
         echo "- 后缀 tar.gz 为 Immortalwrt 底包，后缀 7z 为完整固件。" >> release.txt
         echo "- 底包架构 arm64，源码为 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4) 分支，主要包含插件：Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Docker CE，Samba4，docker-compose，cpufreq" >> release.txt
         echo "- 完整固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改" >> release.txt
-        echo "::set-output name=status::success"
+        echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
       uses: softprops/action-gh-release@v1
-      if: steps.tag.outputs.status == 'success' && !cancelled()
+      if: ${{ steps.tag.outputs.status }} == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
@@ -162,7 +162,7 @@ jobs:
 
     - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@v0.1.0
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: ${{ env.UPLOAD_RELEASE }} == 'true' && !cancelled()
       with:
         keep_latest: 50
         delete_tags: true
