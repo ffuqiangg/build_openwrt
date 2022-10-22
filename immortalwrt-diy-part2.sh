@@ -34,7 +34,7 @@ sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"NAS\\\"/\\\"Services\\\"/g'\'' /usr/l
 sed -i '5s/REJECT/ACCEPT/' package/network/config/firewall/files/firewall.config
 
 # Modify banner
-sed -i '/openwrt_banner/c rm /etc/openwrt_abnner' package/emortal/default-settings/files/99-default-settings
+sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
 
 # Add applications
 git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/alist
