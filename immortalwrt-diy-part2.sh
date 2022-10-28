@@ -37,7 +37,7 @@ sed -i '5s/REJECT/ACCEPT/' package/network/config/firewall/files/firewall.config
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
 
 # Add applications
-git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/alist
+git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
 
 # Dump golang version
 sed -i 's/GO_VERSION_MAJOR_MINOR:=.*/GO_VERSION_MAJOR_MINOR:=1.19/g' feeds/packages/lang/golang/golang/Makefile
