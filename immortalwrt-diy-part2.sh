@@ -30,6 +30,15 @@ sed -i '/dispatcher.lua/i\sed -i '\''s/nas/services/g'\'' /usr/lib/lua/luci/view
 sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/rclone.lua' package/emortal/default-settings/files/99-default-settings
 sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"NAS\\\"/\\\"Services\\\"/g'\'' /usr/lib/lua/luci/controller/rclone.lua' package/emortal/default-settings/files/99-default-settings
 
+# Add alias & bind to profile
+sed -i "/alF/a\alias l=\'ls -CF\'" package/base-files/files/etc/profile
+sed -i "/alF/a\alias la=\'ls -A\'" package/base-files/files/etc/profile
+cat >> package/base-files/files/etc/profile <<EOF
+
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+EOF
+
 # Modify default firewall config
 sed -i '5s/REJECT/ACCEPT/' package/network/config/firewall/files/firewall.config
 

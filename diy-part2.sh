@@ -35,6 +35,17 @@ sed -i "${startLine}i\sed -i 's/nas/services/g' /usr/lib/lua/luci/view/alist/ali
 sed -i "${startLine}i\sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib/lua/luci/controller/rclone.lua" package/lean/default-settings/files/zzz-default-settings
 sed -i "${startLine}i\sed -i 's/\\\\\"NAS\\\\\"/\\\\\"Services\\\\\"/g' /usr/lib/lua/luci/controller/rclone.lua" package/lean/default-settings/files/zzz-default-settings
 
+# Add alias & bind to profile
+cat >> package/base-files/files/etc/profile <<EOF
+
+alias ll='ls -alF --color=auto'
+alias la='ls -A'
+alias l='ls -CF'
+
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+EOF
+
 # Add applications
 git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
 git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall.git  package/passwall-depends
