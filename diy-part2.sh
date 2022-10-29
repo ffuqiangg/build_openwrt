@@ -46,6 +46,14 @@ bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 EOF
 
+# Change banner
+cp -f ${WORK_SPACE}/general/etc/banner package/base-files/files/etc/banner
+sed -i '/exit/i\echo " -----------------------------------" >> /etc/banner\
+echo " [33mLEDE OPENWRT_VERSION $(uname -r)[0m" >> /etc/banner\
+echo >> /etc/banner\
+' package/lean/default-settings/files/zzz-default-settings
+sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/files/zzz-default-settings
+
 # Add applications
 git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
 git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall.git  package/passwall-depends
