@@ -47,7 +47,7 @@ bind '"\e[B": history-search-forward'
 EOF
 
 # Change banner
-cp -f ${WORK_SPACE}/general/etc/banner package/base-files/files/etc/banner
+cp -f ${GITHUB_WORKSPACE}/general/etc/banner package/base-files/files/etc/banner
 sed -i '/exit/i\echo " -----------------------------------" >> /etc/banner\
 echo " [33mLEDE OPENWRT_VERSION $(uname -r)[0m" >> /etc/banner\
 echo >> /etc/banner\
