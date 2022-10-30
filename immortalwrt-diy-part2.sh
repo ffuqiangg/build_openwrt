@@ -40,7 +40,7 @@ bind '"\e[B": history-search-forward'
 EOF
 
 # Change banner
-cp -f ${WORK_SPACE}/general/etc/immortalwrt_banner package/base-files/files/etc/banner
+cp -f ${GITHUB_WORKSPACE}/general/etc/immortalwrt_banner package/base-files/files/etc/banner
 sed -i '/openwrt_banner/i\echo " -----------------------------------" >> /etc/banner\
 echo " [33mOpenwrt-18.06 OPENWRT_VERSION $(uname -r)[0m" >> /etc/banner\
 echo >> /etc/banner' package/emortal/default-settings/files/99-default-settings
