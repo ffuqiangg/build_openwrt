@@ -56,7 +56,7 @@ sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/fi
 
 # Modify vimrc
 cp -f ${GITHUB_WORKSPACE}/general/vim/molokai.vim package/base-files/files/etc/
-sed -i '/exit/i\mv -f /etc/molokai.vim /usr/share/vim/vim??/colors/\n' package/lean/default-settings/files/zzz-default-settings
+sed -i '/exit/i\mv /etc/molokai.vim /usr/share/vim/vim??/colors/\n' package/lean/default-settings/files/zzz-default-settings
 sed -i '1i colorscheme molokai\n' feeds/packages/utils/vim/files/vimrc.full
 cat >> feeds/packages/utils/vim/files/vimrc.full <<EOF
 set tabstop=2
