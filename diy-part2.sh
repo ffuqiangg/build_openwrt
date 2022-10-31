@@ -36,7 +36,7 @@ sed -i "${startLine}i\sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib
 sed -i "${startLine}i\sed -i 's/\\\\\"NAS\\\\\"/\\\\\"Services\\\\\"/g' /usr/lib/lua/luci/controller/rclone.lua" package/lean/default-settings/files/zzz-default-settings
 
 # Change PS1
-sed -i "/^export PS1/c export PS1='\\\033[1;48;2;59;66;82m \\\u@\\\h \\\e[0m\\\033[1;48;2;67;76;94m \\\e[0m\\\033[1;48;2;76;86;106m \\\w \\\e[0m\\\033[1;48;2;134;187;216m \\\e[0m\\\033[1;48;2;51;101;138m \\\A \\\e[0m '" package/base-files/files/etc/profile
+sed -i "/^export PS1/c export PS1='\\\[\\\033[1;48;2;59;66;82m \\\u@\\\h \\\e[0m\\\]\\\[\\\033[1;48;2;67;76;94m \\\e[0m\\\]\\\[\\\033[1;48;2;76;86;106m \\\w \\\e[0m\\\]\\\[\\\033[1;48;2;134;187;216m \\\e[0m\\\]\\\[\\\033[1;48;2;51;101;138m \\\A \\\e[0m\\\] '" package/base-files/files/etc/profile
 
 # Add customize command
 cat >> package/base-files/files/etc/profile <<EOF
@@ -118,7 +118,7 @@ EOF
 
 # Modify firewall config for docker
 sed -i '5s/REJECT/ACCEPT/' package/network/config/firewall/files/firewall.config
-sed -i '/exit/i\echo -e "\niptables -t nat -A POSTROUTING -s 172.31.0.0/16 ! -o docker0 -j MASQUERADE" >> /etc/firewall.user\
+sed -i '/exit/i\echo -e "\\niptables -t nat -A POSTROUTING -s 172.31.0.0/16 ! -o docker0 -j MASQUERADE" >> /etc/firewall.user\
 ' package/lean/default-settings/files/zzz-default-settings
 
 # Add applications
