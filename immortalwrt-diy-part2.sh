@@ -30,11 +30,58 @@ sed -i '/dispatcher.lua/i\sed -i '\''s/nas/services/g'\'' /usr/lib/lua/luci/view
 sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/rclone.lua' package/emortal/default-settings/files/99-default-settings
 sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"NAS\\\"/\\\"Services\\\"/g'\'' /usr/lib/lua/luci/controller/rclone.lua' package/emortal/default-settings/files/99-default-settings
 
-# Add alias & bind to profile
+# Add customize command
 sed -i "/alF/a\alias l=\'ls -CF\'" package/base-files/files/etc/profile
 sed -i "/alF/a\alias la=\'ls -A\'" package/base-files/files/etc/profile
 cat >> package/base-files/files/etc/profile <<EOF
 
+# Change directory aliases
+alias home='cd ~'
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+# cd into the old directory
+alias bd='cd "$OLDPWD"'
+
+# alias chmod commands
+alias mx='chmod a+x'
+alias 000='chmod -R 000'
+alias 644='chmod -R 644'
+alias 666='chmod -R 666'
+alias 755='chmod -R 755'
+alias 777='chmod -R 777'
+
+# Copy and go to the directory
+cpg ()
+{
+    if [ -d "$2" ];then
+        cp $1 $2 && cd $2
+    else
+        cp $1 $2
+    fi
+}
+
+# Move and go to the directory
+mvg ()
+{
+    if [ -d "$2" ];then
+        mv $1 $2 && cd $2
+    else
+        mv $1 $2
+    fi
+}
+
+# Create and go to the directory
+mkdirg ()
+{
+    mkdir -p $1
+    cd $1
+}
+
+# Histoty search ↑ ↓
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 EOF
