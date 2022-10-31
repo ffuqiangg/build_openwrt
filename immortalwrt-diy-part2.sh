@@ -30,9 +30,6 @@ sed -i '/dispatcher.lua/i\sed -i '\''s/nas/services/g'\'' /usr/lib/lua/luci/view
 sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/rclone.lua' package/emortal/default-settings/files/99-default-settings
 sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"NAS\\\"/\\\"Services\\\"/g'\'' /usr/lib/lua/luci/controller/rclone.lua' package/emortal/default-settings/files/99-default-settings
 
-# Change PS1
-sed -i "/^export PS1/c export PS1='\\\[\\\033[1;48;2;59;66;82m \\\u@\\\h \\\e[0m\\\]\\\[\\\033[1;48;2;67;76;94m \\\e[0m\\\]\\\[\\\033[1;48;2;76;86;106m \\\w \\\e[0m\\\]\\\[\\\033[1;48;2;134;187;216m \\\e[0m\\\]\\\[\\\033[1;48;2;51;101;138m \\\A \\\e[0m\\\] '" package/base-files/files/etc/profile
-
 # Add customize command
 sed -i "/alF/a\alias l=\'ls -CF\'" package/base-files/files/etc/profile
 sed -i "/alF/a\alias la=\'ls -A\'" package/base-files/files/etc/profile
