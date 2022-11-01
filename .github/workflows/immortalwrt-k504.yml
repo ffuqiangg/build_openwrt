@@ -138,7 +138,7 @@ jobs:
         echo "![](https://img.shields.io/badge/immortalwrt-${{ env.COMPILE_DATE }}-success?style=flat)" >> release.txt
         echo "- 默认IP：192.168.1.99 默认密码：password" >> release.txt
         echo "- 后缀 tar.gz 为 Immortalwrt 底包，后缀 7z 为完整固件。" >> release.txt
-        echo "- 底包架构 arm64，源码为 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4) 分支，主要包含插件：Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Docker CE，Samba4，docker-compose，cpufreq" >> release.txt
+        echo "- 底包架构 arm64，源码为 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4) 分支，主要包含插件：Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Samba4，docker-compose，cpufreq" >> release.txt
         echo "- 完整固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改" >> release.txt
         echo "status=success" >> ${GITHUB_OUTPUT}
 
@@ -191,7 +191,6 @@ jobs:
          ├ Samba4
          ├ FTP
          ├ Filebrowser
-         ├ Docker CE
          └ docker-compose
         - 联系方式 - - - - - - - - - -
         \[ [Telegram](https://t.me/ffuqiangg) ]  \[ [Github](https://github.com/ffuqiangg) ]  \[ [Docker](https://hub.docker.com/u/ffuqiangg) ]
