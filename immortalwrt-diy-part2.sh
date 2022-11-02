@@ -45,11 +45,8 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
-if [ -d /mnt/mmcblk2p4 ]; then
-    alias 2p4='cd /mnt/mmcblk2p4'
-elif [ -d /mnt/sda1 ]; then
-    alias sda1='cd /mnt/sda1'
-fi
+[ -d /mnt/mmcblk2p4 ] && alias 2p4='cd /mnt/mmcblk2p4'
+[ -d /mnt/sda1 ] && alias sda1='cd /mnt/sda1'
 
 # cd into the old directory
 alias bd='cd "$OLDPWD"'
