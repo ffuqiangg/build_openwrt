@@ -104,6 +104,16 @@ sed -i '5s/REJECT/ACCEPT/' package/network/config/firewall/files/firewall.config
 sed -i '/exit/i\echo -e "\\niptables -t nat -A POSTROUTING -s 172.31.0.0/16 ! -o docker0 -j MASQUERADE" >> /etc/firewall.user\
 ' package/emortal/default-settings/files/99-default-settings
 
+# Fix macaddr
+sed -i '/exit/d' package/emortal/default-settings/files/99-default-settings
+cat >> package/emortal/default-settings/files/99-default-settings <<EOF
+LOCAL_MAC=\$(ifconfig | grep eth0 | awk '{print \$5}')
+uci set network.lan.macaddr='\${LOCAL_MAC}'
+uci commit network
+
+exit 0
+EOF
+
 # Add applications
 git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
 
