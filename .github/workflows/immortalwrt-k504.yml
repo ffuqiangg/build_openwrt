@@ -138,8 +138,10 @@ jobs:
         echo "![](https://img.shields.io/badge/immortalwrt-${{ env.COMPILE_DATE }}-success?style=flat)" >> release.txt
         echo "- 默认IP：192.168.1.99 默认密码：password" >> release.txt
         echo "- 后缀 tar.gz 为 Immortalwrt 底包，后缀 7z 为完整固件。" >> release.txt
-        echo "- 底包架构 arm64，源码为 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4) 分支，主要包含插件：Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Samba4，docker-compose，cpufreq" >> release.txt
-        echo "- 完整固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改" >> release.txt
+        echo "- 源码为 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4) 分支，主要包含插件：Passwall，硬盘休眠，Frpc，Rclone，Alist，Docker CE，Filebrowser，FTP服务器，Samba4，docker-compose，cpufreq" >> release.txt
+        echo "- 固件修改了 banner ，命令行增加了许多命令缩写（具体可查看固件 /etc/profile 文件），修改了终端提示符样式" >> release.txt
+        echo "- 固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改" >> release.txt
+        echo "⚠️ Dokcer CE 中勾选 `允许 WAN 访问 Docker` 会导致重启后 Docker 服务无法自动启动，本固件已通过防火墙规则允许使用 `bridge` 网络的 Docker 容器联网。" >> release.txt
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
@@ -174,24 +176,13 @@ jobs:
         MSG="
         ✅ *Immortalwrt ${{ env.COMPILE_DATE }}*
         
-        - 基本信息 - - - - - - - - - -
+        ————————————————————————————————
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
         管理后台： 192.168.1.99
         默认密码： password
         下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})
-        - 主要插件 - - - - - - - - - -
-         ├ Passwall
-         ├ Alist
-         ├ 硬盘休眠
-         ├ Cpufreq
-         ├ Rclone
-         ├ Frpc
-         ├ KMS
-         ├ Samba4
-         ├ FTP
-         ├ Filebrowser
-         └ docker-compose
-        - 联系方式 - - - - - - - - - -
+        ————————————————————————————————
+
         \[ [Telegram](https://t.me/ffuqiangg) ]  \[ [Github](https://github.com/ffuqiangg) ]  \[ [Docker](https://hub.docker.com/u/ffuqiangg) ]
         "
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"
