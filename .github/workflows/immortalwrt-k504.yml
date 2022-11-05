@@ -176,12 +176,13 @@ jobs:
         MSG="
         ✅ *Immortalwrt ${{ env.COMPILE_DATE }}*
         
-        ————————————————————————————————
+        — 基本信息 ——————
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
         管理后台： 192.168.1.99
         默认密码： password
         下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})
-        ————————————————————————————————
+        — 主要插件 ——————
+        Passwall , frpc , Rclone , Alist , Filebrowser , docker
 
         \[ [Telegram](https://t.me/ffuqiangg) ]  \[ [Github](https://github.com/ffuqiangg) ]  \[ [Docker](https://hub.docker.com/u/ffuqiangg) ]
         "
