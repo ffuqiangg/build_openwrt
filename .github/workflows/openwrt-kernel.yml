@@ -1,0 +1,40 @@
+name: Build Openwrt manual
+
+on:
+  workflow_dispatch:
+    inputs:
+      kernel_name:
+        description: "Input kernel version"
+        required: true
+        default: ""
+      kernel_repo:
+        description: "Select kernel repo"
+        required: true
+        default: "ophub"
+        type: choice
+        options:
+          - ophub
+          - breakings
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    if: github.event.repository.owner.id == github.event.sender.id
+
+    steps:
+      - name: Set kernel repo
+        run: |
+          if [[ ${{ github.event.inputs.kernel_repo }} == ophub ]];then
+              echo "KERNEL_REPO='https://github.com/ophub/kernel/tree/main/pub/stable'" >> ${GITHUB_ENV}
+          elif [[ ${{ github.event.inputs.kernel_repo }} == breakings ]];then
+              echo "KERNEL_REPO='https://github.com/breakings/OpenWrt/tree/main/opt/kernel'" >> ${GITHUB_ENV}
+          fi
+
+      - name: Compile kernel from compile-auto
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          event-type: Build-Openwrt
+          client-payload: '{"kernel_name": "${{ github.event.inputs.kernel_name }}", "kernel_repo_url": "${{ env.KERNEL_REPO }}"}'

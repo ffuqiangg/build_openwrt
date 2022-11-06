@@ -1,4 +1,4 @@
-name: Build OpenWrt Auto
+name: Build OpenWrt
 
 on:
   repository_dispatch:
@@ -117,9 +117,9 @@ jobs:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
         PACKAGE_SOC: s905d
-        KERNEL_REPO_URL: https://github.com/ffuqiangg/kernel/tree/main/kernel
-        KERNEL_VERSION_NAME: ${{ secrets.KERNEL_NAME }}
-        KERNEL_AUTO_LATEST: ${{ secrets.KERNEL_AUTO }}
+        KERNEL_REPO_URL: ${{ github.event.client_payload.kernel_repo_url }}
+        KERNEL_VERSION_NAME: ${{ github.event.client_payload.kernel_name }}
+        KERNEL_AUTO_LATEST: false
         GZIP_IMGS: .7z
         SCRIPT_S905D: mk_openwrt_n1.sh
         OPENWRT_VER: R${{ env.COMPILE_DATE }}
