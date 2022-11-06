@@ -97,7 +97,7 @@ jobs:
 
     - name: Organize files
       id: organize
-      if: ${{ env.UPLOAD_FIRMWARE }} == 'true' && !cancelled()
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
@@ -106,7 +106,7 @@ jobs:
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
-      if: ${{ steps.organize.outputs.status }} == 'success' && !cancelled()
+      if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: Immortalwrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
@@ -131,7 +131,7 @@ jobs:
 
     - name: Generate release tag
       id: tag
-      if: ${{ env.UPLOAD_RELEASE }} == 'true' && !cancelled()
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
         echo "release_tag=Immortalwrt-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
         touch release.txt
@@ -145,14 +145,14 @@ jobs:
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
-      uses: softprops/action-gh-release@v1
-      if: ${{ steps.tag.outputs.status }} == 'success' && !cancelled()
+      uses: ncipollo/release-action@main
+      if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
-        tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
-        files: |
+        tag: ${{ steps.tag.outputs.release_tag }}
+        bodyFile: release.txt
+        artifacts: |
           ${{ env.PACKAGED_OUTPUTPATH }}/*.7z
 
     - name: Delete workflow runs
@@ -163,7 +163,7 @@ jobs:
 
     - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@v0.1.0
-      if: ${{ env.UPLOAD_RELEASE }} == 'true' && !cancelled()
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         keep_latest: 50
         delete_tags: true
@@ -181,6 +181,7 @@ jobs:
         管理后台： 192.168.1.99
         默认密码： password
         下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})
+        
         *主要插件* ——————
         Passwall , frpc , Rclone , Alist , Filebrowser , docker-compose , Docker CE
 
