@@ -134,11 +134,21 @@ jobs:
       run: |
         echo "release_tag=Openwrt-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
         touch release.txt
-        echo "![](https://img.shields.io/badge/LEDE-R${{ env.COMPILE_DATE }}-informational?style=flat)" >> release.txt
+        echo "![LEDE R${{ env.COMPILE_DATE }}](https://img.shields.io/badge/LEDE-R${{ env.COMPILE_DATE }}-informational?style=flat)" >> release.txt
         echo "- 默认IP：192.168.1.99 默认密码：password" >> release.txt
         echo "- Openwrt 源码来自 [LEDE](https://github.com/coolsnowwolf/lede) 仓库，主要包含插件：Passwall，硬盘休眠，Frpc，Rclone，Alist，Docker CE，Filebrowser，FTP服务器，Samba4，docker-compose，cpufreq" >> release.txt
-        echo "- 固件修改了 banner ，命令行增加了许多命令缩写（具体可查看固件 /etc/profile 文件），修改 vim 配色为 molokai ，修改了终端提示符样式" >> release.txt
         echo "- 固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改" >> release.txt
+        echo "- 主要修改内容：" >> release.txt
+        echo "> 1. banner 及 命令提示符修改如图  " >> release.txt
+        echo "![banner](https://github.com/ffuqiangg/build_openwrt/raw/main/media/banner.png)" >> release.txt
+        echo "> 2. 增加了命令缩写  " >> release.txt
+        echo "`home` 回到主目录，`bd` 回到上一个目录，`2p4` 进入 /mnt/mmcblk2p4 目录 (如果目录存在) 等等，详细缩写可查看固件 /etc/profile 文件" >> release.txt
+        echo "> 3. 修改 vim 默认配置及配色" >> release.txt
+        echo "> 4. 命令行增加了历史命令自动补全功能 " >> release.txt
+        echo "使用方法：输入命令的开头部分，然后用方向键上 ▲ ▼ 在曾经输入过的命令中查找。 " >> release.txt
+        echo "![bind](https://github.com/ffuqiangg/build_openwrt/raw/main/media/bind.gif)" >> release.txt
+        echo "> 5. 修改了概览页 coremark 分数显示，隐藏了 wifi 板块。  " >> release.txt
+        echo "![coremark](https://github.com/ffuqiangg/build_openwrt/raw/main/media/coremark.png)" >> release.txt
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
