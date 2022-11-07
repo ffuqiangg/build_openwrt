@@ -112,7 +112,7 @@ cp -f ${GITHUB_WORKSPACE}/general/vim/molokai.vim package/base-files/files/etc/
 sed -i '/exit/i\mv /etc/molokai.vim /usr/share/vim/vim??/colors/\n' package/lean/default-settings/files/zzz-default-settings
 sed -i '1i colorscheme molokai\n' feeds/packages/utils/vim/files/vimrc.full
 cat >> feeds/packages/utils/vim/files/vimrc.full <<EOF
-set tabstop=2
+set tabstop=4
 set shiftwidth=4
 set expandtab
 set softtabstop=4
