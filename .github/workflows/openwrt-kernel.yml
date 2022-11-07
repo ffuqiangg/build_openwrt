@@ -1,4 +1,4 @@
-name: Build Openwrt manual
+name: Build Openwrt kernel
 
 on:
   workflow_dispatch:
@@ -33,7 +33,7 @@ jobs:
               echo "KERNEL_REPO='https://github.com/breakings/OpenWrt/tree/main/opt/kernel'" >> ${GITHUB_ENV}
           fi
 
-      - name: Compile kernel from compile-auto
+      - name: Compile kernel use compile-auto
         uses: peter-evans/repository-dispatch@v2
         with:
           event-type: Build-Openwrt
