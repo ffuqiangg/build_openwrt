@@ -145,7 +145,7 @@ jobs:
         echo "`home` 回到主目录，`bd` 回到上一个目录，`2p4` 进入 /mnt/mmcblk2p4 目录 (如果目录存在) 等等，详细缩写可查看固件 /etc/profile 文件" >> release.txt
         echo "> 3. 修改 vim 默认配置及配色" >> release.txt
         echo "> 4. 命令行增加了历史命令自动补全功能 " >> release.txt
-        echo "使用方法：输入命令的开头部分，然后用方向键上 ▲ ▼ 在曾经输入过的命令中查找。 " >> release.txt
+        echo "使用方法：输入命令的开头部分，然后用方向键 ▲ ▼ 在曾经输入过的命令中查找。 " >> release.txt
         echo "![bind](https://github.com/ffuqiangg/build_openwrt/raw/main/media/bind.gif)" >> release.txt
         echo "> 5. 修改了概览页 coremark 分数显示，隐藏了 wifi 板块。  " >> release.txt
         echo "![coremark](https://github.com/ffuqiangg/build_openwrt/raw/main/media/coremark.png)" >> release.txt
