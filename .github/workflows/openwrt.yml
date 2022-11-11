@@ -183,15 +183,15 @@ jobs:
         MSG="
         ✅ *LEDE R${{ env.COMPILE_DATE }}*
         
-        *基本信息* ——————
+        💾 *基本信息*
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
         管理后台： 192.168.1.99
         默认密码： password
         下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})
         
-        *主要插件* ——————
+        🎯 *主要插件*
         Passwall , frpc , Rclone , Alist , Filebrowser , docker-compose , docker
 
-        \[ [Telegram](https://t.me/ffuqiangg) ]  \[ [Github](https://github.com/ffuqiangg) ]  \[ [Docker](https://hub.docker.com/u/ffuqiangg) ]
+        💬 \[ [Telegram](https://t.me/ffuqiangg) ]  \[ [Github](https://github.com/ffuqiangg) ]  \[ [Docker](https://hub.docker.com/u/ffuqiangg) ]
         "
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"
