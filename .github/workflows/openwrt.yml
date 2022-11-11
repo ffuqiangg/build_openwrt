@@ -136,7 +136,7 @@ jobs:
         touch release.txt
         echo "![LEDE R${{ env.COMPILE_DATE }}](https://img.shields.io/badge/LEDE-R${{ env.COMPILE_DATE }}-informational?style=flat)" >> release.txt
         echo "- 默认IP：192.168.1.99 默认密码：password" >> release.txt
-        echo "- Openwrt 源码来自 [LEDE](https://github.com/coolsnowwolf/lede) 仓库，主要包含插件：Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Samba4，docker-compose，cpufreq ( ⚠️ 固件不包含 turboacc 以及 luci docker , docker 通过 ssh 控制 )" >> release.txt
+        echo "- 源码来自 [LEDE](https://github.com/coolsnowwolf/lede)，主要包含插件：Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Samba4，docker-compose，cpufreq ( ⚠️ 固件不包含 turboacc 以及 luci docker , docker 通过 ssh 控制 )" >> release.txt
         echo "- 固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改" >> release.txt
         echo "- 主要修改内容：" >> release.txt
         echo "> 1. banner 及 命令提示符修改如图  " >> release.txt

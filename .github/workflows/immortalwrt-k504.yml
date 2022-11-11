@@ -139,6 +139,16 @@ jobs:
         echo "- 默认IP：192.168.1.99 默认密码：password" >> release.txt
         echo "- 源码为 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4) 分支，主要包含插件：Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Samba4，docker-compose，docker，cpufreq" >> release.txt
         echo "- 固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改" >> release.txt
+        echo "- 主要修改内容：" >> release.txt
+        echo ">1. banner 及 命令提示符修改如图" >> release.txt
+        echo "![immortalwrt_banner](https://github.com/ffuqiangg/build_openwrt/raw/main/media/immortalwrt_banner.png)" >> release.txt
+        echo "> 2. 增加了命令缩写" >>release.txt
+        echo "`home` 回到主目录，`bd` 回到上一个目录，`2p4` 进入 /mnt/mmcblk2p4 目录 (如果目录存在) 等等，详细缩写可查看固件 /etc/profile 文件" >> release.txt
+        echo "> 3. 命令行增加了历史命令自动补全功能" >> release.txt
+        echo "使用方法：输入命令的开头部分，然后用方向键 ▲ ▼ 在匹配的历史命令中查找。" >> release.txt
+        echo "![bind](https://github.com/ffuqiangg/build_openwrt/raw/main/media/bind.gif)" >> release.txt
+        echo "> 4. 修改了概览页 coremark 分数显示，隐藏了 wifi 板块。" >> release.txt
+        echo "![immortalwrt_coremark](https://github.com/ffuqiangg/build_openwrt/raw/main/media/immortalwrt_coremark.png)" >> release.txt
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
