@@ -7,14 +7,11 @@ on:
         description: "Input kernel version"
         required: true
         default: ""
-      kernel_repo:
-        description: "Select kernel repo"
-        required: true
-        default: "ophub"
-        type: choice
-        options:
-          - ophub
-          - breakings
+      kernel_auto:
+        description: "Use last kernel?"
+        required: false
+        default: false
+        type: boolean
 
 env:
   TZ: Asia/Shanghai
@@ -27,11 +24,8 @@ jobs:
     steps:
       - name: Set kernel repo
         run: |
-          if [[ ${{ github.event.inputs.kernel_repo }} == ophub ]];then
-              echo "KERNEL_REPO='https://github.com/ophub/kernel/tree/main/pub/stable'" >> ${GITHUB_ENV}
-          elif [[ ${{ github.event.inputs.kernel_repo }} == breakings ]];then
-              echo "KERNEL_REPO='https://github.com/breakings/OpenWrt/tree/main/opt/kernel'" >> ${GITHUB_ENV}
-          fi
+          if [[ ${{ github.event.inputs.kernel_auto }} == false ]]; then
+              KERNEL_VERSION=$(echo ${{ github.event.inputs.kernel_name }} | cut -d . -f 1-2)
 
       - name: Compile kernel use compile-auto
         uses: peter-evans/repository-dispatch@v2
