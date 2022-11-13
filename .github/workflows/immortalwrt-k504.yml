@@ -1,4 +1,4 @@
-name: Build Immortalwrt
+name: Build Immortalwrt k5.4
 
 on:
   repository_dispatch:

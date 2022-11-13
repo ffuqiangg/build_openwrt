@@ -1,4 +1,4 @@
-name: Build Openwrt kernel
+name: Build Openwrt specify kernel
 
 on:
   workflow_dispatch:
@@ -36,7 +36,7 @@ jobs:
               echo "compile_kernel=true" >> ${GITHUB_OUTPUT}
           fi
 
-      - name: Build openwrt without compile kernell
+      - name: Build openwrt without compile kernel
         if: steps.setRepo.outputs.compile_kernel == 'false'
         uses: peter-evans/repository-dispatch@v2
         with:
