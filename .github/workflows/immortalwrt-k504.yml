@@ -137,7 +137,7 @@ jobs:
         touch release.txt
         echo "![immortalwrt ${{ env.COMPILE_DATE }}](https://img.shields.io/badge/immortalwrt-${{ env.COMPILE_DATE }}-success?style=flat)" >> release.txt
         echo "- 默认IP：192.168.1.99 默认密码：password" >> release.txt
-        echo "- 源码来自 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4)，主要包含插件：Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Samba4，docker-compose，docker，cpufreq" >> release.txt
+      echo "- 源码来自 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4)，主要包含插件：Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Samba4，docker-compose，docker，cpufreq ( ⚠️ 固件不包含 turboacc 以及 luci docker , docker 通过 ssh 控制 )" >> release.txt
         echo "- 固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改" >> release.txt
         echo "- 主要修改内容：" >> release.txt
         echo ">1. banner 及 命令提示符修改如图" >> release.txt
