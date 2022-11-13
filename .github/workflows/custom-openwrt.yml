@@ -82,7 +82,7 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.KERNEL_TK }}
-          event-type: Build-Openwrt
+          event-type: Sync-Kernel
           client-payload: '{"release_tag": "kernel_${{ github.event.inputs.kernel_name }}", "auto_build": "true"}'
 
 
