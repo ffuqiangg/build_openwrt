@@ -160,6 +160,7 @@ jobs:
         tag: ${{ steps.tag.outputs.release_tag }}
         bodyFile: release.txt
         artifacts: |
+          ${{ env.FIRMWARE }}/*.tar.gz
           ${{ env.PACKAGED_OUTPUTPATH }}/*.7z
 
     - name: Delete workflow runs
