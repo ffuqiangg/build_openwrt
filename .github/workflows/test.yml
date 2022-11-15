@@ -1,0 +1,14 @@
+name: Build OpenWrt
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Packit Openwrt k510
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        event-type: Release-Build
+        client-payload: '{"release_tag": "Openwrt-2022.11.06-0503", "kernel_repo_url": "https://github.com/ffuqiangg/kernel/tree/main/kernel", "kernel_auto": "true", "kernel_name": "5.10.1", "compile_date": "R22.11.06"}'
