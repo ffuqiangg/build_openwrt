@@ -169,7 +169,7 @@ jobs:
       uses: peter-evans/repository-dispatch@v2
       with:
         event-type: Release-Build
-        client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "https://github.com/ffuqiangg/kernel/tree/main/kernel", "kernel_auto": "true", "kernel_name": "5.10.1", "compile_date": "R${{ env.COMPILE_DATE }}"}'
+        client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "https://github.com/ffuqiangg/kernel/tree/main", "kernel_auto": "true", "kernel_name": "5.10.1", "compile_date": "R${{ env.COMPILE_DATE }}"}'
 
     - name: Packit Openwrt k515 & k600
       uses: peter-evans/repository-dispatch@v2
