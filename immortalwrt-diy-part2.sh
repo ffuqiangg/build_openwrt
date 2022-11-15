@@ -34,8 +34,8 @@ sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"NAS\\\"/\\\"Services\\\"/g'\'' /usr/l
 sed -i "/^export PS1/c export PS1='[\\\u]\\\h ₪ \\\w ≡ '" package/base-files/files/etc/profile
 
 # Add customize command
-sed -i "/alF/a\alias l=\'ls -CF\'" package/base-files/files/etc/profile
-sed -i "/alF/a\alias la=\'ls -A\'" package/base-files/files/etc/profile
+sed -i -e "/alF/a\alias l=\'ls -CF\'" -e "/alF/a\alias la=\'ls -A\'" package/base-files/files/etc/profile
+sed -i 's/alF/alhF/' package/base-files/files/etc/profile
 cat >> package/base-files/files/etc/profile <<EOF
 
 # Change directory aliases

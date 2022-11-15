@@ -42,7 +42,7 @@ sed -i "/^export PS1/c export PS1='[\\\u]\\\h ₪ \\\w ≡ '" package/base-files
 cat >> package/base-files/files/etc/profile <<EOF
 
 # Alias's for multiple directory listing commands
-alias ll='ls -alF --color=auto'
+alias ll='ls -alhF --color=auto'
 alias la='ls -A'
 alias l='ls -CF'
 
