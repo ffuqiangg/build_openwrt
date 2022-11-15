@@ -44,12 +44,12 @@ jobs:
           DISTRIB_REVISION: ${{ github.event.client_payload.compile_date }} 
 
       - name: Upload firmware to release
-        uses: ncipollo/release-action@main
+        uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          tag: ${{ github.event.client_payload.release_tag }}
-          artifacts: |
+          tag_name: ${{ github.event.client_payload.release_tag }}
+          file: |
             ${{ env.PACKAGED_OUTPUTPATH }}/*.7z
 
       - name: Delete workflow runs
