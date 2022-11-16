@@ -136,22 +136,20 @@ jobs:
       run: |
         echo "release_tag=Openwrt-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
         touch release.txt
-        cat > release.txt <EOF
-        ![LEDE R${{ env.COMPILE_DATE }}](https://img.shields.io/badge/LEDE-R${{ env.COMPILE_DATE }}-informational?style=flat)
-
-        ## 💾 基本信息
-        默认IP：192.168.1.99  密码：password
-        源码来自 [LEDE](https://github.com/coolsnowwolf/lede)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
-        ⚠️ 后缀名 7z 文件为完整固件，openwrt-armvirt-64-default-rootfs.tar.gz 不是完整固件无法直接用于刷机
-        📝 一些修改：banner 及 sysinfo 修改，概览页调整，vim 配置配色调整，命令缩写，历史命令补全
-
-        ## 🎯 主要插件
-        Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Samba4，docker-compose，cpufreq  
-        ⚠️ 固件不包含 turboacc 以及 luci docker , docker 通过 ssh 控制
-
-        ## 💬 联系方式
-        [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
-        EOF
+        echo "![immortalwrt ${{ env.COMPILE_DATE }}](https://img.shields.io/badge/immortalwrt-${{ env.COMPILE_DATE }}-success?style=flat)" >> release.txt
+        echo >> release.txt
+        echo "## 💾 基本信息" >> release.txt
+        echo "默认IP：192.168.1.99  密码：password" >> release.txt
+        echo "源码来自 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改" >> release.txt
+        echo "⚠️  后缀名 7z 文件为完整固件，immortalwrt-armvirt-64-default-rootfs.tar.gz 不是完整固件无法直接用于刷机" >> release.txt
+        echo "📝 一些修改：banner 及 sysinfo 修改，概览页调整，vim 配置配色调整，命令缩写，历史命令补全，终端提示符修改" >> release.txt
+        echo >> release.txt
+        echo "## 🎯 主要插件" >> release.txt
+        echo "Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Samba4，docker-compose，cpufreq" >> release.txt 
+        echo "⚠️  固件不包含 turboacc 以及 luci docker , docker 通过 ssh 控制" >> release.txt
+        echo >> release.txt
+        echo "## 💬 联系方式" >> release.txt
+        echo "[![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)" >> release.txt
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
