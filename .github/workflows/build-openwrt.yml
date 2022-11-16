@@ -135,7 +135,7 @@ jobs:
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
         echo "release_tag=Openwrt-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
-        cat > release.txt <<EOF
+        cat > release.txt << EOF
         ![immortalwrt ${{ env.COMPILE_DATE }}](https://img.shields.io/badge/immortalwrt-${{ env.COMPILE_DATE }}-success?style=flat)
         
         ## 💾 基本信息
