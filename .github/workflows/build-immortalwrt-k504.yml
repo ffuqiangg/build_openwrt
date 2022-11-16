@@ -119,7 +119,7 @@ jobs:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
         PACKAGE_SOC: s905d
-        KERNEL_REPO_URL: https://github.com/ffuqiangg/kernel/tree/main/kernel
+        KERNEL_REPO_URL: https://github.com/ffuqiangg/kernel/tree/main
         KERNEL_VERSION_NAME: 5.4.200
         KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .7z
