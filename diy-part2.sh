@@ -57,7 +57,7 @@ alias .....='cd ../../../..'
 [ -d /mnt/sda1 ] && alias sda1='cd /mnt/sda1'
 
 # cd into the old directory
-alias bd='cd "$OLDPWD"'
+alias bd='cd "\$OLDPWD"'
 
 # alias chmod commands
 alias mx='chmod +x'
@@ -70,28 +70,28 @@ alias 777='chmod -R 777'
 # Copy and go to the directory
 cpg ()
 {
-    if [ -d "$2" ];then
-        cp $1 $2 && cd $2
+    if [ -d "\$2" ];then
+        cp \$1 \$2 && cd \$2
     else
-        cp $1 $2
+        cp \$1 \$2
     fi
 }
 
 # Move and go to the directory
 mvg ()
 {
-    if [ -d "$2" ];then
-        mv $1 $2 && cd $2
+    if [ -d "\$2" ];then
+        mv \$1 \$2 && cd \$2
     else
-        mv $1 $2
+        mv \$1 \$2
     fi
 }
 
 # Create and go to the directory
 mkdirg ()
 {
-    mkdir -p $1
-    cd $1
+    mkdir -p \$1
+    cd \$1
 }
 
 # Histoty search ↑ ↓
@@ -134,7 +134,7 @@ EOF
 # Modify firewall config for docker
 sed -i '5s/REJECT/ACCEPT/' package/network/config/firewall/files/firewall.config
 sed -i '/exit/i\echo -e "\\niptables -t nat -A POSTROUTING -s 172.31.0.0/16 ! -o docker0 -j MASQUERADE" >> /etc/firewall.user\
-' package/emortal/default-settings/files/99-default-settings
+' package/lean/default-settings/files/zzz-default-settings
 
 # Add applications
 git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall

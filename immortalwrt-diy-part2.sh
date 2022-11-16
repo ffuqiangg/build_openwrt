@@ -49,7 +49,7 @@ alias .....='cd ../../../..'
 [ -d /mnt/sda1 ] && alias sda1='cd /mnt/sda1'
 
 # cd into the old directory
-alias bd='cd "$OLDPWD"'
+alias bd='cd "\$OLDPWD"'
 
 # alias chmod commands
 alias mx='chmod +x'
@@ -62,28 +62,28 @@ alias 777='chmod -R 777'
 # Copy and go to the directory
 cpg ()
 {
-    if [ -d "$2" ];then
-        cp $1 $2 && cd $2
+    if [ -d "\$2" ];then
+        cp \$1 \$2 && cd \$2
     else
-        cp $1 $2
+        cp \$1 \$2
     fi
 }
 
 # Move and go to the directory
 mvg ()
 {
-    if [ -d "$2" ];then
-        mv $1 $2 && cd $2
+    if [ -d "\$2" ];then
+        mv \$1 \$2 && cd \$2
     else
-        mv $1 $2
+        mv \$1 \$2
     fi
 }
 
 # Create and go to the directory
 mkdirg ()
 {
-    mkdir -p $1
-    cd $1
+    mkdir -p \$1
+    cd \$1
 }
 
 # Histoty search ↑ ↓
