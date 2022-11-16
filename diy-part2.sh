@@ -36,7 +36,7 @@ sed -i "${startLine}i\sed -i 's/\\\\\"nas\\\\\"/\\\\\"services\\\\\"/g' /usr/lib
 sed -i "${startLine}i\sed -i 's/\\\\\"NAS\\\\\"/\\\\\"Services\\\\\"/g' /usr/lib/lua/luci/controller/rclone.lua" package/lean/default-settings/files/zzz-default-settings
 
 # Change PS1
-sed -i "/^export PS1/c export PS1='[\\\u]\\\h ₪ \\\w ≡ '" package/base-files/files/etc/profile
+sed -i "/^export PS1/c export PS1='[\\\u]\\\w ➜ '" package/base-files/files/etc/profile
 
 # Add customize command
 cat >> package/base-files/files/etc/profile <<EOF
