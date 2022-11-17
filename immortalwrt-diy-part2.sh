@@ -91,9 +91,33 @@ bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 EOF
 
+# Modify vimrc
+cp -f ${GITHUB_WORKSPACE}/general/vim/molokai.vim package/base-files/files/etc/
+sed -i '/exit/i\mv /etc/molokai.vim /usr/share/vim/vim??/colors/\n' package/lean/default-settings/files/zzz-default-settings
+sed -i -e '1i colorscheme molokai\n' -e '/autoindent/d' feeds/packages/utils/vim/files/vimrc.full
+cat >> feeds/packages/utils/vim/files/vimrc.full <<EOF
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set softtabstop=4
+set number
+set cursorline
+set nowrap
+set sidescroll=1
+set smartindent
+
+" Auto ([{
+inoremap ( ()<Esc>i
+inoremap [ []<Esc>i
+inoremap < <><Esc>i
+inoremap { {}<Esc>i
+inoremap ' ''<Esc>i
+inoremap " ""<Esc>i
+EOF
+
 # Change banner
 cp -f ${GITHUB_WORKSPACE}/general/etc/immortalwrt.banner package/base-files/files/etc/banner
-sed -i '/openwrt_banner/i\echo " -----------------------------------" >> /etc/banner\
+sed -i '/openwrt_banner/i\echo " -------------------------------------------" >> /etc/banner\
 echo " [33mImmortalwrt-18.06-OPENWRT_VERSION $(uname -r)[0m" >> /etc/banner\
 echo >> /etc/banner' package/emortal/default-settings/files/99-default-settings
 sed -i "s|OPENWRT_VERSION|$(date +%Y%m%d)|g" package/emortal/default-settings/files/99-default-settings
