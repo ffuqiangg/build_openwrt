@@ -146,7 +146,7 @@ jobs:
         📝 一些修改：banner 及 sysinfo 修改，概览页调整，命令缩写，历史命令补全，终端提示符修改
         
         ## 🎯 主要插件
-        Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Samba4，docker-compose，cpufreq
+        Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Samba4，docker-compose，cpufreq，nano
         ⚠️  固件不包含 turboacc 以及 luci docker , docker 通过 ssh 控制
         
         ## 💬 联系方式
