@@ -93,7 +93,7 @@ EOF
 
 # Modify vimrc
 cp -f ${GITHUB_WORKSPACE}/general/vim/molokai.vim package/base-files/files/etc/
-sed -i '/exit/i\mv /etc/molokai.vim /usr/share/vim/vim??/colors/\n' package/lean/default-settings/files/zzz-default-settings
+sed -i '/exit/i\mv /etc/molokai.vim /usr/share/vim/vim??/colors/\n' package/emortal/default-settings/files/99-default-settings
 sed -i -e '1i colorscheme molokai\n' -e '/autoindent/d' feeds/packages/utils/vim/files/vimrc.full
 cat >> feeds/packages/utils/vim/files/vimrc.full <<EOF
 set tabstop=4
