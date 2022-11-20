@@ -92,9 +92,6 @@ mkdirg ()
     cd \$1
 }
 
-# Search files in the current folder
-alias f="find . | grep "
-
 # Histoty search ↑ ↓
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
