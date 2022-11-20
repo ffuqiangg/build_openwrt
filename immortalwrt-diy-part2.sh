@@ -31,7 +31,7 @@ sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/l
 sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"NAS\\\"/\\\"Services\\\"/g'\'' /usr/lib/lua/luci/controller/rclone.lua' package/emortal/default-settings/files/99-default-settings
 
 # Add customize command
-sed -i -e "/alF/a\alias l=\'ls -CF\'" -e "/alF/a\alias la=\'ls -A\'" package/base-files/files/etc/profile
+sed -i -e "/alF/a\alias l=\'ls -CF\'" -e "/alF/a\alias la=\'ls -A\'" -e "/alF/a\alias clr=\'clear\'" package/base-files/files/etc/profile
 sed -i 's/alF/alhF/' package/base-files/files/etc/profile
 cat >> package/base-files/files/etc/profile <<EOF
 
@@ -82,6 +82,9 @@ mkdirg ()
     mkdir -p \$1
     cd \$1
 }
+
+# Search files in the current folder
+alias f="find . | grep "
 
 # Histoty search ↑ ↓
 bind '"\e[A": history-search-backward'

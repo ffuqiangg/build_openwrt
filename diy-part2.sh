@@ -42,6 +42,7 @@ cat >> package/base-files/files/etc/profile <<EOF
 alias ll='ls -alhF --color=auto'
 alias la='ls -A'
 alias l='ls -CF'
+alias clr='clear'
 
 # Change directory aliases
 alias home='cd ~'
@@ -90,6 +91,9 @@ mkdirg ()
     mkdir -p \$1
     cd \$1
 }
+
+# Search files in the current folder
+alias f="find . | grep "
 
 # Histoty search ↑ ↓
 bind '"\e[A": history-search-backward'
