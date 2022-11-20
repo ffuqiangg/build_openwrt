@@ -143,7 +143,7 @@ jobs:
         默认IP：192.168.1.99  密码：password
         源码来自 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
         ⚠️  后缀名 7z 文件为完整固件，immortalwrt-armvirt-64-default-rootfs.tar.gz 不是完整固件无法直接用于刷机
-        📝 一些修改：banner 及 sysinfo 修改，概览页调整，命令缩写，历史命令补全，终端提示符修改，vim 配置及配色调整
+        📝 一些修改：banner 及 sysinfo 修改，概览页调整，命令缩写，历史命令补全，vim 配置及配色调整
         
         ## 🎯 主要插件
         Passwall，硬盘休眠，Frpc，Rclone，Alist，Filebrowser，FTP服务器，Samba4，docker-compose，cpufreq，vim
