@@ -12,7 +12,7 @@ jobs:
     
     steps:
     - name: build Openwrt
-      use: peter-evans/repository-dispatch@v2
+      uses: peter-evans/repository-dispatch@v2
       with:
         event-type: Build-Openwrt
         client-payload: '{"kernel_repo_url": "https://github.com/ffuqiangg/kernel/tree/main", "kernel_name": "5.4.1", "kernel_auto": "true"}'
