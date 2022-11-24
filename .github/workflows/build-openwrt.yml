@@ -4,7 +4,6 @@ on:
   repository_dispatch:
     types:
       - Build-Openwrt
-  workflow_dispatch:
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
