@@ -1,0 +1,18 @@
+name: Build OpenWrt Manual
+
+on:
+  workflow_dispatch:
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    
+    step:
+    - name: build Openwrt
+      use: peter-evans/repository-dispatch@v2
+      with:
+        event-type: Build-Openwrt
+        client-payload: '{"kernel_repo_url": "https://github.com/ffuqiangg/kernel/tree/main", "kernel_name": "5.4.1", "kernel_auto": "true"}'
