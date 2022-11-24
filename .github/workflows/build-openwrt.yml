@@ -136,7 +136,7 @@ jobs:
       run: |
         echo "release_tag=Openwrt-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
         cat > release.txt << EOF
-        ![LEDE R${{ env.COMPILE_DATE }}](https://img.shields.io/badge/LEDE-R${{ env.COMPILE_DATE }}-informational?style=flat
+        ![LEDE R${{ env.COMPILE_DATE }}](https://img.shields.io/badge/LEDE-R${{ env.COMPILE_DATE }}-informational?style=flat)
         
         ## 💾 基本信息
         默认IP：192.168.1.99  密码：password
