@@ -115,7 +115,6 @@ set shiftwidth=4
 set expandtab
 set softtabstop=4
 set number
-set cursorline
 set nowrap
 set sidescroll=1
 
