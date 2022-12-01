@@ -117,14 +117,6 @@ set softtabstop=4
 set number
 set nowrap
 set sidescroll=1
-
-" Auto ([{
-inoremap ( ()<Esc>i
-inoremap [ []<Esc>i
-inoremap < <><Esc>i
-inoremap { {}<Esc>i
-inoremap ' ''<Esc>i
-inoremap " ""<Esc>i
 EOF
 
 # Modify firewall config for docker
