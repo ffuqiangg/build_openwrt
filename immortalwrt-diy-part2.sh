@@ -110,11 +110,6 @@ echo >> /etc/banner' package/emortal/default-settings/files/99-default-settings
 sed -i "s|OPENWRT_VERSION|$(date +%Y%m%d)|g" package/emortal/default-settings/files/99-default-settings
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
 
-# Modify firewall config for docker
-sed -i '5s/REJECT/ACCEPT/' package/network/config/firewall/files/firewall.config
-sed -i '/exit/i\echo -e "\\niptables -t nat -A POSTROUTING -s 172.31.0.0/16 ! -o docker0 -j MASQUERADE" >> /etc/firewall.user\
-' package/emortal/default-settings/files/99-default-settings
-
 # Add applications
 git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
 

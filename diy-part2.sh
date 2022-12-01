@@ -119,11 +119,6 @@ set nowrap
 set sidescroll=1
 EOF
 
-# Modify firewall config for docker
-sed -i '5s/REJECT/ACCEPT/' package/network/config/firewall/files/firewall.config
-sed -i '/exit/i\echo -e "\\niptables -t nat -A POSTROUTING -s 172.31.0.0/16 ! -o docker0 -j MASQUERADE" >> /etc/firewall.user\
-' package/lean/default-settings/files/zzz-default-settings
-
 # Add applications
 git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
 git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall.git  package/passwall-depends
