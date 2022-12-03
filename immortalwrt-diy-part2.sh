@@ -100,6 +100,12 @@ set softtabstop=4
 set number
 set nowrap
 set sidescroll=1
+set smartindent
+set cursorline
+set smarttab
+
+filetype on
+autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
 EOF
 
 # Change banner
