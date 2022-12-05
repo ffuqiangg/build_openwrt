@@ -141,6 +141,7 @@ set smartindent
 set smarttab
 set cursorline
 
+" yaml file setting
 filetype on
 autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
 EOF
