@@ -27,7 +27,7 @@ sed -i 's/\"system\"/\"services\"/g' package/feeds/luci/luci-app-cpufreq/luasrc/
 # rclone
 sed -i -e 's/\"NAS\"/\"Services\"/g' -e 's/\"nas\"/\"services\"/g' package/feeds/luci/luci-app-rclone/luasrc/controller/rclone.lua
 # dockerman
-sed -i -e 's/admin\",/& \"services\",/g' -e 's/Docker/&Man/' package/feeds/luci/luci-app-dockerman/luasrc/controller/dockerman.lua
+sed -i -e 's/admin\",/& \"services\",/g' -e 's/Docker/&Man/' -e 's/config\")/overview\")/' package/feeds/luci/luci-app-dockerman/luasrc/controller/dockerman.lua
 sed -i 's/admin\//&services\//g' package/feeds/luci/luci-app-dockerman/luasrc/model/cbi/dockerman/container.lua
 sed -i 's/admin\//&services\//g' package/feeds/luci/luci-app-dockerman/luasrc/model/cbi/dockerman/containers.lua
 sed -i 's/admin\//&services\//g' package/feeds/luci/luci-app-dockerman/luasrc/model/cbi/dockerman/images.lua
