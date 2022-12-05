@@ -14,21 +14,19 @@
 sed -i 's/192.168.1.1/192.168.1.99/g' package/base-files/files/bin/config_generate
 
 # Modify menu
-sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/samba4.lua' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"system\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/cpufreq.lua' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/hd_idle.lua' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/vsftpd.lua' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"NAS\\\"/\\\"Services\\\"/g'\'' /usr/lib/lua/luci/controller/vsftpd.lua' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/filebrowser.lua' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"NAS\\\"/\\\"Services\\\"/g'\'' /usr/lib/lua/luci/controller/filebrowser.lua' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/nas/services/g'\'' /usr/lib/lua/luci/view/filebrowser/filebrowser_status.htm' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/alist.lua' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"NAS\\\"/\\\"Services\\\"/g'\'' /usr/lib/lua/luci/controller/alist.lua' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/nas/services/g'\'' /usr/lib/lua/luci/view/alist/admin_info.htm' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/nas/services/g'\'' /usr/lib/lua/luci/view/alist/alist_log.htm' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/nas/services/g'\'' /usr/lib/lua/luci/view/alist/alist_status.htm' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"nas\\\"/\\\"services\\\"/g'\'' /usr/lib/lua/luci/controller/rclone.lua' package/emortal/default-settings/files/99-default-settings
-sed -i '/dispatcher.lua/i\sed -i '\''s/\\\"NAS\\\"/\\\"Services\\\"/g'\'' /usr/lib/lua/luci/controller/rclone.lua' package/emortal/default-settings/files/99-default-settings
+# samba4
+sed -i 's/\"nas\"/\"services\"/g' package/feeds/luci/luci-app-samba4/luasrc/controller/samba4.lua
+# cpufreq
+sed -i 's/\"system\"/\"services\"/g' package/feeds/luci/luci-app-cpufreq/luasrc/controller/cpufreq.lua
+# hd-idle
+sed -i 's/\"nas\"/\"services\"/g' package/feeds/luci/luci-app-hd-idle/luasrc/controller/hd_idle.lua
+# vsftpd
+sed -i -e 's/\"nas\"/\"services\"/g' -e 's/NAS/Services/g' package/feeds/luci/luci-app-vsftpd/luasrc/controller/vsftpd.lua
+# filebrowser
+sed -i -e 's/\"nas\"/\"services\"/g' -e 's/NAS/Services/g' package/feeds/luci/luci-app-filebrowser/luasrc/controller/filebrowser.lua
+sed -i 's/nas/services/g' package/feeds/luci/luci-app-filebrowser/luasrc/view/filebrowser/filebrowser_status.htm
+# rclone
+sed -i -e 's/\"nas\"/\"services\"/g' -e 's/NAS/Services/g' package/feeds/luci/luci-app-rclone/luasrc/controller/rclone.lua
 
 # Add customize command
 sed -i -e "/alF/a\alias l=\'ls -CF\'" -e "/alF/a\alias la=\'ls -A\'" -e "/alF/a\alias clr=\'clear\'" package/base-files/files/etc/profile
@@ -44,6 +42,14 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 [ -d /mnt/mmcblk2p4 ] && alias 2p4='cd /mnt/mmcblk2p4'
 [ -d /mnt/sda1 ] && alias sda1='cd /mnt/sda1'
+
+# Alias's for archives
+alias mktar='tar -cvf'
+alias mkbz2='tar -cvjf'
+alias mkgz='tar -cvzf'
+alias untar='tar -xvf'
+alias unbz2='tar -xvjf'
+alias ungz='tar -xvzf'
 
 # cd into the old directory
 alias bd='cd "\$OLDPWD"'
@@ -118,6 +124,10 @@ sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settin
 
 # Add applications
 git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
+sed -i -e 's/nas/services/g' -e 's/NAS/Services/g' package/luci-app-alist/luci-app-alist/luasrc/controller/alist.lua
+sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/admin_info.htm
+sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/alist_log.htm
+sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/alist_status.htm
 
 # Dump golang version
 sed -i 's/GO_VERSION_MAJOR_MINOR:=.*/GO_VERSION_MAJOR_MINOR:=1.19/g' feeds/packages/lang/golang/golang/Makefile
