@@ -146,6 +146,7 @@ set smartindent
 set smarttab
 set cursorline
 
+" yaml file setting
 filetype on
 autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
 EOF
@@ -167,11 +168,6 @@ sed -i -e 's/nas/services/g' -e 's/NAS/Services/g' package/luci-app-alist/luci-a
 sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/admin_info.htm
 sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/alist_log.htm
 sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/alist_status.htm
-
-# Dump golang version
-sed -i 's/GO_VERSION_MAJOR_MINOR:=.*/GO_VERSION_MAJOR_MINOR:=1.19/g' feeds/packages/lang/golang/golang/Makefile
-sed -i 's/GO_VERSION_PATCH:=.*/GO_VERSION_PATCH:=2/g' feeds/packages/lang/golang/golang/Makefile
-sed -i 's/PKG_HASH:=.*/PKG_HASH:=2ce930d70a931de660fdaf271d70192793b1b240272645bf0275779f6704df6b/g' feeds/packages/lang/golang/golang/Makefile
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a
