@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-20.04
     
     steps:
-    - name: build Openwrt
+    - name: Build Openwrt
       uses: peter-evans/repository-dispatch@v2
       with:
         event-type: Build-Openwrt
