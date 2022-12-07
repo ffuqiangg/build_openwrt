@@ -123,7 +123,7 @@ jobs:
         KERNEL_VERSION_NAME: ${{ github.event.client_payload.kernel_name }}
         KERNEL_AUTO_LATEST: ${{ github.event.client_payload.kernel_auto }}
         GZIP_IMGS: .7z
-        SCRIPT_S905D: mk_openwrt_n1.sh
+        SCRIPT_S905D: mk_lede_n1.sh
         OPENWRT_VER: R${{ env.COMPILE_DATE }}
         SFE_FLOW: 0
         ENABLE_WIFI_K504: 0
