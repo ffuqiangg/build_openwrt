@@ -3,7 +3,7 @@ name: Build Immortalwrt21.02
 on:
   repository_dispatch:
     types:
-      - Build-Immortalwrt
+      - Build-Immortalwrt21.02
   workflow_dispatch:
 
 env:

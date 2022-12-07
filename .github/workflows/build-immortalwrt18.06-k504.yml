@@ -3,7 +3,7 @@ name: Build Immortalwrt18.06 k5.4
 on:
   repository_dispatch:
     types:
-      - Build-Immortalwrt
+      - Build-Immortalwrt18.06
   workflow_dispatch:
 
 env:
