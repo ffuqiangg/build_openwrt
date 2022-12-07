@@ -117,7 +117,7 @@ jobs:
         KERNEL_VERSION_NAME: 6.0.1
         KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .7z
-        SCRIPT_S905D: mk_s905d_n1.sh
+        SCRIPT_S905D: mk_imm21.02_n1.sh
         OPENWRT_VER: ${{ env.COMPILE_DATE }}
         SFE_FLOW: 0
         ENABLE_WIFI_K504: 0
