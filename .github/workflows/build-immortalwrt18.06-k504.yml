@@ -9,7 +9,7 @@ on:
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: openwrt-18.06-k5.4
-  CONFIG_FILE: immortalwrt.config
+  CONFIG_FILE: immortalwrt-18.06.config
   DIY_P1_SH: immortalwrt-18.06-diy1.sh
   DIY_P2_SH: immortalwrt-18.06-diy2.sh
   UPLOAD_FIRMWARE: true
