@@ -154,6 +154,9 @@ sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alis
 sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/alist_log.htm
 sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/alist_status.htm
 
+# Add luci-app-mosdns
+git clone --depth=1 --single-branch https://github.com/sbwml/luci-app-mosdns.git package/luci-app-mosdns
+
 # Dump golang version
 sed -i 's/GO_VERSION_MAJOR_MINOR:=.*/GO_VERSION_MAJOR_MINOR:=1.19/g' feeds/packages/lang/golang/golang/Makefile
 sed -i 's/GO_VERSION_PATCH:=.*/GO_VERSION_PATCH:=2/g' feeds/packages/lang/golang/golang/Makefile
