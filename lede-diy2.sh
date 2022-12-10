@@ -162,6 +162,9 @@ sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/d
 sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/log.htm
 sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/status.htm
 
+# Add luci-app-mosdns
+git clone --depth=1 --single-branch https://github.com/sbwml/luci-app-mosdns.git package/luci-app-mosdns
+
 # Add luci-app-alist & change menu
 git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
 sed -i -e 's/nas/services/g' -e 's/NAS/Services/g' package/luci-app-alist/luci-app-alist/luasrc/controller/alist.lua
