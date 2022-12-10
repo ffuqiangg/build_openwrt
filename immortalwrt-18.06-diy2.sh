@@ -147,7 +147,7 @@ echo >> /etc/banner' package/emortal/default-settings/files/99-default-settings
 sed -i "s|OPENWRT_VERSION|$(date +%Y%m%d)|g" package/emortal/default-settings/files/99-default-settings
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
 
-# Add applications
+# Add luci-app-alist & change menu
 git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
 sed -i -e 's/nas/services/g' -e 's/NAS/Services/g' package/luci-app-alist/luci-app-alist/luasrc/controller/alist.lua
 sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/admin_info.htm
