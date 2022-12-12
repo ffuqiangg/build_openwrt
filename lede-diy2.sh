@@ -163,9 +163,9 @@ sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/l
 sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/status.htm
 
 # Add luci-app-mosdns
-find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
-git clone --depth=1 --single-branch https://github.com/sbwml/luci-app-mosdns.git package/luci-app-mosdns
-git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+# find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
+# git clone --depth=1 --single-branch https://github.com/sbwml/luci-app-mosdns.git package/luci-app-mosdns
+# git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 
 # Add luci-app-alist & change menu
 git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
