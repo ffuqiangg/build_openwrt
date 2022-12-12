@@ -168,7 +168,7 @@ sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/s
 # git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 
 # Add luci-app-alist & change menu
-git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
+git clone --single-branch -b master --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
 sed -i -e 's/nas/services/g' -e 's/NAS/Services/g' package/luci-app-alist/luci-app-alist/luasrc/controller/alist.lua
 sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/admin_info.htm
 sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/alist_log.htm
