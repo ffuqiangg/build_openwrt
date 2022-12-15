@@ -56,6 +56,7 @@ sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/
 # Add customize command
 sed -i -e "/alF/a\alias l=\'ls -CF\'" -e "/alF/a\alias la=\'ls -A\'" -e "/alF/a\alias clr=\'clear\'" package/base-files/files/etc/profile
 sed -i 's/alF/alhF/' package/base-files/files/etc/profile
+sed -i 's/alF/alhF/' package/base-files/files/etc/shinit
 cat >> package/base-files/files/etc/profile <<EOF
 
 # Change directory aliases
