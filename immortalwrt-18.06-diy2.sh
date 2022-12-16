@@ -142,10 +142,8 @@ EOF
 
 # Change banner
 cp -f ${GITHUB_WORKSPACE}/general/etc/immortalwrt.banner package/base-files/files/etc/banner
-sed -i '/openwrt_banner/i\echo " -------------------------------------------" >> /etc/banner\
-echo " [33mImmortalwrt-18.06-OPENWRT_VERSION $(uname -r)[0m" >> /etc/banner\
+sed -i '/openwrt_banner/i\echo " Immortalwrt-18.06 $(uname -r)" >> /etc/banner\
 echo >> /etc/banner' package/emortal/default-settings/files/99-default-settings
-sed -i "s|OPENWRT_VERSION|$(date +%Y%m%d)|g" package/emortal/default-settings/files/99-default-settings
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
 
 # Add luci-app-alist & change menu

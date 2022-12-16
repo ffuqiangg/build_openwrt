@@ -124,8 +124,7 @@ EOF
 
 # Change banner
 cp -f ${GITHUB_WORKSPACE}/general/etc/banner package/base-files/files/etc/banner
-sed -i '/exit/i\echo " -----------------------------------" >> /etc/banner\
-echo " [33mLEDE OPENWRT_VERSION $(uname -r)[0m" >> /etc/banner\
+sed -i '/exit/i\echo " OPENWRT_VERSION $(uname -r)" >> /etc/banner\
 echo >> /etc/banner\
 ' package/lean/default-settings/files/zzz-default-settings
 sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/files/zzz-default-settings
