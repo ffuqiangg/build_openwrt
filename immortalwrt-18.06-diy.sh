@@ -133,7 +133,6 @@ set number
 set nowrap
 set sidescroll=1
 set smartindent
-set cursorline
 set smarttab
 
 filetype on
