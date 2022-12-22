@@ -13,7 +13,6 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Package Armvirt as OpenWrt
-        if: steps.init.outputs.status == 'success' && !cancelled()
         uses: ffuqiangg/openwrt_packit@master
         env:
           SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
