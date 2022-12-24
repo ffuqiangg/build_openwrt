@@ -129,6 +129,7 @@ jobs:
         ENABLE_WIFI_K504: 0
         ENABLE_WIFI_K510: 0
         DISTRIB_REVISION: R${{ env.COMPILE_DATE }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Generate release tag
       id: tag
