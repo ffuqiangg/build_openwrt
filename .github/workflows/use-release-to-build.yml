@@ -28,6 +28,7 @@ jobs:
           ENABLE_WIFI_K504: 0
           ENABLE_WIFI_K510: 0
           DISTRIB_REVISION: ${{ github.event.client_payload.compile_date }} 
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Upload firmware to release
         uses: xresloader/upload-to-github-release@v1
