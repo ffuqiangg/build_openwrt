@@ -139,6 +139,12 @@ set laststatus=2
 
 filetype on
 autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
+
+if &term =~ "xterm"
+    let &t_SI = "\<Esc>[6 q"
+    let &t_SR = "\<Esc>[3 q"
+    let &t_EI = "\<Esc>[2 q"
+endif
 EOF
 
 # Change banner
