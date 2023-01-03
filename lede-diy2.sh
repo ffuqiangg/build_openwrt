@@ -143,6 +143,8 @@ set nowrap
 set sidescroll=1
 set smartindent
 set smarttab
+set cursorline
+set laststatus=2
 
 " yaml file setting
 filetype on
