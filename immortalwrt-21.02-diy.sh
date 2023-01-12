@@ -79,22 +79,38 @@ bind '"\e[B": history-search-forward'
 EOF
 
 # Modify vimrc
-cp -f ${GITHUB_WORKSPACE}/general/vim/molokai.vim package/base-files/files/etc/
-sed -i '/exit/i\mv /etc/molokai.vim /usr/share/vim/vim??/colors/\n' package/emortal/default-settings/files/99-default-settings
-sed -i '1i colorscheme molokai\n' feeds/packages/utils/vim/files/vimrc.full
 cat >> feeds/packages/utils/vim/files/vimrc.full <<EOF
+
+noremap H ^
+noremap L $
+
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set softtabstop=4
+set smartindent
+set autoindent
+set smarttab
 set number
 set nowrap
 set sidescroll=1
-set smartindent
-set smarttab
+set cursorline
 
 filetype on
 autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
+
+if &term =~ "xterm"
+    let &t_SI = "\<Esc>[6 q"
+    let &t_SR = "\<Esc>[3 q"
+    let &t_EI = "\<Esc>[2 q"
+endif
+
+set laststatus=2
+set statusline=%<%t%m%r%h%w\
+set statusline+=[%{&ff}]
+set statusline+=%=
+set statusline+=%-15(\ %l,%c%)\
+set statusline+=\ %3p%%
 EOF
 
 ./scripts/feeds update -a
