@@ -133,7 +133,7 @@ sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/fi
 cat >> feeds/packages/utils/vim/files/vimrc.full <<EOF
 
 noremap H ^
-noremap L $
+noremap L \$
 
 set tabstop=4
 set shiftwidth=4
@@ -141,14 +141,20 @@ set expandtab
 set softtabstop=4
 set smartindent
 set autoindent
-set smarttab
+set shiftround
 set number
 set nowrap
 set sidescroll=1
 set cursorline
+set magic
+set novisualbell
+set noerrorbells
+set hlsearch
+set mouse=""
 
-filetype on
-autocmd Filetype yaml setlocal tabstop=2 shiftwidth=2 softtabstop=2
+filetype plugin on
+filetype indent on
+autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 if &term =~ "xterm"
     let &t_SI = "\<Esc>[6 q"
@@ -156,12 +162,11 @@ if &term =~ "xterm"
     let &t_EI = "\<Esc>[2 q"
 endif
 
+set background=dark
+colorscheme desert
+
+set statusline=%<%f\ %h%m%r%w%=[%{&ff}]%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
 set laststatus=2
-set statusline=%<%t%m%r%h%w\ 
-set statusline+=[%{&ff}]
-set statusline+=%=
-set statusline+=%-15(\ %l,%c%)\ 
-set statusline+=\ %3p%%
 EOF
 
 # Add passwall
