@@ -163,11 +163,11 @@ jobs:
         event-type: Release-Build
         client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "https://github.com/ffuqiangg/kernel/tree/main", "kernel_auto": "true", "kernel_name": "5.10.1", "compile_date": "R${{ env.COMPILE_DATE }}"}'
 
-    - name: Packit Openwrt k515 & k600 & k601
+    - name: Packit Openwrt k515 & k601
       uses: peter-evans/repository-dispatch@v2
       with:
         event-type: Release-Build
-        client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "https://github.com/ophub/kernel/tree/main/pub/stable", "kernel_auto": "true", "kernel_name": "5.15.1_6.0.1_6.1.1", "compile_date": "R${{ env.COMPILE_DATE }}"}'
+        client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "https://github.com/ophub/kernel/tree/main/pub/stable", "kernel_auto": "true", "kernel_name": "5.15.1_6.1.1", "compile_date": "R${{ env.COMPILE_DATE }}"}'
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
