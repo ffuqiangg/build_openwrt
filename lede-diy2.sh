@@ -165,7 +165,7 @@ endif
 set background=dark
 colorscheme desert
 
-set statusline=%<%f\ %h%m%r%w%=[%{&ff}]%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
+set statusline=%<%f\ %h%m%r%w%=[%{&ff}]%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %p
 set laststatus=2
 EOF
 
