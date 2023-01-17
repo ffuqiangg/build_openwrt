@@ -156,8 +156,22 @@ endif
 set background=dark
 colorscheme desert
 
-set statusline=%<%f\ %h%m%r%w%=[%{&ff}]%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14(%l,%c%V%)\ %4(%p%%%)
+function GetMode()
+    if mode() == 'v'
+        return "SEL"
+    elseif mode() == 'V'
+        return "SEL"
+    elseif mode() == ''
+        return "SEL"
+    elseif mode() == 'i'
+        return "INS"
+    else
+        return "NOR"
+    endif
+endfunction
+set statusline=[%{GetMode()}]\ %<%f\ %h%m%r%w%=[%{&ff}]\ %l,%c\ %4p%%
 set laststatus=2
+set noshowmode
 EOF
 
 # Change banner
