@@ -178,7 +178,7 @@ function GetMode()
         return "NOR"
     endif
 endfunction
-set statusline=[%{GetMode()}]\ %<%f\ %h%m%r%w%=[%{&ff}]\ %l,%c\ %4p%%
+set statusline=[%{GetMode()}]\ %<%f\ %h%m%r%w%=%{&ff}\ %l,%c\ \ %p%%
 set laststatus=2
 set noshowmode
 EOF
