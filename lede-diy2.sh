@@ -152,8 +152,7 @@ set noerrorbells
 set hlsearch
 set mouse=""
 
-filetype plugin on
-filetype indent on
+filetype plugin indent on
 autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 if &term =~ "xterm"
