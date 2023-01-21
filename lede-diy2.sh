@@ -179,7 +179,6 @@ function GetMode()
 endfunction
 set statusline=[%{GetMode()}]\ %<%f\ %h%m%r%w%=%{&ff}\ %l,%c\ \ %p%%
 set laststatus=2
-set noshowmode
 EOF
 
 # Add passwall
