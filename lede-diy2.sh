@@ -70,16 +70,8 @@ alias unbz2='tar -xvjf'
 alias ungz='tar -xvzf'
 
 # Change directory aliases
-alias home='cd ~'
-alias cd..='cd ..'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
 [ -d /mnt/mmcblk2p4 ] && alias 2p4='cd /mnt/mmcblk2p4'
 [ -d /mnt/sda1 ] && alias sda1='cd /mnt/sda1'
-
-# cd into the old directory
 alias bd='cd "\$OLDPWD"'
 
 # alias chmod commands
@@ -130,56 +122,12 @@ echo >> /etc/banner\
 sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/files/zzz-default-settings
 
 # Modify vimrc
-cat >> feeds/packages/utils/vim/files/vimrc.full <<EOF
-
-noremap H ^
-noremap L \$
-
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set softtabstop=4
-set smartindent
-set autoindent
-set shiftround
-set number
-set nowrap
-set sidescroll=1
-set cursorline
-set magic
-set novisualbell
-set noerrorbells
-set hlsearch
-set mouse=""
-
-filetype plugin indent on
-autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
-
-if &term =~ "xterm"
-    let &t_SI = "\<Esc>[6 q"
-    let &t_SR = "\<Esc>[3 q"
-    let &t_EI = "\<Esc>[2 q"
-endif
-
-set background=dark
-colorscheme desert
-
-function GetMode()
-    if mode() == 'v'
-        return "SEL"
-    elseif mode() == 'V'
-        return "SEL"
-    elseif mode() == ''
-        return "SEL"
-    elseif mode() == 'i'
-        return "INS"
-    else
-        return "NOR"
-    endif
-endfunction
-set statusline=[%{GetMode()}]\ %<%f\ %h%m%r%w%=%{&ff}\ %l,%c\ \ %p%%
-set laststatus=2
-EOF
+cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc packages/utils/vim/files/vimrc.full
+cp -f ${GITHUB_WORKSPACE}/general/vim/colors/onedark.vim package/base-files/files/etc/colors.vim
+cp -f ${GITHUB_WORKSPACE}/general/vim/autoload/onedark.vim package/base-files/files/etc/autoload.vim
+sed -i '/exit/i\mv /etc/colors.vim /usr/share/vim/vim??/colors/onedark.vim\
+mv /etc/autoload.vim /usr/share/vim/vim??/autoload/onedark.vim\
+' package/lean/default-settings/files/zzz-default-settings
 
 # Add passwall
 git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall

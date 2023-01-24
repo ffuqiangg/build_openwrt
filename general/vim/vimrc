@@ -1,0 +1,52 @@
+set showcmd
+set showmatch
+set incsearch
+set nocompatible
+set backspace=indent,eol,start
+set autoindent
+set linebreak
+set textwidth=0
+set ruler
+set backupskip+=/etc/crontabs.*
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set softtabstop=4
+set smartindent
+set autoindent
+set shiftround
+set number
+set nowrap
+set sidescroll=1
+set magic
+set novisualbell
+set noerrorbells
+set hlsearch
+
+set backupskip+=/etc/crontabs.*
+if &term == "xterm"
+    if has("terminfo")
+        set t_Co=8
+        set t_Sf=^[[3%p1%dm
+        set t_Sb=^[[4%p1%dm
+    else
+        set t_Co=8
+        set t_Sf=^[[3%dm
+        set t_Sb=^[[4%dm
+    endif
+endif
+
+nnoremap H ^
+nnoremap L $
+nnoremap <C-j> <C-d>
+nnoremap <C-k> <C-u>
+
+syntax on
+filetype plugin indent on
+autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
+
+set t_Co=256
+colorscheme onedark
+autocmd Colorscheme onedark hi Normal ctermbg=none
+autocmd Colorscheme onedark hi LineNr ctermfg=246 ctermbg=none
+autocmd Colorscheme onedark hi Comment ctermfg=241
