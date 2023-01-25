@@ -1,26 +1,34 @@
 set showcmd
 set showmatch
-set incsearch
 set nocompatible
 set backspace=indent,eol,start
-set autoindent
-set linebreak
 set textwidth=0
 set ruler
+set number
+
+" Wrap config
+set nowrap
+set sidescroll=1
+
+" Error bell
+set novisualbell
+set noerrorbells
+
+" Search config
+set hlsearch
+set incsearch
+set noignorecase
+set smartcase
+
+" Indent config
+set autoindent
+set smartindent
+set autoindent
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set softtabstop=4
-set smartindent
-set autoindent
 set shiftround
-set number
-set nowrap
-set sidescroll=1
-set magic
-set novisualbell
-set noerrorbells
-set hlsearch
 
 set backupskip+=/etc/crontabs.*
 if &term == "xterm"
@@ -35,15 +43,19 @@ if &term == "xterm"
     endif
 endif
 
+" Remap move cursor
 nnoremap <C-H> ^
 nnoremap <C-L> $
 nnoremap <C-j> <C-d>
 nnoremap <C-k> <C-u>
 
-syntax on
+syntax on  " Syntax highlight
+
+" Specify file config
 filetype plugin indent on
 autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
+" Theme
 set t_Co=256
 colorscheme onedark
 autocmd Colorscheme onedark hi Normal ctermbg=none
