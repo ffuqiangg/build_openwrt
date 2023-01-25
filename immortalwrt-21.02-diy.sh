@@ -18,14 +18,9 @@ sed -i 's/alF/alhF/' package/base-files/files/etc/profile
 cat >> package/base-files/files/etc/profile <<EOF
 
 # Change directory aliases
-alias home='cd ~'
-alias cd..='cd ..'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
 [ -d /mnt/mmcblk2p4 ] && alias 2p4='cd /mnt/mmcblk2p4'
 [ -d /mnt/sda1 ] && alias sda1='cd /mnt/sda1'
+alias bd='cd "\$OLDPWD"'
 
 # Alias's for archives
 alias mktar='tar -cvf'
@@ -34,9 +29,6 @@ alias mkgz='tar -cvzf'
 alias untar='tar -xvf'
 alias unbz2='tar -xvjf'
 alias ungz='tar -xvzf'
-
-# cd into the old directory
-alias bd='cd "\$OLDPWD"'
 
 # alias chmod commands
 alias mx='chmod +x'
