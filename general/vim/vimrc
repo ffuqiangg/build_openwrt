@@ -7,7 +7,6 @@ set autoindent
 set linebreak
 set textwidth=0
 set ruler
-set backupskip+=/etc/crontabs.*
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -36,8 +35,8 @@ if &term == "xterm"
     endif
 endif
 
-nnoremap H ^
-nnoremap L $
+nnoremap <C-H> ^
+nnoremap <C-L> $
 nnoremap <C-j> <C-d>
 nnoremap <C-k> <C-u>
 

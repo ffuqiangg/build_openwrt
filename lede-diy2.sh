@@ -121,7 +121,7 @@ echo >> /etc/banner\
 ' package/lean/default-settings/files/zzz-default-settings
 sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/files/zzz-default-settings
 
-# Modify vimrc
+# Modify vim
 cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc packages/utils/vim/files/vimrc.full
 cp -f ${GITHUB_WORKSPACE}/general/vim/colors/onedark.vim package/base-files/files/etc/colors.vim
 cp -f ${GITHUB_WORKSPACE}/general/vim/autoload/onedark.vim package/base-files/files/etc/autoload.vim
