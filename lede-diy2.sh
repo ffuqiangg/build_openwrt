@@ -115,14 +115,12 @@ bind '"\e[B": history-search-forward'
 EOF
 
 # Change banner
-cp -f ${GITHUB_WORKSPACE}/general/etc/banner package/base-files/files/etc/banner
-sed -i '/exit/i\echo " OPENWRT_VERSION $(uname -r)" >> /etc/banner\
-echo >> /etc/banner\
-' package/lean/default-settings/files/zzz-default-settings
+sed -i '/exit/i\echo "" > /etc/banner\
+echo " OPENWRT_VERSION $(uname -r)" >> /etc/banner' package/lean/default-settings/files/zzz-default-settings
 sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/files/zzz-default-settings
 
 # Modify vim
-cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc packages/utils/vim/files/vimrc.full
+cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc feeds/packages/utils/vim/files/vimrc.full
 cp -f ${GITHUB_WORKSPACE}/general/vim/colors/onedark.vim package/base-files/files/etc/colors.vim
 cp -f ${GITHUB_WORKSPACE}/general/vim/autoload/onedark.vim package/base-files/files/etc/autoload.vim
 sed -i '/exit/i\mv /etc/colors.vim /usr/share/vim/vim??/colors/onedark.vim\

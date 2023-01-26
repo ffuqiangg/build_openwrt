@@ -121,9 +121,8 @@ mv /etc/autoload.vim /usr/share/vim/vim??/autoload/onedark.vim\
 ' package/emortal/dafault-settings/files/99-default-settings
 
 # Change banner
-cp -f ${GITHUB_WORKSPACE}/general/etc/immortalwrt.banner package/base-files/files/etc/banner
-sed -i '/openwrt_banner/i\echo " Immortalwrt-18.06 $(uname -r)" >> /etc/banner\
-echo >> /etc/banner' package/emortal/default-settings/files/99-default-settings
+sed -i '/openwrt_banner/i\echo "" > /etc/banner\
+echo " Immortalwrt-18.06 $(uname -r)" >> /etc/banner' package/emortal/default-settings/files/99-default-settings
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
 
 # Add luci-app-alist & change menu
