@@ -116,7 +116,9 @@ EOF
 
 # Change banner
 sed -i '/exit/i\echo "" > /etc/banner\
-echo " OPENWRT_VERSION $(uname -r)" >> /etc/banner' package/lean/default-settings/files/zzz-default-settings
+echo " LEDE OPENWRT_VERSION $(uname -r)" >> /etc/banner\
+echo "" >> /etc/banner\
+' package/lean/default-settings/files/zzz-default-settings
 sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/files/zzz-default-settings
 
 # Modify vim
