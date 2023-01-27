@@ -122,7 +122,7 @@ mv /etc/autoload.vim /usr/share/vim/vim*[0-9]*/autoload/onedark.vim\
 
 # Change banner
 sed -i '/openwrt_banner/i\echo "" > /etc/banner\
-echo " [36mImmortalwrt[0m-18.06 $(uname -r)" >> /etc/banner\
+echo "[36mImmortalwrt[0m-18.06 $(uname -r)" >> /etc/banner\
 echo "" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
