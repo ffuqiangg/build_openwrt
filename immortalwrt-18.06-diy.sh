@@ -122,7 +122,7 @@ cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc feeds/packages/utils/vim/files/vimrc
 
 # Change banner
 sed -i '/openwrt_banner/i\echo "" > /etc/banner\
-echo "[36mImmortalwrt[0m-18.06 $(uname -r)" >> /etc/banner\
+echo "[34mImmortalwrt[0m-18.06 $(uname -r)" >> /etc/banner\
 echo "" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
