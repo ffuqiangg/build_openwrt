@@ -57,7 +57,7 @@ autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " Theme
 set t_Co=256
-colorscheme onedark
-autocmd Colorscheme onedark hi Normal ctermbg=none
-autocmd Colorscheme onedark hi LineNr ctermfg=246 ctermbg=none
-autocmd Colorscheme onedark hi Comment ctermfg=241
+colorscheme desert
+autocmd Colorscheme desert hi Normal ctermbg=none
+autocmd Colorscheme desert hi LineNr ctermfg=246 ctermbg=none
+autocmd Colorscheme desert hi Comment ctermfg=241

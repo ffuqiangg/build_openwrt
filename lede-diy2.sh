@@ -116,18 +116,18 @@ EOF
 
 # Change banner
 sed -i '/exit/i\echo "" > /etc/banner\
-echo " LEDE OPENWRT_VERSION $(uname -r)" >> /etc/banner\
+echo " [36mLEDE[0m OPENWRT_VERSION $(uname -r)" >> /etc/banner\
 echo "" >> /etc/banner\
 ' package/lean/default-settings/files/zzz-default-settings
 sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/files/zzz-default-settings
 
 # Modify vim
 cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc feeds/packages/utils/vim/files/vimrc.full
-cp -f ${GITHUB_WORKSPACE}/general/vim/colors/onedark.vim package/base-files/files/etc/colors.vim
-cp -f ${GITHUB_WORKSPACE}/general/vim/autoload/onedark.vim package/base-files/files/etc/autoload.vim
-sed -i '/exit/i\mv /etc/colors.vim /usr/share/vim/vim*[0-9]*/colors/onedark.vim\
-mv /etc/autoload.vim /usr/share/vim/vim*[0-9]*/autoload/onedark.vim\
-' package/lean/default-settings/files/zzz-default-settings
+# cp -f ${GITHUB_WORKSPACE}/general/vim/colors/onedark.vim package/base-files/files/etc/colors.vim
+# cp -f ${GITHUB_WORKSPACE}/general/vim/autoload/onedark.vim package/base-files/files/etc/autoload.vim
+# sed -i '/exit/i\mv /etc/colors.vim /usr/share/vim/vim*[0-9]*/colors/onedark.vim\
+# mv /etc/autoload.vim /usr/share/vim/vim*[0-9]*/autoload/onedark.vim\
+# ' package/lean/default-settings/files/zzz-default-settings
 
 # Add passwall
 git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
