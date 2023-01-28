@@ -35,7 +35,7 @@ if filereadable(expand("$VIMRUNTIME/syntax/synload.vim"))
     syntax on
 endif
 if has("syntax") && &term =~ "xterm"
-    set t_Co=8
+    set t_Co=256
     if has("terminfo")
         set t_Sf=<Esc>[3%p1%dm
         set t_Sb=<Esc>[4%p1%dm
@@ -56,8 +56,7 @@ filetype plugin indent on
 autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " Theme
-"set t_Co=256
 colorscheme desert
-"autocmd Colorscheme desert hi Normal ctermbg=none
-"autocmd Colorscheme desert hi LineNr ctermfg=246 ctermbg=none
-"autocmd Colorscheme desert hi Comment ctermfg=241
+autocmd Colorscheme desert hi Normal ctermbg=none
+autocmd Colorscheme desert hi LineNr ctermfg=246 ctermbg=none
+autocmd Colorscheme desert hi Comment ctermfg=241
