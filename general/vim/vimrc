@@ -9,6 +9,7 @@ set number
 " Wrap config
 set nowrap
 set sidescroll=1
+set linebreak
 
 " Error bell
 set novisualbell
