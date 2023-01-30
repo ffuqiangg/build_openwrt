@@ -1,33 +1,33 @@
-set nocompatible                  " use vim defaults
-set showcmd                       " display incomplete commands
-set showmatch                     " jump to matchs when entering parenthes
-set matchtime=1                   " tenths of a secend to show the matching parenthes
-set backspace=indent,eol,start    " make that backspace key work the way it should
-set textwidth=0                   " don't wrap lines by default
-set ruler                         " show the current row and column
-set number                        " show line numbers
+set nocompatible                    " use vim defaults
+set showcmd                         " display incomplete commands
+set showmatch                       " jump to matchs when entering parenthes
+set matchtime=1                     " tenths of a secend to show the matching parenthes
+set backspace=indent,eol,start      " make that backspace key work the way it should
+set textwidth=0                     " don't wrap lines by default
+set ruler                           " show the current row and column
+set number                          " show line numbers
 
-set nowrap                        " line exceed screen don't wrap
-set sidescroll=1                  " line exceed screen cursor smooth scrolling
-set cursorline                    " highlight cursorline
+set nowrap                          " line exceed screen don't wrap
+set sidescroll=1                    " line exceed screen cursor smooth scrolling
+set cursorline                      " highlight cursorline
 
-set novisualbell                  " turn off visualbell
-set noerrorbells                  " turn off errorbell
+set novisualbell                    " turn off visualbell
+set noerrorbells                    " turn off errorbell
 
-set hlsearch                      " highlight searchs
-set incsearch                     " do incremental searching
-set ignorecase                    " ignore case when searching
-set smartcase                     " no ignorecase if Uppercase char present
+set hlsearch                        " highlight searchs
+set incsearch                       " do incremental searching
+set ignorecase                      " ignore case when searching
+set smartcase                       " no ignorecase if Uppercase char present
 
-set autoindent                    " always set autoindenting on
-set smartindent                   " indent works for c-like
-set tabstop=4                     " <Tab> width look for
-set expandtab                     " expand <Tab> as spaces
-set softtabstop=4                 " spaces number when insert <Tab>
-set shiftround                    " indent not to multiple of 'shiftwidth'
-set shiftwidth=4                  " number of spaces to use for (auto)indent
+set autoindent                      " always set autoindenting on
+set smartindent                     " indent works for c-like
+set tabstop=4                       " <Tab> width look for
+set expandtab                       " expand <Tab> as spaces
+set softtabstop=4                   " spaces number when insert <Tab>
+set shiftround                      " indent not to multiple of 'shiftwidth'
+set shiftwidth=4                    " number of spaces to use for (auto)indent
 
-set backupskip+=/etc/crontabs.*
+set backupskip+=/etc/crontabs.*     " fix crontab -e
 if filereadable(expand("$VIMRUNTIME/syntax/synload.vim"))
     syntax on
 endif
@@ -56,6 +56,8 @@ autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 set t_Co=256
 colorscheme yowish
 autocmd Colorscheme yowish hi Normal ctermbg=none
+autocmd Colorscheme yowish hi CursorLine ctermbg=none
 autocmd Colorscheme yowish hi LineNr ctermfg=246
+" colorscheme desert
 " autocmd Colorscheme desert hi LineNr ctermfg=246
 " autocmd Colorscheme desert hi Comment ctermfg=241
