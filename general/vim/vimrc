@@ -29,7 +29,7 @@ set shiftwidth=4                    " number of spaces to use for (auto)indent
 
 set backupskip+=/etc/crontabs.*     " fix crontab -e
 if filereadable(expand("$VIMRUNTIME/syntax/synload.vim"))
-    syntax on
+    syntax on                       " turn syntax highlight on by default
 endif
 if has("syntax") && &term =~ "xterm"
     set t_Co=8
