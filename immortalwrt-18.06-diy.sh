@@ -114,11 +114,11 @@ EOF
 
 # Modify vim
 cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc feeds/packages/utils/vim/files/vimrc.full
-# cp -f ${GITHUB_WORKSPACE}/general/vim/colors/onedark.vim package/base-files/files/etc/colors.vim
-# cp -f ${GITHUB_WORKSPACE}/general/vim/autoload/onedark.vim package/base-files/files/etc/autoload.vim
-# sed -i '/exit/i\mv /etc/colors.vim /usr/share/vim/vim*[0-9]*/colors/onedark.vim\
-# mv /etc/autoload.vim /usr/share/vim/vim*[0-9]*/autoload/onedark.vim\
-# ' package/emortal/dafault-settings/files/99-default-settings
+cp -f ${GITHUB_WORKSPACE}/general/vim/colors/yowish.vim package/base-files/files/etc/colors.vim
+cp -f ${GITHUB_WORKSPACE}/general/vim/autoload/yowish.vim package/base-files/files/etc/autoload.vim
+sed -i '/exit/i\mv /etc/colors.vim /usr/share/vim/vim*[0-9]*/colors/yowish.vim\
+mv /etc/autoload.vim /usr/share/vim/vim*[0-9]*/autoload/yowish.vim\
+' package/emortal/dafault-settings/files/99-default-settings
 
 # Change banner
 sed -i '/openwrt_banner/i\echo "" > /etc/banner\
