@@ -58,6 +58,7 @@ colorscheme yowish
 autocmd Colorscheme yowish hi Normal ctermbg=none
 autocmd Colorscheme yowish hi CursorLine ctermbg=none
 autocmd Colorscheme yowish hi LineNr ctermfg=246
+autocmd Colorscheme yowish hi SpecialKey ctermfg=242
 " colorscheme desert
 " autocmd Colorscheme desert hi LineNr ctermfg=246
 " autocmd Colorscheme desert hi Comment ctermfg=241
