@@ -35,7 +35,9 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        docker rmi `docker images -q`
+        sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android 2>/dev/null
+        sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* powershell openjdk* adoptopenjdk* mongodb* dotnet* moby* snapd* || true
         sudo -E apt-get -qq update -y
         sudo -E apt-get -qq upgrade -y
         sudo -E apt-get -qq install $(cat immortalwrt18.06_depends)
