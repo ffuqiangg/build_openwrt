@@ -49,7 +49,7 @@ endif
 " nnoremap <C-k> <C-u>
 
 " Specify file config
-filetype indent on
+filetype plugin indent on
 autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " Theme
