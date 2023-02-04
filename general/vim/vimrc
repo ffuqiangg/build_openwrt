@@ -27,6 +27,7 @@ set softtabstop=4                   " spaces number when insert <Tab>
 set shiftround                      " indent not to multiple of 'shiftwidth'
 set shiftwidth=4                    " number of spaces to use for (auto)indent
 
+set laststatus=2                    " always display statusline
 set backupskip+=/etc/crontabs.*     " fix crontab -e
 if filereadable(expand("$VIMRUNTIME/syntax/synload.vim"))
     syntax on                       " turn syntax highlight on by default
@@ -61,6 +62,7 @@ autocmd Colorscheme yowish hi LineNr ctermfg=246
 autocmd Colorscheme yowish hi SpecialKey ctermfg=242
 autocmd Colorscheme yowish hi TabLineFill ctermbg=236
 autocmd Colorscheme yowish hi TabLineSel ctermfg=236 ctermbg=249
+autocmd Colorscheme yowish hi StatusLine ctermfg=247 ctermbg=59
 " colorscheme desert
 " autocmd Colorscheme desert hi LineNr ctermfg=246
 " autocmd Colorscheme desert hi Comment ctermfg=241
