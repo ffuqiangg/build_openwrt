@@ -151,5 +151,9 @@ sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alis
 sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/alist_log.htm
 sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/alist_status.htm
 
+# Dump golang version for Alist
+rm -rf feeds/packages/lang/golang
+svn export https://github.com/sbwml/packages_lang_golang/branches/19.x feeds/packages/lang/golang
+
 ./scripts/feeds update -a
 ./scripts/feeds install -a
