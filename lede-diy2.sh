@@ -59,7 +59,6 @@ cat >> package/base-files/files/etc/profile <<EOF
 alias ll='ls -alhF --color=auto'
 alias la='ls -A'
 alias l='ls -CF'
-alias clr='clear'
 
 # Alias's for archives
 alias mktar='tar -cvf'
