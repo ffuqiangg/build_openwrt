@@ -55,8 +55,6 @@ autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 " Theme
 set t_Co=256
 colorscheme yowish
-autocmd Colorscheme yowish hi Normal ctermbg=none
-autocmd Colorscheme yowish hi CursorLine ctermbg=239
 autocmd Colorscheme yowish hi LineNr ctermfg=246
 autocmd Colorscheme yowish hi SpecialKey ctermfg=242
 autocmd Colorscheme yowish hi TabLineFill ctermbg=236
