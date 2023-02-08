@@ -10,6 +10,7 @@ set number                          " show line numbers
 set nowrap                          " line exceed screen don't wrap
 set sidescroll=1                    " line exceed screen cursor smooth scrolling
 set cursorline                      " highlight cursorline
+set laststatus=2                    " always show statusline
 
 set novisualbell                    " turn off visualbell
 set noerrorbells                    " turn off errorbell
@@ -55,6 +56,7 @@ autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 " Theme
 set t_Co=256
 colorscheme yowish
+autocmd Colorscheme yowish hi CursorLine ctermbg=none
 autocmd Colorscheme yowish hi LineNr ctermfg=246
 autocmd Colorscheme yowish hi SpecialKey ctermfg=242
 autocmd Colorscheme yowish hi TabLineFill ctermbg=236
