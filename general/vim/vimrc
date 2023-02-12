@@ -6,6 +6,8 @@ set backspace=indent,eol,start      " make that backspace key work the way it sh
 set textwidth=0                     " don't wrap lines by default
 set ruler                           " show the current row and column
 set number                          " show line numbers
+set wildmenu                        " show list instead of just completing
+set splitright                      " put new split window in right
 
 set nowrap                          " line exceed screen don't wrap
 set sidescroll=1                    " line exceed screen cursor smooth scrolling
@@ -42,12 +44,6 @@ if has("syntax") && &term =~ "xterm"
     endif
 endif
 
-" Remap move cursor
-" nnoremap <C-H> ^
-" nnoremap <C-L> $
-" nnoremap <C-j> <C-d>
-" nnoremap <C-k> <C-u>
-
 " Specify file config
 filetype plugin indent on
 autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
@@ -55,9 +51,5 @@ autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 " Theme
 set t_Co=256
 colorscheme yowish
-autocmd Colorscheme yowish hi Normal ctermbg=none
-autocmd Colorscheme yowish hi CursorLine ctermbg=none
-autocmd Colorscheme yowish hi LineNr ctermfg=246
-autocmd Colorscheme yowish hi SpecialKey ctermfg=242
-autocmd Colorscheme yowish hi TabLineFill ctermbg=236
-autocmd Colorscheme yowish hi TabLineSel ctermfg=236 ctermbg=249
+autocmd Colorscheme * hi Normal ctermbg=none
+autocmd Colorscheme * hi LineNr ctermfg=243
