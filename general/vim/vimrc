@@ -11,6 +11,7 @@ set splitright                      " put new split window in right
 
 set nowrap                          " line exceed screen don't wrap
 set sidescroll=1                    " line exceed screen cursor smooth scrolling
+set laststatus=2                    " always show statusline
 set cursorline                      " highlight cursorline
 
 set novisualbell                    " turn off visualbell
@@ -50,6 +51,14 @@ autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " Theme
 set t_Co=256
-colorscheme yowish
+colorscheme onedark
 autocmd Colorscheme * hi Normal ctermbg=none
+autocmd Colorscheme * hi SpecialKey ctermfg=59
+autocmd Colorscheme * hi NonText ctermfg=59
 autocmd Colorscheme * hi LineNr ctermfg=243
+autocmd Colorscheme * hi StatusLine ctermbg=66 ctermfg=black cterm=bold
+autocmd Colorscheme * hi CursorLine ctermbg=238 cterm=none
+autocmd Colorscheme * hi CursorLineNr ctermfg=114
+
+" Statusline configure
+set statusline=\ %{&ff}\ \ %<%f\ %h%m%r%w%=%4(%p%%%)\ %9(%l,%c%V%)\ 
