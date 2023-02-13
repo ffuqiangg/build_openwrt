@@ -123,8 +123,10 @@ sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/fi
 # Modify vim
 cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc feeds/packages/utils/vim/files/vimrc.full
 cp -f ${GITHUB_WORKSPACE}/general/vim/colors/dim.vim package/base-files/files/etc/colors.vim
-sed -i '/exit/i\mv /etc/colors.vim /usr/share/vim/vim*[0-9]*/colors/dim.vim\
+sed -i '/exit/i\mv /etc/colors.vim /usr/share/vim/VIMXX/colors/dim.vim\
 ' package/lean/default-settings/files/zzz-default-settings
+vimver=$(awk -F "=" '/VIMVER:/ {print $2}' feeds/packages/utils/vim/Makefile)
+sed -i "s|VIMXX|vim${vimver}|" package/lean/default-settings/files/zzz-default-settings
 
 # Add passwall
 git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall

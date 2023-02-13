@@ -115,8 +115,10 @@ EOF
 # Modify vim
 cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc feeds/packages/utils/vim/files/vimrc.full
 cp -f ${GITHUB_WORKSPACE}/general/vim/colors/dim.vim package/base-files/files/etc/colors.vim
-sed -i '/exit/i\mv /etc/colors.vim /usr/share/vim/vim*[0-9]*/colors/dim.vim\
+sed -i '/exit/i\mv /etc/colors.vim /usr/share/vim/VIMXX/colors/dim.vim\
 ' package/emortal/dafault-settings/files/99-default-settings
+vimver=$(awk -F "=" '/VIMVER:/ {print $2}' feeds/packages/utils/vim/Makefile)
+sed -i "s|VIMXX|vim${vimver}|" package/lean/default-settings/files/zzz-default-settings
 
 # Change banner
 sed -i '/openwrt_banner/i\echo "" > /etc/banner\
