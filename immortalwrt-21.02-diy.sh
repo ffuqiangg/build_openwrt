@@ -72,10 +72,8 @@ EOF
 
 # Modify vim
 cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc packages/utils/vim/files/vimrc.full
-cp -f ${GITHUB_WORKSPACE}/general/vim/colors/yowish.vim package/base-files/files/etc/colors.vim
-cp -f ${GITHUB_WORKSPACE}/general/vim/autoload/yowish.vim package/base-files/files/etc/autoload.vim
-sed -i '/exit/i\mv /etc/colors.vim /usr/share/vim/vim*[0-9]*/colors/yowish.vim\
-mv /etc/autoload.vim /usr/share/vim/vim*[0-9]*/autoload/yowish.vim\
+cp -f ${GITHUB_WORKSPACE}/general/vim/colors/dim.vim package/base-files/files/etc/colors.vim
+sed -i '/exit/i\mv /etc/colors.vim /usr/share/vim/vim*[0-9]*/colors/dim.vim\
 ' package/lean/default-settings/files/zzz-default-settings
 
 ./scripts/feeds update -a
