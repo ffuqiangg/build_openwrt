@@ -12,6 +12,7 @@ set nobackup                        " don't keep a backup file
 
 set nowrap                          " line exceed screen don't wrap
 set sidescroll=1                    " line exceed screen cursor smooth scrolling
+set scrolloff=5                     " keep <n> lines when scrolling
 
 set novisualbell                    " turn off visualbell
 set noerrorbells                    " turn off errorbell
