@@ -9,6 +9,7 @@ set number                          " show line numbers
 set wildmenu                        " show list instead of just completing
 set splitright                      " put new split window in right
 set nobackup                        " don't keep a backup file
+set showtabline=2                   " always show tabline
 
 set nowrap                          " line exceed screen don't wrap
 set sidescroll=1                    " line exceed screen cursor smooth scrolling
@@ -50,3 +51,8 @@ autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " Theme
 colorscheme desert
+autocmd Colorscheme desert hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
+autocmd Colorscheme desert hi TabLineSel ctermfg=NONE ctermbg=NONE cterm=bold
+autocmd Colorscheme desert hi! link TabLineFill TabLine
+autocmd Colorscheme desert hi LineNr ctermfg=8
+autocmd Colorscheme desert hi Comment ctermfg=8
