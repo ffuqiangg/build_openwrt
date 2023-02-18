@@ -51,6 +51,7 @@ autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " Theme
 colorscheme desert
+" Customize colorscheme desert
 autocmd Colorscheme desert hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
 autocmd Colorscheme desert hi TabLineSel ctermfg=NONE ctermbg=NONE cterm=bold
 autocmd Colorscheme desert hi! link TabLineFill TabLine
