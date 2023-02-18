@@ -29,32 +29,18 @@ set softtabstop=4                   " spaces number when insert <Tab>
 set shiftround                      " indent not to multiple of 'shiftwidth'
 set shiftwidth=4                    " number of spaces to use for (auto)indent
 
-set backupskip+=/etc/crontabs.*     " fix crontab -e
-if filereadable(expand("$VIMRUNTIME/syntax/synload.vim"))
-    syntax on                       " turn syntax highlight on by default
-endif
-if has("syntax") && &term =~ "xterm"
-    set t_Co=16
-    if has("terminfo")
-        set t_Sf=<Esc>[3%p1%dm
-        set t_Sb=<Esc>[4%p1%dm
-    else
-        set t_Sf=<Esc>[3%dm
-        set t_Sb=<Esc>[4%dm
-    endif
-endif
-
 " Specify file config
 filetype plugin indent on
 autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " Theme
+set t_Co=16                         " enable 16 colors
 colorscheme desert
 " Customize colorscheme desert
-autocmd Colorscheme desert hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
-autocmd Colorscheme desert hi TabLineSel ctermfg=NONE ctermbg=NONE cterm=bold
-autocmd Colorscheme desert hi! link TabLineFill TabLine
-autocmd Colorscheme desert hi LineNr ctermfg=8
-autocmd Colorscheme desert hi Comment ctermfg=8
-autocmd Colorscheme desert hi Pmenu ctermfg=white ctermbg=8
-autocmd Colorscheme desert hi PmenuSel ctermfg=black ctermbg=4
+hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
+hi TabLineSel ctermfg=NONE ctermbg=NONE cterm=bold
+hi! link TabLineFill TabLine
+hi LineNr ctermfg=8
+hi Comment ctermfg=8
+hi Pmenu ctermfg=white ctermbg=8
+hi PmenuSel ctermfg=black ctermbg=4

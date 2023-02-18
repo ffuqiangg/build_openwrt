@@ -71,12 +71,9 @@ bind '"\e[B": history-search-forward'
 EOF
 
 # Modify vim
-cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc packages/utils/vim/files/vimrc.full
-# cp -f ${GITHUB_WORKSPACE}/general/vim/colors/*.vim package/base-files/files/etc/
-# sed -i '/exit/i\mv /etc/*.vim /usr/share/vim/VIMXX/colors/\
-# ' package/lean/default-settings/files/zzz-default-settings
-# vimver=$(awk -F "=" '/VIMVER:/ {print $2}' feeds/packages/utils/vim/Makefile)
-# sed -i "s|VIMXX|vim${vimver}|" package/lean/default-settings/files/zzz-default-settings
+cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc package/base-files/files/etc/
+sed -i '/exit/i\mv /etc/vimrc /root/.vimrc\
+' package/lean/default-settings/files/zzz-default-settings
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a
