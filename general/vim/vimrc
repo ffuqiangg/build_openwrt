@@ -49,3 +49,4 @@ hi VertSplit ctermfg=8 ctermbg=NONE cterm=NONE
 hi StatusLine ctermfg=15 ctermbg=8 cterm=bold
 hi StatusLineNC ctermfg=15 ctermbg=8 cterm=NONE
 hi IncSearch ctermfg=15 ctermbg=3
+hi Search ctermfg=15
