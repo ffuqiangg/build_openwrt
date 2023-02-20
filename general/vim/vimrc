@@ -46,7 +46,7 @@ hi Comment ctermfg=8
 hi Pmenu ctermfg=15 ctermbg=8
 hi PmenuSel ctermfg=0 ctermbg=4
 hi VertSplit ctermfg=8 ctermbg=NONE cterm=NONE
-hi StatusLine ctermfg=15 ctermbg=8 cterm=bold
-hi StatusLineNC ctermfg=15 ctermbg=8 cterm=NONE
+hi StatusLine ctermfg=15 ctermbg=8 cterm=NONE
+hi StatusLineNC ctermfg=8 ctermbg=NONE cterm=NONE
 hi IncSearch ctermfg=15 ctermbg=3
 hi Search ctermfg=15
