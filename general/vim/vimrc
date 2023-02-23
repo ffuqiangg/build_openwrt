@@ -36,7 +36,7 @@ autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " Theme
 set t_Co=16                         " enable 16 colors
-colorscheme desert
+" colorscheme desert
 " Customize colorscheme desert
 hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
 hi TabLineSel ctermfg=NONE ctermbg=NONE cterm=bold
