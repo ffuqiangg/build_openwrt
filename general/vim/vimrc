@@ -51,4 +51,4 @@ hi Search ctermfg=0
 hi Visual ctermbg=NONE cterm=reverse
 
 " Statusline configure
-set statusline=[%n]\ %<%f\ %h%m%r%w%9P\(%l,%c\)%=\ %{\"\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"\"}\|%-7{&ff}
+set statusline=[%n]\ %<%f\ %h%m%r%w%9P\ \(%l,%c\)%=\ %{\"\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"\"}\|%-7{&ff}
