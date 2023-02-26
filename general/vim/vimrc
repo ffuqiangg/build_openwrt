@@ -12,9 +12,13 @@ set nobackup                        " don't keep a backup file
 set fillchars=vert:│                " change vertsplit character
 
 set nowrap                          " line exceed screen don't wrap
-set sidescroll=1                    " line exceed screen cursor smooth scrolling
+set list                            " show nontext
+set listchars=extends:>             " show at line end if nowrap
+" set sidescroll=1                    " line exceed screen cursor smooth scrolling
 set laststatus=2                    " always show statusline
 " set numberwidth=5                   " line number width configure 
+" set cursorline                      " highlight current line
+set scrolloff=5                     " keep <n> lines when scrolling
 
 set novisualbell                    " turn off visualbell
 set noerrorbells                    " turn off errorbell
@@ -52,4 +56,4 @@ hi Search ctermfg=0
 hi Visual ctermbg=NONE cterm=reverse
 
 " Statusline configure
-set statusline=%h%m%r%w\ %<%f\ \ %P\ \(%l,%c\)%=\ %{&ft}\[%{&fenc}\|%-7(%{&ff}\]%)
+set statusline=%h%m%r%w\ %<%-20f%P\ %-11(\(%l,%c\)%)\[%{&fenc}\|%{&ff}\]
