@@ -56,4 +56,4 @@ hi Search ctermfg=0
 hi Visual ctermbg=NONE cterm=reverse
 
 " Statusline configure
-set statusline=%h%m%r%w\ %<%-16.28f\ \ %P\ %-11.(\(%l,%c\)%)\[%{&fenc}\|%{&ff}\]
+set statusline=%h%m%r%w\ %<%-16.30f\ \ %P\ %-11.(\(%l,%c\)%)\[%{&fenc}\|%{&ff}\]
