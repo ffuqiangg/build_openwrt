@@ -43,7 +43,7 @@ set shiftwidth=4                    " number of spaces to use for (auto)indent
 " User Interface customize
 set t_Co=16                         " enable 16 colors
 hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
-hi TabLineSel ctermfg=NONE ctermbg=NONE cterm=bold
+hi TabLineSel cterm=reverse
 hi! link TabLineFill TabLine
 hi LineNr ctermfg=8
 hi Pmenu ctermfg=15 ctermbg=8
