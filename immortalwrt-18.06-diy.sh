@@ -113,7 +113,9 @@ bind '"\e[B": history-search-forward'
 EOF
 
 # Modify vim
-cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc package/base-files/files/etc/
+rm -rf feeds/packages/utils/vim
+cp -rf $GITHUB_WORKSPACE/general/vim feeds/packages/utils
+cp -f ${GITHUB_WORKSPACE}/general/vimrc/vimrc package/base-files/files/etc/
 sed -i '/exit/i\mv /etc/vimrc /root/.vimrc\
 ' package/emortal/default-settings/files/99-default-settings
 
