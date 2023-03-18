@@ -122,7 +122,7 @@ sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/fi
 
 # Modify vim
 rm -rf feeds/packages/utils/vim
-cp -rf ${GITHUB_WORKSPACE}/general/vim feeds/packages/utils
+cp -rf ${GITHUB_WORKSPACE}/general/vim feeds/packages/utils/
 cp -f ${GITHUB_WORKSPACE}/general/vim/vimrc package/base-files/files/etc/
 sed -i '/exit/i\mv /etc/vimrc /root/.vimrc\
 ' package/lean/default-settings/files/zzz-default-settings
