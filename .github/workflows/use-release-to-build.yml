@@ -39,6 +39,15 @@ jobs:
           file: |
             ${{ env.PACKAGED_OUTPUTPATH }}/*.7z
 
+    - name: Delete Kernel Release
+      if: github.event.client_payload.rm_release == 'true'
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.ARMBIAN_TK }}
+        repository: ffuqiangg/amlogic-s9xxx-armbian
+        event-type: Delete-Release
+        client-payload: '{"delete_tag": "${{ github.event.client_payload.delete_tag }}"}'
+
       - name: Delete workflow runs
         uses: Mattraks/delete-workflow-runs@v2
         with:

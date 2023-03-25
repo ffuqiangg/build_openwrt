@@ -165,7 +165,7 @@ jobs:
       uses: peter-evans/repository-dispatch@v2
       with:
         event-type: Release-Build
-        client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "ffuqiangg/amlogic-s9xxx-armbian", "kernel_auto": "true", "kernel_name": "5.10.1", "compile_date": "R${{ env.COMPILE_DATE }}"}'
+        client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "ffuqiangg/amlogic-s9xxx-armbian", "kernel_auto": "true", "kernel_name": "5.10.1", "compile_date": "R${{ env.COMPILE_DATE }}", "rm_release": "${{ github.event.client_payload.rm_release }}", "delete_tag": "kernel_${{ github.event.client_payload.release_tag }}"}'
 
     - name: Packit Openwrt k515 & k601
       uses: peter-evans/repository-dispatch@v2
