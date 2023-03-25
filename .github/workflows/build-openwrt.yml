@@ -123,7 +123,7 @@ jobs:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
         PACKAGE_SOC: s905d
-        KERNEL_REPO_URL: ${{ github.event.client_payload.kernel_repo_url }}
+        KERNEL_REPO_URL: ffuqiangg/amlogic-s9xxx-armbian
         KERNEL_VERSION_NAME: ${{ github.event.client_payload.kernel_name }}
         KERNEL_AUTO_LATEST: ${{ github.event.client_payload.kernel_auto }}
         GZIP_IMGS: .7z
@@ -165,13 +165,13 @@ jobs:
       uses: peter-evans/repository-dispatch@v2
       with:
         event-type: Release-Build
-        client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "https://github.com/ffuqiangg/kernel/tree/main", "kernel_auto": "true", "kernel_name": "5.10.1", "compile_date": "R${{ env.COMPILE_DATE }}"}'
+        client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "ffuqiangg/amlogic-s9xxx-armbian", "kernel_auto": "true", "kernel_name": "5.10.1", "compile_date": "R${{ env.COMPILE_DATE }}"}'
 
     - name: Packit Openwrt k515 & k601
       uses: peter-evans/repository-dispatch@v2
       with:
         event-type: Release-Build
-        client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "https://github.com/ophub/kernel/tree/main/pub/stable", "kernel_auto": "true", "kernel_name": "5.15.1_6.1.1", "compile_date": "R${{ env.COMPILE_DATE }}"}'
+        client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "breakings/Openwrt", "kernel_auto": "true", "kernel_name": "5.15.1_6.1.1", "compile_date": "R${{ env.COMPILE_DATE }}"}'
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
