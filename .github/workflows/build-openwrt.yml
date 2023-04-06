@@ -161,17 +161,17 @@ jobs:
           ${{ env.FIRMWARE }}/*.tar.gz
           ${{ env.PACKAGED_OUTPUTPATH }}/*.7z
 
-    - name: Packit Openwrt k510
-      uses: peter-evans/repository-dispatch@v2
-      with:
-        event-type: Release-Build
-        client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "ffuqiangg/amlogic-s9xxx-armbian", "kernel_auto": "true", "kernel_name": "5.10.1", "compile_date": "R${{ env.COMPILE_DATE }}", "rm_release": "${{ github.event.client_payload.rm_release }}", "delete_tag": "kernel_${{ github.event.client_payload.release_tag }}"}'
+    # - name: Packit Openwrt k510
+    #   uses: peter-evans/repository-dispatch@v2
+    #   with:
+    #     event-type: Release-Build
+    #     client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "ffuqiangg/amlogic-s9xxx-armbian", "kernel_auto": "true", "kernel_name": "5.10.1", "compile_date": "R${{ env.COMPILE_DATE }}", "rm_release": "${{ github.event.client_payload.rm_release }}", "delete_tag": "kernel_${{ github.event.client_payload.release_tag }}"}'
 
-    - name: Packit Openwrt k515 & k601
-      uses: peter-evans/repository-dispatch@v2
-      with:
-        event-type: Release-Build
-        client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "breakings/Openwrt", "kernel_auto": "true", "kernel_name": "5.15.1_6.1.1", "compile_date": "R${{ env.COMPILE_DATE }}"}'
+    # - name: Packit Openwrt k515 & k601
+    #   uses: peter-evans/repository-dispatch@v2
+    #   with:
+    #     event-type: Release-Build
+    #     client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "breakings/Openwrt", "kernel_auto": "true", "kernel_name": "5.15.1_6.1.1", "compile_date": "R${{ env.COMPILE_DATE }}"}'
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
