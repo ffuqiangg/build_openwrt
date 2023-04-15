@@ -14,11 +14,11 @@ set fillchars=vert:│                " change vertsplit character
 set nowrap                          " line exceed screen don't wrap
 set list                            " show nontext
 set listchars=extends:>,precedes:<  " show at line left/right if wrap is off
-" set sidescroll=1                    " line exceed screen cursor smooth scrolling
+set sidescroll=1                    " line exceed screen cursor smooth scrolling
 set laststatus=2                    " always show statusline
 " set numberwidth=5                   " line number width configure 
 " set cursorline                      " highlight current line
-set scrolloff=5                     " keep <n> lines when scrolling
+" set scrolloff=5                     " keep <n> lines when scrolling
 
 set novisualbell                    " turn off visualbell
 set noerrorbells                    " turn off errorbell
@@ -43,7 +43,6 @@ set shiftwidth=4                    " number of spaces to use for (auto)indent
 " User Interface customize
 set t_Co=16                         " enable 16 colors
 hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
-hi TabLineSel cterm=reverse
 hi! link TabLineFill TabLine
 hi LineNr ctermfg=8
 hi Pmenu ctermfg=15 ctermbg=8
