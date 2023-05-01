@@ -161,12 +161,6 @@ jobs:
           ${{ env.FIRMWARE }}/*.tar.gz
           ${{ env.PACKAGED_OUTPUTPATH }}/*.7z
 
-    # - name: Packit Openwrt k510
-    #   uses: peter-evans/repository-dispatch@v2
-    #   with:
-    #     event-type: Release-Build
-    #     client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "ffuqiangg/amlogic-s9xxx-armbian", "kernel_auto": "true", "kernel_name": "5.10.1", "compile_date": "R${{ env.COMPILE_DATE }}", "rm_release": "true", "delete_tag": "kernel_5.10"}'
-
     - name: Packit Openwrt k510 & k515 & k601
       uses: peter-evans/repository-dispatch@v2
       with:
