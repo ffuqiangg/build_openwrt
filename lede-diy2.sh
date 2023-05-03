@@ -154,6 +154,8 @@ cp -rf ${GITHUB_WORKSPACE}/general/openssh feeds/packages/net
 # sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/admin_info.htm
 # sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/alist_log.htm
 # sed -i 's/nas/services/g' package/luci-app-alist/luci-app-alist/luasrc/view/alist/alist_status.htm
+
+# Dump golang
 # sed -i 's/GO_VERSION_MAJOR_MINOR:=.*/GO_VERSION_MAJOR_MINOR:=1.19/g' feeds/packages/lang/golang/golang/Makefile
 # sed -i 's/GO_VERSION_PATCH:=.*/GO_VERSION_PATCH:=6/g' feeds/packages/lang/golang/golang/Makefile
 # sed -i 's/PKG_HASH:=.*/PKG_HASH:=d7f0013f82e6d7f862cc6cb5c8cdb48eef5f2e239b35baa97e2f1a7466043767/g' feeds/packages/lang/golang/golang/Makefile
