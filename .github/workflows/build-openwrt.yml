@@ -146,6 +146,7 @@ jobs:
         - 默认IP：192.168.1.99  密码：password
         - 源码来自 [LEDE](https://github.com/coolsnowwolf/lede)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
         - 后缀名 7z 文件为完整固件，openwrt-armvirt-64-default-rootfs.tar.gz 不是完整固件无法直接用于刷机
+        - 5.4 系列内核为自编译 [ffuqiangg/amlogic-s9xxx-armbian](https://github.com/ffuqiangg/amlogic-s9xxx-armbian)，其它内核来自暴躁老哥仓库 [breakings/Openwrt](https://github.com/breakings/OpenWrt)
         EOF
         echo "status=success" >> ${GITHUB_OUTPUT}
 
