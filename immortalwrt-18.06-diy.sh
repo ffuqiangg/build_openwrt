@@ -116,8 +116,10 @@ bind '"\e[B": history-search-forward'
 EOF
 
 # Modify vim
-cp -f ${GITHUB_WORKSPACE}/general/vimrc/vimrc package/base-files/files/etc/
-sed -i '/exit/i\mv /etc/vimrc /root/.vimrc\
+cp -rf ${GITHUB_WORKSPACE}/general/vim/.vim package/base-files/files/etc/
+cp -f ${GITHUB_WORKSPACE}/general/vim/.vimrc package/base-files/files/etc/
+sed -i '/exit/i\mv /etc/.vimrc /root/\
+mv /etc/.vim /root/\
 ' package/emortal/default-settings/files/99-default-settings
 
 # Change banner

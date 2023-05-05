@@ -124,8 +124,10 @@ echo "" >> /etc/banner\
 sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/files/zzz-default-settings
 
 # Modify vim
-cp -f ${GITHUB_WORKSPACE}/general/vimrc/vimrc package/base-files/files/etc/
-sed -i '/exit/i\mv /etc/vimrc /root/.vimrc\
+cp -rf ${GITHUB_WORKSPACE}/general/vim/.vim package/base-files/files/etc/
+cp -f ${GITHUB_WORKSPACE}/general/vim/.vimrc package/base-files/files/etc/
+sed -i '/exit/i\mv /etc/.vimrc /root/\
+mv /etc/.vim /root/\
 ' package/lean/default-settings/files/zzz-default-settings
 
 # Add passwall
