@@ -16,7 +16,7 @@ jobs:
         uses: ffuqiangg/openwrt_packit@master
         env:
           SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
-          OPENWRT_ARMVIRT: https://github.com/ffuqiangg/build_openwrt/releases/download/${{ github.event.client_payload.release_tag }}/openwrt-armvirt-64-generic-rootfs.tar.gz 
+          OPENWRT_ARMVIRT: https://github.com/ffuqiangg/build_openwrt/releases/download/${{ github.event.client_payload.release_tag }}/*.tar.gz 
           PACKAGE_SOC: s905d
           KERNEL_REPO_URL: ffuqiangg/amlogic-s9xxx-armbian
           KERNEL_VERSION_NAME: ${{ github.event.client_payload.kernel_name }}
