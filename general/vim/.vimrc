@@ -11,11 +11,12 @@ set splitright                      " put new split window in right
 set nobackup                        " don't keep a backup file
 set fillchars=vert:│                " change vertsplit character
 
-set nowrap                          " line exceed screen don't wrap
-set list                            " show nontext
-set listchars=extends:>,precedes:<  " show at line left/right if wrap is off
+" set nowrap                          " line exceed screen don't wrap
+set breakindent                     " set indent in wrap
+" set list                            " show nontext
+" set listchars=extends:>,precedes:<  " show at line left/right if wrap is off
 set sidescroll=1                    " line exceed screen cursor smooth scrolling
-set laststatus=2                    " always show statusline
+" set laststatus=2                    " always show statusline
 " set numberwidth=5                   " line number width configure 
 " set cursorline                      " highlight current line
 " set scrolloff=5                     " keep <n> lines when scrolling
@@ -36,23 +37,36 @@ set softtabstop=4                   " spaces number when insert <Tab>
 set shiftround                      " indent not to multiple of 'shiftwidth'
 set shiftwidth=4                    " number of spaces to use for (auto)indent
 
+" key map {
+nnoremap k gk
+nnoremap gk k
+nnoremap j gj
+nnoremap gj j
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+" }
+
 " Specify file config
 " filetype plugin off
-" autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
+autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " User Interface customize
-set t_Co=16                         " enable 16 colors
-hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
-hi! link TabLineFill TabLine
-hi LineNr ctermfg=8
-hi Pmenu ctermfg=15 ctermbg=8
-hi PmenuSel ctermfg=0 ctermbg=4
-hi VertSplit ctermfg=8 ctermbg=NONE cterm=NONE
-hi IncSearch ctermfg=0 ctermbg=3 cterm=NONE
-hi Search ctermfg=0
-hi Visual ctermbg=NONE cterm=reverse
-hi CursorLine cterm=NONE
-hi CursorLineNr cterm=NONE
+set t_Co=256                        " color number
+colorscheme onedark
+hi Normal ctermbg=NONE
+" hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
+" hi! link TabLineFill TabLine
+" hi LineNr ctermfg=8
+" hi Pmenu ctermfg=15 ctermbg=8
+" hi PmenuSel ctermfg=0 ctermbg=4
+" hi VertSplit ctermfg=8 ctermbg=NONE cterm=NONE
+" hi IncSearch ctermfg=0 ctermbg=3 cterm=NONE
+" hi Search ctermfg=0
+" hi Visual ctermbg=NONE cterm=reverse
+" hi CursorLine cterm=NONE
+" hi CursorLineNr cterm=NONE
 
 " Statusline configure
-set statusline=\ %<%-20.(%f\ %h%m%r%w%)\ \ \ %P\ %-11.(\(%l,%c\)%)\[%{&fenc}\|%{&ff}\]
+" set statusline=\ %<%-20.(%f\ %h%m%r%w%)\ \ \ %P\ %-11.(\(%l,%c\)%)\[%{&fenc}\|%{&ff}\]
