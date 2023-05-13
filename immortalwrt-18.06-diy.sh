@@ -133,9 +133,6 @@ sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settin
 rm -rf feeds/packages/net/openssh
 cp -rf ${GITHUB_WORKSPACE}/general/openssh feeds/packages/net
 
-# Add luci-app-homeproxy
-git clone --single-branch -depth=1 https://github.com/immortalwrt/homeproxy.git package/luci-app-homeproxy
-
 # Add luci-app-alist & change menu
 # git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
 # sed -i -e 's/nas/services/g' -e 's/NAS/Services/g' package/luci-app-alist/luci-app-alist/luasrc/controller/alist.lua

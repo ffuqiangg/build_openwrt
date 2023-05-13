@@ -145,9 +145,6 @@ sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/s
 rm -rf feeds/packages/net/openssh
 cp -rf ${GITHUB_WORKSPACE}/general/openssh feeds/packages/net
 
-# Add luci-app-homeproxy
-git clone --single-branch -depth=1 https://github.com/immortalwrt/homeproxy.git package/luci-app-homeproxy
-
 # Add luci-app-mosdns
 # find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
 # git clone --depth=1 --single-branch https://github.com/sbwml/luci-app-mosdns.git package/luci-app-mosdns
