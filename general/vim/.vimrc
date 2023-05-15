@@ -13,6 +13,7 @@ set fillchars=vert:│                " change vertsplit character
 
 " set nowrap                          " line exceed screen don't wrap
 set breakindent                     " set indent in wrap
+set breakindentopt=shift:1          " wrap line additional indent
 " set list                            " show nontext
 " set listchars=extends:>,precedes:<  " show at line left/right if wrap is off
 set sidescroll=1                    " line exceed screen cursor smooth scrolling
