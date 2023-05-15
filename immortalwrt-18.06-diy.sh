@@ -129,10 +129,6 @@ echo "" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
 
-# Dump openssh
-rm -rf feeds/packages/net/openssh
-cp -rf ${GITHUB_WORKSPACE}/general/openssh feeds/packages/net
-
 # Add luci-app-alist & change menu
 # git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
 # sed -i -e 's/nas/services/g' -e 's/NAS/Services/g' package/luci-app-alist/luci-app-alist/luasrc/controller/alist.lua
