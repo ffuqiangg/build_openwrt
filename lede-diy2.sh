@@ -141,10 +141,6 @@ sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/d
 sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/log.htm
 sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/status.htm
 
-# Dump openssh
-rm -rf feeds/packages/net/openssh
-cp -rf ${GITHUB_WORKSPACE}/general/openssh feeds/packages/net
-
 # Add luci-app-mosdns
 # find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
 # git clone --depth=1 --single-branch https://github.com/sbwml/luci-app-mosdns.git package/luci-app-mosdns
