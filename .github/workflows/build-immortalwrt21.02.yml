@@ -37,10 +37,10 @@ jobs:
       run: |
         docker rmi `docker images -q`
         [[ -n "${AGENT_TOOLSDIRECTORY}" ]] && sudo rm -rf "${AGENT_TOOLSDIRECTORY}"
-        sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android 2>/dev/null
+        sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android /etc/mysql /etc/php 2>/dev/null
+        sudo -E apt-get -y purge azure-cli* docker* ghc* zulu* llvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* moby* snap* aspnetcore* || true
         sudo -E apt-get -y update
-        sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
-        sudo -E apt-get -qq install $(cat immortalwrt21.02_depends)
+        sudo -E apt-get -qq install $(cat immortalwrt18.06_depends)
         sudo -E systemctl daemon-reload
         #sudo -E apt-get -y full-upgrade
         sudo -E apt-get -y autoremove --purge
@@ -117,8 +117,8 @@ jobs:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
         PACKAGE_SOC: s905d
-        KERNEL_REPO_URL: https://github.com/ophub/kernel/tree/main/pub/stable
-        KERNEL_VERSION_NAME: 6.0.1
+        KERNEL_REPO_URL: breakings/Openwrt
+        KERNEL_VERSION_NAME: 6.1.1
         KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .7z
         SCRIPT_S905D: mk_imm21.02_n1.sh
@@ -128,6 +128,7 @@ jobs:
         ENABLE_WIFI_K510: 0
         DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
         DISTRIB_DESCRIPTION: Immortalwrt
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Generate release tag
       id: tag
