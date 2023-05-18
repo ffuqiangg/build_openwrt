@@ -75,7 +75,7 @@ cp -rf ${GITHUB_WORKSPACE}/general/vim/.vim package/base-files/files/etc/
 cp -f ${GITHUB_WORKSPACE}/general/vim/.vimrc package/base-files/files/etc/
 sed -i '/exit/i\mv /etc/.vimrc /root/\
 mv /etc/.vim /root/\
-' package/emortal/default-settings/files/zzz-default-settings
+' package/emortal/default-settings/files/99-default-settings
 
 # Add luci-app-homeproxy
 git clone --depth=1 --single-branch https://github.com/immortalwrt/homeproxy.git package/luci-app-homeproxy
