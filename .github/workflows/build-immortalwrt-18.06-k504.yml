@@ -10,7 +10,7 @@ env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: openwrt-18.06-k5.4
   CONFIG_FILE: immortalwrt-18.06.config
-  DIY_SH: immortalwrt-18.06-diy.sh
+  DIY_SH: immortalwrt-18.06.diy
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
@@ -40,7 +40,7 @@ jobs:
         sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android /etc/mysql /etc/php 2>/dev/null
         sudo -E apt-get -y purge azure-cli* docker* ghc* zulu* llvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* moby* snap* aspnetcore* || true
         sudo -E apt-get -y update
-        sudo -E apt-get -qq install $(cat immortalwrt18.06_depends)
+        sudo -E apt-get -qq install $(cat immortalwrt18.06.depends)
         sudo -E systemctl daemon-reload
         #sudo -E apt-get -y full-upgrade
         sudo -E apt-get -y autoremove --purge
