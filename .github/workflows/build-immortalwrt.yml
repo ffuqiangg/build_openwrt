@@ -118,7 +118,7 @@ jobs:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
         PACKAGE_SOC: s905d
         KERNEL_REPO_URL: breakings/Openwrt
-        KERNEL_VERSION_NAME: 6.1.1
+        KERNEL_VERSION_NAME: 5.4.1
         KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .7z
         SCRIPT_S905D: mk_immortalwrt_n1.sh
@@ -136,7 +136,7 @@ jobs:
       run: |
         echo "release_tag=Immortalwrt-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
         cat > release.txt << EOF
-        ![immortalwrt21.02 ${{ env.COMPILE_DATE }}](https://img.shields.io/badge/immortalwrt21.02-${{ env.COMPILE_DATE }}-success?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
+        ![immortalwrt ${{ env.COMPILE_DATE }}](https://img.shields.io/badge/immortalwrt21.02-${{ env.COMPILE_DATE }}-success?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
         
         ## ⚠️ 此 release 为 Immortalwrt for Phiccomm N1  测试固件
 
@@ -177,7 +177,7 @@ jobs:
       run: |
         COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | cut -d - -f 2-)
         MSG="
-        ✅ *Immortalwrt21.02 ${{ env.COMPILE_DATE }}*
+        ✅ *Immortalwrt ${{ env.COMPILE_DATE }}*
         
         🔘 *基本信息*
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
