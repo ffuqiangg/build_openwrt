@@ -12,13 +12,15 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - name: Configure rootfs file name
+      - name: Configure Openwrt rootfs file
+        if: github.event.client_payload.release_tag == Openwrt*
         run: |
-          if [[ ${{ github.event.client_payload.release_tag }} == Openwrt* ]]; then
-            echo "ROOTFS_FILE=openwrt-armvirt-64-generic-rootfs.tar.gz" >> ${GITHUB_ENV}
-          elif [[ ${{ github.event.client_payload.release_tag }} == Immortalwrt* ]]; then
-            echo "ROOTFS_FILE=openwrt-armvirt-64-default-rootfs.tar.gz" >> ${GITHUB_ENV}
-          fi
+          echo "ROOTFS_FILE=openwrt-armvirt-64-generic-rootfs.tar.gz" >> ${GITHUB_ENV}
+
+      - name: Configure Immortalwrt rootfs file
+        if: github.event.client_payload.release_tag == Immortalwrt*
+        run: |
+          echo "ROOTFS_FILE=openwrt-armvirt-64-default-rootfs.tar.gz" >> ${GITHUB_ENV}
 
       - name: Package Armvirt as OpenWrt
         uses: ffuqiangg/openwrt_packit@master
