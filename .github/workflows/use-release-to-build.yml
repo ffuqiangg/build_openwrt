@@ -16,9 +16,9 @@ jobs:
         env:
           RELEASE_TAG: ${{ github.event.client_payload.release_tag }}
         run: |
-          if [ ${RELEASE_TAG} == Openwrt* ]; then
+          if [[ ${RELEASE_TAG} == Openwrt* ]]; then
             echo "ROOTFS_FILE=openwrt-armvirt-64-generic-rootfs.tar.gz" >> ${GITHUB_ENV}
-          elif [ ${RELEASE_TAG} == Immortalwrt* ]; then
+          elif [[ ${RELEASE_TAG} == Immortalwrt* ]]; then
             echo "ROOTFS_FILE=openwrt-armvirt-64-default-rootfs.tar.gz" >> ${GITHUB_ENV}
           fi
 
