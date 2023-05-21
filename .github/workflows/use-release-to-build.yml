@@ -13,12 +13,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Configure rootfs file name
-        env:
-          RELEASE_TAG: ${{ github.event.client_payload.release_tag }}
         run: |
-          if [[ ${RELEASE_TAG} == Openwrt* ]]; then
+          if [[ ${{ github.event.client_payload.release_tag }} == Openwrt* ]]; then
             echo "ROOTFS_FILE=openwrt-armvirt-64-generic-rootfs.tar.gz" >> ${GITHUB_ENV}
-          elif [[ ${RELEASE_TAG} == Immortalwrt* ]]; then
+          elif [[ ${{ github.event.client_payload.release_tag }} == Immortalwrt* ]]; then
             echo "ROOTFS_FILE=openwrt-armvirt-64-default-rootfs.tar.gz" >> ${GITHUB_ENV}
           fi
 
