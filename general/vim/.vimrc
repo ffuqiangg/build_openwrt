@@ -38,7 +38,7 @@ set softtabstop=4                   " spaces number when insert <Tab>
 set shiftround                      " indent not to multiple of 'shiftwidth'
 set shiftwidth=4                    " number of spaces to use for (auto)indent
 
-" key map {
+" key map
 nnoremap k gk
 nnoremap gk k
 nnoremap j gj
@@ -47,7 +47,6 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
-" }
 
 " Specify file config
 " filetype plugin off
