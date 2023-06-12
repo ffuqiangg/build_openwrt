@@ -38,7 +38,7 @@ jobs:
         docker rmi `docker images -q`
         [[ -n "${AGENT_TOOLSDIRECTORY}" ]] && sudo rm -rf "${AGENT_TOOLSDIRECTORY}"
         sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android /etc/mysql /etc/php 2>/dev/null
-        sudo -E apt-get -y purge azure-cli* docker* ghc* zulu* llvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* moby* snap* aspnetcore* || true
+        sudo -E apt-get -y purge azure-cli* docker* ghc* zulu* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* moby* snap* aspnetcore* || true
         sudo -E apt-get -y update
         sudo -E apt-get -qq install $(cat immortalwrt.depends)
         sudo -E systemctl daemon-reload
