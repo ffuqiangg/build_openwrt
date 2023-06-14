@@ -55,7 +55,7 @@ autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 " User Interface customize
 set t_Co=256                        " color number
 set background=dark
-colorscheme gruvbox
+colorscheme onedark
 hi Normal ctermbg=NONE
 " hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
 " hi! link TabLineFill TabLine
