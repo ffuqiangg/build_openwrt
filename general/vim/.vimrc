@@ -68,8 +68,8 @@ hi Visual ctermbg=NONE cterm=reverse
 hi CursorLine cterm=NONE
 hi CursorLineNr cterm=NONE
 hi Comment ctermfg=8
-hi StatusLine cterm=NONE ctermfg=white ctermbg=8
-hi StatusLineNC cterm=NONE ctermfg=black ctermbg=8
+hi StatusLine cterm=NONE ctermfg=black ctermbg=8
+hi StatusLineNC cterm=NONE ctermfg=8 ctermbg=NONE
 
 " Statusline configure
 " set statusline=\ %<%-20.(%f\ %h%m%r%w%)\ \ \ %P\ %-11.(\(%l,%c\)%)\[%{&fenc}\|%{&ff}\]
