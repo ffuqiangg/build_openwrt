@@ -17,9 +17,9 @@ set breakindentopt=shift:1          " wrap line additional indent
 " set list                            " show nontext
 " set listchars=extends:>,precedes:<  " show at line left/right if wrap is off
 set sidescroll=1                    " line exceed screen cursor smooth scrolling
-" set laststatus=2                    " always show statusline
+set laststatus=2                    " always show statusline
 " set numberwidth=5                   " line number width configure 
-" set cursorline                      " highlight current line
+set cursorline                      " highlight current line
 " set scrolloff=5                     " keep <n> lines when scrolling
 
 set novisualbell                    " turn off visualbell
@@ -72,4 +72,4 @@ hi StatusLine cterm=NONE ctermfg=black ctermbg=8
 hi StatusLineNC cterm=NONE ctermfg=8 ctermbg=NONE
 
 " Statusline configure
-" set statusline=\ %<%-20.(%f\ %h%m%r%w%)\ \ \ %P\ %-11.(\(%l,%c\)%)\[%{&fenc}\|%{&ff}\]
+set statusline=\ %<%-20.(%f\ %h%m%r%w%)\ \ \ %P\ %-11.(\(%l,%c\)%)\[%{&fenc}\|%{&ff}\]
