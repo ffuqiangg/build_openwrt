@@ -1,4 +1,4 @@
-name: Build Immortalwrt
+name: Build Immortalwrt master
 
 on:
   repository_dispatch:
