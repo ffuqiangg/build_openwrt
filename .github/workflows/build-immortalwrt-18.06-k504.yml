@@ -176,9 +176,9 @@ jobs:
       run: |
         COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | cut -d - -f 2-)
         MSG="
-        ✅ *Immortalwrt ${{ env.COMPILE_DATE }}*
+        ✅ *Immortalwrt_18.06 ${{ env.COMPILE_DATE }}*
         
-        🎯 *基本信息*
+        🔘 *基本信息*
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
         管理后台： 192.168.1.99
         默认密码： password
