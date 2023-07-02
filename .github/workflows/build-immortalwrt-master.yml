@@ -116,7 +116,7 @@ jobs:
       with:
         openwrt_path: openwrt/bin/targets/*/*/*.tar.gz
         openwrt_board: s905d
-        kernel_repo: breakings/OpenwWrt
+        kernel_repo: ophub/kernel
         openwrt_kernel: 6.1.1
         kernel_usage: flippy
         auto_kernel: true
