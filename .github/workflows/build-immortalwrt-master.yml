@@ -117,7 +117,7 @@ jobs:
         openwrt_path: openwrt/bin/targets/*/*/*.tar.gz
         openwrt_board: s905d
         kernel_repo: ophub/kernel
-        openwrt_kernel: 6.1.1
+        openwrt_kernel: 5.15.1_6.1.1
         kernel_usage: flippy
         auto_kernel: true
         openwrt_size: 512
@@ -149,7 +149,8 @@ jobs:
         bodyFile: release.txt
         artifacts: |
           ${{ env.FIRMWARE }}/*.tar.gz
-          ${{ env.PACKAGED_OUTPUTPATH }}/*.7z
+          ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz
+          ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz.sha
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
