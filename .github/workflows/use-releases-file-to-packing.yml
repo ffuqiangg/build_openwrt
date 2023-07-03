@@ -43,7 +43,7 @@ on:
           - breakings/OpenWrt
           - ffuqiangg/amlogic-s9xxx-armbian
       kernel_usage:
-        description: "Set the tags of the stable kernel."
+        description: "Set the tags of the stable kernel (ophub)"
         required: false
         default: "flippy"
         type: choice
@@ -52,6 +52,11 @@ on:
           - flippy
           - dev
           - beta
+      make_sh:
+        description: "packing scripts (flippy)"
+        required: false
+        default: ""
+        
 
 env:
   TZ: America/New_York
@@ -83,17 +88,54 @@ jobs:
           sudo timedatectl set-timezone "${TZ}"
           echo "status=success" >> ${GITHUB_OUTPUT}
 
-      - name: Packaging OpenWrt
+      - name: Get variable
+        run: |
+          rootfs_url="$(
+            curl -s \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+              https://api.github.com/repos/ffuqiangg/build_openwrt/releases/tags/${{ inputs.release_tag }} |
+              jq -r '.assets[].browser_download_url' |
+              grep ".tar.gz$"
+          )"
+          echo "DOWNLOAD_URL=${rootfs_url}" >> ${GITHUB_ENV}
+          if [[ ${{ inputs.release_tag }} == Openwrt* ]]; then
+            echo "OP_DESCRIPTION=Openwrt" >> ${GITHUB_ENV}
+          elif [[ ${{ inputs.release_tag }} == Immortalwrt* ]]; then
+            echo "OP_DESCRIPTION=Immortalwrt" >> ${GITHUB_ENV}
+          fi
+
+      - name: Packaging OpenWrt (ophub)
         if: ${{ inputs.scripts_repo }} == 'ophub'
         uses: ophub/amlogic-s9xxx-openwrt@main
         with:
-          openwrt_path: https://github.com/ffuqiangg/build_openwrt/releases/download/${{ inputs.release_tag }}/immortalwrt-armsr-armv8-generic-rootfs.tar.gz
+          openwrt_path: ${ env.DOWNLOAD_URL }
           openwrt_board: s905d
           openwrt_kernel: ${{ inputs.openwrt_kernel }}
           auto_kernel: ${{ inputs.auto_kernel }}
           kernel_repo: ${{ inputs.kernel_repo }}
           kernel_usage: ${{ inputs.kernel_usage }}
           gh_token: ${{ secrets.GH_TOKEN }}
+
+      - name: Package OpenWrt (flippy)
+        if: ${{ inputs.scripts_repo }} == 'flippy'
+        uses: ffuqiangg/openwrt_packit@master
+        env:
+          SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
+          OPENWRT_ARMVIRT: ${ env.DOWNLOAD_URL }
+          PACKAGE_SOC: s905d
+          KERNEL_REPO_URL: ${{ inputs.kernel_repo }}
+          KERNEL_VERSION_NAME: ${{ inputs.openwrt_kernel }}
+          KERNEL_AUTO_LATEST: ${{ inputs.auto_kernel }}
+          GZIP_IMGS: .gz
+          SCRIPT_S905D: ${{ inputs.make_sh }}
+          OPENWRT_VER: ${{ github.event.client_payload.compile_date }}
+          SFE_FLOW: 0
+          ENABLE_WIFI_K504: 0
+          ENABLE_WIFI_K510: 0
+          DISTRIB_REVISION: ${{ github.event.client_payload.compile_date }}
+          DISTRIB_DESCRIPTION: ${ env.OP_DESCRIPTION }
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Upload the packaged OpenWrt
         uses: ncipollo/release-action@main
