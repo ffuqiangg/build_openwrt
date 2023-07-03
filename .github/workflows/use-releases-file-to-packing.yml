@@ -4,6 +4,14 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
+      scripts_repo:
+        description: "Select packing scripts reop"
+        required: true
+        default: "ophub"
+        type: choicee
+        options:
+          - ophub
+          - flippy
       release_tag:
         description: "Input Release Tag"
         required: true
@@ -76,7 +84,7 @@ jobs:
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Packaging OpenWrt
-        if: ${{ steps.down.outputs.status }} == 'success' && !cancelled()
+        if: ${{ inputs.scripts_repo }} == 'ophub'
         uses: ophub/amlogic-s9xxx-openwrt@main
         with:
           openwrt_path: https://github.com/ffuqiangg/build_openwrt/releases/download/${{ inputs.release_tag }}/immortalwrt-armsr-armv8-generic-rootfs.tar.gz
