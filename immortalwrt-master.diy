@@ -110,7 +110,7 @@ bind '"\e[B": history-search-forward'
 EOF
 
 # Change banner
-sed -i '/openwrt_banner/i\echo "" > /etc/banner\
+sed -i '/exit/i\echo "" > /etc/banner\
 echo "[34mImmortalwrt[0m $(uname -r)" >> /etc/banner\
 echo "------------------------------" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
