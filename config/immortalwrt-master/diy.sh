@@ -120,5 +120,8 @@ cp -f ${GITHUB_WORKSPACE}/general/vim/.vimrc package/base-files/files/etc/
 sed -i '/exit/i\mv /etc/.vimrc /root/\
 ' package/emortal/default-settings/files/99-default-settings
 
-./scripts/feeds update -a
-./scripts/feeds install -a
+# Add luci-app-amlogic
+svn co https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic package/luci-app-amlogic
+
+# ./scripts/feeds update -a
+# ./scripts/feeds install -a
