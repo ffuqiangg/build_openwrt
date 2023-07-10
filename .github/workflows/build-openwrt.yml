@@ -8,7 +8,7 @@ on:
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
-  CONFIG_FILE: config/lede/.config
+  CONFIG_FILE: config/lede/config
   DIY_P1_SH: config/lede/diy1.sh
   DIY_P2_SH: config/lede/diy2.sh
   UPLOAD_FIRMWARE: true

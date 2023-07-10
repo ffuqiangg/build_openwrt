@@ -9,15 +9,15 @@ on:
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: openwrt-18.06-k5.4
-  CONFIG_FILE: immortalwrt-18.06.config
-  DIY_SH: immortalwrt-18.06.diy
+  CONFIG_FILE: config/immortalwrt-18.06-k5.4/config
+  DIY_SH: config/immortalwrt-18.06-k5.4/diy.sh
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout

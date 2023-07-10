@@ -9,7 +9,7 @@ on:
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: master
-  CONFIG_FILE: config/immortalwrt-master/.config
+  CONFIG_FILE: config/immortalwrt-master/config
   DIY_SH: config/immortalwrt-master/diy.sh
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
