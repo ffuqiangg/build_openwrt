@@ -148,6 +148,7 @@ jobs:
         bodyFile: release.txt
         artifacts: |
           ${{ env.FIRMWARE }}/*.tar.gz
+          config/immortalwrt-master/config
           ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz
           ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz.sha
 
