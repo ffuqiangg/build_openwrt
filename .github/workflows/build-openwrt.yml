@@ -1,23 +1,29 @@
-name: Build OpenWrt
+name: Build Openwrt
 
 on:
-  repository_dispatch:
-    types:
-      - Build-Openwrt
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: "Select the source branch"
+        required: true
+        default: "immortalwrt-master"
+        type: choice
+        options:
+          - lede
+          - immortalwrt-18.06-k5.4
+          - immortalwrt-master
 
 env:
-  REPO_URL: https://github.com/coolsnowwolf/lede
-  REPO_BRANCH: master
-  CONFIG_FILE: config/lede/config
-  DIY_P1_SH: config/lede/diy1.sh
-  DIY_P2_SH: config/lede/diy2.sh
-  UPLOAD_FIRMWARE: true
-  UPLOAD_RELEASE: true
+  FEEDS_CONF: config/${{ inputs.source_branch }}/feeds.conf.default
+  CONFIG_FILE: config/${{ inputs.source_branch }}/config
+  DIY1_SH: config/${{ inputs.source_branch }}/diy1.sh
+  DIY2_SH: config/${{ inputs.source_branch }}/diy2.sh
   TZ: Asia/Shanghai
 
 jobs:
   build:
     runs-on: ubuntu-22.04
+    if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
 
     steps:
     - name: Checkout
@@ -32,35 +38,62 @@ jobs:
         echo -e "🗃️ Server space usag: \n$(df -hT ${GITHUB_WORKSPACE}) \n"
 
     - name: Initialization environment
+      id: init
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        docker rmi $(docker images -q)
+        docker rmi `docker images -q`
         [[ -n "${AGENT_TOOLSDIRECTORY}" ]] && sudo rm -rf "${AGENT_TOOLSDIRECTORY}"
-        sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android /etc/mysql /etc/php 2>/dev/null
-        sudo -E apt-get -y purge azure-cli* docker* ghc* zulu* llvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* moby* snap* aspnetcore* || true
+        sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android 2>/dev/null
         sudo -E apt-get -y update
+        sudo -E apt-get -y purge azure-cli* ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
         sudo -E apt-get -qq install $(cat depends)
         sudo -E systemctl daemon-reload
         #sudo -E apt-get -y full-upgrade
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
-        sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
-        sudo chown $USER:$GROUPS /workdir
+        sudo chown ${USER}:${GROUPS} /workdir
+        sudo timedatectl set-timezone "$TZ"
+        echo "status-success" >> ${GITHUB_OUTPUT}
 
-    - name: Clone source code
+    - name: Clone source code [ ${{ inputs.source_branch }} ]
+      id: codes
       working-directory: /workdir
+      if: ${{ steps.init.outputs.status }} == 'success' && !cancelled()
       run: |
-        df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH openwrt --single-branch --depth=1
+        # Set up compilation source code
+        elif [[ "${{ inputs.source_branch }}" == *"lede"* ]]; then
+            REPO_URL="https://github.com/coolsnowwolf/lede"
+            REPO_BRANCH="master"
+            echo "package_repo=ffuiangg" >> ${GITHUB_OUTPUT}
+            echo "make_sh=mk_lede_n1.sh" >> ${GITHUB_OUTPUT}
+        elif [[ "${{ inputs.source_branch }}" == "immortalwrt-master"* ]]; then
+            REPO_URL="https://github.com/immortalwrt/immortalwrt"
+            REPO_BRANCH="master"
+            echo "package_repo=ophub" >> ${GITHUB_OUTPUT}
+        elif [[ "${{ inputs.source_branch }}" == *"immortalwrt-18.06-k5.4"* ]]; then
+            REPO_URL="https://github.com/immortalwrt/immortalwrt"
+            REPO_BRANCH="openwrt-18.06-k5.4"
+            echo "package_repo=ffuqiangg" >> ${GITHUB_OUTPUT}
+            echo "make_sh=mk_immortalwrt_18.06_k5.4_n1.sh" >> ${GITHUB_OUTPUT}
+        fi
+
+        # Clone source code
+        git clone -q --single-branch --depth=1 -b ${REPO_BRANCH} ${REPO_URL} openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+
+        # Set output information
+        echo -e "REPO_URL: [ ${REPO_URL} ]\nREPO_BRANCH: [ ${REPO_BRANCH} ]"
+        df -hT ${PWD}
+        echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Load custom feeds
       run: |
-        chmod +x $DIY_P1_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P1_SH
+        [[ -f "${FEEDS_CONF}" ]] && cp -f ${FEEDS_CONF} openwrt/feeds.conf.default
+        chmod +x ${DIY1_SH}
+        cd openwrt/
+        ${GITHUB_WORKSPACE}/${DIY1_SH}
 
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
@@ -70,12 +103,12 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        [ -e files ] && mv files openwrt/files
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x $DIY_P2_SH
+        [ -d files ] && mv files openwrt/files
+        [ -e $CONFIG_FILE ] && cp -f $CONFIG_FILE openwrt/.config
+        chmod +x ${DIY2_SH}
         cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P2_SH
-        echo "COMPILE_DATE=$(date +%y.%m.%d)" >> ${GITHUB_ENV}
+        ${GITHUB_WORKSPACE}/${DIY2_SH}
+        echo "COMPILE_DATE=$(date +%Y%m%d)" >> ${GITHUB_ENV}
 
     - name: Download package
       id: package
@@ -91,43 +124,62 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 || make -j1 V=s
+        make -j$(($(nproc) +1 )) V=s || make -j1 || make -j1 V=s
         echo "status=success" >> ${GITHUB_OUTPUT}
-        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> ${GITHUB_ENV}
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> ${GITHUB_ENV}
 
-    - name: Check space usage
-      if: (!cancelled())
-      run: df -hT
-
-    - name: Organize files
-      id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+    - name: Clear server space
+      id: clean
+      if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
       run: |
-        cd openwrt/bin/targets/*/*
-        rm -rf packages
-        echo "FIRMWARE=$PWD" >> ${GITHUB_ENV}
+        # Clean up server space
+        cd openwrt/
+        mkdir output
+        cp -f bin/targets/*/*/*rootfs.tar.gz output/
+        cp -f .config output/config
+        rm -rf $(ls . | grep -v "^output$" | xargs) 2>/dev/null
+
+        # Set output information
+        df -hT ${PWD}
+        echo "build_tag=${{ inputs.source_branch }}_$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
-    - name: Upload firmware directory
-      uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+    - name: Upload OpenWrt to Release
+      uses: ncipollo/release-action@main
+      if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
       with:
-        name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
-        path: ${{ env.FIRMWARE }}
+        tag: ${{ steps.clean.outputs.build_tag }}
+        artifacts: openwrt/output/*
+        allowUpdates: true
+        removeArtifacts: false
+        replacesArtifacts: true
+        token: ${{ secrets.GH_TOKEN }}
 
-    - name: Package Armvirt as OpenWrt
+    - name: Package Openwrt [ ophub ]
+      if: ${{ steps.clean.outputs.status }} == 'success' && ${{ steps.codes.outputs.package_repo }} == 'ophub' && !cancelled()
+      uses: ophub/amlogic-s9xxx-openwrt@main
+      with:
+        openwrt_path: openwrt/bin/targets/*/*/*.tar.gz
+        openwrt_board: s905d
+        kernel_repo: ophub/kernel
+        openwrt_kernel: 5.15.1_6.1.1
+        kernel_usage: flippy
+        auto_kernel: auto
+        openwrt_size: 720
+        gh_token: ${{ secrets.GH_TOKEN }}
+
+    - name: Package Openwrt [ ffuqiangg ]
+      if: ${{ steps.clean.outputs.status }} == 'success' && ${{ steps.codes.outputs.package_repo }} == 'ffuqiangg' && !cancelled()
       uses: ffuqiangg/openwrt_packit@master
       env:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
         PACKAGE_SOC: s905d
         KERNEL_REPO_URL: ffuqiangg/amlogic-s9xxx-armbian
-        KERNEL_VERSION_NAME: ${{ github.event.client_payload.kernel_name }}
-        KERNEL_AUTO_LATEST: ${{ github.event.client_payload.kernel_auto }}
+        KERNEL_VERSION_NAME: 5.4.1
+        KERNEL_AUTO_LATEST: auto
         GZIP_IMGS: .7z
-        SCRIPT_S905D: mk_lede_n1.sh
+        SCRIPT_S905D: ${{ steps.codes.outputs.make_sh }}
         OPENWRT_VER: R${{ env.COMPILE_DATE }}
         SFE_FLOW: 0
         ENABLE_WIFI_K504: 0
@@ -135,38 +187,42 @@ jobs:
         DISTRIB_REVISION: R${{ env.COMPILE_DATE }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-    - name: Generate release tag
-      id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-      run: |
-        echo "release_tag=Openwrt-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
-        cat > release.txt << EOF
-        ![LEDE R${{ env.COMPILE_DATE }}](https://img.shields.io/badge/LEDE-R${{ env.COMPILE_DATE }}-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
-        
-        - 默认IP：192.168.1.99  密码：password
-        - 源码来自 [LEDE](https://github.com/coolsnowwolf/lede)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
-        - 后缀名 7z 文件为完整固件，openwrt-armvirt-64-default-rootfs.tar.gz 不是完整固件无法直接用于刷机
-        - 5.4 系列内核为自编译 [ffuqiangg/amlogic-s9xxx-armbian](https://github.com/ffuqiangg/amlogic-s9xxx-armbian)，其它内核来自暴躁老哥仓库 [breakings/Openwrt](https://github.com/breakings/OpenWrt)
-        EOF
-        echo "status=success" >> ${GITHUB_OUTPUT}
+    - name: Package Openwrt [ ffuqiangg ]
+      if: ${{ inputs.source_branch }} == 'lede' && !cancelled()
+      uses: ffuqiangg/openwrt_packit@master
+      env:
+        SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
+        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
+        PACKAGE_SOC: s905d
+        KERNEL_REPO_URL: breakings/Openwrt
+        KERNEL_VERSION_NAME: 5.10.1_5.15.1_6.1.1
+        KERNEL_AUTO_LATEST: auto
+        GZIP_IMGS: .7z
+        SCRIPT_S905D: ${{ steps.codes.outputs.make_sh }}
+        OPENWRT_VER: R${{ env.COMPILE_DATE }}
+        SFE_FLOW: 0
+        ENABLE_WIFI_K504: 0
+        ENABLE_WIFI_K510: 0
+        DISTRIB_REVISION: R${{ env.COMPILE_DATE }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
-      if: steps.tag.outputs.status == 'success' && !cancelled()
+      if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
-        tag: ${{ steps.tag.outputs.release_tag }}
-        bodyFile: release.txt
+        tag: ${{ steps.clean.outputs.build_tag }}
         artifacts: |
-          ${{ env.FIRMWARE }}/*.tar.gz
+          ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz
           ${{ env.PACKAGED_OUTPUTPATH }}/*.7z
-
-    - name: Packit Openwrt k510 & k515 & k601
-      uses: peter-evans/repository-dispatch@v2
-      with:
-        event-type: Release-Build
-        client-payload: '{"release_tag": "${{ steps.tag.outputs.release_tag }}", "kernel_repo_url": "breakings/Openwrt", "kernel_auto": "true", "kernel_name": "5.10.1_5.15.1_6.1.1", "compile_date": "R${{ env.COMPILE_DATE }}", "make_sh": "mk_lede_n1.sh"}'
+        body: |
+          ### OpenWrt Image information
+          - Default IP: 192.168.1.1
+          - Default username: root
+          - Default password: password
+          - Default WIFI name: OpenWrt
+          - Default WIFI password: none
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
@@ -187,13 +243,13 @@ jobs:
       run: |
         COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | cut -d - -f 2-)
         MSG="
-        ✅ *LEDE R${{ env.COMPILE_DATE }}*
+        ✅ *${{ inputs.souce_branch }} ${{ env.COMPILE_DATE }}*
         
         🔘 *基本信息*
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
         管理后台： 192.168.1.99
         默认密码： password
-        下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})
+        下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.clean.outputs.build_tag }}
 
         💬 \[ [Telegram](https://t.me/ffuqiangg) ]  \[ [Github](https://github.com/ffuqiangg) ]  \[ [Docker](https://hub.docker.com/u/ffuqiangg) ]
         "

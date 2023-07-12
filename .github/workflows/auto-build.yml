@@ -1,17 +1,16 @@
-name: Build Immortalwrt master
+name: Auto Build
 
 on:
   repository_dispatch:
     types:
-      - Build-Immortalwrt-master
-  workflow_dispatch:
+      - Auto-build
 
 env:
-  REPO_URL: https://github.com/immortalwrt/immortalwrt
+  REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
-  CONFIG_FILE: config/immortalwrt-master/config
-  DIY1_SH: config/immortalwrt-master/diy1.sh
-  DIY2_SH: config/immortalwrt-master/diy2.sh
+  CONFIG_FILE: config/lede/config
+  DIY_P1_SH: config/lede/diy1.sh
+  DIY_P2_SH: config/lede/diy2.sh
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
@@ -36,10 +35,10 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        docker rmi `docker images -q`
+        docker rmi $(docker images -q)
         [[ -n "${AGENT_TOOLSDIRECTORY}" ]] && sudo rm -rf "${AGENT_TOOLSDIRECTORY}"
-        sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android 2>/dev/null
-        sudo -E apt-get -y purge azure-cli* ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
+        sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android /etc/mysql /etc/php 2>/dev/null
+        sudo -E apt-get -y purge azure-cli* docker* ghc* zulu* llvm* firefox google* dotnet* powershell* openjdk* mysql* php* mongodb* dotnet* moby* snap* aspnetcore* || true
         sudo -E apt-get -y update
         sudo -E apt-get -qq install $(cat depends)
         sudo -E systemctl daemon-reload
@@ -57,6 +56,12 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt --single-branch --depth=1
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
+    - name: Load custom feeds
+      run: |
+        chmod +x $DIY_P1_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P1_SH
+
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
@@ -67,10 +72,10 @@ jobs:
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x ${DIY2_SH}
+        chmod +x $DIY_P2_SH
         cd openwrt
-        ${GITHUB_WORKSPACE}/${DIY2_SH}
-        echo "COMPILE_DATE=$(date +%Y%m%d)" >> ${GITHUB_ENV}
+        $GITHUB_WORKSPACE/$DIY_P2_SH
+        echo "COMPILE_DATE=$(date +%y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Download package
       id: package
@@ -109,38 +114,63 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
-        name: Immortalwrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
-    - name: Package Armvirt as Immortalwrt
-      uses: ophub/amlogic-s9xxx-openwrt@main
-      with:
-        openwrt_path: openwrt/bin/targets/*/*/*.tar.gz
-        openwrt_board: s905d
-        kernel_repo: ophub/kernel
-        openwrt_kernel: 5.15.1_6.1.1
-        kernel_usage: flippy
-        auto_kernel: true
-        openwrt_size: 720
-        gh_token: ${{ secrets.GH_TOKEN }}
+    - name: Package Armvirt as OpenWrt
+      uses: ffuqiangg/openwrt_packit@master
+      env:
+        SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
+        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
+        PACKAGE_SOC: s905d
+        KERNEL_REPO_URL: ffuqiangg/amlogic-s9xxx-armbian
+        KERNEL_VERSION_NAME: ${{ github.event.client_payload.kernel_name }}
+        KERNEL_AUTO_LATEST: ${{ github.event.client_payload.kernel_auto }}
+        GZIP_IMGS: .7z
+        SCRIPT_S905D: mk_lede_n1.sh
+        OPENWRT_VER: R${{ env.COMPILE_DATE }}
+        SFE_FLOW: 0
+        ENABLE_WIFI_K504: 0
+        ENABLE_WIFI_K510: 0
+        DISTRIB_REVISION: R${{ env.COMPILE_DATE }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+    - name: Package Armvirt as OpenWrt other kernel
+      uses: ffuqiangg/openwrt_packit@master
+      env:
+        SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
+        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
+        PACKAGE_SOC: s905d
+        KERNEL_REPO_URL: breakings/Openwrt
+        KERNEL_VERSION_NAME: 5.10.1_5.15.1_6.1.1
+        KERNEL_AUTO_LATEST: true
+        GZIP_IMGS: .7z
+        SCRIPT_S905D: mk_lede_n1.sh
+        OPENWRT_VER: R${{ env.COMPILE_DATE }}
+        SFE_FLOW: 0
+        ENABLE_WIFI_K504: 0
+        ENABLE_WIFI_K510: 0
+        DISTRIB_REVISION: R${{ env.COMPILE_DATE }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Generate release tag
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=Immortalwrt-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
+        echo "release_tag=Openwrt-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
         cat > release.txt << EOF
-        ![immortalwrt ${{ env.COMPILE_DATE }}](https://img.shields.io/badge/immortalwrt-${{ env.COMPILE_DATE }}-success?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
+        ![LEDE R${{ env.COMPILE_DATE }}](https://img.shields.io/badge/LEDE-R${{ env.COMPILE_DATE }}-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
         
-        ## ⚠️ 此 release 为 Immortalwrt(Master) for Phiccomm N1  测试固件
-
         - 默认IP：192.168.1.99  密码：password
+        - 源码来自 [LEDE](https://github.com/coolsnowwolf/lede)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
+        - 后缀名 7z 文件为完整固件，openwrt-armvirt-64-default-rootfs.tar.gz 不是完整固件无法直接用于刷机
+        - 5.4 系列内核为自编译 [ffuqiangg/amlogic-s9xxx-armbian](https://github.com/ffuqiangg/amlogic-s9xxx-armbian)，其它内核来自暴躁老哥仓库 [breakings/Openwrt](https://github.com/breakings/OpenWrt)
         EOF
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
-      if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
+      if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
@@ -148,9 +178,7 @@ jobs:
         bodyFile: release.txt
         artifacts: |
           ${{ env.FIRMWARE }}/*.tar.gz
-          config/immortalwrt-master/config
-          ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz
-          ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz.sha
+          ${{ env.PACKAGED_OUTPUTPATH }}/*.7z
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
@@ -171,7 +199,7 @@ jobs:
       run: |
         COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | cut -d - -f 2-)
         MSG="
-        ✅ *Immortalwrt_master ${{ env.COMPILE_DATE }}*
+        ✅ *LEDE R${{ env.COMPILE_DATE }}*
         
         🔘 *基本信息*
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
