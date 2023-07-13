@@ -130,5 +130,10 @@ sed -i '/exit/i\mv /etc/profile.d/30-sysinfo.sh.bak /etc/profile.d/30-sysinfo.sh
 # Add luci-app-amlogic
 svn co https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic package/luci-app-amlogic
 
+# Add luci-app-mosdns
+rm -rf feeds/packages/net/v2ray-geodata
+git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-mosdns -b v5 package/mosdns
+git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+
 # ./scripts/feeds update -a
 # ./scripts/feeds install -a
