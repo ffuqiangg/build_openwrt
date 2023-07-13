@@ -103,7 +103,7 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        [ -d files ] && mv files openwrt/files
+        [[ -d "files" ]] && mv -f files openwrt/files
         [ -e $CONFIG_FILE ] && cp -f $CONFIG_FILE openwrt/.config
         chmod +x ${DIY2_SH}
         cd openwrt

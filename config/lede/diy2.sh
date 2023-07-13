@@ -121,7 +121,7 @@ echo "---------------------------------" >> /etc/banner\
 sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/files/zzz-default-settings
 
 # Modify vim
-cp -f ${GITHUB_WORKSPACE}/general/vim/.vimrc package/base-files/files/etc/
+cp -f ${GITHUB_WORKSPACE}/files/vim/.vimrc package/base-files/files/etc/
 sed -i '/exit/i\mv /etc/.vimrc /root/\
 ' package/lean/default-settings/files/zzz-default-settings
 
@@ -164,5 +164,5 @@ popd
 # rm -rf feeds/packages/lang/golang
 # svn export https://github.com/sbwml/packages_lang_golang/branches/19.x feeds/packages/lang/golang
 
-./scripts/feeds update -a
-./scripts/feeds install -a
+# ./scripts/feeds update -a
+# ./scripts/feeds install -a

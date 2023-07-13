@@ -113,7 +113,7 @@ bind '"\e[B": history-search-forward'
 EOF
 
 # Modify vim
-cp -f ${GITHUB_WORKSPACE}/general/vim/.vimrc package/base-files/files/etc/
+cp -f ${GITHUB_WORKSPACE}/files/vim/.vimrc package/base-files/files/etc/
 sed -i '/exit/i\mv /etc/.vimrc /root/\
 ' package/emortal/default-settings/files/99-default-settings
 
@@ -136,12 +136,12 @@ sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settin
 # sed -i 's/GO_VERSION_PATCH:=.*/GO_VERSION_PATCH:=6/g' feeds/packages/lang/golang/golang/Makefile
 # sed -i 's/PKG_HASH:=.*/PKG_HASH:=d7f0013f82e6d7f862cc6cb5c8cdb48eef5f2e239b35baa97e2f1a7466043767/g' feeds/packages/lang/golang/golang/Makefile
 # rm -rf feeds/packages/lang/golang
-# cp -rf ${GITHUB_WORKSPACE}/general/golang feeds/packages/lang/golang
+# cp -rf ${GITHUB_WORKSPACE}/files/golang feeds/packages/lang/golang
 
 # Add luci-app-mosdns
 # rm -rf feeds/packages/net/v2ray-geodata
 # git clone --depth=1 --single-branch https://github.com/sbwml/luci-app-mosdns.git package/luci-app-mosdns
 # git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 
-./scripts/feeds update -a
-./scripts/feeds install -a
+# ./scripts/feeds update -a
+# ./scripts/feeds install -a
