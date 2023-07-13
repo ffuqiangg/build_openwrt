@@ -127,6 +127,10 @@ sed -i '/exit/i\mv /etc/.vimrc /root/\
 sed -i '/exit/i\mv /etc/profile.d/30-sysinfo.sh.bak /etc/profile.d/30-sysinfo.sh\
 ' package/emortal/default-settings/files/99-default-settings
 
+# Modify rootfs size on emmc
+sed -i "/exit/i\sed -i -e \'\/ROOT1=\/c ROOT1=\\\\\"720\\\\\"\' -e \'\/ROOT2=\/c ROOT2=\\\\\"720\\
+\\\"\' \/usr\/sbin\/openwrt-install-amlogic" package/emortal/default-settings/files/99-default-settings
+
 # Add luci-app-amlogic
 svn co https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic package/luci-app-amlogic
 
