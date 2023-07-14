@@ -165,7 +165,6 @@ jobs:
         openwrt_kernel: 5.15.1_6.1.1
         kernel_usage: flippy
         auto_kernel: auto
-        openwrt_size: 720
         gh_token: ${{ secrets.GH_TOKEN }}
 
     - name: Package Openwrt [ ffuqiangg ]
