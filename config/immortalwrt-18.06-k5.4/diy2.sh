@@ -119,7 +119,7 @@ sed -i '/exit/i\mv /etc/.vimrc /root/\
 
 # Change banner
 sed -i '/openwrt_banner/i\echo "" > /etc/banner\
-echo "[34mImmortalwrt[0m[32m18.06[0m $(uname -r)" >> /etc/banner\
+echo "[34mImmortalwrt 18.06[0m $(uname -r)" >> /etc/banner\
 echo "----------------------------------" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings

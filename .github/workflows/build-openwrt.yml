@@ -63,20 +63,23 @@ jobs:
       if: ${{ steps.init.outputs.status }} == 'success' && !cancelled()
       run: |
         # Set up compilation source code
-        elif [[ "${{ inputs.source_branch }}" == *"lede"* ]]; then
+        if [[ "${{ inputs.source_branch }}" == *"lede"* ]]; then
             REPO_URL="https://github.com/coolsnowwolf/lede"
             REPO_BRANCH="master"
             echo "package_repo=ffuiangg" >> ${GITHUB_OUTPUT}
             echo "make_sh=mk_lede_n1.sh" >> ${GITHUB_OUTPUT}
-        elif [[ "${{ inputs.source_branch }}" == "immortalwrt-master"* ]]; then
+            echo "distrib_des=Openwrt" >> ${GITHUB_OUTPUT}
+        elif [[ "${{ inputs.source_branch }}" == *"immortalwrt-master"* ]]; then
             REPO_URL="https://github.com/immortalwrt/immortalwrt"
             REPO_BRANCH="master"
             echo "package_repo=ophub" >> ${GITHUB_OUTPUT}
+            echo "distrib_des=Immortalwrt" >> ${GITHUB_OUTPUT}
         elif [[ "${{ inputs.source_branch }}" == *"immortalwrt-18.06-k5.4"* ]]; then
             REPO_URL="https://github.com/immortalwrt/immortalwrt"
             REPO_BRANCH="openwrt-18.06-k5.4"
             echo "package_repo=ffuqiangg" >> ${GITHUB_OUTPUT}
             echo "make_sh=mk_immortalwrt_18.06_k5.4_n1.sh" >> ${GITHUB_OUTPUT}
+            echo "distrib_des=Immortalwrt" >> ${GITHUB_OUTPUT}
         fi
 
         # Clone source code
@@ -108,7 +111,8 @@ jobs:
         chmod +x ${DIY2_SH}
         cd openwrt
         ${GITHUB_WORKSPACE}/${DIY2_SH}
-        echo "COMPILE_DATE=$(date +%Y%m%d)" >> ${GITHUB_ENV}
+        [[ ${{ inputs.source_branch }} == *"lede"* ]] && echo "COMPILE_DATE=R$(date +%y.%m.%d)" >> ${GITHUB_ENV}
+        [[ ${{ inputs.source_branch }} == *"immortalwrt"* ]] && echo "COMPILE_DATE=$(date +%Y%m%d)" >> ${GITHUB_ENV}
 
     - name: Download package
       id: package
@@ -126,7 +130,6 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(($(nproc) +1 )) V=s || make -j1 || make -j1 V=s
         echo "status=success" >> ${GITHUB_OUTPUT}
-        echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> ${GITHUB_ENV}
 
     - name: Clear server space
       id: clean
@@ -141,19 +144,7 @@ jobs:
 
         # Set output information
         df -hT ${PWD}
-        echo "build_tag=${{ inputs.source_branch }}_$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
         echo "status=success" >> ${GITHUB_OUTPUT}
-
-    - name: Upload OpenWrt to Release
-      uses: ncipollo/release-action@main
-      if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
-      with:
-        tag: ${{ steps.clean.outputs.build_tag }}
-        artifacts: openwrt/output/*
-        allowUpdates: true
-        removeArtifacts: false
-        replacesArtifacts: true
-        token: ${{ secrets.GH_TOKEN }}
 
     - name: Package Openwrt [ ophub ]
       if: ${{ steps.clean.outputs.status }} == 'success' && ${{ steps.codes.outputs.package_repo }} == 'ophub' && !cancelled()
@@ -179,11 +170,12 @@ jobs:
         KERNEL_AUTO_LATEST: auto
         GZIP_IMGS: .7z
         SCRIPT_S905D: ${{ steps.codes.outputs.make_sh }}
-        OPENWRT_VER: R${{ env.COMPILE_DATE }}
+        OPENWRT_VER: ${{ env.COMPILE_DATE }}
         SFE_FLOW: 0
         ENABLE_WIFI_K504: 0
         ENABLE_WIFI_K510: 0
-        DISTRIB_REVISION: R${{ env.COMPILE_DATE }}
+        DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
+        DISTRIB_DESCRIPTION: ${{ steps.codes.oututs.distrib_des }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Package Openwrt [ ffuqiangg ]
@@ -198,12 +190,27 @@ jobs:
         KERNEL_AUTO_LATEST: auto
         GZIP_IMGS: .7z
         SCRIPT_S905D: ${{ steps.codes.outputs.make_sh }}
-        OPENWRT_VER: R${{ env.COMPILE_DATE }}
+        OPENWRT_VER: ${{ env.COMPILE_DATE }}
         SFE_FLOW: 0
         ENABLE_WIFI_K504: 0
         ENABLE_WIFI_K510: 0
-        DISTRIB_REVISION: R${{ env.COMPILE_DATE }}
+        DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+    - name: Generate release tag
+      id: tag
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      run: |
+        echo "release_tag=Openwrt-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
+        [[ ${{ inputs.source_branch }} == *"lede"* ]] && shield_tag="lede R${{ env.COMPILE_DATE }}" && shield_style="lede-R${{ env.COMPILE_DATE }}"
+        [[ ${{ inputs.source_branch }} == *"immortalwrt-master"* ]] && shield_tag="immortalwrt master" && shield_style="immortalwrt-master"
+        [[ ${{ inputs.source_branch }} == *"immortalwrt-18.06-k5.4"* ]] && shield_tag="immortalwrt 18.06 k5.4" && shield_style="immortalwrt-18.06 k5.4"
+        cat > release.txt << EOF
+        ![${shield_tag}](https://img.shields.io/badge/${shield_style}-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
+        
+        - 默认IP：192.168.1.99  密码：password
+        EOF
+        echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
@@ -211,17 +218,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
-        tag: ${{ steps.clean.outputs.build_tag }}
+        tag: ${{ steps.tag.outputs.release_tag }}
+        bodyFile: release.txt
         artifacts: |
+          openwrt/output/*
           ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz
           ${{ env.PACKAGED_OUTPUTPATH }}/*.7z
-        body: |
-          ### OpenWrt Image information
-          - Default IP: 192.168.1.1
-          - Default username: root
-          - Default password: password
-          - Default WIFI name: OpenWrt
-          - Default WIFI password: none
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
@@ -233,7 +235,7 @@ jobs:
       uses: codesnas/delete-older-releases@main
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
-        keep_latest: 50
+        keep_latest: 99
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
