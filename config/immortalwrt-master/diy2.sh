@@ -115,7 +115,7 @@ EOF
 # Change banner
 sed -i '/exit/i\echo "" > /etc/banner\
 echo "[34mImmortalwrt[0m $(uname -r)" >> /etc/banner\
-echo "------------------------------" >> /etc/banner\
+echo "─────────────────────────────" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
 
 # Modify vim
