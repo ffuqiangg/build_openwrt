@@ -124,6 +124,11 @@ echo "────────────────────────�
 ' package/emortal/default-settings/files/99-default-settings
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
 
+# Add luci-app-mosdns
+# rm -rf feeds/packages/net/v2ray-geodata
+# git clone --depth=1 --single-branch -b v5 https://github.com/sbwml/luci-app-mosdns package/mosdns
+# git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+
 # Add luci-app-alist & change menu
 # git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
 # sed -i -e 's/nas/services/g' -e 's/NAS/Services/g' package/luci-app-alist/luci-app-alist/luasrc/controller/alist.lua
@@ -137,11 +142,6 @@ sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settin
 # sed -i 's/PKG_HASH:=.*/PKG_HASH:=d7f0013f82e6d7f862cc6cb5c8cdb48eef5f2e239b35baa97e2f1a7466043767/g' feeds/packages/lang/golang/golang/Makefile
 # rm -rf feeds/packages/lang/golang
 # cp -rf ${GITHUB_WORKSPACE}/files/golang feeds/packages/lang/golang
-
-# Add luci-app-mosdns
-# rm -rf feeds/packages/net/v2ray-geodata
-# git clone --depth=1 --single-branch https://github.com/sbwml/luci-app-mosdns.git package/luci-app-mosdns
-# git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 
 # ./scripts/feeds update -a
 # ./scripts/feeds install -a

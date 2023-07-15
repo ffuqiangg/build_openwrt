@@ -144,7 +144,7 @@ popd
 
 # Add luci-app-mosdns
 # find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
-# git clone --depth=1 --single-branch https://github.com/sbwml/luci-app-mosdns.git package/luci-app-mosdns
+# git clone --depth=1 --single-branch -b v5 https://github.com/sbwml/luci-app-mosdns package/mosdns
 # git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 
 # Add luci-app-alist & change menu
@@ -159,10 +159,6 @@ popd
 # sed -i 's/GO_VERSION_PATCH:=.*/GO_VERSION_PATCH:=6/g' feeds/packages/lang/golang/golang/Makefile
 # sed -i 's/PKG_HASH:=.*/PKG_HASH:=d7f0013f82e6d7f862cc6cb5c8cdb48eef5f2e239b35baa97e2f1a7466043767/g' feeds/packages/lang/golang/golang/Makefile
 # rm -rf feeds/packages/lang/golang/golang/patches/010-cmd-compile-turn-off-jump-tables-when-spectre-retpolines-.patch
-
-# Dump golang
-# rm -rf feeds/packages/lang/golang
-# svn export https://github.com/sbwml/packages_lang_golang/branches/19.x feeds/packages/lang/golang
 
 # ./scripts/feeds update -a
 # ./scripts/feeds install -a
