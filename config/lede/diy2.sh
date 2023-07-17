@@ -121,11 +121,6 @@ echo "kernel: $(uname -r)" >> /etc/banner\
 ' package/lean/default-settings/files/zzz-default-settings
 sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/files/zzz-default-settings
 
-# Modify vim
-cp -f ${GITHUB_WORKSPACE}/files/vim/.vimrc package/base-files/files/etc/
-sed -i '/exit/i\mv /etc/.vimrc /root/\
-' package/lean/default-settings/files/zzz-default-settings
-
 # Add passwall
 git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
 git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall.git  package/passwall-depends

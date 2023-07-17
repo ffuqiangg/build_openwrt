@@ -112,11 +112,6 @@ bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 EOF
 
-# Modify vim
-cp -f ${GITHUB_WORKSPACE}/files/vim/.vimrc package/base-files/files/etc/
-sed -i '/exit/i\mv /etc/.vimrc /root/\
-' package/emortal/default-settings/files/99-default-settings
-
 # Change banner
 sed -i '/openwrt_banner/i\echo "" > /etc/banner\
 echo "[34mImmortalwrt 18.06 k5.4[0m" >> /etc/banner\

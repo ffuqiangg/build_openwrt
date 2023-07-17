@@ -119,11 +119,6 @@ echo "[34m───────────[0m" >> /etc/banner\
 echo "kernel: $(uname -r)" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
 
-# Modify vim
-cp -f ${GITHUB_WORKSPACE}/files/vim/.vimrc package/base-files/files/etc/
-sed -i '/exit/i\mv /etc/.vimrc /root/\
-' package/emortal/default-settings/files/99-default-settings
-
 # Change 30-sysinfo.sh in ophub/amlogic-s9xxx-openwrt
 sed -i '/exit/i\mv /etc/profile.d/30-sysinfo.sh.bak /etc/profile.d/30-sysinfo.sh\
 ' package/emortal/default-settings/files/99-default-settings
