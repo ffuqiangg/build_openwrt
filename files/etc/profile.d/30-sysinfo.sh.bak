@@ -19,6 +19,7 @@ boot_used_total=$(df -h /boot | awk '/\// {print $5"/"$2}')
 root_used_total=$(df -h / | awk '/\// {print $5"/"$2}')
 data_used_total=$(df -h /mnt/mmcblk2p4 | awk '/\// {print $5"/"$2}')
 
+echo -e "kernel: $(uname -r)"
 echo -e "Model: ${machine_model} , Uptime: ${time}"
 echo -e "Load: ${load_avg}/${cpu_temp:0:2}.${cpu_temp:2:1}°C , Mem: ${mem_used_total}"
 echo -e "Disk: Boot ${boot_used_total} Root ${root_used_total} Data ${data_used_total}"

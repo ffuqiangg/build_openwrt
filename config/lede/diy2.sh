@@ -115,9 +115,10 @@ EOF
 
 # Change banner
 sed -i '/exit/i\echo "" > /etc/banner\
-echo "[34mLEDE OPENWRT_VERSION[0m" >> /etc/banner\
-echo "[34m──────────────[0m" >> /etc/banner\
-echo "kernel: $(uname -r)" >> /etc/banner\
+echo "────────────────────" >> /etc/banner\
+echo "┌─┐┌─┐┌─┐┌─┐╷╷╷┌─╶┬╴" >> /etc/banner\
+echo "└─┘╵‾ └─ ╵ ╵└┴┘╵  ╵ " >> /etc/banner\
+echo "── lede OPENWRT_VERSION ──" >> /etc/banner\
 ' package/lean/default-settings/files/zzz-default-settings
 sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/files/zzz-default-settings
 

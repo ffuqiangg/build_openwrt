@@ -114,9 +114,10 @@ EOF
 
 # Change banner
 sed -i '/openwrt_banner/i\echo "" > /etc/banner\
-echo "[34mImmortalwrt 18.06 k5.4[0m" >> /etc/banner\
-echo "[34m──────────────────────[0m" >> /etc/banner\
-echo "kernel: $(uname -r)" >> /etc/banner\
+echo "────────────────────────────" >> /etc/banner\
+echo "╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴" >> /etc/banner\
+echo "╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵ " >> /etc/banner\
+echo "──────── 18.06 k5.4 ────────" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
 
