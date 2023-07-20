@@ -1,6 +1,6 @@
 ## 简介
 
-本项目用于编译打包 `斐讯N1` 使用的 openwrt/immortalwrt 固件。
+本项目用于编译打包 `斐讯N1` 使用的 `openwrt`/`immortalwrt` 固件。
 
 ## 说明
 
