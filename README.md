@@ -4,9 +4,9 @@
 
 ## 说明
 
-- .github/workflows 目录下 auto-build.yml 文件的作用是联动内核仓库实现新内核编译完成自动开始构建固件。
-- 手动编译在 Actions 页面下选择 Build Openwrt 工作流，点击 Run workflow 并先择好源码仓库后单击绿色 Run workflow 按钮开始编译。编译完成后固件会自动上传至 Releases 中。
-- 
+- 本仓库固件根据个人去求修改了包括 banner，菜单，vim 主题及配置等地方。
+- Releases 中固件根据源码及编译时间不同，其包含的插件也略有差异。
+- 如要 frok 使用务必添加 `GH_TOKEN` 至 secret，想要编译完成后收到 Telegram 通知，需要在 secret 中添加 `TELEGRAM_TO` (用户id)，`TELEGRAM_TOKEN` (tg token)。
 
 ## 感谢
 
