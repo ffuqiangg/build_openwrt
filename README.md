@@ -15,6 +15,6 @@
 
 - 本项目固件编译方法来自于 [P3TERX](https://p3terx.com) 的 [Actions-OpenWrt](https://github.com/P3TERX/Actions-OpenWrt) 项目。
 - 固件打包解决方案以及面向路由优化的内核源码源自 [Flippy](https://github.com/unifreq) 大佬的多个开源项目。
-- 打包及内核编译大量参考了 [Ophub](https://github.com/ophub) 的开源项目中的代码。
+- 打包及内核编译参考了 [Ophub](https://github.com/ophub) 的开源项目中的代码。
 - 部分内核文件以及对 OpenWrt 源码进行自定义的 shell 源码参考了爆操老哥 [Breakings](https://github.com/breakings) 的代码。
 - 感谢 [OpenWrt](https://github.com/openwrt/openwrt) , [Immortalwrt](https://github.com/immortalwrt/immortalwrt) , [LEDE](https://github.com/coolsnowwolf/lede) 等项目对开源路由的贡献。
