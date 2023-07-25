@@ -114,10 +114,10 @@ EOF
 
 # Change banner
 sed -i '/exit/i\echo "" > /etc/banner\
-echo "────────────────────────────" >> /etc/banner\
-echo "╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴" >> /etc/banner\
-echo "╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵ " >> /etc/banner\
-echo "────────────────────────────" >> /etc/banner\
+echo "────────────────────────────────" >> /etc/banner\
+echo "  ╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴" >> /etc/banner\
+echo "  ╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵ " >> /etc/banner\
+echo "────────────────────────────────" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
 
 # Change 30-sysinfo.sh in ophub/amlogic-s9xxx-openwrt
