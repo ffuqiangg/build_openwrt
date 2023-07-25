@@ -5,7 +5,7 @@
 ## 说明
 
 - Releases 中的固件根据源码及编译时间不同，其包含的插件略有差异。
-- 如要 frok 使用务必添加 `GH_TOKEN` 至 secret，想要编译完成后收到 Telegram 通知，需要在 secret 中添加 `TELEGRAM_TO` (用户id)，`TELEGRAM_TOKEN` (tg token)。
+- frok 使用强烈建议认真阅读 workfows 目录下的 yaml 文件，并在理解 yaml 文件的基础上修改使用。直接使用可能无法正常编译导出固件。
 - 固件对一些命令进行了简化，如 `ungz` = `tar -xvzf`，`777` = `chmod -R 777`，`mkdirg` = 创建并进入目录等，全部修改请查看固件 /etc/profile 文件。
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
 - 刷机方法：将固件写入U盘，插入设备并从U盘启动。进入终端输入命令 `openwrt-install-amlogic` 然后根据屏幕提示完成刷机。
