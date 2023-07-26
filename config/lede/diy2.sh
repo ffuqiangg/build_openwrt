@@ -134,10 +134,10 @@ sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/l
 sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/status.htm
 
 # Add luci-app-openclash
-svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/luci-app-openclash
-pushd luci-app-openclash/tools/po2lmo
-make && sudo make install
-popd
+https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/luci-app-openclash
+# pushd luci-app-openclash/tools/po2lmo
+# make && sudo make install
+# popd
 
 # Add luci-app-mosdns
 # find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
@@ -157,5 +157,5 @@ popd
 # sed -i 's/PKG_HASH:=.*/PKG_HASH:=d7f0013f82e6d7f862cc6cb5c8cdb48eef5f2e239b35baa97e2f1a7466043767/g' feeds/packages/lang/golang/golang/Makefile
 # rm -rf feeds/packages/lang/golang/golang/patches/010-cmd-compile-turn-off-jump-tables-when-spectre-retpolines-.patch
 
-./scripts/feeds update -a
-./scripts/feeds install -a
+# ./scripts/feeds update -a
+# ./scripts/feeds install -a
