@@ -140,5 +140,5 @@ sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settin
 # rm -rf feeds/packages/lang/golang
 # cp -rf ${GITHUB_WORKSPACE}/files/golang feeds/packages/lang/golang
 
-# ./scripts/feeds update -a
-# ./scripts/feeds install -a
+./scripts/feeds update -a
+./scripts/feeds install -a

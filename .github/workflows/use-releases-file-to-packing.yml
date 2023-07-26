@@ -1,7 +1,6 @@
 name: Use Releases file to Packaging
 
 on:
-  repository_dispatch:
   workflow_dispatch:
     inputs:
       scripts_repo:
