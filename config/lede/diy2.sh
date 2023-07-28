@@ -134,10 +134,10 @@ sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/l
 sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/status.htm
 
 # Add luci-app-openclash
-https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/luci-app-openclash
-# pushd luci-app-openclash/tools/po2lmo
-# make && sudo make install
-# popd
+svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/luci-app-openclash
+pushd luci-app-openclash/tools/po2lmo
+make && sudo make install
+popd
 
 # Add luci-app-mosdns
 # find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
