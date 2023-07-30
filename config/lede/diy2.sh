@@ -135,14 +135,11 @@ sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/s
 
 # Add luci-app-openclash
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/luci-app-openclash
-pushd luci-app-openclash/tools/po2lmo
-make && sudo make install
-popd
 
 # Add luci-app-mosdns
-# find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
-# git clone --depth=1 --single-branch -b v5 https://github.com/sbwml/luci-app-mosdns package/mosdns
-# git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
+git clone --depth=1 --single-branch -b v5 https://github.com/sbwml/luci-app-mosdns package/mosdns
+git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 
 # Add luci-app-alist & change menu
 # git clone --single-branch -b master --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
@@ -157,5 +154,5 @@ popd
 # sed -i 's/PKG_HASH:=.*/PKG_HASH:=d7f0013f82e6d7f862cc6cb5c8cdb48eef5f2e239b35baa97e2f1a7466043767/g' feeds/packages/lang/golang/golang/Makefile
 # rm -rf feeds/packages/lang/golang/golang/patches/010-cmd-compile-turn-off-jump-tables-when-spectre-retpolines-.patch
 
-# ./scripts/feeds update -a
-# ./scripts/feeds install -a
+./scripts/feeds update -a
+./scripts/feeds install -a

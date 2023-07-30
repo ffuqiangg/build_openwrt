@@ -122,9 +122,9 @@ echo "────────── 18.06 k5.4 ──────────" 
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
 
 # Add luci-app-mosdns
-# rm -rf feeds/packages/net/v2ray-geodata
-# git clone --depth=1 --single-branch -b v5 https://github.com/sbwml/luci-app-mosdns package/mosdns
-# git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
+rm -rf feeds/packages/net/v2ray-geodata
+git clone --depth=1 --single-branch -b v5 https://github.com/sbwml/luci-app-mosdns package/mosdns
+git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 
 # Add luci-app-alist & change menu
 # git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-alist package/luci-app-alist
@@ -140,5 +140,5 @@ sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settin
 # rm -rf feeds/packages/lang/golang
 # cp -rf ${GITHUB_WORKSPACE}/files/golang feeds/packages/lang/golang
 
-# ./scripts/feeds update -a
-# ./scripts/feeds install -a
+./scripts/feeds update -a
+./scripts/feeds install -a
