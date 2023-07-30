@@ -55,7 +55,7 @@ jobs:
         sudo mkdir -p /workdir
         sudo chown ${USER}:${GROUPS} /workdir
         sudo timedatectl set-timezone "$TZ"
-        echo "status-success" >> ${GITHUB_OUTPUT}
+        echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Clone source code [ ${{ inputs.source_branch }} ]
       id: codes
