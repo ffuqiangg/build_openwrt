@@ -128,7 +128,7 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(($(nproc) +1 )) V=s || make -j1 || make -j1 V=s
+        make -j$(nproc) || make -j1 || make -j1 V=s
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Clear server space
@@ -150,7 +150,7 @@ jobs:
       if: ${{ steps.clean.outputs.status }} == 'success' && ${{ steps.codes.outputs.package_repo }} == 'ophub' && !cancelled()
       uses: ophub/amlogic-s9xxx-openwrt@main
       with:
-        openwrt_path: openwrt/bin/targets/*/*/*.tar.gz
+        openwrt_path: openwrt/output/*rootfs.tar.gz
         openwrt_board: s905d
         kernel_repo: ophub/kernel
         openwrt_kernel: 5.15.1_6.1.1
@@ -163,7 +163,7 @@ jobs:
       uses: ffuqiangg/openwrt_packit@master
       env:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
-        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
+        OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
         PACKAGE_SOC: s905d
         KERNEL_REPO_URL: ffuqiangg/amlogic-s9xxx-armbian
         KERNEL_VERSION_NAME: 5.4.1
@@ -183,7 +183,7 @@ jobs:
       uses: ffuqiangg/openwrt_packit@master
       env:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
-        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
+        OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
         PACKAGE_SOC: s905d
         KERNEL_REPO_URL: breakings/Openwrt
         KERNEL_VERSION_NAME: 5.10.1_5.15.1_6.1.1
