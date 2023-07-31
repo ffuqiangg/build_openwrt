@@ -64,22 +64,22 @@ jobs:
       run: |
         # Set up compilation source code
         if [[ "${{ inputs.source_branch }}" == *"lede"* ]]; then
-            REPO_URL="https://github.com/coolsnowwolf/lede"
-            REPO_BRANCH="master"
-            echo "package_repo=ffuiangg" >> ${GITHUB_OUTPUT}
-            echo "make_sh=mk_lede_n1.sh" >> ${GITHUB_OUTPUT}
-            echo "distrib_des=Openwrt" >> ${GITHUB_OUTPUT}
+          REPO_URL="https://github.com/coolsnowwolf/lede"
+          REPO_BRANCH="master"
+          echo "package_repo=ffuiangg" >> ${GITHUB_OUTPUT}
+          echo "make_sh=mk_lede_n1.sh" >> ${GITHUB_OUTPUT}
+          echo "distrib_des=Openwrt" >> ${GITHUB_OUTPUT}
         elif [[ "${{ inputs.source_branch }}" == *"immortalwrt-master"* ]]; then
-            REPO_URL="https://github.com/immortalwrt/immortalwrt"
-            REPO_BRANCH="master"
-            echo "package_repo=ophub" >> ${GITHUB_OUTPUT}
-            echo "distrib_des=Immortalwrt" >> ${GITHUB_OUTPUT}
+          REPO_URL="https://github.com/immortalwrt/immortalwrt"
+          REPO_BRANCH="master"
+          echo "package_repo=ophub" >> ${GITHUB_OUTPUT}
+          echo "distrib_des=Immortalwrt" >> ${GITHUB_OUTPUT}
         elif [[ "${{ inputs.source_branch }}" == *"immortalwrt-18.06-k5.4"* ]]; then
-            REPO_URL="https://github.com/immortalwrt/immortalwrt"
-            REPO_BRANCH="openwrt-18.06-k5.4"
-            echo "package_repo=ffuqiangg" >> ${GITHUB_OUTPUT}
-            echo "make_sh=mk_immortalwrt_18.06_k5.4_n1.sh" >> ${GITHUB_OUTPUT}
-            echo "distrib_des=Immortalwrt" >> ${GITHUB_OUTPUT}
+          REPO_URL="https://github.com/immortalwrt/immortalwrt"
+          REPO_BRANCH="openwrt-18.06-k5.4"
+          echo "package_repo=ffuqiangg" >> ${GITHUB_OUTPUT}
+          echo "make_sh=mk_immortalwrt_18.06_k5.4_n1.sh" >> ${GITHUB_OUTPUT}
+          echo "distrib_des=Immortalwrt" >> ${GITHUB_OUTPUT}
         fi
 
         # Clone source code
@@ -153,7 +153,7 @@ jobs:
         openwrt_path: openwrt/output/*rootfs.tar.gz
         openwrt_board: s905d
         kernel_repo: ophub/kernel
-        openwrt_kernel: 5.15.1_6.1.1
+        openwrt_kernel: 6.1.1
         kernel_usage: flippy
         auto_kernel: true
         gh_token: ${{ secrets.GH_TOKEN }}
@@ -203,30 +203,29 @@ jobs:
       run: |
         echo "release_tag=${{ inputs.source_branch }}-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
         if [[ ${{ inputs.source_branch }} == *"lede"* ]]; then
-            cat > release.txt << EOF
-            ![lede R${{ env.COMPILE_DATE }}](https://img.shields.io/badge/lede-R${{ env.COMPILE_DATE }}-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
-            - 默认IP：192.168.1.99  密码：password
-            - 源码来自 [LEDE](https://github.com/coolsnowwolf/lede)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
-            - 5.4 系列内核来自个人仓库 [ffuqiangg/amlogic-s9xxx-armbian](https://github.com/ffuqiangg/amlogic-s9xxx-armbian)，其它内核来自暴躁老哥仓库 [breakings/Openwrt](https://github.com/breakings/OpenWrt)
-            - 主要插件：Passwall, OpenClash, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
-            EOF
+          cat > release.txt << EOF
+          ![lede R${{ env.COMPILE_DATE }}](https://img.shields.io/badge/lede-R${{ env.COMPILE_DATE }}-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
+          - 默认IP：192.168.1.99  密码：password
+          - 源码来自 [LEDE](https://github.com/coolsnowwolf/lede)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
+          - 5.4 系列内核来自个人仓库 [ffuqiangg/amlogic-s9xxx-armbian](https://github.com/ffuqiangg/amlogic-s9xxx-armbian)，其它内核来自暴躁老哥仓库 [breakings/Openwrt](https://github.com/breakings/OpenWrt)
+          - 主要插件：Passwall, OpenClash, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
+          EOF
         elif [[ ${{ inputs.source_branch }} == *"immortalwrt-master"* ]]; then
-            cat > release.txt << EOF
-            ![immortalwrt master](https://img.shields.io/badge/immortalwrt-master-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
-            ⚠️ 此固件尚处于测试阶段，可能存在不可知 BUG
-            - 默认IP：192.168.1.99  密码：password
-            - 源码来自 [Immortalwrt-master](https://github.com/immortalwrt/immortalwrt)，固件只适配 斐讯N1，打包脚本采用 [ophub/amlogic-s9xxx-openwrt](https://github.com/ophub/amlogic-s9xxx-openwrt)
-            - 内核来自Smith仓库 [ophub/kernel](https://github.com/ophub/kernel)
-            - 主要插件：HomeProxy, OpenClash, MosDNS, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
-            EOF
+          cat > release.txt << EOF
+          ![immortalwrt master](https://img.shields.io/badge/immortalwrt-master-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
+          - 默认IP：192.168.1.99  密码：password
+          - 源码来自 [Immortalwrt-master](https://github.com/immortalwrt/immortalwrt)，固件只适配 斐讯N1，打包脚本采用 [ophub/amlogic-s9xxx-openwrt](https://github.com/ophub/amlogic-s9xxx-openwrt)
+          - 内核来自Smith仓库 [ophub/kernel](https://github.com/ophub/kernel)
+          - 主要插件：HomeProxy, OpenClash, MosDNS, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
+          EOF
         elif [[ ${{ inputs.source_branch }} == *"immortalwrt-18.06-k5.4"* ]]; then
-            cat > release.txt << EOF
-            ![immortalwrt 18.06 k5.4](https://img.shields.io/badge/immortalwrt-18.06 k5.4-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
-            - 默认IP：192.168.1.99  密码：password
-            - 源码来自 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
-            - 内核来自本人仓库 [ffuqiangg/amlogic-s9xxx-armbian](https://github.com/ffuqiangg/amlogic-s9xxx-armbian)
-            - 主要插件：Passwall, OpenClash, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
-            EOF
+          cat > release.txt << EOF
+          ![immortalwrt 18.06 k5.4](https://img.shields.io/badge/immortalwrt-18.06 k5.4-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
+          - 默认IP：192.168.1.99  密码：password
+          - 源码来自 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
+          - 内核来自本人仓库 [ffuqiangg/amlogic-s9xxx-armbian](https://github.com/ffuqiangg/amlogic-s9xxx-armbian)
+          - 主要插件：Passwall, OpenClash, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
+          EOF
         fi
         echo "status=success" >> ${GITHUB_OUTPUT}
 
