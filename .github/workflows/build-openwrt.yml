@@ -199,7 +199,7 @@ jobs:
 
     - name: Generate release tag
       id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: ${{ env.PACKAGED_STATUS }} == 'true' && !cancelled()
       run: |
         echo "release_tag=${{ inputs.source_branch }}-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
         if [[ ${{ inputs.source_branch }} == *"lede"* ]]; then
@@ -240,8 +240,7 @@ jobs:
         bodyFile: release.txt
         artifacts: |
           openwrt/output/*
-          ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz
-          ${{ env.PACKAGED_OUTPUTPATH }}/*.7z
+          ${{ env.PACKAGED_OUTPUTPATH }}/*
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
