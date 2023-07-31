@@ -155,7 +155,7 @@ jobs:
         kernel_repo: ophub/kernel
         openwrt_kernel: 5.15.1_6.1.1
         kernel_usage: flippy
-        auto_kernel: auto
+        auto_kernel: true
         gh_token: ${{ secrets.GH_TOKEN }}
 
     - name: Package Openwrt [ ffuqiangg ]
@@ -167,7 +167,7 @@ jobs:
         PACKAGE_SOC: s905d
         KERNEL_REPO_URL: ffuqiangg/amlogic-s9xxx-armbian
         KERNEL_VERSION_NAME: 5.4.1
-        KERNEL_AUTO_LATEST: auto
+        KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .7z
         SCRIPT_S905D: ${{ steps.codes.outputs.make_sh }}
         OPENWRT_VER: ${{ env.COMPILE_DATE }}
@@ -187,7 +187,7 @@ jobs:
         PACKAGE_SOC: s905d
         KERNEL_REPO_URL: breakings/Openwrt
         KERNEL_VERSION_NAME: 5.10.1_5.15.1_6.1.1
-        KERNEL_AUTO_LATEST: auto
+        KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .7z
         SCRIPT_S905D: ${{ steps.codes.outputs.make_sh }}
         OPENWRT_VER: ${{ env.COMPILE_DATE }}
