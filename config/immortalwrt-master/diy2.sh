@@ -130,7 +130,6 @@ sed -i "/exit/i\sed -i -e \'\/ROOT1=\/c ROOT1=\\\\\"720\\\\\"\' -e \'\/ROOT2=\/c
 
 # Add luci-app-amlogic
 svn co https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic package/luci-app-amlogic
-sed -i -e '/# Update banner file/a\    flippy_ver=$(uname -r)' -e 's/ Kernel.*| Kernel: /${flippy_ver}|/' package/luci-app-amlogic/root/usr/sbin/openwrt-kernel
 
 # Add luci-app-mosdns
 rm -rf feeds/packages/net/v2ray-geodata
