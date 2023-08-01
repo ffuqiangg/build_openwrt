@@ -60,7 +60,7 @@ jobs:
     - name: Clone source code [ ${{ inputs.source_branch }} ]
       id: codes
       working-directory: /workdir
-      if: ${{ steps.init.outputs.status }} == 'success' && !cancelled()
+      if: steps.init.outputs.status == 'success' && !cancelled()
       run: |
         # Set up compilation source code
         if [[ "${{ inputs.source_branch }}" == *"lede"* ]]; then
@@ -133,7 +133,7 @@ jobs:
 
     - name: Clear server space
       id: clean
-      if: ${{ steps.compile.outputs.status }} == 'success' && !cancelled()
+      if: steps.compile.outputs.status == 'success' && !cancelled()
       run: |
         # Clean up server space
         cd openwrt/
@@ -199,7 +199,7 @@ jobs:
 
     - name: Generate release tag
       id: tag
-      if: ${{ steps.clean.outputs.status }} == 'success'
+      if: steps.clean.outputs.status == 'success'
       run: |
         echo "release_tag=${{ inputs.source_branch }}-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
         if [[ ${{ inputs.source_branch }} == *"lede"* ]]; then
@@ -231,7 +231,7 @@ jobs:
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
-      if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
+      if: steps.tag.ouputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
@@ -260,13 +260,13 @@ jobs:
       run: |
         COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | cut -d - -f 2-)
         MSG="
-        ✅ *${{ inputs.souce_branch }} ${{ env.COMPILE_DATE }}*
+        ✅ *${{ inputs.source_branch }} ${{ env.COMPILE_DATE }}*
         
         🔘 *基本信息*
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
         管理后台： 192.168.1.99
         默认密码： password
-        下载地址： [release](https://github.com/${GITHUB_REPOSITORY}/releases/tag/${{ steps.clean.outputs.build_tag }}
+        下载地址： [release](https://github.com/${GITHUB_REPOSITORY}/releases/tag/${{ steps.clean.outputs.build_tag }})
 
         💬 \[ [Telegram](https://t.me/ffuqiangg) ]  \[ [Github](https://github.com/ffuqiangg) ]  \[ [Docker](https://hub.docker.com/u/ffuqiangg) ]
         "
