@@ -18,20 +18,14 @@ on:
       openwrt_kernel:
         description: "Select kernel version"
         required: false
-        default: "5.15.1_6.1.1"
+        default: "5.10.1_5.15.1"
         type: choice
         options:
-          - 5.4.1_5.10.1
-          - 5.15.1_6.1.1
+          - 5.10.1_5.15.1
           - 5.4.1
           - 5.10.1
           - 5.15.1
           - 6.1.1
-      auto_kernel:
-        description: "Auto use the latest kernel"
-        required: false
-        default: true
-        type: boolean
       kernel_repo:
         description: "Set the kernel repository"
         required: false
@@ -111,10 +105,17 @@ jobs:
           openwrt_path: ${ env.DOWNLOAD_URL }
           openwrt_board: s905d
           openwrt_kernel: ${{ inputs.openwrt_kernel }}
-          auto_kernel: ${{ inputs.auto_kernel }}
+          auto_kernel: true
           kernel_repo: ${{ inputs.kernel_repo }}
           kernel_usage: ${{ inputs.kernel_usage }}
           gh_token: ${{ secrets.GH_TOKEN }}
+
+      - name: Rename files
+        if: env.PACKAGED_STATUS == 'success'
+        run: |
+          for file in $(ls ${{ env.PACKAGED_OUTPUTPATCH }}); do
+            mv $file $(echo $file | sed 's/openwrt_amlogic/immortalwrt_master/g')
+          done
 
       - name: Package OpenWrt (flippy)
         if: ${{ inputs.scripts_repo }} == 'flippy'
@@ -125,7 +126,7 @@ jobs:
           PACKAGE_SOC: s905d
           KERNEL_REPO_URL: ${{ inputs.kernel_repo }}
           KERNEL_VERSION_NAME: ${{ inputs.openwrt_kernel }}
-          KERNEL_AUTO_LATEST: ${{ inputs.auto_kernel }}
+          KERNEL_AUTO_LATEST: true
           GZIP_IMGS: .gz
           SCRIPT_S905D: ${{ inputs.make_sh }}
           OPENWRT_VER: ${{ github.event.client_payload.compile_date }}
