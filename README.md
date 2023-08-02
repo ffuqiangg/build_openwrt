@@ -6,7 +6,7 @@
 
 - Releases 中的固件根据源码及编译时间不同，其包含的插件略有差异。
 - frok 使用强烈建议认真阅读 workfows 目录下的 yaml 文件，并在理解 yaml 文件的基础上修改使用。直接使用可能无法正常编译导出固件。
-- 固件对一些命令进行了简化，如 `ungz` = `tar -xvzf`，`777` = `chmod -R 777`，`mkdirg` = `mkdir xxx && cd xxx` 等，全部修改请查看固件 /etc/profile 文件。
+- 固件对一些命令进行了简化，如 `ungz` = `tar -xvzf`，`777` = `chmod -R 777`，`mkdirg` = `mkdir xxx && cd xxx`, `bd` = `回到上一个目录` 等，全部修改请查看固件 /etc/profile 文件。
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
 - 刷机方法：将固件写入U盘，插入设备并从U盘启动。进入终端输入命令 `openwrt-install-amlogic` 然后根据屏幕提示完成刷机。
 - 升级固件/内核：将固件/内核文件（内核文件须包含 `dtb-xxx.tar.gz`, `modules-xxx.tar.gz`, `boot-xxx.tar.gz` 文件）放入 `/mnt/mmcblk2p4` 目录，终端输入命令 `openwrt-update-amlogic` 升级固件，`openwrt-kernel` 升级内核。
