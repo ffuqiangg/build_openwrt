@@ -4,7 +4,7 @@
 
 ## 说明
 
-- Releases 中的固件根据源码及编译时间不同，其包含的插件略有差异。
+- [Releases](https://github.com/ffuqiangg/build_openwrt/releases) 中的固件根据源码及编译时间不同，其包含的插件略有差异。
 - frok 使用强烈建议认真阅读 workfows 目录下的 yaml 文件，并在理解 yaml 文件的基础上修改使用。直接使用可能无法正常编译导出固件。
 - 固件对一些命令进行了简化，如 `ungz` = `tar -xvzf`，`777` = `chmod -R 777`，`mkdirg` = `mkdir xxx && cd xxx`, `bd` = `回到上一个目录` 等，全部修改请查看固件 /etc/profile 文件。
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
