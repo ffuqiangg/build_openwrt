@@ -6,11 +6,11 @@ on:
       - Auto-build
 
 env:
-  REPO_URL: https://github.com/coolsnowwolf/lede
-  REPO_BRANCH: master
-  CONFIG_FILE: config/lede/config
-  DIY_P1_SH: config/lede/diy1.sh
-  DIY_P2_SH: config/lede/diy2.sh
+  REPO_URL: https://github.com/immortalwrt/immortalwrt
+  REPO_BRANCH: openwrt-18.06-k5.4
+  CONFIG_FILE: config/immortalwrt-18.06-k5.4/config
+  DIY_P1_SH: config/immortalwrt-18.06-k5.4/diy1.sh
+  DIY_P2_SH: config/immortalwrt-18.06-k5.4/diy2.sh
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
