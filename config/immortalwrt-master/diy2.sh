@@ -121,7 +121,7 @@ echo "────────────────────────�
 ' package/emortal/default-settings/files/99-default-settings
 
 # Change 30-sysinfo.sh in ophub/amlogic-s9xxx-openwrt
-sed -i '/exit/i\mv /etc/profile.d/30-sysinfo.sh.bak /etc/profile.d/30-sysinfo.sh\
+sed -i '/exit/i\mv /etc/profile.d/30-sysinfo.sh.tmp /etc/profile.d/30-sysinfo.sh\
 ' package/emortal/default-settings/files/99-default-settings
 
 # Modify rootfs size on emmc
