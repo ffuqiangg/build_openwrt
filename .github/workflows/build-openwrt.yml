@@ -66,22 +66,22 @@ jobs:
         if [[ "${{ inputs.source_branch }}" == *"lede"* ]]; then
           REPO_URL="https://github.com/coolsnowwolf/lede"
           REPO_BRANCH="master"
-          echo "package_repo=flippy" >> ${GITHUB_OUTPUT}
-          echo "make_sh=mk_lede_n1.sh" >> ${GITHUB_OUTPUT}
-          echo "distrib_des=Openwrt" >> ${GITHUB_OUTPUT}
-          echo "kernel_version=5.15.1" >> ${GITHUB_OUTPUT}
+          echo "package_repo=flippy" >> ${GITHUB_ENV}
+          echo "make_sh=mk_lede_n1.sh" >> ${GITHUB_ENV}
+          echo "distrib_des=Openwrt" >> ${GITHUB_ENV}
+          echo "kernel_version=5.15.1" >> ${GITHUB_ENV}
           echo "kernel_repo='breakings/Openwrt'" >> ${{GITHUB_ENV}}
         elif [[ "${{ inputs.source_branch }}" == *"immortalwrt-master"* ]]; then
           REPO_URL="https://github.com/immortalwrt/immortalwrt"
           REPO_BRANCH="master"
-          echo "package_repo=ophub" >> ${GITHUB_OUTPUT}
+          echo "package_repo=ophub" >> ${GITHUB_ENV}
         elif [[ "${{ inputs.source_branch }}" == *"immortalwrt-18.06-k5.4"* ]]; then
           REPO_URL="https://github.com/immortalwrt/immortalwrt"
           REPO_BRANCH="openwrt-18.06-k5.4"
-          echo "package_repo=flippy" >> ${GITHUB_OUTPUT}
-          echo "make_sh=mk_immortalwrt_18.06_k5.4_n1.sh" >> ${GITHUB_OUTPUT}
-          echo "distrib_des=Immortalwrt" >> ${GITHUB_OUTPUT}
-          echo "kernel_version=5.4.1" >> ${GITHUB_OUTPUT}
+          echo "package_repo=flippy" >> ${GITHUB_ENV}
+          echo "make_sh=mk_immortalwrt_18.06_k5.4_n1.sh" >> ${GITHUB_ENV}
+          echo "distrib_des=Immortalwrt" >> ${GITHUB_ENV}
+          echo "kernel_version=5.4.1" >> ${GITHUB_ENV}
           echo "kernel_repo='ffuqiangg/amlogic-s9xxx-armbian'" >> ${{GITHUB_ENV}}
         fi
 
@@ -150,7 +150,7 @@ jobs:
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Package Openwrt [ ophub ]
-      if: steps.codes.outputs.package_repo == 'ophub' && steps.clean.outputs.status == 'success'
+      if: env.package_repo == 'ophub' && steps.clean.outputs.status == 'success'
       uses: ophub/amlogic-s9xxx-openwrt@main
       with:
         openwrt_path: openwrt/output/*rootfs.tar.gz
@@ -169,23 +169,23 @@ jobs:
         done
 
     - name: Package Openwrt [ flippy ]
-      if: steps.codes.outputs.package_repo == 'flippy' && steps.clean.outputs.status == 'success'
+      if: env.package_repo == 'flippy' && steps.clean.outputs.status == 'success'
       uses: ffuqiangg/openwrt_packit@master
       env:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
         OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
         PACKAGE_SOC: s905d
         KERNEL_REPO_URL: ${{ env.kernel_repo }}
-        KERNEL_VERSION_NAME: ${{ steps.codes.outputs.kernel_version }}
+        KERNEL_VERSION_NAME: ${{ env.kernel_version }}
         KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .7z
-        SCRIPT_S905D: ${{ steps.codes.outputs.make_sh }}
+        SCRIPT_S905D: ${{ env.make_sh }}
         OPENWRT_VER: ${{ env.COMPILE_DATE }}
         SFE_FLOW: 0
         ENABLE_WIFI_K504: 0
         ENABLE_WIFI_K510: 0
         DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
-        DISTRIB_DESCRIPTION: ${{ steps.codes.outputs.distrib_des }}
+        DISTRIB_DESCRIPTION: ${{ env.distrib_des }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Generate release tag
