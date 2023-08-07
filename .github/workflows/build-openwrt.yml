@@ -164,7 +164,7 @@ jobs:
     - name: Rename files
       if: env.PACKAGED_STATUS == 'success' && inputs.source_branch == 'immortalwrt-master'
       run: |
-        for file in $(ls ${{ env.PACKAGED_OUTPUTPATCH }}); do
+        for file in $(ls ${{ env.PACKAGED_OUTPUTPATCH }}/*.img.gz*); do
           mv $file $(echo $file | sed 's/openwrt_amlogic/immortalwrt_master/g')
         done
 
