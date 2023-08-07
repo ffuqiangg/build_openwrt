@@ -70,7 +70,7 @@ jobs:
           echo "make_sh=mk_lede_n1.sh" >> ${GITHUB_OUTPUT}
           echo "distrib_des=Openwrt" >> ${GITHUB_OUTPUT}
           echo "kernel_version=5.15.1" >> ${GITHUB_OUTPUT}
-          echo "kernel_repo=breakings/Openwrt" >> ${{GITHUB_OUTPUT}}
+          echo "kernel_repo='breakings/Openwrt'" >> ${{GITHUB_OUTPUT}}
         elif [[ "${{ inputs.source_branch }}" == *"immortalwrt-master"* ]]; then
           REPO_URL="https://github.com/immortalwrt/immortalwrt"
           REPO_BRANCH="master"
@@ -82,7 +82,7 @@ jobs:
           echo "make_sh=mk_immortalwrt_18.06_k5.4_n1.sh" >> ${GITHUB_OUTPUT}
           echo "distrib_des=Immortalwrt" >> ${GITHUB_OUTPUT}
           echo "kernel_version=5.4.1" >> ${GITHUB_OUTPUT}
-          echo "kernel_repo=ffuqiangg/amlogic-s9xxx-armbian" >> ${{GITHUB_OUTPUT}}
+          echo "kernel_repo='ffuqiangg/amlogic-s9xxx-armbian'" >> ${{GITHUB_OUTPUT}}
         fi
 
         # Clone source code
