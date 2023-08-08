@@ -229,7 +229,6 @@ jobs:
         tag: ${{ steps.tag.outputs.release_tag }}
         bodyFile: release.txt
         artifacts: |
-          openwrt/output/*
           ${{ env.PACKAGED_OUTPUTPATH }}/*
 
     - name: Delete workflow runs
@@ -249,7 +248,7 @@ jobs:
 
     - name: Telegram notification
       run: |
-        COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | cut -d - -f -2)
+        COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev)
         MSG="
         ✅ *${{ inputs.source_branch }} ${{ env.COMPILE_DATE }}*
         
