@@ -222,7 +222,7 @@ jobs:
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
-      if: steps.tag.ouputs.status == 'success' && !cancelled()
+      if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
@@ -249,7 +249,7 @@ jobs:
 
     - name: Telegram notification
       run: |
-        COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | cut -d - -f 2-)
+        COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | cut -d - -f -2)
         MSG="
         ✅ *${{ inputs.source_branch }} ${{ env.COMPILE_DATE }}*
         
