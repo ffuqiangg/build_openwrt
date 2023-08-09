@@ -7,15 +7,15 @@ on:
         description: "Input Release Tag"
         required: true
         default: ""
+      kernel_version:
+        description: "Kernel version"
+        required: true
+        default: ""
       kernel_auto:
         description: "Use the latest kernel"
         required: true
         default: true
         type: boolean
-      kernel_version:
-        description: "Kernel version"
-        required: true
-        default: ""
       compile_date:
         description: "Compile date"
         required: false
