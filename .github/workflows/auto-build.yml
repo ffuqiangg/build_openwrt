@@ -140,7 +140,7 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=immortalwrt-18.06-k5.4-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
+        echo "release_tag=immortalwrt-18.06-k5.4-$(date +'%Y.%m.%d-%H%M')" >> ${GITHUB_OUTPUT}
         cat > release.txt <<EOF
         ![immortalwrt 18.06 k5.4](https://img.shields.io/badge/immortalwrt-18.06_k5.4-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
         - 默认IP：192.168.1.99  密码：password
