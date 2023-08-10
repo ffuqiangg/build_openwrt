@@ -10,7 +10,7 @@
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
 - 刷机方法：将固件写入U盘，插入设备并从U盘启动。进入终端输入命令 `openwrt-install-amlogic` 然后根据屏幕提示完成刷机。
 - 升级固件/内核：将固件/内核文件（内核文件须包含 `dtb-xxx.tar.gz`, `modules-xxx.tar.gz`, `boot-xxx.tar.gz` 文件）放入 `/mnt/mmcblk2p4` 目录，终端输入命令 `openwrt-update-amlogic` 升级固件，`openwrt-kernel` 升级内核。
-- `immortalwrt 18.06 k5.4` 逢 5.4 内核更新当夜更新，`immortalwrt master`, `lede` 固件不定时更新。固件更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)
+- `immortalwrt 18.06 k5.4` 固件逢 5.4 内核更新当夜更新，`immortalwrt master`, `lede` 固件不定时更新。固件更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)
 
 ## 感谢
 
