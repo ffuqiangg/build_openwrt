@@ -53,6 +53,7 @@ sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/
 sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 
 # Add customize command
+sed -i -e 's/alF/alhF/' -e "s/=vim/=\'vim -u NONE\'" package/base-files/files/etc/shinit
 cat >> package/base-files/files/etc/profile <<EOF
 
 # Alias's for multiple directory listing commands
