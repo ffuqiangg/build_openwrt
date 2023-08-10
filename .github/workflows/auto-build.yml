@@ -134,6 +134,7 @@ jobs:
         ENABLE_WIFI_K504: 0
         ENABLE_WIFI_K510: 0
         DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
+        DISTRIB_DESCRIPTION: Immortalwrt
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Generate release tag
