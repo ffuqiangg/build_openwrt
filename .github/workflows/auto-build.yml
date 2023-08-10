@@ -136,13 +136,6 @@ jobs:
         DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-    - name: Organize ouput file
-      if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
-      run: |
-        cd ${CONFIG_FILE} ${{ env.PACKAGED_OYTPUTPATH }}/
-        cd ${{ env.PACKAGED_OYTPUTPATH }} 
-        for file in *; do [[ ! -d "${file}" ]] && sha256sum "${file}" >"${file}.sha"; done
-
     - name: Generate release tag
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
@@ -166,8 +159,7 @@ jobs:
         tag: ${{ steps.tag.outputs.release_tag }}
         bodyFile: release.txt
         artifacts: |
-          ${{ env.FIRMWARE }}/*.tar.gz
-          ${{ env.PACKAGED_OUTPUTPATH }}/*.7z
+          ${{ env.PACKAGED_OUTPUTPATH }}/*
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2

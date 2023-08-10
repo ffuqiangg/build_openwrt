@@ -191,7 +191,7 @@ jobs:
     - name: Organize ouput file
       if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
       run: |
-        cd openwrt/output/config ${{ env.PACKAGED_OYTPUTPATH }}/
+        cp -f openwrt/output/config ${{ env.PACKAGED_OYTPUTPATH }}/
         cd ${{ env.PACKAGED_OYTPUTPATH }} 
         for file in *; do [[ ! -d "${file}" ]] && sha256sum "${file}" >"${file}.sha"; done
 
