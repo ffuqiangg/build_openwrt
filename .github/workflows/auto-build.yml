@@ -136,13 +136,20 @@ jobs:
         DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
+    - name: Organize ouput file
+      if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
+      run: |
+        cd ${CONFIG_FILE} ${{ env.PACKAGED_OYTPUTPATH }}/
+        cd ${{ env.PACKAGED_OYTPUTPATH }} 
+        for file in *; do [[ ! -d "${file}" ]] && sha256sum "${file}" >"${file}.sha"; done
+
     - name: Generate release tag
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
         echo "release_tag=immortalwrt-18.06-k5.4-$(date +"%Y.%m.%d-%H%M")" >> ${GITHUB_OUTPUT}
         cat > release.txt <<EOF
-        ![immortalwrt 18.06 k5.4](https://img.shields.io/badge/immortalwrt-18.06 k5.4-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
+        ![immortalwrt 18.06 k5.4](https://img.shields.io/badge/immortalwrt-18.06_k5.4-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
         - 默认IP：192.168.1.99  密码：password
         - 源码来自 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
         - 内核来自仓库 [ffuqiangg/amlogic-s9xxx-armbian](https://github.com/ffuqiangg/amlogic-s9xxx-armbian)
@@ -179,7 +186,7 @@ jobs:
 
     - name: Telegram notification
       run: |
-        COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | cut -d - -f 2-)
+        COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev)
         MSG="
         ✅ *immortalwrt-18.06-k5.4 ${{ env.COMPILE_DATE }}*
         
