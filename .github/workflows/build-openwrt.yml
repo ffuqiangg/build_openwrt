@@ -188,7 +188,7 @@ jobs:
         DISTRIB_DESCRIPTION: ${{ steps.codes.outputs.distrib_des }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-    - name: Organize ouput file
+    - name: Organize output file
       if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
       run: |
         cp -f openwrt/output/config ${{ env.PACKAGED_OYTPUTPATH }}/
