@@ -188,12 +188,12 @@ jobs:
         DISTRIB_DESCRIPTION: ${{ steps.codes.outputs.distrib_des }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-    - name: Organize output file
-      if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
-      run: |
-        cp -f openwrt/output/config ${{ env.PACKAGED_OYTPUTPATH }}/
-        cd ${{ env.PACKAGED_OYTPUTPATH }} 
-        for file in *; do [[ ! -d "${file}" ]] && sha256sum "${file}" >"${file}.sha"; done
+    # - name: Organize output file
+    #   if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
+    #   run: |
+    #     cp -f openwrt/output/config ${{ env.PACKAGED_OYTPUTPATH }}/
+    #     cd ${{ env.PACKAGED_OYTPUTPATH }} 
+    #     for file in *; do [[ ! -d "${file}" ]] && sha256sum "${file}" >"${file}.sha"; done
 
     - name: Generate release tag
       id: tag
