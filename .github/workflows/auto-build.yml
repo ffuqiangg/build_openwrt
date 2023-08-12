@@ -11,8 +11,6 @@ env:
   CONFIG_FILE: config/immortalwrt-18.06-k5.4/config
   DIY1_SH: config/immortalwrt-18.06-k5.4/diy1.sh
   DIY2_SH: config/immortalwrt-18.06-k5.4/diy2.sh
-  UPLOAD_FIRMWARE: true
-  UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
 
 jobs:
@@ -111,13 +109,6 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: Upload firmware directory
-      uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
-      with:
-        name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
-        path: ${{ env.FIRMWARE }}
-
     - name: Package Armvirt as OpenWrt
       uses: ffuqiangg/openwrt_packit@master
       env:
@@ -137,9 +128,16 @@ jobs:
         DISTRIB_DESCRIPTION: Immortalwrt
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
+    - name: Organize output file
+      if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
+      run: |
+        cp -f $CONFIG_FILE ${{ env.PACKAGED_OYTPUTPATH }}/
+        cd ${{ env.PACKAGED_OYTPUTPATH }} 
+        sha256sum config > config.sha
+
     - name: Generate release tag
       id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: steps.compile.outputs.status == 'success' && !cancelled()
       run: |
         echo "release_tag=immortalwrt-18.06-k5.4-$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
         cat > release.txt <<EOF
