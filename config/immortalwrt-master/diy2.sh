@@ -56,8 +56,8 @@ sed -i 's/admin\//&services\//g' package/feeds/luci/luci-app-dockerman/luasrc/vi
 sed -i 's/services/network/g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 
 # Add customize command
-sed -i -e 's/alF/alhF/' -e "s/\'vim\'/\'vim -u NONE\'" package/base-files/files/etc/profile
-sed -i -e 's/alF/alhF/' -e "s/=vim/=\'vim -u NONE\'" package/base-files/files/etc/shinit
+sed -i -e 's/alF/alhF/' -e "s/\'vim\'/\'vim -u NONE\'/" package/base-files/files/etc/profile
+sed -i -e 's/alF/alhF/' -e "s/=vim/=\'vim -u NONE\'/" package/base-files/files/etc/shinit
 cat >> package/base-files/files/etc/profile <<EOF
 
 # Change directory aliases
