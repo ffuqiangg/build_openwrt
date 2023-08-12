@@ -49,7 +49,7 @@ jobs:
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
           sudo timedatectl set-timezone "${TZ}"
-          echo "status=success" >> ${GITHUB_OUTPUT}
+          echo "status=success" >> $GITHUB_OUTPUT
 
       - name: Get variable
         id: codes
@@ -62,21 +62,21 @@ jobs:
               jq -r '.assets[].browser_download_url' |
               grep ".tar.gz$"
           )"
-          echo "DOWNLOAD_URL=${rootfs_url}" >> ${GITHUB_ENV}
+          echo "DOWNLOAD_URL=${rootfs_url}" >> $GITHUB_ENV
 
           if [[ "inputs.release_tag" == *"lede"* ]]; then
-            echo "package_repo=flippy" >> ${GITHUB_OUTPUT}
-            echo "make_sh=mk_lede_n1.sh" >> ${GITHUB_OUTPUT}
-            echo "distrib_des=Openwrt" >> ${GITHUB_OUTPUT}
-            echo "kernel_repo=breakings/Openwrt" >> ${GITHUB_OUTPUT}
+            echo "package_repo=flippy" >> $GITHUB_OUTPUT
+            echo "make_sh=mk_lede_n1.sh" >> $GITHUB_OUTPUT
+            echo "distrib_des=Openwrt" >> $GITHUB_OUTPUT
+            echo "kernel_repo=breakings/Openwrt" >> $GITHUB_OUTPUT
           if [[ "inputs.release_tag" == *"immortalwrt-18.06-k5.4"* ]]; then
-            echo "package_repo=flippy" >> ${GITHUB_OUTPUT}
-            echo "make_sh=mk_immortalwrt_18.06_k5.4_n1.sh" >> ${GITHUB_OUTPUT}
-            echo "distrib_des=Immortalwrt" >> ${GITHUB_OUTPUT}
-            echo "kernel_repo=ffuqiangg/amlogic-s9xxx-armbian" >> ${GITHUB_OUTPUT}
+            echo "package_repo=flippy" >> $GITHUB_OUTPUT
+            echo "make_sh=mk_immortalwrt_18.06_k5.4_n1.sh" >> $GITHUB_OUTPUT
+            echo "distrib_des=Immortalwrt" >> $GITHUB_OUTPUT
+            echo "kernel_repo=ffuqiangg/amlogic-s9xxx-armbian" >> $GITHUB_OUTPUT
           elif [[ "${{ inputs.source_branch }}" == *"immortalwrt-master"* ]]; then
-            echo "package_repo=ophub" >> ${GITHUB_OUTPUT}
-            echo "kernel_repo=ophub/kernel" >> ${GITHUB_OUTPUT}
+            echo "package_repo=ophub" >> $GITHUB_OUTPUT
+            echo "kernel_repo=ophub/kernel" >> $GITHUB_OUTPUT
           fi
 
       - name: Packaging OpenWrt (ophub)

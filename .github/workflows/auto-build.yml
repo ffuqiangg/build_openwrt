@@ -76,7 +76,7 @@ jobs:
         chmod +x $DIY2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY2_SH
-        echo "COMPILE_DATE=$(date +%Y%m%d)" >> ${GITHUB_ENV}
+        echo "COMPILE_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
 
     - name: Download package
       id: package
@@ -93,10 +93,10 @@ jobs:
         cd openwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
-        echo "status=success" >> ${GITHUB_OUTPUT}
+        echo "status=success" >> $GITHUB_OUTPUT
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> ${GITHUB_ENV}
-        echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> ${GITHUB_ENV}
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: Check space usage
       if: (!cancelled())
@@ -108,8 +108,8 @@ jobs:
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
-        echo "FIRMWARE=$PWD" >> ${GITHUB_ENV}
-        echo "status=success" >> ${GITHUB_OUTPUT}
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
@@ -141,7 +141,7 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=immortalwrt-18.06-k5.4-$(date +'%Y.%m.%d-%H%M')" >> ${GITHUB_OUTPUT}
+        echo "release_tag=immortalwrt-18.06-k5.4-$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
         cat > release.txt <<EOF
         ![immortalwrt 18.06 k5.4](https://img.shields.io/badge/immortalwrt-18.06_k5.4-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
         - 默认IP：192.168.1.99  密码：password
@@ -149,7 +149,7 @@ jobs:
         - 内核来自仓库 [ffuqiangg/amlogic-s9xxx-armbian](https://github.com/ffuqiangg/amlogic-s9xxx-armbian)
         - 主要插件：Passwall, OpenClash, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
         EOF
-        echo "status=success" >> ${GITHUB_OUTPUT}
+        echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
