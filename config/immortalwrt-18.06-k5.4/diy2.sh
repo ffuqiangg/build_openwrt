@@ -144,5 +144,4 @@ git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 # rm -rf feeds/packages/lang/golang
 # cp -rf ${GITHUB_WORKSPACE}/files/golang feeds/packages/lang/golang
 
-./scripts/feeds update -a
 ./scripts/feeds install -a

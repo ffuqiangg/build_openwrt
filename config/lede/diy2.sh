@@ -160,5 +160,4 @@ git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 # sed -i 's/PKG_HASH:=.*/PKG_HASH:=d7f0013f82e6d7f862cc6cb5c8cdb48eef5f2e239b35baa97e2f1a7466043767/g' feeds/packages/lang/golang/golang/Makefile
 # rm -rf feeds/packages/lang/golang/golang/patches/010-cmd-compile-turn-off-jump-tables-when-spectre-retpolines-.patch
 
-./scripts/feeds update -a
 ./scripts/feeds install -a
