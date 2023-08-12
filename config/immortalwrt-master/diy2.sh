@@ -136,5 +136,3 @@ svn co https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic package/
 rm -rf feeds/packages/net/v2ray-geodata
 git clone --single-branch --depth=1 https://github.com/sbwml/luci-app-mosdns -b v5 package/mosdns
 git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
-
-./scripts/feeds install -a
