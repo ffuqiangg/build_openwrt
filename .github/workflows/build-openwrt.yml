@@ -14,7 +14,6 @@ on:
           - immortalwrt-master
 
 env:
-  FEEDS_CONF: config/${{ inputs.source_branch }}/feeds.conf.default
   CONFIG_FILE: config/${{ inputs.source_branch }}/config
   DIY1_SH: config/${{ inputs.source_branch }}/diy1.sh
   DIY2_SH: config/${{ inputs.source_branch }}/diy2.sh
@@ -99,7 +98,6 @@ jobs:
 
     - name: Load custom feeds
       run: |
-        [[ -f "$FEEDS_CONF" ]] && cp -f $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY1_SH
         cd openwrt/
         $GITHUB_WORKSPACE/$DIY1_SH
