@@ -129,7 +129,7 @@ jobs:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Organize output file
-      if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
+      if: env.PACKAGED_STATUS == 'success'
       run: |
         cp -f $CONFIG_FILE ${{ env.PACKAGED_OYTPUTPATH }}/
         cd ${{ env.PACKAGED_OYTPUTPATH }} 
