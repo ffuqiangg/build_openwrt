@@ -43,6 +43,7 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
+inoremap <C-k> <Esc>o
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
