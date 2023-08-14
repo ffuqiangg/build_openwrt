@@ -9,8 +9,7 @@ env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: openwrt-18.06-k5.4
   CONFIG_FILE: config/immortalwrt-18.06-k5.4/config
-  DIY1_SH: config/immortalwrt-18.06-k5.4/diy1.sh
-  DIY2_SH: config/immortalwrt-18.06-k5.4/diy2.sh
+  DIY_SH: config/immortalwrt-18.06-k5.4/diy.sh
   TZ: Asia/Shanghai
 
 jobs:
@@ -55,12 +54,6 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt --single-branch --depth=1
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
-    - name: Load custom feeds
-      run: |
-        chmod +x $DIY1_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY1_SH
-
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
@@ -71,9 +64,9 @@ jobs:
       run: |
         [ -d files ] && mv -f files openwrt/files
         [ -e $CONFIG_FILE ] && mv -f $CONFIG_FILE openwrt/.config
-        chmod +x $DIY2_SH
+        chmod +x $DIY_SH
         cd openwrt
-        $GITHUB_WORKSPACE/$DIY2_SH
+        $GITHUB_WORKSPACE/$DIY_SH
         echo "COMPILE_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
 
     - name: Download package

@@ -15,8 +15,7 @@ on:
 
 env:
   CONFIG_FILE: config/${{ inputs.source_branch }}/config
-  DIY1_SH: config/${{ inputs.source_branch }}/diy1.sh
-  DIY2_SH: config/${{ inputs.source_branch }}/diy2.sh
+  DIY_SH: config/${{ inputs.source_branch }}/diy.sh
   TZ: Asia/Shanghai
 
 jobs:
@@ -96,12 +95,6 @@ jobs:
         df -hT ${PWD}
         echo "status=success" >> $GITHUB_OUTPUT
 
-    - name: Load custom feeds
-      run: |
-        chmod +x $DIY1_SH
-        cd openwrt/
-        $GITHUB_WORKSPACE/$DIY1_SH
-
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
@@ -112,9 +105,9 @@ jobs:
       run: |
         [ -d files ] && mv -f files openwrt/files
         [ -e $CONFIG_FILE ] && cp -f $CONFIG_FILE openwrt/.config
-        chmod +x $DIY2_SH
+        chmod +x $DIY_SH
         cd openwrt
-        $GITHUB_WORKSPACE/$DIY2_SH
+        $GITHUB_WORKSPACE/$DIY_SH
 
     - name: Download package
       id: package
