@@ -96,7 +96,7 @@ jobs:
 
     - name: Clear server space
       id: clean
-      if: steps.compile.outputs.status == 'success' && !cancelled()
+      if: steps.compile.outputs.status == 'success'
       run: |
         # Clean up server space
         cd openwrt/
@@ -110,6 +110,7 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Package Armvirt as OpenWrt
+      if: steps.clean.outputs.status == 'success'
       uses: ffuqiangg/openwrt_packit@master
       env:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
