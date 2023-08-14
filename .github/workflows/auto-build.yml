@@ -131,7 +131,7 @@ jobs:
     - name: Organize output file
       if: env.PACKAGED_STATUS == 'success'
       run: |
-        cp -f $CONFIG_FILE ${{ env.PACKAGED_OYTPUTPATH }}/
+        cp -f openwrt/.config ${{ env.PACKAGED_OYTPUTPATH }}/config
         cd ${{ env.PACKAGED_OYTPUTPATH }} 
         sha256sum config > config.sha
 
