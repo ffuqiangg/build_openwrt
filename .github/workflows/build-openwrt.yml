@@ -153,13 +153,6 @@ jobs:
         auto_kernel: true
         gh_token: ${{ secrets.GH_TOKEN }}
 
-    - name: Rename files
-      if: steps.codes.outputs.package_repo == 'ophub' && env.PACKAGED_STATUS == 'success'
-      run: |
-        for file in $(ls ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz*); do
-          mv $file $(echo $file | sed 's/openwrt_amlogic/immortalwrt_master/g')
-        done
-
     - name: Package Openwrt [ flippy ]
       if: steps.codes.outputs.package_repo == 'flippy' && steps.clean.outputs.status == 'success'
       uses: ffuqiangg/openwrt_packit@master
