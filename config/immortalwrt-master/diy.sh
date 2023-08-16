@@ -119,7 +119,7 @@ sed -i '/exit/i\mv /etc/profile.d/30-sysinfo.sh.tmp /etc/profile.d/30-sysinfo.sh
 sed -i "/exit/i\sed -i -e \'\/ROOT1=\/c ROOT1=\\\\\"720\\\\\"\' -e \'\/ROOT2=\/c ROOT2=\\\\\"720\\\\\"\' \/usr\/sbin\/openwrt-install-amlogic\
 " package/emortal/default-settings/files/99-default-settings
 
-# For image name
+# Change image name
 echo "DISTRIB_SOURCECODE='immortalwrt_master'" >> package/base-files/files/etc/openwrt_release
 
 # Add luci-app-amlogic

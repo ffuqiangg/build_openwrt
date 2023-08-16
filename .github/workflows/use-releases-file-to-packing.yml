@@ -87,7 +87,7 @@ jobs:
 
       - name: Packaging OpenWrt (ophub)
         if: steps.codes.outputs.package_repo == 'ophub'
-        uses: ophub/amlogic-s9xxx-openwrt@main
+        uses: ffuqiangg/amlogic-s9xxx-openwrt@main
         with:
           openwrt_path: ${ env.DOWNLOAD_URL }
           openwrt_board: s905d
@@ -96,13 +96,6 @@ jobs:
           kernel_repo: ${{ inputs.kernel_repo }}
           kernel_usage: flippy
           gh_token: ${{ secrets.GH_TOKEN }}
-
-      - name: Rename files
-        if: env.PACKAGED_STATUS == 'success'
-        run: |
-          for file in $(ls ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz*); do
-            mv $file $(echo $file | sed 's/openwrt_amlogic/immortalwrt_master/g')
-          done
 
       - name: Package OpenWrt (flippy)
         if: steps.codes.outputs.package_repo == 'flippy'
@@ -123,13 +116,6 @@ jobs:
           DISTRIB_REVISION: ${{ inputs.openwrt_ver }}
           DISTRIB_DESCRIPTION: ${{ steps.codes.outputs.distrib_des }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
-      - name: Organize output file
-        if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
-        run: |
-          cp -f openwrt/output/config ${{ env.PACKAGED_OYTPUTPATH }}/
-          cd ${{ env.PACKAGED_OYTPUTPATH }} 
-          sha256sum config > config.sha
 
       - name: Upload the packaged OpenWrt
         uses: ncipollo/release-action@main
