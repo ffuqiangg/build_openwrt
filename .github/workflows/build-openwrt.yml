@@ -143,7 +143,7 @@ jobs:
 
     - name: Package Openwrt [ ophub ]
       if: steps.codes.outputs.package_repo == 'ophub' && steps.clean.outputs.status == 'success'
-      uses: ophub/amlogic-s9xxx-openwrt@main
+      uses: ffuqiangg/amlogic-s9xxx-openwrt@main
       with:
         openwrt_path: openwrt/output/*rootfs.tar.gz
         openwrt_board: s905d
