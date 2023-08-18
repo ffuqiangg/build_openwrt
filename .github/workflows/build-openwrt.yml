@@ -176,8 +176,8 @@ jobs:
     - name: Organize output file
       if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
       run: |
-        cp -f openwrt/output/config ${{ env.PACKAGED_OYTPUTPATH }}/
-        cd ${{ env.PACKAGED_OYTPUTPATH }} 
+        cp -f openwrt/output/config ${{ env.PACKAGED_OUTPUTPATH }}/
+        cd ${{ env.PACKAGED_OUTPUTPATH }} 
         sha256sum config > config.sha
 
     - name: Generate release tag
