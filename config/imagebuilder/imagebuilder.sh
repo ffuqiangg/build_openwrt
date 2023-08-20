@@ -90,7 +90,7 @@ custom_packages() {
     #
     amlogic_file="luci-app-amlogic"
     amlogic_file_down="$(curl -s \
-        -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}"
+        -H "Authorization: Bearer ${token}"
         ${amlogic_api} \
         | grep "browser_download_url" | grep -oE "https.*${amlogic_name}.*.ipk" | head -n 1)"
     wget ${amlogic_file_down} -q -P packages
@@ -99,7 +99,7 @@ custom_packages() {
     #
     amlogic_i18n="luci-i18n-amlogic"
     amlogic_file_down="$(curl -s \
-        -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+        -H "Authorization: Bearer ${token}" \
         ${amlogic_api} |
         grep "browser_download_url" | grep -oE "https.*${amlogic_name}.*.ipk" | head -n 1)"
     wget ${amlogic_i18n_down} -q -P packages
@@ -109,7 +109,7 @@ custom_packages() {
     # Download luci-app-mosdns
     mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
     amlogic_file_down="$(curl -s \
-        -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+        -H "Authorization: Bearer ${token}" \
         ${mosdns_api}/latest |
         grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.ipk" -oE)"
     for down_url in $(echo $mosdns_file_down); do
@@ -123,7 +123,7 @@ custom_packages() {
     if [[ ${op_source} == openwrt ]]; then
         passwall_api="https://api.github.com/repos/xiaorouji/openwrt-passwall/releases"
         passwall_file_down="$(curl -s \
-            -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+            -H "Authorization: Bearer ${token}" \
             ${passwall_api}/latest |
             grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.zip" -oE)"
         for down_url in $(echo $passwall_file_down); do
@@ -144,7 +144,7 @@ custom_packages() {
     if [[ ${op_source} == openwrt ]]; then
         openclash_api="https://api.github.com/repos/vernesong/Openclash/releases"
         openclash_file_down="$(curl -s \
-            -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
+            -H "Authorization: Bearer ${token}" \
             ${openclash_api} |
             grep "browser_download_url" | grep -oE "https.*luci-app-openclash.*.ipk" | head -n 1)"
         wget ${openclash_file_down} -q -P packages
