@@ -207,7 +207,7 @@ rebuild_firmware() {
         \
         luci-app-amlogic luci-i18n-amlogic-zh-cn \
         \
-        luci-app-mosdns luci-i18n-mosdns-zh-cn mosdns v2dat v2ray-geoip v2ray-geosite \
+        v2ray-geoip v2ray-geosite luci-app-mosdns v2dat mosdns luci-i18n-mosdns-zh-cn \
         luci-app-passwall luci-i18n-passwall-zh-cn brook chinadns-ng dns2socks dns2tcp \
         hysteria microsocks naiveproxy shadowsocksr-libev-ssr-local shadowsocksr-libev-ssr-redir \
         shadowsocksr-libev-ssr-server shadowsocks-rust-sslocal shadowsocks-rust-ssserver \
