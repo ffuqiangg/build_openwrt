@@ -90,7 +90,7 @@ custom_packages() {
     #
     amlogic_file="luci-app-amlogic"
     amlogic_file_down="$(
-        curl -s \
+        curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${token}" \
             ${amlogic_api} |
@@ -103,7 +103,7 @@ custom_packages() {
     #
     amlogic_i18n="luci-i18n-amlogic"
     amlogic_i18n_down="$(
-        curl -s \
+        curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${token}" \
             ${amlogic_api} |
@@ -117,7 +117,7 @@ custom_packages() {
     # Download luci-app-mosdns
     mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
     mosdns_file_down="$(
-        curl -s \
+        curl -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${token}" \
             ${mosdns_api}/latest |
@@ -134,7 +134,7 @@ custom_packages() {
     if [[ ${op_sourse} == openwrt ]]; then
         passwall_api="https://api.github.com/repos/xiaorouji/openwrt-passwall/releases"
         passwall_file_down="$(
-            curl -s \
+            curl -L \
                 -H "Accept: application/vnd.github+json" \
                 -H "Authorization: Bearer ${token}" \
                 ${passwall_api}/latest |
@@ -160,7 +160,7 @@ custom_packages() {
     if [[ ${op_sourse} == openwrt ]]; then
         openclash_api="https://api.github.com/repos/vernesong/Openclash/releases"
         openclash_file_down="$(
-            curl -s \
+            curl -L \
                 -H "Accept: application/vnd.github+json" \
                 -H "Authorization: Bearer ${token}" \
                 ${openclash_api} |
