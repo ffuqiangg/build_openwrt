@@ -102,7 +102,7 @@ custom_packages() {
 
     # Download luci-app-mosdns
     mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
-    amlogic_file_down="$(curl -s ${mosdns_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.ipk" -oE)"
+    mosdns_file_down="$(curl -s ${mosdns_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.ipk" -oE)"
     for down_url in $(echo $mosdns_file_down); do
         wget ${down_url} -q -P packages
         mosdns_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
@@ -111,7 +111,7 @@ custom_packages() {
     done
 
     # Download luci-app-passwall
-    if [[ ${op_source} == openwrt ]]; then
+    if [[ ${op_sourse} == openwrt ]]; then
         passwall_api="https://api.github.com/repos/xiaorouji/openwrt-passwall/releases"
         passwall_file_down="$(curl -s ${passwall_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.zip" -oE)"
         for down_url in $(echo $passwall_file_down); do
@@ -119,7 +119,7 @@ custom_packages() {
             if [[ ${down_url} == *.zip ]]; then
                 passwall_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d "_ipk" -f 1)
                 passwall_packages=$(echo $down_url | awk -F "/" '{print $NF}')
-                unzip ${passwall_packages} && rm ${passwall_packages}
+                unzip ${passwall_packages} && rm ${passwall_packages} ; rm *-1_all.ipk
             else
                 passwall_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
             fi
@@ -129,7 +129,7 @@ custom_packages() {
     fi
 
     # Download luci-app-openclash
-    if [[ ${op_source} == openwrt ]]; then
+    if [[ ${op_sourse} == openwrt ]]; then
         openclash_api="https://api.github.com/repos/vernesong/Openclash/releases"
         openclash_file_down="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*luci-app-openclash.*.ipk" | head -n 1)"
         wget ${openclash_file_down} -q -P packages
@@ -207,8 +207,13 @@ rebuild_firmware() {
         \
         luci-app-amlogic luci-i18n-amlogic-zh-cn \
         \
-        luci-app-mosdns luci-i18n-mosdns-zh-cn luci-app-passwall luci-i18n-passwall-zh-cn \
-        luci-app-openclash \
+        luci-app-mosdns luci-i18n-mosdns-zh-cn v2dat v2ray-geoip v2ray-geosite \
+        luci-app-passwall luci-i18n-passwall-zh-cn brook chinadns-ng dns2socks dns2tcp \
+        hysteria microsocks naiveproxy shadowsocksr-libev-ssr-local shadowsocksr-libev-ssr-redir \
+        shadowsocksr-libev-ssr-server shadowsocks-rust-sslocal shadowsocks-rust-ssserver \
+        simple-obfs tcping trojan-go trojan-plus tuic-client v2ray-core v2ray-plugin xray-core xray-plugin \
+        luci-app-openclash  dnsmasq-full ca-certificates ipset ip-full libcap libcap-bin \
+        ruby ruby-yaml kmod-tun kmod-inet-diag kmod-nft-tproxy \
         ${config_list} \
         "
 

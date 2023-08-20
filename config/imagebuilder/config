@@ -319,7 +319,7 @@ CONFIG_PACKAGE_luci-i18n-frpc-zh-cn=y
 # CONFIG_PACKAGE_luci-i18n-hd-idle-cs is not set
 # CONFIG_PACKAGE_luci-i18n-hd-idle-de is not set
 # CONFIG_PACKAGE_luci-i18n-hd-idle-el is not set
-# CONFIG_PACKAGE_luci-i18n-hd-idle-en is not set
+CONFIG_PACKAGE_luci-i18n-hd-idle-en=y
 # CONFIG_PACKAGE_luci-i18n-hd-idle-es is not set
 # CONFIG_PACKAGE_luci-i18n-hd-idle-fr is not set
 # CONFIG_PACKAGE_luci-i18n-hd-idle-he is not set
