@@ -90,7 +90,6 @@ custom_packages() {
     #
     amlogic_file="luci-app-amlogic"
     amlogic_file_down="$(curl -s \
-        -H "Accept: application/vnd.github+json" \
         -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}"
         ${amlogic_api} \
         | grep "browser_download_url" | grep -oE "https.*${amlogic_name}.*.ipk" | head -n 1)"
@@ -100,7 +99,6 @@ custom_packages() {
     #
     amlogic_i18n="luci-i18n-amlogic"
     amlogic_file_down="$(curl -s \
-        -H "Accept: application/vnd.github+json" \
         -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
         ${amlogic_api} |
         grep "browser_download_url" | grep -oE "https.*${amlogic_name}.*.ipk" | head -n 1)"
@@ -111,7 +109,6 @@ custom_packages() {
     # Download luci-app-mosdns
     mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
     amlogic_file_down="$(curl -s \
-        -H "Accept: application/vnd.github+json" \
         -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
         ${mosdns_api}/latest |
         grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.ipk" -oE)"
@@ -126,7 +123,6 @@ custom_packages() {
     if [[ ${op_source} == openwrt ]]; then
         passwall_api="https://api.github.com/repos/xiaorouji/openwrt-passwall/releases"
         passwall_file_down="$(curl -s \
-            -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
             ${passwall_api}/latest |
             grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.zip" -oE)"
@@ -148,9 +144,8 @@ custom_packages() {
     if [[ ${op_source} == openwrt ]]; then
         openclash_api="https://api.github.com/repos/vernesong/Openclash/releases"
         openclash_file_down="$(curl -s \
-            -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
-            ${openclash_api}/latest |
+            ${openclash_api} |
             grep "browser_download_url" | grep -oE "https.*luci-app-openclash.*.ipk" | head -n 1)"
         wget ${openclash_file_down} -q -P packages
         openclash_file=$(echo $openclash_file_down | awk -F "/" '{print $NF}' | cut -d _ -f 1)
