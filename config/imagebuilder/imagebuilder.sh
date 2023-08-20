@@ -117,9 +117,9 @@ custom_packages() {
             if [[ ${down_url} == *.zip ]]; then
                 passwall_packages=$(echo $down_url | awk -F "/" '{print $NF}')
                 passwall_file=$(echo $passwall_packages | awk -F "_ipk" '{print $1}')
-                unzip zip_tmp/${passwall_packages} -d zip_tmp
-                rm zip_tmp/${passwall_packages} zip_tmp/v2ray-geo*.ipk
-                mv zip_tmp/* . && rm -rf zip_tmp
+                unzip packages/${passwall_packages} -d zip_tmp
+                rm packages/${passwall_packages} zip_tmp/v2ray-geo*.ipk
+                mv zip_tmp/* packages/ && rm -rf zip_tmp
             else
                 passwall_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
             fi
