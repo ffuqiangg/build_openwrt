@@ -89,20 +89,40 @@ custom_packages() {
     amlogic_api="https://api.github.com/repos/ophub/luci-app-amlogic/releases"
     #
     amlogic_file="luci-app-amlogic"
-    amlogic_file_down="$(curl -s ${amlogic_api} | grep "browser_download_url" | grep -oE "https.*${amlogic_file}.*.ipk" | head -n 1)"
+    amlogic_file_down="$(
+        curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${token}" \
+            ${amlogic_api} |
+            grep "browser_download_url" | grep -oE "https.*${amlogic_file}.*.ipk" |
+            head -n 1
+    )"
     wget ${amlogic_file_down} -q -P packages
     [[ "${?}" -eq "0" ]] || error_msg "[ ${amlogic_file} ] download failed!"
     echo -e "${INFO} The [ ${amlogic_file} ] is downloaded successfully."
     #
     amlogic_i18n="luci-i18n-amlogic"
-    amlogic_i18n_down="$(curl -s ${amlogic_api} | grep "browser_download_url" | grep -oE "https.*${amlogic_i18n}.*.ipk" | head -n 1)"
+    amlogic_i18n_down="$(
+        curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${token}" \
+            ${amlogic_api} |
+            grep "browser_download_url" | grep -oE "https.*${amlogic_i18n}.*.ipk" |
+            head -n 1
+    )"
     wget ${amlogic_i18n_down} -q -P packages
     [[ "${?}" -eq "0" ]] || error_msg "[ ${amlogic_i18n} ] download failed!"
     echo -e "${INFO} The [ ${amlogic_i18n} ] is downloaded successfully."
 
     # Download luci-app-mosdns
     mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
-    mosdns_file_down="$(curl -s ${mosdns_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.ipk" -oE)"
+    mosdns_file_down="$(
+        curl -s \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${token}" \
+            ${mosdns_api}/latest |
+            grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.ipk" -oE
+    )"
     for down_url in $(echo $mosdns_file_down); do
         wget ${down_url} -q -P packages
         mosdns_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
@@ -113,7 +133,13 @@ custom_packages() {
     # Download luci-app-passwall
     if [[ ${op_sourse} == openwrt ]]; then
         passwall_api="https://api.github.com/repos/xiaorouji/openwrt-passwall/releases"
-        passwall_file_down="$(curl -s ${passwall_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.zip" -oE)"
+        passwall_file_down="$(
+            curl -s \
+                -H "Accept: application/vnd.github+json" \
+                -H "Authorization: Bearer ${token}" \
+                ${passwall_api}/latest |
+                grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.zip" -oE
+        )"
         for down_url in $(echo $passwall_file_down); do
             wget ${down_url} -q -P packages
             if [[ ${down_url} == *.zip ]]; then
@@ -133,7 +159,14 @@ custom_packages() {
     # Download luci-app-openclash
     if [[ ${op_sourse} == openwrt ]]; then
         openclash_api="https://api.github.com/repos/vernesong/Openclash/releases"
-        openclash_file_down="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*luci-app-openclash.*.ipk" | head -n 1)"
+        openclash_file_down="$(
+            curl -s \
+                -H "Accept: application/vnd.github+json" \
+                -H "Authorization: Bearer ${token}" \
+                ${openclash_api} |
+                grep "browser_download_url" | grep -oE "https.*luci-app-openclash.*.ipk" |
+                head -n 1
+        )"
         wget ${openclash_file_down} -q -P packages
         openclash_file=$(echo $openclash_file_down | awk -F "/" '{print $NF}' | cut -d _ -f 1)
         [[ "${?}" -eq "0" ]] || error_msg "[ $openclash_file ] download failed!"
