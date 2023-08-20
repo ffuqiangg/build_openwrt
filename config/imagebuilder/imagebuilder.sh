@@ -89,13 +89,13 @@ custom_packages() {
     amlogic_api="https://api.github.com/repos/ophub/luci-app-amlogic/releases"
     #
     amlogic_file="luci-app-amlogic"
-    amlogic_file_down="$(curl -s ${amlogic_api} | grep "browser_download_url" | grep -oE "https.*${amlogic_name}.*.ipk" | head -n 1)"
+    amlogic_file_down="$(curl -s ${amlogic_api} | grep "browser_download_url" | grep -oE "https.*${amlogic_file}.*.ipk" | head -n 1)"
     wget ${amlogic_file_down} -q -P packages
     [[ "${?}" -eq "0" ]] || error_msg "[ ${amlogic_file} ] download failed!"
     echo -e "${INFO} The [ ${amlogic_file} ] is downloaded successfully."
     #
     amlogic_i18n="luci-i18n-amlogic"
-    amlogic_file_down="$(curl -s ${amlogic_api} | grep "browser_download_url" | grep -oE "https.*${amlogic_name}.*.ipk" | head -n 1)"
+    amlogic_file_down="$(curl -s ${amlogic_api} | grep "browser_download_url" | grep -oE "https.*${amlogic_i18n}.*.ipk" | head -n 1)"
     wget ${amlogic_i18n_down} -q -P packages
     [[ "${?}" -eq "0" ]] || error_msg "[ ${amlogic_i18n} ] download failed!"
     echo -e "${INFO} The [ ${amlogic_i18n} ] is downloaded successfully."
