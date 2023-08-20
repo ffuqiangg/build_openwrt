@@ -117,9 +117,11 @@ custom_packages() {
         for down_url in $(echo $passwall_file_down); do
             wget ${down_url} -q -P packages
             if [[ ${down_url} == *.zip ]]; then
-                passwall_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d "_ipk" -f 1)
                 passwall_packages=$(echo $down_url | awk -F "/" '{print $NF}')
-                unzip ${passwall_packages} && rm ${passwall_packages} ; rm *-1_all.ipk
+                passwall_file=$(echo $passwall_packages | awk -F "_ipk" '{print $1}')
+                unzip zip_tmp/${passwall_packages} -d zip_tmp
+                rm zip_tmp/${passwall_packages} zip_tmp/v2ray-geo*.ipk
+                mv zip_tmp/* . && rm -rf zip_tmp
             else
                 passwall_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
             fi
