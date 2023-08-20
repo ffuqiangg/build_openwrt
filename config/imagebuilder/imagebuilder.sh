@@ -100,7 +100,7 @@ custom_packages() {
 
     # Download luci-app-mosdns
     mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
-    mosdns_file_down="$(curl -s ${mosdns_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.ipk" -oE)"
+    mosdns_file_down="$(curl -s ${mosdns_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_generic.ipk" -oE)"
     for down_url in $(echo $mosdns_file_down); do
         wget ${down_url} -q -P packages
         mosdns_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
