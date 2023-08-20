@@ -99,14 +99,14 @@ custom_packages() {
     echo -e "${INFO} The [ ${amlogic_i18n} ] is downloaded successfully."
 
     # Download luci-app-mosdns
-    mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
-    mosdns_file_down="$(curl -s ${mosdns_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_generic.ipk" -oE)"
-    for down_url in $(echo $mosdns_file_down); do
-        wget ${down_url} -q -P packages
-        mosdns_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
-        [[ "${?}" -eq "0" ]] || error_msg "[ $mosdns_file ] download failed!"
-        echo -e "${INFO} The [ $mosdns_file ] is downloaded successfully."
-    done
+    # mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
+    # mosdns_file_down="$(curl -s ${mosdns_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_generic.ipk" -oE)"
+    # for down_url in $(echo $mosdns_file_down); do
+    #     wget ${down_url} -q -P packages
+    #     mosdns_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
+    #     [[ "${?}" -eq "0" ]] || error_msg "[ $mosdns_file ] download failed!"
+    #     echo -e "${INFO} The [ $mosdns_file ] is downloaded successfully."
+    # done
 
     # Download luci-app-passwall
     if [[ ${op_sourse} == openwrt ]]; then
@@ -118,7 +118,7 @@ custom_packages() {
                 passwall_packages=$(echo $down_url | awk -F "/" '{print $NF}')
                 passwall_file=$(echo $passwall_packages | awk -F "_ipk" '{print $1}')
                 unzip packages/${passwall_packages} -d zip_tmp
-                rm packages/${passwall_packages} zip_tmp/v2ray-geo*.ipk
+                rm packages/${passwall_packages}
                 mv zip_tmp/* packages/ && rm -rf zip_tmp
             else
                 passwall_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
@@ -207,7 +207,7 @@ rebuild_firmware() {
         \
         luci-app-amlogic luci-i18n-amlogic-zh-cn \
         \
-        v2ray-geoip v2ray-geosite luci-app-mosdns v2dat mosdns luci-i18n-mosdns-zh-cn \
+        v2ray-geoip v2ray-geosite \
         luci-app-passwall luci-i18n-passwall-zh-cn brook chinadns-ng dns2socks dns2tcp \
         hysteria microsocks naiveproxy shadowsocksr-libev-ssr-local shadowsocksr-libev-ssr-redir \
         shadowsocksr-libev-ssr-server shadowsocks-rust-sslocal shadowsocks-rust-ssserver \
