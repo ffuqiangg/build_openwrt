@@ -77,12 +77,13 @@ jobs:
             echo "package_repo=flippy" >> $GITHUB_OUTPUT
             echo "make_sh=mk_lede_n1.sh" >> $GITHUB_OUTPUT
             echo "distrib_des=Openwrt" >> $GITHUB_OUTPUT
-          if [[ "inputs.release_tag" == *"immortalwrt-18.06-k5.4"* ]]; then
+          elif [[ "inputs.release_tag" == *"immortalwrt-18.06-k5.4"* ]]; then
             echo "package_repo=flippy" >> $GITHUB_OUTPUT
             echo "make_sh=mk_immortalwrt_18.06_k5.4_n1.sh" >> $GITHUB_OUTPUT
             echo "distrib_des=Immortalwrt" >> $GITHUB_OUTPUT
-          elif [[ "${{ inputs.source_branch }}" == *"immortalwrt-master"* ]]; then
+          elif [[ "${{ inputs.release_tag }}" == *"immortalwrt-master"* ]]; then
             echo "package_repo=ophub" >> $GITHUB_OUTPUT
+            ehco "RELEASES_TAG=immortalwrt-master" >> $GITHUB_ENV
           fi
 
       - name: Packaging OpenWrt (ophub)

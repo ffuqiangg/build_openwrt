@@ -75,6 +75,7 @@ jobs:
           REPO_BRANCH="master"
           echo "package_repo=ophub" >> $GITHUB_OUTPUT
           echo "COMPILE_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
+          echo "RELEASES_TAG=immortalwrt-master" >> $GITHUB_ENV
         elif [ "${{ inputs.source_branch }}" == *"immortalwrt-18.06-k5.4"* ]; then
           REPO_URL="https://github.com/immortalwrt/immortalwrt"
           REPO_BRANCH="openwrt-18.06-k5.4"
