@@ -111,7 +111,7 @@ custom_packages() {
     done
 
     # Download luci-app-passwall
-    if [[ ${op_source} == *"openwrt"* ]]; then
+    if [[ ${op_source} == openwrt ]]; then
         passwall_api="https://api.github.com/repos/xiaorouji/openwrt-passwall/releases"
         passwall_file_down="$(curl -s ${passwall_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.zip" -oE)"
         for down_url in $(echo $passwall_file_down); do
@@ -129,7 +129,7 @@ custom_packages() {
     fi
 
     # Download luci-app-openclash
-    if [[ ${op_source} == *"openwrt"* ]]; then
+    if [[ ${op_source} == openwrt ]]; then
         openclash_api="https://api.github.com/repos/vernesong/Openclash/releases"
         openclash_file_down="$(curl -s ${openclash_api}/latest | grep "browser_download_url" | grep -oE "https.*luci-app-openclash.*.ipk" | head -n 1)"
         wget ${openclash_file_down} -q -P packages
