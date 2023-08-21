@@ -101,7 +101,7 @@ jobs:
         if: ${{ steps.imagebuilder.outputs.status }} == 'success' && !cancelled()
         env:
           releases_tag: ${{ inputs.releases_branch }}
-        uses: ophub/amlogic-s9xxx-openwrt@main
+        uses: ffuqiangg/amlogic-s9xxx-openwrt@main
         with:
           openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
           openwrt_board: s905d
@@ -122,7 +122,7 @@ jobs:
           replacesArtifacts: true
           token: ${{ secrets.GH_TOKEN }}
           body: |
-            ![${{ inputs.releases_branch }}](https://img.shields.io/badge/${{ inputs.releases_branch }}-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
+            ![${{ env.RELEASES_TAG }}](https://img.shields.io/badge/${{ env.RELEASES_TAG }}-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
             - 默认IP：192.168.1.99  密码：password
-            - 本固件使用 imagebuilder 生成
-            - 主要插件：Passwall, OpenClash, Dockerman, docker-compose, Samba4, FTP, Frpc, HD-idle, KMS
+            - 本固件使用 imagebuilder 生成，尚处于测试阶段不排除有影响使用的 bug
+            - 主要插件：Passwall2, Dockerman, docker-compose, Samba4, Frpc, HD-idle
