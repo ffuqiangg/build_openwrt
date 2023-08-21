@@ -39,7 +39,7 @@ download_imagebuilder() {
     fi
 
     # Downloading imagebuilder files
-    download_file="https://downloads.${op_sourse}.org/releases/${op_branch}/targets/${target_system}/${op_sourse}-imagebuilder-${op_branch}-${target_name}.Linux-x86_64.tar.xz"
+    download_file="https://downloads.${op_source}.org/releases/${op_branch}/targets/${target_system}/${op_source}-imagebuilder-${op_branch}-${target_name}.Linux-x86_64.tar.xz"
     wget -q ${download_file}
     [[ "${?}" -eq "0" ]] || error_msg "Wget download failed: [ ${download_file} ]"
 
@@ -67,6 +67,8 @@ adjust_settings() {
         # Customize config
         sed -i "s|CONFIG_PACKAGE_dnsmasq=.*|# CONFIG_PACKAGE_dnsmasq is not set|g" .config
         sed -i "s|CONFIG_DEFAULT_dnsmasq=.*|# CONFIG_DEFAULT_dnsmasq is not set|g" .config
+        default_packages_line=$(($(cat .targetinfo | grep -n "armvirt/64" | cut -d ":" -f 1)-1))
+        sed -i "${default_packages_line}s|dnsmasq ||" .targetinfo
     else
         error_msg "There is no .config file in the [ ${download_file} ]"
     fi
@@ -112,7 +114,7 @@ custom_packages() {
     # done
 
     # Download luci-app-passwall
-    if [[ ${op_sourse} == openwrt ]]; then
+    if [[ ${op_source} == openwrt ]]; then
         passwall_api="https://api.github.com/repos/xiaorouji/openwrt-passwall/releases"
         passwall_file_down="$(curl -s ${passwall_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.zip" -oE)"
         for down_url in $(echo $passwall_file_down); do
@@ -132,7 +134,7 @@ custom_packages() {
     fi
 
     # Download luci-app-openclash
-    if [[ ${op_sourse} == openwrt ]]; then
+    if [[ ${op_source} == openwrt ]]; then
         openclash_api="https://api.github.com/repos/vernesong/Openclash/releases"
         openclash_file_down="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*luci-app-openclash.*.ipk" | head -n 1)"
         wget ${openclash_file_down} -q -P packages
@@ -215,7 +217,7 @@ rebuild_firmware() {
         hysteria microsocks naiveproxy shadowsocksr-libev-ssr-local shadowsocksr-libev-ssr-redir \
         shadowsocksr-libev-ssr-server shadowsocks-rust-sslocal shadowsocks-rust-ssserver \
         simple-obfs tcping trojan-go trojan-plus tuic-client v2ray-core v2ray-plugin xray-core xray-plugin \
-        luci-app-openclash  dnsmasq-full ca-certificates ipset ip-full libcap libcap-bin \
+        luci-app-openclash dnsmasq-full ca-certificates ipset ip-full libcap libcap-bin \
         ruby ruby-yaml kmod-tun kmod-inet-diag kmod-nft-tproxy \
         ${config_list} \
         "
@@ -235,10 +237,10 @@ echo -e "${STEPS} Welcome to Rebuild OpenWrt Using the Image Builder."
 [[ -x "${0}" ]] || error_msg "Please give the script permission to run: [ chmod +x ${0} ]"
 [[ -z "${1}" ]] && error_msg "Please specify the OpenWrt Branch, such as [ ${0} openwrt:22.03.3 ]"
 [[ "${1}" =~ ^[a-z]{3,}:[0-9]+ ]] || error_msg "Incoming parameter format <source:branch>: openwrt:22.03.3"
-op_sourse="${1%:*}"
+op_source="${1%:*}"
 op_branch="${1#*:}"
 echo -e "${INFO} Rebuild path: [ ${PWD} ]"
-echo -e "${INFO} Rebuild Source: [ ${op_sourse} ], Branch: [ ${op_branch} ]"
+echo -e "${INFO} Rebuild Source: [ ${op_source} ], Branch: [ ${op_branch} ]"
 echo -e "${INFO} Server space usage before starting to compile: \n$(df -hT ${make_path}) \n"
 #
 # Perform related operations
