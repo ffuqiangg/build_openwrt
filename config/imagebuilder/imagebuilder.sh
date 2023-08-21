@@ -134,14 +134,16 @@ custom_packages() {
     fi
 
     # Download luci-app-openclash
-    # if [[ ${op_source} == openwrt ]]; then
-    #     openclash_api="https://api.github.com/repos/vernesong/Openclash/releases"
-    #     openclash_file_down="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*luci-app-openclash.*.ipk" | head -n 1)"
-    #     wget ${openclash_file_down} -q -P packages
-    #     openclash_file=$(echo $openclash_file_down | awk -F "/" '{print $NF}' | cut -d _ -f 1)
-    #     [[ "${?}" -eq "0" ]] || error_msg "[ $openclash_file ] download failed!"
-    #     echo -e "${INFO} The [ $openclash_file ] is downloaded successfully."
-    # fi
+    if [[ ${op_source} == openwrt ]]; then
+        openclash_api="https://api.github.com/repos/vernesong/Openclash/releases"
+        openclash_file_down="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*luci-app-openclash.*.ipk" | head -n 1)"
+        wget ${openclash_file_down} -q -P packages
+        openclash_file=$(echo $openclash_file_down | awk -F "/" '{print $NF}' | cut -d _ -f 1)
+        [[ "${?}" -eq "0" ]] || error_msg "[ $openclash_file ] download failed!"
+        echo -e "${INFO} The [ $openclash_file ] is downloaded successfully."
+        custom_packages_list="${custom_packages_list} luci-app-openclash -dnsmasq dnsmasq-full \
+            ca-certificates ipset ip-full libcap libcap-bin ruby ruby-yaml kmod-tun kmod-inet-diag kmod-nft-tproxy"
+    fi
 
     # ......
 
