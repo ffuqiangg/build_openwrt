@@ -64,9 +64,6 @@ adjust_settings() {
         sed -i "s|CONFIG_TARGET_ROOTFS_EXT4FS=.*|# CONFIG_TARGET_ROOTFS_EXT4FS is not set|g" .config
         sed -i "s|CONFIG_TARGET_ROOTFS_SQUASHFS=.*|# CONFIG_TARGET_ROOTFS_SQUASHFS is not set|g" .config
         sed -i "s|CONFIG_TARGET_IMAGES_GZIP=.*|# CONFIG_TARGET_IMAGES_GZIP is not set|g" .config
-        # Customize config
-        sed -i "s|CONFIG_PACKAGE_dnsmasq=.*|# CONFIG_PACKAGE_dnsmasq is not set|g" .config
-        sed -i "s|CONFIG_DEFAULT_dnsmasq=.*|# CONFIG_DEFAULT_dnsmasq is not set|g" .config
     else
         error_msg "There is no .config file in the [ ${download_file} ]"
     fi
@@ -216,11 +213,9 @@ rebuild_firmware() {
         simple-obfs tcping tuic-client v2ray-core v2ray-plugin xray-core \
         ${config_list} \
         "
-    # Create a [ output ] directory
-    [[ -d "output" ]] || mkdir output
     
     # Rebuild firmware
-    make image PROFILE="${target_profile}" PACKAGES="${my_packages}" FILES="files" BIN_DIR="ouput"
+    make image PROFILE="${target_profile}" PACKAGES="${my_packages}" FILES="files"
 
     sync && sleep 3
     echo -e "${INFO} [ openwrt/bin/targets/*/* ] directory status: $(ls bin/targets/*/* -l 2>/dev/null)"
