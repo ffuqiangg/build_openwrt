@@ -80,6 +80,7 @@ adjust_settings() {
 custom_packages() {
     cd ${imagebuilder_path}
     echo -e "${STEPS} Start adding custom packages..."
+    custom_packages_list=""
 
     # Create a [ packages ] directory
     [[ -d "packages" ]] || mkdir packages
@@ -96,6 +97,7 @@ custom_packages() {
     wget ${amlogic_i18n_down} -q -P packages
     [[ "${?}" -eq "0" ]] || error_msg "[ ${amlogic_i18n} ] download failed!"
     echo -e "${INFO} The [ ${amlogic_i18n} ] is downloaded successfully."
+    custom_packages_list="${custom_packages_list} luci-app-amlogic luci-i18n-amlogic-zh-cn"
 
     # Download luci-app-mosdns
     # mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
@@ -125,6 +127,10 @@ custom_packages() {
             [[ "${?}" -eq "0" ]] || error_msg "[ $passwall_file ] download failed!"
             echo -e "${INFO} The [ $passwall_file ] is downloaded successfully."
         done
+        custom_packages_list="${custom_packages_list} luci-app-passwall2 luci-i18n-passwall2-zh-cn \
+            brook hysteria naiveproxy shadowsocksr-libev-ssr-local shadowsocksr-libev-ssr-redir \
+            shadowsocksr-libev-ssr-server shadowsocks-rust-sslocal shadowsocks-rust-ssserver \
+            simple-obfs tcping tuic-client v2ray-core v2ray-plugin xray-core v2ray-geoip v2ray-geosite"
     fi
 
     # Download luci-app-openclash
@@ -204,14 +210,7 @@ rebuild_firmware() {
         luci-proto-3g luci-proto-bonding luci-proto-ipip luci-proto-ipv6 luci-proto-ncm  \
         luci-proto-openconnect luci-proto-ppp luci-proto-qmi luci-proto-relay  \
         \
-        luci-app-amlogic luci-i18n-amlogic-zh-cn \
-        \
-        v2ray-geoip v2ray-geosite \
-        luci-app-passwall2 luci-i18n-passwall2-zh-cn brook \
-        hysteria naiveproxy shadowsocksr-libev-ssr-local shadowsocksr-libev-ssr-redir \
-        shadowsocksr-libev-ssr-server shadowsocks-rust-sslocal shadowsocks-rust-ssserver \
-        simple-obfs tcping tuic-client v2ray-core v2ray-plugin xray-core \
-        ${config_list} \
+        ${custom_packages_list} ${config_list} \
         "
     
     # Rebuild firmware
