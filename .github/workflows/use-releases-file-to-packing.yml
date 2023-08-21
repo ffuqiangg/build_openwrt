@@ -88,6 +88,8 @@ jobs:
 
       - name: Packaging OpenWrt (ophub)
         if: steps.codes.outputs.package_repo == 'ophub'
+        env:
+          releases_tag: ${{ env.RELEASES_TAG }}
         uses: ffuqiangg/amlogic-s9xxx-openwrt@main
         with:
           openwrt_path: ${ env.DOWNLOAD_URL }

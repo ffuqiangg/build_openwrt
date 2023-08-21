@@ -75,7 +75,6 @@ jobs:
           REPO_BRANCH="master"
           echo "package_repo=ophub" >> $GITHUB_OUTPUT
           echo "COMPILE_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
-          echo "RELEASES_TAG=immortalwrt-master" >> $GITHUB_ENV
         elif [ "${{ inputs.source_branch }}" == *"immortalwrt-18.06-k5.4"* ]; then
           REPO_URL="https://github.com/immortalwrt/immortalwrt"
           REPO_BRANCH="openwrt-18.06-k5.4"
@@ -144,6 +143,8 @@ jobs:
 
     - name: Package Openwrt [ ophub ]
       if: steps.codes.outputs.package_repo == 'ophub' && steps.clean.outputs.status == 'success'
+      env:
+        releases_tag: ${{ inputs.source_branch }}
       uses: ffuqiangg/amlogic-s9xxx-openwrt@main
       with:
         openwrt_path: openwrt/output/*rootfs.tar.gz

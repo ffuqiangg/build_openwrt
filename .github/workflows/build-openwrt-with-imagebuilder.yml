@@ -99,6 +99,8 @@ jobs:
 
       - name: Packaging OpenWrt
         if: ${{ steps.imagebuilder.outputs.status }} == 'success' && !cancelled()
+        env:
+          releases_tag: ${{ env.inputs.releases_branch }}
         uses: ophub/amlogic-s9xxx-openwrt@main
         with:
           openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
