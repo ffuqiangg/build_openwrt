@@ -216,9 +216,11 @@ rebuild_firmware() {
         ruby ruby-yaml kmod-tun kmod-inet-diag kmod-nft-tproxy \
         ${config_list} \
         "
-
+    # Create a [ output ] directory
+    [[ -d "output" ]] || mkdir output
+    
     # Rebuild firmware
-    make image PROFILE="${target_profile}" PACKAGES="${my_packages}" FILES="files"
+    make image PROFILE="${target_profile}" PACKAGES="${my_packages}" FILES="files" BIN_DIR="ouput"
 
     sync && sleep 3
     echo -e "${INFO} [ openwrt/bin/targets/*/* ] directory status: $(ls bin/targets/*/* -l 2>/dev/null)"
