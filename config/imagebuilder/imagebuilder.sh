@@ -67,13 +67,12 @@ adjust_settings() {
         # Customize config
         sed -i "s|CONFIG_PACKAGE_dnsmasq=.*|# CONFIG_PACKAGE_dnsmasq is not set|g" .config
         sed -i "s|CONFIG_DEFAULT_dnsmasq=.*|# CONFIG_DEFAULT_dnsmasq is not set|g" .config
-        sed -i "s| dnsmasq||" .targetinfo
     else
         error_msg "There is no .config file in the [ ${download_file} ]"
     fi
 
-    # For other files
-    # ......
+    # For .profiles.mk files
+    sed -i "/Default_PACKAGES/ s/$/&base-files ca-bundle dropbear fstools libc libgcc libustream-wolfssl logd mtd netifd opkg uci uclient-fetch urandom-seed urngd busybox procd procd-ujail procd-seccomp mkf2fs e2fsprogs firewall4 nftables kmod-nft-offload odhcp6c odhcpd-ipv6only ppp ppp-mod-pppoe/" .profiles.mk
 
     sync && sleep 3
     echo -e "${INFO} [ openwrt ] directory status: $(ls -al 2>/dev/null)"
