@@ -66,6 +66,7 @@ adjust_settings() {
         sed -i "s|CONFIG_TARGET_IMAGES_GZIP=.*|# CONFIG_TARGET_IMAGES_GZIP is not set|g" .config
         # Customize config
         sed -i "s|CONFIG_PACKAGE_dnsmasq=.*|# CONFIG_PACKAGE_dnsmasq is not set|g" .config
+        sed -i "s|CONFIG_DEFAULT_dnsmasq=.*|# CONFIG_DEFAULT_dnsmasq is not set|g" .config
     else
         error_msg "There is no .config file in the [ ${download_file} ]"
     fi
