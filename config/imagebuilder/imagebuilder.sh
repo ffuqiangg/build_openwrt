@@ -210,7 +210,7 @@ rebuild_firmware() {
         luci-app-amlogic luci-i18n-amlogic-zh-cn \
         \
         v2ray-geoip v2ray-geosite \
-        luci-app-passwall luci-i18n-passwall-zh-cn brook \
+        luci-app-passwall2 luci-i18n-passwall2-zh-cn brook \
         hysteria naiveproxy shadowsocksr-libev-ssr-local shadowsocksr-libev-ssr-redir \
         shadowsocksr-libev-ssr-server shadowsocks-rust-sslocal shadowsocks-rust-ssserver \
         simple-obfs tcping tuic-client v2ray-core v2ray-plugin xray-core \
