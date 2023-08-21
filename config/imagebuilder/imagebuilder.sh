@@ -71,8 +71,7 @@ adjust_settings() {
         error_msg "There is no .config file in the [ ${download_file} ]"
     fi
 
-    # For .profiles.mk files
-    sed -i "/Default_PACKAGES/ s/$/&base-files ca-bundle dropbear fstools libc libgcc libustream-wolfssl logd mtd netifd opkg uci uclient-fetch urandom-seed urngd busybox procd procd-ujail procd-seccomp mkf2fs e2fsprogs firewall4 nftables kmod-nft-offload odhcp6c odhcpd-ipv6only ppp ppp-mod-pppoe/" .profiles.mk
+    # For other files
 
     sync && sleep 3
     echo -e "${INFO} [ openwrt ] directory status: $(ls -al 2>/dev/null)"
@@ -111,9 +110,9 @@ custom_packages() {
     #     echo -e "${INFO} The [ $mosdns_file ] is downloaded successfully."
     # done
 
-    # Download luci-app-passwall
+    # Download luci-app-passwall2
     if [[ ${op_source} == openwrt ]]; then
-        passwall_api="https://api.github.com/repos/xiaorouji/openwrt-passwall/releases"
+        passwall_api="https://api.github.com/repos/xiaorouji/openwrt-passwall2/releases"
         passwall_file_down="$(curl -s ${passwall_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.zip" -oE)"
         for down_url in $(echo $passwall_file_down); do
             wget ${down_url} -q -P packages
@@ -132,14 +131,14 @@ custom_packages() {
     fi
 
     # Download luci-app-openclash
-    if [[ ${op_source} == openwrt ]]; then
-        openclash_api="https://api.github.com/repos/vernesong/Openclash/releases"
-        openclash_file_down="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*luci-app-openclash.*.ipk" | head -n 1)"
-        wget ${openclash_file_down} -q -P packages
-        openclash_file=$(echo $openclash_file_down | awk -F "/" '{print $NF}' | cut -d _ -f 1)
-        [[ "${?}" -eq "0" ]] || error_msg "[ $openclash_file ] download failed!"
-        echo -e "${INFO} The [ $openclash_file ] is downloaded successfully."
-    fi
+    # if [[ ${op_source} == openwrt ]]; then
+    #     openclash_api="https://api.github.com/repos/vernesong/Openclash/releases"
+    #     openclash_file_down="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*luci-app-openclash.*.ipk" | head -n 1)"
+    #     wget ${openclash_file_down} -q -P packages
+    #     openclash_file=$(echo $openclash_file_down | awk -F "/" '{print $NF}' | cut -d _ -f 1)
+    #     [[ "${?}" -eq "0" ]] || error_msg "[ $openclash_file ] download failed!"
+    #     echo -e "${INFO} The [ $openclash_file ] is downloaded successfully."
+    # fi
 
     # ......
 
@@ -211,12 +210,10 @@ rebuild_firmware() {
         luci-app-amlogic luci-i18n-amlogic-zh-cn \
         \
         v2ray-geoip v2ray-geosite \
-        luci-app-passwall luci-i18n-passwall-zh-cn brook chinadns-ng dns2socks dns2tcp \
-        hysteria microsocks naiveproxy shadowsocksr-libev-ssr-local shadowsocksr-libev-ssr-redir \
+        luci-app-passwall luci-i18n-passwall-zh-cn brook \
+        hysteria naiveproxy shadowsocksr-libev-ssr-local shadowsocksr-libev-ssr-redir \
         shadowsocksr-libev-ssr-server shadowsocks-rust-sslocal shadowsocks-rust-ssserver \
-        simple-obfs tcping trojan-go trojan-plus tuic-client v2ray-core v2ray-plugin xray-core xray-plugin \
-        luci-app-openclash dnsmasq-full ca-certificates ipset ip-full libcap libcap-bin \
-        ruby ruby-yaml kmod-tun kmod-inet-diag kmod-nft-tproxy \
+        simple-obfs tcping tuic-client v2ray-core v2ray-plugin xray-core \
         ${config_list} \
         "
     # Create a [ output ] directory
