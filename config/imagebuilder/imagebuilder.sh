@@ -143,6 +143,8 @@ custom_packages() {
         echo -e "${INFO} The [ $openclash_file ] is downloaded successfully."
         custom_packages_list="${custom_packages_list} luci-app-openclash -dnsmasq dnsmasq-full \
             ca-certificates ipset ip-full libcap libcap-bin ruby ruby-yaml kmod-tun kmod-inet-diag kmod-nft-tproxy"
+    elif [[ ${op_source} == immortalwrt ]]; then
+        custom_packages_list="${custom_packages_list} luci-app-openclash"
     fi
 
     # ......
