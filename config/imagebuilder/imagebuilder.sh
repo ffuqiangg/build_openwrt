@@ -67,8 +67,7 @@ adjust_settings() {
         # Customize config
         sed -i "s|CONFIG_PACKAGE_dnsmasq=.*|# CONFIG_PACKAGE_dnsmasq is not set|g" .config
         sed -i "s|CONFIG_DEFAULT_dnsmasq=.*|# CONFIG_DEFAULT_dnsmasq is not set|g" .config
-        default_packages_line=$(($(cat .targetinfo | grep -n "armvirt/64" | cut -d ":" -f 1)-1))
-        sed -i "${default_packages_line}s|dnsmasq ||" .targetinfo
+        sed -i "s| dnsmasq||" .targetinfo
     else
         error_msg "There is no .config file in the [ ${download_file} ]"
     fi
