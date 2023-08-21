@@ -94,14 +94,14 @@ jobs:
         if: ${{ steps.imagebuilder.outputs.status }} == 'success' && !cancelled()
         run: |
           cd openwrt/
-          rm -rf $(ls . | grep -v "^output$" | xargs) 2>/dev/null
+          rm -rf $(ls . | grep -v "^bin$" | xargs) 2>/dev/null
           df -hT ${PWD}
 
       - name: Packaging OpenWrt
         if: ${{ steps.imagebuilder.outputs.status }} == 'success' && !cancelled()
         uses: ophub/amlogic-s9xxx-openwrt@main
         with:
-          openwrt_path: openwrt/output/*rootfs.tar.gz
+          openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
           openwrt_board: s905d
           openwrt_kernel: ${{ inputs.openwrt_kernel }}
           auto_kernel: ${{ inputs.auto_kernel }}
