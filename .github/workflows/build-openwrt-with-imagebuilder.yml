@@ -115,7 +115,7 @@ jobs:
         uses: ncipollo/release-action@main
         if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
         with:
-          tag: Imagebuilder_${{ env.RELEASES_TAG }}_${{ env.PACKAGED_OUTPUTDATE }}
+          tag: ${{ env.RELEASES_TAG }}-$(date +'%Y.%m.%d-%H%M')
           artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
           allowUpdates: true
           removeArtifacts: false
@@ -125,4 +125,3 @@ jobs:
             ![${{ env.RELEASES_TAG }}](https://img.shields.io/badge/${{ env.RELEASES_TAG }}-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
             - 默认IP：192.168.1.99  密码：password
             - 本固件使用 imagebuilder 生成，尚处于测试阶段不排除有影响使用的 bug
-            - 主要插件：Passwall2, Dockerman, docker-compose, Samba4, Frpc, HD-idle
