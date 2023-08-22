@@ -17,15 +17,7 @@ on:
       openwrt_kernel:
         description: "Select kernel version"
         required: false
-        default: "5.15.1_6.1.1"
-        type: choice
-        options:
-          - 5.4.1_5.10.1
-          - 5.15.1_6.1.1
-          - 5.4.1
-          - 5.10.1
-          - 5.15.1
-          - 6.1.1
+        default: "5.10.1"
       auto_kernel:
         description: "Auto use the latest kernel"
         required: false
@@ -41,7 +33,7 @@ on:
       kernel_usage:
         description: "Set the tags of the stable kernel."
         required: false
-        default: "stable"
+        default: "beta"
         type: choice
         options:
           - stable
@@ -115,7 +107,7 @@ jobs:
         uses: ncipollo/release-action@main
         if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
         with:
-          tag: ${{ env.RELEASES_TAG }}-$(date +'%Y.%m.%d-%H%M')
+          tag: ${{ env.RELEASES_TAG }}-${{ env.PACKAGED_OUTPUTDATE }}
           artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
           allowUpdates: true
           removeArtifacts: false
