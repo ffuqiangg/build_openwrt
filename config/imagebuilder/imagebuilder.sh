@@ -214,7 +214,6 @@ rebuild_firmware() {
         luci-proto-3g luci-proto-bonding luci-proto-ipip luci-proto-ipv6 luci-proto-ncm  \
         luci-proto-openconnect luci-proto-ppp luci-proto-qmi luci-proto-relay  \
         \
-        luci-app-v2raya luci-i18n-v2raya-zh-cn \
         ${custom_packages_list} ${config_list} \
         "
     
