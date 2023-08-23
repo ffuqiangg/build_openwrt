@@ -91,12 +91,14 @@ jobs:
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
         # Set output information
+        SOURCE_BRANCH=${{ inputs.source_branch }}
+        echo "IMAGE_NAME=${SOURCE_BRANCH/-/_}" >> $GITHUB_ENV
         echo -e "REPO_URL: [ ${REPO_URL} ]\nREPO_BRANCH: [ ${REPO_BRANCH} ]"
         df -hT ${PWD}
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Update feeds
-      run: cd openwrt && ./scripts/feeds update -a
+      run: cd openrt && ./scripts/feeds update -a
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
@@ -154,6 +156,7 @@ jobs:
         kernel_usage: flippy
         auto_kernel: true
         gh_token: ${{ secrets.GH_TOKEN }}
+        image_name: ${{ env.IMAGE_NAME }}
 
     - name: Package Openwrt [ flippy ]
       if: steps.codes.outputs.package_repo == 'flippy' && steps.clean.outputs.status == 'success'

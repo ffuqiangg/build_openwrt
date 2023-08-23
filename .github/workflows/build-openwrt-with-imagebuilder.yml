@@ -80,6 +80,7 @@ jobs:
           chmod +x ${IMAGEBUILDER_SH}
           ${IMAGEBUILDER_SH} ${RELEASES_BRANCH}
           echo "RELEASES_TAG=${RELEASES_BRANCH/:/-}" >> $GITHUB_ENV
+          echo "IMAGE_NAME=${RELEASES_BRANCH/:/_}" >> $GITHUB_ENV
           echo "status=success" >> $GITHUB_OUTPUT
 
       - name: Clear server space
@@ -100,6 +101,7 @@ jobs:
           kernel_repo: ${{ inputs.kernel_repo }}
           kernel_usage: ${{ inputs.kernel_usage }}
           gh_token: ${{ secrets.GH_TOKEN }}
+          image_name: ${{ env.IMAGE_NAME }} 
 
       - name: Upload the packaged OpenWrt
         uses: ncipollo/release-action@main
