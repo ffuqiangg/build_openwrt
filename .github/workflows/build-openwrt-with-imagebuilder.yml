@@ -70,7 +70,7 @@ jobs:
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
           sudo timedatectl set-timezone "${TZ}"
-          echo "status=success" >> ${GITHUB_OUTPUT}
+          echo "status=success" >> $GITHUB_OUTPUT
 
       - name: Build OpenWrt Rootfs [ ${{ inputs.releases_branch }} ]
         id: imagebuilder
@@ -79,8 +79,8 @@ jobs:
           RELEASES_BRANCH="${{ inputs.releases_branch }}"
           chmod +x ${IMAGEBUILDER_SH}
           ${IMAGEBUILDER_SH} ${RELEASES_BRANCH}
-          echo "RELEASES_TAG=${RELEASES_BRANCH/:/-}" >> ${GITHUB_ENV}
-          echo "status=success" >> ${GITHUB_OUTPUT}
+          echo "RELEASES_TAG=${RELEASES_BRANCH/:/-}" >> $GITHUB_ENV
+          echo "status=success" >> $GITHUB_OUTPUT
 
       - name: Clear server space
         if: ${{ steps.imagebuilder.outputs.status }} == 'success' && !cancelled()
