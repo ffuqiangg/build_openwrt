@@ -110,10 +110,6 @@ echo "  ╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵ 
 echo "────────────────────────────────" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
 
-# Change 30-sysinfo.sh in ophub/amlogic-s9xxx-openwrt
-sed -i '/exit/i\mv /etc/profile.d/30-sysinfo.sh.tmp /etc/profile.d/30-sysinfo.sh\
-' package/emortal/default-settings/files/99-default-settings
-
 # Modify rootfs size on emmc
 sed -i "/exit/i\sed -i -e \'\/ROOT1=\/c ROOT1=\\\\\"720\\\\\"\' -e \'\/ROOT2=\/c ROOT2=\\\\\"720\\\\\"\' \/usr\/sbin\/openwrt-install-amlogic\
 " package/emortal/default-settings/files/99-default-settings

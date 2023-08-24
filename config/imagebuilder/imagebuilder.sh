@@ -80,7 +80,7 @@ echo "  └─┘╵‾ └─ ╵ ╵└┴┘╵  ╵ " >> /etc/banner
 echo "────────────────────────" >> /etc/banner
 
 sed -i -e '/ROOT1=/c ROOT1=\"720\"' -e '/ROOT2=/c ROOT2=\"720\"' /usr/sbin/openwrt-install-amlogic
-rm -f /etc/profile.d/30-sysinfo.sh.tmp /etc/profile.d/30-sysinfo.sh
+rm -f /etc/profile.d/30-sysinfo.sh
 
 exit0
 EOF
