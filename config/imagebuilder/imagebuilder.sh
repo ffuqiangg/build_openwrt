@@ -75,12 +75,11 @@ adjust_settings() {
 #!/bin/bash
 
 echo "" > /etc/banner
-echo "────────────────────────" >> /etc/banner
-echo "  ┌─┐┌─┐┌─┐┌─┐╷╷╷┌─╶┬╴" >> /etc/banner
-echo "  └─┘╵‾ └─ ╵ ╵└┴┘╵  ╵ " >> /etc/banner
-echo "────────────────────────" >> /etc/banner
+echo " ┌─┐┌─┐┌─┐┌─┐╷╷╷┌─╶┬╴" >> /etc/banner
+echo " └─┘╵‾ └─ ╵ ╵└┴┘╵  ╵ " >> /etc/banner
+echo "" >> /etc/banner
 
-mv /etc/profile.d/30-sysinfo.sh.tmp /etc/profile.d/30-sysinfo.sh
+rm -f /etc/profile.d/30-sysinfo.sh.tmp /etc/profile.d/30-sysinfo.sh
 
 exit0
 EOF
