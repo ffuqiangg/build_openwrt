@@ -104,8 +104,7 @@ bind '"\e[B": history-search-forward'
 EOF
 
 # Change banner
-sed -i '/exit/i\echo "" > /etc/banner\
-echo "────────────────────────────────" >> /etc/banner\
+sed -i '/exit/i\echo "────────────────────────────────" > /etc/banner\
 echo "  ╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴" >> /etc/banner\
 echo "  ╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵ " >> /etc/banner\
 echo "────────────────────────────────" >> /etc/banner\

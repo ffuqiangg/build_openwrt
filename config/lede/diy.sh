@@ -105,13 +105,11 @@ bind '"\e[B": history-search-forward'
 EOF
 
 # Change banner
-sed -i '/exit/i\echo "" > /etc/banner\
-echo "────────────────────────" >> /etc/banner\
+sed -i '/exit/i\echo "────────────────────────" > /etc/banner\
 echo "  ┌─┐┌─┐┌─┐┌─┐╷╷╷┌─╶┬╴" >> /etc/banner\
 echo "  └─┘╵‾ └─ ╵ ╵└┴┘╵  ╵ " >> /etc/banner\
-echo "─── lede OPENWRT_VERSION ───" >> /etc/banner\
+echo "────────────────────────" >> /etc/banner\
 ' package/lean/default-settings/files/zzz-default-settings
-sed -i "s|OPENWRT_VERSION|R$(date +%y.%m.%d)|g" package/lean/default-settings/files/zzz-default-settings
 
 # Change 30-sysinfo.sh in ophub/amlogic-s9xxx-openwrt
 sed -i '/exit/i\mv /etc/profile.d/30-sysinfo.sh.tmp /etc/profile.d/30-sysinfo.sh\
