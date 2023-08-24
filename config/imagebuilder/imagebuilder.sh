@@ -69,6 +69,24 @@ adjust_settings() {
     fi
 
     # For other files
+    [[ -d "files" ]] || mkdir -p files/etc/uci-defaults
+    if [[ ${op_source == openwrt} ]]; then
+        cat > files/etc/uci-defaults/999-default-settings << EOF
+#!/bin/bash
+
+echo "" > /etc/banner
+echo "────────────────────────" >> /etc/banner
+echo "  ┌─┐┌─┐┌─┐┌─┐╷╷╷┌─╶┬╴" >> /etc/banner
+echo "  └─┘╵‾ └─ ╵ ╵└┴┘╵  ╵ " >> /etc/banner
+echo "────────────────────────" >> /etc/banner
+
+mv /etc/profile.d/30-sysinfo.sh.tmp /etc/profile.d/30-sysinfo.sh
+
+exit0
+EOF
+    fi
+
+    # For other files
 
     sync && sleep 3
     echo -e "${INFO} [ openwrt ] directory status: $(ls -al 2>/dev/null)"
