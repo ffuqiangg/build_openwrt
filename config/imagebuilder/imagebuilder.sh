@@ -70,7 +70,7 @@ adjust_settings() {
 
     # For other files
     [[ -d "files" ]] || mkdir -p files/etc/uci-defaults
-    if [[ ${op_source == openwrt} ]]; then
+    if [[ ${op_source} == openwrt ]]; then
         cat > files/etc/uci-defaults/999-default-settings << EOF
 #!/bin/bash
 
@@ -78,6 +78,20 @@ echo "────────────────────────" 
 echo "  ┌─┐┌─┐┌─┐┌─┐╷╷╷┌─╶┬╴" >> /etc/banner
 echo "  └─┘╵‾ └─ ╵ ╵└┴┘╵  ╵ " >> /etc/banner
 echo "────────────────────────" >> /etc/banner
+
+sed -i -e '/ROOT1=/c ROOT1=\"720\"' -e '/ROOT2=/c ROOT2=\"720\"' /usr/sbin/openwrt-install-amlogic
+rm -f /etc/profile.d/30-sysinfo.sh
+
+exit0
+EOF
+    elif [[ ${op_source} == immortalwrt ]]; then
+        cat > files/etc/uci-defaults/999-default-settings << EOF
+#!/bin/bash
+
+echo "────────────────────────────────" > /etc/banner\
+echo "  ╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴" >> /etc/banner\
+echo "  ╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵ " >> /etc/banner\
+echo "────────────────────────────────" >> /etc/banner\
 
 sed -i -e '/ROOT1=/c ROOT1=\"720\"' -e '/ROOT2=/c ROOT2=\"720\"' /usr/sbin/openwrt-install-amlogic
 rm -f /etc/profile.d/30-sysinfo.sh
