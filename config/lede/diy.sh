@@ -42,68 +42,6 @@ sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/model
 sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
 sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 
-# Add customize command
-sed -i -e 's/alF/alhF/' -e "s/=vim/=\'vim -u NONE\'/" package/base-files/files/etc/shinit
-cat >> package/base-files/files/etc/profile <<EOF
-
-# Alias's for multiple directory listing commands
-alias ll='ls -alhF --color=auto'
-alias la='ls -A'
-alias l='ls -CF'
-
-# Alias's for archives
-alias mktar='tar -cvf'
-alias mkbz2='tar -cvjf'
-alias mkgz='tar -cvzf'
-alias untar='tar -xvf'
-alias unbz2='tar -xvjf'
-alias ungz='tar -xvzf'
-
-# Change directory aliases
-[ -d /mnt/mmcblk2p4 ] && alias 2p4='cd /mnt/mmcblk2p4'
-[ -d /mnt/sda1 ] && alias sda1='cd /mnt/sda1'
-alias bd='cd "\$OLDPWD"'
-
-# alias chmod commands
-alias mx='chmod +x'
-alias 000='chmod -R 000'
-alias 644='chmod -R 644'
-alias 666='chmod -R 666'
-alias 755='chmod -R 755'
-alias 777='chmod -R 777'
-
-# Copy and go to the directory
-cpg ()
-{
-    if [ -d "\$2" ];then
-        cp \$1 \$2 && cd \$2
-    else
-        cp \$1 \$2
-    fi
-}
-
-# Move and go to the directory
-mvg ()
-{
-    if [ -d "\$2" ];then
-        mv \$1 \$2 && cd \$2
-    else
-        mv \$1 \$2
-    fi
-}
-
-# Create and go to the directory
-mkdirg ()
-{
-    mkdir -p \$1
-    cd \$1
-}
-
-# History search ↑ ↓
-bind '"\e[A": history-search-backward'
-bind '"\e[B": history-search-forward'
-EOF
-
 # Change banner
 sed -i '/exit/i\echo "────────────────────────" > /etc/banner\
 echo "  ┌─┐┌─┐┌─┐┌─┐╷╷╷┌─╶┬╴" >> /etc/banner\
