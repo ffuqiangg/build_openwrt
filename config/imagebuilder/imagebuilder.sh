@@ -130,14 +130,15 @@ custom_packages() {
     custom_packages_list="${custom_packages_list} luci-app-amlogic luci-i18n-amlogic-zh-cn"
 
     # Download luci-app-mosdns
-    # mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
-    # mosdns_file_down="$(curl -s ${mosdns_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_generic.ipk" -oE)"
-    # for down_url in $(echo $mosdns_file_down); do
-    #     wget ${down_url} -q -P packages
-    #     mosdns_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
-    #     [[ "${?}" -eq "0" ]] || error_msg "[ $mosdns_file ] download failed!"
-    #     echo -e "${INFO} The [ $mosdns_file ] is downloaded successfully."
-    # done
+    mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
+    mosdns_file_down="$(curl -s ${mosdns_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_generic.ipk" -oE)"
+    for down_url in $(echo $mosdns_file_down); do
+        wget ${down_url} -q -P packages
+        mosdns_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
+        [[ "${?}" -eq "0" ]] || error_msg "[ $mosdns_file ] download failed!"
+        echo -e "${INFO} The [ $mosdns_file ] is downloaded successfully."
+    done
+    custom_packages_list="${custom_packages_list} luci-app-mosdns luci-i18n-mosdns-zh-cn mosdns v2dat v2ray-geosite v2ray-geoip"
 
     # Download luci-app-passwall2
     if [[ ${op_source} == openwrt ]]; then
@@ -149,7 +150,7 @@ custom_packages() {
                 passwall_packages=$(echo $down_url | awk -F "/" '{print $NF}')
                 passwall_file=$(echo $passwall_packages | awk -F "_ipk" '{print $1}')
                 unzip packages/${passwall_packages} -d zip_tmp
-                rm packages/${passwall_packages}
+                rm packages/${passwall_packages} zip_tmp/*_all.ipk
                 mv zip_tmp/* packages/ && rm -rf zip_tmp
             else
                 passwall_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
@@ -160,7 +161,7 @@ custom_packages() {
         custom_packages_list="${custom_packages_list} luci-app-passwall2 luci-i18n-passwall2-zh-cn \
             brook hysteria naiveproxy shadowsocksr-libev-ssr-local shadowsocksr-libev-ssr-redir \
             shadowsocksr-libev-ssr-server shadowsocks-rust-sslocal shadowsocks-rust-ssserver \
-            simple-obfs tcping tuic-client v2ray-core v2ray-plugin xray-core v2ray-geoip v2ray-geosite"
+            simple-obfs tcping tuic-client v2ray-core v2ray-plugin xray-core"
     fi
 
     # Download luci-app-openclash
