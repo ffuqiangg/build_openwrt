@@ -86,8 +86,6 @@ exit0
 EOF
     fi
 
-    # For other files
-
     sync && sleep 3
     echo -e "${INFO} [ openwrt ] directory status: $(ls -al 2>/dev/null)"
 }
