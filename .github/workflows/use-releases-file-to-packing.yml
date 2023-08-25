@@ -27,6 +27,7 @@ on:
         type: choice
         options:
           - ffuqiangg/amlogic-s9xxx-armbian
+          - ffuqiangg/kernel_5.10.y
           - breakings/Openwrt
           - ophub/kernel
 
@@ -88,8 +89,6 @@ jobs:
 
       - name: Packaging OpenWrt (ophub)
         if: steps.codes.outputs.package_repo == 'ophub'
-        env:
-          releases_tag: ${{ env.RELEASES_TAG }}
         uses: ffuqiangg/amlogic-s9xxx-openwrt@main
         with:
           openwrt_path: ${ env.DOWNLOAD_URL }
@@ -99,6 +98,7 @@ jobs:
           kernel_repo: ${{ inputs.kernel_repo }}
           kernel_usage: flippy
           gh_token: ${{ secrets.GH_TOKEN }}
+          image_name: ${{ env.RELEASES_TAG }}
 
       - name: Package OpenWrt (flippy)
         if: steps.codes.outputs.package_repo == 'flippy'

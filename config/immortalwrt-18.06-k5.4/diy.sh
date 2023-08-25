@@ -51,10 +51,6 @@ echo "────────────────────────�
 ' package/emortal/default-settings/files/99-default-settings
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
 
-# Change 30-sysinfo.sh in ophub/amlogic-s9xxx-openwrt
-sed -i '/exit/i\mv /etc/profile.d/30-sysinfo.sh.tmp /etc/profile.d/30-sysinfo.sh\
-' package/emortal/default-settings/files/99-default-settings
-
 # Add luci-app-mosdns
 rm -rf feeds/packages/net/v2ray-geodata
 git clone --depth=1 --single-branch -b v5 https://github.com/sbwml/luci-app-mosdns package/mosdns
