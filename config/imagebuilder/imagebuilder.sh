@@ -40,7 +40,7 @@ download_imagebuilder() {
 
     # Downloading imagebuilder files
     download_file="https://downloads.${op_source}.org/releases/${op_branch}/targets/${target_system}/${op_source}-imagebuilder-${op_branch}-${target_name}.Linux-x86_64.tar.xz"
-    if ! "$(wget -q "${download_file}")"; then
+    if ! wget -q "${download_file}"; then
         error_msg "Wget download failed: [ ${download_file} ]"
     fi
 
