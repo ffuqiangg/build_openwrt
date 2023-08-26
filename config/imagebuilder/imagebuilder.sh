@@ -155,7 +155,7 @@ custom_packages() {
             if [[ ${down_url} == *.zip ]]; then
                 passwall_packages=$(echo "${down_url}" | awk -F "/" '{print $NF}')
                 passwall_file=$(echo "${passwall_packages}" | awk -F "_ipk" '{print $1}')
-                unzip packages/"${passwall_packages}" -d zip_tmp
+                unzip -q packages/"${passwall_packages}" -d zip_tmp
                 rm packages/"${passwall_packages}" zip_tmp/*_all.ipk
                 mv zip_tmp/* packages/ && rm -rf zip_tmp
             else
