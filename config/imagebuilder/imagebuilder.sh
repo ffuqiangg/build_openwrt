@@ -13,8 +13,6 @@ INFO="[\033[94m INFO \033[0m]"
 SUCCESS="[\033[92m SUCCESS \033[0m]"
 WARNING="[\033[93m WARNING \033[0m]"
 ERROR="[\033[91m ERROR \033[0m]"
-#
-#================================================================================================
 
 # Encountered a serious error, abort the script execution
 error_msg() {
