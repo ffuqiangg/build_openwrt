@@ -104,11 +104,17 @@ jobs:
           gh_token: ${{ secrets.GH_TOKEN }}
           image_name: ${{ env.IMAGE_NAME }} 
 
+      - name: Generate release tag
+        id: tag
+        if: env.PACKAGED_STATUS == 'success' && !cancelled()
+        run: |
+          echo "PACKAGE_DATE=$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_ENV
+
       - name: Upload the packaged OpenWrt
         uses: ncipollo/release-action@main
         if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
         with:
-          tag: ${{ env.RELEASES_TAG }}-${{ env.PACKAGED_OUTPUTDATE }}
+          tag: ${{ env.RELEASES_TAG }}-${{ env.PACKAGE_DATE }}
           artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
           allowUpdates: true
           removeArtifacts: false
