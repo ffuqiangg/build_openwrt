@@ -24,7 +24,7 @@ error_msg() {
 
 # Downloading OpenWrt ImageBuilder
 download_imagebuilder() {
-    cd ${make_path}
+    cd "${make_path}" || exit
     echo -e "${STEPS} Start downloading OpenWrt files..."
 
     # Determine the target system (Imagebuilder files naming has changed since 23.05.0)
@@ -40,12 +40,13 @@ download_imagebuilder() {
 
     # Downloading imagebuilder files
     download_file="https://downloads.${op_source}.org/releases/${op_branch}/targets/${target_system}/${op_source}-imagebuilder-${op_branch}-${target_name}.Linux-x86_64.tar.xz"
-    wget -q ${download_file}
-    [[ "${?}" -eq "0" ]] || error_msg "Wget download failed: [ ${download_file} ]"
+    if ! "$(wget -q "${download_file}")"; then
+        error_msg "Wget download failed: [ ${download_file} ]"
+    fi
 
     # Unzip and change the directory name
-    tar -xJf *-imagebuilder-* && sync && rm -f *-imagebuilder-*.tar.xz
-    mv -f *-imagebuilder-* ${openwrt_dir}
+    tar -xJf ./*-imagebuilder-* && sync && rm -f ./*-imagebuilder-*.tar.xz
+    mv -f ./*-imagebuilder-* ${openwrt_dir}
 
     sync && sleep 3
     echo -e "${INFO} [ ${make_path} ] directory status: $(ls . -l 2>/dev/null)"
@@ -53,7 +54,7 @@ download_imagebuilder() {
 
 # Adjust related files in the ImageBuilder directory
 adjust_settings() {
-    cd ${imagebuilder_path}
+    cd "${imagebuilder_path}" || exit
     echo -e "${STEPS} Start adjusting .config file settings..."
 
     # For .config file
@@ -71,7 +72,7 @@ adjust_settings() {
     # For other files
     [[ -d "files" ]] || mkdir -p files/etc/uci-defaults
     if [[ ${op_source} == openwrt ]]; then
-        cat > files/etc/uci-defaults/999-default-settings << EOF
+        cat >files/etc/uci-defaults/999-default-settings <<EOF
 #!/bin/bash
 
 echo "────────────────────────" > /etc/banner
@@ -85,7 +86,7 @@ rm -f /etc/profile.d/30-sysinfo.sh
 exit0
 EOF
     elif [[ ${op_source} == immortalwrt ]]; then
-        cat > files/etc/uci-defaults/999-default-settings << EOF
+        cat >files/etc/uci-defaults/999-default-settings <<EOF
 #!/bin/bash
 
 echo "────────────────────────────────" > /etc/banner\
@@ -108,7 +109,7 @@ EOF
 # If there is a custom package or ipk you would prefer to use create a [ packages ] directory,
 # If one does not exist and place your custom ipk within this directory.
 custom_packages() {
-    cd ${imagebuilder_path}
+    cd "${imagebuilder_path}" || exit
     echo -e "${STEPS} Start adding custom packages..."
     custom_packages_list=""
 
@@ -119,24 +120,27 @@ custom_packages() {
     amlogic_api="https://api.github.com/repos/ophub/luci-app-amlogic/releases"
     amlogic_file="luci-app-amlogic"
     amlogic_file_down="$(curl -s ${amlogic_api} | grep "browser_download_url" | grep -oE "https.*${amlogic_file}.*.ipk" | head -n 1)"
-    wget ${amlogic_file_down} -q -P packages
-    [[ "${?}" -eq "0" ]] || error_msg "[ ${amlogic_file} ] download failed!"
+    if ! wget "${amlogic_file_down}" -q -P packages; then
+        error_msg "[ ${amlogic_file} ] download failed!"
+    fi
     echo -e "${INFO} The [ ${amlogic_file} ] is downloaded successfully."
     amlogic_i18n="luci-i18n-amlogic"
     amlogic_i18n_down="$(curl -s ${amlogic_api} | grep "browser_download_url" | grep -oE "https.*${amlogic_i18n}.*.ipk" | head -n 1)"
-    wget ${amlogic_i18n_down} -q -P packages
-    [[ "${?}" -eq "0" ]] || error_msg "[ ${amlogic_i18n} ] download failed!"
+    if ! wget "${amlogic_i18n_down}" -q -P packages; then
+        error_msg "[ ${amlogic_i18n} ] download failed!"
+    fi
     echo -e "${INFO} The [ ${amlogic_i18n} ] is downloaded successfully."
     custom_packages_list="${custom_packages_list} luci-app-amlogic luci-i18n-amlogic-zh-cn"
 
     # Download luci-app-mosdns
     mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
     mosdns_file_down="$(curl -s ${mosdns_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_generic.ipk" -oE)"
-    for down_url in $(echo $mosdns_file_down); do
-        wget ${down_url} -q -P packages
-        mosdns_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
-        [[ "${?}" -eq "0" ]] || error_msg "[ $mosdns_file ] download failed!"
+    for down_url in ${mosdns_file_down}; do
+        if ! wget "${down_url}" -q -P packages; then
+            error_msg "[ $mosdns_file ] download failed!"
+        fi
         echo -e "${INFO} The [ $mosdns_file ] is downloaded successfully."
+        mosdns_file=$(echo "${down_url}" | awk -F "/" '{print $NF}' | cut -d _ -f 1)
     done
     custom_packages_list="${custom_packages_list} luci-app-mosdns luci-i18n-mosdns-zh-cn mosdns v2dat v2ray-geosite v2ray-geoip"
 
@@ -144,19 +148,20 @@ custom_packages() {
     if [[ ${op_source} == openwrt ]]; then
         passwall_api="https://api.github.com/repos/xiaorouji/openwrt-passwall2/releases"
         passwall_file_down="$(curl -s ${passwall_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.zip" -oE)"
-        for down_url in $(echo $passwall_file_down); do
-            wget ${down_url} -q -P packages
+        for down_url in ${passwall_file_down}; do
+            if ! wget "${down_url}" -q -P packages; then
+                error_msg "[ $passwall_file ] download failed!"
+            fi
+            echo -e "${INFO} The [ $passwall_file ] is downloaded successfully."
             if [[ ${down_url} == *.zip ]]; then
-                passwall_packages=$(echo $down_url | awk -F "/" '{print $NF}')
-                passwall_file=$(echo $passwall_packages | awk -F "_ipk" '{print $1}')
-                unzip packages/${passwall_packages} -d zip_tmp
-                rm packages/${passwall_packages} zip_tmp/*_all.ipk
+                passwall_packages=$(echo "${down_url}" | awk -F "/" '{print $NF}')
+                passwall_file=$(echo "${passwall_packages}" | awk -F "_ipk" '{print $1}')
+                unzip packages/"${passwall_packages}" -d zip_tmp
+                rm packages/"${passwall_packages}" zip_tmp/*_all.ipk
                 mv zip_tmp/* packages/ && rm -rf zip_tmp
             else
-                passwall_file=$(echo $down_url | awk -F "/" '{print $NF}' | cut -d _ -f 1)
+                passwall_file=$(echo "${down_url}" | awk -F "/" '{print $NF}' | cut -d _ -f 1)
             fi
-            [[ "${?}" -eq "0" ]] || error_msg "[ $passwall_file ] download failed!"
-            echo -e "${INFO} The [ $passwall_file ] is downloaded successfully."
         done
         custom_packages_list="${custom_packages_list} luci-app-passwall2 luci-i18n-passwall2-zh-cn \
             brook hysteria naiveproxy shadowsocksr-libev-ssr-local shadowsocksr-libev-ssr-redir \
@@ -168,10 +173,11 @@ custom_packages() {
     if [[ ${op_source} == openwrt ]]; then
         openclash_api="https://api.github.com/repos/vernesong/Openclash/releases"
         openclash_file_down="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*luci-app-openclash.*.ipk" | head -n 1)"
-        wget ${openclash_file_down} -q -P packages
-        openclash_file=$(echo $openclash_file_down | awk -F "/" '{print $NF}' | cut -d _ -f 1)
-        [[ "${?}" -eq "0" ]] || error_msg "[ $openclash_file ] download failed!"
+        if ! wget "${openclash_file_down}" -q -P packages; then
+            error_msg "[ $openclash_file ] download failed!"
+        fi
         echo -e "${INFO} The [ $openclash_file ] is downloaded successfully."
+        openclash_file=$(echo "${openclash_file_down}" | awk -F "/" '{print $NF}' | cut -d _ -f 1)
         custom_packages_list="${custom_packages_list} luci-app-openclash -dnsmasq dnsmasq-full \
             ca-certificates ipset ip-full libcap libcap-bin ruby ruby-yaml kmod-tun kmod-inet-diag kmod-nft-tproxy"
     elif [[ ${op_source} == immortalwrt ]]; then
@@ -186,12 +192,12 @@ custom_packages() {
 
 # Add custom packages, lib, theme, app and i18n, etc.
 custom_config() {
-    cd ${imagebuilder_path}
+    cd "${imagebuilder_path}" || exit
     echo -e "${STEPS} Start adding custom config..."
 
     config_list=""
     if [[ -s "${custom_config_file}" ]]; then
-        config_list="$(cat ${custom_config_file} 2>/dev/null | grep -E "^CONFIG_PACKAGE_.*=y" | sed -e 's/CONFIG_PACKAGE_//g' -e 's/=y//g' -e 's/[ ][ ]*//g' | tr '\n' ' ')"
+        config_list="$(< "${custom_config_file}" 2>/dev/null grep -E "^CONFIG_PACKAGE_.*=y" | sed -e 's/CONFIG_PACKAGE_//g' -e 's/=y//g' -e 's/[ ][ ]*//g' | tr '\n' ' ')"
         echo -e "${INFO} Custom config list: \n$(echo "${config_list}" | tr ' ' '\n')"
     else
         echo -e "${INFO} No custom config was added."
@@ -202,13 +208,13 @@ custom_config() {
 # The FILES variable allows custom configuration files to be included in images built with Image Builder.
 # The [ files ] directory should be placed in the Image Builder root directory where you issue the make command.
 custom_files() {
-    cd ${imagebuilder_path}
+    cd "${imagebuilder_path}" || exit
     echo -e "${STEPS} Start adding custom files..."
 
     if [[ -d "${custom_files_path}" ]]; then
         # Copy custom files
         [[ -d "files" ]] || mkdir -p files
-        cp -rf ${custom_files_path}/* files
+        cp -rf "${custom_files_path}"/* files
 
         sync && sleep 3
         echo -e "${INFO} [ files ] directory status: $(ls files -l 2>/dev/null)"
@@ -219,7 +225,7 @@ custom_files() {
 
 # Rebuild OpenWrt firmware
 rebuild_firmware() {
-    cd ${imagebuilder_path}
+    cd "${imagebuilder_path}" || exit
     echo -e "${STEPS} Start building OpenWrt with Image Builder..."
 
     # Selecting default packages, lib, theme, app and i18n, etc.
@@ -247,7 +253,7 @@ rebuild_firmware() {
         \
         ${custom_packages_list} ${config_list} \
         "
-    
+
     # Rebuild firmware
     make image PROFILE="${target_profile}" PACKAGES="${my_packages}" FILES="files"
 
@@ -265,7 +271,7 @@ op_source="${1%:*}"
 op_branch="${1#*:}"
 echo -e "${INFO} Rebuild path: [ ${PWD} ]"
 echo -e "${INFO} Rebuild Source: [ ${op_source} ], Branch: [ ${op_branch} ]"
-echo -e "${INFO} Server space usage before starting to compile: \n$(df -hT ${make_path}) \n"
+echo -e "${INFO} Server space usage before starting to compile: \n$(df -hT "${make_path}") \n"
 #
 # Perform related operations
 download_imagebuilder
@@ -276,6 +282,6 @@ custom_files
 rebuild_firmware
 #
 # Show server end information
-echo -e "Server space usage after compilation: \n$(df -hT ${make_path}) \n"
+echo -e "Server space usage after compilation: \n$(df -hT "${make_path}") \n"
 # All process completed
 wait
