@@ -133,16 +133,16 @@ custom_packages() {
     custom_packages_list="${custom_packages_list} luci-app-amlogic luci-i18n-amlogic-zh-cn"
 
     # Download luci-app-mosdns
-    # mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
-    # mosdns_file_down="$(curl -s ${mosdns_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_generic.ipk" -oE)"
-    # for down_url in ${mosdns_file_down}; do
-    #     if ! wget "${down_url}" -q -P packages; then
-    #         error_msg "[ $mosdns_file ] download failed!"
-    #     fi
-    #     echo -e "${INFO} The [ $mosdns_file ] is downloaded successfully."
-    #     mosdns_file=$(echo "${down_url}" | awk -F "/" '{print $NF}' | cut -d _ -f 1)
-    # done
-    # custom_packages_list="${custom_packages_list} luci-app-mosdns luci-i18n-mosdns-zh-cn mosdns v2dat v2ray-geosite v2ray-geoip"
+    mosdns_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
+    mosdns_file_down="$(curl -s ${mosdns_api}/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.ipk" -oE)"
+    for down_url in ${mosdns_file_down}; do
+        if ! wget "${down_url}" -q -P packages; then
+            error_msg "[ $mosdns_file ] download failed!"
+        fi
+        echo -e "${INFO} The [ $mosdns_file ] is downloaded successfully."
+        mosdns_file=$(echo "${down_url}" | awk -F "/" '{print $NF}' | cut -d _ -f 1)
+    done
+    custom_packages_list="${custom_packages_list} luci-app-mosdns luci-i18n-mosdns-zh-cn mosdns v2dat v2ray-geosite v2ray-geoip"
 
     # Download luci-app-passwall2
     if [[ ${op_source} == openwrt ]]; then
