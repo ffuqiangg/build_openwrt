@@ -117,29 +117,25 @@ custom_packages() {
 
     # Download luci-app-amlogic
     amlogic_repo="ophub/luci-app-amlogic"
-    amlogic_file="luci-app-amlogic"
-    amlogic_file_down="$(curl -s ${github_api}/${amlogic_repo}/releases | grep "browser_download_url" | grep -oE "https.*${amlogic_file}.*.ipk" | head -n 1)"
-    if ! wget "${amlogic_file_down}" -q -P packages; then
-        error_msg "[ ${amlogic_file} ] download failed!"
-    fi
-    echo -e "${INFO} The [ ${amlogic_file} ] is downloaded successfully."
-    amlogic_i18n="luci-i18n-amlogic"
-    amlogic_i18n_down="$(curl -s ${github_api}/${amlogic_repo}/releases | grep "browser_download_url" | grep -oE "https.*${amlogic_i18n}.*.ipk" | head -n 1)"
-    if ! wget "${amlogic_i18n_down}" -q -P packages; then
-        error_msg "[ ${amlogic_i18n} ] download failed!"
-    fi
-    echo -e "${INFO} The [ ${amlogic_i18n} ] is downloaded successfully."
+    amlogic_file_down="$(curl -s ${github_api}/${amlogic_repo}/releases/latest | grep "browser_download_url" | grep -oE "https.*all.ipk")"
+    for down_url in ${amlogic_file_down}; do
+        amlogic_file=$(echo "${down_url}" | awk -F "/" '{print $NF}' | cut -d _ -f 1)
+        if ! wget "${down_url}" -q -P packages; then
+            error_msg "[ ${amlogic_file} ] download failed!"
+        fi
+        echo -e "${INFO} The [ ${amlogic_file} ] is downloaded successfully."
+    done
     custom_packages_list="${custom_packages_list} luci-app-amlogic luci-i18n-amlogic-zh-cn"
 
     # Download luci-app-mosdns
     mosdns_repo="sbwml/luci-app-mosdns"
     mosdns_file_down="$(curl -s ${github_api}/${mosdns_repo}/releases/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.ipk" -oE)"
     for down_url in ${mosdns_file_down}; do
+        mosdns_file=$(echo "${down_url}" | awk -F "/" '{print $NF}' | cut -d _ -f 1)
         if ! wget "${down_url}" -q -P packages; then
             error_msg "[ $mosdns_file ] download failed!"
         fi
         echo -e "${INFO} The [ $mosdns_file ] is downloaded successfully."
-        mosdns_file=$(echo "${down_url}" | awk -F "/" '{print $NF}' | cut -d _ -f 1)
     done
     custom_packages_list="${custom_packages_list} luci-app-mosdns luci-i18n-mosdns-zh-cn"
 
@@ -148,18 +144,16 @@ custom_packages() {
         passwall_repo="xiaorouji/openwrt-passwall2"
         passwall_file_down="$(curl -s ${github_api}/${passwall_repo}/releases/latest | grep "browser_download_url" | grep -e "https.*all.ipk" -e "https.*aarch64_cortex-a53.zip" -oE)"
         for down_url in ${passwall_file_down}; do
+            passwall_file=$(echo "${down_url}" | awk -F "/" '{print $NF}' | cut -d _ -f -2)
             if ! wget "${down_url}" -q -P packages; then
                 error_msg "[ $passwall_file ] download failed!"
             fi
             echo -e "${INFO} The [ $passwall_file ] is downloaded successfully."
             if [[ ${down_url} == *.zip ]]; then
                 passwall_packages=$(echo "${down_url}" | awk -F "/" '{print $NF}')
-                passwall_file=$(echo "${passwall_packages}" | awk -F "_ipk" '{print $1}')
                 unzip -q packages/"${passwall_packages}" -d zip_tmp
-                rm packages/"${passwall_packages}" zip_tmp/*_all.ipk
+                rm packages/"${passwall_packages}" zip_tmp/v2ray-geo*.ipk
                 mv zip_tmp/* packages/ && rm -rf zip_tmp
-            else
-                passwall_file=$(echo "${down_url}" | awk -F "/" '{print $NF}' | cut -d _ -f 1)
             fi
         done
         custom_packages_list="${custom_packages_list} luci-app-passwall2 luci-i18n-passwall2-zh-cn"
@@ -169,11 +163,11 @@ custom_packages() {
     if [[ ${op_source} == openwrt ]]; then
         openclash_repo="vernesong/Openclash"
         openclash_file_down="$(curl -s ${github_api}/${openclash_repo}/releases | grep "browser_download_url" | grep -oE "https.*luci-app-openclash.*.ipk" | head -n 1)"
+        openclash_file=$(echo "${openclash_file_down}" | awk -F "/" '{print $NF}' | cut -d _ -f 1)
         if ! wget "${openclash_file_down}" -q -P packages; then
             error_msg "[ $openclash_file ] download failed!"
         fi
         echo -e "${INFO} The [ $openclash_file ] is downloaded successfully."
-        openclash_file=$(echo "${openclash_file_down}" | awk -F "/" '{print $NF}' | cut -d _ -f 1)
         custom_packages_list="${custom_packages_list} luci-app-openclash -dnsmasq"
     elif [[ ${op_source} == immortalwrt ]]; then
         custom_packages_list="${custom_packages_list} luci-app-openclash -dnsmasq"
