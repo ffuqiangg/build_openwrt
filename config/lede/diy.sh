@@ -43,10 +43,10 @@ sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/
 sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 
 # Change banner
-sed -i '/exit/i\echo "────────────────────────" > /etc/banner\
-echo "  ┌─┐┌─┐┌─┐┌─┐╷╷╷┌─╶┬╴" >> /etc/banner\
-echo "  └─┘╵‾ └─ ╵ ╵└┴┘╵  ╵ " >> /etc/banner\
-echo "────────────────────────" >> /etc/banner\
+sed -i '/exit/i\echo "[34m╭────────────────────────────────╮[0m" > /etc/banner\
+echo "[34m│[0m        ╷   ┌─┐   ▁╷  ┌─┐       [34m│[0m" >> /etc/banner\
+echo "[34m│[0m        └─  └─   └─┘  └─        [34m│[0m" >> /etc/banner\
+echo "[34m╰─────────────────── [0m[36m@ffuqiangg[0m[36m ─╯[0m" >> /etc/banner\
 ' package/lean/default-settings/files/zzz-default-settings
 
 # Add passwall
