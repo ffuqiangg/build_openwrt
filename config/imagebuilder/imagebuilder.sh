@@ -173,15 +173,33 @@ custom_packages() {
         custom_packages_list="${custom_packages_list} luci-app-openclash -dnsmasq"
     fi
 
+    # Download luci-app-vlmcsd KMS
+    if [[ ${op_source} == openwrt ]]; then
+        vlmcsd_repo="cokebar/luci-app-vlmcsd"
+        vlmcsd_file_down="$(curl -s ${github_api}/${vlmcsd_repo}/releases/latest | grep "browser_download_url" | grep -oE "https.*luci-app-vlmcsd.*.ipk")"
+        vlmcsd_file=$(echo "${vlmcsd_file_down}" | awk -F "/" '{print $NF}' | cut -d _ -f 1)
+        if ! wget "${vlmcsd_file_down}" -q -P packages; then
+            error_msg "[ $vlmcsd_file ] download failed!"
+        fi
+        echo -e "${INFO} The [ $vlmcsd_file ] is downloaded successfully."
+        custom_packages_list="${custom_packages_list} luci-app-vlmcsd"
+    elif [[ ${op_source} == immortalwrt ]]; then
+        custom_packages_list="${custom_packages_list} luci-app-vlmcsd"
+    fi
+
     # Download autocore
-    autocore_url="https://downloads.immortalwrt.org/releases/21.02.6/targets/armvirt/64/packages"
-    autocore_file="$(curl -s "${autocore_url}" | grep -oE "autocore.*.ipk")"
-    autocore_file_down="${autocore_url}/${autocore_file}.ipk"
+    if [[ ${op_source} == openwrt ]]; then
+        autocore_url="https://downloads.immortalwrt.org/releases/21.02.6/targets/armvirt/64/packages"
+        autocore_file="$(curl -s "${autocore_url}" | grep -oE "autocore.*.ipk")"
+        autocore_file_down="${autocore_url}/${autocore_file}.ipk"
         if ! wget "${autocore_file_down}" -q -P packages; then
             error_msg "[ autocore ] download failed!"
         fi
         echo -e "${INFO} The [ autocore ] is downloaded successfully."
-    custom_packages_list="${custom_packages_list} autocore"
+        custom_packages_list="${custom_packages_list} autocore"
+    elif [[ ${op_source} == immortalwrt ]]; then
+        custom_packages_list="${custom_packages_list} autocore"
+    fi
 
     # ......
 
