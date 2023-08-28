@@ -190,7 +190,7 @@ custom_packages() {
     # Download autocore
     if [[ ${op_source} == openwrt ]]; then
         autocore_url="https://downloads.immortalwrt.org/releases/21.02.6/targets/armvirt/64/packages/"
-        autocore_file="$(curl -s "${autocore_url}" | grep -oE "autocore.*.ipk")"
+        autocore_file="$(curl -s "${autocore_url}" | grep -oP "autocore.*?.ipk" | head -n 1)"
         autocore_file_down="${autocore_url}${autocore_file}"
         if ! wget "${autocore_file_down}" -q -P packages; then
             error_msg "[ autocore ] download failed!"
