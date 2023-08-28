@@ -184,7 +184,7 @@ custom_packages() {
         echo -e "${INFO} The [ $luci_vlmcsd_file ] is downloaded successfully."
 
         vlmcsd_url="https://github.com/cokebar/openwrt-vlmcsd/tree/gh-pages"
-        vlmcsd_file="$(curl -s "${vlmcsd_url}" | grep -oP "vlmcsd_.*?arrch64_cortex-a53.ipk" | sort -rV | head -n 1)"
+        vlmcsd_file="$(curl -s "${vlmcsd_url}" | grep -oP "vlmcsd_.*?aarch64_cortex-a53.ipk" | sort -rV | head -n 1)"
         vlmcsd_file_down="${vlmcsd_url/tree/raw}/${vlmcsd_file}"
         if ! wget "${vlmcsd_file_down}" -q -P packages; then
             error_msg "[ vlmcsd ] download failed!"
