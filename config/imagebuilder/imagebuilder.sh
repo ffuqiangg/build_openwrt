@@ -173,6 +173,16 @@ custom_packages() {
         custom_packages_list="${custom_packages_list} luci-app-openclash -dnsmasq"
     fi
 
+    # Download autocore
+    autocore_url="https://downloads.immortalwrt.org/releases/21.02.6/targets/armvirt/64/packages"
+    autocore_file="$(curl -s "${autocore_url}" | grep -oE "autocore.*.ipk")"
+    autocore_file_down="${autocore_url}/${autocore_file}.ipk"
+        if ! wget "${autocore_file_down}" -q -P packages; then
+            error_msg "[ autocore ] download failed!"
+        fi
+        echo -e "${INFO} The [ autocore ] is downloaded successfully."
+    custom_packages_list="${custom_packages_list} autocore"
+
     # ......
 
     sync && sleep 3
