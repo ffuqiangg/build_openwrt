@@ -50,8 +50,12 @@ echo "╰──────────────────╯" >> /etc/bann
 ' package/lean/default-settings/files/zzz-default-settings
 
 # Add passwall
-git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
+# git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
+# passwall2
+git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall2 package/luci-app-passwall2
+# depends
 git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall.git  package/passwall-depends
+
 
 # Add filebrowser & change menu
 svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-filebrowser package/luci-app-filebrowser
