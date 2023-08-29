@@ -44,7 +44,7 @@ sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/
 
 # Change banner
 sed -i '/exit/i\echo "╭──────────────────╮" > /etc/banner\
-echo "│[36m  ╷  ┌─┐  ▁╷ ┌─┐  [0m│" >> /etc/banner\
+echo "│[36m  ╷  ┌─┐  _╷ ┌─┐  [0m│" >> /etc/banner\
 echo "│[36m  └─ └─  └─┘ └─   [0m│" >> /etc/banner\
 echo "╰──────────────────╯" >> /etc/banner\
 ' package/lean/default-settings/files/zzz-default-settings
