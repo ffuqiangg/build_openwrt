@@ -195,20 +195,6 @@ custom_packages() {
         custom_packages_list="${custom_packages_list} luci-app-vlmcsd"
     fi
 
-    # Download autocore
-    if [[ ${op_source} == openwrt ]]; then
-        autocore_url="https://downloads.immortalwrt.org/snapshots/targets/armsr/armv8/packages/"
-        autocore_file="$(curl -s "${autocore_url}" | grep -oP "autocore.*?.ipk" | head -n 1)"
-        autocore_file_down="${autocore_url}${autocore_file}"
-        if ! wget "${autocore_file_down}" -q -P packages; then
-            error_msg "[ autocore ] download failed!"
-        fi
-        echo -e "${INFO} The [ autocore ] is downloaded successfully."
-         custom_packages_list="${custom_packages_list} autocore"
-    elif [[ ${op_source} == immortalwrt ]]; then
-        custom_packages_list="${custom_packages_list} autocore"
-    fi
-
     # ......
 
     sync && sleep 3
