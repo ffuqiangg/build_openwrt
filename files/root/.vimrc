@@ -43,11 +43,14 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
-inoremap <C-k> <Esc>o
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+inoremap <C-k> <Esc>o
+nnoremap x "_x
+vnoremap x "_x
+nnoremap <C-x> "_dd
 nnoremap <M-UP> :m-2<CR>
 nnoremap <M-DOWN> :m+1<CR>
 
