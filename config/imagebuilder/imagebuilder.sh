@@ -73,6 +73,14 @@ adjust_settings() {
         cat >files/etc/uci-defaults/999-default-settings <<EOF
 #!/bin/bash
 
+passwd root << EOF
+password
+password
+EOF
+
+uci set network.lan.ipaddr='192.168.1.99'
+uci commit network
+
 echo "╭────────────────────────╮" > /etc/banner
 echo "│[36m  ┌─┐┌─┐┌─┐┌─┐╷╷╷┌─╶┬╴  [0m│" >> /etc/banner
 echo "│[36m  └─┘╵‾ └─ ╵ ╵└┴┘╵  ╵   [0m│" >> /etc/banner
@@ -86,6 +94,14 @@ EOF
     elif [[ ${op_source} == immortalwrt ]]; then
         cat >files/etc/uci-defaults/999-default-settings <<EOF
 #!/bin/bash
+
+passwd root << EOF
+password
+password
+EOF
+
+uci set network.lan.ipaddr='192.168.1.99'
+uci commit network
 
 echo "╭────────────────────────────────╮" > /etc/banner
 echo "│[36m  ╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴  [0m│" >> /etc/banner
