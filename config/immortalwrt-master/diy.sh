@@ -46,18 +46,18 @@ sed -i 's/admin\//&services\//g' package/feeds/luci/luci-app-dockerman/luasrc/vi
 sed -i 's/services/network/g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 
 # Change banner
-sed -i '/exit/i\echo "╭────────────────────────────────╮" > /etc/banner\
+sed -i '/exit/i echo "╭────────────────────────────────╮" > /etc/banner\
 echo "│[36m  ╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴  [0m│" >> /etc/banner\
 echo "│[36m  ╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵   [0m│" >> /etc/banner\
 echo "╰────────────────────────────────╯" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
 
 # Modify rootfs size on emmc
-sed -i "/exit/i\sed -i -e \'\/ROOT1=\/c ROOT1=\\\\\"720\\\\\"\' -e \'\/ROOT2=\/c ROOT2=\\\\\"720\\\\\"\' \/usr\/sbin\/openwrt-install-amlogic\
+sed -i "/exit/i sed -i -e \'\/ROOT1=\/c ROOT1=\\\\\"720\\\\\"\' -e \'\/ROOT2=\/c ROOT2=\\\\\"720\\\\\"\' \/usr\/sbin\/openwrt-install-amlogic\
 " package/emortal/default-settings/files/99-default-settings
 
 # Delete sysinfo.sh
-sed -i "/exit/i\rm /etc/profile.d/30-sysinfo.sh\
+sed -i "/exit/i rm /etc/profile.d/30-sysinfo.sh\
 " package/emortal/default-settings/files/99-default-settings
 
 # Add luci-app-amlogic
