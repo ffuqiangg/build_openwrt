@@ -70,16 +70,13 @@ adjust_settings() {
     # For other files
     [[ -d "files" ]] || mkdir -p files/etc/uci-defaults
     if [[ ${op_source} == openwrt ]]; then
-        cat >files/etc/uci-defaults/999-default-settings <<EOF
+        cat > files/etc/uci-defaults/999-default-settings <<EOF
 #!/bin/bash
 
-passwd root << EOF
+passwd root << EOI
 password
 password
-EOF
-
-uci set network.lan.ipaddr='192.168.1.99'
-uci commit network
+EOI
 
 {
     echo "╭────────────────────────╮"
@@ -91,19 +88,19 @@ uci commit network
 sed -i -e '/ROOT1=/c ROOT1=\"720\"' -e '/ROOT2=/c ROOT2=\"720\"' /usr/sbin/openwrt-install-amlogic
 rm -f /etc/profile.d/30-sysinfo.sh
 
+uci set network.lan.ipaddr='192.168.1.99'
+uci commit network
+
 exit0
 EOF
     elif [[ ${op_source} == immortalwrt ]]; then
-        cat >files/etc/uci-defaults/999-default-settings <<EOF
+        cat > files/etc/uci-defaults/999-default-settings <<EOF
 #!/bin/bash
 
-passwd root << EOF
+passwd root << EOI
 password
 password
-EOF
-
-uci set network.lan.ipaddr='192.168.1.99'
-uci commit network
+EOI
 
 {
     echo "╭────────────────────────────────╮"
@@ -114,6 +111,9 @@ uci commit network
 
 sed -i -e '/ROOT1=/c ROOT1=\"720\"' -e '/ROOT2=/c ROOT2=\"720\"' /usr/sbin/openwrt-install-amlogic
 rm -f /etc/profile.d/30-sysinfo.sh
+
+uci set network.lan.ipaddr='192.168.1.99'
+uci commit network
 
 exit0
 EOF
