@@ -50,8 +50,6 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 nnoremap <M-UP> :m-2<CR>
 nnoremap <M-DOWN> :m+1<CR>
-vnoremap <M-UP> :m-2<CR>
-vnoremap <M-DOWN> :m+1<CR>
 
 " Specify file config
 " filetype plugin off
