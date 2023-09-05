@@ -1,20 +1,20 @@
 {
-    "luci-app-amlogic": {
+    "luci_app_amlogic": {
         "packages_repo": "ophub/luci-app-amlogic",
         "jq_rule": "https.*luci-app-amlogic.*all.ipk",
-        "packages_list": "luci-app-amlogic"
+        "packages-list": "luci-app-amlogic"
     },
-    "luci-i18n-amlogic": {
+    "luci_i18n_amlogic": {
         "packages_repo": "ophub/luci-app-amlogic",
         "jq_rule": "https.*luci-i18n-amlogic.*all.ipk",
         "packages_list": "luci-i18n-amlogic-zh-cn"
     },
-    "luci-app-mosdns": {
+    "luci_app_mosdns": {
         "packages_repo": "sbwml/luci-app-mosdns",
         "jq_rule": "https.*luci-app-mosdns.*all.ipk",
         "packages_list": "luci-app-mosdns"
     },
-    "luci-i18n-mosdns": {
+    "luci_i18n_mosdns": {
         "packages_repo": "sbwml/luci-app-mosdns",
         "jq_rule": "https.*luci-i18n-mosdns.*all.ipk",
         "packages_list": "luci-i18n-mosdns-zh-cn"
