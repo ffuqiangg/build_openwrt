@@ -1,12 +1,12 @@
 {
     "luci_app_amlogic": {
         "packages_repo": "ophub/luci-app-amlogic",
-        "jq_rule": "https.*luci-app-amlogic.*all.ipk",
+        "jq_rule": "luci-app-amlogic_.*_all.ipk",
         "packages-name": "luci-app-amlogic"
     },
     "luci_i18n_amlogic": {
         "packages_repo": "ophub/luci-app-amlogic",
-        "jq_rule": "https.*luci-i18n-amlogic.*all.ipk",
+        "jq_rule": "luci-i18n-amlogic_.*_all.ipk",
         "packages_name": "luci-i18n-amlogic-zh-cn"
     },
     "luci_app_mosdns": {
@@ -16,7 +16,13 @@
     },
     "luci_i18n_mosdns": {
         "packages_repo": "sbwml/luci-app-mosdns",
-        "jq_rule": "https.*luci-i18n-mosdns.*all.ipk",
+        "jq_rule": "luci-i18n-mosdns-.*_all.ipk",
         "packages_name": "luci-i18n-mosdns-zh-cn"
+    },
+    "luci_app_openclash": {
+        "packages_repo": "vernesong/OpenClash",
+        "jq_rule": "luci-app-openclash_.*_all.ipk",
+        "packages_name": "luci-app-openclash",
+        "packages_depends": "coreutils-nohup bash dnsmasq-full curl ca-certificates ipset ip-full libcap libcap-bin ruby ruby-yaml kmod-tun kmod-inet-diag unzip kmod-nft-tproxy luci-compat luci luci-base"
     }
 }

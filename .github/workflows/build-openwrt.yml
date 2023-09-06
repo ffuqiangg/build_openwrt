@@ -249,7 +249,7 @@ jobs:
         COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev)
         MSG="
         ✅ *${{ inputs.source_branch }} ${{ env.COMPILE_DATE }}*
-        
+
         🔘 *基本信息*
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
         管理后台： 192.168.1.99
