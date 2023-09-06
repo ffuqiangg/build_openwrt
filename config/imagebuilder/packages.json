@@ -11,7 +11,7 @@
     },
     "luci_app_mosdns": {
         "packages_repo": "sbwml/luci-app-mosdns",
-        "jq_rule": "https.*luci-app-mosdns.*all.ipk",
+        "jq_rule": "luci-app-mosdns_.*_all.ipk",
         "packages_name": "luci-app-mosdns"
     },
     "luci_i18n_mosdns": {
