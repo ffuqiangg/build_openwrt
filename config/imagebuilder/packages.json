@@ -6,7 +6,7 @@
     },
     "luci_i18n_amlogic": {
         "packages_repo": "ophub/luci-app-amlogic",
-        "jq_rule": "luci-i18n-amlogic_.*_all.ipk",
+        "jq_rule": "luci-i18n-amlogic-.*_all.ipk",
         "packages_name": "luci-i18n-amlogic-zh-cn"
     },
     "luci_app_mosdns": {

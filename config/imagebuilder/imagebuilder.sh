@@ -230,7 +230,7 @@ op_branch="${1#*:}"
 echo -e "💬 Rebuild path: [ ${PWD} ]"
 echo -e "💬 Rebuild Source: [ ${op_source} ], Branch: [ ${op_branch} ]"
 echo -e "💬 Server space usage before starting to compile: \n$(df -hT "${make_path}") \n"
-#
+
 # Perform related operations
 download_imagebuilder
 adjust_settings
@@ -238,7 +238,7 @@ custom_packages
 custom_config
 custom_files
 rebuild_firmware
-#
+
 # Show server end information
 echo -e "Server space usage after compilation: \n$(df -hT "${make_path}") \n"
 # All process completed
