@@ -2,7 +2,7 @@
     "luci_app_amlogic": {
         "packages_repo": "ophub/luci-app-amlogic",
         "jq_rule": "luci-app-amlogic_.*_all.ipk",
-        "packages-name": "luci-app-amlogic"
+        "packages_name": "luci-app-amlogic"
     },
     "luci_i18n_amlogic": {
         "packages_repo": "ophub/luci-app-amlogic",
