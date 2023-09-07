@@ -125,7 +125,7 @@ custom_packages() {
     echo -e "🍺 Start adding custom packages..."
     custom_packages_list=""
     github_api="https://api.github.com/repos"
-    packages_list=$(jq -c 'keys' "${packages_json_file}" | sed -e 's/\[/\(/' -e 's/\]/\)/' -e 's/,/ /g')
+    packages_list=$(jq -c 'keys' "${packages_json_file}" | sed -e 's/\(//' -e 's/\)//' -e 's/,/ /g')
 
     # Create a [ packages ] directory
     [[ -d "packages" ]] || mkdir packages
