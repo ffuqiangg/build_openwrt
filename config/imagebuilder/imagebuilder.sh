@@ -201,7 +201,7 @@ rebuild_firmware() {
         proto-bonding pv rename resize2fs runc subversion-client subversion-libs tar \
         tini ttyd tune2fs uclient-fetch uhttpd uhttpd-mod-ubus unzip uqmi usb-modeswitch \
         uuidgen wget-ssl whereis which wpad-basic wwan xfs-fsck xfs-mkfs xz \
-        xz-utils ziptool zoneinfo-asia zoneinfo-core zstd vim-fuller \
+        xz-utils ziptool zoneinfo-asia zoneinfo-core zstd vim-fuller htop\
         \
         luci luci-base luci-compat luci-i18n-base-en luci-i18n-base-zh-cn luci-lib-base  \
         luci-lib-docker luci-lib-ip luci-lib-ipkg luci-lib-jsonc luci-lib-nixio  \
