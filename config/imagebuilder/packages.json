@@ -21,11 +21,13 @@
     },
     "mosdns": {
         "packages_repo": "sbwml/luci-app-mosdns",
-        "jq_rule": "mosdns_.*_aarch64_cortex-a53.ipk"
+        "jq_rule": "mosdns_.*_aarch64_cortex-a53.ipk",
+        "packages_name": "mosdns"
     },
     "v2dat": {
         "packages_repo": "sbwml/luci-app-mosdns",
-        "jq_rule": "v2dat_.*_aarch64_cortex-a53.ipk"
+        "jq_rule": "v2dat_.*_aarch64_cortex-a53.ipk",
+        "packages_name": "v2dat"
     },
     "luci_app_openclash": {
         "packages_repo": "vernesong/OpenClash",
