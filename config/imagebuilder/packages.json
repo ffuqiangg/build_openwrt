@@ -19,10 +19,18 @@
         "jq_rule": "luci-i18n-mosdns-.*_all.ipk",
         "packages_name": "luci-i18n-mosdns-zh-cn"
     },
+    "mosdns": {
+        "packages_repo": "sbwml/luci-app-mosdns",
+        "jq_rule": "mosdns_.*_aarch64_cortex-a53.ipk"
+    },
+    "v2dat": {
+        "packages_repo": "sbwml/luci-app-mosdns",
+        "jq_rule": "v2dat_.*_aarch64_cortex-a53.ipk"
+    },
     "luci_app_openclash": {
         "packages_repo": "vernesong/OpenClash",
         "jq_rule": "luci-app-openclash_.*_all.ipk",
         "packages_name": "luci-app-openclash",
-        "packages_depends": "coreutils-nohup bash dnsmasq-full curl ca-certificates ipset ip-full libcap libcap-bin ruby ruby-yaml kmod-tun kmod-inet-diag unzip kmod-nft-tproxy luci-compat luci luci-base"
+        "packages_depends": "coreutils-nohup bash -dnsmasq dnsmasq-full curl ca-certificates ipset ip-full libcap libcap-bin ruby ruby-yaml kmod-tun kmod-inet-diag unzip kmod-nft-tproxy luci-compat luci luci-base"
     }
 }
