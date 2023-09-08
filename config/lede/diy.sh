@@ -43,10 +43,10 @@ sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/
 sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 
 # Change banner
-sed -i '/exit/i echo "╭──────────────────╮" > /etc/banner\
-echo "│[36m  ╷  ┌─┐  _╷ ┌─┐  [0m│" >> /etc/banner\
-echo "│[36m  └─ └─  └─┘ └─   [0m│" >> /etc/banner\
-echo "╰──────────────────╯" >> /etc/banner\
+sed -i '/exit/i echo "╷  ┌─┐  _╷ ┌─┐" > /etc/banner\
+echo "└─ └─  └─┘ └─" >> /etc/banner\
+echo "build by @ffuqiangg (TG)" >> /etc/banner\
+echo "W:github.com/ffuqiangg/build_openwrt" >> /etc/banner\
 ' package/lean/default-settings/files/zzz-default-settings
 
 # Add passwall

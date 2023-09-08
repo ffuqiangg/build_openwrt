@@ -46,10 +46,10 @@ sed -i 's/admin\//&services\//g' package/feeds/luci/luci-app-dockerman/luasrc/vi
 sed -i 's/services/network/g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 
 # Change banner
-sed -i '/exit/i echo "╭────────────────────────────────╮" > /etc/banner\
-echo "│[36m  ╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴  [0m│" >> /etc/banner\
-echo "│[36m  ╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵   [0m│" >> /etc/banner\
-echo "╰────────────────────────────────╯" >> /etc/banner\
+sed -i '/exit/i echo "╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴" > /etc/banner\
+echo "╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵" >> /etc/banner\
+echo "build by @ffuqiangg (TG)" >> /etc/banner\
+echo "W:github.com/ffuqiangg/build_openwrt" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
 
 # Modify rootfs size on emmc
