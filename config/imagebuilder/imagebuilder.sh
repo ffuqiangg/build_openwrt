@@ -73,10 +73,12 @@ password
 EOI
 
 {
+    echo ""
     echo "┌─┐┌─┐┌─┐┌─┐╷╷╷┌─╶┬╴"
     echo "└─┘╵‾ └─ ╵ ╵└┴┘╵  ╵"
     echo "────────────────────"
     echo "build by ffuqiangg @ BUILD_DATE"
+    echo ""
 } > /etc/banner
 
 sed -i -e '/ROOT1=/c ROOT1=\"720\"' -e '/ROOT2=/c ROOT2=\"720\"' /usr/sbin/openwrt-install-amlogic
@@ -97,10 +99,12 @@ password
 EOI
 
 {
+    echo ""
     echo "╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴"
     echo "╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵"
     echo "────────────────────────────"
     echo "build by ffuqiangg @ BUILD_DATE"
+    echo ""
 } > /etc/banner
 
 sed -i -e '/ROOT1=/c ROOT1=\"720\"' -e '/ROOT2=/c ROOT2=\"720\"' /usr/sbin/openwrt-install-amlogic
