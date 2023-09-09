@@ -45,9 +45,10 @@ sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/
 # Change banner
 sed -i '/exit/i echo "╷  ┌─┐  _╷ ┌─┐" > /etc/banner\
 echo "└─ └─  └─┘ └─" >> /etc/banner\
-echo "build by @ffuqiangg (TG)" >> /etc/banner\
-echo "W:github.com/ffuqiangg/build_openwrt" >> /etc/banner\
+echo "─────────────" >> /etc/banner\
+echo "build by ffuqiangg @ BUILD_DATE" >> /etc/banner\
 ' package/lean/default-settings/files/zzz-default-settings
+sed -i "s/BUILD_DATE/$(date +%Y.%m.%d)/" package/lean/default-settings/files/zzz-default-settings
 
 # Add passwall
 # git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall

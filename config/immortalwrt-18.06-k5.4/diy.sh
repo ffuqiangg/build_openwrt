@@ -46,9 +46,10 @@ sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/
 # Change banner
 sed -i '/exit/i echo "╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴" > /etc/banner\
 echo "╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵" >> /etc/banner\
-echo "build by @ffuqiangg (TG)" >> /etc/banner\
-echo "W:github.com/ffuqiangg/build_openwrt" >> /etc/banner\
+echo "────────────────────────────" >> /etc/banner\
+echo "build by ffuqiangg @ BUILD_DATE" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
+sed -i "s/BUILD_DATE/$(date +%Y.%m.%d)/" package/emortal/default-settings/files/99-default-settings
 sed -i '/openwrt_banner/c rm /etc/openwrt_banner' package/emortal/default-settings/files/99-default-settings
 
 # Add luci-app-mosdns

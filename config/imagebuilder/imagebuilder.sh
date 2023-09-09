@@ -75,8 +75,8 @@ EOI
 {
     echo "┌─┐┌─┐┌─┐┌─┐╷╷╷┌─╶┬╴"
     echo "└─┘╵‾ └─ ╵ ╵└┴┘╵  ╵"
-    echo "build by @ffuqiangg (TG)"
-    echo "W:github.com/ffuqiangg/build_openwrt"
+    echo "────────────────────"
+    echo "build by ffuqiangg @ BUILD_DATE"
 } > /etc/banner
 
 sed -i -e '/ROOT1=/c ROOT1=\"720\"' -e '/ROOT2=/c ROOT2=\"720\"' /usr/sbin/openwrt-install-amlogic
@@ -99,8 +99,8 @@ EOI
 {
     echo "╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴"
     echo "╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵"
-    echo "build by @ffuqiangg (TG)"
-    echo "W:github.com/ffuqiangg/build_openwrt"
+    echo "────────────────────────────"
+    echo "build by ffuqiangg @ BUILD_DATE"
 } > /etc/banner
 
 sed -i -e '/ROOT1=/c ROOT1=\"720\"' -e '/ROOT2=/c ROOT2=\"720\"' /usr/sbin/openwrt-install-amlogic
@@ -112,6 +112,7 @@ uci commit network
 exit0
 EOF
     fi
+    sed -i "s/BUILD_DATE/$(date +%Y.%m.%d)/" files/etc/uci-defaults/999-default-settings
 
     sync && sleep 3
     echo -e "💬 [ openwrt ] directory status: $(ls -al 2>/dev/null)"
@@ -201,7 +202,7 @@ rebuild_firmware() {
         proto-bonding pv rename resize2fs runc subversion-client subversion-libs tar \
         tini ttyd tune2fs uclient-fetch uhttpd uhttpd-mod-ubus unzip uqmi usb-modeswitch \
         uuidgen wget-ssl whereis which wpad-basic wwan xfs-fsck xfs-mkfs xz \
-        xz-utils ziptool zoneinfo-asia zoneinfo-core zstd vim-fuller htop\
+        xz-utils ziptool zoneinfo-asia zoneinfo-core zstd vim htop\
         \
         luci luci-base luci-compat luci-i18n-base-en luci-i18n-base-zh-cn luci-lib-base  \
         luci-lib-docker luci-lib-ip luci-lib-ipkg luci-lib-jsonc luci-lib-nixio  \

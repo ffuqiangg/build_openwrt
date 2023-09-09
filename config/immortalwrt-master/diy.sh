@@ -48,9 +48,10 @@ sed -i 's/services/network/g' package/feeds/luci/luci-app-nlbwmon/root/usr/share
 # Change banner
 sed -i '/exit/i echo "╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴" > /etc/banner\
 echo "╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵" >> /etc/banner\
-echo "build by @ffuqiangg (TG)" >> /etc/banner\
-echo "W:github.com/ffuqiangg/build_openwrt" >> /etc/banner\
+echo "────────────────────────────" >> /etc/banner\
+echo "build by ffuqiangg BUILD_DATE" >> /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
+sed -i "s/BUILD_DATE/$(date +'%Y.%m.%d')/" package/emortal/default-settings/files/99-default-settings
 
 # Modify rootfs size on emmc
 sed -i "/exit/i sed -i -e \'\/ROOT1=\/c ROOT1=\\\\\"720\\\\\"\' -e \'\/ROOT2=\/c ROOT2=\\\\\"720\\\\\"\' \/usr\/sbin\/openwrt-install-amlogic\
