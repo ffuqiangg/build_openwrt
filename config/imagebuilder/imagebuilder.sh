@@ -63,8 +63,7 @@ adjust_settings() {
 
     # For other files
     [[ -d "files" ]] || mkdir -p files/etc/uci-defaults
-    if [[ ${op_source} == openwrt ]]; then
-        cat >files/etc/uci-defaults/999-default-settings <<EOF
+    cat > files/etc/uci-defaults/999-default-settings << EOF
 #!/bin/bash
 
 passwd root << EOI
@@ -89,33 +88,6 @@ uci commit network
 
 exit0
 EOF
-    elif [[ ${op_source} == immortalwrt ]]; then
-        cat >files/etc/uci-defaults/999-default-settings <<EOF
-#!/bin/bash
-
-passwd root << EOI
-password
-password
-EOI
-
-{
-    echo ""
-    echo "╷┌┬┐┌┬┐┌─┐┌─╶┬╴┌─┐╷ ╷╷╷┌─╶┬╴"
-    echo "╵╵╵╵╵╵╵└─┘╵  ╵ ╵‾╵└─└┴┘╵  ╵"
-    echo "────────────────────────────"
-    echo "build by ffuqiangg @ BUILD_DATE"
-    echo ""
-} > /etc/banner
-
-sed -i -e '/ROOT1=/c ROOT1=\"720\"' -e '/ROOT2=/c ROOT2=\"720\"' /usr/sbin/openwrt-install-amlogic
-rm -f /etc/profile.d/30-sysinfo.sh
-
-uci set network.lan.ipaddr='192.168.1.99'
-uci commit network
-
-exit0
-EOF
-    fi
     sed -i "s/BUILD_DATE/$(date +%Y.%m.%d)/" files/etc/uci-defaults/999-default-settings
 
     sync && sleep 3
