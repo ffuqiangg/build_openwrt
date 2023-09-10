@@ -46,7 +46,7 @@ sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/
 sed -i '/exit/i echo "" > /etc/banner\
 echo "╷  ┌─┐  _╷ ┌─┐" >> /etc/banner\
 echo "└─ └─  └─┘ └─" >> /etc/banner\
-echo "─────────────" >> /etc/banner\
+echo "──────────────" >> /etc/banner\
 echo "build by ffuqiangg @ BUILD_DATE" >> /etc/banner\
 echo "" >> /etc/banner\
 ' package/lean/default-settings/files/zzz-default-settings
