@@ -146,6 +146,9 @@ custom_packages() {
             error_msg "[ ${packages_name} ] download failed!"
         fi
         echo -e "💬 The [ ${packages_name} ] is downloaded successfully."
+        if [[ ${packages_name} == 'passwall_packages' ]];then
+            unzip ${jq_rule} -d zip_tmp && mv zip_tmp/*.ipk packages/ && rm -rf zip_tmp && rm packages/${jq_rule}
+            packages_name=""
         custom_packages_list="${custom_packages_list} ${packages_name} ${packages_depends}"
     done
 
