@@ -9,7 +9,7 @@ root_used_total=$(df -h / | awk '/\// {print $5"/"$2}')
 data_used_total=$(df -h /mnt/mmcblk2p4 | awk '/\// {print $5"/"$2}')
 
 echo -e "$(date +"%A %d %B %Y, %H:%M:%S")"
-echo -e "Memory Useage: ${mem_used_total}($mem_persent)"
+echo -e "Memory Usage: ${mem_used_total}($mem_persent)"
 echo -e "Disk: Boot ${boot_used_total} Root ${root_used_total} Data ${data_used_total}"
 echo "https://github.com/ffuqiangg/build_openwrt"
 echo ""
