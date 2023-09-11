@@ -72,11 +72,7 @@ password
 EOI
 
 {
-    echo ""
-    echo "┌─┐┌─┐┌─┐┌─┐╷╷╷┌─╶┬╴"
-    echo "└─┘╵‾ └─ ╵ ╵└┴┘╵  ╵"
-    echo "────────────────────"
-    echo "build by ffuqiangg @ BUILD_DATE"
+    echo "[36mopenwrt[0m build by ffuqiangg"
     echo ""
 } > /etc/banner
 

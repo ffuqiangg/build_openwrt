@@ -43,14 +43,9 @@ sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/
 sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 
 # Change banner
-sed -i '/exit/i echo "" > /etc/banner\
-echo "╷  ┌─┐  _╷ ┌─┐" >> /etc/banner\
-echo "└─ └─  └─┘ └─" >> /etc/banner\
-echo "──────────────" >> /etc/banner\
-echo "build by ffuqiangg @ BUILD_DATE" >> /etc/banner\
+sed -i '/exit/i echo "[36mlede[0m build by ffuqiangg" > /etc/banner\
 echo "" >> /etc/banner\
-' package/lean/default-settings/files/zzz-default-settings
-sed -i "s/BUILD_DATE/$(date +%Y.%m.%d)/" package/lean/default-settings/files/zzz-default-settings
+' package/emortal/default-settings/files/99-default-settings
 
 # Add passwall
 # git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
