@@ -1,0 +1,15 @@
+#!/bin/bash
+
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+mem_used_total=$(free | grep "^Mem" | awk '{printf ("%d/%dMB",$3/1024,$2/1024)}')
+mem_persent=$(free | grep "^Mem" | awk '{printf ("%d%%",($3/$2) * 100)}')
+boot_used_total=$(df -h /boot | awk '/\// {print $5"/"$2}')
+root_used_total=$(df -h / | awk '/\// {print $5"/"$2}')
+data_used_total=$(df -h /mnt/mmcblk2p4 | awk '/\// {print $5"/"$2}')
+
+echo -e "$(date +"%A %d %B %Y, %H:%M:%S")"
+echo -e "Memory Useage: ${mem_used_total}($mem_persent)"
+echo -e "Disk: Boot ${boot_used_total} Root ${root_used_total} Data ${data_used_total}"
+echo "https://github.com/ffuqiangg/build_openwrt"
+echo ""

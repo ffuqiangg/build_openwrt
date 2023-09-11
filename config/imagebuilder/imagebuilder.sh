@@ -71,13 +71,10 @@ password
 password
 EOI
 
-{
-    echo "[36mopenwrt[0m build by ffuqiangg"
-    echo ""
-} > /etc/banner
+echo -e "[36mopenwrt[0m build by ffuqiangg\n" > /etc/banner
 
 sed -i -e '/ROOT1=/c ROOT1=\"720\"' -e '/ROOT2=/c ROOT2=\"720\"' /usr/sbin/openwrt-install-amlogic
-rm -f /etc/profile.d/30-sysinfo.sh
+mv -f /etc/profile.d/30-sysinfo.sh.tmp /etc/profile.d/30-sysinfo.sh
 
 uci set network.lan.ipaddr='192.168.1.99'
 uci commit network
