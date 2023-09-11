@@ -118,7 +118,7 @@ custom_packages() {
             error_msg "[ ${packages_name} ] download failed!"
         fi
         echo -e "💬 The [ ${packages_name} ] is downloaded successfully."
-        if [[ ${packages_name} == 'passwall2_packages' ]];then
+        if [[ ${jq_rule} == *.zip ]];then
             unzip packages/"${jq_rule}" -d packages && rm packages/"${jq_rule}"
             packages_name=""
         fi
