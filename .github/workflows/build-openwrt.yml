@@ -98,7 +98,7 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Update feeds
-      run: cd openrt && ./scripts/feeds update -a
+      run: cd openwrt && ./scripts/feeds update -a
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
