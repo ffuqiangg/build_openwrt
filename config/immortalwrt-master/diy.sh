@@ -46,7 +46,7 @@ sed -i 's/admin\//&services\//g' package/feeds/luci/luci-app-dockerman/luasrc/vi
 sed -i 's/services/network/g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 
 # Change banner
-sed -i '/exit/i echo -e "[36mimmortalwrt[0m build by ffuqiangg\\n" > /etc/banner\
+sed -i '/exit/i echo -e "[34mimmortalwrt[0m build by ffuqiangg\\n" > /etc/banner\
 ' package/emortal/default-settings/files/99-default-settings
 
 # Change 30-sysinfo.sh in ophub/amlogic-s9xxx-openwrt
