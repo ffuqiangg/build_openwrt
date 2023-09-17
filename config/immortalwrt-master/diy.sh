@@ -51,7 +51,7 @@ sed -i '/exit/i echo -e "[34mimmortalwrt[0m build by ffuqiangg\\n" > /etc/bann
 
 # Change 30-sysinfo.sh in ophub/amlogic-s9xxx-openwrt
 sed -i '/exit/i\mv /etc/profile.d/30-sysinfo.sh.tmp /etc/profile.d/30-sysinfo.sh\
-' package/lean/default-settings/files/zzz-default-settings
+' package/emoral/default-settings/files/99-default-settings
 
 # Modify rootfs size on emmc
 sed -i "/exit/i sed -i -e \'\/ROOT1=\/c ROOT1=\\\\\"720\\\\\"\' -e \'\/ROOT2=\/c ROOT2=\\\\\"720\\\\\"\' \/usr\/sbin\/openwrt-install-amlogic\
