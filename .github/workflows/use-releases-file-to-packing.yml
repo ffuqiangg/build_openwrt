@@ -42,7 +42,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Initialization environment
         id: init
         env:
@@ -60,7 +59,6 @@ jobs:
           sudo -E apt-get clean
           sudo timedatectl set-timezone "${TZ}"
           echo "status=success" >> $GITHUB_OUTPUT
-
       - name: Get variable
         id: codes
         run: |
@@ -73,7 +71,6 @@ jobs:
               grep ".tar.gz$"
           )"
           echo "DOWNLOAD_URL=${rootfs_url}" >> $GITHUB_ENV
-
           if [[ "inputs.release_tag" == *"lede"* ]]; then
             echo "package_repo=flippy" >> $GITHUB_OUTPUT
             echo "make_sh=mk_lede_n1.sh" >> $GITHUB_OUTPUT
@@ -86,7 +83,6 @@ jobs:
             echo "package_repo=ophub" >> $GITHUB_OUTPUT
             ehco "RELEASES_TAG=immortalwrt-master" >> $GITHUB_ENV
           fi
-
       - name: Packaging OpenWrt (ophub)
         if: steps.codes.outputs.package_repo == 'ophub'
         uses: ffuqiangg/amlogic-s9xxx-openwrt@main
@@ -99,7 +95,6 @@ jobs:
           kernel_usage: flippy
           gh_token: ${{ secrets.GH_TOKEN }}
           image_name: ${{ env.RELEASES_TAG }}
-
       - name: Package OpenWrt (flippy)
         if: steps.codes.outputs.package_repo == 'flippy'
         uses: ffuqiangg/openwrt_packit@master
@@ -119,7 +114,6 @@ jobs:
           DISTRIB_REVISION: ${{ inputs.openwrt_ver }}
           DISTRIB_DESCRIPTION: ${{ steps.codes.outputs.distrib_des }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
       - name: Upload the packaged OpenWrt
         uses: ncipollo/release-action@main
         if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()

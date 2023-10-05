@@ -19,7 +19,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-
     - name: Check server information
       run: |
         echo -e "💬 Server information \n"
@@ -27,7 +26,6 @@ jobs:
         echo -e "🧮 Server CPU configuration information: \n$(cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c) \n"
         echo -e "💾 Server memory usage: \n$(free -h) \n"
         echo -e "🗃️ Server space usag: \n$(df -hT ${GITHUB_WORKSPACE}) \n"
-
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -45,20 +43,16 @@ jobs:
         sudo mkdir -p /workdir
         sudo timedatectl set-timezone "$TZ"
         sudo chown $USER:$GROUPS /workdir
-
     - name: Clone source code
       working-directory: /workdir
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt --single-branch --depth=1
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
-
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
-
     - name: Load custom configuration
       run: |
         [ -d files ] && mv -f files openwrt/files
@@ -67,7 +61,6 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_SH
         echo "COMPILE_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
-
     - name: Download package
       id: package
       run: |
@@ -76,7 +69,6 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-
     - name: Compile the firmware
       id: compile
       run: |
@@ -84,7 +76,6 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
-
     - name: Clear server space
       id: clean
       if: steps.compile.outputs.status == 'success'
@@ -95,11 +86,9 @@ jobs:
         cp -f bin/targets/*/*/*rootfs.tar.gz output/
         cp -f .config output/config
         rm -rf $(ls . | grep -v "^output$" | xargs) 2>/dev/null
-
         # Set output information
         df -hT ${PWD}
         echo "status=success" >> $GITHUB_OUTPUT
-
     - name: Package Armvirt as OpenWrt
       if: steps.clean.outputs.status == 'success'
       uses: ffuqiangg/openwrt_packit@master
@@ -119,14 +108,12 @@ jobs:
         DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
         DISTRIB_DESCRIPTION: Immortalwrt
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
     - name: Organize output file
       if: env.PACKAGED_STATUS == 'success'
       run: |
         cp -f openwrt/output/config ${{ env.PACKAGED_OUTPUTPATH }}/
         cd ${{ env.PACKAGED_OUTPUTPATH }} 
         sha256sum config > config.sha
-
     - name: Generate release tag
       id: tag
       if: steps.compile.outputs.status == 'success' && !cancelled()
@@ -140,7 +127,6 @@ jobs:
         - 主要插件：Passwall, OpenClash, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
         EOF
         echo "status=success" >> $GITHUB_OUTPUT
-
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
       if: steps.tag.outputs.status == 'success'
@@ -151,13 +137,11 @@ jobs:
         bodyFile: release.txt
         artifacts: |
           ${{ env.PACKAGED_OUTPUTPATH }}/*
-
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
       with:
         retain_days: 1
         keep_minimum_runs: 3
-
     - name: Remove old Releases
       uses: codesnas/delete-older-releases@main
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
@@ -166,7 +150,6 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
     - name: Telegram notification
       if: steps.tag.outputs.status == 'success'
       run: |

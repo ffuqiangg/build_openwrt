@@ -31,10 +31,8 @@ jobs:
         echo -e "🧮 Server CPU configuration information: \n$(cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c) \n"
         echo -e "💾 Server memory usage: \n$(free -h) \n"
         echo -e "🗃️ Server space usag: \n$(df -hT ${GITHUB_WORKSPACE}) \n"
-
     - name: Checkout
       uses: actions/checkout@v3
-
     - name: Initialization environment
       id: init
       env:
@@ -54,7 +52,6 @@ jobs:
         sudo chown ${USER}:${GROUPS} /workdir
         sudo timedatectl set-timezone "$TZ"
         echo "status=success" >> $GITHUB_OUTPUT
-
     - name: Clone source code [ ${{ inputs.source_branch }} ]
       id: codes
       working-directory: /workdir
@@ -85,24 +82,19 @@ jobs:
           echo "kernel_repo=ffuqiangg/amlogic-s9xxx-armbian" >> $GITHUB_OUTPUT
           echo "COMPILE_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
         fi
-
         # Clone source code
         git clone -q --single-branch --depth=1 -b ${REPO_BRANCH} ${REPO_URL} openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-
         # Set output information
         SOURCE_BRANCH=${{ inputs.source_branch }}
         echo "IMAGE_NAME=${SOURCE_BRANCH/-/_}" >> $GITHUB_ENV
         echo -e "REPO_URL: [ ${REPO_URL} ]\nREPO_BRANCH: [ ${REPO_BRANCH} ]"
         df -hT ${PWD}
         echo "status=success" >> $GITHUB_OUTPUT
-
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
-
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
-
     - name: Load custom configuration
       run: |
         [ -d files ] && mv -f files openwrt/files
@@ -110,7 +102,6 @@ jobs:
         chmod +x $DIY_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_SH
-
     - name: Download package
       id: package
       run: |
@@ -119,7 +110,6 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-
     - name: Compile the firmware
       id: compile
       run: |
@@ -127,7 +117,6 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
-
     - name: Clear server space
       id: clean
       if: steps.compile.outputs.status == 'success' && !cancelled()
@@ -142,7 +131,6 @@ jobs:
         # Set output information
         df -hT ${PWD}
         echo "status=success" >> $GITHUB_OUTPUT
-
     - name: Package Openwrt [ ophub ]
       if: steps.codes.outputs.package_repo == 'ophub' && steps.clean.outputs.status == 'success'
       env:
@@ -157,7 +145,6 @@ jobs:
         auto_kernel: true
         gh_token: ${{ secrets.GH_TOKEN }}
         image_name: ${{ env.IMAGE_NAME }}
-
     - name: Package Openwrt [ flippy ]
       if: steps.codes.outputs.package_repo == 'flippy' && steps.clean.outputs.status == 'success'
       uses: ffuqiangg/openwrt_packit@master
@@ -177,14 +164,12 @@ jobs:
         DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
         DISTRIB_DESCRIPTION: ${{ steps.codes.outputs.distrib_des }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
     - name: Organize output file
       if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
       run: |
         cp -f openwrt/output/config ${{ env.PACKAGED_OUTPUTPATH }}/
         cd ${{ env.PACKAGED_OUTPUTPATH }} 
         sha256sum config > config.sha
-
     - name: Generate release tag
       id: tag
       if: steps.clean.outputs.status == 'success'
@@ -216,7 +201,6 @@ jobs:
         EOF
         fi
         echo "status=success" >> ${GITHUB_OUTPUT}
-
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
       if: steps.tag.outputs.status == 'success'
@@ -227,13 +211,11 @@ jobs:
         bodyFile: release.txt
         artifacts: |
           ${{ env.PACKAGED_OUTPUTPATH }}/*
-
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
       with:
         retain_days: 1
         keep_minimum_runs: 3
-
     - name: Remove old Releases
       uses: codesnas/delete-older-releases@main
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
@@ -242,7 +224,6 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
     - name: Telegram notification
       if: steps.tag.outputs.status == 'success'
       run: |
