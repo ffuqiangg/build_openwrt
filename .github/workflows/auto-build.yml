@@ -101,18 +101,18 @@ jobs:
         KERNEL_AUTO_LATEST: ${{ github.event.client_payload.kernel_auto }}
         GZIP_IMGS: .gz
         SCRIPT_S905D: mk_immortalwrt_18.06_k5.4_n1.sh
-        OPENWRT_VER: ${{ env.COMPILE_DATE }}
+        OPENWRT_VER: ${COMPILE_DATE}
         SFE_FLOW: 0
         ENABLE_WIFI_K504: 0
         ENABLE_WIFI_K510: 0
-        DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
+        DISTRIB_REVISION: ${COMPILE_DATE}
         DISTRIB_DESCRIPTION: Immortalwrt
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
     - name: Organize output file
-      if: env.PACKAGED_STATUS == 'success'
+      if: $PACKAGED_STATUS == 'success'
       run: |
-        cp -f openwrt/output/config ${{ env.PACKAGED_OUTPUTPATH }}/
-        cd ${{ env.PACKAGED_OUTPUTPATH }} 
+        cp -f openwrt/output/config ${PACKAGED_OUTPUTPATH}/
+        cd ${PACKAGED_OUTPUTPATH} 
         sha256sum config > config.sha
     - name: Generate release tag
       id: tag
@@ -136,7 +136,7 @@ jobs:
         tag: ${{ steps.tag.outputs.release_tag }}
         bodyFile: release.txt
         artifacts: |
-          ${{ env.PACKAGED_OUTPUTPATH }}/*
+          ${PACKAGED_OUTPUTPATH}}/*
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
       with:
@@ -144,7 +144,7 @@ jobs:
         keep_minimum_runs: 3
     - name: Remove old Releases
       uses: codesnas/delete-older-releases@main
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: $UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         keep_latest: 50
         delete_tags: true
@@ -155,7 +155,7 @@ jobs:
       run: |
         COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev)
         MSG="
-        ✅ *immortalwrt-18.06-k5.4 ${{ env.COMPILE_DATE }}*
+        ✅ *immortalwrt-18.06-k5.4 ${COMPILE_DATE}*
         
         🔘 *基本信息*
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}

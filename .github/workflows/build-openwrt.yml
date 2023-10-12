@@ -144,7 +144,7 @@ jobs:
         kernel_usage: flippy
         auto_kernel: true
         gh_token: ${{ secrets.GH_TOKEN }}
-        image_name: ${{ env.IMAGE_NAME }}
+        image_name: ${IMAGE_NAME}
     - name: Package Openwrt [ flippy ]
       if: steps.codes.outputs.package_repo == 'flippy' && steps.clean.outputs.status == 'success'
       uses: ffuqiangg/openwrt_packit@master
@@ -157,18 +157,18 @@ jobs:
         KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .gz
         SCRIPT_S905D: ${{ steps.codes.outputs.make_sh }}
-        OPENWRT_VER: ${{ env.COMPILE_DATE }}
+        OPENWRT_VER: ${COMPILE_DATE}
         SFE_FLOW: 0
         ENABLE_WIFI_K504: 0
         ENABLE_WIFI_K510: 0
-        DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
+        DISTRIB_REVISION: ${COMPILE_DATE}
         DISTRIB_DESCRIPTION: ${{ steps.codes.outputs.distrib_des }}
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
     - name: Organize output file
-      if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
+      if: steps.codes.outputs.package_repo == 'filppy' && $PACKAGED_STATUS == 'success'
       run: |
-        cp -f openwrt/output/config ${{ env.PACKAGED_OUTPUTPATH }}/
-        cd ${{ env.PACKAGED_OUTPUTPATH }} 
+        cp -f openwrt/output/config ${PACKAGED_OUTPUTPATH}/
+        cd ${PACKAGED_OUTPUTPATH} 
         sha256sum config > config.sha
     - name: Generate release tag
       id: tag
@@ -177,7 +177,7 @@ jobs:
         echo "release_tag=${{ inputs.source_branch }}-$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
         if [[ ${{ inputs.source_branch }} == *"lede"* ]]; then
           cat > release.txt <<EOF
-        ![lede R${{ env.COMPILE_DATE }}](https://img.shields.io/badge/lede-${{ env.COMPILE_DATE }}-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
+        ![lede R${COMPILE_DATE}](https://img.shields.io/badge/lede-${COMPILE_DATE}-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
         - 默认IP：192.168.1.99  密码：password
         - 源码来自 [LEDE](https://github.com/coolsnowwolf/lede)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
         - 内核来自暴躁老哥仓库 [breakings/Openwrt](https://github.com/breakings/OpenWrt)
@@ -210,7 +210,7 @@ jobs:
         tag: ${{ steps.tag.outputs.release_tag }}
         bodyFile: release.txt
         artifacts: |
-          ${{ env.PACKAGED_OUTPUTPATH }}/*
+          ${PACKAGED_OUTPUTPATH}/*
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
       with:
@@ -218,7 +218,7 @@ jobs:
         keep_minimum_runs: 3
     - name: Remove old Releases
       uses: codesnas/delete-older-releases@main
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: $UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         keep_latest: 99
         delete_tags: true
@@ -229,7 +229,7 @@ jobs:
       run: |
         COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev)
         MSG="
-        ✅ *${{ inputs.source_branch }} ${{ env.COMPILE_DATE }}*
+        ✅ *${{ inputs.source_branch }} ${COMPILE_DATE}*
 
         🔘 *基本信息*
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
