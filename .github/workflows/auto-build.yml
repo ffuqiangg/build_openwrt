@@ -109,7 +109,7 @@ jobs:
         DISTRIB_DESCRIPTION: Immortalwrt
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
     - name: Organize output file
-      if: $PACKAGED_STATUS == 'success'
+      if: env.PACKAGED_STATUS == 'success'
       run: |
         cp -f openwrt/output/config ${PACKAGED_OUTPUTPATH}/
         cd ${PACKAGED_OUTPUTPATH} 
@@ -144,7 +144,7 @@ jobs:
         keep_minimum_runs: 3
     - name: Remove old Releases
       uses: codesnas/delete-older-releases@main
-      if: $UPLOAD_RELEASE == 'true' && !cancelled()
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         keep_latest: 50
         delete_tags: true
