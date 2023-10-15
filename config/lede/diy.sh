@@ -42,10 +42,6 @@ sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/model
 sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
 sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 
-# Change banner
-sed -i '/exit/i echo "[34mlede[0m build by ffuqiangg\\n" > /etc/banner\
-' package/lean/default-settings/files/zzz-default-settings
-
 # Add passwall
 # git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
 # passwall2
