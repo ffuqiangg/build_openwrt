@@ -45,18 +45,6 @@ sed -i 's/admin\//&services\//g' package/feeds/luci/luci-app-dockerman/luasrc/vi
 # nlbw
 sed -i 's/services/network/g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 
-# Change banner
-sed -i '/exit/i echo -e "[34mimmortalwrt[0m build by ffuqiangg\\n" > /etc/banner\
-' package/emortal/default-settings/files/99-default-settings
-
-# Change 30-sysinfo.sh in ophub/amlogic-s9xxx-openwrt
-sed -i '/exit/i\mv /etc/profile.d/30-sysinfo.sh.tmp /etc/profile.d/30-sysinfo.sh\
-' package/emortal/default-settings/files/99-default-settings
-
-# Modify rootfs size on emmc
-sed -i "/exit/i sed -i -e \'\/ROOT1=\/c ROOT1=\\\\\"720\\\\\"\' -e \'\/ROOT2=\/c ROOT2=\\\\\"720\\\\\"\' \/usr\/sbin\/openwrt-install-amlogic\
-" package/emortal/default-settings/files/99-default-settings
-
 # Add luci-app-amlogic
 svn co https://github.com/ophub/luci-app-amlogic/trunk/luci-app-amlogic package/luci-app-amlogic
 
