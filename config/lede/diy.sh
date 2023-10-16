@@ -44,7 +44,7 @@ sed -i 's/admin\//&network\//g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/
 
 # Add passwall
 # git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
-# passwall2
+# Add passwall2
 git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall2 package/luci-app-passwall2
 # depends
 git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall.git  package/passwall-depends

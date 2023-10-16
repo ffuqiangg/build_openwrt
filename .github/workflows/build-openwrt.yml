@@ -16,6 +16,7 @@ on:
 env:
   CONFIG_FILE: config/${{ inputs.source_branch }}/config
   DIY_SH: config/${{ inputs.source_branch }}/diy.sh
+  INIT_SH: config/${{ inputs.source_branch }}/init.sh
   TZ: Asia/Shanghai
 
 jobs:
@@ -98,6 +99,7 @@ jobs:
     - name: Load custom configuration
       run: |
         [ -d files ] && mv -f files openwrt/files
+        [ -f $INIT_SH ] && sed -i "s/DATE/$(date +%Y.%m.%d)/" $INIT_SH && mv -f $INIT_SH openwrt/etc/uci-defaults/999-default-settings
         [ -e $CONFIG_FILE ] && cp -f $CONFIG_FILE openwrt/.config
         chmod +x $DIY_SH
         cd openwrt
