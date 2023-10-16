@@ -164,7 +164,6 @@ jobs:
         ENABLE_WIFI_K510: 0
         DISTRIB_REVISION: ${COMPILE_DATE}
         DISTRIB_DESCRIPTION: ${{ steps.codes.outputs.distrib_des }}
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
     - name: Organize output file
       if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
       run: |
