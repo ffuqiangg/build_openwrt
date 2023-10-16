@@ -144,7 +144,6 @@ jobs:
         openwrt_kernel: 6.1.1
         kernel_usage: flippy
         auto_kernel: true
-        gh_token: ${{ secrets.GH_TOKEN }}
         image_name: ${IMAGE_NAME}
     - name: Package Openwrt [ flippy ]
       if: steps.codes.outputs.package_repo == 'flippy' && steps.clean.outputs.status == 'success'
