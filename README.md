@@ -4,7 +4,7 @@
 
 ## 说明
 
-- 固件不定时更新，固件更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)。
+- 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)。
 - [Releases](https://github.com/ffuqiangg/build_openwrt/releases) 中的固件根据源码及编译时间不同，其包含的插件略有差异。`lede` 固件采用 5.15 内核，`immortalwrt 18.05 k5.4` 采用 5.4 内核，`immortalwrt master` 采用 6.1 内核。
 - frok 使用强烈建议认真阅读 workfows 目录下的 yaml 文件，并在理解 yaml 文件的基础上根据自己的需求修改后使用。直接使用可能无法正常编译导出固件。( ⚠️ 编译 `immortalwrt master` 固件必须包含 `luci-app-amlogic` 插件，否则无法写入 emmc )
 - 固件对一些命令进行了简化，如 `ungz` = `tar -xvzf`，`777` = `chmod -R 777`，`mkdirg` = `mkdir xxx && cd xxx`, `bd` = `回到上一个目录` 等，全部修改请查看固件 /etc/profile 文件。
