@@ -129,7 +129,6 @@ jobs:
         cp -f bin/targets/*/*/*rootfs.tar.gz output/
         cp -f .config output/config
         rm -rf $(ls . | grep -v "^output$" | xargs) 2>/dev/null
-
         # Set output information
         df -hT ${PWD}
         echo "status=success" >> $GITHUB_OUTPUT
