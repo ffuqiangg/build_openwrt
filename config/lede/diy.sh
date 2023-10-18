@@ -50,7 +50,7 @@ git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwal
 git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall.git  package/passwall-depends
 
 # Add filebrowser & change menu
-svn co https://github.com/Lienol/openwrt-package/trunk/luci-app-filebrowser package/luci-app-filebrowser
+git clone --depth 1 https://github.com/Lienol/openwrt-package.git && mv openwrt-package/luci-app-filebrowser package/ && rm -rf openwrt-package
 sed -i -e 's/nas/services/g' -e 's/NAS/Services/g' package/luci-app-filebrowser/luasrc/controller/filebrowser.lua
 sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/download.htm
 sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/log.htm
