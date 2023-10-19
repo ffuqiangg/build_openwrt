@@ -20,7 +20,7 @@ set sidescroll=1                    " line exceed screen cursor smooth scrolling
 " set laststatus=2                    " always show statusline
 " set numberwidth=5                   " line number width configure 
 " set cursorline                      " highlight current line
-" set scrolloff=5                     " keep <n> lines when scrolling
+set scrolloff=2                     " keep <n> lines when scrolling
 
 set novisualbell                    " turn off visualbell
 set noerrorbells                    " turn off errorbell
@@ -43,16 +43,13 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
-inoremap <C-k> <Esc>o
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-h> <C-w>h
+map <C-l> <C-w>l
 nnoremap x "_x
 vnoremap x "_x
 nnoremap <C-x> "_dd
-nnoremap <M-UP> :m-2<CR>
-nnoremap <M-DOWN> :m+1<CR>
 
 " Specify file config
 " filetype plugin off
