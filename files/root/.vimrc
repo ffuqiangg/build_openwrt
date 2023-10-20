@@ -47,9 +47,6 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-h> <C-w>h
 map <C-l> <C-w>l
-nnoremap x "_x
-vnoremap x "_x
-nnoremap <C-x> "_dd
 
 " Specify file config
 " filetype plugin off
