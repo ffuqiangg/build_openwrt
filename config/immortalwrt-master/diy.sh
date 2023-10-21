@@ -46,7 +46,7 @@ sed -i 's/admin\//&services\//g' package/feeds/luci/luci-app-dockerman/luasrc/vi
 sed -i 's/services/network/g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 
 # Add luci-app-amlogic
-git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git && mv luci-app-amlogic/luci-app-amlogic package/ && rm -rf luci-app-amlogic
+git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git package/luci-app-amlogic
 
 # Add luci-app-mosdns
 rm -rf feeds/packages/net/v2ray-geodata

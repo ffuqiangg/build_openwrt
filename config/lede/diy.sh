@@ -57,7 +57,7 @@ sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/l
 sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/status.htm
 
 # Add luci-app-openclash
-svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/luci-app-openclash
+git clone https://github.com/vernesong/OpenClash package/luci-app-openclash
 
 # Add luci-app-mosdns
 find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
