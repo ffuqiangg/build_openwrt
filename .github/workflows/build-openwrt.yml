@@ -17,6 +17,8 @@ env:
   CONFIG_FILE: config/${{ inputs.source_branch }}/config
   DIY_SH: config/${{ inputs.source_branch }}/diy.sh
   INIT_SH: config/${{ inputs.source_branch }}/init.sh
+  CLONE_SOURCE_SH: config/${{ inputs.source_branch }}/clone_source.sh
+  RELEASE_TXT: config/${{ inputs.source_branch }}/release.txt
   TZ: Asia/Shanghai
 
 jobs:
@@ -58,40 +60,9 @@ jobs:
       working-directory: /workdir
       if: steps.init.outputs.status == 'success' && !cancelled()
       run: |
-        # Set up compilation source code
-        if [[ "${{ inputs.source_branch }}" == *"lede"* ]]; then
-          REPO_URL="https://github.com/coolsnowwolf/lede"
-          REPO_BRANCH="master"
-          echo "package_repo=flippy" >> $GITHUB_OUTPUT
-          echo "make_sh=mk_lede_n1.sh" >> $GITHUB_OUTPUT
-          echo "distrib_des=Openwrt" >> $GITHUB_OUTPUT
-          echo "kernel_version=5.15.1" >> $GITHUB_OUTPUT
-          echo "kernel_repo=breakings/Openwrt" >> $GITHUB_OUTPUT
-          echo "COMPILE_DATE=R$(date +%y.%m.%d)" >> $GITHUB_ENV
-        elif [[ "${{ inputs.source_branch }}" == *"immortalwrt-master"* ]]; then
-          REPO_URL="https://github.com/immortalwrt/immortalwrt"
-          REPO_BRANCH="master"
-          echo "package_repo=ophub" >> $GITHUB_OUTPUT
-          echo "COMPILE_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
-        elif [ "${{ inputs.source_branch }}" == *"immortalwrt-18.06-k5.4"* ]; then
-          REPO_URL="https://github.com/immortalwrt/immortalwrt"
-          REPO_BRANCH="openwrt-18.06-k5.4"
-          echo "package_repo=flippy" >> $GITHUB_OUTPUT
-          echo "make_sh=mk_immortalwrt_18.06_k5.4_n1.sh" >> $GITHUB_OUTPUT
-          echo "distrib_des=Immortalwrt" >> $GITHUB_OUTPUT
-          echo "kernel_version=5.4.1" >> $GITHUB_OUTPUT
-          echo "kernel_repo=ffuqiangg/amlogic-s9xxx-armbian" >> $GITHUB_OUTPUT
-          echo "COMPILE_DATE=$(date +%Y%m%d)" >> $GITHUB_ENV
-        fi
-        # Clone source code
-        git clone -q --single-branch --depth=1 -b ${REPO_BRANCH} ${REPO_URL} openwrt
-        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        # Set output information
-        SOURCE_BRANCH=${{ inputs.source_branch }}
-        echo "IMAGE_NAME=${SOURCE_BRANCH/-/_}" >> $GITHUB_ENV
-        echo -e "REPO_URL: [ ${REPO_URL} ]\nREPO_BRANCH: [ ${REPO_BRANCH} ]"
-        df -hT ${PWD}
-        echo "status=success" >> $GITHUB_OUTPUT
+        chmod +x $CLONE_SOURCE_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$CLONE_SOURCE_SH
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
     - name: Install feeds
@@ -133,7 +104,7 @@ jobs:
         df -hT ${PWD}
         echo "status=success" >> $GITHUB_OUTPUT
     - name: Package Openwrt [ ophub ]
-      if: steps.codes.outputs.package_repo == 'ophub' && steps.clean.outputs.status == 'success'
+      if: env.PACKAGE_REPO == 'ophub' && steps.clean.outputs.status == 'success'
       env:
         releases_tag: ${{ inputs.source_branch }}
       uses: ffuqiangg/amlogic-s9xxx-openwrt@main
@@ -144,27 +115,27 @@ jobs:
         openwrt_kernel: 6.1.1
         kernel_usage: flippy
         auto_kernel: true
-        image_name: ${IMAGE_NAME}
+        image_name: $IMAGE_NAME
     - name: Package Openwrt [ flippy ]
-      if: steps.codes.outputs.package_repo == 'flippy' && steps.clean.outputs.status == 'success'
+      if: env.PACKAGE_REPO == 'flippy' && steps.clean.outputs.status == 'success'
       uses: ffuqiangg/openwrt_packit@master
       env:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
         OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
         PACKAGE_SOC: s905d
-        KERNEL_REPO_URL: ${{ steps.codes.outputs.kernel_repo }}
-        KERNEL_VERSION_NAME: ${{ steps.codes.outputs.kernel_version }}
+        KERNEL_REPO_URL: $KERNEL_REPO
+        KERNEL_VERSION_NAME: $KERNEL_VERSION
         KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .gz
-        SCRIPT_S905D: ${{ steps.codes.outputs.make_sh }}
-        OPENWRT_VER: ${COMPILE_DATE}
+        SCRIPT_S905D: $MAKE_SH
+        OPENWRT_VER: $COMPILE_DATE
         SFE_FLOW: 0
         ENABLE_WIFI_K504: 0
         ENABLE_WIFI_K510: 0
-        DISTRIB_REVISION: ${COMPILE_DATE}
-        DISTRIB_DESCRIPTION: ${{ steps.codes.outputs.distrib_des }}
+        DISTRIB_REVISION: $COMPILE_DATE
+        DISTRIB_DESCRIPTION: $DISTRIB_DES
     - name: Organize output file
-      if: steps.codes.outputs.package_repo == 'filppy' && env.PACKAGED_STATUS == 'success'
+      if: env.PACKAGE_REPO == 'filppy' && env.PACKAGED_STATUS == 'success'
       run: |
         cp -f openwrt/output/config ${PACKAGED_OUTPUTPATH}/
         cd ${PACKAGED_OUTPUTPATH} 
@@ -172,33 +143,10 @@ jobs:
     - name: Generate release tag
       id: tag
       if: steps.clean.outputs.status == 'success'
+      env:
+        COMPILE_DATE: ${{ env.COMPILE_DATE }}
       run: |
         echo "release_tag=${{ inputs.source_branch }}-$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
-        if [[ ${{ inputs.source_branch }} == *"lede"* ]]; then
-          cat > release.txt <<EOF
-        ![lede R${COMPILE_DATE}](https://img.shields.io/badge/lede-${COMPILE_DATE}-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
-        - 默认IP：192.168.1.99  密码：password
-        - 源码来自 [LEDE](https://github.com/coolsnowwolf/lede)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
-        - 内核来自暴躁老哥仓库 [breakings/Openwrt](https://github.com/breakings/OpenWrt)
-        - 主要插件：Passwall2, OpenClash, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
-        EOF
-        elif [[ ${{ inputs.source_branch }} == *"immortalwrt-master"* ]]; then
-          cat > release.txt <<EOF
-        ![immortalwrt master](https://img.shields.io/badge/immortalwrt-master-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
-        - 默认IP：192.168.1.99  密码：password
-        - 源码来自 [Immortalwrt-master](https://github.com/immortalwrt/immortalwrt)，固件只适配 斐讯N1，打包脚本采用 [ophub/amlogic-s9xxx-openwrt](https://github.com/ophub/amlogic-s9xxx-openwrt)
-        - 内核来自Smith仓库 [ophub/kernel](https://github.com/ophub/kernel)
-        - 主要插件：HomeProxy, OpenClash, MosDNS, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
-        EOF
-        elif [[ ${{ inputs.source_branch }} == *"immortalwrt-18.06-k5.4"* ]]; then
-          cat > release.txt <<EOF
-        ![immortalwrt 18.06 k5.4](https://img.shields.io/badge/immortalwrt-18.06_k5.4-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
-        - 默认IP：192.168.1.99  密码：password
-        - 源码来自 [Immortalwrt-18.06-k5.4](https://github.com/immortalwrt/immortalwrt/tree/openwrt-18.06-k5.4)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
-        - 内核来自仓库 [ffuqiangg/amlogic-s9xxx-armbian](https://github.com/ffuqiangg/amlogic-s9xxx-armbian)
-        - 主要插件：Passwall, OpenClash, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
-        EOF
-        fi
         echo "status=success" >> ${GITHUB_OUTPUT}
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
@@ -207,7 +155,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
         tag: ${{ steps.tag.outputs.release_tag }}
-        bodyFile: release.txt
+        bodyFile: $RELEASE_TXT
         artifacts: |
           ${PACKAGED_OUTPUTPATH}/*
     - name: Delete workflow runs
