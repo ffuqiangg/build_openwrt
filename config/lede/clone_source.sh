@@ -12,6 +12,10 @@ echo "COMPILE_DATE=R$(date +%y.%m.%d)" >> $GITHUB_ENV
 # Clone source code
 git clone -q --single-branch --depth=1 -b ${REPO_BRANCH} ${REPO_URL} openwrt
 ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+
+# Write release.txt
+sed -i "s/COMPILE_DATE/$(date +%y.%m.%d)/g" $INIT_SH
+
 # Set output information
 echo "IMAGE_NAME=lede" >> $GITHUB_ENV
 echo -e "REPO_URL: [ ${REPO_URL} ]\nREPO_BRANCH: [ ${REPO_BRANCH} ]"

@@ -105,8 +105,6 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
     - name: Package Openwrt [ ophub ]
       if: env.PACKAGE_REPO == 'ophub' && steps.clean.outputs.status == 'success'
-      env:
-        releases_tag: ${{ inputs.source_branch }}
       uses: ffuqiangg/amlogic-s9xxx-openwrt@main
       with:
         openwrt_path: openwrt/output/*rootfs.tar.gz
@@ -143,8 +141,6 @@ jobs:
     - name: Generate release tag
       id: tag
       if: steps.clean.outputs.status == 'success'
-      env:
-        COMPILE_DATE: ${{ env.COMPILE_DATE }}
       run: |
         echo "release_tag=${{ inputs.source_branch }}-$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
         echo "status=success" >> ${GITHUB_OUTPUT}
