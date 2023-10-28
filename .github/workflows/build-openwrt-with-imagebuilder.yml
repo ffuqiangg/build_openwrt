@@ -97,7 +97,7 @@ jobs:
           kernel_repo: ${{ inputs.kernel_repo }}
           kernel_usage: ${{ inputs.kernel_usage }}
           gh_token: ${{ secrets.GH_TOKEN }}
-          image_name: ${{ env.IMAGE_NAME }} 
+          image_name: ${IMAGE_NAME} 
       - name: Generate release tag
         id: tag
         if: env.PACKAGED_STATUS == 'success' && !cancelled()
@@ -105,15 +105,15 @@ jobs:
           echo "PACKAGE_DATE=$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_ENV
       - name: Upload the packaged OpenWrt
         uses: ncipollo/release-action@main
-        if: ${{ env.PACKAGED_STATUS }} == 'success' && !cancelled()
+        if: env.PACKAGED_STATUS == 'success' && !cancelled()
         with:
-          tag: ${{ env.RELEASES_TAG }}-${{ env.PACKAGE_DATE }}
-          artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
+          tag: ${RELEASES_TAG}-${PACKAGE_DATE}
+          artifacts: ${PACKAGED_OUTPUTPATH}/*
           allowUpdates: true
           removeArtifacts: false
           replacesArtifacts: true
           token: ${{ secrets.GH_TOKEN }}
           body: |
-            ![${{ env.RELEASES_TAG }}](https://img.shields.io/badge/${{ env.RELEASES_TAG }}-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
+            ![${RELEASES_TAG}](https://img.shields.io/badge/${RELEASES_TAG}-informational?style=flat) [![Telegram](https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white)](https://t.me/ffuqiangg)  [![Gmail](https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white)](mailto:ffuqiangg@gmail.com)  [![Docker](https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white)](https://hub.docker.com/u/ffuqiangg)
             - 默认IP：192.168.1.99  密码：password
             - 本固件使用 imagebuilder 生成，尚在测试不排除有影响使用的 BUG

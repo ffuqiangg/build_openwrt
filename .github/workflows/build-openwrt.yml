@@ -113,7 +113,7 @@ jobs:
         openwrt_kernel: 6.1.1
         kernel_usage: flippy
         auto_kernel: true
-        image_name: $IMAGE_NAME
+        image_name: ${IMAGE_NAME}
     - name: Package Openwrt [ flippy ]
       if: env.PACKAGE_REPO == 'flippy' && steps.clean.outputs.status == 'success'
       uses: ffuqiangg/openwrt_packit@master
@@ -121,22 +121,22 @@ jobs:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
         OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
         PACKAGE_SOC: s905d
-        KERNEL_REPO_URL: $KERNEL_REPO
-        KERNEL_VERSION_NAME: $KERNEL_VERSION
+        KERNEL_REPO_URL: ${KERNEL_REPO}
+        KERNEL_VERSION_NAME: ${KERNEL_VERSION}
         KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .gz
         SCRIPT_S905D: $MAKE_SH
-        OPENWRT_VER: $COMPILE_DATE
+        OPENWRT_VER: ${COMPILE_DATE}
         SFE_FLOW: 0
         ENABLE_WIFI_K504: 0
         ENABLE_WIFI_K510: 0
-        DISTRIB_REVISION: $COMPILE_DATE
-        DISTRIB_DESCRIPTION: $DISTRIB_DES
+        DISTRIB_REVISION: ${COMPILE_DATE}
+        DISTRIB_DESCRIPTION: ${DISTRIB_DES}
     - name: Organize output file
       if: env.PACKAGE_REPO == 'filppy' && env.PACKAGED_STATUS == 'success'
       run: |
         cp -f openwrt/output/config ${PACKAGED_OUTPUTPATH}/
-        cd ${PACKAGED_OUTPUTPATH} 
+        cd ${PACKAGED_OUTPUTPATH}
         sha256sum config > config.sha
     - name: Generate release tag
       id: tag
