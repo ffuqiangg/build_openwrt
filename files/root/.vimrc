@@ -53,23 +53,24 @@ map <C-l> <C-w>l
 autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " User Interface customize
-set t_Co=256                        " color number
+" set t_Co=256                        " color number
 set background=dark                 " background color
-colorscheme gruvbox
-" hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
-" hi! link TabLineFill TabLine
-" hi LineNr ctermfg=8
-" hi Pmenu ctermfg=15 ctermbg=8
-" hi PmenuSel ctermfg=0 ctermbg=4
-" hi VertSplit ctermfg=8 ctermbg=NONE cterm=NONE
-" hi IncSearch ctermfg=0 ctermbg=3 cterm=NONE
-" hi Search ctermfg=0
-" hi Visual ctermbg=NONE cterm=reverse
-" hi CursorLine cterm=NONE
-" hi CursorLineNr cterm=NONE
-" hi Comment ctermfg=8
-" hi StatusLine cterm=NONE ctermfg=black ctermbg=8
-" hi StatusLineNC cterm=NONE ctermfg=8 ctermbg=NONE
+colorscheme desert
+hi Normal ctermbg=NONE
+hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
+hi! link TabLineFill TabLine
+hi LineNr ctermfg=8
+hi Pmenu ctermfg=15 ctermbg=8
+hi PmenuSel ctermfg=0 ctermbg=4
+hi VertSplit ctermfg=8 ctermbg=NONE cterm=NONE
+hi IncSearch ctermfg=0 ctermbg=3 cterm=NONE
+hi Search ctermfg=0
+hi Visual ctermbg=NONE cterm=reverse
+hi CursorLine cterm=NONE
+hi CursorLineNr cterm=NONE
+hi Comment ctermfg=8
+hi StatusLine cterm=NONE ctermfg=black ctermbg=8
+hi StatusLineNC cterm=NONE ctermfg=8 ctermbg=NONE
 
 " Statusline configure
 " set statusline=\ %<%-20.(%f\ %h%m%r%w%)\ \ \ %P\ %-11.(\(%l,%c\)%)\[%{&fenc}\|%{&ff}\]
