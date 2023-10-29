@@ -69,8 +69,8 @@ jobs:
       run: cd openwrt && ./scripts/feeds install -a
     - name: Load custom configuration
       run: |
-        [ -d files ] && mv -f files openwrt/files
-        [ -f ${INIT_SH} ] && sed -i "s/DATE/$(date +%Y.%m.%d)/" ${INIT_SH} && mv -f ${INIT_SH} openwrt/etc/uci-defaults/999-default-settings
+        [ -d files ] && cp -f files openwrt/files
+        [ -f ${INIT_SH} ] && sed -i "s/DATE/$(date +%Y.%m.%d)/" ${INIT_SH} && cp -f ${INIT_SH} openwrt/etc/uci-defaults/999-default-settings
         [ -e ${CONFIG_FILE} ] && cp -f ${CONFIG_FILE} openwrt/.config
         chmod +x ${DIY_SH}
         cd openwrt
