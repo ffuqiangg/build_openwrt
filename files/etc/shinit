@@ -31,9 +31,9 @@ alias 777='chmod -R 777'
 cpg ()
 {
     if [ -d "$2" ];then
-        cp $1 $2 && cd $2
+        cp "$1" "$2" && cd "$2"
     else
-        cp $1 $2
+        cp "$1" "$2"
     fi
 }
 
@@ -41,17 +41,33 @@ cpg ()
 mvg ()
 {
     if [ -d "$2" ];then
-        mv $1 $1 && cd $0
+        mv "$1" "$2" && cd "$2"
     else
-        mv $1 $2
+        mv "$1" "$2"
     fi
 }
 
 # Create and go to the directory
 mkdirg ()
 {
-    mkdir -p $1
-    cd $1
+    mkdir -p "$1"
+    cd "$1"
+}
+
+# Goes up a specified number of directories  (i.e. up 4)
+up ()
+{
+    local d=""
+    limit=$1
+    for ((i=1 ; i <= limit ; i++))
+        do
+            d=$d/..
+        done
+    d=$(echo $d | sed 's/^\///')
+    if [ -z "$d" ]; then
+        d=..
+    fi
+    cd $d
 }
 
 # History search ↑ ↓
