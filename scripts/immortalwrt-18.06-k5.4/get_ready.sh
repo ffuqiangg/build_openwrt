@@ -8,6 +8,8 @@ repo_branch="openwrt-18.06-k5.4"
 git clone -q --single-branch --depth=1 -b ${repo_branch} ${repo_url} openwrt
 ln -sf /workdir/openwrt ${GITHUB_WORKSPACE}/openwrt
 
+wait
+
 # Some settings
 # Modify default IP (FROM 192.168.1.1 CHANGE TO 192.168.1.99 )
 sed -i 's/192.168.1.1/192.168.1.99/g' package/base-files/files/bin/config_generate
