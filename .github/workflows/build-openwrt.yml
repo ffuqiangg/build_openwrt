@@ -14,11 +14,6 @@ on:
           - immortalwrt-master
 
 env:
-  CONFIG_FILE: config/${{ inputs.source_branch }}/config
-  DIY_SH: config/${{ inputs.source_branch }}/diy.sh
-  INIT_SH: config/${{ inputs.source_branch }}/init.sh
-  CLONE_SOURCE_SH: config/${{ inputs.source_branch }}/clone_source.sh
-  RELEASE_TXT: config/${{ inputs.source_branch }}/release.txt
   TZ: Asia/Shanghai
 
 jobs:
@@ -34,8 +29,10 @@ jobs:
         echo -e "🧮 Server CPU configuration information: \n$(cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c) \n"
         echo -e "💾 Server memory usage: \n$(free -h) \n"
         echo -e "🗃️ Server space usag: \n$(df -hT ${GITHUB_WORKSPACE}) \n"
+
     - name: Checkout
       uses: actions/checkout@v3
+
     - name: Initialization environment
       id: init
       env:
@@ -51,30 +48,31 @@ jobs:
         #sudo -E apt-get -y full-upgrade
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
-        sudo mkdir -p /workdir
-        sudo chown ${USER}:${GROUPS} /workdir
         sudo timedatectl set-timezone "$TZ"
         echo "status=success" >> ${GITHUB_OUTPUT}
-    - name: Clone source code [ ${{ inputs.source_branch }} ]
-      id: codes
-      working-directory: /workdir
-      if: steps.init.outputs.status == 'success' && !cancelled()
+
+    - name: Prepare ${{ inputs.source_branch }} code
       run: |
-        chmod +x ${CLONE_SOURCE_SH}
-        cd openwrt
-        ${GITHUB_WORKSPACE}/${CLONE_SOURCE_SH}
+        sudo chown -R runner:runner /home/runner/work/build_openwrt
+        cp -r scripts/${{ inputs.source_branch }}/. ./scripts/
+        cp -r ./scripts/. ./
+        /bin/bash get_ready.sh
+
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
+
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
+
     - name: Load custom configuration
       run: |
         [ -d files ] && cp -f files openwrt/files
-        [ -f ${INIT_SH} ] && sed -i "s/DATE/$(date +%Y.%m.%d)/" ${INIT_SH} && cp -f ${INIT_SH} openwrt/etc/uci-defaults/999-default-settings
-        [ -e ${CONFIG_FILE} ] && cp -f ${CONFIG_FILE} openwrt/.config
-        chmod +x ${DIY_SH}
         cd openwrt
-        ${GITHUB_WORKSPACE}/${DIY_SH}
+        [ -f "config/${{ inputs.source_branch }}/init.sh" ] && sed -i "s/DATE/$(date +%Y.%m.%d)/" config/${{ inputs.source_branch }}/init.sh && cp -f config/${{ inputs.source_branch }}/init.sh openwrt/etc/uci-defaults/999-def${INIT_SH}ault-settings
+        [ -f "config/${{ inputs.source_branch }}/config" ] && cp -f config/${{ inputs.source_branch }}/config openwrt/.config
+        chmod +x config/${{ inputs.source_branch }}/change_menu.sh
+        ./config/${{ inputs.source_branch }}/change_menu.sh
+
     - name: Download package
       id: package
       run: |
@@ -83,6 +81,7 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
+
     - name: Compile the firmware
       id: compile
       run: |
@@ -90,6 +89,7 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
         echo "status=success" >> ${GITHUB_OUTPUT}
+
     - name: Clear server space
       id: clean
       if: steps.compile.outputs.status == 'success' && !cancelled()
@@ -103,6 +103,7 @@ jobs:
         # Set output information
         df -hT ${PWD}
         echo "status=success" >> ${GITHUB_OUTPUT}
+
     - name: Package Openwrt [ ophub ]
       if: env.PACKAGE_REPO == 'ophub' && steps.clean.outputs.status == 'success'
       uses: ffuqiangg/amlogic-s9xxx-openwrt@main
@@ -114,6 +115,7 @@ jobs:
         kernel_usage: flippy
         auto_kernel: true
         image_name: ${IMAGE_NAME}
+
     - name: Package Openwrt [ flippy ]
       if: env.PACKAGE_REPO == 'flippy' && steps.clean.outputs.status == 'success'
       uses: ffuqiangg/openwrt_packit@master
@@ -132,18 +134,21 @@ jobs:
         ENABLE_WIFI_K510: 0
         DISTRIB_REVISION: ${COMPILE_DATE}
         DISTRIB_DESCRIPTION: ${DISTRIB_DES}
+
     - name: Organize output file
       if: env.PACKAGE_REPO == 'filppy' && env.PACKAGED_STATUS == 'success'
       run: |
         cp -f openwrt/output/config ${PACKAGED_OUTPUTPATH}/
         cd ${PACKAGED_OUTPUTPATH}
         sha256sum config > config.sha
+
     - name: Generate release tag
       id: tag
       if: steps.clean.outputs.status == 'success'
       run: |
         echo "release_tag=${{ inputs.source_branch }}-$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
         echo "status=success" >> ${GITHUB_OUTPUT}
+
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
       if: steps.tag.outputs.status == 'success'
@@ -154,11 +159,13 @@ jobs:
         bodyFile: $RELEASE_TXT
         artifacts: |
           ${PACKAGED_OUTPUTPATH}/*
+
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
       with:
         retain_days: 1
         keep_minimum_runs: 3
+
     - name: Remove old Releases
       uses: codesnas/delete-older-releases@main
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
@@ -167,6 +174,7 @@ jobs:
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
     - name: Telegram notification
       if: steps.tag.outputs.status == 'success'
       run: |
@@ -183,3 +191,4 @@ jobs:
         💬 \[ [Telegram](https://t.me/ffuqiangg) ]  \[ [Github](https://github.com/ffuqiangg) ]  \[ [Docker](https://hub.docker.com/u/ffuqiangg) ]
         "
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"
+
