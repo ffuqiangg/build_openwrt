@@ -60,11 +60,11 @@ jobs:
 
     - name: Load custom configuration
       run: |
+        [ -d files ] && mv files /openwrt/files
+        [ -f init.sh ] && sed -i "s/DATE/$(date +%Y.%m.%d)/" init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
         cd openwrt
         cp -r ../scripts/. ./
         /bin/bash change_menu.sh
-        [ -d files ] && cp -rf files /openwrt/files
-        [ -f init.sh ] && sed -i "s/DATE/$(date +%Y.%m.%d)/" init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
         cp ../config/${{ inputs.source_branch }}/config .config
 
     - name: Update feeds
