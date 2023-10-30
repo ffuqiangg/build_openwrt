@@ -58,20 +58,20 @@ jobs:
         cp -r ./scripts/. ./
         /bin/bash get_ready.sh
 
+    - name: Load custom configuration
+      run: |
+        cd openwrt
+        cp -r ../scripts/. ./
+        /bin/bash change_menu.sh
+        [ -d files ] && cp -rf files /openwrt/files
+        [ -f init.sh ] && sed -i "s/DATE/$(date +%Y.%m.%d)/" init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
+        cp ../config/${{ inputs.source_branch }}/config .config
+
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
-
-    - name: Load custom configuration
-      run: |
-        [ -d files ] && cp -f files openwrt/files
-        cd openwrt
-        [ -f "config/${{ inputs.source_branch }}/init.sh" ] && sed -i "s/DATE/$(date +%Y.%m.%d)/" config/${{ inputs.source_branch }}/init.sh && cp -f config/${{ inputs.source_branch }}/init.sh openwrt/etc/uci-defaults/999-def${INIT_SH}ault-settings
-        [ -f "config/${{ inputs.source_branch }}/config" ] && cp -f config/${{ inputs.source_branch }}/config openwrt/.config
-        chmod +x config/${{ inputs.source_branch }}/change_menu.sh
-        ./config/${{ inputs.source_branch }}/change_menu.sh
 
     - name: Download package
       id: package
@@ -146,7 +146,7 @@ jobs:
       id: tag
       if: steps.clean.outputs.status == 'success'
       run: |
-        echo "release_tag=${{ inputs.source_branch }}-$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
+        echo "release_tag=${{ inputs.source_branch }}-$(date +'%Y.%m.%d-%H%M')" >> ${GITHUB_OUTPUT}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
@@ -156,7 +156,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
         tag: ${{ steps.tag.outputs.release_tag }}
-        bodyFile: $RELEASE_TXT
+        bodyFile: ${GITHUB_WORKSPACE}/config/${{ inputs.source_branch }}/release.txt
         artifacts: |
           ${PACKAGED_OUTPUTPATH}/*
 
