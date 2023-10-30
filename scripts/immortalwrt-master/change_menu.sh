@@ -38,4 +38,3 @@ sed -i 's/admin\//&services\//g' package/feeds/luci/luci-app-dockerman/luasrc/vi
 sed -i 's/admin\//&services\//g' package/feeds/luci/luci-app-dockerman/luasrc/view/dockerman/volume_size.htm
 # nlbw
 sed -i 's/services/network/g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
-
