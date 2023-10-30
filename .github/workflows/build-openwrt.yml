@@ -54,16 +54,15 @@ jobs:
     - name: Prepare ${{ inputs.source_branch }} code
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
-        cp -r scripts/${{ inputs.source_branch }}/. ./scripts/
-        cp -r ./scripts/. ./
+        cp -r scripts/${{ inputs.source_branch }}/. ./
         /bin/bash get_ready.sh
 
     - name: Load custom configuration
       run: |
-        [ -d files ] && mv files /openwrt/files
+        [ -d files ] && mv files openwrt/
         [ -f init.sh ] && sed -i "s,DATE,$(date +%Y.%m.%d)," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
         cd openwrt
-        cp -r ../scripts/. ./
+        cp -r ../*.sh ./
         /bin/bash change_menu.sh
         cp ../config/${{ inputs.source_branch }}/config .config
 
