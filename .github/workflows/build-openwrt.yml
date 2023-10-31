@@ -62,7 +62,7 @@ jobs:
         [ -d files ] && mv files openwrt/
         [ -f init.sh ] && sed -i "s,DATE,`date +%Y.%m.%d`," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
         cd openwrt
-        cp -r scripts/${{ inputs.source_branch }}/. ./
+        cp -r ../scripts/${{ inputs.source_branch }}/. ./
         /bin/bash change_menu.sh
         cp ../config/${{ inputs.source_branch }}/config .config
 
