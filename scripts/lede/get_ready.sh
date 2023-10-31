@@ -3,7 +3,7 @@
 repo_url="https://github.com/coolsnowwolf/lede"
 repo_branch="master"
 
-# Clone Wrt source code
+# Clone source code
 git clone -q --single-branch --depth=1 -b ${repo_branch} ${repo_url} openwrt
 # Add passwall
 # git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git openwrt/package/luci-app-passwall

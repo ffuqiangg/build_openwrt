@@ -3,7 +3,7 @@
 repo_url="https://github.com/immortalwrt/immortalwrt"
 repo_branch="master"
 
-# Clone Wrt source code
+# Clone source code
 git clone -q --single-branch --depth=1 -b ${repo_branch} ${repo_url} openwrt
 # Luci-app-amlogic
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git openwrt/package/luci-app-amlogic
