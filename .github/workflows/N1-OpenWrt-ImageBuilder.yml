@@ -1,4 +1,4 @@
-name: Build OpenWrt with ImageBuilder
+name: N1-OpenWrt-ImageBuilder
 
 on:
   workflow_dispatch:

@@ -21,3 +21,7 @@ sed -i 's/192.168.1.1/192.168.1.99/g' openwrt/package/base-files/files/bin/confi
 
 # Set output information
 echo "COMPILE_DATE=$(date +%Y%m%d)" >> ${GITHUB_ENV}
+
+cd openwrt
+./scripts/feeds update -a
+./scripts/feeds install -a

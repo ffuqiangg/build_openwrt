@@ -1,4 +1,4 @@
-name: Build Immortalwrt Master
+name: N1-ImmortalWrt-Master
 
 on:
   workflow_dispatch:
@@ -55,12 +55,6 @@ jobs:
         cp -r ../scripts/immortalwrt-master/. ./
         /bin/bash change_menu.sh
         cp ../config/immortalwrt-master/config .config
-
-    - name: Update feeds
-      run: cd openwrt && ./scripts/feeds update -a
-
-    - name: Install feeds
-      run: cd openwrt && ./scripts/feeds install -a
 
     - name: Download package
       id: package

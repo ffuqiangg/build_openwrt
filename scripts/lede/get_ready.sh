@@ -36,3 +36,7 @@ sed -i "s/COMPILE_DATE/R$(date +%y.%m.%d)/g" config/lede/release.txt
 
 # Set output information
 echo "COMPILE_DATE=R$(date +%y.%m.%d)" >> ${GITHUB_ENV}
+
+cd openwrt
+./scripts/feeds update -a
+./scripts/feeds install -a
