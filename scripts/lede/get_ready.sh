@@ -6,9 +6,9 @@ repo_branch="master"
 # Clone source code
 git clone -q --single-branch --depth=1 -b ${repo_branch} ${repo_url} openwrt
 # Add luci-app-passwall
-# git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git openwrt/package/luci-app-passwall
+git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git openwrt/package/luci-app-passwall
 # Add luci-app-passwall2
-git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall2 openwrt/package/luci-app-passwall2
+# git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall2 openwrt/package/luci-app-passwall2
 # depends
 git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall.git  openwrt/package/passwall-depends
 # Add luci-app-filebrowser & change menu
@@ -32,7 +32,7 @@ sed -i 's/192.168.1.1/192.168.1.99/g' openwrt/package/base-files/files/bin/confi
 # Set DISTRIB_REVISION
 sed -i "s,DISTRIB_REVISION='.*',DISTRIB_REVISION='R$(date +%y.%m.%d)',g" openwrt/package/lean/default-settings/files/zzz-default-settings
 # Write release.txt
-sed -i "s/COMPILE_DATE/R$(date +%y.%m.%d)/g" init.sh
+sed -i "s/COMPILE_DATE/R$(date +%y.%m.%d)/g" config/lede/release.txt
 
 # Set output information
 echo "COMPILE_DATE=R$(date +%y.%m.%d)" >> ${GITHUB_ENV}
