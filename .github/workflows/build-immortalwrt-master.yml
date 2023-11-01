@@ -1,17 +1,7 @@
-name: Build Openwrt
+name: Build Immortalwrt Master
 
 on:
   workflow_dispatch:
-    inputs:
-      source_branch:
-        description: "Select the source branch"
-        required: true
-        default: "immortalwrt-master"
-        type: choice
-        options:
-          - lede
-          - immortalwrt-18.06-k5.4
-          - immortalwrt-master
 
 env:
   TZ: Asia/Shanghai
@@ -51,10 +41,10 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         echo "status=success" >> ${GITHUB_OUTPUT}
 
-    - name: Prepare ${{ inputs.source_branch }} code
+    - name: Prepare immortalwrt-master code
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
-        cp -r scripts/${{ inputs.source_branch }}/. ./
+        cp -r scripts/immortalwrt-master/. ./
         /bin/bash get_ready.sh
 
     - name: Load custom configuration
@@ -62,9 +52,9 @@ jobs:
         [ -d files ] && mv files openwrt/
         [ -f init.sh ] && sed -i "s,DATE,`date +%Y.%m.%d`," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
         cd openwrt
-        cp -r ../scripts/${{ inputs.source_branch }}/. ./
+        cp -r ../scripts/immortalwrt-master/. ./
         /bin/bash change_menu.sh
-        cp ../config/${{ inputs.source_branch }}/config .config
+        cp ../config/immortalwrt-master/config .config
 
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
@@ -104,7 +94,7 @@ jobs:
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Package Openwrt [ ophub ]
-      if: env.PACKAGE_REPO == 'ophub' && steps.clean.outputs.status == 'success'
+      if: steps.clean.outputs.status == 'success'
       uses: ffuqiangg/amlogic-s9xxx-openwrt@main
       with:
         openwrt_path: openwrt/output/*rootfs.tar.gz
@@ -113,39 +103,13 @@ jobs:
         openwrt_kernel: 6.1.1
         kernel_usage: flippy
         auto_kernel: true
-        image_name: ${IMAGE_NAME}
-
-    - name: Package Openwrt [ flippy ]
-      if: env.PACKAGE_REPO == 'flippy' && steps.clean.outputs.status == 'success'
-      uses: ffuqiangg/openwrt_packit@master
-      env:
-        SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
-        OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
-        PACKAGE_SOC: s905d
-        KERNEL_REPO_URL: ${KERNEL_REPO}
-        KERNEL_VERSION_NAME: ${KERNEL_VERSION}
-        KERNEL_AUTO_LATEST: true
-        GZIP_IMGS: .gz
-        SCRIPT_S905D: $MAKE_SH
-        OPENWRT_VER: ${COMPILE_DATE}
-        SFE_FLOW: 0
-        ENABLE_WIFI_K504: 0
-        ENABLE_WIFI_K510: 0
-        DISTRIB_REVISION: ${COMPILE_DATE}
-        DISTRIB_DESCRIPTION: ${DISTRIB_DES}
-
-    - name: Organize output file
-      if: env.PACKAGE_REPO == 'filppy' && env.PACKAGED_STATUS == 'success'
-      run: |
-        cp -f openwrt/output/config ${PACKAGED_OUTPUTPATH}/
-        cd ${PACKAGED_OUTPUTPATH}
-        sha256sum config > config.sha
+        image_name: immortalwrt_master
 
     - name: Generate release tag
       id: tag
       if: steps.clean.outputs.status == 'success'
       run: |
-        echo "release_tag=${{ inputs.source_branch }}-`date +'%Y.%m.%d-%H%M'`" >> ${GITHUB_OUTPUT}
+        echo "release_tag=immortalwrt-master-`date +'%Y.%m.%d-%H%M'`" >> ${GITHUB_OUTPUT}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
@@ -155,31 +119,16 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
         tag: ${{ steps.tag.outputs.release_tag }}
-        bodyFile: ${GITHUB_WORKSPACE}/config/${{ inputs.source_branch }}/release.txt
+        bodyFile: ${GITHUB_WORKSPACE}/config/immortalwrt-master/release.txt
         artifacts: |
           ${PACKAGED_OUTPUTPATH}/*
-
-    - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@v2
-      with:
-        retain_days: 1
-        keep_minimum_runs: 3
-
-    - name: Remove old Releases
-      uses: codesnas/delete-older-releases@main
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-      with:
-        keep_latest: 99
-        delete_tags: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: Telegram notification
       if: steps.tag.outputs.status == 'success'
       run: |
         COMPILE_DATE_VAL=`echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev`
         MSG="
-        ✅ *${{ inputs.source_branch }} ${COMPILE_DATE}*
+        ✅ *immortalwrt-master ${COMPILE_DATE}*
 
         🔘 *基本信息*
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}

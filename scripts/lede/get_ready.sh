@@ -5,13 +5,13 @@ repo_branch="master"
 
 # Clone source code
 git clone -q --single-branch --depth=1 -b ${repo_branch} ${repo_url} openwrt
-# Add passwall
+# Add luci-app-passwall
 # git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git openwrt/package/luci-app-passwall
-# Add passwall2
+# Add luci-app-passwall2
 git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall2 openwrt/package/luci-app-passwall2
 # depends
 git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall.git  openwrt/package/passwall-depends
-# Add filebrowser & change menu
+# Add luci-app-filebrowser & change menu
 git clone --depth 1 https://github.com/Lienol/openwrt-package.git && mv openwrt-package/luci-app-filebrowser openwrt/package/ && rm -rf openwrt-package
 sed -i -e 's/nas/services/g' -e 's/NAS/Services/g' openwrt/package/luci-app-filebrowser/luasrc/controller/filebrowser.lua
 sed -i 's/nas/services/g' openwrt/package/luci-app-filebrowser/luasrc/view/filebrowser/download.htm
@@ -27,7 +27,6 @@ git clone https://github.com/sbwml/v2ray-geodata openwrt/package/v2ray-geodata
 
 wait
 
-# Some settings
 # Modify default IP (FROM 192.168.1.1 CHANGE TO 192.168.1.99 )
 sed -i 's/192.168.1.1/192.168.1.99/g' openwrt/package/base-files/files/bin/config_generate
 # Set DISTRIB_REVISION
@@ -36,10 +35,4 @@ sed -i "s,DISTRIB_REVISION='.*',DISTRIB_REVISION='R$(date +%y.%m.%d)',g" openwrt
 sed -i "s/COMPILE_DATE/R$(date +%y.%m.%d)/g" init.sh
 
 # Set output information
-echo "IMAGE_NAME=lede" >> ${GITHUB_ENV}
-echo "PACKAGE_REPO=flippy" >> ${GITHUB_ENV}
-echo "MAKE_SH=mk_lede_n1.sh" >> ${GITHUB_ENV}
-echo "DISTRIB_DES=Openwrt" >> ${GITHUB_ENV}
-echo "KERNEL_VERSION=5.15.1" >> ${GITHUB_ENV}
-echo "KERNEL_REPO=breakings/Openwrt" >> ${GITHUB_ENV}
 echo "COMPILE_DATE=R$(date +%y.%m.%d)" >> ${GITHUB_ENV}

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Modify menu
 # samba4
 sed -i 's/nas/services/g' package/feeds/luci/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 # cpufreq

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Modify menu
 # samba4
 sed -i 's/\"nas\"/\"services\"/g' package/feeds/luci/luci-app-samba4/luasrc/controller/samba4.lua
 # cpufreq
@@ -39,8 +38,3 @@ sed -i -e 's/admin\",/& \"network\",/g' -e 's,admin/,&network/,g' package/feeds/
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
-
-# Add luci-app-mosdns
-rm -rf feeds/packages/net/v2ray-geodata
-git clone --depth=1 --single-branch -b v5 https://github.com/sbwml/luci-app-mosdns package/mosdns
-git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Modify menu
+# Delete default setting
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 # vsftpd
 sed -i -e 's/\"nas\"/\"services\"/g' -e 's/\"NAS\"/\"Services\"/g' package/feeds/luci/luci-app-vsftpd/luasrc/controller/vsftpd.lua
