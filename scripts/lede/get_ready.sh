@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# Write release.txt
+# Change release.txt
 sed -i "s/COMPILE_DATE/R$(date +%y.%m.%d)/g" config/lede/release.txt
 
 # Clone source code
 git clone -q --single-branch --depth 1 -b master https://github.com/coolsnowwolf/lede openwrt
 
 cd openwrt
+
 # Add luci-app-passwall
 git clone --single-branch --depth 1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
 # Add luci-app-passwall2
