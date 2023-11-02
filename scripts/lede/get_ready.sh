@@ -6,11 +6,11 @@ repo_branch="master"
 # Clone source code
 git clone -q --single-branch --depth=1 -b ${repo_branch} ${repo_url} openwrt
 # Add luci-app-passwall
-git clone --single-branch -b luci --depth=1 https://github.com/xiaorouji/openwrt-passwall.git openwrt/package/luci-app-passwall
+git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall.git openwrt/package/luci-app-passwall
 # Add luci-app-passwall2
 # git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall2 openwrt/package/luci-app-passwall2
 # depends
-git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall.git  openwrt/package/passwall-depends
+git clone --single-branch --depth=1 https://github.com/xiaorouji/openwrt-passwall-packages.git  openwrt/package/passwall-depends
 # Add luci-app-filebrowser & change menu
 git clone --depth 1 https://github.com/Lienol/openwrt-package.git && mv openwrt-package/luci-app-filebrowser openwrt/package/ && rm -rf openwrt-package
 sed -i -e 's/nas/services/g' -e 's/NAS/Services/g' openwrt/package/luci-app-filebrowser/luasrc/controller/filebrowser.lua
