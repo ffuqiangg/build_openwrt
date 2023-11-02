@@ -23,8 +23,8 @@ sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/s
 # Add luci-app-openclash
 git clone --depth 1 --single-branch -b master https://github.com/vernesong/OpenClash package/luci-app-openclash
 # Add luci-app-mosdns
-find ./openwrt | grep Makefile | grep v2ray-geodata | xargs rm -f
-find ./openwrt | grep Makefile | grep mosdns | xargs rm -f
+find . | grep Makefile | grep v2ray-geodata | xargs rm -f
+find . | grep Makefile | grep mosdns | xargs rm -f
 git clone --depth=1 --single-branch -b v5 https://github.com/sbwml/luci-app-mosdns package/mosdns
 git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 
