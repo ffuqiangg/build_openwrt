@@ -35,8 +35,5 @@ sed -i 's/192.168.1.1/192.168.1.99/g' package/base-files/files/bin/config_genera
 # Set DISTRIB_REVISION
 sed -i "s,DISTRIB_REVISION='.*',DISTRIB_REVISION='R$(date +%y.%m.%d)',g" package/lean/default-settings/files/zzz-default-settings
 
-# Set output information
-echo "COMPILE_DATE=R$(date +%y.%m.%d)" >> ${GITHUB_ENV}
-
 ./scripts/feeds update -a
 ./scripts/feeds install -a

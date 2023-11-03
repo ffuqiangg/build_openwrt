@@ -15,8 +15,5 @@ wait
 # Modify default IP (FROM 192.168.1.1 CHANGE TO 192.168.1.99 )
 sed -i 's/192.168.1.1/192.168.1.99/g' package/base-files/files/bin/config_generate
 
-# Set output information
-echo "COMPILE_DATE=$(date +%Y%m%d)" >> ${GITHUB_ENV}
-
 ./scripts/feeds update -a
 ./scripts/feeds install -a

@@ -46,6 +46,7 @@ jobs:
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/lede/. ./
         /bin/bash get_ready.sh
+        echo "COMPILE_DATE=R$(date +%y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Load custom configuration
       run: |
@@ -87,7 +88,7 @@ jobs:
         df -hT ${PWD}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
-    - name: Package Openwrt [ flippy ]
+    - name: Package Openwrt
       if: steps.clean.outputs.status == 'success'
       uses: ffuqiangg/openwrt_packit@master
       env:
