@@ -94,7 +94,7 @@ jobs:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
         OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
         PACKAGE_SOC: s905d
-        KERNEL_REPO_URL: breakings/Openwrt
+        KERNEL_REPO_URL: breakings/OpenWrt
         KERNEL_VERSION_NAME: 5.15.1
         KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .gz
