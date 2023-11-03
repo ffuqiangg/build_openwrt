@@ -100,18 +100,18 @@ jobs:
         KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .gz
         SCRIPT_S905D: mk_immortalwrt_18.06_k5.4_n1.sh
-        OPENWRT_VER: ${COMPILE_DATE}
+        OPENWRT_VER: ${{ env.COMPILE_DATE }}
         SFE_FLOW: 0
         ENABLE_WIFI_K504: 0
         ENABLE_WIFI_K510: 0
-        DISTRIB_REVISION: ${COMPILE_DATE}
+        DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
         DISTRIB_DESCRIPTION: Immortalwrt
 
     - name: Organize output file
       if: env.PACKAGED_STATUS == 'success'
       run: |
-        cp -f openwrt/output/config ${PACKAGED_OUTPUTPATH}/
-        cd ${PACKAGED_OUTPUTPATH}
+        cp -f openwrt/output/config ${{ env.PACKAGED_OUTPUTPATH }}/
+        cd ${{ env.PACKAGED_OUTPUTPAH }}
         sha256sum config > config.sha
 
     - name: Generate release tag
@@ -130,20 +130,20 @@ jobs:
         tag: ${{ steps.tag.outputs.release_tag }}
         bodyFile: config/immortalwrt-18.06-k5.4/release.txt
         artifacts: |
-          ${PACKAGED_OUTPUTPATH}/*
+          ${{ env.PACKAGED_OUTPUTPATH }}/*
 
     - name: Telegram notification
       if: steps.tag.outputs.status == 'success'
       run: |
         COMPILE_DATE_VAL=`echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev`
         MSG="
-        ✅ *immortalwrt-18.06-k5.4 ${COMPILE_DATE}*
+        ✅ *immortalwrt-18.06-k5.4 ${{ env.COMPILE_DATE }}*
 
         🔘 *基本信息*
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
         管理后台： 192.168.1.99
         默认密码： password
-        下载地址： [release](https://github.com/${GITHUB_REPOSITORY}/releases/tag/${{ steps.tag.outputs.release_tag }})
+        下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})
 
         💬 \[ [Telegram](https://t.me/ffuqiangg) ]  \[ [Github](https://github.com/ffuqiangg) ]  \[ [Docker](https://hub.docker.com/u/ffuqiangg) ]
         "
