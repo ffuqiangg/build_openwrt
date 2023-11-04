@@ -2,4 +2,4 @@
 - 默认IP：192.168.1.99  密码：password
 - 源码来自 [LEDE](https://github.com/coolsnowwolf/lede)，固件只适配 斐讯N1，打包脚本基于 [unifreq/openwrt_packit](https://github.com/unifreq/openwrt_packit) 修改
 - 内核来自暴躁老哥仓库 [breakings/Openwrt](https://github.com/breakings/OpenWrt)
-- 主要插件：Passwall, OpenClash, Dockerman, docker-compose, FileBrowser, MosDns, Samba4, FTP, Frpc, HD-idle, KMS
+- 主要插件：Passwall, OpenClash, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
