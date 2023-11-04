@@ -74,24 +74,23 @@ jobs:
 
       - name: Build OpenWrt Rootfs [ ${{ inputs.releases_branch }} ]
         id: imagebuilder
-        if: ${{ steps.init.outputs.status }} == 'success' && !cancelled()
+        if: steps.init.outputs.status == 'success' && !cancelled()
         run: |
           RELEASES_BRANCH="${{ inputs.releases_branch }}"
-          chmod +x ${IMAGEBUILDER_SH}
           ${IMAGEBUILDER_SH} ${RELEASES_BRANCH}
-          echo "RELEASES_TAG=${RELEASES_BRANCH/:/-}" >> ${GITHUB_ENV}
+          echo "RELEASES_TAG=$(echo ${RELEASES_BRANCH/:/-} | sed 's,o,O,' | sed 's,w,W,')" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${RELEASES_BRANCH/:/_}" >> ${GITHUB_ENV}
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Clear server space
-        if: ${{ steps.imagebuilder.outputs.status }} == 'success' && !cancelled()
+        if: steps.imagebuilder.outputs.status == 'success' && !cancelled()
         run: |
           cd openwrt/
           rm -rf $(ls . | grep -v "^bin$" | xargs) 2>/dev/null
           df -hT ${PWD}
 
       - name: Packaging OpenWrt
-        if: ${{ steps.imagebuilder.outputs.status }} == 'success' && !cancelled()
+        if: steps.imagebuilder.outputs.status == 'success' && !cancelled()
         uses: ffuqiangg/amlogic-s9xxx-openwrt@main
         with:
           openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz

@@ -15,10 +15,10 @@ jobs:
     - name: Show system
       run: |
         echo -e "💬 Server information \n"
-        echo -e "💻 Server running on Ubuntu: [ Release: `cat /etc/os-release | grep VERSION_CODENAME | cut -d '=' -f2` / Host: `arch` ] \n"
-        echo -e "🧮 Server CPU configuration information: \n`cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c` \n"
-        echo -e "💾 Server memory usage: \n`free -h` \n"
-        echo -e "🗃️ Server space usag: \n`df -hT ${GITHUB_WORKSPACE}` \n"
+        echo -e "💻 Server running on Ubuntu: [ Release: $(cat /etc/os-release | grep VERSION_CODENAME | cut -d '=' -f2) / Host: $(arch) ] \n"
+        echo -e "🧮 Server CPU configuration information: \n$(cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c) \n"
+        echo -e "💾 Server memory usage: \n$(free -h) \n"
+        echo -e "🗃️ Server space usag: \n$(df -hT ${GITHUB_WORKSPACE}) \n"
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -28,12 +28,12 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        docker rmi `docker images -q`
+        docker rmi $(docker images -q)
         [[ -n "${AGENT_TOOLSDIRECTORY}" ]] && sudo rm -rf "${AGENT_TOOLSDIRECTORY}"
         sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android 2>/dev/null
         sudo -E apt-get -y update
         sudo -E apt-get -y purge azure-cli* ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
-        sudo -E apt-get -qq install `cat depends`
+        sudo -E apt-get -qq install $(cat depends)
         sudo -E systemctl daemon-reload
         #sudo -E apt-get -y full-upgrade
         sudo -E apt-get -y autoremove --purge
@@ -51,7 +51,7 @@ jobs:
     - name: Load custom configuration
       run: |
         [ -d files ] && mv files openwrt/
-        [ -f init.sh ] && sed -i "s,DATE,`date +%Y.%m.%d`," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
+        [ -f init.sh ] && sed -i "s,DATE,$(date +%Y.%m.%d)," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
         cd openwrt
         cp -r ../scripts/lede/. ./
         /bin/bash change_menu.sh
@@ -70,8 +70,8 @@ jobs:
       id: compile
       run: |
         cd openwrt
-        echo -e "`nproc` thread compile"
-        make -j`nproc` || make -j1 || make -j1 V=s
+        echo -e "$(nproc) thread compile"
+        make -j$(nproc) || make -j1 || make -j1 V=s
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Clear server space
@@ -82,7 +82,7 @@ jobs:
         mkdir output
         cp -f bin/targets/*/*/*rootfs.tar.gz output/
         cp -f .config output/config
-        rm -rf `ls . | grep -v "^output$" | xargs` 2>/dev/null
+        rm -rf $(ls . | grep -v "^output$" | xargs) 2>/dev/null
         df -hT ${PWD}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
@@ -116,7 +116,7 @@ jobs:
       id: tag
       if: steps.clean.outputs.status == 'success'
       run: |
-        echo "release_tag=lede-`date +'%Y.%m.%d-%H%M'`" >> ${GITHUB_OUTPUT}
+        echo "release_tag=LEDE-$(date +'%Y.%m.%d-%H%M')" >> ${GITHUB_OUTPUT}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
@@ -133,7 +133,7 @@ jobs:
     - name: Telegram notification
       if: steps.tag.outputs.status == 'success'
       run: |
-        COMPILE_DATE_VAL=`echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev`
+        COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev)
         MSG="
         ✅ *lede ${{ env.COMPILE_DATE }}*
 
