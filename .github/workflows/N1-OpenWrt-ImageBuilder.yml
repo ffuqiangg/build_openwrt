@@ -48,7 +48,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
+    if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
       - name: Checkout
@@ -59,7 +59,7 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          docker rmi `docker images -q`
+          docker rmi $(docker images -q)
           [[ -n "${AGENT_TOOLSDIRECTORY}" ]] && sudo rm -rf "${AGENT_TOOLSDIRECTORY}"
           sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android 2>/dev/null
           sudo -E apt-get -y update
@@ -78,7 +78,7 @@ jobs:
         run: |
           RELEASES_BRANCH="${{ inputs.releases_branch }}"
           ${IMAGEBUILDER_SH} ${RELEASES_BRANCH}
-          echo "RELEASES_TAG=$(echo ${RELEASES_BRANCH/:/-} | sed 's,o,O,' | sed 's,w,W,')" >> ${GITHUB_ENV}
+          echo "RELEASES_TAG=$(echo ${RELEASES_BRANCH/:/-} | sed -e 's,o,O,' -e sed 's,w,W,')" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${RELEASES_BRANCH/:/_}" >> ${GITHUB_ENV}
           echo "status=success" >> ${GITHUB_OUTPUT}
 
