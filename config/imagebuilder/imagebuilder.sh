@@ -81,6 +81,7 @@ uci commit network
 
 exit0
 EOF
+    sed -i "s/DATE/$(date + '%Y.%m.$d')/" files/etc/uci-defaults/999-default-settings
 
     sync && sleep 3
     echo -e "💬 [ openwrt ] directory status: $(ls -al 2>/dev/null)"
