@@ -2,4 +2,4 @@
 - 默认IP：192.168.1.99  密码：password
 - 源码来自 [Immortalwrt-master](https://github.com/immortalwrt/immortalwrt)，固件只适配 斐讯N1，打包脚本采用 [ophub/amlogic-s9xxx-openwrt](https://github.com/ophub/amlogic-s9xxx-openwrt)
 - 内核来自Smith仓库 [ophub/kernel](https://github.com/ophub/kernel)
-- 主要插件：HomeProxy, OpenClash, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
+- 主要插件：Passwall, HomeProxy, OpenClash, Dockerman, docker-compose, FileBrowser, Samba4, FTP, Frpc, HD-idle, KMS
