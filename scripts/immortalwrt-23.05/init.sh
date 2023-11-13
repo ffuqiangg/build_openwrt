@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Change banner
-echo -e "\n[34m▍[0mImmortalwrt Master" > /etc/banner
+echo -e "\n[34m▍[0mImmortalwrt 23.05" > /etc/banner
 echo -e "[34m▍[0mDATE build by ffuqiangg\n" >> /etc/banner
 
 # Delete 30-sysinfo.sh

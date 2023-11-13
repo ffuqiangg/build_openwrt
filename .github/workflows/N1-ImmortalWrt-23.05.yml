@@ -1,4 +1,4 @@
-name: N1-ImmortalWrt-Master
+name: N1-ImmortalWrt-23.05
 
 on:
   workflow_dispatch:
@@ -50,13 +50,11 @@ jobs:
     - name: Load custom configuration
       run: |
         [ -d files ] && mv files openwrt/
-        [ -f init.sh ] && sed -i "s,DATE,$(date +%Y.%m.%d)," init.sh \
-          && mkdir -p openwrt/files/etc/uci-defaults \
-          && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
+        [ -f init.sh ] && sed -i "s,DATE,$(date +%Y.%m.%d)," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
         cd openwrt
         cp -r ../scripts/immortalwrt-master/. ./
         /bin/bash change_menu.sh
-        cp ../config/immortalwrt-master/config .config
+        cp ../config/immortalwrt-23.05/config .config
 
     - name: Download package
       id: package
@@ -132,5 +130,4 @@ jobs:
 
         💬 \[ [Telegram](https://t.me/ffuqiangg) ]  \[ [Github](https://github.com/ffuqiangg) ]  \[ [Docker](https://hub.docker.com/u/ffuqiangg) ]
         "
-        curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d \
-          "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"
+        curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"

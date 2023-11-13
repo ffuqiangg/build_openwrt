@@ -7,8 +7,6 @@ sed -i "s/COMPILE_DATE/R$(date +%y.%m.%d)/g" config/lede/release.txt
 git clone --single-branch -b master --depth 1 https://github.com/coolsnowwolf/lede openwrt
 
 cd openwrt
-./scripts/feeds update -a
-./scripts/feeds install -a
 
 # Add luci-app-passwall
 git clone --single-branch --depth 1 https://github.com/xiaorouji/openwrt-passwall.git package/luci-app-passwall
@@ -24,6 +22,9 @@ sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/l
 sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/status.htm
 # Add luci-app-openclash
 git clone --depth 1 --single-branch -b master https://github.com/vernesong/OpenClash package/luci-app-openclash
+
+./scripts/feeds update -a
+./scripts/feeds install -a
 
 # Modify default IP (FROM 192.168.1.1 CHANGE TO 192.168.1.99 )
 sed -i 's/192.168.1.1/192.168.1.99/g' package/base-files/files/bin/config_generate

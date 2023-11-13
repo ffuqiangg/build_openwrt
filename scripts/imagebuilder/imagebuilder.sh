@@ -5,7 +5,7 @@ make_path="${PWD}"
 openwrt_dir="openwrt"
 imagebuilder_path="${make_path}/${openwrt_dir}"
 custom_files_path="${make_path}/files"
-custom_config_file="${make_path}/config/imagebuilder/config"
+custom_config_file="../../config/imagebuilder/config"
 packages_json_file="${make_path}/config/imagebuilder/packages.json"
 
 # Encountered a serious error, abort the script execution
