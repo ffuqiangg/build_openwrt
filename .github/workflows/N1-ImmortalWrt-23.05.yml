@@ -92,7 +92,7 @@ jobs:
         openwrt_path: openwrt/output/*rootfs.tar.gz
         openwrt_board: s905d
         kernel_repo: ophub/kernel
-        openwrt_kernel: 6.1.1
+        openwrt_kernel: 5.15.1
         kernel_usage: flippy
         auto_kernel: true
         image_name: immortalwrt_23.05
