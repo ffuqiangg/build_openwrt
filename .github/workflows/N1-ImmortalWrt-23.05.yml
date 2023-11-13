@@ -41,10 +41,10 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         echo "status=success" >> ${GITHUB_OUTPUT}
 
-    - name: Prepare immortalwrt-master code
+    - name: Prepare immortalwrt-23.05 code
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
-        cp -r scripts/immortalwrt-master/. ./
+        cp -r scripts/immortalwrt-23.05/. ./
         /bin/bash get_ready.sh
 
     - name: Load custom configuration
@@ -52,7 +52,7 @@ jobs:
         [ -d files ] && mv files openwrt/
         [ -f init.sh ] && sed -i "s,DATE,$(date +%Y.%m.%d)," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
         cd openwrt
-        cp -r ../scripts/immortalwrt-master/. ./
+        cp -r ../scripts/immortalwrt-23.05/. ./
         /bin/bash change_menu.sh
         cp ../config/immortalwrt-23.05/config .config
 
@@ -95,13 +95,13 @@ jobs:
         openwrt_kernel: 6.1.1
         kernel_usage: flippy
         auto_kernel: true
-        image_name: immortalwrt_master
+        image_name: immortalwrt_23.05
 
     - name: Generate release tag
       id: tag
       if: steps.clean.outputs.status == 'success'
       run: |
-        echo "release_tag=ImmortalWrt-Master-$(date +'%Y.%m.%d-%H%M')" >> ${GITHUB_OUTPUT}
+        echo "release_tag=ImmortalWrt-23.05-$(date +'%Y.%m.%d-%H%M')" >> ${GITHUB_OUTPUT}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
@@ -111,7 +111,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
         tag: ${{ steps.tag.outputs.release_tag }}
-        bodyFile: config/immortalwrt-master/release.txt
+        bodyFile: scripts/immortalwrt-23.05/release.txt
         artifacts: |
           ${{ env.PACKAGED_OUTPUTPATH }}/*
 
@@ -120,7 +120,7 @@ jobs:
       run: |
         COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev)
         MSG="
-        ✅ *immortalwrt-master ${{ env.COMPILE_DATE }}*
+        ✅ *immortalwrt-23.05 ${{ env.COMPILE_DATE }}*
 
         🔘 *基本信息*
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
