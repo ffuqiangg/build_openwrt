@@ -4,6 +4,8 @@
 git clone --single-branch -b openwrt-23.05 --depth 1 https://github.com/immortalwrt/immortalwrt openwrt
 
 cd openwrt
+./scripts/feeds update -a
+./scripts/feeds install -a
 
 # Add luci-app-amlogic
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git package/luci-app-amlogic
@@ -11,9 +13,6 @@ git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git package/luci-a
 # rm -rf feeds/packages/net/v2ray-geodata
 # git clone --single-branch -b v5 --depth 1 https://github.com/sbwml/luci-app-mosdns package/mosdns
 # git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
-
-./scripts/feeds update -a
-./scripts/feeds install -a
 
 # Add the default password for the 'root' user（Change the empty password to 'password'）
 sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7:::/g' package/base-files/files/etc/shadow
