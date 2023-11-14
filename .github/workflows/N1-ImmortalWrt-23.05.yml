@@ -54,7 +54,7 @@ jobs:
         cd openwrt
         cp -r ../scripts/immortalwrt-23.05/. ./
         /bin/bash change_menu.sh
-        cp ../config/immortalwrt-23.05/config .config
+        cp ../config/immortalwrt-23.05/config.seed .config
 
     - name: Download package
       id: package
