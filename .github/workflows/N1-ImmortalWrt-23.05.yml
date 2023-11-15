@@ -95,6 +95,11 @@ jobs:
         df -hT ${PWD}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
+    - name: Get Version
+      run: |
+        latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
+        echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
+
     - name: Package Openwrt
       if: steps.clean.outputs.status == 'success'
       uses: ffuqiangg/amlogic-s9xxx-openwrt@main
@@ -105,35 +110,27 @@ jobs:
         openwrt_kernel: 5.15.1
         kernel_usage: flippy
         auto_kernel: true
-        image_name: immortalwrt_23.05
-
-    - name: Generate release tag
-      id: tag
-      if: steps.clean.outputs.status == 'success'
-      run: |
-        echo "release_tag=ImmortalWrt-23.05-$(date +'%Y.%m.%d-%H%M')" >> ${GITHUB_OUTPUT}
-        echo "status=success" >> ${GITHUB_OUTPUT}
+        image_name: N1-ImmortalWrt-${{ env.latest_release }}
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
-      if: steps.tag.outputs.status == 'success'
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
-        tag: ${{ steps.tag.outputs.release_tag }}
+        name: immortalwrt-${{ env.latest_release }}-${{ env.release_date }}
+        tag: immortalwrt-23.05
         bodyFile: scripts/immortalwrt-23.05/release.txt
         artifacts: |
           ${{ env.PACKAGED_OUTPUTPATH }}/*
 
-    - name: Telegram notification
+    - name: telegram notification
       if: steps.tag.outputs.status == 'success'
       run: |
-        COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev)
-        MSG="
-        ✅ *immortalwrt-23.05 ${{ env.COMPILE_DATE }}*
+        msg="
+        ✅ *immortalwrt-${{ env.latest_release }}*
 
         🔘 *基本信息*
-        编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
+        编译日期： $(date +'%Y.%m.%d')
         管理后台： 192.168.1.99
         默认密码： password
         下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})
