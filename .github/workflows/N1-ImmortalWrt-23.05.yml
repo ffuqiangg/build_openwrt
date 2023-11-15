@@ -46,21 +46,31 @@ jobs:
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/immortalwrt-23.05/. ./
         /bin/bash get_ready.sh
+        cd openwrt
+        cp -r ../scripts/immortalwrt-23.05/. ./
+        /bin/bash change_menu.sh
 
     - name: Load custom configuration
       run: |
         [ -d files ] && mv files openwrt/
         [ -f init.sh ] && sed -i "s,DATE,$(date +%Y.%m.%d)," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
+
+    - name: Make config
+      run: |
         cd openwrt
-        cp -r ../scripts/immortalwrt-23.05/. ./
-        /bin/bash change_menu.sh
         cp ../config/immortalwrt-23.05/config.seed .config
+        make defconfig
+
+    - name: Cache
+      uses: HiGarfield/cachewrtbuild@main
+      with:
+        mixkey: armsr
+        prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
       id: package
       run: |
         cd openwrt
-        make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
