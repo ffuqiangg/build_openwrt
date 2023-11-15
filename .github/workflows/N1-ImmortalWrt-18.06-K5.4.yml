@@ -46,22 +46,32 @@ jobs:
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/immortalwrt-18.06-k5.4/. ./
         /bin/bash get_ready.sh
+        cd openwrt
+        cp -r ../scripts/immortalwrt-18.06-k5.4/. ./
+        /bin/bash change_menu.sh
         echo "COMPILE_DATE=$(date +%Y%m%d)" >> ${GITHUB_ENV}
 
     - name: Load custom configuration
       run: |
         [ -d files ] && mv files openwrt/ && rm openwrt/files/etc/profile.d/btop.sh
         [ -f init.sh ] && sed -i "s,DATE,$(date +%Y.%m.%d)," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
+
+    - name: Make config
+      run: |
         cd openwrt
-        cp -r ../scripts/immortalwrt-18.06-k5.4/. ./
-        /bin/bash change_menu.sh
         cp ../config/immortalwrt-18.06-k5.4/config .config
+        make defconfig
+
+    - name: Cache
+      uses: HiGarfield/cachewrtbuild@main
+      with:
+        mixkey: armvirt
+        prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
       id: package
       run: |
         cd openwrt
-        make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;

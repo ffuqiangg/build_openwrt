@@ -46,16 +46,27 @@ jobs:
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/lede/. ./
         /bin/bash get_ready.sh
+        cd openwrt
+        cp -r ../scripts/lede/. ./
+        /bin/bash change_menu.sh
         echo "COMPILE_DATE=R$(date +%y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Load custom configuration
       run: |
         [ -d files ] && mv files openwrt/
         [ -f init.sh ] && sed -i "s,DATE,$(date +%Y.%m.%d)," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
+
+    - name: Make config
+      run: |
         cd openwrt
-        cp -r ../scripts/lede/. ./
-        /bin/bash change_menu.sh
         cp ../config/lede/config .config
+        make defconfig
+
+    - name: Cache
+      uses: HiGarfield/cachewrtbuild@main
+      with:
+        mixkey: armvirt
+        prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
       id: package
