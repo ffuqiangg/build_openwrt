@@ -127,7 +127,7 @@ jobs:
       id: tag
       if: steps.clean.outputs.status == 'success'
       run: |
-        echo "release_tag=LEDE-$(date +'%Y.%m.%d-%H%M')" >> ${GITHUB_OUTPUT}
+        echo "release_tag=LEDE-$(date +'%Y.%m.%d')" >> ${GITHUB_OUTPUT}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
