@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Change release.txt
-sed -i "s/COMPILE_DATE/R$(date +%y.%m.%d)/g" config/lede/release.txt
-
 # Clone source code
 git clone --single-branch -b master --depth 1 https://github.com/coolsnowwolf/lede openwrt
 git clone --single-branch --depth 1 https://github.com/xiaorouji/openwrt-passwall.git passwall_luci

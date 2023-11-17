@@ -56,7 +56,7 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        [ -d files ] && mv files openwrt/ && rm openwrt/files/etc/profile.d/btop.sh
+        [ -d files ] && mv files openwrt/
         [ -f init.sh ] && sed -i "s,DATE,$(date +%Y.%m.%d)," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
 
     - name: Make config

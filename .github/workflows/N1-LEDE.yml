@@ -46,10 +46,14 @@ jobs:
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/lede/. ./
         /bin/bash get_ready.sh
+
+    - name: Prepare Package
+      run: |
         cd openwrt
         cp -r ../scripts/lede/. ./
         /bin/bash change_menu.sh
         distrib_revision=$(cat package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
+        sed -i "s/COMPILE_DATE/${distrib_revision}/g" ../config/lede/release.txt
         echo "COMPILE_DATE=${distrib_revision}" >> ${GITHUB_ENV}
 
     - name: Load custom configuration

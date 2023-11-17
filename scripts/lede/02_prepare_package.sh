@@ -19,7 +19,7 @@ cp -rf ../mosdns/v2ray-geodata ./package/v2ray-geodata
 
 ### Change menu
 # Delete default setting
-sed -i ',services,d' package/lean/default-settings/files/zzz-default-settings
+sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 # vsftpd
 sed -i -e 's,\"nas\",\"services\",g' -e 's,\"NAS\",\"Services\",g' package/feeds/luci/luci-app-vsftpd/luasrc/controller/vsftpd.lua
 sed -i 's,nas,services,g' package/feeds/luci/luci-app-vsftpd/luasrc/model/cbi/vsftpd/item.lua
