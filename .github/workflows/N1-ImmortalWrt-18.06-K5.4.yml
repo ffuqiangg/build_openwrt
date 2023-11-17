@@ -56,20 +56,16 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        [ -d files ] && mv files openwrt/
-        [ -f init.sh ] && sed -i "s,DATE,$(date +%Y.%m.%d)," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
+        mv files openwrt/
+        sed -i "s,DATE,$(date +%Y.%m.%d)," scripts/immortalwrt-18.06-k5.4/init.sh
+        mkdir -p openwrt/files/etc/uci-defaults
+        cp -f scripts/immortalwrt-18.06-k5.4/init.sh openwrt/files/etc/uci-defaults/999-default-settings
 
     - name: Make config
       run: |
         cd openwrt
         cp ../config/immortalwrt-18.06-k5.4/config .config
         make defconfig
-
-    - name: Cache
-      uses: HiGarfield/cachewrtbuild@main
-      with:
-        mixkey: armvirt
-        prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
       id: package
@@ -111,12 +107,12 @@ jobs:
         KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .gz
         SCRIPT_S905D: mk_immortalwrt_18.06_k5.4_n1.sh
-        OPENWRT_VER: ${{ env.COMPILE_DATE }}
+        OPENWRT_VER: '18.06 k5.4'
         SFE_FLOW: 0
         ENABLE_WIFI_K504: 0
         ENABLE_WIFI_K510: 0
-        DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
-        DISTRIB_DESCRIPTION: Immortalwrt
+        DISTRIB_REVISION: '18.06 k5.4'
+        DISTRIB_DESCRIPTION: ImmortalWrt
 
     - name: Organize output file
       if: env.PACKAGED_STATUS == 'success'
@@ -126,15 +122,12 @@ jobs:
         sha256sum config > config.sha
 
     - name: Generate release tag
-      id: tag
-      if: steps.clean.outputs.status == 'success'
       run: |
-        echo "release_tag=ImmortalWrt-18.06-K5.4-$(date +'%Y.%m.%d-%H%M')" >> ${GITHUB_OUTPUT}
+        echo "release_tag=ImmortalWrt-18.06-K5.4-$(date +%Y.%m.%d)" >> ${GITHUB_OUTPUT}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
-      if: steps.tag.outputs.status == 'success'
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
@@ -144,14 +137,12 @@ jobs:
           ${{ env.PACKAGED_OUTPUTPATH }}/*
 
     - name: Telegram notification
-      if: steps.tag.outputs.status == 'success'
       run: |
-        COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev)
         MSG="
-        ✅ *ImmortalWrt-18.06-K5.4 ${{ env.COMPILE_DATE }}*
+        ✅ *ImmortalWrt-18.06-K5.4*
 
         🔘 *基本信息*
-        编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
+        编译时间： $(date +%Y.%m.%d)
         管理后台： 192.168.1.99
         默认密码： password
         下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})

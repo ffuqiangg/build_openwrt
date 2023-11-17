@@ -60,20 +60,16 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        [ -d files ] && mv files openwrt/
-        [ -f init.sh ] && sed -i "s,DATE,$(date +%Y.%m.%d)," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
+        mv files openwrt/
+        sed -i "s,DATE,$(date +%Y.%m.%d)," scripts/immortalwrt-23.05/init.sh
+        mkdir -p openwrt/files/etc/uci-defaults
+        cp -f scripts/immortalwrt-23.05/init.sh openwrt/files/etc/uci-defaults/999-default-settings
 
     - name: Make config
       run: |
         cd openwrt
         cp ../config/immortalwrt-23.05/config.seed .config
         make defconfig
-
-    - name: Cache
-      uses: HiGarfield/cachewrtbuild@main
-      with:
-        mixkey: armsr
-        prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
       id: package
@@ -107,7 +103,7 @@ jobs:
       run: |
         latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
-        echo "release_date=$(date + %Y.%m.%d)" >> ${GITHUB_ENV}
+        echo "release_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Package Openwrt
       if: steps.clean.outputs.status == 'success'
@@ -138,7 +134,7 @@ jobs:
         ✅ *immortalwrt-${{ env.latest_release }}*
 
         🔘 *基本信息*
-        编译日期： $(date +'%Y.%m.%d')
+        编译日期： $(date +%Y.%m.%d)
         管理后台： 192.168.1.99
         默认密码： password
         下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})

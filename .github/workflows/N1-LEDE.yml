@@ -45,33 +45,29 @@ jobs:
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/lede/. ./
-        /bin/bash get_ready.sh
+        /bin/bash 01_get_ready.sh
 
     - name: Prepare Package
       run: |
         cd openwrt
         cp -r ../scripts/lede/. ./
-        /bin/bash change_menu.sh
+        /bin/bash 02_prepare_package.sh
         distrib_revision=$(cat package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
         sed -i "s/COMPILE_DATE/${distrib_revision}/g" ../config/lede/release.txt
-        echo "COMPILE_DATE=${distrib_revision}" >> ${GITHUB_ENV}
+        echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
 
     - name: Load custom configuration
       run: |
-        [ -d files ] && mv files openwrt/
-        [ -f init.sh ] && sed -i "s,DATE,${{ env.distrib_revision }}," init.sh && mkdir -p openwrt/files/etc/uci-defaults && cp -f init.sh openwrt/files/etc/uci-defaults/999-default-settings
+        mv files openwrt/
+        sed -i -e "s,DATE,${{ env.distrib_revision }}," -e "s,VERSION,${{ env.distrib_revision }}," scripts/lede/init.sh
+        mkdir -p openwrt/files/etc/uci-defaults
+        cp -f scripts/lede/init.sh openwrt/files/etc/uci-defaults/999-default-settings
 
     - name: Make config
       run: |
         cd openwrt
         cp ../config/lede/config .config
         make defconfig
-
-    - name: Cache
-      uses: HiGarfield/cachewrtbuild@main
-      with:
-        mixkey: armvirt
-        prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
       id: package
@@ -114,11 +110,11 @@ jobs:
         KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .gz
         SCRIPT_S905D: mk_lede_n1.sh
-        OPENWRT_VER: ${{ env.COMPILE_DATE }}
+        OPENWRT_VER: ${{ env.distrib_revision }}
         SFE_FLOW: 0
         ENABLE_WIFI_K504: 0
         ENABLE_WIFI_K510: 0
-        DISTRIB_REVISION: ${{ env.COMPILE_DATE }}
+        DISTRIB_REVISION: ${{ env.distrib_revision }}
         DISTRIB_DESCRIPTION: Openwrt
 
     - name: Organize output file
@@ -129,15 +125,12 @@ jobs:
         sha256sum config > config.sha
 
     - name: Generate release tag
-      id: tag
-      if: steps.clean.outputs.status == 'success'
       run: |
-        echo "release_tag=LEDE-$(date +'%Y.%m.%d')" >> ${GITHUB_OUTPUT}
+        echo "release_tag=LEDE-$(date +%Y.%m.%d)" >> ${GITHUB_OUTPUT}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
-      if: steps.tag.outputs.status == 'success'
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
@@ -147,14 +140,12 @@ jobs:
           ${{ env.PACKAGED_OUTPUTPATH }}/*
 
     - name: Telegram notification
-      if: steps.tag.outputs.status == 'success'
       run: |
-        COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev)
         MSG="
-        ✅ *lede ${{ env.COMPILE_DATE }}*
+        ✅ *LEDE ${{ env.distrib_revision }}*
 
         🔘 *基本信息*
-        编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}
+        编译时间： $(date +%Y.%m.%d)
         管理后台： 192.168.1.99
         默认密码： password
         下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})
