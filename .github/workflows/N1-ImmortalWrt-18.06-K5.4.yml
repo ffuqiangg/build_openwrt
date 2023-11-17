@@ -56,7 +56,7 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        mv files openwrt/
+        cp -rf files openwrt/
         sed -i "s,DATE,$(date +%Y.%m.%d)," scripts/immortalwrt-18.06-k5.4/init.sh
         mkdir -p openwrt/files/etc/uci-defaults
         cp -f scripts/immortalwrt-18.06-k5.4/init.sh openwrt/files/etc/uci-defaults/999-default-settings
