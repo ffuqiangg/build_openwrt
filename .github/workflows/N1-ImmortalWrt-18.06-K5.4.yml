@@ -41,14 +41,17 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         echo "status=success" >> ${GITHUB_OUTPUT}
 
-    - name: Prepare immortalwrt-18.06-k5.4 code
+    - name: Prepare immortalwrt-18.06-k5.4
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/immortalwrt-18.06-k5.4/. ./
-        /bin/bash get_ready.sh
+        /bin/bash 01_get_ready.sh
+
+    - name: Prepare package
+      run: |
         cd openwrt
         cp -r ../scripts/immortalwrt-18.06-k5.4/. ./
-        /bin/bash change_menu.sh
+        /bin/bash 02_prepare_package.sh
         echo "COMPILE_DATE=$(date +%Y%m%d)" >> ${GITHUB_ENV}
 
     - name: Load custom configuration
@@ -145,7 +148,7 @@ jobs:
       run: |
         COMPILE_DATE_VAL=$(echo ${{ steps.tag.outputs.release_tag }} | rev | cut -d - -f -2 | rev)
         MSG="
-        ✅ *immortalwrt-18.06-k5.4 ${{ env.COMPILE_DATE }}*
+        ✅ *ImmortalWrt-18.06-K5.4 ${{ env.COMPILE_DATE }}*
 
         🔘 *基本信息*
         编译时间： ${COMPILE_DATE_VAL:0:13}:${COMPILE_DATE_VAL:13}

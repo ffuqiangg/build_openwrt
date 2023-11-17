@@ -41,14 +41,22 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         echo "status=success" >> ${GITHUB_OUTPUT}
 
-    - name: Prepare immortalwrt-23.05 code
+    - name: Prepare immortalwrt-23.05
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/immortalwrt-23.05/. ./
-        /bin/bash get_ready.sh
+        /bin/bash 01_get_ready.sh
+
+    - name: Prepare Package
+      run: |
         cd openwrt
         cp -r ../scripts/immortalwrt-23.05/. ./
-        /bin/bash change_menu.sh
+        /bin/bash 02_prepare_package.sh
+
+    - name: Iptables
+      run: |
+        cd openwrt
+        /bin/bash 03_ipt.sh
 
     - name: Load custom configuration
       run: |
