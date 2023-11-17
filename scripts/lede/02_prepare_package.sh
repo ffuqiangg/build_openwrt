@@ -5,17 +5,17 @@
 
 ### Prepare package
 # Passwall
-cp -rf ../passwall_luci package/luci-app-passwall
-cp -rf ../passwall_pkg package/passwall-pkg
+cp -rf ../passwall_luci ./package/new/luci-app-passwall
+cp -rf ../passwall_pkg ./package/new/passwall-pkg
 # Openclash
-cp -rf ../openclash package/luci-app-openclash
+cp -rf ../openclash ./package/new/luci-app-openclash
 # Filebrowser
-cp -rf ../immortalwrt_luci_18.06_k5.4/applications/luci-app-filebrowser package/luci-app-filebrowser
+cp -rf ../immortalwrt_luci_18.06_k5.4/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
 # Mosdns
-cp -rf ../mosdns/mosdns ./package/mosdns
-cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns
+cp -rf ../mosdns/mosdns ./package/new/mosdns
+cp -rf ../mosdns/luci-app-mosdns ./package/new/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
-cp -rf ../mosdns/v2ray-geodata ./package/v2ray-geodata
+cp -rf ../mosdns/v2ray-geodata ./package/new/v2ray-geodata
 
 ### Change menu
 # Delete default setting
