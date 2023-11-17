@@ -58,7 +58,7 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        mv files openwrt/
+        cp -rf files openwrt/
         sed -i -e "s,DATE,${{ env.distrib_revision }}," -e "s,VERSION,${{ env.distrib_revision }}," scripts/lede/init.sh
         mkdir -p openwrt/files/etc/uci-defaults
         cp -f scripts/lede/init.sh openwrt/files/etc/uci-defaults/999-default-settings
