@@ -52,20 +52,31 @@ jobs:
         cd openwrt
         cp -r ../scripts/immortalwrt-18.06-k5.4/. ./
         /bin/bash 02_prepare_package.sh
-        echo "COMPILE_DATE=$(date +%Y%m%d)" >> ${GITHUB_ENV}
 
     - name: Load custom configuration
       run: |
         cp -rf files openwrt/
-        sed -i "s,DATE,$(date +%Y.%m.%d)," openwrt/init.sh
+        sed -i "s,DATE,$(date +%Y.%m.%d)," ./init.sh
         mkdir -p openwrt/files/etc/uci-defaults
-        cp -f openwrt/init.sh openwrt/files/etc/uci-defaults/999-default-settings
+        cp -f ./init.sh openwrt/files/etc/uci-defaults/999-default-settings
 
     - name: Make config
       run: |
         cd openwrt
         cp ../config/immortalwrt-18.06-k5.4/config .config
         make defconfig
+
+    - name: Get Architecture
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
+        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>${GITHUB_ENV}
+
+    - name: Cache
+      uses: HiGarfield/cachewrtbuild@main
+      with:
+        mixkey: ${{ env.TARGET_DEVICE_ARCH }}
+        prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
       id: package
@@ -123,7 +134,7 @@ jobs:
 
     - name: Generate release tag
       run: |
-        echo "release_tag=ImmortalWrt-18.06-K5.4-$(date +%Y.%m.%d)" >> ${GITHUB_OUTPUT}
+        echo "release_tag=ImmortalWrt-18.06-K5.4-$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
@@ -131,8 +142,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
-        tag: ${{ steps.tag.outputs.release_tag }}
-        bodyFile: config/immortalwrt-18.06-k5.4/release.txt
+        tag: ${{ env.release_tag }}
+        bodyFile: scripts/immortalwrt-18.06-k5.4/release.txt
         artifacts: |
           ${{ env.PACKAGED_OUTPUTPATH }}/*
 

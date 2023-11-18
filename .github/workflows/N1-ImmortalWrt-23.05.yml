@@ -60,18 +60,30 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
         cp -rf files openwrt/
-        sed -i -e "s,DATE,$(date +%Y.%m.%d)," -e "s,VERSION,${latest_release}," openwrt/init.sh
+        sed -i -e "s,DATE,$(date +%Y.%m.%d)," -e "s,VERSION,${latest_release}," ./init.sh
         mkdir -p openwrt/files/etc/uci-defaults
-        cp -f openwrt/init.sh openwrt/files/etc/uci-defaults/999-default-settings
-        echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
+        cp -f ./init.sh openwrt/files/etc/uci-defaults/999-default-settings
 
     - name: Make config
       run: |
         cd openwrt
         cp ../config/immortalwrt-23.05/config.seed .config
         make defconfig
+
+    - name: Get Architecture
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
+        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>${GITHUB_ENV}
+        latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
+        echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
+
+    - name: Cache
+      uses: HiGarfield/cachewrtbuild@main
+      with:
+        mixkey: ${{ env.TARGET_DEVICE_ARCH }}
+        prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
       id: package
@@ -122,13 +134,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
-        tag: immortalwrt-${{ env.latest_release }}-${{ env.release_date }}
+        tag: ImmortalWrt-${{ env.latest_release }}-${{ env.release_date }}
         bodyFile: scripts/immortalwrt-23.05/release.txt
         artifacts: |
           ${{ env.PACKAGED_OUTPUTPATH }}/*
 
     - name: telegram notification
-      if: steps.tag.outputs.status == 'success'
       run: |
         msg="
         ✅ *immortalwrt-${{ env.latest_release }}*

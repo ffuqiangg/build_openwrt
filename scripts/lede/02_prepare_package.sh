@@ -10,7 +10,7 @@ cp -rf ../passwall_pkg ./package/passwall-pkg
 # Openclash
 cp -rf ../openclash ./package/luci-app-openclash
 # Filebrowser
-cp -rf ../immortalwrt_luci_18.06_k5.4/applications/luci-app-filebrowser ./package/luci-app-filebrowser
+cp -rf ../openwrt_package/luci-app-filebrowser ./package/luci-app-filebrowser
 # Mosdns
 cp -rf ../mosdns/mosdns ./package/mosdns
 cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns

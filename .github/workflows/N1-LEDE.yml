@@ -53,21 +53,33 @@ jobs:
         cp -r ../scripts/lede/. ./
         /bin/bash 02_prepare_package.sh
         distrib_revision=$(cat package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
-        sed -i "s/COMPILE_DATE/${distrib_revision}/g" ../config/lede/release.txt
+        sed -i "s/COMPILE_DATE/${distrib_revision}/g" ../scripts/lede/release.txt
         echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
 
     - name: Load custom configuration
       run: |
         cp -rf files openwrt/
-        sed -i -e "s,DATE,${{ env.distrib_revision }}," -e "s,VERSION,${{ env.distrib_revision }}," openwrt/init.sh
+        sed -i -e "s,DATE,${{ env.distrib_revision }}," -e "s,VERSION,${{ env.distrib_revision }}," ./init.sh
         mkdir -p openwrt/files/etc/uci-defaults
-        cp -f openwrt/init.sh openwrt/files/etc/uci-defaults/999-default-settings
+        cp -f ./init.sh openwrt/files/etc/uci-defaults/999-default-settings
 
     - name: Make config
       run: |
         cd openwrt
         cp ../config/lede/config .config
         make defconfig
+
+    - name: Get Architecture
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
+        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>${GITHUB_ENV}
+
+    - name: Cache
+      uses: HiGarfield/cachewrtbuild@main
+      with:
+        mixkey: ${{ env.TARGET_DEVICE_ARCH }}
+        prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
       id: package
@@ -135,7 +147,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
         tag: ${{ steps.tag.outputs.release_tag }}
-        bodyFile: config/lede/release.txt
+        bodyFile: scripts/lede/release.txt
         artifacts: |
           ${{ env.PACKAGED_OUTPUTPATH }}/*
 
