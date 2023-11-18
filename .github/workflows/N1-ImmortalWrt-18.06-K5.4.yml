@@ -116,7 +116,7 @@ jobs:
         KERNEL_REPO_URL: ffuqiangg/amlogic-s9xxx-armbian
         KERNEL_VERSION_NAME: 5.4.1
         KERNEL_AUTO_LATEST: true
-        GZIP_IMGS: .gz
+        GZIP_IMGS: .zip
         SCRIPT_S905D: mk_immortalwrt_18.06_k5.4_n1.sh
         OPENWRT_VER: '18.06 k5.4'
         SFE_FLOW: 0
