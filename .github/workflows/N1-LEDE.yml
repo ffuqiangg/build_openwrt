@@ -127,7 +127,7 @@ jobs:
         ENABLE_WIFI_K504: 0
         ENABLE_WIFI_K510: 0
         DISTRIB_REVISION: ${{ env.distrib_revision }}
-        DISTRIB_DESCRIPTION: Openwrt
+        DISTRIB_DESCRIPTION: OpenWrt
 
     - name: Organize output file
       if: env.PACKAGED_STATUS == 'success'
