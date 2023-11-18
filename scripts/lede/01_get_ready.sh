@@ -10,7 +10,5 @@ git clone --single-branch -b master --depth 1 https://github.com/QiuSimons/openw
 
 # Modify default IP (FROM 192.168.1.1 CHANGE TO 192.168.1.99 )
 sed -i 's/192.168.1.1/192.168.1.99/g' openwrt/package/base-files/files/bin/config_generate
-# Set DISTRIB_REVISION
-sed -i "s,DISTRIB_REVISION='.*',DISTRIB_REVISION='R$(date +%y.%m.%d)',g" openwrt/package/lean/default-settings/files/zzz-default-settings
 
 exit 0
