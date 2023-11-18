@@ -53,7 +53,7 @@ jobs:
         cp -r ../scripts/lede/. ./
         /bin/bash 02_prepare_package.sh
         distrib_revision=$(cat package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
-        sed -i "s/COMPILE_DATE/${distrib_revision}/g" ../scripts/lede/release.txt
+        sed -i "s,VERSION,${distrib_revision},g" ../scripts/lede/release.txt
         echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
 
     - name: Load custom configuration
