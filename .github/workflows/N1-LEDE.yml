@@ -138,7 +138,7 @@ jobs:
 
     - name: Generate release tag
       run: |
-        echo "release_date=LEDE-$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
+        echo "release_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
     - name: Upload firmware to release
