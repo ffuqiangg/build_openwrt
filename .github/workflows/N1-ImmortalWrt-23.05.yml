@@ -117,7 +117,7 @@ jobs:
     - name: Organize output file
       run: |
         cp -f openwrt/.config ${{ env.PACKAGED_OUTPUTPATH }}/config
-        cd ${{ env.PACKAGED_OUTPUTPAH }}
+        cd ${{ env.PACKAGED_OUTPUTPATH }}
         sha256sum config > config.sha
         echo "release_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
 
