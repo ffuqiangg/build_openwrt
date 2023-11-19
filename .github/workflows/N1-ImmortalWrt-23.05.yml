@@ -78,11 +78,11 @@ jobs:
         echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>${GITHUB_ENV}
         latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
+        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
-        ccache: true
         mixkey: ${{ env.TARGET_DEVICE_ARCH }}
         prefix: ${{ github.workspace }}/openwrt
 
@@ -114,34 +114,19 @@ jobs:
         auto_kernel: true
         image_name: N1-ImmortalWrt-${{ env.latest_release }}
 
-    - name: Organize output file
-      run: |
-        cp -f openwrt/.config ${{ env.PACKAGED_OUTPUTPATH }}/config
-        cd ${{ env.PACKAGED_OUTPUTPATH }}
-        sha256sum config > config.sha
-        echo "release_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
-
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
-        tag: ImmortalWrt-${{ env.latest_release }}-${{ env.release_date }}
-        bodyFile: scripts/immortalwrt-23.05/release.txt
+        tag: ${{ env.build_date }}
         artifacts: |
-          ${{ env.PACKAGED_OUTPUTPATH }}/*
+          ${{ env.PACKAGED_OUTPUTPATH }}/N1-ImmortalWrt-*.zip
 
     - name: telegram notification
       run: |
         msg="
-        ✅ *immortalwrt-${{ env.latest_release }}*
-
-        🔘 *基本信息*
-        编译日期： $(date +%Y.%m.%d)
-        管理后台： 192.168.1.99
-        默认密码： password
-        下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})
-
-        💬 \[ [Telegram](https://t.me/ffuqiangg) ]  \[ [Github](https://github.com/ffuqiangg) ]  \[ [Docker](https://hub.docker.com/u/ffuqiangg) ]
+        ✅ *immortalwrt-${{ env.latest_release }}* 编译完成
+        下载地址： https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ env.build_date }}
         "
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"

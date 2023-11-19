@@ -73,12 +73,12 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
-        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>${GITHUB_ENV}
+        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >> ${GITHUB_ENV}
+        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
-        ccache: true
         mixkey: ${{ env.TARGET_DEVICE_ARCH }}
         prefix: ${{ github.workspace }}/openwrt
 
@@ -118,36 +118,20 @@ jobs:
         DISTRIB_REVISION: ${{ env.distrib_revision }}
         DISTRIB_DESCRIPTION: OpenWrt
 
-    - name: Organize file & variable
-      if: env.PACKAGED_STATUS == 'success'
-      run: |
-        cp -f openwrt/.config ${{ env.PACKAGED_OUTPUTPATH }}/config
-        cd ${{ env.PACKAGED_OUTPUTPATH }}
-        sha256sum config > config.sha
-        echo "release_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
-        echo "status=success" >> ${GITHUB_OUTPUT}
-
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
-        tag: LEDE-${{ env.distrib_revision }}-${{ env.release_date }}
-        bodyFile: scripts/lede/release.txt
+        tag: ${{ env.build_date }}
         artifacts: |
-          ${{ env.PACKAGED_OUTPUTPATH }}/*
+          ${{ env.PACKAGED_OUTPUTPATH }}/N1-LEDE-*.zip
 
     - name: Telegram notification
       run: |
         MSG="
-        ✅ *LEDE ${{ env.distrib_revision }}*
-
-        🔘 *基本信息*
-        编译时间： $(date +%Y.%m.%d)
-        管理后台： 192.168.1.99
-        默认密码： password
-        下载地址： [release](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ steps.tag.outputs.release_tag }})
-
+        ✅ *LEDE ${{ env.distrib_revision }}* 编译完成
+        下载地址： https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ env.build_date }}
         💬 \[ [Telegram](https://t.me/ffuqiangg) ]  \[ [Github](https://github.com/ffuqiangg) ]  \[ [Docker](https://hub.docker.com/u/ffuqiangg) ]
         "
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"
