@@ -99,24 +99,12 @@ jobs:
         make -j$(nproc) || make -j1 || make -j1 V=s
         echo "status=success" >> ${GITHUB_OUTPUT}
 
-    - name: Clear server space
-      id: clean
-      if: steps.compile.outputs.status == 'success' && !cancelled()
-      run: |
-        cd openwrt/
-        mkdir output
-        cp -f bin/targets/*/*/*rootfs.tar.gz output/
-        cp -f .config output/config
-        rm -rf $(ls . | grep -v "^output$" | xargs) 2>/dev/null
-        df -hT ${PWD}
-        echo "status=success" >> ${GITHUB_OUTPUT}
-
     - name: Package Openwrt
-      if: steps.clean.outputs.status == 'success'
+      if: steps.compile.outputs.status == 'success'
       uses: ffuqiangg/openwrt_packit@master
       env:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
-        OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
+        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*rootfs.tar.gz
         PACKAGE_SOC: s905d
         KERNEL_REPO_URL: breakings/OpenWrt
         KERNEL_VERSION_NAME: 5.15.1
@@ -130,15 +118,12 @@ jobs:
         DISTRIB_REVISION: ${{ env.distrib_revision }}
         DISTRIB_DESCRIPTION: OpenWrt
 
-    - name: Organize output file
+    - name: Organize file & variable
       if: env.PACKAGED_STATUS == 'success'
       run: |
-        cp -f openwrt/output/config ${{ env.PACKAGED_OUTPUTPATH }}/
+        cp -f openwrt/.config ${{ env.PACKAGED_OUTPUTPATH }}/config
         cd ${{ env.PACKAGED_OUTPUTPATH }}
         sha256sum config > config.sha
-
-    - name: Generate release tag
-      run: |
         echo "release_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
         echo "status=success" >> ${GITHUB_OUTPUT}
 
