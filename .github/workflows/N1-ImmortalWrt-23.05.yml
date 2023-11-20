@@ -126,7 +126,7 @@ jobs:
 
     - name: telegram notification
       run: |
-        msg="
+        MSG="
         ✅ *immortalwrt-${{ env.latest_release }}* 固件编译完成
         https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.build_date}}
         "
