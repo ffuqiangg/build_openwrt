@@ -52,8 +52,14 @@ jobs:
         cd openwrt
         cp -r ../scripts/lede/. ./
         /bin/bash 02_prepare_package.sh
+
+    - name: Get Architecture
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
+        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >> ${GITHUB_ENV}
+        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
         distrib_revision=$(cat package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
-        sed -i "s,VERSION,${distrib_revision},g" ../scripts/lede/release.txt
         echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
 
     - name: Load custom configuration
@@ -68,13 +74,6 @@ jobs:
         cd openwrt
         cp ../config/lede/config.seed .config
         make defconfig
-
-    - name: Get Architecture
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
-        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >> ${GITHUB_ENV}
-        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main

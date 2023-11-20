@@ -58,6 +58,15 @@ jobs:
         cd openwrt
         /bin/bash 03_ipt.sh
 
+    - name: Get Architecture
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
+        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>${GITHUB_ENV}
+        latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
+        echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
+        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
+
     - name: Load custom configuration
       run: |
         cp -rf files openwrt/
@@ -70,15 +79,6 @@ jobs:
         cd openwrt
         cp ../config/immortalwrt-23.05/config.seed .config
         make defconfig
-
-    - name: Get Architecture
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
-        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>${GITHUB_ENV}
-        latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
-        echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
-        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
