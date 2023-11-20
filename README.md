@@ -3,7 +3,6 @@
 </p>
 
 ##
-### 简介
 
 本项目用于编译打包 `斐讯N1` 使用的 `OpenWrt`/`ImmortalWrt`/`LEDE` 固件。
 
