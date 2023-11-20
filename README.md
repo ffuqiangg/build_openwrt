@@ -10,7 +10,8 @@
 ### 说明
 
 - 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)。
-- 固件对一些命令进行了简化，如 `ungz` = `tar -xvzf`，`777` = `chmod -R 777`，`mkdirg` = `创建并进入目录`, `bd` = `回到上一个目录` 等，详情可查看仓库 files/etc/shinit 文件。
+- 插件包含：PassWall，OpenClash，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP服务器，DockerMan，DocKer Compose，UPNP ( ImmortalWrt 23.05 固件在此基础上增加了 HomeProxy )
+- 固件对一些命令进行了简化，如 `ungz` = `tar -xvzf`，`777` = `chmod -R 777`，`mkdirg` = `创建并进入目录`, `bd` = `回到之前目录` 等，详情可查看仓库 files/etc/shinit 文件。
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
 - 刷机方法：将固件写入U盘，插入设备并从U盘启动。进入终端输入命令 `openwrt-install-amlogic` 然后根据屏幕提示完成刷机。
 - 升级固件/内核：将固件/内核文件（内核文件须包含 `dtb-xxx.tar.gz`, `modules-xxx.tar.gz`, `boot-xxx.tar.gz` 文件）放入 `/mnt/mmcblk2p4` 目录，终端输入命令 `openwrt-update-amlogic` 升级固件，`openwrt-kernel` 升级内核。
@@ -22,6 +23,7 @@
 - 打包及内核编译参考了 [Ophub](https://github.com/ophub) 的开源项目中的代码。
 - 部分内核文件以及对 OpenWrt 源码进行自定义的 shell 源码参考了爆操老哥 [Breakings](https://github.com/breakings) 的代码。
 - 感谢 [OpenWrt](https://github.com/openwrt/openwrt) , [Immortalwrt](https://github.com/immortalwrt/immortalwrt) , [LEDE](https://github.com/coolsnowwolf/lede) 等项目对开源路由的贡献。
+
 ##
 
 <p align="center">
