@@ -2,11 +2,27 @@ name: Cleaning
 
 on:
   workflow_dispatch:
+    inputs:
+      Clean_Release:
+        description: "Cleanup Old Releases"
+        required: false
+        default: true
+        type: boolean
+      Clean_Artifacts:
+        description: "Cleanup Old Artifacts"
+        required: false
+        default: true
+        type: boolean
+      Clean_Workflow_Logs:
+        description: "Cleanup Workflow Logs"
+        required: false
+        default: true
+        type: boolean
 
 jobs:
   Cleanup-Old-Releases:
     runs-on: ubuntu-20.04
-    if: github.event.repository.owner.id == github.event.sender.id
+    if: github.event.repository.owner.id == github.event.sender.id && inputs.Clean_Release == 'true'
     steps:
     - name: Delete Older Releases
       uses: dev-drprasad/delete-older-releases@master
@@ -18,7 +34,7 @@ jobs:
 
   Cleanup-Old-Artifacts:
     runs-on: ubuntu-20.04
-    if: github.event.repository.owner.id == github.event.sender.id
+    if: github.event.repository.owner.id == github.event.sender.id && inputs.Clean_Artifacts == 'true'
     steps:
     - name: Cleanup Old Action Artifacts
       uses: heidi-pay/gha-delete-artifacts@main
@@ -31,7 +47,7 @@ jobs:
 
   Cleanup-Workflow-Logs:
     runs-on: ubuntu-20.04
-    if: github.event.repository.owner.id == github.event.sender.id
+    if: github.event.repository.owner.id == github.event.sender.id && inputs.Clean_Workflow_Logs == 'true'
     steps:
       - name: Cleanup Workflow Logs
         uses: Mattraks/delete-workflow-runs@main
