@@ -123,8 +123,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
         tag: ${{ env.build_date }}
-        artifacts: |
-          ${{ env.PACKAGED_OUTPUTPATH }}/N1-LEDE-*.zip
+        allowUpdates: true
+        replacesArtifacts: true
+        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-LEDE-*.zip
 
     - name: Telegram notification
       run: |
