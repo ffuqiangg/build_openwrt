@@ -46,6 +46,7 @@ jobs:
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/immortalwrt-18.06-k5.4/. ./
         /bin/bash 01_get_ready.sh
+        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Prepare package
       run: |
@@ -71,7 +72,6 @@ jobs:
       run: |
         TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
         echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >> ${GITHUB_ENV}
-        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
@@ -127,6 +127,6 @@ jobs:
       run: |
         MSG="
         ✅ *ImmortalWrt-18.06-K5.4* 固件编译完成
-        ${{ env.html_url }}
+        https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ env.build_date }}
         "
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"

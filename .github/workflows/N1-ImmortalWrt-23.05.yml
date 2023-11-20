@@ -46,6 +46,7 @@ jobs:
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/immortalwrt-23.05/. ./
         /bin/bash 01_get_ready.sh
+        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Prepare Package
       run: |
@@ -58,27 +59,26 @@ jobs:
         cd openwrt
         /bin/bash 03_ipt.sh
 
-    - name: Get Architecture
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
-        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>${GITHUB_ENV}
-        latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
-        echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
-        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
-
     - name: Load custom configuration
       run: |
+        latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
         cp -rf files openwrt/
         sed -i -e "s,DATE,$(date +%Y.%m.%d)," -e "s,VERSION,${latest_release}," ./init.sh
         mkdir -p openwrt/files/etc/uci-defaults
         cp -f ./init.sh openwrt/files/etc/uci-defaults/999-default-settings
+        echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
 
     - name: Make config
       run: |
         cd openwrt
         cp ../config/immortalwrt-23.05/config.seed .config
         make defconfig
+        
+    - name: Get Architecture
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
+        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>${GITHUB_ENV}
 
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
@@ -127,6 +127,6 @@ jobs:
       run: |
         msg="
         ✅ *immortalwrt-${{ env.latest_release }}* 固件编译完成
-        ${{ env.html_url }}
+        https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ env.build_date}}
         "
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"

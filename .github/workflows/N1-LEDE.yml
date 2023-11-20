@@ -46,35 +46,35 @@ jobs:
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/lede/. ./
         /bin/bash 01_get_ready.sh
+        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Prepare Package
       run: |
         cd openwrt
         cp -r ../scripts/lede/. ./
         /bin/bash 02_prepare_package.sh
-
-    - name: Get Architecture
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
-        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >> ${GITHUB_ENV}
-        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
-        distrib_revision=$(cat package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
-        echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
-
+        
     - name: Load custom configuration
       run: |
+        distrib_revision=$(cat openwrt/package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
         cp -rf files openwrt/
-        sed -i -e "s,DATE,$(date +%Y.%m.%d)," -e "s,VERSION,${{ env.distrib_revision }}," ./init.sh
+        sed -i -e "s,DATE,$(date +%Y.%m.%d)," -e "s,VERSION,${distrib_revision}," ./init.sh
         mkdir -p openwrt/files/etc/uci-defaults
         cp -f ./init.sh openwrt/files/etc/uci-defaults/999-default-settings
-
+        echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
+        
     - name: Make config
       run: |
         cd openwrt
         cp ../config/lede/config.seed .config
         make defconfig
 
+    - name: Get Architecture
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
+        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >> ${GITHUB_ENV}
+    
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
@@ -130,6 +130,6 @@ jobs:
       run: |
         MSG="
         ✅ *LEDE ${{ env.distrib_revision }}* 固件编译完成
-        ${{ env.html_url }}
+        https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ env.build_date }}
         "
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"
