@@ -1,5 +1,5 @@
 <p align="center">
-<img width="768" src="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/phicomm-n1.png" >
+<img width="768" src="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/phicomm-n1.jpg" >
 </p>
 <p align="center">
 <a href="https://t.me/ffuqiangg"><img src="https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white"></a>
