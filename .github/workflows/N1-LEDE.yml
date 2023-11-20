@@ -58,7 +58,7 @@ jobs:
       run: |
         distrib_revision=$(cat openwrt/package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
         cp -rf files openwrt/
-        sed -i -e "s,DATE,$(date +%Y.%m.%d)," -e "s,VERSION,${distrib_revision}," ./init.sh
+        sed -i -e "s,DATE,${{ env.build_date }}," -e "s,VERSION,${distrib_revision}," ./init.sh
         mkdir -p openwrt/files/etc/uci-defaults
         cp -f ./init.sh openwrt/files/etc/uci-defaults/999-default-settings
         echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}

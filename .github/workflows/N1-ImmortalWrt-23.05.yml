@@ -63,7 +63,7 @@ jobs:
       run: |
         latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
         cp -rf files openwrt/
-        sed -i -e "s,DATE,$(date +%Y.%m.%d)," -e "s,VERSION,${latest_release}," ./init.sh
+        sed -i -e "s,DATE,${{ env.build_date }}," -e "s,VERSION,${latest_release}," ./init.sh
         mkdir -p openwrt/files/etc/uci-defaults
         cp -f ./init.sh openwrt/files/etc/uci-defaults/999-default-settings
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
