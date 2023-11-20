@@ -1,6 +1,15 @@
+<p align="center">
+<img width="768" src="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/phicomm-n1.png" >
+</p>
+<p align="center">
+<a href="https://t.me/ffuqiangg"><img src="https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white"></a>
+<a href="mailto:ffuqiangg@gmail.com"><img src="https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white"></a>
+<a href="https://hub.docker.com/u/ffuqiangg"><img src="https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white"></a>
+<p>
+
 ## 简介
 
-本项目用于编译打包 `斐讯N1` 使用的 `OpenWrt`/`ImmortalWrt` 固件。
+本项目用于编译打包 `斐讯N1` 使用的 `OpenWrt`/`ImmortalWrt`/`LEDE` 固件。
 
 ## 说明
 
