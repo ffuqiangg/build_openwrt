@@ -63,7 +63,7 @@ jobs:
     - name: Make config
       run: |
         cd openwrt
-        cp ../config/immortalwrt-18.06-k5.4/config .config
+        cp ../config/immortalwrt-18.06-k5.4/config.seed .config
         make defconfig
 
     - name: Get Architecture

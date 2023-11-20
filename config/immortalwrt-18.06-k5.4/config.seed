@@ -6,8 +6,6 @@ CONFIG_TARGET_armvirt_64_DEVICE_generic=y
 # CONFIG_TARGET_ROOTFS_CPIOGZ is not set
 # CONFIG_TARGET_ROOTFS_EXT4FS is not set
 # CONFIG_TARGET_ROOTFS_SQUASHFS is not set
-# CONFIG_TARGET_IMAGES_GZIP is not set
-CONFIG_TARGET_KERNEL_PARTSIZE=128
 
 ### BASIC ###
 CONFIG_PACKAGE_htop=y
@@ -51,9 +49,9 @@ CONFIG_PACKAGE_dnsmasq-full=y
 # CONFIG_PACKAGE_dnsmasq is not set
 
 ### APPLICATIONS ###
-# CONFIG_PACKAGE_luci-app-accesscontrol is not set
+CONFIG_PACKAGE_luci-app-arpbind=y
+CONFIG_PACKAGE_luci-app-autoreboot=y
 CONFIG_PACKAGE_luci-app-cpufreq=y
-# CONFIG_PACKAGE_luci-app-ddns is not set
 CONFIG_PACKAGE_luci-app-diskman=y
 CONFIG_PACKAGE_luci-app-diskman_INCLUDE_btrfs_progs=y
 CONFIG_PACKAGE_luci-app-diskman_INCLUDE_lsblk=y
@@ -70,7 +68,6 @@ CONFIG_PACKAGE_luci-app-ttyd=y
 CONFIG_PACKAGE_luci-app-upnp=y
 CONFIG_PACKAGE_luci-app-vlmcsd=y
 CONFIG_PACKAGE_luci-app-vsftpd=y
-# CONFIG_PACKAGE_luci-app-wol is not set
 
 ### Turboacc ###
 CONFIG_PACKAGE_luci-app-turboacc=y
