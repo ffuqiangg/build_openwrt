@@ -77,17 +77,6 @@ popd
 git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone package/nft-fullcone
 cp -rf ../Lienol/package/network/utils/fullconenat ./package/fullconenat
 
-### 获取额外的基础软件包 ###
-# 更换为 ImmortalWrt Uboot 以及 Target
-rm -rf ./target/linux/rockchip
-cp -rf ../immortalwrt_23/target/linux/rockchip ./target/linux/rockchip
-cp -rf ../immortalwrt_23/package/boot/uboot-rockchip ./package/boot/uboot-rockchip
-rm -rf ./package/boot/arm-trusted-firmware-rockchip
-cp -rf ../immortalwrt_23/package/boot/arm-trusted-firmware-rockchip ./package/boot/arm-trusted-firmware-rockchip
-# Disable Mitigations
-sed -i 's,noinitrd,noinitrd mitigations=off,g' target/linux/armsr/image/grub-pc.cfg
-
-
 ### 获取额外的 LuCI 应用、主题和依赖 ###
 # mount cgroupv2
 pushd feeds/packages
@@ -185,13 +174,19 @@ patch -p1 <../patch/odhcp6c/1002-odhcp6c-support-dhcpv6-hotplug.patch
 # ODHCPD
 mkdir -p package/network/services/odhcpd/patches
 cp -f ../patch/odhcpd/0001-config-allow-configuring-max-limit-for-preferred-and.patch ./package/network/services/odhcpd/patches/0001-config-allow-configuring-max-limit-for-preferred-and.patch
+# Luci app amlogic
+git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/luci-app-amlogic
 # Mosdns
 cp -rf ../mosdns/mosdns ./package/mosdns
 cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns/v2ray-geodata ./package/v2ray-geodata
+# homeproxy
+git clone --single-branch --depth 1 -b dev https://github.com/immortalwrt/homeproxy.git ./package/luci-app-homeproxy
+rm -rf ./feeds/packages/net/sing-box
+cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
 # OpenClash
-git clone --single-branch --depth 1 -b master https://github.com/vernesong/OpenClash.git package/luci-app-openclash
+git clone --single-branch --depth 1 -b master https://github.com/vernesong/OpenClash.git ./package/luci-app-openclash
 # Passwall
 cp -rf ../passwall_luci/luci-app-passwall ./package/luci-app-passwall
 wget -P package/luci-app-passwall/ https://github.com/QiuSimons/OpenWrt-Add/raw/master/move_2_services.sh
