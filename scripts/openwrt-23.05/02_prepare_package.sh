@@ -187,9 +187,6 @@ patch -p1 <../patch/odhcp6c/1002-odhcp6c-support-dhcpv6-hotplug.patch
 # ODHCPD
 mkdir -p package/network/services/odhcpd/patches
 cp -f ../patch/odhcpd/0001-config-allow-configuring-max-limit-for-preferred-and.patch ./package/network/services/odhcpd/patches/0001-config-allow-configuring-max-limit-for-preferred-and.patch
-# MentoHUST
-git clone --depth 1 https://github.com/BoringCat/luci-app-mentohust package/luci-app-mentohust
-git clone --depth 1 https://github.com/KyleRicardo/MentoHUST-OpenWrt-ipk package/MentoHUST
 # Mosdns
 cp -rf ../mosdns/mosdns ./package/mosdns
 cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns
@@ -257,6 +254,8 @@ sed -i 's#20) \* 1000#60) \* 1000#g' feeds/luci/modules/luci-base/htdocs/luci-st
 # KMS 激活助手
 cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/luci-app-vlmcsd
 cp -rf ../lede_pkg/net/vlmcsd ./package/vlmcsd
+# Filebrowser 文件浏览器
+cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
 # 翻译及部分功能优化
 cp -rf ../OpenWrt-Add/addition-trans-zh ./package/addition-trans-zh
 sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/addition-trans-zh/Makefile
