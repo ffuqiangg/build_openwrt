@@ -56,7 +56,7 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        cp -rf files openwrt/
+        cp -rf patch/files openwrt/
         sed -i "s,DATE,${{ env.build_date }}," ./init.sh
         mkdir -p openwrt/files/etc/uci-defaults
         cp -f ./init.sh openwrt/files/etc/uci-defaults/999-default-settings

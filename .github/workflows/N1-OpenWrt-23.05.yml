@@ -1,4 +1,4 @@
-name: N1-LEDE
+name: N1-OpenWrt-23.05
 
 on:
   workflow_dispatch:
@@ -33,48 +33,55 @@ jobs:
         sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android 2>/dev/null
         sudo -E apt-get -y update
         sudo -E apt-get -y purge azure-cli* ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
-        sudo -E apt-get -qq install $(cat depends)
-        sudo -E systemctl daemon-reload
-        #sudo -E apt-get -y full-upgrade
+        sudo -E apt-get -y install aria2
+        sudo -E wget -P /usr/local/sbin/ https://github.com/HiGarfield/lede-17.01.4-Mod/raw/master/.github/backup/apt-fast
+        sudo -E chmod -R 755 /usr/local/sbin/apt-fast
+        sudo -E apt-fast -y -qq install dwarves quilt llvm clang lldb lld build-essential rsync asciidoc binutils bzip2 gawk gettext git libncurses5-dev patch python2.7 unzip zlib1g-dev lib32gcc-s1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib p7zip-full msmtp libssl-dev texinfo libreadline-dev libglib2.0-dev xmlto qemu-utils upx-ucl libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget ccache curl swig coreutils vim nano python3 python3-dev python3-pip python3-ply python3-pyelftools lrzsz scons
+        pip3 install --user -U pylibfdt
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
         sudo timedatectl set-timezone "$TZ"
         echo "status=success" >> ${GITHUB_OUTPUT}
 
-    - name: Prepare lede code
+    - name: Prepare openwrt-23.05
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
-        cp -r scripts/lede/. ./
+        cp -r scripts/openwrt-23.05/. ./
         /bin/bash 01_get_ready.sh
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Prepare Package
       run: |
         cd openwrt
-        cp -r ../scripts/lede/. ./
+        cp -r ../scripts/openwrt-23.05/. ./
         /bin/bash 02_prepare_package.sh
-        
+
+    - name: Iptables
+      run: |
+        cd openwrt
+        /bin/bash 03_ipt.sh
+
     - name: Load custom configuration
       run: |
-        distrib_revision=$(cat openwrt/package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
+        latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
         cp -rf patch/files openwrt/
-        sed -i -e "s,DATE,${{ env.build_date }}," -e "s,VERSION,${distrib_revision}," ./init.sh
+        sed -i -e "s,DATE,${{ env.build_date }}," -e "s,VERSION,${latest_release}," ./init.sh
         mkdir -p openwrt/files/etc/uci-defaults
         cp -f ./init.sh openwrt/files/etc/uci-defaults/999-default-settings
-        echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
-        
+        echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
+
     - name: Make config
       run: |
         cd openwrt
-        cp ../config/lede/config.seed .config
+        cp ../config/openwrt-23.05/config.seed .config
         make defconfig
-
+        
     - name: Get Architecture
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
-        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >> ${GITHUB_ENV}
-    
+        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>${GITHUB_ENV}
+
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
@@ -85,7 +92,6 @@ jobs:
       id: package
       run: |
         cd openwrt
-        make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
@@ -100,22 +106,15 @@ jobs:
 
     - name: Package Openwrt
       if: steps.compile.outputs.status == 'success'
-      uses: ffuqiangg/openwrt_packit@master
-      env:
-        SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
-        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*rootfs.tar.gz
-        PACKAGE_SOC: s905d
-        KERNEL_REPO_URL: breakings/OpenWrt
-        KERNEL_VERSION_NAME: 5.15.1
-        KERNEL_AUTO_LATEST: true
-        GZIP_IMGS: .zip
-        SCRIPT_S905D: mk_lede_n1.sh
-        OPENWRT_VER: ${{ env.distrib_revision }}
-        SFE_FLOW: 0
-        ENABLE_WIFI_K504: 0
-        ENABLE_WIFI_K510: 0
-        DISTRIB_REVISION: ${{ env.distrib_revision }}
-        DISTRIB_DESCRIPTION: OpenWrt
+      uses: ffuqiangg/amlogic-s9xxx-openwrt@main
+      with:
+        openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
+        openwrt_board: s905d
+        kernel_repo: ophub/kernel
+        openwrt_kernel: 5.15.1
+        kernel_usage: flippy
+        auto_kernel: true
+        image_name: N1-OpenWrt-${{ env.latest_release }}
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
@@ -125,12 +124,12 @@ jobs:
         tag: ${{ env.build_date }}
         allowUpdates: true
         replacesArtifacts: true
-        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-LEDE-*.zip
+        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-OpenWrt-*.zip
 
-    - name: Telegram notification
+    - name: telegram notification
       run: |
         MSG="
-        ✅ *LEDE ${{ env.distrib_revision }}* 固件编译完成
-        https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.build_date }}
+        ✅ *immortalwrt-${{ env.latest_release }}* 固件编译完成
+        https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.build_date}}
         "
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"
