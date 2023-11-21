@@ -81,8 +81,6 @@ cp -rf ../Lienol/package/network/utils/fullconenat ./package/fullconenat
 # 更换为 ImmortalWrt Uboot 以及 Target
 rm -rf ./target/linux/rockchip
 cp -rf ../immortalwrt_23/target/linux/rockchip ./target/linux/rockchip
-cp -rf ../patch/rockchip-5.15/* ./target/linux/rockchip/patches-5.15/
-rm -rf ./package/boot/uboot-rockchip
 cp -rf ../immortalwrt_23/package/boot/uboot-rockchip ./package/boot/uboot-rockchip
 rm -rf ./package/boot/arm-trusted-firmware-rockchip
 cp -rf ../immortalwrt_23/package/boot/arm-trusted-firmware-rockchip ./package/boot/arm-trusted-firmware-rockchip
