@@ -248,15 +248,15 @@ cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
 sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-vlmcsd/Makefile
 cp -rf ../lede_pkg/net/vlmcsd ./package/new/vlmcsd
 # Vsftpd
-cp -rf ../lede_luci/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
-sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-vsftpd/Makefile
-cp -rf ../lede_pkg/net/vsftpd ./package/net/vsftpd
+# cp -rf ../lede_luci/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
+# sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-vsftpd/Makefile
+# cp -rf ../lede_pkg/net/vsftpd ./package/net/vsftpd
 # Filebrowser 文件浏览器
 cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
 # Filetransfer
-cp -rf ../lede_luci/applications/luci-app-filetransfer ./package/new/luci-app-filetransfer
-sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-filetransfer/Makefile
-cp -rf ../lede_luci/libs/luci-app-fs ./package/libs/luci-app-fs
+# cp -rf ../lede_luci/applications/luci-app-filetransfer ./package/new/luci-app-filetransfer
+# sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-filetransfer/Makefile
+# cp -rf ../lede_luci/libs/luci-app-fs ./package/libs/luci-app-fs
 # 翻译及部分功能优化
 cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
 sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/new/addition-trans-zh/Makefile
