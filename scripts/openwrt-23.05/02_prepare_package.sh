@@ -24,24 +24,6 @@ sed -ri "/luci-webui.socket/i\ \t\tuwsgi_send_timeout 600\;\n\t\tuwsgi_connect_t
 sed -ri "/luci-cgi_io.socket/i\ \t\tuwsgi_send_timeout 600\;\n\t\tuwsgi_connect_timeout 600\;\n\t\tuwsgi_read_timeout 600\;" feeds/packages/net/nginx/files-luci-support/luci.locations
 
 ### 必要的 Patches ###
-# TCP optimizations
-cp -rf ../patch/backport/TCP/* ./target/linux/generic/backport-5.15/
-# x86_csum
-cp -rf ../patch/backport/x86_csum/* ./target/linux/generic/backport-5.15/
-# Patch arm64 型号名称
-cp -rf ../immortalwrt/target/linux/generic/hack-5.15/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch ./target/linux/generic/hack-5.15/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
-# BBRv3
-cp -rf ../patch/BBRv3/kernel/* ./target/linux/generic/backport-5.15/
-# LRNG
-cp -rf ../patch/LRNG/* ./target/linux/generic/hack-5.15/
-echo '
-# CONFIG_RANDOM_DEFAULT_IMPL is not set
-CONFIG_LRNG=y
-# CONFIG_LRNG_IRQ is not set
-CONFIG_LRNG_JENT=y
-CONFIG_LRNG_CPU=y
-# CONFIG_LRNG_SCHED is not set
-' >>./target/linux/generic/config-5.15
 # SSL
 rm -rf ./package/libs/mbedtls
 cp -rf ../immortalwrt/package/libs/mbedtls ./package/libs/mbedtls
@@ -101,20 +83,6 @@ rm -rf ./feeds/packages/utils/coremark
 cp -rf ../immortalwrt_pkg/utils/coremark ./feeds/packages/utils/coremark
 sed -i "s,-O3,-Ofast -funroll-loops -fpeel-loops -fgcse-sm -fgcse-las,g" feeds/packages/utils/coremark/Makefile
 cp -rf ../immortalwrt_23/package/utils/mhz ./package/utils/mhz
-# Airconnect
-git clone https://github.com/sbwml/luci-app-airconnect package/new/airconnect
-#cp -rf ../OpenWrt-Add/airconnect ./package/new/airconnect
-#cp -rf ../OpenWrt-Add/luci-app-airconnect ./package/new/luci-app-airconnect
-# 更换 Nodejs 版本
-rm -rf ./feeds/packages/lang/node
-git clone https://github.com/sbwml/feeds_packages_lang_node-prebuilt feeds/packages/lang/node
-# R8168驱动
-git clone -b master --depth 1 https://github.com/BROBIRD/openwrt-r8168.git package/new/r8168
-patch -p1 <../patch/r8168/r8168-fix_LAN_led-for_r4s-from_TL.patch
-# R8152驱动
-cp -rf ../immortalwrt/package/kernel/r8152 ./package/new/r8152
-# r8125驱动
-git clone https://github.com/sbwml/package_kernel_r8125 package/new/r8125
 # igc-fix
 cp -rf ../lede/target/linux/x86/patches-5.15/996-intel-igc-i225-i226-disable-eee.patch ./target/linux/x86/patches-5.15/996-intel-igc-i225-i226-disable-eee.patch
 # UPX 可执行软件压缩
@@ -260,11 +228,6 @@ cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
 # 翻译及部分功能优化
 cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
 sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/new/addition-trans-zh/Makefile
-
-### 最后的收尾工作 ###
-# 生成默认配置及缓存
-rm -rf .config
-sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
 
 ### Shortcut-FE 部分 ###
 # Patch Kernel 以支持 Shortcut-FE
