@@ -74,8 +74,8 @@ pushd feeds/luci
 patch -p1 <../../../patch/firewall/luci-app-firewall_add_fullcone_fw4.patch
 popd
 # FullCone PKG
-git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone package/nft-fullcone
-cp -rf ../Lienol/package/network/utils/fullconenat ./package/fullconenat
+git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone package/new/nft-fullcone
+cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 
 ### 获取额外的 LuCI 应用、主题和依赖 ###
 # mount cgroupv2
@@ -87,8 +87,11 @@ cp -rf ../patch/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cg
 cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # AutoCore
-cp -rf ../immortalwrt_23/package/emortal/autocore ./package/autocore
-sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/autocore/files/luci-mod-status-autocore.json
+cp -rf ../immortalwrt_23/package/emortal/autocore ./package/new/autocore
+sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/new/autocore/files/luci-mod-status-autocore.json
+cp -rf ../OpenWrt-Add/autocore/files/x86/autocore ./package/new/autocore/files/autocore
+sed -i '/i386 i686 x86_64/{n;n;n;d;}' package/new/autocore/Makefile
+sed -i '/i386 i686 x86_64/d' package/new/autocore/Makefile
 rm -rf ./feeds/luci/modules/luci-base
 cp -rf ../immortalwrt_luci_23/modules/luci-base ./feeds/luci/modules/luci-base
 sed -i "s,(br-lan),,g" feeds/luci/modules/luci-base/root/usr/share/rpcd/ucode/luci
@@ -99,19 +102,19 @@ cp -rf ../immortalwrt_pkg/utils/coremark ./feeds/packages/utils/coremark
 sed -i "s,-O3,-Ofast -funroll-loops -fpeel-loops -fgcse-sm -fgcse-las,g" feeds/packages/utils/coremark/Makefile
 cp -rf ../immortalwrt_23/package/utils/mhz ./package/utils/mhz
 # Airconnect
-git clone https://github.com/sbwml/luci-app-airconnect package/airconnect
-#cp -rf ../OpenWrt-Add/airconnect ./package/airconnect
-#cp -rf ../OpenWrt-Add/luci-app-airconnect ./package/luci-app-airconnect
+git clone https://github.com/sbwml/luci-app-airconnect package/new/airconnect
+#cp -rf ../OpenWrt-Add/airconnect ./package/new/airconnect
+#cp -rf ../OpenWrt-Add/luci-app-airconnect ./package/new/luci-app-airconnect
 # 更换 Nodejs 版本
 rm -rf ./feeds/packages/lang/node
 git clone https://github.com/sbwml/feeds_packages_lang_node-prebuilt feeds/packages/lang/node
 # R8168驱动
-git clone -b master --depth 1 https://github.com/BROBIRD/openwrt-r8168.git package/r8168
+git clone -b master --depth 1 https://github.com/BROBIRD/openwrt-r8168.git package/new/r8168
 patch -p1 <../patch/r8168/r8168-fix_LAN_led-for_r4s-from_TL.patch
 # R8152驱动
-cp -rf ../immortalwrt/package/kernel/r8152 ./package/r8152
+cp -rf ../immortalwrt/package/kernel/r8152 ./package/new/r8152
 # r8125驱动
-git clone https://github.com/sbwml/package_kernel_r8125 package/r8125
+git clone https://github.com/sbwml/package_kernel_r8125 package/new/r8125
 # igc-fix
 cp -rf ../lede/target/linux/x86/patches-5.15/996-intel-igc-i225-i226-disable-eee.patch ./target/linux/x86/patches-5.15/996-intel-igc-i225-i226-disable-eee.patch
 # UPX 可执行软件压缩
@@ -140,8 +143,8 @@ pushd feeds/luci
 wget -qO- https://github.com/openwrt/luci/commit/0b5fb915.patch | patch -p1
 popd
 # ChinaDNS
-git clone -b luci --depth 1 https://github.com/QiuSimons/openwrt-chinadns-ng.git package/luci-app-chinadns-ng
-cp -rf ../passwall_pkg/chinadns-ng ./package/chinadns-ng
+git clone -b luci --depth 1 https://github.com/QiuSimons/openwrt-chinadns-ng.git package/new/luci-app-chinadns-ng
+cp -rf ../passwall_pkg/chinadns-ng ./package/new/chinadns-ng
 # Docker 容器
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
@@ -154,56 +157,60 @@ sed -i '/sysctl.d/d' feeds/packages/utils/dockerd/Makefile
 rm -rf ./feeds/luci/collections/luci-lib-docker
 cp -rf ../docker_lib/collections/luci-lib-docker ./feeds/luci/collections/luci-lib-docker
 # DiskMan
-cp -rf ../diskman/applications/luci-app-diskman ./package/luci-app-diskman
-mkdir -p package/parted && \
-wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
+cp -rf ../diskman/applications/luci-app-diskman ./package/new/luci-app-diskman
+mkdir -p package/new/parted && \
+wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/new/parted/Makefile
 # Dnsfilter
-git clone --depth 1 https://github.com/kiddin9/luci-app-dnsfilter.git package/luci-app-dnsfilter
+git clone --depth 1 https://github.com/kiddin9/luci-app-dnsfilter.git package/new/luci-app-dnsfilter
 # Dnsproxy
-cp -rf ../OpenWrt-Add/luci-app-dnsproxy ./package/luci-app-dnsproxy
+cp -rf ../OpenWrt-Add/luci-app-dnsproxy ./package/new/luci-app-dnsproxy
 # FRP 内网穿透
+rm -rf ./feeds/luci/applications/luci-app-frps
 rm -rf ./feeds/luci/applications/luci-app-frpc
 rm -rf ./feeds/packages/net/frp
 cp -rf ../immortalwrt_pkg/net/frp ./feeds/packages/net/frp
 sed -i '/etc/d' feeds/packages/net/frp/Makefile
 sed -i '/defaults/{N;d;}' feeds/packages/net/frp/Makefile
-cp -rf ../lede_luci/applications/luci-app-frpc ./package/luci-app-frpc
+cp -rf ../lede_luci/applications/luci-app-frps ./package/new/luci-app-frps
+cp -rf ../lede_luci/applications/luci-app-frpc ./package/new/luci-app-frpc
+sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-frps/Makefile
+sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-frpc/Makefile
 # IPv6 兼容助手
-cp -rf ../lede/package/lean/ipv6-helper ./package/ipv6-helper
+cp -rf ../lede/package/lean/ipv6-helper ./package/new/ipv6-helper
 patch -p1 <../patch/odhcp6c/1002-odhcp6c-support-dhcpv6-hotplug.patch
 # ODHCPD
 mkdir -p package/network/services/odhcpd/patches
 cp -f ../patch/odhcpd/0001-config-allow-configuring-max-limit-for-preferred-and.patch ./package/network/services/odhcpd/patches/0001-config-allow-configuring-max-limit-for-preferred-and.patch
 # Luci app amlogic
-git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/luci-app-amlogic
+git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
 # Mosdns
 cp -rf ../mosdns/mosdns ./package/mosdns
 cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns/v2ray-geodata ./package/v2ray-geodata
 # homeproxy
-git clone --single-branch --depth 1 -b dev https://github.com/immortalwrt/homeproxy.git ./package/luci-app-homeproxy
+git clone --single-branch --depth 1 -b dev https://github.com/immortalwrt/homeproxy.git ./package/new/luci-app-homeproxy
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
 # OpenClash
-git clone --single-branch --depth 1 -b master https://github.com/vernesong/OpenClash.git ./package/luci-app-openclash
+git clone --single-branch --depth 1 -b master https://github.com/vernesong/OpenClash.git ./package/new/luci-app-openclash
 # Passwall
-cp -rf ../passwall_luci/luci-app-passwall ./package/luci-app-passwall
-wget -P package/luci-app-passwall/ https://github.com/QiuSimons/OpenWrt-Add/raw/master/move_2_services.sh
-chmod -R 755 ./package/luci-app-passwall/move_2_services.sh
-pushd package/luci-app-passwall
+cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
+wget -P package/new/luci-app-passwall/ https://github.com/QiuSimons/OpenWrt-Add/raw/master/move_2_services.sh
+chmod -R 755 ./package/new/luci-app-passwall/move_2_services.sh
+pushd package/new/luci-app-passwall
 bash move_2_services.sh
 popd
-cp -rf ../passwall_pkg/tcping ./package/tcping
-cp -rf ../passwall_pkg/trojan-go ./package/trojan-go
-cp -rf ../passwall_pkg/brook ./package/brook
-cp -rf ../passwall_pkg/ssocks ./package/ssocks
-cp -rf ../passwall_pkg/microsocks ./package/microsocks
-cp -rf ../passwall_pkg/dns2socks ./package/dns2socks
-cp -rf ../passwall_pkg/ipt2socks ./package/ipt2socks
-cp -rf ../passwall_pkg/pdnsd-alt ./package/pdnsd-alt
-cp -rf ../OpenWrt-Add/trojan-plus ./package/trojan-plus
-cp -rf ../passwall_pkg/xray-plugin ./package/xray-plugin
+cp -rf ../passwall_pkg/tcping ./package/new/tcping
+cp -rf ../passwall_pkg/trojan-go ./package/new/trojan-go
+cp -rf ../passwall_pkg/brook ./package/new/brook
+cp -rf ../passwall_pkg/ssocks ./package/new/ssocks
+cp -rf ../passwall_pkg/microsocks ./package/new/microsocks
+cp -rf ../passwall_pkg/dns2socks ./package/new/dns2socks
+cp -rf ../passwall_pkg/ipt2socks ./package/new/ipt2socks
+cp -rf ../passwall_pkg/pdnsd-alt ./package/new/pdnsd-alt
+cp -rf ../OpenWrt-Add/trojan-plus ./package/new/trojan-plus
+cp -rf ../passwall_pkg/xray-plugin ./package/new/xray-plugin
 # Passwall 白名单
 echo '
 teamviewer.com
@@ -217,9 +224,10 @@ checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn
-' >>./package/luci-app-passwall/root/usr/share/passwall/rules/direct_host
+' >>./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # 清理内存
-cp -rf ../lede_luci/applications/luci-app-ramfree ./package/luci-app-ramfree
+cp -rf ../lede_luci/applications/luci-app-ramfree ./package/new/luci-app-ramfree
+sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-ramfree/Makefile
 # 订阅转换
 cp -rf ../immortalwrt_pkg/net/subconverter ./feeds/packages/net/subconverter
 ln -sf ../../../feeds/packages/net/subconverter ./package/feeds/packages/subconverter
@@ -245,13 +253,20 @@ sed -i 's/cheaper = 1/cheaper = 2/g' feeds/packages/net/uwsgi/files-luci-support
 sed -i 's/option timeout 30/option timeout 60/g' package/system/rpcd/files/rpcd.config
 sed -i 's#20) \* 1000#60) \* 1000#g' feeds/luci/modules/luci-base/htdocs/luci-static/resources/rpc.js
 # KMS 激活助手
-cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/luci-app-vlmcsd
-cp -rf ../lede_pkg/net/vlmcsd ./package/vlmcsd
+cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
+sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-vlmcsd/Makefile
+cp -rf ../lede_pkg/net/vlmcsd ./package/new/vlmcsd
+# Vsftpd
+cp -rf ../lede_luci/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
+sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-vsftpd/Makefile
 # Filebrowser 文件浏览器
-cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
+cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
+# Filetransfer
+cp -rf ../lede_luci/applications/luci-app-filetransfer ./package/new/luci-app-filetransfer
+sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-filetransfer/Makefile
 # 翻译及部分功能优化
-cp -rf ../OpenWrt-Add/addition-trans-zh ./package/addition-trans-zh
-sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/addition-trans-zh/Makefile
+cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
+sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/new/addition-trans-zh/Makefile
 
 ### 最后的收尾工作 ###
 # 生成默认配置及缓存
