@@ -201,16 +201,7 @@ chmod -R 755 ./package/new/luci-app-passwall/move_2_services.sh
 pushd package/new/luci-app-passwall
 bash move_2_services.sh
 popd
-cp -rf ../passwall_pkg/tcping ./package/new/tcping
-cp -rf ../passwall_pkg/trojan-go ./package/new/trojan-go
-cp -rf ../passwall_pkg/brook ./package/new/brook
-cp -rf ../passwall_pkg/ssocks ./package/new/ssocks
-cp -rf ../passwall_pkg/microsocks ./package/new/microsocks
-cp -rf ../passwall_pkg/dns2socks ./package/new/dns2socks
-cp -rf ../passwall_pkg/ipt2socks ./package/new/ipt2socks
-cp -rf ../passwall_pkg/pdnsd-alt ./package/new/pdnsd-alt
-cp -rf ../OpenWrt-Add/trojan-plus ./package/new/trojan-plus
-cp -rf ../passwall_pkg/xray-plugin ./package/new/xray-plugin
+cp -rf ../passwall_pkg ./package/new/passwall_pkg
 # Passwall 白名单
 echo '
 teamviewer.com
@@ -259,11 +250,13 @@ cp -rf ../lede_pkg/net/vlmcsd ./package/new/vlmcsd
 # Vsftpd
 cp -rf ../lede_luci/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
 sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-vsftpd/Makefile
+cp -rf ../lede_pkg/net/vsftpd ./package/net/vsftpd
 # Filebrowser 文件浏览器
 cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
 # Filetransfer
 cp -rf ../lede_luci/applications/luci-app-filetransfer ./package/new/luci-app-filetransfer
 sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-filetransfer/Makefile
+cp -rf ../lede_luci/libs/luci-app-fs ./package/libs/luci-app-fs
 # 翻译及部分功能优化
 cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
 sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/new/addition-trans-zh/Makefile
