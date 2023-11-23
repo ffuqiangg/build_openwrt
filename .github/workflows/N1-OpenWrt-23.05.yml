@@ -72,7 +72,7 @@ jobs:
     - name: Load custom configuration
       run: |
         latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
-        cp -rf patch/files openwrt/
+        cp -rf files openwrt/
         sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_VERSION,OpenWrt ${latest_release}," ./openwrt/files/etc/banner
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
 
