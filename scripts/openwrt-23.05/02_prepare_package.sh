@@ -179,14 +179,4 @@ cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
 cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
 sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/new/addition-trans-zh/Makefile
 
-#LTO/GC
-# Grub 2
-sed -i 's,no-lto,no-lto no-gc-sections,g' package/boot/grub2/Makefile
-# openssl disable LTO
-sed -i 's,no-mips16 gc-sections,no-mips16 gc-sections no-lto,g' package/libs/openssl/Makefile
-# nginx
-sed -i 's,gc-sections,gc-sections no-lto,g' feeds/packages/net/nginx/Makefile
-# libsodium
-sed -i 's,no-mips16,no-mips16 no-lto,g' feeds/packages/libs/libsodium/Makefile
-
 exit 0
