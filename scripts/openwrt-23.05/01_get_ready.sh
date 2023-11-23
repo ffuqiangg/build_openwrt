@@ -1,53 +1,12 @@
 #!/bin/bash
 
-clone_repo() {
-    repo_url=$1
-    branch_name=$2
-    target_dir=$3
-    git clone --single-branch -b "$branch_name" --depth 1 "$repo_url" "$target_dir"
-}
-
-immortalwrt_repo="https://github.com/immortalwrt/immortalwrt.git"
-immortalwrt_pkg_repo="https://github.com/immortalwrt/packages.git"
-immortalwrt_luci_repo="https://github.com/immortalwrt/luci.git"
-lede_repo="https://github.com/coolsnowwolf/lede.git"
-lede_luci_repo="https://github.com/coolsnowwolf/luci.git"
-lede_pkg_repo="https://github.com/coolsnowwolf/packages.git"
-openwrt_repo="https://github.com/openwrt/openwrt.git"
-openwrt_pkg_repo="https://github.com/openwrt/packages.git"
-lienol_repo="https://github.com/Lienol/openwrt.git"
-lienol_pkg_repo="https://github.com/Lienol/openwrt-package"
-openwrt_add_repo="https://github.com/QiuSimons/OpenWrt-Add.git"
-passwall_pkg_repo="https://github.com/xiaorouji/openwrt-passwall-packages"
-passwall_luci_repo="https://github.com/xiaorouji/openwrt-passwall"
-dockerman_repo="https://github.com/lisaac/luci-app-dockerman"
-diskman_repo="https://github.com/lisaac/luci-app-diskman"
-docker_lib_repo="https://github.com/lisaac/luci-lib-docker"
-mosdns_repo="https://github.com/QiuSimons/openwrt-mos"
-
-clone_repo $openwrt_repo openwrt-23.05 openwrt &
-clone_repo $immortalwrt_repo master immortalwrt &
-clone_repo $immortalwrt_repo openwrt-21.02 immortalwrt_21 &
-clone_repo $immortalwrt_repo openwrt-23.05 immortalwrt_23 &
-clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg &
-clone_repo $immortalwrt_pkg_repo openwrt-21.02 immortalwrt_pkg_21 &
-clone_repo $immortalwrt_luci_repo master immortalwrt_luci &
-clone_repo $immortalwrt_luci_repo openwrt-21.02 immortalwrt_luci_21 &
-clone_repo $immortalwrt_luci_repo openwrt-23.05 immortalwrt_luci_23 &
-clone_repo $lede_repo master lede &
-clone_repo $lede_luci_repo master lede_luci &
-clone_repo $lede_pkg_repo master lede_pkg &
-clone_repo $openwrt_repo openwrt-22.03 openwrt_22 &
-clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
-clone_repo $lienol_repo 23.05 Lienol &
-clone_repo $lienol_pkg_repo main Lienol_pkg &
-clone_repo $openwrt_add_repo master OpenWrt-Add &
-clone_repo $passwall_pkg_repo main passwall_pkg &
-clone_repo $passwall_luci_repo main passwall_luci &
-clone_repo $dockerman_repo master dockerman &
-clone_repo $diskman_repo master diskman &
-clone_repo $docker_lib_repo master docker_lib &
-clone_repo $mosdns_repo master mosdns
+git clone --depth 1 --single-branch -b openwrt-23.05 https://github.com/openwrt/openwrt.git openwrt &
+git clone --depth 1 --single-branch -b master https://github.com/lisaac/luci-app-diskman dockerman &
+git clone --depth 1 --single-branch -b master https://github.com/lisaac/luci-lib-docker docker_lib &
+git clone --depth 1 --single-branch -b master https://github.com/QiuSimons/openwrt-mos mosdns &
+git clone --depth 1 --single-branch -b main https://github.com/Lienol/openwrt-package Lienol_pkg &
+git clone --depth 1 --single-branch -b main https://github.com/Lienol/openwrt-package passwall_luci &
+git clone --depth 1 --single-branch -b main https://github.com/xiaorouji/openwrt-passwall-packages passwall_pkg
 
 wait
 
