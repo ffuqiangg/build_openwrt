@@ -6,7 +6,8 @@ git clone --depth 1 --single-branch -b master https://github.com/lisaac/luci-lib
 git clone --depth 1 --single-branch -b master https://github.com/QiuSimons/openwrt-mos mosdns &
 git clone --depth 1 --single-branch -b main https://github.com/Lienol/openwrt-package Lienol_pkg &
 git clone --depth 1 --single-branch -b main https://github.com/Lienol/openwrt-package passwall_luci &
-git clone --depth 1 --single-branch -b main https://github.com/xiaorouji/openwrt-passwall-packages passwall_pkg
+git clone --depth 1 --single-branch -b main https://github.com/xiaorouji/openwrt-passwall-packages passwall_pkg &
+git clone --depth 1 --single-branch -b master https://github.com/coolsnowwolf/luci.git lede_luci
 
 wait
 
