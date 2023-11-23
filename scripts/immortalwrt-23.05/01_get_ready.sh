@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Clone source code
-git clone --single-branch -b openwrt-23.05 --depth 1 https://github.com/immortalwrt/immortalwrt.git openwrt
-git clone --single-branch -b openwrt-22.03 --depth 1 https://github.com/openwrt/openwrt.git openwrt_22
-git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git amlogic
+git clone --single-branch -b openwrt-23.05 --depth 1 https://github.com/immortalwrt/immortalwrt.git openwrt &
+git clone --single-branch -b openwrt-22.03 --depth 1 https://github.com/openwrt/openwrt.git openwrt_22 &
+git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git amlogic &
 git clone --single-branch -b master --depth 1 https://github.com/QiuSimons/openwrt-mos.git mosdns
 
 wait

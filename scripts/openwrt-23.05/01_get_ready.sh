@@ -8,6 +8,7 @@ git clone --depth 1 --single-branch -b main https://github.com/Lienol/openwrt-pa
 git clone --depth 1 --single-branch -b main https://github.com/xiaorouji/openwrt-passwall passwall_luci &
 git clone --depth 1 --single-branch -b main https://github.com/xiaorouji/openwrt-passwall-packages passwall_pkg &
 git clone --depth 1 --single-branch -b master https://github.com/vernesong/OpenClash openclash &
+git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git amlogic &
 git clone --depth 1 --single-branch -b master https://github.com/coolsnowwolf/luci.git lede_luci
 
 wait
