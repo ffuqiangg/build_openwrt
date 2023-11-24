@@ -81,7 +81,7 @@ jobs:
         cd openwrt
         cp ../config/openwrt-23.05/config.seed .config
         make defconfig
-        
+
     - name: Get Architecture
       working-directory: ${{ github.workspace }}/openwrt
       run: |
