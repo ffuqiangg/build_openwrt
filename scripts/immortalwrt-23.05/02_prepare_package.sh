@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "../scripts/move_2_services.sh"
-
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
@@ -21,7 +19,7 @@ sed -i 's,system,services,g' package/feeds/luci/luci-app-cpufreq/root/usr/share/
 sed -i 's,nas,services,g' package/feeds/luci/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
 # vsftpd
 pushd package/feeds/luci/luci-app-vsftpd
-move_2_services nas
+../scripts/move_2_services.sh nas
 popd
 # filebrowser
 # sed -i -e 's/\"nas\"/\"services\"/g' -e 's/NAS/Services/g' package/feeds/luci/luci-app-filebrowser/luasrc/controller/filebrowser.lua

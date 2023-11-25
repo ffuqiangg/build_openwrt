@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "../scripts/move_2_services.sh"
-
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
@@ -16,7 +14,7 @@ cp -rf ../openclash ./package/luci-app-openclash
 # Filebrowser
 cp -rf ../lienol_package/luci-app-filebrowser ./package/luci-app-filebrowser
 pushd package/luci-app-filebrowser
-move_2_services nas
+../scripts/move_2_services.sh nas
 popd
 # Mosdns
 cp -rf ../mosdns/mosdns ./package/mosdns

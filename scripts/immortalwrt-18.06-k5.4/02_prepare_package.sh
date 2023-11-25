@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source "../scripts/move_2_services.sh"
-
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
