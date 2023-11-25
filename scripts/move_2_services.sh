@@ -29,3 +29,5 @@ do
     [ -n "$(grep "\[\[$1\]\]" "$c")" ] && sed -i "s,\[\[$1\]\],\[\[services\]\],g" "$c"
     [ -n "$(grep "admin/$1" "$c")" ] && sed -i "s,admin/$1,admin/services,g" "$c"
 done
+
+exit 0
