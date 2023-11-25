@@ -23,7 +23,7 @@ rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns/v2ray-geodata ./package/v2ray-geodata
 # vsftpd
 pushd package/feeds/luci/luci-app-vsftpd
-move_2_services nas
+../scripts/move_2_services.sh nas
 popd
 # cpufreq
 sed -i 's,\"system\",\"services\",g' package/feeds/luci/luci-app-cpufreq/luasrc/controller/cpufreq.lua
