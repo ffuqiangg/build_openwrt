@@ -1,9 +1,13 @@
 #!/bin/bash
 
+source "../scripts/move_2_services.sh"
+
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
 ### Prepare package
+# Delete default menu setting
+sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 # Passwall
 cp -rf ../passwall_luci ./package/luci-app-passwall
 cp -rf ../passwall_pkg ./package/passwall-pkg
@@ -11,19 +15,18 @@ cp -rf ../passwall_pkg ./package/passwall-pkg
 cp -rf ../openclash ./package/luci-app-openclash
 # Filebrowser
 cp -rf ../lienol_package/luci-app-filebrowser ./package/luci-app-filebrowser
+pushd package/luci-app-filebrowser
+move_2_services nas
+popd
 # Mosdns
 cp -rf ../mosdns/mosdns ./package/mosdns
 cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns/v2ray-geodata ./package/v2ray-geodata
-
-### Change menu
-# Delete default setting
-sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 # vsftpd
-sed -i -e 's,\"nas\",\"services\",g' -e 's,\"NAS\",\"Services\",g' package/feeds/luci/luci-app-vsftpd/luasrc/controller/vsftpd.lua
-sed -i 's,nas,services,g' package/feeds/luci/luci-app-vsftpd/luasrc/model/cbi/vsftpd/item.lua
-sed -i 's,nas,services,g' package/feeds/luci/luci-app-vsftpd/luasrc/model/cbi/vsftpd/users.lua
+pushd package/feeds/luci/luci-app-vsftpd
+move_2_services nas
+popd
 # cpufreq
 sed -i 's,\"system\",\"services\",g' package/feeds/luci/luci-app-cpufreq/luasrc/controller/cpufreq.lua
 # rclone
@@ -53,10 +56,5 @@ sed -i -e 's|admin\",|& \"network\",|g' -e 's,admin/,&network/,g' package/feeds/
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
-# filebrowser
-sed -i -e 's/nas/services/g' -e 's/NAS/Services/g' package/luci-app-filebrowser/luasrc/controller/filebrowser.lua
-sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/download.htm
-sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/log.htm
-sed -i 's/nas/services/g' package/luci-app-filebrowser/luasrc/view/filebrowser/status.htm
 
 exit 0

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "../scripts/move_2_services.sh"
+
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
@@ -11,8 +13,6 @@ cp -rf ../mosdns/mosdns ./package/mosdns
 cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns/v2ray-geodata ./package/v2ray-geodata
-
-### Change Menu
 # samba4
 sed -i 's,nas,services,g' package/feeds/luci/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 # cpufreq
@@ -20,9 +20,9 @@ sed -i 's,system,services,g' package/feeds/luci/luci-app-cpufreq/root/usr/share/
 # hd-idle
 sed -i 's,nas,services,g' package/feeds/luci/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
 # vsftpd
-sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' package/feeds/luci/luci-app-vsftpd/luasrc/controller/vsftpd.lua
-sed -i 's,nas,services,g' package/feeds/luci/luci-app-vsftpd/luasrc/model/cbi/vsftpd/item.lua
-sed -i 's,nas,services,g' package/feeds/luci/luci-app-vsftpd/luasrc/model/cbi/vsftpd/users.lua
+pushd package/feeds/luci/luci-app-vsftpd
+move_2_services nas
+popd
 # filebrowser
 # sed -i -e 's/\"nas\"/\"services\"/g' -e 's/NAS/Services/g' package/feeds/luci/luci-app-filebrowser/luasrc/controller/filebrowser.lua
 # sed -i 's/nas/services/g' package/feeds/luci/luci-app-filebrowser/luasrc/view/filebrowser/filebrowser_status.htm

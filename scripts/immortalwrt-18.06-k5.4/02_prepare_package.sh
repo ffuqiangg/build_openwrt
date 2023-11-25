@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "../scripts/move_2_services.sh"
+
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
@@ -9,8 +11,6 @@ cp -rf ../mosdns/mosdns ./package/mosdns
 cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns/v2ray-geodata ./package/v2ray-geodata
-
-### Change menu
 # samba4
 sed -i 's,\"nas\",\"services\",g' package/feeds/luci/luci-app-samba4/luasrc/controller/samba4.lua
 # cpufreq
