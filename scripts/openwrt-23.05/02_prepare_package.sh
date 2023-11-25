@@ -110,8 +110,5 @@ cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
 # cp -rf ../lede_luci/applications/luci-app-filetransfer ./package/new/luci-app-filetransfer
 # sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/new/luci-app-filetransfer/Makefile
 # cp -rf ../lede_luci/libs/luci-app-fs ./package/libs/luci-app-fs
-# 翻译及部分功能优化
-cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
-sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/new/addition-trans-zh/Makefile
 
 exit 0

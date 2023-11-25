@@ -1,10 +1,10 @@
 #!/bin/bash
 
 clone_repo() {
-  repo_url=$1
-  branch_name=$2
-  target_dir=$3
-  git clone -b $branch_name --depth 1 $repo_url $target_dir
+    repo_url=$1
+    branch_name=$2
+    target_dir=$3
+    git clone -b $branch_name --depth 1 $repo_url $target_dir
 }
 
 immortalwrt_repo="https://github.com/immortalwrt/immortalwrt.git"
