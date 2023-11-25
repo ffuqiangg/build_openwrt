@@ -120,7 +120,7 @@ jobs:
         openwrt_kernel: 5.15.1
         kernel_usage: flippy
         auto_kernel: true
-        image_name: N1-OpenWrt-${{ env.latest_release }}
+        image_name: N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
