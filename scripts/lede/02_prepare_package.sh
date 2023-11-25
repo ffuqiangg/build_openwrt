@@ -14,7 +14,7 @@ cp -rf ../openclash ./package/luci-app-openclash
 # Filebrowser
 cp -rf ../lienol_package/luci-app-filebrowser ./package/luci-app-filebrowser
 pushd package/luci-app-filebrowser
-../scripts/move_2_services.sh nas
+bash ../scripts/move_2_services.sh nas
 popd
 # Mosdns
 cp -rf ../mosdns/mosdns ./package/mosdns
@@ -23,7 +23,7 @@ rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns/v2ray-geodata ./package/v2ray-geodata
 # vsftpd
 pushd package/feeds/luci/luci-app-vsftpd
-../scripts/move_2_services.sh nas
+bash ../scripts/move_2_services.sh nas
 popd
 # cpufreq
 sed -i 's,\"system\",\"services\",g' package/feeds/luci/luci-app-cpufreq/luasrc/controller/cpufreq.lua
