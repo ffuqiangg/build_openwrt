@@ -111,5 +111,10 @@ cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
 # cp -rf ../lede_luci/applications/luci-app-filetransfer ./package/luci-app-filetransfer
 # sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/luci-app-filetransfer/Makefile
 # cp -rf ../lede_luci/libs/luci-app-fs ./package/libs/luci-app-fs
+# Filebrowser
+cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
+pushd package/luci-app-filebrowser
+bash ../scripts/move_2_services.sh nas
+popd
 
 exit 0

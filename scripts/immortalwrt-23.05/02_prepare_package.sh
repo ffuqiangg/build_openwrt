@@ -25,6 +25,8 @@ popd
 # filebrowser
 # sed -i -e 's/\"nas\"/\"services\"/g' -e 's/NAS/Services/g' package/feeds/luci/luci-app-filebrowser/luasrc/controller/filebrowser.lua
 # sed -i 's/nas/services/g' package/feeds/luci/luci-app-filebrowser/luasrc/view/filebrowser/filebrowser_status.htm
+sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.26\.0," package/feeds/packages/utils/filebrowser/Makefile
+sed -i "s,PKG_HASH:=.*,PKG_HASH:=2953e5bc248824ea32d3131d94c452e981df7172e5bdb099490a8de6dfeaddc0," package/feeds/packages/utils/filebrowser/Makefile
 # rclone
 sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' package/feeds/luci/luci-app-rclone/luasrc/controller/rclone.lua
 # dockerman
