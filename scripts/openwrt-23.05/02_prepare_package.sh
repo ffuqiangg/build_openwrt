@@ -102,19 +102,17 @@ cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/luci-app-vlmcsd
 sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/luci-app-vlmcsd/Makefile
 cp -rf ../lede_pkg/net/vlmcsd ./package/vlmcsd
 # Vsftpd
-# cp -rf ../lede_luci/applications/luci-app-vsftpd ./package/luci-app-vsftpd
-# sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/luci-app-vsftpd/Makefile
-# cp -rf ../lede_pkg/net/vsftpd ./package/net/vsftpd
+cp -rf ../lede_luci/applications/luci-app-vsftpd ./package/luci-app-vsftpd
+sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/luci-app-vsftpd/Makefile
+cp -rf ../lede_pkg/net/vsftpd ./package/net/vsftpd
 # Filebrowser 文件浏览器
-cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
-# Filetransfer
-# cp -rf ../lede_luci/applications/luci-app-filetransfer ./package/luci-app-filetransfer
-# sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/luci-app-filetransfer/Makefile
-# cp -rf ../lede_luci/libs/luci-app-fs ./package/libs/luci-app-fs
-# Filebrowser
 cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
 pushd package/luci-app-filebrowser
 bash ../scripts/move_2_services.sh nas
 popd
+# Filetransfer
+cp -rf ../lede_luci/applications/luci-app-filetransfer ./package/luci-app-filetransfer
+sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/luci-app-filetransfer/Makefile
+cp -rf ../lede_luci/libs/luci-app-fs ./package/libs/luci-app-fs
 
 exit 0
