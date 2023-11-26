@@ -77,7 +77,7 @@ cp -rf ../lede_luci/applications/luci-app-frps ./package/luci-app-frps
 cp -rf ../lede_luci/applications/luci-app-frpc ./package/luci-app-frpc
 sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/luci-app-frps/Makefile
 sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/luci-app-frpc/Makefile
-# Luci app amlogic
+# 晶晨宝盒
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/luci-app-amlogic
 sed -i -e '/ROOT1=/c\ROOT1=\"720\"' -e '/ROOT2=/c\ROOT2=\"720\"' ./package/luci-app-amlogic/luci-app-amlogic/root/usr/sbin/openwrt-install-amlogic
 # Mosdns
