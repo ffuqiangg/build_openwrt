@@ -74,10 +74,8 @@ cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
 git clone --single-branch --depth 1 -b master https://github.com/vernesong/OpenClash.git ./package/luci-app-openclash
 # Passwall
 cp -rf ../passwall_luci/luci-app-passwall ./package/luci-app-passwall
-wget -P package/luci-app-passwall/ https://github.com/QiuSimons/OpenWrt-Add/raw/master/move_2_services.sh
-chmod -R 755 ./package/luci-app-passwall/move_2_services.sh
 pushd package/luci-app-passwall
-bash move_2_services.sh
+bash ../scripts/move_2_services.sh vpn
 popd
 cp -rf ../passwall_pkg ./package/passwall_pkg
 # Passwall 白名单
