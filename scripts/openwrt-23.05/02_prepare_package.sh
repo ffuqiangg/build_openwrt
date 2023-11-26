@@ -105,6 +105,9 @@ cp -rf ../lede_pkg/net/vlmcsd ./package/vlmcsd
 cp -rf ../lede_luci/applications/luci-app-vsftpd ./package/luci-app-vsftpd
 sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/luci-app-vsftpd/Makefile
 cp -rf ../lede_pkg/net/vsftpd ./package/net/vsftpd
+pushd package/luci-app-vsftpd
+bash ../scripts/move_2_services.sh nas
+popd
 # Filebrowser 文件浏览器
 cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
 pushd package/luci-app-filebrowser
