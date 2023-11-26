@@ -35,7 +35,7 @@ cp -rf ../passwall_pkg/chinadns-ng ./package/chinadns-ng
 # Docker 容器
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
-sed -i -e 's|admin\",|& \"services\",|g' -e 's,Docker,&Man,' -e 's,config\"),overview\"),' ./feeds/luci/luci-app-dockerman/luasrc/controller/dockerman.lua
+sed -i -e 's|admin\",|& \"services\",|g' -e 's,Docker,&Man,' -e 's,config\"),overview\"),' ./feeds/luci/applications/luci-app-dockerman/luasrc/controller/dockerman.lua
 sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/model/cbi/dockerman/container.lua
 sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/model/cbi/dockerman/containers.lua
 sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/model/cbi/dockerman/images.lua
@@ -94,7 +94,7 @@ git clone --single-branch --depth 1 -b master https://github.com/vernesong/OpenC
 # Passwall
 cp -rf ../passwall_luci/luci-app-passwall ./package/luci-app-passwall
 pushd package/luci-app-passwall
-bash ../scripts/move_2_services.sh vpn
+bash ../../../scripts/move_2_services.sh vpn
 popd
 cp -rf ../passwall_pkg ./package/passwall_pkg
 # Passwall 白名单
@@ -121,18 +121,18 @@ cp -rf ../lede_pkg/net/vlmcsd ./package/vlmcsd
 # Vsftpd
 cp -rf ../lede_luci/applications/luci-app-vsftpd ./package/luci-app-vsftpd
 sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/luci-app-vsftpd/Makefile
-cp -rf ../lede_pkg/net/vsftpd ./package/net/vsftpd
+cp -rf ../lede_pkg/net/vsftpd ./package/vsftpd
 pushd package/luci-app-vsftpd
-bash ../scripts/move_2_services.sh nas
+bash ../../../scripts/move_2_services.sh nas
 popd
 # Filebrowser 文件浏览器
 cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
 pushd package/luci-app-filebrowser
-bash ../scripts/move_2_services.sh nas
+bash ../../../scripts/move_2_services.sh nas
 popd
 # Filetransfer
 cp -rf ../lede_luci/applications/luci-app-filetransfer ./package/luci-app-filetransfer
 sed -i '/luci.mk/c\include $(TOPDIR)/feeds/luci/luci.mk' ./package/luci-app-filetransfer/Makefile
-cp -rf ../lede_luci/libs/luci-app-fs ./package/libs/luci-app-fs
+cp -rf ../lede_luci/libs/luci-app-fs ./package/luci-app-fs
 
 exit 0
