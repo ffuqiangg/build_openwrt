@@ -6,12 +6,12 @@ on:
       Clean_Release:
         description: "Cleanup Old Releases"
         required: false
-        default: true
+        default: false
         type: boolean
       Clean_Artifacts:
         description: "Cleanup Old Artifacts"
         required: false
-        default: true
+        default: false
         type: boolean
       Clean_Workflow_Logs:
         description: "Cleanup Workflow Logs"
