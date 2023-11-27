@@ -45,14 +45,14 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         echo "status=success" >> ${GITHUB_OUTPUT}
 
-    - name: Prepare openwrt-23.05
+    - name: Prepare source code
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/openwrt-23.05/. ./
         /bin/bash 01_get_ready.sh
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
 
-    - name: Prepare Package
+    - name: Prepare package
       run: |
         cd openwrt
         cp -r ../scripts/openwrt-23.05/. ./
@@ -76,7 +76,7 @@ jobs:
         cp ../config/openwrt-23.05/config.seed .config
         make defconfig
 
-    - name: Get Architecture
+    - name: Get architecture
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
@@ -103,14 +103,20 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
 
-    - name: If Error
+    - name: If error
       if: steps.compile.outcome == 'failure'
       run: |
         cat openwrt/.config
         echo '================================================================'
         cd openwrt && make -j1 V=s
 
-    - name: Package Openwrt
+    - name: Upload firmware directory
+      uses: actions/upload-artifact@main
+      with:
+        name: OpenWrt_rootfs_${{ env.build_date }}
+        path: openwrt/bin/targets/*/*/*rootfs.tar.gz
+
+    - name: Package firmware
       uses: ffuqiangg/amlogic-s9xxx-openwrt@main
       with:
         openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz

@@ -24,7 +24,6 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Initialization environment
-      id: init
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
@@ -44,9 +43,8 @@ jobs:
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
         sudo timedatectl set-timezone "$TZ"
-        echo "status=success" >> ${GITHUB_OUTPUT}
 
-    - name: Prepare immortalwrt-18.06-k5.4
+    - name: Prepare source code
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/immortalwrt-18.06-k5.4/. ./
@@ -71,7 +69,7 @@ jobs:
         cp ../config/immortalwrt-18.06-k5.4/config.seed .config
         make defconfig
 
-    - name: Get Architecture
+    - name: Get architecture
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
@@ -84,7 +82,6 @@ jobs:
         prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
-      id: package
       run: |
         cd openwrt
         make download -j8
@@ -93,14 +90,27 @@ jobs:
 
     - name: Compile the firmware
       id: compile
+      continue-on-error: true
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 || make -j1 V=s
-        echo "status=success" >> ${GITHUB_OUTPUT}
 
-    - name: Package Openwrt
-      if: steps.compile.outputs.status == 'success'
+    - name: If error
+      if: steps.compile.outcome == 'failure'
+      run: |
+        cat openwrt/.config
+        echo '================================================================'
+        cd openwrt && make -j1 V=s
+  
+    - name: Upload firmware directory
+      uses: actions/upload-artifact@main
+      with:
+        name: OpenWrt_rootfs_${{ env.build_date }}
+        path: openwrt/bin/targets/*/*/*rootfs.tar.gz
+
+
+    - name: Package firmware
       uses: ffuqiangg/openwrt_packit@master
       env:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
