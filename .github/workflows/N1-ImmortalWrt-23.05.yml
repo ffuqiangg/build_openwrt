@@ -75,18 +75,6 @@ jobs:
         cd openwrt
         cp ../config/immortalwrt-23.05/config.seed .config
         make defconfig
-        
-    - name: Get architecture
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
-        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>${GITHUB_ENV}
-
-    - name: Cache
-      uses: HiGarfield/cachewrtbuild@main
-      with:
-        mixkey: ${{ env.TARGET_DEVICE_ARCH }}
-        prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
       run: |
@@ -129,7 +117,7 @@ jobs:
         image_name: N1-ImmortalWrt-${{ env.latest_release }}-${{ env.build_date }}
 
     - name: Upload firmware to release
-      uses: ncipollo/release-action@main
+      uses: ncipollo/release-action@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
