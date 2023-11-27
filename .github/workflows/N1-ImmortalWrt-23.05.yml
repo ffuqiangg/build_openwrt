@@ -105,7 +105,6 @@ jobs:
         path: openwrt/bin
 
     - name: Package firmware
-      if: steps.compile.outputs.status == 'success'
       uses: ffuqiangg/amlogic-s9xxx-openwrt@main
       with:
         openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz

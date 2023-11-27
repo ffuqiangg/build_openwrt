@@ -5,8 +5,8 @@
 
 ### Prepare package
 # Luci-app-amlogic
-cp -rf ../amlogic/luci-app-amlogic package/luci-app-amlogic
-sed -i -e '/ROOT1=/c\ROOT1=\"720\"' -e '/ROOT2=/c\ROOT2=\"720\"' ./package/luci-app-amlogic/luci-app-amlogic/root/usr/sbin/openwrt-install-amlogic
+cp -rf ../amlogic/luci-app-amlogic ./package/luci-app-amlogic
+sed -i -e '/ROOT1=/c\ROOT1=\"720\"' -e '/ROOT2=/c\ROOT2=\"720\"' ./package/luci-app-amlogic/root/usr/sbin/openwrt-install-amlogic
 # Mosdns
 cp -rf ../mosdns/mosdns ./package/mosdns
 cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns
@@ -25,8 +25,8 @@ popd
 # filebrowser
 # sed -i -e 's/\"nas\"/\"services\"/g' -e 's/NAS/Services/g' package/feeds/luci/luci-app-filebrowser/luasrc/controller/filebrowser.lua
 # sed -i 's/nas/services/g' package/feeds/luci/luci-app-filebrowser/luasrc/view/filebrowser/filebrowser_status.htm
-sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.26\.0," package/feeds/packages/utils/filebrowser/Makefile
-sed -i "s,PKG_HASH:=.*,PKG_HASH:=2953e5bc248824ea32d3131d94c452e981df7172e5bdb099490a8de6dfeaddc0," package/feeds/packages/utils/filebrowser/Makefile
+sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.26\.0," package/feeds/packages/filebrowser/Makefile
+sed -i "s,PKG_HASH:=.*,PKG_HASH:=2953e5bc248824ea32d3131d94c452e981df7172e5bdb099490a8de6dfeaddc0," package/feeds/packages/filebrowser/Makefile
 # rclone
 sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' package/feeds/luci/luci-app-rclone/luasrc/controller/rclone.lua
 # dockerman
