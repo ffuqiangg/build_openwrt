@@ -107,7 +107,7 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt_rootfs_${{ env.build_date }}
-        path: openwrt/bin/targets/*/*/*rootfs.tar.gz
+        path: openwrt/bin
 
 
     - name: Package firmware
