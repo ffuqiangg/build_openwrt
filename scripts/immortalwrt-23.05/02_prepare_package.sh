@@ -7,6 +7,9 @@
 # Luci-app-amlogic
 cp -rf ../amlogic/luci-app-amlogic ./package/luci-app-amlogic
 sed -i -e '/ROOT1=/c\ROOT1=\"720\"' -e '/ROOT2=/c\ROOT2=\"720\"' ./package/luci-app-amlogic/root/usr/sbin/openwrt-install-amlogic
+# Wget
+rm -rf ./feeds/packages/net/wget
+cp -rf ../lede_pkg/net/wget ./feeds/packages/net/wget
 # Mosdns
 cp -rf ../mosdns/mosdns ./package/mosdns
 cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns
