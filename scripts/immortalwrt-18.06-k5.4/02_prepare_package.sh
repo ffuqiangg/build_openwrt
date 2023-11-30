@@ -4,6 +4,10 @@
 ./scripts/feeds install -a
 
 ### Prepare package
+# Default settings
+rm ./package/emortal/default-settings/files/openwrt_banner
+sed -i '/openwrt_banner/d' ./package/emortal/default-settings/files/99-default-settings
+sed -i '39,41d' ./package/emortal/default-settings/Makefile
 # Mosdns
 cp -rf ../mosdns/mosdns ./package/mosdns
 cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns
