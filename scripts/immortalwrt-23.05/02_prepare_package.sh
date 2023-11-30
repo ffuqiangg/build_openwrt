@@ -4,8 +4,6 @@
 ./scripts/feeds install -a
 
 ### Prepare package
-# Default settings
-sed -i '/openwrt_banner/d' ./package/emortal/default-settings/files/99-default-settings
 # Luci-app-amlogic
 cp -rf ../amlogic/luci-app-amlogic ./package/luci-app-amlogic
 sed -i -e '/ROOT1=/c\ROOT1=\"720\"' -e '/ROOT2=/c\ROOT2=\"720\"' ./package/luci-app-amlogic/root/usr/sbin/openwrt-install-amlogic
