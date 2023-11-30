@@ -61,7 +61,6 @@ jobs:
       run: |
         cp -rf files openwrt/
         sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_VERSION,ImmortalWrt 18.06 K5.4," ./openwrt/files/etc/banner
-        rm ./openwrt/package/emortal/default-settings/files/openwrt_banner
 
     - name: Make config
       run: |
