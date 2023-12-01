@@ -116,7 +116,7 @@ cp -rf ../lede_luci/applications/luci-app-ramfree ./feeds/luci/applications/luci
 cp -rf ../lede_luci/applications/luci-app-vlmcsd ./feeds/luci/applications/luci-app-vlmcsd
 cp -rf ../lede_pkg/net/vlmcsd ./feeds/packages/net/vlmcsd
 # Vsftpd
-cp -rf ../lede_luci/applications/luci-app-vsftpd ./feeds/luci/applications/luci-app-vsftpd
+cp -rf ../immortalwrt_luci_23/applications/luci-app-vsftpd ./feeds/luci/applications/luci-app-vsftpd
 pushd feeds/luci/applications/luci-app-vsftpd
 bash ../../../../../scripts/move_2_services.sh nas
 popd
@@ -126,8 +126,7 @@ pushd package/luci-app-filebrowser
 bash ../../../scripts/move_2_services.sh nas
 popd
 # Filetransfer
-cp -rf ../lede_luci/applications/luci-app-filetransfer ./feeds/luci/applications/luci-app-filetransfer
-cp -rf ../lede_luci/libs/luci-lib-fs ./feeds/luci/libs/luci-lib-fs
-cp -rf ../lede/package/lean/vsftpd-alt ./package/new/vsftpd-alt
+cp -rf ../immortalwrt_luci_23/applications/luci-app-filetransfer ./feeds/luci/applications/luci-app-filetransfer
+cp -rf ../immortalwrt_luci_23/libs/luci-lib-fs ./feeds/luci/libs/luci-lib-fs
 
 exit 0
