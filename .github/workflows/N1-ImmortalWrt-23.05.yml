@@ -100,13 +100,13 @@ jobs:
       continue-on-error: true
       run: |
         cd openwrt
+        IGNORE_ERRORS=1 make -j$(($(nproc) + 1))
+        echo $?
 
     - name: If error
       if: steps.compile.outcome == 'failure'
       run: |
         cd openwrt && make -j1 V=s
-        IGNORE_ERRORS=1 make -j$(($(nproc) + 1))
-        echo $?
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
