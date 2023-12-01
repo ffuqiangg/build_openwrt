@@ -113,7 +113,7 @@ ntp.ntsc.ac.cn
 cp -rf ../lede_luci/applications/luci-app-ramfree ./feeds/luci/applications/luci-app-ramfree
 # KMS 激活助手
 cp -rf ../lede_luci/applications/luci-app-vlmcsd ./feeds/luci/applications/luci-app-vlmcsd
-cp -rf ../lede_pkg/net/vlmcsd ./feeds/pakages/net/vlmcsd
+cp -rf ../lede_pkg/net/vlmcsd ./feeds/packages/net/vlmcsd
 # Vsftpd
 cp -rf ../lede_luci/applications/luci-app-vsftpd ./feeds/luci/applications/luci-app-vsftpd
 pushd feeds/luci/applications/luci-app-vsftpd
@@ -126,7 +126,7 @@ bash ../../../scripts/move_2_services.sh nas
 popd
 # Filetransfer
 cp -rf ../lede_luci/applications/luci-app-filetransfer ./feeds/luci/applications/luci-app-filetransfer
-cp -rf ../lede_luci/libs/luci-app-fs ./feeds/luci/libs/luci-app-fs
+cp -rf ../lede_luci/libs/luci-lib-fs ./feeds/luci/libs/luci-lib-fs
 cp -rf ../lede/package/lean/vsftpd-alt ./package/vsftpd-alt
 
 exit 0
