@@ -127,7 +127,7 @@ bash ../../../../scripts/move_2_services.sh nas
 popd
 # Filetransfer
 cp -rf ../lede_luci/applications/luci-app-filetransfer ./package/new/luci-app-filetransfer
-cp -rf ../lede_luci/libs/luci-lib-fs ./feeds/luci/libs/luci-lib-fs
-cp -rf ../lede/package/lean/vsftpd-alt ./package/vsftpd-alt
+cp -rf ../lede_luci/libs/luci-lib-fs ./package/new/luci-lib-fs
+cp -rf ../lede/package/lean/vsftpd-alt ./package/new/vsftpd-alt
 
 exit 0
