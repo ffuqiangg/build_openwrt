@@ -73,8 +73,8 @@ rm -rf ./feeds/packages/net/frp
 cp -rf ../immortalwrt_pkg/net/frp ./feeds/packages/net/frp
 sed -i '/etc/d' ./feeds/packages/net/frp/Makefile
 sed -i '/defaults/{N;d;}' ./feeds/packages/net/frp/Makefile
-cp -rf ../lede_luci/applications/luci-app-frps ./package/luci-app-frps
-cp -rf ../lede_luci/applications/luci-app-frpc ./package/luci-app-frpc
+cp -rf ../lede_luci/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
+cp -rf ../lede_luci/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
 # 晶晨宝盒
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/luci-app-amlogic
 sed -i -e '/ROOT1=/c\ROOT1=\"720\"' -e '/ROOT2=/c\ROOT2=\"720\"' ./package/luci-app-amlogic/luci-app-amlogic/root/usr/sbin/openwrt-install-amlogic
@@ -110,14 +110,14 @@ cn.ntp.org.cn
 ntp.ntsc.ac.cn
 ' >>./package/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # 清理内存
-cp -rf ../lede_luci/applications/luci-app-ramfree ./package/luci-app-ramfree
+cp -rf ../lede_luci/applications/luci-app-ramfree ./feeds/luci/applications/luci-app-ramfree
 # KMS 激活助手
-cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/luci-app-vlmcsd
+cp -rf ../lede_luci/applications/luci-app-vlmcsd ./feeds/luci/applications/luci-app-vlmcsd
 cp -rf ../lede_pkg/net/vlmcsd ./feeds/packages/net/vlmcsd
 # Vsftpd
-cp -rf ../lede_luci/applications/luci-app-vsftpd ./package/luci-app-vsftpd
-pushd package/luci-app-vsftpd
-bash ../../../scripts/move_2_services.sh nas
+cp -rf ../lede_luci/applications/luci-app-vsftpd ./feeds/luci/applications/luci-app-vsftpd
+pushd feeds/luci/applications/luci-app-vsftpd
+bash ../../../../../scripts/move_2_services.sh nas
 popd
 # Filebrowser 文件浏览器
 cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
@@ -125,8 +125,8 @@ pushd package/luci-app-filebrowser
 bash ../../../scripts/move_2_services.sh nas
 popd
 # Filetransfer
-cp -rf ../lede_luci/applications/luci-app-filetransfer ./package/luci-app-filetransfer
-cp -rf ../lede_luci/libs/luci-lib-fs ./package/luci-lib-fs
+cp -rf ../lede_luci/applications/luci-app-filetransfer ./feeds/luci/applications/luci-app-filetransfer
+cp -rf ../lede_luci/libs/luci-lib-fs ./feeds/luci/libs/luci-lib-fs
 cp -rf ../lede/package/lean/vsftpd-alt ./package/vsftpd-alt
 
 exit 0
