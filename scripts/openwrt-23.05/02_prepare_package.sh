@@ -7,12 +7,6 @@
 sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
-# 更换为 ImmortalWrt Uboot 以及 Target
-rm -rf ./target/linux/armsr
-cp -rf ../immortalwrt_23/target/linux/armsr ./target/linux/armsr
-rm -rf ./package/boot/uboot-armsr
-cp -rf ../immortalwrt_23/package/boot/uboot-armsr ./package/boot/uboot-armsr
-
 ### 获取额外的 LuCI 应用、主题和依赖 ###
 # AutoCore
 mkdir -p package/new
