@@ -3,10 +3,6 @@
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
-# 移除 SNAPSHOT 标签
-sed -i 's,-SNAPSHOT,,g' include/version.mk
-sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
-
 ### 获取额外的 LuCI 应用、主题和依赖 ###
 # AutoCore
 mkdir -p package/new
