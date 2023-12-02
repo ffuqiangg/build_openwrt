@@ -7,6 +7,15 @@
 sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
+# 更换为 ImmortalWrt Uboot 以及 Target
+rm -rf ./target/linux/rockchip
+cp -rf ../immortalwrt_23/target/linux/rockchip ./target/linux/rockchip
+cp -rf ../PATCH/rockchip-5.15/* ./target/linux/rockchip/patches-5.15/
+rm -rf ./package/boot/uboot-rockchip
+cp -rf ../immortalwrt_23/package/boot/uboot-rockchip ./package/boot/uboot-rockchip
+rm -rf ./package/boot/arm-trusted-firmware-rockchip
+cp -rf ../immortalwrt_23/package/boot/arm-trusted-firmware-rockchip ./package/boot/arm-trusted-firmware-rockchip
+
 ### 获取额外的 LuCI 应用、主题和依赖 ###
 # AutoCore
 mkdir -p package/new
