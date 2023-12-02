@@ -128,4 +128,9 @@ ln -sf ../../../feeds/luci/applications/luci-app-filetransfer ./package/feeds/lu
 cp -rf ../immortalwrt_luci_23/libs/luci-lib-fs ./feeds/luci/libs/luci-lib-fs
 ln -sf ../../../feeds/luci/libs/luci-lib-fs ./package/feeds/luci/luci-lib-fs
 
+### 最后的收尾工作 ###
+# 生成默认配置及缓存
+rm -rf .config
+sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
+
 exit 0
