@@ -133,7 +133,7 @@ jobs:
         tag: ${{ env.build_date }}
         allowUpdates: true
         replacesArtifacts: true
-        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-ImmortalWrt-*.zip
+        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-ImmortalWrt-18.06-K5.4-${{ env.build_date }}.zip
 
     - name: Telegram notification
       run: |
