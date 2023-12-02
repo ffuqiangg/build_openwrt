@@ -126,5 +126,6 @@ popd
 cp -rf ../immortalwrt_luci_23/applications/luci-app-filetransfer ./feeds/luci/applications/luci-app-filetransfer
 ln -sf ../../../feeds/luci/applications/luci-app-filetransfer ./package/feeds/luci/luci-app-filetransfer
 cp -rf ../immortalwrt_luci_23/libs/luci-lib-fs ./feeds/luci/libs/luci-lib-fs
+ln -sf ../../../feeds/luci/libs/luci-lib-fs ./package/feeds/luci/luci-lib-fs
 
 exit 0
