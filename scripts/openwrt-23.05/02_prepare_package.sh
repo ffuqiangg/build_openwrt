@@ -8,13 +8,10 @@ sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
 # 更换为 ImmortalWrt Uboot 以及 Target
-rm -rf ./target/linux/rockchip
-cp -rf ../immortalwrt_23/target/linux/rockchip ./target/linux/rockchip
-cp -rf ../PATCH/rockchip-5.15/* ./target/linux/rockchip/patches-5.15/
-rm -rf ./package/boot/uboot-rockchip
-cp -rf ../immortalwrt_23/package/boot/uboot-rockchip ./package/boot/uboot-rockchip
-rm -rf ./package/boot/arm-trusted-firmware-rockchip
-cp -rf ../immortalwrt_23/package/boot/arm-trusted-firmware-rockchip ./package/boot/arm-trusted-firmware-rockchip
+rm -rf ./target/linux/armsr
+cp -rf ../immortalwrt_23/target/linux/armsr ./target/linux/armsr
+rm -rf ./package/boot/uboot-armsr
+cp -rf ../immortalwrt_23/package/boot/uboot-armsr ./package/boot/uboot-armsr
 
 ### 获取额外的 LuCI 应用、主题和依赖 ###
 # AutoCore
@@ -35,8 +32,10 @@ sed -i "s,-O3,-Ofast -funroll-loops -fpeel-loops -fgcse-sm -fgcse-las,g" feeds/p
 cp -rf ../immortalwrt_23/package/utils/mhz ./package/utils/mhz
 # MAC 地址与 IP 绑定
 cp -rf ../immortalwrt_luci/applications/luci-app-arpbind ./feeds/luci/applications/luci-app-arpbind
+ln -sf ../../../feeds/luci/applications/luci-app-arpbind ./package/feeds/luci/luci-app-arpbind
 # 定时重启
 cp -rf ../immortalwrt_luci/applications/luci-app-autoreboot ./feeds/luci/applications/luci-app-autoreboot
+ln -sf ../../../feeds/luci/applications/luci-app-autoreboot ./package/feeds/luci/luci-app-autoreboot
 # ChinaDNS
 git clone -b luci --depth 1 https://github.com/QiuSimons/openwrt-chinadns-ng.git package/luci-app-chinadns-ng
 cp -rf ../passwall_pkg/chinadns-ng ./package/chinadns-ng
@@ -120,10 +119,11 @@ ntp.ntsc.ac.cn
 # 清理内存
 cp -rf ../lede_luci/applications/luci-app-ramfree ./feeds/luci/applications/luci-app-ramfree
 # KMS 激活助手
-cp -rf ../lede_luci/applications/luci-app-vlmcsd ./feeds/luci/applications/luci-app-vlmcsd
-cp -rf ../lede_pkg/net/vlmcsd ./feeds/packages/net/vlmcsd
+cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
+cp -rf ../lede_pkg/net/vlmcsd ./package/new/vlmcsd
 # Vsftpd
 cp -rf ../immortalwrt_luci_23/applications/luci-app-vsftpd ./feeds/luci/applications/luci-app-vsftpd
+ln -sf ../../../feeds/luci/applications/luci-app-vsftpd ./package/feeds/luci/luci-app-vsftpd
 pushd feeds/luci/applications/luci-app-vsftpd
 bash ../../../../../scripts/move_2_services.sh nas
 popd
@@ -134,6 +134,7 @@ bash ../../../scripts/move_2_services.sh nas
 popd
 # Filetransfer
 cp -rf ../immortalwrt_luci_23/applications/luci-app-filetransfer ./feeds/luci/applications/luci-app-filetransfer
+ln -sf ../../../feeds/luci/applications/luci-app-filetransfer ./package/feeds/luci/luci-app-filetransfer
 cp -rf ../immortalwrt_luci_23/libs/luci-lib-fs ./feeds/luci/libs/luci-lib-fs
 
 exit 0
