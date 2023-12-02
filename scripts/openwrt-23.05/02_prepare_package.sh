@@ -107,7 +107,7 @@ cn.ntp.org.cn
 ntp.ntsc.ac.cn
 ' >>./package/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # 清理内存
-cp -rf ../lede_luci/applications/luci-app-ramfree ./feeds/luci/applications/luci-app-ramfree
+cp -rf ../lede_luci/applications/luci-app-ramfree ./package/new/luci-app-ramfree
 # KMS 激活助手
 cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
 cp -rf ../lede_pkg/net/vlmcsd ./package/new/vlmcsd
