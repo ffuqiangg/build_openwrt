@@ -8,6 +8,7 @@ clone_repo() {
 }
 
 openwrt_repo="https://github.com/openwrt/openwrt.git"
+openwrt_pkg_repo="https://github.com/openwrt/packages.git"
 immortalwrt_repo="https://github.com/immortalwrt/immortalwrt.git"
 immortalwrt_pkg_repo="https://github.com/immortalwrt/packages.git"
 immortalwrt_luci_repo="https://github.com/immortalwrt/luci.git"
@@ -39,6 +40,7 @@ clone_repo $lede_luci_repo master lede_luci &
 clone_repo $lede_pkg_repo master lede_pkg &
 clone_repo $openwrt_repo main openwrt_ma &
 clone_repo $openwrt_repo openwrt-22.03 openwrt_22 &
+clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 clone_repo $lienol_repo 23.05 Lienol &
 clone_repo $lienol_pkg_repo main Lienol_pkg &
 clone_repo $openwrt_add_repo master OpenWrt-Add &

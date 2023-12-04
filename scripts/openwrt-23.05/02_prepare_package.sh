@@ -1,9 +1,14 @@
 #!/bin/bash
 
+### 基础部分 ###
+# 更新 Feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
+# 移除 SNAPSHOT 标签
+sed -i 's,-SNAPSHOT,,g' include/version.mk
+sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
-### 获取额外的 LuCI 应用、主题和依赖 ###
+### 获取额外的 LuCI 应用和依赖 ###
 # 晶晨宝盒
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
 # AutoCore
@@ -27,6 +32,17 @@ ln -sf ../../../feeds/luci/applications/luci-app-arpbind ./package/feeds/luci/lu
 # 定时重启
 cp -rf ../immortalwrt_luci/applications/luci-app-autoreboot ./feeds/luci/applications/luci-app-autoreboot
 ln -sf ../../../feeds/luci/applications/luci-app-autoreboot ./package/feeds/luci/luci-app-autoreboot
+# Boost 通用即插即用
+rm -rf ./feeds/packages/net/miniupnpd
+cp -rf ../openwrt_pkg_ma/net/miniupnpd ./feeds/packages/net/miniupnpd
+pushd feeds/packages
+patch -p1 <../../../patch/miniupnpd/01-set-presentation_url.patch
+patch -p1 <../../../patch/miniupnpd/02-force_forwarding.patch
+patch -p1 <../../../patch/miniupnpd/03-Update-301-options-force_forwarding-support.patch.patch
+popd
+pushd feeds/luci
+wget -qO- https://github.com/openwrt/luci/commit/0b5fb915.patch | patch -p1
+popd
 # ChinaDNS
 git clone -b luci --depth 1 https://github.com/QiuSimons/openwrt-chinadns-ng.git package/new/luci-app-chinadns-ng
 cp -rf ../passwall_pkg/chinadns-ng ./package/new/chinadns-ng
@@ -89,7 +105,16 @@ cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 pushd package/new/luci-app-passwall
 bash ../../../../scripts/move_2_services.sh vpn
 popd
-cp -rf ../passwall_pkg ./package/new/passwall_pkg
+cp -rf ../passwall_pkg/tcping ./package/new/tcping
+cp -rf ../passwall_pkg/trojan-go ./package/new/trojan-go
+cp -rf ../passwall_pkg/brook ./package/new/brook
+cp -rf ../passwall_pkg/ssocks ./package/new/ssocks
+cp -rf ../passwall_pkg/microsocks ./package/new/microsocks
+cp -rf ../passwall_pkg/dns2socks ./package/new/dns2socks
+cp -rf ../passwall_pkg/ipt2socks ./package/new/ipt2socks
+cp -rf ../passwall_pkg/pdnsd-alt ./package/new/pdnsd-alt
+cp -rf ../OpenWrt-Add/trojan-plus ./package/new/trojan-plus
+cp -rf ../passwall_pkg/xray-plugin ./package/new/xray-plugin
 # Passwall 白名单
 echo '
 teamviewer.com
