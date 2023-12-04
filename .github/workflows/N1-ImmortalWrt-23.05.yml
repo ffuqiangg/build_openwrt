@@ -79,7 +79,7 @@ jobs:
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
-        mixkey: im23
+        mixkey: ${{ env.build_date }}-immortalwrt-23.05
         prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package

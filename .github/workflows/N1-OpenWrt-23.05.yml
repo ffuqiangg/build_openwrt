@@ -58,6 +58,11 @@ jobs:
         cp -r ../scripts/openwrt-23.05/. ./
         /bin/bash 02_prepare_package.sh
 
+    - name: Convert Translation
+      run: |
+        cd openwrt
+        /bin/bash 03_convert_translation.sh
+
     - name: Iptables
       run: |
         cd openwrt
@@ -84,7 +89,7 @@ jobs:
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
-        mixkey: op23
+        mixkey: ${{ env.build_date }}-openwrt-23.05
         prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package

@@ -4,8 +4,9 @@
 ./scripts/feeds install -a
 
 ### 获取额外的 LuCI 应用、主题和依赖 ###
+# 晶晨宝盒
+git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
 # AutoCore
-mkdir -p package/new
 cp -rf ../immortalwrt_23/package/emortal/autocore ./package/new/autocore
 sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/new/autocore/files/luci-mod-status-autocore.json
 cp -rf ../OpenWrt-Add/autocore/files/x86/autocore ./package/new/autocore/files/autocore
@@ -60,7 +61,7 @@ sed -i '/sysctl.d/d' ./feeds/packages/utils/dockerd/Makefile
 rm -rf ./feeds/luci/collections/luci-lib-docker
 cp -rf ../docker_lib/collections/luci-lib-docker ./feeds/luci/collections/luci-lib-docker
 # DiskMan
-cp -rf ../diskman/applications/luci-app-diskman ./package/luci-app-diskman
+cp -rf ../diskman/applications/luci-app-diskman ./package/new/luci-app-diskman
 mkdir -p package/parted && \
 wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
 # FRP 内网穿透
@@ -72,8 +73,6 @@ sed -i '/etc/d' ./feeds/packages/net/frp/Makefile
 sed -i '/defaults/{N;d;}' ./feeds/packages/net/frp/Makefile
 cp -rf ../lede_luci/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
 cp -rf ../lede_luci/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
-# 晶晨宝盒
-git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
 # Mosdns
 cp -rf ../mosdns/mosdns ./package/new/mosdns
 cp -rf ../mosdns/luci-app-mosdns ./package/new/luci-app-mosdns
@@ -104,7 +103,7 @@ checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn
-' >>./package/luci-app-passwall/root/usr/share/passwall/rules/direct_host
+' >>./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # 清理内存
 cp -rf ../lede_luci/applications/luci-app-ramfree ./package/new/luci-app-ramfree
 # KMS 激活助手
@@ -129,11 +128,6 @@ sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 
 ### 最后的收尾工作 ###
-# 处理 Makefile 文件
-makefile_file="$({ find package -type f | grep Makefile | sed "/Makefile./d"; } 2>"/dev/null")"
-for a in ${makefile_file}; do
-    [ -n "$(grep "luci.mk" "$a")" ] && sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" "$a"
-done
 # 生成默认配置及缓存
 rm -rf .config
 sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
