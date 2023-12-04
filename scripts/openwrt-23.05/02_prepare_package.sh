@@ -125,6 +125,8 @@ cp -rf ../immortalwrt_luci_23/applications/luci-app-filetransfer ./package/new/l
 cp -rf ../immortalwrt_luci_23/libs/luci-lib-fs ./package/new/luci-lib-fs
 # nlbw
 sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
+# ttyd
+sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 
 ### 最后的收尾工作 ###
 # 处理 Makefile 文件
