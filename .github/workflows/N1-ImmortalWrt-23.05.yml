@@ -61,7 +61,7 @@ jobs:
     - name: Iptables
       run: |
         cd openwrt
-        /bin/bash 03_ipt.sh
+        /bin/bash 04_demote_iptables.sh
 
     - name: Load custom configuration
       run: |
