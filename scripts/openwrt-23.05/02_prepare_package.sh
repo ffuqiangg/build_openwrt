@@ -27,8 +27,8 @@ ln -sf ../../../feeds/luci/applications/luci-app-arpbind ./package/feeds/luci/lu
 cp -rf ../immortalwrt_luci/applications/luci-app-autoreboot ./feeds/luci/applications/luci-app-autoreboot
 ln -sf ../../../feeds/luci/applications/luci-app-autoreboot ./package/feeds/luci/luci-app-autoreboot
 # ChinaDNS
-git clone -b luci --depth 1 https://github.com/QiuSimons/openwrt-chinadns-ng.git package/luci-app-chinadns-ng
-cp -rf ../passwall_pkg/chinadns-ng ./package/chinadns-ng
+git clone -b luci --depth 1 https://github.com/QiuSimons/openwrt-chinadns-ng.git package/new/luci-app-chinadns-ng
+cp -rf ../passwall_pkg/chinadns-ng ./package/new/chinadns-ng
 # Docker 容器
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
@@ -73,25 +73,24 @@ sed -i '/defaults/{N;d;}' ./feeds/packages/net/frp/Makefile
 cp -rf ../lede_luci/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
 cp -rf ../lede_luci/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
 # 晶晨宝盒
-git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/luci-app-amlogic
-sed -i -e '/ROOT1=/c\ROOT1=\"720\"' -e '/ROOT2=/c\ROOT2=\"720\"' ./package/luci-app-amlogic/luci-app-amlogic/root/usr/sbin/openwrt-install-amlogic
+git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
 # Mosdns
-cp -rf ../mosdns/mosdns ./package/mosdns
-cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns
+cp -rf ../mosdns/mosdns ./package/new/mosdns
+cp -rf ../mosdns/luci-app-mosdns ./package/new/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
-cp -rf ../mosdns/v2ray-geodata ./package/v2ray-geodata
+cp -rf ../mosdns/v2ray-geodata ./package/new/v2ray-geodata
 # homeproxy
-git clone --single-branch --depth 1 -b dev https://github.com/immortalwrt/homeproxy.git ./package/luci-app-homeproxy
+git clone --single-branch --depth 1 -b dev https://github.com/immortalwrt/homeproxy.git ./package/new/luci-app-homeproxy
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
 # OpenClash
-git clone --single-branch --depth 1 -b master https://github.com/vernesong/OpenClash.git ./package/luci-app-openclash
+git clone --single-branch --depth 1 -b master https://github.com/vernesong/OpenClash.git ./package/new/luci-app-openclash
 # Passwall
-cp -rf ../passwall_luci/luci-app-passwall ./package/luci-app-passwall
-pushd package/luci-app-passwall
-bash ../../../scripts/move_2_services.sh vpn
+cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
+pushd package/new/luci-app-passwall
+bash ../../../../scripts/move_2_services.sh vpn
 popd
-cp -rf ../passwall_pkg ./package/passwall_pkg
+cp -rf ../passwall_pkg ./package/new/passwall_pkg
 # Passwall 白名单
 echo '
 teamviewer.com
@@ -112,23 +111,27 @@ cp -rf ../lede_luci/applications/luci-app-ramfree ./package/new/luci-app-ramfree
 cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
 cp -rf ../lede_pkg/net/vlmcsd ./package/new/vlmcsd
 # Vsftpd
-cp -rf ../immortalwrt_luci_23/applications/luci-app-vsftpd ./feeds/luci/applications/luci-app-vsftpd
-ln -sf ../../../feeds/luci/applications/luci-app-vsftpd ./package/feeds/luci/luci-app-vsftpd
-pushd feeds/luci/applications/luci-app-vsftpd
-bash ../../../../../scripts/move_2_services.sh nas
+cp -rf ../immortalwrt_luci_23/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
+pushd package/new/luci-app-vsftpd
+bash ../../../../scripts/move_2_services.sh nas
 popd
 # Filebrowser 文件浏览器
-cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
-pushd package/luci-app-filebrowser
-bash ../../../scripts/move_2_services.sh nas
+cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
+pushd package/new/luci-app-filebrowser
+bash ../../../../scripts/move_2_services.sh nas
 popd
 # Filetransfer
-cp -rf ../immortalwrt_luci_23/applications/luci-app-filetransfer ./feeds/luci/applications/luci-app-filetransfer
-ln -sf ../../../feeds/luci/applications/luci-app-filetransfer ./package/feeds/luci/luci-app-filetransfer
-cp -rf ../immortalwrt_luci_23/libs/luci-lib-fs ./feeds/luci/libs/luci-lib-fs
-ln -sf ../../../feeds/luci/libs/luci-lib-fs ./package/feeds/luci/luci-lib-fs
+cp -rf ../immortalwrt_luci_23/applications/luci-app-filetransfer ./package/new/luci-app-filetransfer
+cp -rf ../immortalwrt_luci_23/libs/luci-lib-fs ./package/new/luci-lib-fs
+# nlbw
+sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 
 ### 最后的收尾工作 ###
+# 处理 Makefile 文件
+makefile_file="$({ find package -type f | grep Makefile | sed "/Makefile./d"; } 2>"/dev/null")"
+for a in ${makefile_file}; do
+    [ -n "$(grep "luci.mk" "$a")" ] && sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" "$a"
+done
 # 生成默认配置及缓存
 rm -rf .config
 sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
