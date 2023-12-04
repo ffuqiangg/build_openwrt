@@ -151,6 +151,10 @@ cp -rf ../immortalwrt_luci_23/libs/luci-lib-fs ./package/new/luci-lib-fs
 sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 # ttyd
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+# 翻译及部分功能优化
+cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
+cp -f ../patch/addition-trans-zh/files/zzz-defautl-settings ./package/new/addition-trans-zh/files/zzz-defautl-settings
+sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/new/addition-trans-zh/Makefile
 
 ### 最后的收尾工作 ###
 # 生成默认配置及缓存
