@@ -144,7 +144,7 @@ sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # 翻译及部分功能优化
 cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
-cp -f ../patch/addition-trans-zh/files/zzz-defautl-settings ./package/new/addition-trans-zh/files/zzz-defautl-settings
+cp -f ../patch/addition-trans-zh/files/zzz-default-settings ./package/new/addition-trans-zh/files/zzz-default-settings
 sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/new/addition-trans-zh/Makefile
 
 ### 最后的收尾工作 ###
