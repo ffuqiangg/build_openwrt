@@ -196,25 +196,4 @@ sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/ne
 rm -rf .config
 sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
 
-### Shortcut-FE 部分 ###
-# Patch Kernel 以支持 Shortcut-FE
-cp -rf ../lede/target/linux/generic/hack-5.15/953-net-patch-linux-kernel-to-support-shortcut-fe.patch ./target/linux/generic/hack-5.15/953-net-patch-linux-kernel-to-support-shortcut-fe.patch
-cp -rf ../lede/target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch ./target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch
-# Patch LuCI 以增添 Shortcut-FE 开关
-patch -p1 < ../patch/firewall/luci-app-firewall_add_sfe_switch.patch
-# Shortcut-FE 相关组件
-mkdir ./package/lean
-mkdir ./package/lean/shortcut-fe
-cp -rf ../lede/package/lean/shortcut-fe/fast-classifier ./package/lean/shortcut-fe/fast-classifier
-wget -qO - https://github.com/coolsnowwolf/lede/commit/331f04f.patch | patch -p1
-wget -qO - https://github.com/coolsnowwolf/lede/commit/232b8b4.patch | patch -p1
-wget -qO - https://github.com/coolsnowwolf/lede/commit/ec795c9.patch | patch -p1
-wget -qO - https://github.com/coolsnowwolf/lede/commit/789f805.patch | patch -p1
-wget -qO - https://github.com/coolsnowwolf/lede/commit/6398168.patch | patch -p1
-cp -rf ../lede/package/lean/shortcut-fe/shortcut-fe ./package/lean/shortcut-fe/shortcut-fe
-wget -qO - https://github.com/coolsnowwolf/lede/commit/0e29809.patch | patch -p1
-wget -qO - https://github.com/coolsnowwolf/lede/commit/eb70dad.patch | patch -p1
-wget -qO - https://github.com/coolsnowwolf/lede/commit/7ba3ec0.patch | patch -p1
-cp -rf ../lede/package/lean/shortcut-fe/simulated-driver ./package/lean/shortcut-fe/simulated-driver
-
 exit 0
