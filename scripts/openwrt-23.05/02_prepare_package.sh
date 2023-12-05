@@ -8,17 +8,6 @@
 sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
-### 必要的 Patches ###
-# SSL
-rm -rf ./package/libs/mbedtls
-cp -rf ../immortalwrt/package/libs/mbedtls ./package/libs/mbedtls
-#rm -rf ./package/libs/openssl
-#cp -rf ../immortalwrt_21/package/libs/openssl ./package/libs/openssl
-# fstool
-wget -qO - https://github.com/coolsnowwolf/lede/commit/8a4db76.patch | patch -p1
-# wg
-cp -rf ../patch/wg/* ./target/linux/generic/hack-5.15/
-
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
 cp -rf ../lede/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch ./target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
