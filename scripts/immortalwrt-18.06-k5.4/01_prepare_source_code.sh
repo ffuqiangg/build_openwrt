@@ -2,7 +2,8 @@
 
 # Clone source code
 git clone --single-branch -b openwrt-18.06-k5.4 --depth 1 https://github.com/immortalwrt/immortalwrt openwrt &
-git clone --single-branch -b master --depth 1 https://github.com/QiuSimons/openwrt-mos.git mosdns
+git clone --single-branch -b master --depth 1 https://github.com/QiuSimons/openwrt-mos.git mosdns &
+git clone -b main --depth 1 https://github.com/sirpdboy/sirpdboy-package sirpdboy &
 
 wait
 

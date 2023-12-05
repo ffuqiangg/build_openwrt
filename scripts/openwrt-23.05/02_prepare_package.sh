@@ -8,6 +8,31 @@
 sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
+### 必要的 Patches ###
+# TCP optimizations
+cp -rf ../patch/backport/TCP/* ./target/linux/generic/backport-5.15/
+# BBRv3
+cp -rf ../patch/BBRv3/kernel/* ./target/linux/generic/backport-5.15/
+# LRNG
+cp -rf ../patch/LRNG/* ./target/linux/generic/hack-5.15/
+echo '
+# CONFIG_RANDOM_DEFAULT_IMPL is not set
+CONFIG_LRNG=y
+# CONFIG_LRNG_IRQ is not set
+CONFIG_LRNG_JENT=y
+CONFIG_LRNG_CPU=y
+# CONFIG_LRNG_SCHED is not set
+' >>./target/linux/generic/config-5.15
+# SSL
+rm -rf ./package/libs/mbedtls
+cp -rf ../immortalwrt/package/libs/mbedtls ./package/libs/mbedtls
+#rm -rf ./package/libs/openssl
+#cp -rf ../immortalwrt_21/package/libs/openssl ./package/libs/openssl
+# fstool
+wget -qO - https://github.com/coolsnowwolf/lede/commit/8a4db76.patch | patch -p1
+# wg
+cp -rf ../patch/wg/* ./target/linux/generic/hack-5.15/
+
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
 cp -rf ../lede/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch ./target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
@@ -173,6 +198,14 @@ cp -rf ../immortalwrt_luci_23/libs/luci-lib-fs ./package/new/luci-lib-fs
 sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 # ttyd
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+# sirpdboy
+mkdir -p package/sirpdboy
+cp -rf ../sirpdboy/luci-app-autotimeset ./package/sirpdboy/luci-app-autotimeset
+sed -i 's,"control","system",g' package/sirpdboy/luci-app-autotimeset/luasrc/controller/autotimeset.lua
+sed -i '/firstchild/d' package/sirpdboy/luci-app-autotimeset/luasrc/controller/autotimeset.lua
+sed -i 's,control,system,g' package/sirpdboy/luci-app-autotimeset/luasrc/view/autotimeset/log.htm
+sed -i '/start()/a \    echo "Service autotimesetrun started!" >/dev/null' package/sirpdboy/luci-app-autotimeset/root/etc/init.d/autotimesetrun
+rm -rf ./package/sirpdboy/luci-app-autotimeset/po/zh_Hans
 # 翻译及部分功能优化
 cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
 cp -f ../patch/addition-trans-zh/files/zzz-default-settings ./package/new/addition-trans-zh/files/zzz-default-settings
@@ -182,5 +215,26 @@ sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/ne
 # 生成默认配置及缓存
 rm -rf .config
 sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
+
+### Shortcut-FE 部分 ###
+# Patch Kernel 以支持 Shortcut-FE
+cp -rf ../lede/target/linux/generic/hack-5.15/953-net-patch-linux-kernel-to-support-shortcut-fe.patch ./target/linux/generic/hack-5.15/953-net-patch-linux-kernel-to-support-shortcut-fe.patch
+cp -rf ../lede/target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch ./target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch
+# Patch LuCI 以增添 Shortcut-FE 开关
+patch -p1 < ../patch/firewall/luci-app-firewall_add_sfe_switch.patch
+# Shortcut-FE 相关组件
+mkdir ./package/lean
+mkdir ./package/lean/shortcut-fe
+cp -rf ../lede/package/lean/shortcut-fe/fast-classifier ./package/lean/shortcut-fe/fast-classifier
+wget -qO - https://github.com/coolsnowwolf/lede/commit/331f04f.patch | patch -p1
+wget -qO - https://github.com/coolsnowwolf/lede/commit/232b8b4.patch | patch -p1
+wget -qO - https://github.com/coolsnowwolf/lede/commit/ec795c9.patch | patch -p1
+wget -qO - https://github.com/coolsnowwolf/lede/commit/789f805.patch | patch -p1
+wget -qO - https://github.com/coolsnowwolf/lede/commit/6398168.patch | patch -p1
+cp -rf ../lede/package/lean/shortcut-fe/shortcut-fe ./package/lean/shortcut-fe/shortcut-fe
+wget -qO - https://github.com/coolsnowwolf/lede/commit/0e29809.patch | patch -p1
+wget -qO - https://github.com/coolsnowwolf/lede/commit/eb70dad.patch | patch -p1
+wget -qO - https://github.com/coolsnowwolf/lede/commit/7ba3ec0.patch | patch -p1
+cp -rf ../lede/package/lean/shortcut-fe/simulated-driver ./package/lean/shortcut-fe/simulated-driver
 
 exit 0

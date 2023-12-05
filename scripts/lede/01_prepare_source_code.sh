@@ -6,7 +6,8 @@ git clone --single-branch --depth 1 https://github.com/xiaorouji/openwrt-passwal
 git clone --single-branch --depth 1 https://github.com/xiaorouji/openwrt-passwall-packages.git passwall_pkg &
 git clone --depth 1 --single-branch -b master https://github.com/vernesong/OpenClash openclash &
 git clone --single-branch -b main --depth 1 https://github.com/Lienol/openwrt-package.git lienol_package &
-git clone --single-branch -b master --depth 1 https://github.com/QiuSimons/openwrt-mos.git mosdns
+git clone --single-branch -b master --depth 1 https://github.com/QiuSimons/openwrt-mos.git mosdns &
+git clone -b main --depth 1 https://github.com/sirpdboy/sirpdboy-package sirpdboy &
 
 wait
 

@@ -5,7 +5,8 @@ git clone -b openwrt-23.05 --depth 1 https://github.com/immortalwrt/immortalwrt.
 git clone -b openwrt-22.03 --depth 1 https://github.com/openwrt/openwrt.git openwrt_22 &
 git clone -b master --depth 1 https://github.com/coolsnowwolf/packages.git lede_pkg &
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git amlogic &
-git clone -b master --depth 1 https://github.com/QiuSimons/openwrt-mos.git mosdns
+git clone -b master --depth 1 https://github.com/QiuSimons/openwrt-mos.git mosdns &
+git clone -b main --depth 1 https://github.com/sirpdboy/sirpdboy-package sirpdboy &
 
 wait
 

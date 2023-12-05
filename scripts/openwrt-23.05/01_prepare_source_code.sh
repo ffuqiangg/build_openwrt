@@ -24,6 +24,7 @@ dockerman_repo="https://github.com/lisaac/luci-app-dockerman"
 diskman_repo="https://github.com/lisaac/luci-app-diskman"
 docker_lib_repo="https://github.com/lisaac/luci-lib-docker"
 mosdns_repo="https://github.com/QiuSimons/openwrt-mos"
+sirpdboy_repo="https://github.com/sirpdboy/sirpdboy-package"
 
 # 开始克隆仓库，并行执行
 clone_repo $openwrt_repo openwrt-23.05 openwrt &
@@ -50,6 +51,7 @@ clone_repo $dockerman_repo master dockerman &
 clone_repo $diskman_repo master diskman &
 clone_repo $docker_lib_repo master docker_lib &
 clone_repo $mosdns_repo master mosdns &
+clone_repo $sirpdboy_repo main sirpdboy &
 
 wait
 
