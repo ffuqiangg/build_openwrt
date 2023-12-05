@@ -100,6 +100,7 @@ CONFIG_PACKAGE_luci-app-samba4=y
 CONFIG_PACKAGE_luci-app-ttyd=y
 CONFIG_PACKAGE_luci-app-vlmcsd=y
 CONFIG_PACKAGE_luci-app-vsftpd=y
+CONFIG_PACKAGE_luci-app-v2raya=y
 CONFIG_PACKAGE_luci-app-upnp=y
 
 ### PASSWALL ###

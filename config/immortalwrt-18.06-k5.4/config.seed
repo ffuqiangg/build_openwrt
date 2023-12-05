@@ -66,6 +66,7 @@ CONFIG_PACKAGE_luci-app-ttyd=y
 CONFIG_PACKAGE_luci-app-upnp=y
 CONFIG_PACKAGE_luci-app-vlmcsd=y
 CONFIG_PACKAGE_luci-app-vsftpd=y
+CONFIG_PACKAGE_luci-app-v2raya=y
 
 ### TURBOACC ###
 CONFIG_PACKAGE_luci-app-turboacc=y

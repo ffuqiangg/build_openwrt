@@ -62,5 +62,10 @@ sed -i '/firstchild/d' package/sirpdboy/luci-app-autotimeset/luasrc/controller/a
 sed -i 's,control,system,g' package/sirpdboy/luci-app-autotimeset/luasrc/view/autotimeset/log.htm
 sed -i '/start()/a \    echo "Service autotimesetrun started!" >/dev/null' package/sirpdboy/luci-app-autotimeset/root/etc/init.d/autotimesetrun
 rm -rf ./package/sirpdboy/luci-app-autotimeset/po/zh_Hans
+# v2raya
+git clone --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
+rm -rf ./feeds/packages/net/v2raya
+cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
+ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 
 exit 0
