@@ -9,10 +9,6 @@ sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
 ### 必要的 Patches ###
-# TCP optimizations
-cp -rf ../patch/backport/TCP/* ./target/linux/generic/backport-5.15/
-# BBRv3
-cp -rf ../patch/BBRv3/kernel/* ./target/linux/generic/backport-5.15/
 # SSL
 rm -rf ./package/libs/mbedtls
 cp -rf ../immortalwrt/package/libs/mbedtls ./package/libs/mbedtls
