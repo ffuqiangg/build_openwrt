@@ -15,7 +15,7 @@ openwrt_add_repo="https://github.com/QiuSimons/OpenWrt-Add.git"
 mosdns_repo="https://github.com/QiuSimons/openwrt-mos"
 sirpdboy_repo="https://github.com/sirpdboy/sirpdboy-package"
 openclash_repo="https://github.com/vernesong/OpenClash"
-openwrt_pkg_repo="https://github.com/openwrt/packages.git
+openwrt_pkg_repo="https://github.com/openwrt/packages.git"
 
 clone_repo $lede_repo master openwrt &
 clone_repo $passwall_pkg_repo main passwall_pkg &
