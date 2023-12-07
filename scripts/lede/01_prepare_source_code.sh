@@ -8,23 +8,22 @@ clone_repo() {
 }
 
 lede_repo="https://github.com/coolsnowwolf/lede.git"
+immortalwrt_pkg_repo="https://github.com/immortalwrt/packages"
 passwall_pkg_repo="https://github.com/xiaorouji/openwrt-passwall-packages"
 passwall_luci_repo="https://github.com/xiaorouji/openwrt-passwall"
 lienol_pkg_repo="https://github.com/Lienol/openwrt-package"
-openwrt_add_repo="https://github.com/QiuSimons/OpenWrt-Add.git"
 mosdns_repo="https://github.com/QiuSimons/openwrt-mos"
 sirpdboy_repo="https://github.com/sirpdboy/sirpdboy-package"
 openclash_repo="https://github.com/vernesong/OpenClash"
-openwrt_pkg_repo="https://github.com/openwrt/packages.git"
 
 clone_repo $lede_repo master openwrt &
+clone_repo $immortalwrt_pkg_repo openwrt-18.06 immortalwrt_pkg_18.06 &
 clone_repo $passwall_pkg_repo main passwall_pkg &
 clone_repo $passwall_luci_repo main passwall_luci &
 clone_repo $lienol_pkg_repo main Lienol_pkg &
 clone_repo $mosdns_repo master mosdns &
 clone_repo $sirpdboy_repo main sirpdboy &
 clone_repi $openclash_repo master openclash &
-clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 
 wait
 
