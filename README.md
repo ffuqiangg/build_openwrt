@@ -9,6 +9,7 @@
 ### 说明
 
 - 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)，下载前往 [Releases](https://github.com/ffuqiangg/build_openwrt/releases)
+- 默认 IP：192.168.1.99，  默认密码：password
 - 插件包含：PassWall，OpenClash，Homeproxy，v2rayA，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP服务器，DockerMan，DocKer Compose，UPNP  
 `* Homeproxy 为 ImmortalWrt/OpenWrt 23.05 特有`
 - 固件对一些命令进行了简化，如 `ungz` = `tar -xvzf`，`777` = `chmod -R 777`，`mkdirg` = `创建并进入目录`, `bd` = `回到之前目录` 等，详情可查看仓库 files/etc/shinit 文件。
