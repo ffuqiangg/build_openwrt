@@ -61,5 +61,9 @@ sed -i '/firstchild/d' package/sirpdboy/luci-app-autotimeset/luasrc/controller/a
 sed -i 's,control,system,g' package/sirpdboy/luci-app-autotimeset/luasrc/view/autotimeset/log.htm
 sed -i '/start()/a \    echo "Service autotimesetrun started!" >/dev/null' package/sirpdboy/luci-app-autotimeset/root/etc/init.d/autotimesetrun
 rm -rf ./package/sirpdboy/luci-app-autotimeset/po/zh_Hans
+# verysync
+pushd package/feeds/luci/luci-app-verysync
+bash ../../../../../move_2_servieces.sh nas
+popd
 
 exit 0

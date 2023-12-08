@@ -186,6 +186,11 @@ sed -i '/firstchild/d' package/sirpdboy/luci-app-autotimeset/luasrc/controller/a
 sed -i 's,control,system,g' package/sirpdboy/luci-app-autotimeset/luasrc/view/autotimeset/log.htm
 sed -i '/start()/a \    echo "Service autotimesetrun started!" >/dev/null' package/sirpdboy/luci-app-autotimeset/root/etc/init.d/autotimesetrun
 rm -rf ./package/sirpdboy/luci-app-autotimeset/po/zh_Hans
+# verysync
+cp -rf ../Lienol_pkg/luci-app-verysync ./package/new/luci-app-verysync
+pushd package/new/luci-app-verysync
+bash ../../../../scripts/move_2_services.sh nas
+popd
 # 翻译及部分功能优化
 cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
 cp -f ../patch/addition-trans-zh/files/zzz-default-settings ./package/new/addition-trans-zh/files/zzz-default-settings
