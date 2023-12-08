@@ -71,10 +71,16 @@ jobs:
         cp ../config/lede/config.seed .config
         make defconfig
 
+    - name: Get Architecture
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        TARGET_DEVICE_ARCH="$(grep "^CONFIG_TARGET_.*_.*=y$" ".config" | head -n 1 | sed 's/^CONFIG_TARGET_//g' | awk -F '_' '{print $1}')"
+        echo "TARGET_DEVICE_ARCH=${TARGET_DEVICE_ARCH}" >>${GITHUB_ENV}
+
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
-        mixkey: ${{ env.build_date }}-lede
+        mixkey: ${{ env.TARGET_DEVICE_ARCH }}
         prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
