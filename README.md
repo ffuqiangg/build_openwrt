@@ -12,7 +12,7 @@
 - 默认 IP：192.168.1.99，  默认密码：password
 - 插件包含：PassWall，OpenClash，Homeproxy，v2rayA，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP服务器，DockerMan，DocKer Compose，UPNP  
 `* Homeproxy 为 ImmortalWrt/OpenWrt 23.05 特有`
-- 固件对一些命令进行了简化，如 `ungz` = `tar -xvzf`，`777` = `chmod -R 777`，`mkdirg` = `创建并进入目录`, `bd` = `回到之前目录` 等，详情可查看仓库 files/etc/shinit 文件。
+- 固件对一些命令进行了简化，如 `ungz` = `tar -xvzf`，`777` = `chmod -R 777`，`mkdirg` = `创建并进入目录`, `bd` = `回到之前目录` 等，详情可查看仓库 patch/files/etc/shinit 文件。
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
 - 刷机方法：将固件写入U盘，插入设备并从U盘启动。进入终端输入命令 `openwrt-install-amlogic` 然后根据屏幕提示完成刷机。
 - 升级固件/内核：将固件/内核文件（内核文件须包含 `dtb-xxx.tar.gz`, `modules-xxx.tar.gz`, `boot-xxx.tar.gz` 文件）放入 `/mnt/mmcblk2p4` 目录，终端输入命令 `openwrt-update-amlogic` 升级固件，`openwrt-kernel` 升级内核。
