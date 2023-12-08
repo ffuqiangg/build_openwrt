@@ -22,7 +22,7 @@ uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
 uci commit passwall
 
 #Feeds 更换镜像源
-#sed -i 's,21.02,21.02-SNAPSHOT,g' /etc/opkg/distfeeds.conf
+sed -i 's,23.05,23.05.2,g' /etc/opkg/distfeeds.conf
 sed -i 's,downloads.openwrt.org,mirror.sjtu.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
 
 #uhttpd 设置
@@ -38,14 +38,8 @@ uci commit uhttpd
 #在防火墙默认开启全锥形 NAT 以及关闭 Flow Offloading 并开启 SFE
 uci set firewall.@defaults[0].fullcone='2'
 [ -f '/sbin/fw4' ] && uci set firewall.@defaults[0].fullcone='1'
-uci set firewall.@defaults[0].shortcut_fe='0'
-uci set firewall.@defaults[0].flow_offloading='1'
 uci set firewall.@defaults[0].input='ACCEPT'
 uci commit firewall
-
-#SFE
-sed -i '/shortcutfe/d' /usr/share/rpcd/ucode/luci
-sed -i '/offloading/ a\                shortcutfe: access('\''/etc/init.d/shortcut-fe'\'') == true,' /usr/share/rpcd/ucode/luci
 
 #默认开启 Packet Steering
 uci set network.globals.packet_steering='1'
