@@ -69,4 +69,4 @@ colorscheme desert
 "hi StatusLineNC cterm=NONE ctermfg=8 ctermbg=NONE
 
 " Statusline configure
-"set statusline=\ %<%-20.(%f\ %h%m%r%w%)\ \ \ %P\ %-11.(\(%l,%c\)%)\[%{&fenc}\|%{&ff}\]
+set statusline=%<%f%h%m%r%w%=\ %{&fenc}\/%{&ff}\ \ %{&ft}\ \ %l:%c\ %P
