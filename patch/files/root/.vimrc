@@ -1,42 +1,42 @@
-set nocompatible                    " use vim defaults
-set showcmd                         " display incomplete commands
-set showmatch                       " jump to matchs when entering parenthes
-set matchtime=1                     " tenths of a secend to show the matching parenthes
-set backspace=indent,eol,start      " make that backspace key work the way it should
-set textwidth=0                     " don't wrap lines by default
-set ruler                           " show the current row and column
-set number                          " show line numbers
-set wildmenu                        " show list instead of just completing
-set splitright                      " put new split window in right
-set nobackup                        " don't keep a backup file
-set fillchars=vert:│                " change vertsplit character
+set nocompatible                     " use vim defaults
+set showcmd                          " display incomplete commands
+set showmatch                        " jump to matchs when entering parenthes
+set matchtime=1                      " tenths of a secend to show the matching parenthes
+set backspace=indent,eol,start       " make that backspace key work the way it should
+set textwidth=0                      " don't wrap lines by default
+set ruler                            " show the current row and column
+set number                           " show line numbers
+set wildmenu                         " show list instead of just completing
+set splitright                       " put new split window in right
+set nobackup                         " don't keep a backup file
+set fillchars=vert:│                 " change vertsplit character
 
 "set nowrap                          " line exceed screen don't wrap
-set breakindent                     " set indent in wrap
-set breakindentopt=shift:1          " wrap line additional indent
+set breakindent                      " set indent in wrap
+set breakindentopt=shift:1           " wrap line additional indent
 "set list                            " show nontext
 "set listchars=extends:>,precedes:<  " show at line left/right if wrap is off
-set sidescroll=1                    " line exceed screen cursor smooth scrolling
-set laststatus=2                    " always show statusline
+set sidescroll=1                     " line exceed screen cursor smooth scrolling
+"set laststatus=2                    " always show statusline
 "set numberwidth=5                   " line number width configure 
 "set cursorline                      " highlight current line
-set scrolloff=2                     " keep <n> lines when scrolling
+set scrolloff=2                      " keep <n> lines when scrolling
 
-set novisualbell                    " turn off visualbell
-set noerrorbells                    " turn off errorbell
+set novisualbell                     " turn off visualbell
+set noerrorbells                     " turn off errorbell
 
-set hlsearch                        " highlight searchs
-set incsearch                       " do incremental searching
-set ignorecase                      " ignore case when searching
-set smartcase                       " no ignorecase if Uppercase char present
+set hlsearch                         " highlight searchs
+set incsearch                        " do incremental searching
+set ignorecase                       " ignore case when searching
+set smartcase                        " no ignorecase if Uppercase char present
 
-set autoindent                      " always set autoindenting on
-set smartindent                     " indent works for c-like
-set tabstop=4                       " <Tab> width look for
-set expandtab                       " expand <Tab> as spaces
-set softtabstop=4                   " spaces number when insert <Tab>
-set shiftround                      " indent not to multiple of 'shiftwidth'
-set shiftwidth=4                    " number of spaces to use for (auto)indent
+set autoindent                       " always set autoindenting on
+set smartindent                      " indent works for c-like
+set tabstop=4                        " <Tab> width look for
+set expandtab                        " expand <Tab> as spaces
+set softtabstop=4                    " spaces number when insert <Tab>
+set shiftround                       " indent not to multiple of 'shiftwidth'
+set shiftwidth=4                     " number of spaces to use for (auto)indent
 
 " key map
 nnoremap k gk
@@ -50,7 +50,7 @@ autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " User Interface customize
 "set t_Co=256                        " color number
-set background=dark                 " background color
+set background=dark                  " background color
 colorscheme desert
 "hi Normal ctermbg=NONE
 "hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
@@ -69,4 +69,4 @@ colorscheme desert
 "hi StatusLineNC cterm=NONE ctermfg=8 ctermbg=NONE
 
 " Statusline configure
-set statusline=%<%f%h%m%r%w%=\ %{&fenc}\/%{&ff}\ \ %{&ft}\ \ %l:%c\ %P
+"set statusline=%<%f%h%m%r%w%=\ %{&fenc}\/%{&ff}\ \ %{&ft}\ \ %l:%c\ %P
