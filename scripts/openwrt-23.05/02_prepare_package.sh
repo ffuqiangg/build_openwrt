@@ -172,8 +172,8 @@ pushd package/new/luci-app-filebrowser
 bash ../../../../scripts/move_2_services.sh nas
 popd
 # Filetransfer
-cp -rf ../immortalwrt_luci_23/applications/luci-app-filetransfer ./package/new/luci-app-filetransfer
-cp -rf ../immortalwrt_luci_23/libs/luci-lib-fs ./package/new/luci-lib-fs
+cp -rf ../immortalwrt_luci_21/applications/luci-app-filetransfer ./package/new/luci-app-filetransfer
+cp -rf ../immortalwrt_luci_21/libs/luci-lib-fs ./package/new/luci-lib-fs
 # nlbw
 sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 # ttyd
