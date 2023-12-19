@@ -187,8 +187,8 @@ sed -i 's,control,system,g' package/sirpdboy/luci-app-autotimeset/luasrc/view/au
 sed -i '/start()/a \    echo "Service autotimesetrun started!" >/dev/null' package/sirpdboy/luci-app-autotimeset/root/etc/init.d/autotimesetrun
 rm -rf ./package/sirpdboy/luci-app-autotimeset/po/zh_Hans
 # verysync
-cp -rf ../Lienol_pkg/luci-app-verysync ./package/new/luci-app-verysync
-cp -rf ../Lienol_pkg/verysync ./package/new/verysync
+cp -rf ../immortalwrt_luci_23/applications/luci-app-verysync ./package/new/luci-app-verysync
+cp -rf ../immortalwrt_pkg/net/verysync ./package/new/verysync
 pushd package/new/luci-app-verysync
 bash ../../../../scripts/move_2_services.sh nas
 popd
