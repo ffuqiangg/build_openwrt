@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. ../scripts/funcations.sh
+
 ### 基础部分 ###
 # 更新 Feeds
 ./scripts/feeds update -a
@@ -134,7 +136,7 @@ git clone --single-branch --depth 1 -b master https://github.com/vernesong/OpenC
 # Passwall
 cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 pushd package/new/luci-app-passwall
-bash ../../../../scripts/move_2_services.sh vpn
+move_2_services vpn
 popd
 cp -rf ../passwall_pkg ./package/new/passwall_pkg
 # Passwall 白名单
@@ -164,12 +166,12 @@ cp -rf ../lede_pkg/net/vlmcsd ./package/new/vlmcsd
 # Vsftpd
 cp -rf ../immortalwrt_luci_23/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
 pushd package/new/luci-app-vsftpd
-bash ../../../../scripts/move_2_services.sh nas
+move_2_services nas
 popd
 # Filebrowser 文件浏览器
 cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
 pushd package/new/luci-app-filebrowser
-bash ../../../../scripts/move_2_services.sh nas
+move_2_services nas
 popd
 # Filetransfer
 # cp -rf ../immortalwrt_luci_21/applications/luci-app-filetransfer ./package/new/luci-app-filetransfer
@@ -190,7 +192,7 @@ rm -rf ./package/sirpdboy/luci-app-autotimeset/po/zh_Hans
 cp -rf ../immortalwrt_luci_23/applications/luci-app-verysync ./package/new/luci-app-verysync
 cp -rf ../immortalwrt_pkg/net/verysync ./package/new/verysync
 pushd package/new/luci-app-verysync
-bash ../../../../scripts/move_2_services.sh nas
+move_2_services nas
 popd
 # 翻译及部分功能优化
 cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh

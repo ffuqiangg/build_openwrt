@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. ../scripts/funcations.sh
+
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
@@ -14,7 +16,7 @@ cp -rf ../openclash ./package/luci-app-openclash
 # Filebrowser
 cp -rf ../lienol_package/luci-app-filebrowser ./package/luci-app-filebrowser
 pushd package/luci-app-filebrowser
-bash ../../../scripts/move_2_services.sh nas
+move_2_services nas
 popd
 # Mosdns
 cp -rf ../mosdns/mosdns ./package/mosdns
@@ -23,7 +25,7 @@ rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns/v2ray-geodata ./package/v2ray-geodata
 # vsftpd
 pushd package/feeds/luci/luci-app-vsftpd
-bash ../../../../../scripts/move_2_services.sh nas
+move_2_services nas
 popd
 # cpufreq
 sed -i 's,\"system\",\"services\",g' package/feeds/luci/luci-app-cpufreq/luasrc/controller/cpufreq.lua
@@ -69,7 +71,7 @@ ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # verysync
 cp -rf ../Lienol_pkg/luci-app-verysync ./package/luci-app-verysync
 pushd package/luci-app-verysync
-bash ../../../scripts/move_2_services.sh nas
+move_2_services nas
 popd
 
 exit 0

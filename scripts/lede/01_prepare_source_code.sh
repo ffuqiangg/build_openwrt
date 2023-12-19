@@ -1,20 +1,6 @@
 #!/bin/bash
 
-clone_repo() {
-    repo_url=$1
-    branch_name=$2
-    target_dir=$3
-    git clone -b $branch_name --depth 1 $repo_url $target_dir
-}
-
-lede_repo="https://github.com/coolsnowwolf/lede.git"
-immortalwrt_pkg_repo="https://github.com/immortalwrt/packages"
-passwall_pkg_repo="https://github.com/xiaorouji/openwrt-passwall-packages"
-passwall_luci_repo="https://github.com/xiaorouji/openwrt-passwall"
-lienol_pkg_repo="https://github.com/Lienol/openwrt-package"
-mosdns_repo="https://github.com/QiuSimons/openwrt-mos"
-sirpdboy_repo="https://github.com/sirpdboy/sirpdboy-package"
-openclash_repo="https://github.com/vernesong/OpenClash"
+. ../scripts/funcations.sh
 
 clone_repo $lede_repo master openwrt &
 clone_repo $immortalwrt_pkg_repo openwrt-18.06 immortalwrt_pkg_18.06 &

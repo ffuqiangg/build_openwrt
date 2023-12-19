@@ -1,11 +1,13 @@
 #!/bin/bash
 
+. ../scripts/funcations.sh
+
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
 ### Prepare package
 # Luci-app-amlogic
-cp -rf ../amlogic/luci-app-amlogic ./package/luci-app-amlogic
+git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/luci-app-amlogic
 # Wget
 rm -rf ./feeds/packages/net/wget
 cp -rf ../lede_pkg/net/wget ./feeds/packages/net/wget
@@ -22,7 +24,7 @@ sed -i 's,system,services,g' package/feeds/luci/luci-app-cpufreq/root/usr/share/
 sed -i 's,nas,services,g' package/feeds/luci/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
 # vsftpd
 pushd package/feeds/luci/luci-app-vsftpd
-bash ../../../../../scripts/move_2_services.sh nas
+move_2_services nas
 popd
 # filebrowser
 # sed -i -e 's/\"nas\"/\"services\"/g' -e 's/NAS/Services/g' package/feeds/luci/luci-app-filebrowser/luasrc/controller/filebrowser.lua
@@ -63,7 +65,7 @@ sed -i '/start()/a \    echo "Service autotimesetrun started!" >/dev/null' packa
 rm -rf ./package/sirpdboy/luci-app-autotimeset/po/zh_Hans
 # verysync
 pushd package/feeds/luci/luci-app-verysync
-bash ../../../../../move_2_servieces.sh nas
+move_2_services nas
 popd
 
 exit 0

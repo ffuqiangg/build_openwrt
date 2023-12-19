@@ -1,12 +1,13 @@
 #!/bin/bash
 
+. ../scripts/funcations.sh
+
 # Clone source code
-git clone -b openwrt-23.05 --depth 1 https://github.com/immortalwrt/immortalwrt.git openwrt &
-git clone -b openwrt-22.03 --depth 1 https://github.com/openwrt/openwrt.git openwrt_22 &
-git clone -b master --depth 1 https://github.com/coolsnowwolf/packages.git lede_pkg &
-git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git amlogic &
-git clone -b master --depth 1 https://github.com/QiuSimons/openwrt-mos.git mosdns &
-git clone -b main --depth 1 https://github.com/sirpdboy/sirpdboy-package sirpdboy &
+clone_repo $immortalwrt_repo openwrt-23.05 openwrt &
+clone_repo $openwrt_repo openwrt-22.03 openwrt_22 &
+clone_repo $lede_pkg_repo master lede_pkg &
+clone_repo $mosdns_repo master mosdns &
+clone_repo $sirpdboy_repo main sirpdboy &
 
 wait
 

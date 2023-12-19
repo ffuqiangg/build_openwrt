@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. ../scripts/funcations.sh
+
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
@@ -63,7 +65,7 @@ rm -rf ./package/sirpdboy/luci-app-autotimeset/po/zh_Hans
 git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
 # verysync
 pushd package/feeds/luci/luci-app-verysync
-bash ../../../../../scripts/move_2_services.sh nas
+move_2_services nas
 popd
 
 exit 0

@@ -1,9 +1,11 @@
 #!/bin/bash
 
+. ../scripts/funcations.sh
+
 # Clone source code
-git clone --single-branch -b openwrt-18.06-k5.4 --depth 1 https://github.com/immortalwrt/immortalwrt openwrt &
-git clone --single-branch -b master --depth 1 https://github.com/QiuSimons/openwrt-mos.git mosdns &
-git clone -b main --depth 1 https://github.com/sirpdboy/sirpdboy-package sirpdboy &
+clone_repo $immortalwrt_repo openwrt-18.06-k5.4 openwrt &
+clone_repo $mosdns_repo master mosdns &
+clone_repo $sirpdboy_repo main sirpdboy &
 
 wait
 
