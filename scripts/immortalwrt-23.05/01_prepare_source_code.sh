@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../scripts/funcations.sh
+. ./scripts/funcations.sh
 
 # Clone source code
 clone_repo $immortalwrt_repo openwrt-23.05 openwrt &
