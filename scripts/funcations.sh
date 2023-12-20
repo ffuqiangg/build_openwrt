@@ -66,15 +66,11 @@ docker_2_services() {
         [ -n "$(grep 'Docker' "$a")" ] && sed -i "s,Docker,&Man,g" "$a"
         [ -n "$(grep 'config\")' "$a")" ] && sed -i "s,config\"),overview\"),g" "$a"
         [ -n "$(grep 'admin/' "$a")" ] && sed -i "s,admin/,&services/,g" "$a"
-        [ -n "$(grep 'admin\\/' "$a")" ] && sed -i "s,admin\\/,&services\\/,g" "$a"
     done
 
     local htm_file="$({ find |grep "\.htm"; } 2>"/dev/null")"
     for b in ${htm_file}
     do
-        [ -n "$(grep 'admin\",' "$a")" ] && sed -i "s|admin\",|& \"services\",|g" "$a"
-        [ -n "$(grep 'Docker' "$a")" ] && sed -i "s,Docker,&Man,g" "$a"
-        [ -n "$(grep 'config\")' "$a")" ] && sed -i "s,config\"),overview\"),g" "$a"
         [ -n "$(grep 'admin/' "$a")" ] && sed -i "s,admin/,&services/,g" "$a"
         [ -n "$(grep 'admin\\/' "$a")" ] && sed -i "s,admin\\/,&services\\/,g" "$a"
     done
