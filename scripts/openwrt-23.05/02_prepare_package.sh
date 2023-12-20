@@ -82,25 +82,9 @@ cp -rf ../passwall_pkg/chinadns-ng ./package/new/chinadns-ng
 # Docker 容器
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
-sed -i -e 's|admin\",|& \"services\",|g' -e 's,Docker,&Man,' -e 's,config\"),overview\"),' ./feeds/luci/applications/luci-app-dockerman/luasrc/controller/dockerman.lua
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/model/cbi/dockerman/container.lua
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/model/cbi/dockerman/containers.lua
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/model/cbi/dockerman/images.lua
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/model/cbi/dockerman/networks.lua
-sed -i -e 's,admin/,&services/,g' -e 's|admin\",|& \"services\",|g' ./feeds/luci/applications/luci-app-dockerman/luasrc/model/cbi/dockerman/newcontainer.lua
-sed -i -e 's,admin/,&services/,g' -e 's|admin\",|& \"services\",|g' ./feeds/luci/applications/luci-app-dockerman/luasrc/model/cbi/dockerman/newnetwork.lua
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/model/cbi/dockerman/overview.lua
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/model/cbi/dockerman/volumes.lua
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/view/dockerman/apply_widget.htm
-sed -i -e 's,admin/,&services/,g' -e 's,admin\\/,&services\\/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/view/dockerman/container.htm
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/view/dockerman/container_file_manager.htm
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/view/dockerman/container_stats.htm
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/view/dockerman/containers_running_stats.htm
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/view/dockerman/images_import.htm
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/view/dockerman/images_load.htm
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/view/dockerman/newcontainer_resolve.htm
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/view/dockerman/overview.htm
-sed -i 's,admin/,&services/,g' ./feeds/luci/applications/luci-app-dockerman/luasrc/view/dockerman/volume_size.htm
+pushd package/luci/applications/luci-app-dockerman
+docker_2_services
+popd
 sed -i '/auto_start/d' ./feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/packages
 wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
