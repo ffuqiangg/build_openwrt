@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../scripts/funcations.sh
+. ./scripts/funcations.sh
 
 # 开始克隆仓库，并行执行
 clone_repo $openwrt_repo openwrt-23.05 openwrt &
