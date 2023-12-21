@@ -148,7 +148,7 @@ ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
 cp -rf ../lede_pkg/net/vlmcsd ./package/new/vlmcsd
 # Vsftpd
-cp -rf ../immortalwrt_luci_23/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
+cp -rf ../lede_luci/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
 pushd package/new/luci-app-vsftpd
 move_2_services nas
 popd
