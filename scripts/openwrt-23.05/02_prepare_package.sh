@@ -82,7 +82,7 @@ cp -rf ../passwall_pkg/chinadns-ng ./package/new/chinadns-ng
 # Docker 容器
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
-pushd package/luci/applications/luci-app-dockerman
+pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
 sed -i '/auto_start/d' ./feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
