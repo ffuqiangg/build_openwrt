@@ -149,6 +149,7 @@ cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
 cp -rf ../lede_pkg/net/vlmcsd ./package/new/vlmcsd
 # Vsftpd
 cp -rf ../lede_luci/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
+cp -rf ../lede/package/lean/vsftpd-alt ./package/new/vsftpd-alt
 pushd package/new/luci-app-vsftpd
 move_2_services nas
 popd
