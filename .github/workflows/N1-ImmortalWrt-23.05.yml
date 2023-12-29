@@ -2,6 +2,9 @@ name: N1-ImmortalWrt-23.05
 
 on:
   workflow_dispatch:
+  repository_dispatch:
+    types:
+      - N1-ImmortalWrt-23.05
 
 env:
   TZ: Asia/Shanghai
@@ -135,9 +138,8 @@ jobs:
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-ImmortalWrt-${{ env.latest_release }}-${{ env.build_date }}.zip
 
     - name: telegram notification
+      if: github.event_name == 'workflow_dispatch'
       run: |
-        MSG="
-        ✅ *ImmortalWrt ${{ env.latest_release }}* 编译完成
-        https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.build_date}}
-        "
-        curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"
+        MSG="✅ *ImmortalWrt ${{ env.latest_release }}* 编译完成"
+        curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+          -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"

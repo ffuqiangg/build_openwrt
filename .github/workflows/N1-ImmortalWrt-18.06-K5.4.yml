@@ -2,6 +2,9 @@ name: N1-ImmortalWrt-18.06-K5.4
 
 on:
   workflow_dispatch:
+  repository_dispatch:
+    types:
+      - N1-ImmortalWrt-18.06-K5.4
 
 env:
   TZ: Asia/Shanghai
@@ -136,9 +139,8 @@ jobs:
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-ImmortalWrt-18.06-K5.4-${{ env.build_date }}.zip
 
     - name: Telegram notification
+      if: github.event_name == 'workflow_dispatch'
       run: |
-        MSG="
-        ✅ *ImmortalWrt 18.06 K5.4* 编译完成
-        https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.build_date }}
-        "
-        curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"
+        MSG="✅ *ImmortalWrt 18.06 K5.4* 编译完成"
+        curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+          -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"

@@ -1,0 +1,40 @@
+name: Build-All
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    if: github.event.repository.owner.id == github.event.sender.id
+
+    steps:
+    - name: ImmortalWrt 18.06 K5.4
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.GH_TOKEN }}
+        event-type: N1-ImmortalWrt-18.06-K5.4
+
+    - name: ImmortalWrt 23.05
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.GH_TOKEN }}
+        event-type: N1-ImmortalWrt-23.05
+
+    - name: LEDE
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.GH_TOKEN }}
+        event-type: N1-LEDE
+
+    - name: OpenWrt 23.05
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.GH_TOKEN }}
+        event-type: N1-OpenWrt-23.05
+
+    - name: telegram notification
+      run: |
+        MSG="*$(date +%Y.%m.%d)* 开始编译"
+        curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+          -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown"
