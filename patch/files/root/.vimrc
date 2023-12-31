@@ -10,6 +10,7 @@ set wildmenu                         " show list instead of just completing
 set splitright                       " put new split window in right
 set nobackup                         " don't keep a backup file
 set fillchars=vert:│                 " change vertsplit character
+set ttimeoutlen=100                  " set <esc> reponse time
 
 "set nowrap                          " line exceed screen don't wrap
 set breakindent                      " set indent in wrap
@@ -17,7 +18,7 @@ set breakindentopt=shift:1           " wrap line additional indent
 "set list                            " show nontext
 "set listchars=extends:>,precedes:<  " show at line left/right if wrap is off
 set sidescroll=1                     " line exceed screen cursor smooth scrolling
-"set laststatus=2                    " always show statusline
+set laststatus=2                     " always show statusline
 "set numberwidth=5                   " line number width configure 
 "set cursorline                      " highlight current line
 set scrolloff=2                      " keep <n> lines when scrolling
@@ -52,7 +53,7 @@ autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 "set t_Co=256                        " color number
 set background=dark                  " background color
 colorscheme desert
-"hi Normal ctermbg=NONE
+hi Normal ctermbg=NONE
 "hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
 "hi! link TabLineFill TabLine
 "hi LineNr ctermfg=8
