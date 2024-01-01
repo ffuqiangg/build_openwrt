@@ -50,13 +50,13 @@ nnoremap gj j
 autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " User Interface customize
-"set t_Co=256                        " color number
+set t_Co=256                        " color number
 set background=dark                  " background color
-colorscheme desert
-hi Normal ctermbg=NONE
+colorscheme Tomorrow-Night
+"hi Normal ctermbg=NONE
 "hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
 "hi! link TabLineFill TabLine
-"hi LineNr ctermfg=8
+"hi LineNr ctermbg=NONE
 "hi Pmenu ctermfg=15 ctermbg=8
 "hi PmenuSel ctermfg=0 ctermbg=4
 "hi VertSplit ctermfg=8 ctermbg=NONE cterm=NONE
