@@ -12,7 +12,7 @@ set nobackup                         " don't keep a backup file
 set fillchars=vert:│                 " change vertsplit character
 set ttimeoutlen=100                  " set <esc> reponse time
 
-"set nowrap                          " line exceed screen don't wrap
+set nowrap                          " line exceed screen don't wrap
 set breakindent                      " set indent in wrap
 set breakindentopt=shift:1           " wrap line additional indent
 "set list                            " show nontext
@@ -53,7 +53,7 @@ autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 set t_Co=256                        " color number
 set background=dark                  " background color
 colorscheme Tomorrow-Night
-"hi Normal ctermbg=NONE
+hi Normal ctermbg=NONE
 "hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
 "hi! link TabLineFill TabLine
 "hi LineNr ctermbg=NONE
@@ -70,4 +70,4 @@ colorscheme Tomorrow-Night
 "hi StatusLineNC cterm=NONE ctermfg=8 ctermbg=NONE
 
 " Statusline configure
-"set statusline=%<%f%h%m%r%w%=\ %{&fenc}\/%{&ff}\ \ %{&ft}\ \ %l:%c\ %P
+set statusline=\ #%n\ %<%f%h%m%r%w\ %=\ %y\ \ %l\/%L:%c\ \|\ %{&fenc}\ \|\ %{&ff}\ \ %P\ 
