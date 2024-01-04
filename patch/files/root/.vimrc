@@ -12,12 +12,12 @@ set nobackup                         " don't keep a backup file
 set fillchars=vert:│                 " change vertsplit character
 set ttimeoutlen=100                  " set <esc> reponse time
 
-set nowrap                          " line exceed screen don't wrap
+set nowrap                           " line exceed screen don't wrap
 set breakindent                      " set indent in wrap
 set breakindentopt=shift:1           " wrap line additional indent
 "set list                            " show nontext
 "set listchars=extends:>,precedes:<  " show at line left/right if wrap is off
-set sidescroll=1                     " line exceed screen cursor smooth scrolling
+"set sidescroll=1                    " line exceed screen cursor smooth scrolling
 set laststatus=2                     " always show statusline
 "set numberwidth=5                   " line number width configure 
 "set cursorline                      " highlight current line
