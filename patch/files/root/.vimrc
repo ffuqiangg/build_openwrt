@@ -71,8 +71,8 @@ hi Normal ctermbg=NONE
 
 " Statusline configure
 set statusline=%1*▎%3*%n\ \ %2*%<%f\ \ \ %3*%l:%c\ %P\ %=%h%4*%m%3*%r%w\ %{&ff}\ %{&fenc}\ \ \ %5*%Y\ 
-hi User1 ctermfg=24 ctermbg=236
-hi User2 ctermfg=14 ctermbg=236
-hi User3 ctermfg=7 ctermbg=236
-hi User4 ctermfg=11 ctermbg=236
-hi User5 ctermfg=143 ctermbg=236
+hi User1 ctermfg=24 ctermbg=241
+hi User2 ctermfg=14 ctermbg=241
+hi User3 ctermfg=7 ctermbg=241
+hi User4 ctermfg=11 ctermbg=241
+hi User5 ctermfg=143 ctermbg=241
