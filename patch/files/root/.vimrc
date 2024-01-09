@@ -44,35 +44,41 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
+nnoremap <C-h> <C-w>h<CR>
+nnoremap <C-j> <C-w>j<CR>
+nnoremap <C-k> <C-w>k<CR>
+nnoremap <C-l> <C-w>l<CR>
+nnoremap H gT
+nnoremap L gt
 
 " Specify file config
 "filetype plugin off
 autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " User Interface customize
-set t_Co=256                        " color number
+"set t_Co=256                        " color number
 set background=dark                  " background color
-colorscheme Tomorrow-Night
+"colorscheme Tomorrow-Night
 hi Normal ctermbg=NONE
-"hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
-"hi! link TabLineFill TabLine
-"hi LineNr ctermbg=NONE
-"hi Pmenu ctermfg=15 ctermbg=8
-"hi PmenuSel ctermfg=0 ctermbg=4
-"hi VertSplit ctermfg=8 ctermbg=NONE cterm=NONE
-"hi IncSearch ctermfg=0 ctermbg=3 cterm=NONE
-"hi Search ctermfg=0
-"hi Visual ctermbg=NONE cterm=reverse
-"hi CursorLine cterm=NONE
-"hi CursorLineNr cterm=NONE
-"hi Comment ctermfg=8
+hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
+hi! link TabLineFill TabLine
+hi LineNr ctermfg=8 ctermbg=NONE
+hi Pmenu ctermfg=15 ctermbg=8
+hi PmenuSel ctermfg=0 ctermbg=4
+hi VertSplit ctermfg=8 ctermbg=NONE cterm=NONE
+hi IncSearch ctermfg=0 ctermbg=3 cterm=NONE
+hi Search ctermfg=0
+hi Visual ctermbg=NONE cterm=reverse
+hi CursorLine cterm=NONE
+hi CursorLineNr cterm=NONE
+hi Comment ctermfg=8
 "hi StatusLine cterm=NONE ctermfg=black ctermbg=8
 "hi StatusLineNC cterm=NONE ctermfg=8 ctermbg=NONE
 
 " Statusline configure
-set statusline=%1*▎%3*%n\ \ %2*%<%f\ \ \ %3*%l:%c\ %P\ %=%h%4*%m%3*%r%w\ %{&ff}\ %{&fenc}\ \ \ %5*%Y\ 
-hi User1 ctermfg=24 ctermbg=241
-hi User2 ctermfg=14 ctermbg=241
-hi User3 ctermfg=7 ctermbg=241
-hi User4 ctermfg=11 ctermbg=241
-hi User5 ctermfg=143 ctermbg=241
+set statusline=\ #%n\ \ %<%f\ \ \ \ %P\ \(%l:%c\)\ %=%h%m%r%w\ %{&ff}\ %{&fenc}\ \ \ %Y\ 
+"hi User1 ctermbg=8
+"hi User2 ctermbg=8
+"hi User3 ctermbg=8
+"hi User4 ctermbg=8
+"hi User5 ctermbg=8
