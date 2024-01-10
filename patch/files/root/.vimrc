@@ -18,7 +18,7 @@ set breakindentopt=shift:1           " wrap line additional indent
 "set list                            " show nontext
 "set listchars=extends:>,precedes:<  " show at line left/right if wrap is off
 "set sidescroll=1                    " line exceed screen cursor smooth scrolling
-set laststatus=2                     " always show statusline
+"set laststatus=2                     " always show statusline
 "set numberwidth=5                   " line number width configure 
 "set cursorline                      " highlight current line
 set scrolloff=2                      " keep <n> lines when scrolling
@@ -50,6 +50,8 @@ nnoremap <C-k> <C-w>k<CR>
 nnoremap <C-l> <C-w>l<CR>
 nnoremap H gT
 nnoremap L gt
+nnoremap T H
+nnoremap B L
 
 " Specify file config
 "filetype plugin off
@@ -72,11 +74,11 @@ hi Visual ctermbg=NONE cterm=reverse
 hi CursorLine cterm=NONE
 hi CursorLineNr cterm=NONE
 hi Comment ctermfg=8
-"hi StatusLine cterm=NONE ctermfg=black ctermbg=8
-"hi StatusLineNC cterm=NONE ctermfg=8 ctermbg=NONE
+hi StatusLine cterm=NONE ctermfg=white ctermbg=8
+hi StatusLineNC cterm=NONE ctermfg=white ctermbg=8
 
 " Statusline configure
-set statusline=\ #%n\ \ %<%f\ \ \ \ %P\ \(%l:%c\)\ %=%h%m%r%w\ %{&ff}\ %{&fenc}\ \ \ %Y\ 
+"set statusline=\ #%n\ \ %<%f%h%m%r%w\ \ \ \ %P\ \(%l:%c\)%=\ %{&ff}\ %{&fenc}\ \ \ %Y\ 
 "hi User1 ctermbg=8
 "hi User2 ctermbg=8
 "hi User3 ctermbg=8
