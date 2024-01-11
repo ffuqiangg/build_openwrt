@@ -40,6 +40,7 @@ set shiftround                       " indent not to multiple of 'shiftwidth'
 set shiftwidth=4                     " number of spaces to use for (auto)indent
 
 " key map
+let mapleader="\<Space>"
 nnoremap k gk
 nnoremap gk k
 nnoremap j gj
@@ -52,6 +53,9 @@ nnoremap H gT
 nnoremap L gt
 nnoremap T H
 nnoremap B L
+nnoremap <leader>bl :ls<CR>
+nnoremap <leader>bn :bn<CR>
+nnoremap <leader>bp :bp<CR>
 
 " Specify file config
 "filetype plugin off
