@@ -56,15 +56,23 @@ nnoremap B L
 nnoremap <leader>bl :ls<CR>
 nnoremap <leader>bn :bn<CR>
 nnoremap <leader>bp :bp<CR>
+nnoremap <CR> :noh<CR>
+
+" filetree
+let g:netrw_banner=0
+let g:netrw_winsize=35
+let g:netrw_liststyle=3
+let g:netrw_altv=1
+let g:netrw_browse_split=4
+nnoremap <leader>e :Vexplore<CR>
 
 " Specify file config
-"filetype plugin off
 autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " User Interface customize
 "set t_Co=256                        " color number
 set background=dark                  " background color
-"colorscheme Tomorrow-Night
+colorscheme desert
 hi Normal ctermbg=NONE
 hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
 hi! link TabLineFill TabLine
@@ -78,13 +86,3 @@ hi Visual ctermbg=NONE cterm=reverse
 hi CursorLine cterm=NONE
 hi CursorLineNr cterm=NONE
 hi Comment ctermfg=8
-hi StatusLine cterm=NONE ctermfg=white ctermbg=8
-hi StatusLineNC cterm=NONE ctermfg=white ctermbg=8
-
-" Statusline configure
-"set statusline=\ #%n\ \ %<%f%h%m%r%w\ \ \ \ %P\ \(%l:%c\)%=\ %{&ff}\ %{&fenc}\ \ \ %Y\ 
-"hi User1 ctermbg=8
-"hi User2 ctermbg=8
-"hi User3 ctermbg=8
-"hi User4 ctermbg=8
-"hi User5 ctermbg=8
