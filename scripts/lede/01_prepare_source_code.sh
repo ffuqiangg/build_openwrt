@@ -9,7 +9,8 @@ clone_repo $passwall_luci_repo main passwall_luci &
 clone_repo $lienol_pkg_repo main Lienol_pkg &
 clone_repo $mosdns_repo master mosdns &
 clone_repo $sirpdboy_repo main sirpdboy &
-clone_repi $openclash_repo master openclash &
+clone_repo $openclash_repo master openclash &
+clone_repo $lienol_pkg_repo main lienol_pkg &
 
 wait
 
