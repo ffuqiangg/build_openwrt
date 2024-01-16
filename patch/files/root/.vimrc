@@ -56,7 +56,7 @@ nnoremap B L
 nnoremap <leader>bl :ls<CR>
 nnoremap <leader>bn :bn<CR>
 nnoremap <leader>bp :bp<CR>
-nnoremap <CR> :noh<CR>
+nnoremap <leader>bd :bd<CR>
 
 " filetree
 let g:netrw_banner=0
