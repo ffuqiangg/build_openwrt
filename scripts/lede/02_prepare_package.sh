@@ -13,6 +13,9 @@ cp -rf ../passwall_luci ./package/luci-app-passwall
 cp -rf ../passwall_pkg ./package/passwall-pkg
 # Openclash
 cp -rf ../openclash ./package/luci-app-openclash
+pushd package/luci-app-openclash/tools/po2lmo
+make && sudo make install
+popd
 # Filebrowser
 cp -rf ../lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
 pushd package/luci-app-filebrowser
