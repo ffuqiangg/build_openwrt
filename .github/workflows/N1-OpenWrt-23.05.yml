@@ -148,7 +148,7 @@ jobs:
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}.zip
 
     - name: telegram notification
-      if: github.event_name == 'workflow_dispatch'
+      if: github.event_name == 'repository_dispatch'
       run: |
         MSG="✅ *OpenWrt ${{ env.latest_release }}* 编译完成 [download](https://github.com/ffuqiangg/build_openwrt/releases/download/${{ env.build_date }}/N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}.zip)"
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
