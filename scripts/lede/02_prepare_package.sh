@@ -50,7 +50,8 @@ sed -i '/start()/a \    echo "Service autotimesetrun started!" >/dev/null' packa
 rm -rf ./package/sirpdboy/luci-app-autotimeset/po/zh_Hans
 # v2raya
 git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
-cp -rf ../immortalwrt_pkg_18.06/net/v2raya ./package/new/v2raya
+cp -rf ../immortalwrt_pkg_18.06/net/v2raya ./feeds/packages/net/v2raya
+ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # verysync
 cp -rf ../Lienol_pkg/luci-app-verysync ./package/luci-app-verysync
 pushd package/luci-app-verysync
