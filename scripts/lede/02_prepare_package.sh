@@ -14,7 +14,7 @@ cp -rf ../passwall_pkg ./package/passwall-pkg
 # Openclash
 cp -rf ../openclash ./package/luci-app-openclash
 # Filebrowser
-cp -rf ../lienol_package/luci-app-filebrowser ./package/luci-app-filebrowser
+cp -rf ../lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
 pushd package/luci-app-filebrowser
 move_2_services nas
 popd

@@ -18,6 +18,7 @@ diskman_repo="https://github.com/lisaac/luci-app-diskman"
 docker_lib_repo="https://github.com/lisaac/luci-lib-docker"
 mosdns_repo="https://github.com/QiuSimons/openwrt-mos"
 sirpdboy_repo="https://github.com/sirpdboy/sirpdboy-package"
+openclash="https://github.com/vernesong/OpenClash.git"
 
 clone_repo() {
     repo_url=$1
