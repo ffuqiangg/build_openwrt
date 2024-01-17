@@ -128,6 +128,6 @@ jobs:
     - name: telegram notification
       if: github.event_name == 'repository_dispatch'
       run: |
-        MSG="✅ *ImmortalWrt ${{ env.latest_release }}* 编译完成 [download](https://github.com/ffuqiangg/build_openwrt/releases/download/${{ env.build_date }}/N1-ImmortalWrt-${{ env.latest_release }}-${{ env.build_date }}.zip)"
+        MSG="✅ *ImmortalWrt ${{ env.latest_release }}* 编译完成"
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
-          -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"
+          -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown"
