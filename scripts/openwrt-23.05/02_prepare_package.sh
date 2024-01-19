@@ -107,10 +107,9 @@ sed -i '/defaults/{N;d;}' ./feeds/packages/net/frp/Makefile
 cp -rf ../lede_luci/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
 cp -rf ../lede_luci/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
 # Mosdns
-cp -rf ../mosdns/mosdns ./package/new/mosdns
-cp -rf ../mosdns/luci-app-mosdns ./package/new/luci-app-mosdns
+cp -rf ../mosdns ./package/new/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
-cp -rf ../mosdns/v2ray-geodata ./package/new/v2ray-geodata
+cp -rf ../mosdns_pkg ./package/new/v2ray-geodata
 # homeproxy
 git clone --single-branch --depth 1 -b dev https://github.com/immortalwrt/homeproxy.git ./package/new/luci-app-homeproxy
 rm -rf ./feeds/packages/net/sing-box

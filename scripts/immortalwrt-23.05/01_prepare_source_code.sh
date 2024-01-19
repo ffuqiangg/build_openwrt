@@ -6,7 +6,8 @@
 clone_repo $immortalwrt_repo openwrt-23.05 openwrt &
 clone_repo $openwrt_repo openwrt-22.03 openwrt_22 &
 clone_repo $lede_pkg_repo master lede_pkg &
-clone_repo $mosdns_repo master mosdns &
+clone_repo $mosdns_repo v5 mosdns &
+clone_repo $mosdns_pkg master mosdns_pkg &
 clone_repo $sirpdboy_repo main sirpdboy &
 
 wait

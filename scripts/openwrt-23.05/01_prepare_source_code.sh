@@ -26,7 +26,8 @@ clone_repo $passwall_luci_repo main passwall_luci &
 clone_repo $dockerman_repo master dockerman &
 clone_repo $diskman_repo master diskman &
 clone_repo $docker_lib_repo master docker_lib &
-clone_repo $mosdns_repo master mosdns &
+clone_repo $mosdns_repo v5 mosdns &
+clone_repo $mosdns_pkg master mosdns_pkg &
 clone_repo $sirpdboy_repo main sirpdboy &
 
 wait

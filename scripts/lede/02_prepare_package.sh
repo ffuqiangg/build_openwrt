@@ -19,10 +19,9 @@ pushd package/luci-app-filebrowser
 move_2_services nas
 popd
 # Mosdns
-cp -rf ../mosdns/mosdns ./package/mosdns
-cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns
+cp -rf ../mosdns ./package/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
-cp -rf ../mosdns/v2ray-geodata ./package/v2ray-geodata
+cp -rf ../mosdns_pkg ./package/v2ray-geodata
 # vsftpd
 pushd package/feeds/luci/luci-app-vsftpd
 move_2_services nas
