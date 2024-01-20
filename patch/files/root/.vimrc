@@ -1,3 +1,5 @@
+syntax on                            " turn syntax highlighting on by default
+set mouse=a                          " turn mouse support on
 set nocompatible                     " use vim defaults
 set showcmd                          " display incomplete commands
 set showmatch                        " jump to matchs when entering parenthes
@@ -9,7 +11,7 @@ set number                           " show line numbers
 set wildmenu                         " show list instead of just completing
 set splitright                       " put new split window in right
 set nobackup                         " don't keep a backup file
-set fillchars=vert:│                 " change vertsplit character
+"set fillchars=vert:│                " change vertsplit character
 set ttimeoutlen=100                  " set <esc> reponse time
 
 set nowrap                           " line exceed screen don't wrap
@@ -18,7 +20,7 @@ set breakindentopt=shift:1           " wrap line additional indent
 "set list                            " show nontext
 "set listchars=extends:>,precedes:<  " show at line left/right if wrap is off
 "set sidescroll=1                    " line exceed screen cursor smooth scrolling
-"set laststatus=2                     " always show statusline
+set laststatus=2                     " always show statusline
 "set numberwidth=5                   " line number width configure 
 "set cursorline                      " highlight current line
 set scrolloff=2                      " keep <n> lines when scrolling
@@ -53,10 +55,6 @@ nnoremap H gT
 nnoremap L gt
 nnoremap T H
 nnoremap B L
-nnoremap <leader>bl :ls<CR>
-nnoremap <leader>bn :bn<CR>
-nnoremap <leader>bp :bp<CR>
-nnoremap <leader>bd :bd<CR>
 
 " filetree
 let g:netrw_banner=0
@@ -70,19 +68,22 @@ nnoremap <leader>e :Vexplore<CR>
 autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " User Interface customize
-"set t_Co=256                        " color number
-set background=dark                  " background color
-colorscheme desert
-hi Normal ctermbg=NONE
-hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
-hi! link TabLineFill TabLine
-hi LineNr ctermfg=8 ctermbg=NONE
-hi Pmenu ctermfg=15 ctermbg=8
-hi PmenuSel ctermfg=0 ctermbg=4
-hi VertSplit ctermfg=8 ctermbg=NONE cterm=NONE
-hi IncSearch ctermfg=0 ctermbg=3 cterm=NONE
-hi Search ctermfg=0
-hi Visual ctermbg=NONE cterm=reverse
-hi CursorLine cterm=NONE
-hi CursorLineNr cterm=NONE
-hi Comment ctermfg=8
+set t_Co=256
+set background=dark
+let g:jellybeans_overrides = {
+\    'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
+\}
+colorscheme jellybeans
+"hi Normal ctermbg=NONE
+"hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
+"hi! link TabLineFill TabLine
+"hi LineNr ctermfg=8 ctermbg=NONE
+"hi Pmenu ctermfg=15 ctermbg=8
+"hi PmenuSel ctermfg=0 ctermbg=4
+"hi VertSplit ctermfg=8 ctermbg=NONE cterm=NONE
+"hi IncSearch ctermfg=0 ctermbg=3 cterm=NONE
+"hi Search ctermfg=0
+"hi Visual ctermbg=NONE cterm=reverse
+"hi CursorLine cterm=NONE
+"hi CursorLineNr cterm=NONE
+"hi Comment ctermfg=8
