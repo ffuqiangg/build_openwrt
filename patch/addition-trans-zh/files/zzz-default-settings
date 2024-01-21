@@ -35,7 +35,7 @@ uci set uhttpd.main.http_keepalive=0
 uci commit uhttpd
 /etc/init.d/uhttpd restart
 
-#在防火墙默认开启全锥形 NAT 以及关闭 Flow Offloading 并开启 SFE
+#在防火墙默认开启全锥形 NAT
 uci set firewall.@defaults[0].fullcone='2'
 [ -f '/sbin/fw4' ] && uci set firewall.@defaults[0].fullcone='1'
 uci set firewall.@defaults[0].input='ACCEPT'

@@ -64,7 +64,7 @@ jobs:
     - name: Convert Translation
       run: |
         cd openwrt
-        /bin/bash 03_convert_translation.sh
+        /bin/bash 03_patch_makefile.sh
 
     - name: Demote Iptables
       run: |
