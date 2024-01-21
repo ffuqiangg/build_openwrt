@@ -69,10 +69,10 @@ nnoremap <leader>th <C-w>t<C-w>H
 nnoremap <leader>tk <C-w>t<C-w>K
 
 "move current line
-nnoremap <silent> J :m +1<CR>
-nnoremap <silent> K :m -2<CR>
-vnoremap <silent> J :m '>+1<CR>gv=gv
-vnoremap <silent> K :m -2<CR>gv=gv
+nnoremap <silent> <A-j> :m +1<CR>
+nnoremap <silent> <A-k> :m -2<CR>
+vnoremap <silent> <A-j> :m '>+1<CR>gv=gv
+vnoremap <silent> <A-k> :m -2<CR>gv=gv
 
 " filetree
 let g:netrw_banner=0
