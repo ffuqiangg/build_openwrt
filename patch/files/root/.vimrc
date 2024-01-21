@@ -75,6 +75,7 @@ let g:netrw_liststyle=3
 let g:netrw_altv=1
 let g:netrw_browse_split=4
 nnoremap <leader>e :Vexplore<CR>
+autocmd filetype netrw nnoremap <buffer> <C-l> <C-w>l
 
 " Specify file config
 autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
