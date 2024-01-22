@@ -57,4 +57,7 @@ pushd package/luci-app-verysync
 move_2_services nas
 popd
 
+# fix xfsprogs
+sed -i 's,TARGET_CFLAGS += -DHAVE_MAP_SYNC,&  -D_LARGEFILE64_SOURCE,' feeds/packages/utils/xfsprogs/Makefile
+
 exit 0
