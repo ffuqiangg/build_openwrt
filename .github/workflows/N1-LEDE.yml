@@ -60,14 +60,15 @@ jobs:
         cd openwrt
         cp -r ../scripts/lede/. ./
         /bin/bash 02_prepare_package.sh
-        
+
     - name: Load custom configuration
       run: |
         distrib_revision=$(cat openwrt/package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
-        cp -rf patch/files openwrt/files
+        cp -rf patch/files openwrt/files && mkdir -p openwrt/files/usr/sbin
+        wget https://github.com/ophub/amlogic-s9xxx-openwrt/raw/main/make-openwrt/openwrt-files/common-files/usr/sbin/openwrt-swap -P openwrt/files/usr/sbin/ && chmod +x openwrt/files/usr/sbin/openwrt-swap
         sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_VERSION,LEDE ${distrib_revision}," ./openwrt/files/etc/banner
         echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
-        
+
     - name: Make config
       run: |
         cd openwrt
@@ -94,7 +95,7 @@ jobs:
       if: steps.compile.outcome == 'failure'
       run: |
         cd openwrt && make -j1 V=s
-  
+
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
       with:

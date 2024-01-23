@@ -62,7 +62,8 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        cp -rf patch/files openwrt/files
+        cp -rf patch/files openwrt/files && mkdir -p openwrt/files/usr/sbin
+        wget https://github.com/ophub/amlogic-s9xxx-openwrt/raw/main/make-openwrt/openwrt-files/common-files/usr/sbin/openwrt-swap -P openwrt/files/usr/sbin/ && chmod +x openwrt/files/usr/sbin/openwrt-swap
         sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_VERSION,ImmortalWrt 18.06 K5.4," ./openwrt/files/etc/banner
 
     - name: Make config
