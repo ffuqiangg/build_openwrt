@@ -47,6 +47,7 @@ CONFIG_PACKAGE_uuidgen=y
 CONFIG_PACKAGE_wget-ssl=y
 CONFIG_PACKAGE_dnsmasq-full=y
 # CONFIG_PACKAGE_dnsmasq is not set
+CONFIG_PACKAGE_coreutils-truncate=y
 
 ### APPLICATIONS ###
 CONFIG_PACKAGE_luci-app-arpbind=y
