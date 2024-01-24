@@ -26,10 +26,8 @@ pushd package/feeds/luci/luci-app-vsftpd
 move_2_services nas
 popd
 # filebrowser
-# sed -i -e 's/\"nas\"/\"services\"/g' -e 's/NAS/Services/g' package/feeds/luci/luci-app-filebrowser/luasrc/controller/filebrowser.lua
-# sed -i 's/nas/services/g' package/feeds/luci/luci-app-filebrowser/luasrc/view/filebrowser/filebrowser_status.htm
-sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.26\.0," package/feeds/packages/filebrowser/Makefile
-sed -i "s,PKG_HASH:=.*,PKG_HASH:=2953e5bc248824ea32d3131d94c452e981df7172e5bdb099490a8de6dfeaddc0," package/feeds/packages/filebrowser/Makefile
+sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.27\.0," package/feeds/packages/filebrowser/Makefile
+sed -i "s,PKG_HASH:=.*,PKG_HASH:=3A60CF26D6DED863D730BC671EE8DF6DC342CAB6DD867C16370EECB186FFF655," package/feeds/packages/filebrowser/Makefile
 # rclone
 sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' package/feeds/luci/luci-app-rclone/luasrc/controller/rclone.lua
 # dockerman
