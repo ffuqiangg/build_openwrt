@@ -135,7 +135,7 @@ jobs:
       run: |
         MSG="
         *LEDE ${{ env.distrib_revision }}* 编译完成
-        https://github.com/ffuqiangg/build\_openwrt/releases/download/${{ env.build_date }}/N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}.zip
+        [N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}.zip](https://github.com/ffuqiangg/build\_openwrt/releases/download/${{ env.build_date }}/N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}.zip)
         "
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
           -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"
