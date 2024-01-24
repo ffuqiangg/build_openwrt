@@ -47,10 +47,10 @@ set shiftround                       " indent not to multiple of 'shiftwidth'
 set shiftwidth=4                     " number of spaces to use for (auto)indent
 
 "adjust split sizes easier
-noremap <silent> <C-Left> :vertical resize +3<CR>
-noremap <silent> <C-Right> :vertical resize -3<CR>
-noremap <silent> <C-Up> :resize -3<CR>
-noremap <silent> <C-Down> :resize +3<CR>
+noremap <silent> <C-Up> :resize +3<CR>
+noremap <silent> <C-Down> :resize -3<CR>
+noremap <silent> <C-Left> :vertical resize -3<CR>
+noremap <silent> <C-Right> :vertical resize +3<CR>
 
 "remap split navigation to just CTRL + hjkl
 nnoremap <C-h> <C-w>h
