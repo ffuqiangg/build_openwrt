@@ -58,6 +58,8 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-q> :q<CR>
+nnoremap <C-w> :w<CR>
+nnoremap <C-x> :x<CR>
 
 "switch tab
 nnoremap H gT
@@ -85,7 +87,7 @@ nnoremap <silent> <leader>e :Vexplore<CR>
 autocmd filetype netrw nnoremap <buffer> <C-l> <C-w>l
 
 " Specify file config
-autocmd Filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
+autocmd filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
 
 " User Interface customize
 set t_Co=256
@@ -94,16 +96,3 @@ let g:jellybeans_overrides = {
 \    'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
 \}
 colorscheme jellybeans
-"hi Normal ctermbg=NONE cterm=NONE
-"hi TabLine ctermfg=8 ctermbg=NONE cterm=NONE
-"hi! link TabLineFill TabLine
-"hi LineNr ctermbg=NONE
-"hi Pmenu ctermfg=15 ctermbg=8
-"hi PmenuSel ctermfg=0 ctermbg=4
-"hi VertSplit ctermbg=NONE cterm=NONE
-"hi IncSearch ctermfg=0 ctermbg=3 cterm=NONE
-"hi Search ctermfg=0
-"hi Visual ctermbg=NONE cterm=reverse
-"hi CursorLine cterm=NONE
-"hi CursorLineNr cterm=NONE
-"hi Comment ctermfg=8
