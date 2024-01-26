@@ -85,7 +85,6 @@ cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/lu
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
-sed -i -e 's/admin\",/& \"services\",/g' -e 's/Docker/&Man/' -e 's/config\")/overview\")/' ./feeds/luci/applications/luci-app-dockerman/luasrc/controller/dockerman.lua
 sed -i '/auto_start/d' ./feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/packages
 wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1

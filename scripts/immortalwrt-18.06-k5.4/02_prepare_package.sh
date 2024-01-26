@@ -31,7 +31,6 @@ sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' package/feeds/luci/lu
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
-sed -i -e 's/admin\",/& \"services\",/g' -e 's/Docker/&Man/' -e 's/config\")/overview\")/' ./package/feeds/luci/luci-app-dockerman/luasrc/controller/dockerman.lua
 # nlbw
 sed -i -e 's|admin\",|& \"network\",|g' -e 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/controller/nlbw.lua
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua

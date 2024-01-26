@@ -42,6 +42,7 @@ move_2_services() {
 
 docker_2_services() {
     local resource_file="$({ find | grep "\.lua\|\.htm"; } 2>"/dev/null")"
+    local dockerman_lua="$({ find | grep "dockerman\.lua"; } 2>"/dev/null")"
     for a in ${resource_file}
     do
         [ -n "$(grep 'admin\",' "$a")" ] && sed -i "s|admin\",|& \"services\",|g" "$a"
@@ -49,4 +50,5 @@ docker_2_services() {
         [ -n "$(grep 'admin/' "$a")" ] && sed -i "s,admin/,&services/,g" "$a"
         [ -n "$(grep 'admin\\/' "$a")" ] && sed -i "s,admin\\/,&services\\/,g" "$a"
     done
+    sed -i 's/Docker/&Man/' ${dockerman_lua}
 }
