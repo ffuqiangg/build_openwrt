@@ -45,7 +45,6 @@ docker_2_services() {
     for a in ${resource_file}
     do
         [ -n "$(grep 'admin\",' "$a")" ] && sed -i "s|admin\",|& \"services\",|g" "$a"
-        [ -n "$(grep 'Docker' "$a")" ] && sed -i "s,Docker,&Man,g" "$a"
         [ -n "$(grep 'config\")' "$a")" ] && sed -i "s,config\"),overview\"),g" "$a"
         [ -n "$(grep 'admin/' "$a")" ] && sed -i "s,admin/,&services/,g" "$a"
         [ -n "$(grep 'admin\\/' "$a")" ] && sed -i "s,admin\\/,&services\\/,g" "$a"
