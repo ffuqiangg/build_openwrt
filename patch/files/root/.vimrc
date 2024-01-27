@@ -58,8 +58,7 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 nnoremap <C-q> :q<CR>
-nnoremap <C-w> :w<CR>
-nnoremap <C-x> :x<CR>
+nnoremap <C-s> :w<CR>
 
 "switch tab
 nnoremap H gT
