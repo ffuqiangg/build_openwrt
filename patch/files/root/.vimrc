@@ -27,7 +27,7 @@ set nowrap                           " line exceed screen don't wrap
 "set sidescroll=1                    " line exceed screen cursor smooth scrolling
 set laststatus=2                     " always show statusline
 "set numberwidth=5                   " line number width configure 
-"set cursorline                      " highlight current line
+set cursorline                       " highlight current line
 set scrolloff=2                      " keep <n> lines when scrolling
 
 set novisualbell                     " turn off visualbell
