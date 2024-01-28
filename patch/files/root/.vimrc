@@ -27,7 +27,7 @@ set nowrap                           " line exceed screen don't wrap
 "set sidescroll=1                    " line exceed screen cursor smooth scrolling
 set laststatus=2                     " always show statusline
 "set numberwidth=5                   " line number width configure 
-set cursorline                       " highlight current line
+"set cursorline                      " highlight current line
 set scrolloff=2                      " keep <n> lines when scrolling
 
 set novisualbell                     " turn off visualbell
@@ -47,10 +47,10 @@ set shiftround                       " indent not to multiple of 'shiftwidth'
 set shiftwidth=4                     " number of spaces to use for (auto)indent
 
 "adjust split sizes easier
-noremap <silent> <C-Up> :resize +3<CR>
-noremap <silent> <C-Down> :resize -3<CR>
-noremap <silent> <C-Left> :vertical resize -3<CR>
-noremap <silent> <C-Right> :vertical resize +3<CR>
+nnoremap <silent> <C-Left> :vertical resize +3<CR>
+nnoremap <silent> <C-Right> :vertical resize -3<CR>
+nnoremap <silent> <C-Up> :resize -3<CR>
+nnoremap <silent> <C-Down> :resize +3<CR>
 
 "remap split navigation to just CTRL + hjkl
 nnoremap <C-h> <C-w>h
