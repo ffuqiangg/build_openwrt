@@ -77,7 +77,7 @@ vnoremap <silent> <C-p> :m -2<CR>gv=gv
 
 " filetree
 let g:netrw_banner=0
-let g:netrw_winsize=35
+let g:netrw_winsize=30
 let g:netrw_liststyle=3
 let g:netrw_altv=1
 let g:netrw_browse_split=4
