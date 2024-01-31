@@ -57,7 +57,9 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-nnoremap <silent> <C-q> :q<CR>
+nnoremap <silent> <leader>q :q<CR>
+nnoremap <silent> <leader>w :w<CR>
+nnoremap <silent> <leader>x :wq<CR>
 
 "switch tab
 nnoremap H gT
@@ -77,12 +79,12 @@ vnoremap <silent> <C-p> :m -2<CR>gv=gv
 
 " filetree
 let g:netrw_banner=0
-let g:netrw_winsize=30
-let g:netrw_liststyle=3
-let g:netrw_altv=1
-let g:netrw_browse_split=4
-nnoremap <silent> <leader>e :Vexplore<CR>
-autocmd filetype netrw nnoremap <buffer> <C-l> <C-w>l
+"let g:netrw_winsize=30
+"let g:netrw_liststyle=3
+"let g:netrw_altv=1
+"let g:netrw_browse_split=4
+nnoremap <silent> <leader>e :Ex<CR>
+"autocmd filetype netrw nnoremap <buffer> <C-l> <C-w>l
 
 " Specify file config
 autocmd filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
