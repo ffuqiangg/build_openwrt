@@ -65,7 +65,7 @@ jobs:
       run: |
         distrib_revision=$(cat openwrt/package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
         cp -rf patch/files openwrt/files
-        sed -i -e "s,DATE,${{ env.build_date }}," -e 's,WRT,LEDE,' -e "s,VERSION,${distrib_revision}," ./openwrt/files/etc/banner
+        sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_VERSION,LEDE ${distrib_revision}," ./openwrt/files/etc/banner
         echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
 
     - name: Make config

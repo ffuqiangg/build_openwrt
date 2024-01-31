@@ -63,7 +63,7 @@ jobs:
     - name: Load custom configuration
       run: |
         cp -rf patch/files openwrt/files
-        sed -i -e "s,DATE,${{ env.build_date }}," -e 's,WRT,ImmortalWrt,' -e 's,VERSION,18.06 K5.4,' ./openwrt/files/etc/banner
+        sed -i -e "s,DATE,${{ env.build_date }}," -e 's,WRT_VERSION,ImmortalWrt 18.06 K5.4,' ./openwrt/files/etc/banner
 
     - name: Make config
       run: |
