@@ -19,7 +19,7 @@ filetype plugin on
 syntax on                            " turn syntax highlighting on by defautl
 set mouse=a                          " turn mouse support on
 
-set nowrap                           " line exceed screen don't wrap
+"set nowrap                          " line exceed screen don't wrap
 "set breakindent                     " set indent in wrap
 "set breakindentopt=shift:1          " wrap line additional indent
 "set list                            " show nontext
@@ -27,7 +27,7 @@ set nowrap                           " line exceed screen don't wrap
 "set sidescroll=1                    " line exceed screen cursor smooth scrolling
 set laststatus=2                     " always show statusline
 "set numberwidth=5                   " line number width configure 
-"set cursorline                      " highlight current line
+set cursorline                       " highlight current line
 set scrolloff=2                      " keep <n> lines when scrolling
 
 set novisualbell                     " turn off visualbell
@@ -45,6 +45,11 @@ set expandtab                        " expand <Tab> as spaces
 set softtabstop=4                    " spaces number when insert <Tab>
 set shiftround                       " indent not to multiple of 'shiftwidth'
 set shiftwidth=4                     " number of spaces to use for (auto)indent
+
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
 
 "adjust split sizes easier
 nnoremap <silent> <C-Left> :vertical resize +3<CR>
