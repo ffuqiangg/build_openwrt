@@ -110,10 +110,12 @@ cp -rf ../lede_luci/applications/luci-app-frpc ./feeds/luci/applications/luci-ap
 cp -rf ../mosdns ./package/new/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns_pkg ./package/new/v2ray-geodata
-# homeproxy
-git clone --single-branch --depth 1 -b dev https://github.com/immortalwrt/homeproxy.git ./package/new/luci-app-homeproxy
+# Sing-box
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
+sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=1\.8\.5," ./feeds/packages/net/sing-box/Makefile
+sed -i "s,PKG_HASH:=.*,PKG_HASH:=0d5e6a7198c3a18491ac35807170715118df2c7b77fd02d16d7cfb5791e368ce," ./feeds/packages/net/sing-box/Makefile
+cp -f ../patch/sing-box/files/sing-box.init ./feeds/packages/net/sing-box/files/sing-box.init
 # OpenClash
 git clone --single-branch --depth 1 -b master https://github.com/vernesong/OpenClash.git ./package/new/luci-app-openclash
 # Passwall
