@@ -26,15 +26,12 @@ uci set network.tun0=interface
 uci set network.tun0.proto='none'
 uci set network.tun0.device='tun0'
 uci commit network
-uci add firewall zone
 zone_id=$(uci add firewall zone)
 uci set firewall.@zone[-1].name='sing_box'
 uci set firewall.@zone[-1].input='ACCEPT'
 uci set firewall.@zone[-1].output='ACCEPT'
 uci set firewall.@zone[-1].forward='ACCEPT'
 uci set firewall.@zone[-1].masq='1'
-uci commit firewall
-uci add firewall forwarding
 uci set firewall.@forwarding[-1].src='sing_box'
 uci set firewall.@forwarding[-1].dest='lan'
 uci add_list firewall.${zone_id}.network='tun0'
