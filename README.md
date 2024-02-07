@@ -10,7 +10,8 @@
 
 - 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)，下载前往 [Releases](https://github.com/ffuqiangg/build_openwrt/releases)
 - 默认 IP：192.168.1.99，  默认密码：password
-- 插件包含：PassWall，OpenClash，Homeproxy，v2rayA，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP服务器，DockerMan，DocKer Compose，UPNP，VerySync  `仅 ImmortalWrt/OpenWrt 23.05 包含 Homeproxy`
+- 插件包含：PassWall，OpenClash，Homeproxy，v2rayA，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP服务器，DockerMan，DocKer Compose，UPNP，VerySync  `仅 ImmortalWrt 23.05 包含 Homeproxy`  
+`注` OpenWrt 23.05 固件包含纯 Sing-Box 内核，搭配 clash 面板的使用方法可参考 [Sing-Box 使用文档](https://github.com/ffuqiangg/build_openwrt/blob/main/docs/Sing-box.md)
 - 固件对一些命令进行了简化，如 `ungz = tar -xvzf`，`777 = chmod -R 777`，`mkdirg = 创建并进入目录`, `bd = 回到之前目录` 等，详情可查看仓库 patch/files/etc/shinit 文件。
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
 - 如果你在使用 docker 等内存占用较大的应用时，觉得当前盒子的内存不够使用，可以创建 swap 虚拟内存，将 /mnt/mmcblk2p4 磁盘空间的一定容量虚拟成内存来使用。通过命令 `openwrt-swap` 创建 swap，默认大小为 1GB 也可以手动设置 swap 大小，命令为 `openwrt-swap N` N 为希望的 swap 大小数字，单位 GB。
