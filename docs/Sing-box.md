@@ -48,7 +48,7 @@ cp /etc/sing-box/xxx.json /etc/sing-box/config.json
 更新订阅需要前往 OpenWrt 的 `计划任务` 页面或者编辑 `/etc/crontabs/root` 文件手动添加计划任务，如果配置文件需要修改可用 sed 命令实现。可以趁此机会学习一点 linux 知识也是不错的。
 
 ```bash
-# 这每天 6:00 下载配置文件修改地址，替换 config.json 并重新读取 config.json
+# 这每天 6:00 下载配置文件完成修改，替换 config.json 并重新读取
 0 6 * * * wget -O /etc/sing-box/test.json -U "sing-box" "订阅地址" && sed -i 's/127.0.0.1:9090/0.0.0.0:9900/' /etc/sing-box/test.json && cp -f /etc/sing-box/test.json /etc/sing-box/config.json && /etc/init.d/sing-box reload
 ```
 
