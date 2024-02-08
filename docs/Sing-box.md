@@ -10,7 +10,7 @@ wget -U "sing-box" "订阅地址" -O xxx.json
 ```
 
 > [!TIP]
-> 可以保存多个订阅的配置文件，注意从文件名进行区分。
+> 可以保存多个订阅的配置文件，注意从文件名进行区分。sing-box 运行时只会读取 config.json ，所以要使用的配置文件修改好后须重命名或者复制一份为 config.json 。
 
 然后需要视情况对配置文件进行一些修改。
 
@@ -36,7 +36,7 @@ wget -U "sing-box" "订阅地址" -O xxx.json
 > [!TIP]
 > 注意：根据 json 文件语法，最后一项设置的行尾不能有 , 逗号。
 
-按照上面的说明修改好配置文件后复制配置文件为 config.json 就完成了配置文件的准备工作。执行下面的命令即可启动 sing-box。`sing-box 运行时对应的配置文件为 config.json`
+按照上面的说明修改好配置文件后复制配置文件为 config.json 就完成了配置文件的准备工作。执行下面的命令即可启动 sing-box。
 
 ```bash
 cp /etc/sing-box/xxx.json /etc/sing-box/config.json
@@ -48,7 +48,7 @@ cp /etc/sing-box/xxx.json /etc/sing-box/config.json
 更新订阅需要前往 OpenWrt 的 `计划任务` 页面或者编辑 `/etc/crontabs/root` 文件手动添加计划任务，如果配置文件需要修改可用 sed 命令实现。可以趁此机会学习一点 linux 知识也是不错的。
 
 ```bash
-# 这每天 6:00 下载配置文件修改地址，替换 config.json 文件并重新读取 config.json
+# 这每天 6:00 下载配置文件修改地址，替换 config.json 并重新读取 config.json
 0 6 * * * wget -O /etc/sing-box/test.json -U "sing-box" "订阅地址" && sed -i 's/127.0.0.1:9090/0.0.0.0:9900/' /etc/sing-box/test.json && cp -f /etc/sing-box/test.json /etc/sing-box/config.json && /etc/init.d/sing-box reload
 ```
 
