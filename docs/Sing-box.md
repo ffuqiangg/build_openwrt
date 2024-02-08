@@ -1,5 +1,7 @@
 ## OpenWrt 23.05 固件 sing-box 使用文档
 
+### 准备配置文件
+
 如果你的机场提供了 sing-box 订阅链接直接将配置文件下载到 /etc/sing-box 目录。如果机场没有提供 sing-box 订阅 google 搜索 sing-box 订阅转换服务。
 
 ```bash
