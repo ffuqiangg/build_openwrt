@@ -28,7 +28,7 @@ wget -U "sing-box" "订阅地址" -O xxx.json
 仔细阅读下面的说明后将你配置文件中的 clash_api 部分与上面的示例进行对比，按需求修改。 
 - **external_controller** 影响 clash 面板的访问地址，大部分机场提供的配置该值为 "127.0.0.1:9090"。`作为 网关/路由 使用地址必须修改为 0.0.0.0`，后面的端口可随意设置只要不与系统本身及其它插件冲突即可。面板访问地址为 `http://路由IP:这里设置的端口/ui`
 - **external_ui** clash 面板源码目录，可随意设置，多个配置文件中使用了不同的面板须设置不同的值。
-- **external_ui_download_url** clash 面板静态网页资源的 ZIP 下载地址，当 external_ui 设置的目录不存在或是空目录时会从此设置的下载地址下载面板文件。实例为 yacd 面板设置，要使用 metacubexd 面板修改为 "https://mirror.ghproxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip" `此项可省略，省略后默认使用 yacd 面板地址`
+- **external_ui_download_url** clash 面板静态网页资源的 ZIP 下载地址，当 external_ui 设置的目录不存在或是空目录时会从此设置的下载地址下载面板文件。实例为 yacd 面板设置，要使用 metacubexd 面板修改为 "https://mirror.ghproxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip" `此项可省略，省略后默认使用 yacd 面板`
 - **external_ui_download_detour** 用于下载静态网页资源的出站的标签。如果为空，将使用默认出站。`此项可省略`
 - **secret** clash 面板的登录密码。`网关/路由 使用推荐始终设置一个密码`
 - **efault_mode** Clash 中的默认模式，默认使用 Rule。此设置没有直接影响，但可以通过 clash_mode 规则项在路由和 DNS 规则中使用。`此项可省略`
