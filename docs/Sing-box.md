@@ -22,10 +22,10 @@ wget -U "sing-box" "订阅地址" -O xxx.json
 ```
 
 上面的代码对比你配置文件中的 clash_api 部分。 
-- "external_controller" 影响 clash 面板的访问地址及端口，大部分机场提供的配置该值为 "127.0.0.1:9090"。`:` 前的地址必须修改为 `0.0.0.0`，后面的端口可随意设置只要不与系统本身及其它插件冲突即可。
-- "external_ui" 影响 clash 面板源码保存的目录名及面板的访问地址后缀，可随意设置。
-- "secret" 为 clash 面板的登录密码随意设置。
-- "external_ui_download_url" 为 clash 面板静态网页资源的 ZIP 下载地址，按照上面设置即可。
+- **external_controller** 影响 clash 面板的访问地址及端口，大部分机场提供的配置该值为 "127.0.0.1:9090"。`:` 前的地址必须修改为 `0.0.0.0`，后面的端口可随意设置只要不与系统本身及其它插件冲突即可。
+- **external_ui** 影响 clash 面板源码保存的目录，可随意设置，多个配置文件中使用了不同的面板须设置不同的值。
+- **secret** 为 clash 面板的登录密码随意设置。
+- **external_ui_download_url** 为 clash 面板静态网页资源的 ZIP 下载地址。实例为 yacd 面板设置，要使用 metacubexd 面板设置为 "https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip"
 
 按照上面的说明修改好配置文件后复制配置文件为 config.json 就完成了配置文件的准备工作。执行下面的命令即可启动 sing-box 服务。
 
