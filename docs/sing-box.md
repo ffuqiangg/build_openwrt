@@ -1,4 +1,4 @@
-## OpenWrt 23.05 固件 sing-box 使用文档
+    ## OpenWrt 23.05 固件 sing-box 使用文档
 
 sing-box 作为一款最近几年出现的通用代理平台拥有和 clash 相当的灵活性和更好的运行效率。但目前 Openwrt 及其衍生路由系统中使用 sing-box 核心的插件中，passwall 仅仅将其用作解析代理协议，而 homeproxy 功能又过于简陋完全没有发挥出 sing-box 核心的特点和优势。于是就有了使用纯 sing-box 核心配合 clash 面板作为代理插件使用的想法，实现方式基于 [How to Bypass on OpenWRT using Sing-box](https://github.com/rezconf/Sing-box/wiki/How-to-Run) 这篇文档提供的方案。该方案中的服务脚本，网络接口，防火墙设置我已经预先编译进固件中，本文记录了具体的使用方法，想要尝试的小伙伴务必仔细阅读本文。如果使用中有任何问题或者建议欢迎通过 telegram, gmail, issues 与我联系。
 
@@ -12,7 +12,7 @@ sing-box 作为一款最近几年出现的通用代理平台拥有和 clash 相�
 ```bash
 /etc/init.d/sing-box disable
 ```
-禁用 sing-box 服务，作用为关闭 sing-box 开机自启。在你尝试过 sing-box 后要切换到其它代理插件时关闭 sing-box 后应使用此命令禁用 sing-box 服务，避免机器重启后 sing-box 自动启动造成两个代理插件同时运行发生冲突。
+禁用 sing-box 服务，作用为关闭 sing-box 开机自启。在你尝试过 sing-box 后要切换到其它代理插件时应使用此命令禁用 sing-box 服务，避免机器重启后 sing-box 自动启动造成两个代理插件同时运行发生冲突。
 
 ```bash
 /etc/init.d/sing-box start
