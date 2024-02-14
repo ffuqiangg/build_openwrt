@@ -1,6 +1,6 @@
 ## OpenWrt 23.05 固件 sing-box 使用文档
 
-sing-box 作为通用代理平台拥有和 clash 相当的灵活性和更好的运行效率。但目前 Openwrt 及其衍生路由系统中使用 sing-box 核心的插件中，passwall 仅仅将其用作解析代理协议，而 homeproxy 设计简洁无法完全发挥出 sing-box 核心的特点和优势。于是就有了使用纯 sing-box 核心配合 clash 面板作为代理插件使用的想法，实现方式基于 [How to Bypass on OpenWRT using Sing-box](https://github.com/rezconf/Sing-box/wiki/How-to-Run) 这篇文档提供的方案。该方案中的服务脚本，网络接口，防火墙设置我已经预先编译进固件中，本文记录了具体的使用方法，想要尝试的小伙伴务必仔细阅读本文。如果使用中有任何问题或者建议欢迎通过 telegram, gmail, issues 与我联系。
+sing-box 作为通用代理平台拥有和 clash 相当的灵活性和更好的运行效率。但目前 Openwrt 及其衍生路由系统中使用 sing-box 核心的插件中，passwall 仅仅将其用作解析代理协议，而 homeproxy 设计简洁无法完全发挥出 sing-box 核心的特点和优势。于是就有了使用纯 sing-box 核心配合 clash 面板作为代理插件使用的想法，实现方式基于 [How to Bypass on OpenWRT using Sing-box](https://github.com/rezconf/Sing-box/wiki/How-to-Run) 这篇文档提供的方案。本文记录了具体的使用方法，想要尝试的小伙伴务必仔细阅读本文。如果使用中有任何问题或者建议欢迎通过 telegram, gmail, issues 与我联系。
 
 ### 基础命令
 
@@ -60,7 +60,7 @@ wget -U "sing-box" "订阅地址" -O xxx.json
 - **external_ui_download_url** clash 面板静态网页资源的 ZIP 下载地址，当 external_ui 设置的目录不存在或是空目录会按这里设置的地址下载面板文件。实例为 yacd 面板，要使用 metacubexd 面板修改为 "https://mirror.ghproxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip" `此项可省略，省略后默认使用 yacd 面板`
 - **external_ui_download_detour** 用于下载静态网页资源的出站的标签。如果为空，将使用默认出站。`此项可省略`
 - **secret** clash 面板的登录密码。`网关/路由 使用推荐始终设置一个密码`
-- **efault_mode** Clash 中的默认模式，默认使用 Rule。此设置没有直接影响，但可以通过 clash_mode 规则项在路由和 DNS 规则中使用。`此项可省略`
+- **default_mode** Clash 中的默认模式，默认使用 Rule。此设置没有直接影响，但可以通过 clash_mode 规则项在路由和 DNS 规则中使用。`此项可省略`
 
 > [!CAUTION]
 > 注意：根据 json 文件语法，最后一项设置的行尾不能有 , 逗号。
