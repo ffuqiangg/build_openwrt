@@ -1,6 +1,6 @@
 ## OpenWrt 23.05 固件 sing-box 使用文档
 
-sing-box 作为通用代理平台拥有和 clash 相当的灵活性和更好的运行效率。但目前 Openwrt 及其衍生路由系统中使用 sing-box 核心的插件中，passwall 仅仅将其用作解析代理协议，而 homeproxy 设计简洁无法完全发挥出 sing-box 核心的特点和优势。于是就有了使用纯 sing-box 核心配合 clash 面板作为代理插件使用的想法，实现方式基于 [How to Bypass on OpenWRT using Sing-box](https://github.com/rezconf/Sing-box/wiki/How-to-Run) 这篇文档提供的方案。本文记录了具体的使用方法，想要尝试的小伙伴务必仔细阅读本文。如果使用中有任何问题或者建议欢迎通过 telegram, gmail, issues 与我联系。
+sing-box 作为通用代理平台拥有和 clash 相当的灵活性和更好的运行效率。但目前 Openwrt 及其衍生路由系统中使用 sing-box 核心的插件中，passwall 仅仅将其用作解析代理协议，而 homeproxy 设计简洁无法完全发挥出 sing-box 核心的特点和优势。于是就有了使用纯 sing-box 核心配合 clash 面板作为代理插件使用的想法，本文记录了具体的使用方法，想要尝试的小伙伴务必仔细阅读本文。如果使用中有任何问题或者建议欢迎通过 telegram, gmail, issues 与我联系。
 
 ### 基础命令
 
@@ -46,7 +46,7 @@ wget -U "sing-box" "订阅地址" -O xxx.json
 ```json
 "clash_api":{ 
     "external_controller": "0.0.0.0:9900",
-    "external_ui": "ui",
+    "external_ui": "yacd",
     "secret": "ffuqiangg",
     "external_ui_download_url": "https://mirror.ghproxy.com/https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip",
     "external_ui_download_detour": "direct",
@@ -61,6 +61,23 @@ wget -U "sing-box" "订阅地址" -O xxx.json
 - **external_ui_download_detour** 用于下载静态网页资源的出站的标签。如果为空，将使用默认出站。`此项可省略`
 - **secret** clash 面板的登录密码。`网关/路由 使用推荐始终设置一个密码`
 - **default_mode** Clash 中的默认模式，默认使用 Rule。此设置没有直接影响，但可以通过 clash_mode 规则项在路由和 DNS 规则中使用。`此项可省略`
+
+```json
+{
+    "type": "tproxy",
+    "tag": "tproxy-in",
+    "listen": "::",
+    "listen_port": 10105,
+    "tcp_fast_open": true,
+    "udp_fragment": true,
+    "sniff": true
+},
+```
+
+找到配置文件中的 inbounds 部分对照上方的示例然后将其中包含 `"type": "tun"` 的整个 {} 中的内容替换为上面的示例代码。这步的作用是将代理模式由 tun 换为 tproxy，想使用 tun 模式的小伙伴可忽略这一步修改，然后根据参考文档 1 的方法手动添加网络接口和防火墙区域。[^1]  
+- **listen_port** 参数要修改必须同步修改 /etc/sing-box/nftables.rules 文件中的端口部分。文件对应的仓库源码为 patch/sing-box/files/nftables.rules
+
+[^1]: 在我的测试中 tun 模式会严重影响直连性能。
 
 > [!CAUTION]
 > 注意：根据 json 文件语法，最后一项设置的行尾不能有 , 逗号。
@@ -83,3 +100,11 @@ cp /etc/sing-box/xxx.json /etc/sing-box/config.json
 
 > [!TIP]
 > config.json 如有变动须执行 /etc/init.d/sing-box reload 重新读取配置文件方可生效。
+
+### 参考文档
+
+1. [How to Bypass on OpenWRT using Sing-box](https://github.com/rezconf/Sing-box/wiki/How-to-Run)
+
+2. [sing-box 透明代理笔记](https://idev.dev/proxy/sing-box-tproxy.html)
+
+3. [TProxy 透明代理配置教程](https://xtls.github.io/document/level-2/tproxy_ipv4_and_ipv6.html)
