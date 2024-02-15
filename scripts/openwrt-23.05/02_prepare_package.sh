@@ -181,6 +181,9 @@ popd
 cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
 cp -f ../patch/addition-trans-zh/files/zzz-default-settings ./package/new/addition-trans-zh/files/zzz-default-settings
 sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/new/addition-trans-zh/Makefile
+# curl 8.6.0 passwall 冲突降级
+sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=8\.5\.0," ./feeds/packages/net/curl/Makefile
+sed -i "s,PKG_HASH:=.*,PKG_HASH:=ce4b6a6655431147624aaf582632a36fe1ade262d5fab385c60f78942dd8d87b," ./feeds/packages/net/curl/Makefile
 
 ### 最后的收尾工作 ###
 # 生成默认配置及缓存

@@ -56,6 +56,9 @@ cp -rf ../Lienol_pkg/luci-app-verysync ./package/luci-app-verysync
 pushd package/luci-app-verysync
 move_2_services nas
 popd
+# curl 8.6.0 passwall 冲突降级
+sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=8\.5\.0," ./feeds/packages/net/curl/Makefile
+sed -i "s,PKG_HASH:=.*,PKG_HASH:=ce4b6a6655431147624aaf582632a36fe1ade262d5fab385c60f78942dd8d87b," ./feeds/packages/net/curl/Makefile
 
 # fix xfsprogs
 sed -i 's,TARGET_CFLAGS += -DHAVE_MAP_SYNC,& -D_LARGEFILE64_SOURCE,' feeds/packages/utils/xfsprogs/Makefile
