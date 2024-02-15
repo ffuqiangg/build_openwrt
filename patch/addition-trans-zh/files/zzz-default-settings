@@ -21,28 +21,6 @@ uci set passwall.@global_delay[0].start_delay='5'
 uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
 uci commit passwall
 
-#SING-BOX
-uci set network.tun0=interface
-uci set network.tun0.proto='none'
-uci set network.tun0.device='tun0'
-uci commit network
-cat >> /etc/config/firewall << EOF
-config zone
-    option name 'sing_box'
-    option input 'ACCEPT'
-    option output 'ACCEPT'
-    option forward 'ACCEPT'
-    option masq '1'
-    option mtu_fix '1'
-    list network 'tun0'
-
-config forwarding
-    option src 'sing_box'
-    option dest 'lan'
-
-EOF
-/etc/init.d/firewall restart
-
 #Feeds 更换镜像源
 sed -i 's,23.05,OPENWRT_VER,g' /etc/opkg/distfeeds.conf
 sed -i 's,downloads.openwrt.org,mirror.sjtu.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
