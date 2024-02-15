@@ -79,7 +79,8 @@ jobs:
     - name: Load custom configuration
       run: |
         latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
-        cp -rf patch/files openwrt/files && cp -r patch/openwrt-23.05/. openwrt/files/
+        cp -rf patch/files openwrt/files && cp -r patch/openwrt-23.05/. openwrt/files/ && \
+        cp patch/sing-box/files/nftables.rules openwrt/files/etc/sing-box/
         sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_VERSION,OpenWrt ${latest_release}," ./openwrt/files/etc/banner
         sed -i "s,OPENWRT_VER,${latest_release}," ./openwrt/package/new/addition-trans-zh/files/zzz-default-settings
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}

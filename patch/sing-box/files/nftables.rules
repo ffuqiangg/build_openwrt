@@ -1,0 +1,28 @@
+#!/usr/sbin/nft -f
+
+flush ruleset
+
+table inet xray {
+    chain prerouting {
+        type filter hook prerouting priority filter; policy accept;
+        ip daddr { 127.0.0.0/8, 224.0.0.0/4, 255.255.255.255 } return
+        meta l4proto tcp ip daddr 192.168.0.0/16 return
+        ip daddr 192.168.0.0/16 udp dport != 53 return
+        meta mark 0x000000ff return
+        meta l4proto { tcp, udp } meta mark set 0x00000001 tproxy ip to 127.0.0.1:10105 accept
+    }
+
+    chain output {
+        type route hook output priority filter; policy accept;
+        ip daddr { 127.0.0.0/8, 224.0.0.0/4, 255.255.255.255 } return
+        meta l4proto tcp ip daddr 192.168.0.0/16 return
+        ip daddr 192.168.0.0/16 udp dport != 53 return
+        meta mark 0x000000ff return
+        meta l4proto { tcp, udp } meta mark set 0x00000001 accept
+    }
+
+    chain divert {
+        type filter hook prerouting priority mangle; policy accept;
+        meta l4proto tcp socket transparent 1 meta mark set 0x00000001 accept
+    }
+}

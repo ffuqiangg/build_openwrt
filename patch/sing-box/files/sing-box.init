@@ -37,13 +37,17 @@ start_service() {
   procd_set_param stderr 1
   procd_set_param respawn "${respawn_threshold:-3600}" "${respawn_timeout:-5}" "${respawn_retry:-5}"
   procd_close_instance
-  iptables -I FORWARD -o tun+ -j ACCEPT
+  ip rule add fwmark 1 table 100
+  ip route add local 0.0.0.0/0 dev lo table 100
+  nft -f /etc/sing-box/nftables.rules
   echo "sing-box is started!"
 }
 
 stop_service() {
   service_stop $PROG
-  iptables -D FORWARD -o tun+ -j ACCEPT
+  ip rule del fwmark 1 table 100
+  ip route del local 0.0.0.0/0 dev lo table 100
+  nft flush ruleset
   echo "sing-box is stopped!"
 }
 
