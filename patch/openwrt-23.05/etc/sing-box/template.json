@@ -1,0 +1,20 @@
+{
+  "experimental": {
+    "clash_api": {
+      "external_controller": "0.0.0.0:9900",
+      "external_ui": "yacd",
+      "secret": "ffuqiangg"
+    }
+  },
+  "inbounds": [
+    {
+      "type": "tproxy",
+      "tag": "tproxy-in",
+      "listen": "::",
+      "listen_port": 10105,
+      "tcp_fast_open": true,
+      "udp_fragment": true,
+      "sniff": true
+    }
+  ]
+}
