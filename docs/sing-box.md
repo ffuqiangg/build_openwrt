@@ -74,7 +74,7 @@ wget -U "sing-box" "订阅地址" -O xxx.json
 },
 ```
 
-找到配置文件中的 inbounds 部分对照上方的示例然后将其中包含 `"type": "tun"` 的整个 {} 中的内容替换为上面的示例代码。这步的作用是将代理模式由 tun 换为 tproxy，想使用 tun 模式的小伙伴可忽略这一步修改，然后根据参考文档 1 的方法手动添加网络接口和防火墙区域。[^1]  
+找到配置文件中的 inbounds 部分对照上方的示例然后将其中包含 `"type": "tun"` 的整个 {} 中的内容替换为上面的示例代码。这步的作用是将代理模式由 tun 换为 tproxy，想使用 tun 模式的小伙伴可忽略这一步修改，然后根据 [参考文档](https://github.com/ffuqiangg/build_openwrt/blob/main/docs/sing-box.md#参考文档) 1 的方法手动添加网络接口和防火墙区域。[^1]  
 - **listen_port** 参数要修改必须同步修改 /etc/sing-box/nftables.rules 文件中的端口部分。文件对应的仓库源码为 patch/sing-box/files/nftables.rules
 
 [^1]: 在我的测试中 tun 模式会严重影响直连性能，不知道是不是我的姿势不对。
@@ -89,13 +89,18 @@ cp /etc/sing-box/xxx.json /etc/sing-box/config.json
 /etc/init.d/sing-box start
 ```
 
+> [!NOTE]
+> 我在固件中提供了一个模板可以方便的按照上面的示例修改配置文件。用参考 [更新订阅](https://github.com/ffuqiangg/build_openwrt/blob/main/docs/sing-box.md#更新订阅) 中的示例部分。
+
 ### 更新订阅
 
 更新订阅需要前往 OpenWrt 的 `计划任务` 页面或者编辑 `/etc/crontabs/root` 文件手动添加计划任务，如果配置文件需要修改可用 sed 命令实现。可以趁此机会学习一点 linux 知识也是不错的。
 
 ```bash
-# 这每天 6:00 下载配置文件完成修改，替换 config.json 并重新读取
-0 6 * * * wget -O /etc/sing-box/test.json -U "sing-box" "订阅地址" && sed -i 's/127.0.0.1:9090/0.0.0.0:9900/' /etc/sing-box/test.json && cp -f /etc/sing-box/test.json /etc/sing-box/config.json && /etc/init.d/sing-box reload
+# 这每天 6:00 下载并自动启用模板文件修改配置文件覆盖 config.json，然后重新读取配置文件。( xxx.json 为机场提供的原始状态未修改 ）
+0 6 * * * wget -O /etc/sing-box/xxx.json -U "sing-box" "订阅地址" && jq -s add /etc/sing-box/xxx.json /etc/sing-box/template.json > config.json && /etc/init.d/sing-box reload
+# 作用与上面相同但不覆盖 config.json，而是保存为 xxx.json
+0 6 * * * wget -O /etc/sing-box/xxx.json -U "sing-box" "订阅地址" && jq -s add /etc/sing-box/xxx.json /etc/sing-box/template.json > tmp && mv /etc/sing-box/tmp /etc/sing-box/xxx.json
 ```
 
 > [!TIP]
