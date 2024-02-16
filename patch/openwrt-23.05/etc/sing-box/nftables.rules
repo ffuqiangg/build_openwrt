@@ -17,8 +17,8 @@ table inet xray {
     chain prerouting {
         type filter hook prerouting priority filter; policy accept;
         ip daddr $RESERVED_IP return
-        meta l4proto tcp ip daddr 192.168.0.0/16 return
-        ip daddr 192.168.0.0/16 udp dport != 53 return
+        meta l4proto tcp ip daddr 192.168.1.0/24 return
+        ip daddr 192.168.1.0/24 udp dport != 53 return
         meta mark 0x000000ff return
         meta l4proto { tcp, udp } meta mark set 0x00000001 tproxy ip to 127.0.0.1:10105 accept
     }
@@ -26,8 +26,8 @@ table inet xray {
     chain output {
         type route hook output priority filter; policy accept;
         ip daddr $RESERVED_IP return
-        meta l4proto tcp ip daddr 192.168.0.0/16 return
-        ip daddr 192.168.0.0/16 udp dport != 53 return
+        meta l4proto tcp ip daddr 192.168.1.0/24 return
+        ip daddr 192.168.1.0/24 udp dport != 53 return
         meta mark 0x000000ff return
         meta l4proto { tcp, udp } meta mark set 0x00000001 accept
     }
