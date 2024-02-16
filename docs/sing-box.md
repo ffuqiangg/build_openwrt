@@ -90,7 +90,7 @@ cp /etc/sing-box/xxx.json /etc/sing-box/config.json
 ```
 
 > [!NOTE]
-> 我在固件中提供了一个模板可以方便的按照上面的示例修改配置文件。用参考 [更新订阅](https://github.com/ffuqiangg/build_openwrt/blob/main/docs/sing-box.md#更新订阅) 中的示例部分。
+> 我在固件中提供了一个模板可以方便的按照上面的示例修改配置文件。使用方法参考 [更新订阅](https://github.com/ffuqiangg/build_openwrt/blob/main/docs/sing-box.md#更新订阅) 中的示例部分。
 
 ### 更新订阅
 
