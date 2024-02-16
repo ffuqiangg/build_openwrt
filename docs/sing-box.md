@@ -79,9 +79,6 @@ wget -U "sing-box" "订阅地址" -O xxx.json
 
 [^1]: 在我的测试中 tun 模式会严重影响直连性能，不知道是不是我的姿势不对。
 
-> [!CAUTION]
-> 注意：根据 json 文件语法，最后一项设置的行尾不能有 , 逗号。
-
 按照上面的说明修改好配置文件后复制配置文件为 config.json 就完成了配置文件的准备工作。执行下面的命令即可启动 sing-box。
 
 ```bash
@@ -92,19 +89,22 @@ cp /etc/sing-box/xxx.json /etc/sing-box/config.json
 > [!NOTE]
 > 固件中提供了一个模板可以方便的使用上面的示例快速修改配置文件。使用方法参考 [更新订阅](https://github.com/ffuqiangg/build_openwrt/blob/main/docs/sing-box.md#更新订阅) 中的示例部分。
 
+> [!CAUTION]
+> 注意：如果 IP 不是使用的 192.168.1.X 网段，须要修改 /etc/sing-box/nftables.rules 文件的 192.168.1.0/24 为你使用的网段。对应的仓库源码为 patch/openwrt-23.05/etc/sing-box/nftables.rules
+
 ### 更新订阅
 
-更新订阅需要前往 OpenWrt 的 `计划任务` 页面或者编辑 `/etc/crontabs/root` 文件手动添加计划任务，如果配置文件需要修改可用 sed 命令实现。可以趁此机会学习一点 linux 知识也是不错的。
+更新订阅需要前往 OpenWrt 的 `计划任务` 页面或者编辑 `/etc/crontabs/root` 文件手动添加计划任务，如果配置文件需要修改可以使用固件中的模板或者 sed|grep|awk|jq 等工具。趁此机会学习一点 linux 知识也是不错的。
 
 ```bash
-# 这每天 6:00 下载并自动启用模板文件修改配置文件覆盖 config.json，然后重新读取配置文件。( xxx.json 为机场提供的原始状态未修改 ）
+# 这每天 6:00 下载并自动启用模板文件修改配置文件覆盖 config.json，然后重新读取配置文件。( xxx.json 仍为机场提供的原始配置文件 ）
 0 6 * * * wget -O /etc/sing-box/xxx.json -U "sing-box" "订阅地址" && jq -s add /etc/sing-box/xxx.json /etc/sing-box/template.json > config.json && /etc/init.d/sing-box reload
 # 作用与上面相同但不覆盖 config.json，而是保存为 xxx.json
 0 6 * * * wget -O /etc/sing-box/xxx.json -U "sing-box" "订阅地址" && jq -s add /etc/sing-box/xxx.json /etc/sing-box/template.json > tmp && mv /etc/sing-box/tmp /etc/sing-box/xxx.json
 ```
 
 > [!TIP]
-> config.json 如有变动须执行 /etc/init.d/sing-box reload 重新读取配置文件方可生效。
+> config.json 如有变动须执行 /etc/init.d/sing-box reload 重新读取配置文件方可生效。使用模板默认面板 yacd，登录地址为 http://路由IP:9900/ui，密码 ffuqiangg"
 
 ### 参考文档
 
