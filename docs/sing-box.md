@@ -53,7 +53,7 @@ wget -U "sing-box" "订阅地址" -O /etc/sing-box/xxx.json
 ```
 
 仔细阅读下面的说明后将你配置文件中的 clash_api 部分与上面的示例进行对比，按需求修改。 
-- **external_controller** 影响 clash 面板的访问地址。作为 网关/路由 这里的地址必须修改为 0.0.0.0，端口可随意设置只要不与系统本身及其它插件冲突即可。面板访问地址为 http://路由IP:这里设置的端口/ui
+- **external_controller** 影响 clash 面板的访问地址。作为 网关/路由 这里的地址必须修改为 0.0.0.0，端口可随意设置只要不与系统本身及其它插件冲突即可。面板访问地址为 http://路由IP:自定义端口/ui
 - **external_ui** clash 面板源码目录，可随意设置。
 - **external_ui_download_url** clash 面板静态网页资源的 ZIP 下载地址，当 external_ui 设置的目录不存在或是空目录会按这里设置的地址下载面板文件。实例为 metacubexd 面板，要使用 yacd 面板修改为 "https://mirror.ghproxy.com/https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip"
 - **external_ui_download_detour** 用于下载静态网页资源的出站的标签。如果为空，将使用默认出站。`此项可省略`
