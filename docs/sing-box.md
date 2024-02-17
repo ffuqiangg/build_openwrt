@@ -106,7 +106,6 @@ cp -f /etc/sing-box/xxx.json /etc/sing-box/config.json
 ### 参考文档
 
 1. [How to Bypass on OpenWRT using Sing-box](https://github.com/rezconf/Sing-box/wiki/How-to-Run)
-
 2. [sing-box 透明代理笔记](https://idev.dev/proxy/sing-box-tproxy.html)
-
-3. [TProxy 透明代理配置教程](https://xtls.github.io/document/level-2/tproxy_ipv4_and_ipv6.html)
+3. [TProxy 透明代理（ipv4 and ipv6）配置教程](https://xtls.github.io/document/level-2/tproxy_ipv4_and_ipv6.html)
+4. [sing-box 官方配置文档](https://sing-box.sagernet.org/zh/configuration/)
