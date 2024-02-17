@@ -95,7 +95,7 @@ cp -f /etc/sing-box/xxx.json /etc/sing-box/config.json
 
 ```bash
 # 每天 6:00 下载并使用模板修改配置文件并覆盖 config.json，然后重新读取配置文件。( xxx.json 仍为机场提供的原始配置文件 ）
-0 6 * * * wget -O /etc/sing-box/xxx.json -U "sing-box" "订阅地址" && jq -s add /etc/sing-box/xxx.json /etc/sing-box/template.json > config.json && /etc/init.d/sing-box reload
+0 6 * * * wget -O /etc/sing-box/xxx.json -U "sing-box" "订阅地址" && jq -s add /etc/sing-box/xxx.json /etc/sing-box/template.json > /etc/sing-box/config.json && /etc/init.d/sing-box reload
 # 作用与上面相同但不覆盖 config.json，而是保存为 xxx.json
 0 6 * * * wget -O /etc/sing-box/xxx.json -U "sing-box" "订阅地址" && jq -s add /etc/sing-box/xxx.json /etc/sing-box/template.json > /etc/sing-box/tmp && mv /etc/sing-box/tmp /etc/sing-box/xxx.json
 ```
