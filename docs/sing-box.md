@@ -100,7 +100,7 @@ cp -f /etc/sing-box/xxx.json /etc/sing-box/config.json
 && cp -f /etc/sing-box/xxx.json /etc/sing-box/config.json && /etc/init.d/sing-box reload
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   |
-  如果只是更新而不使用的订阅就不要最后这一行
+  更新暂不使用的订阅不要最后这一行
 ```
 
 > [!TIP]
