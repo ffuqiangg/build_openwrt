@@ -71,7 +71,7 @@ wget -U "sing-box" "订阅地址" -O /etc/sing-box/xxx.json
 },
 ```
 
-找到配置文件中的 inbounds 部分对照上方的示例然后将其中包含 `"type": "tun"` 的整个 {} 中的内容替换为上面的示例代码。这步的作用是将代理模式由 tun 换为 tproxy，想使用 tun 模式的小伙伴可忽略这一步修改，然后根据 [参考文档](https://github.com/ffuqiangg/build_openwrt/blob/main/docs/sing-box.md#参考文档) 1 的方法手动添加网络接口和防火墙区域。[^1]  
+找到配置文件中的 inbounds 部分对照上方的示例然后将其中包含 `"type": "tun"` 的整个 {} 中的内容替换为上面的示例代码。这步的作用是将代理模式由 tun 换为 tproxy，想使用 tun 模式的小伙伴可忽略这一步修改，然后根据 [参考文档](https://github.com/ffuqiangg/build_openwrt/blob/main/docs/sing-box.md#参考文档) 1 的方法手动配置。[^1]  
 - **listen_port** 参数要修改必须同步修改 /etc/sing-box/nftables.rules 文件中的端口部分。文件对应的仓库源码为 patch/openwrt-23.05/etc/sing-box/nftables.rules
 
 [^1]: 在我的测试中 tun 模式会严重影响直连性能，不知道是不是我的姿势不对。
