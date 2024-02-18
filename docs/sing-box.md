@@ -94,13 +94,13 @@ cp -f /etc/sing-box/xxx.json /etc/sing-box/config.json
 更新订阅需要前往 OpenWrt 的 `计划任务` 页面或者编辑 `/etc/crontabs/root` 文件手动添加计划任务，如果配置文件需要修改可以使用固件中的模板或者 sed | grep | awk | jq 等工具。趁此机会学习一点 linux 知识也是不错的。
 
 ```bash
-# 每天 6:00 下载并使用模板修改配置文件并覆盖 config.json，然后重新读取配置文件。( xxx.json 仍为机场提供的原始配置文件 ）
+# 每天 6:00 下载并使用模板修改配置文件并覆盖 config.json，然后重新读取配置文件。
 0 6 * * * wget -O /etc/sing-box/xxx.json -U "sing-box" "订阅地址" \
-&& jq -s add /etc/sing-box/xxx.json /etc/sing-box/template.json > /etc/sing-box/config.json && /etc/init.d/sing-box reload
-
-# 作用与上面相同但不覆盖 config.json，而是保存为 xxx.json
-0 6 * * * wget -O /etc/sing-box/xxx.json -U "sing-box" "订阅地址" \
-&& jq -s add /etc/sing-box/xxx.json /etc/sing-box/template.json > /etc/sing-box/tmp && mv /etc/sing-box/tmp /etc/sing-box/xxx.json
+&& jq -s add /etc/sing-box/xxx.json /etc/sing-box/template.json > /etc/sing-box/tmp && mv /etc/sing-box/tmp /etc/sing-box/xxx.json \
+&& cp -f /etc/sing-box/xxx.json /etc/sing-box/config.json && /etc/init.d/sing-box reload
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  |
+  如果只是更新而不使用的订阅就不要最后这一行
 ```
 
 > [!TIP]
