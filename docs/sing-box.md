@@ -104,7 +104,7 @@ cp -f /etc/sing-box/xxx.json /etc/sing-box/config.json
 ```
 
 > [!TIP]
-> config.json 如有变动须执行 /etc/init.d/sing-box reload 重新读取配置文件方可生效。模板默认面板 metacubexd，登录地址 http://路由IP:9900/ui ，密码 ffuqiangg"
+> config.json 如有变动须执行 /etc/init.d/sing-box reload 重新读取配置文件方可生效。模板默认面板 metacubexd，登录地址 http://路由IP:9900/ui ，密码 ffuqiangg
 
 ### 参考文档
 
