@@ -4,11 +4,11 @@ sing-box 作为通用代理平台拥有和 clash 相当的灵活性和更好的�
 
 ### 基础命令
 
-`/etc/init.d/sing-box enable` 启用 sing-box 服务，作用等效于开启 sing-box 开机自启。固件为了避免和其它代理插件冲突默认禁用 sing-box 服务，使用 sing-box 前请先用此命令启用 sing-box 服务。  
-`/etc/init.d/sing-box disable` 禁用 sing-box 服务，作用为关闭 sing-box 开机自启。在你尝试过 sing-box 后要切换到其它代理插件时应使用此命令禁用 sing-box 服务，避免机器重启后 sing-box 自动启动造成两个代理插件同时运行发生冲突。  
-`/etc/init.d/sing-box start` 启动 sing-box，配置文件准备好后使用此命令启动 sing-box。  
-`/etc/init.d/sing-box stop` 关闭 sing-box，停止 sing-box 运行。  
-`/etc/init.d/sing-box reload` 重新读取配置文件，当 sing-box 正在运行过程中配置文件发生变化时使用此命令重新读取配置文件。
+- `/etc/init.d/sing-box enable` 启用 sing-box 服务，作用等效于开启 sing-box 开机自启。固件为了避免和其它代理插件冲突默认禁用 sing-box 服务，使用 sing-box 前请先用此命令启用 sing-box 服务。
+- `/etc/init.d/sing-box disable` 禁用 sing-box 服务，作用为关闭 sing-box 开机自启。在你尝试过 sing-box 后要切换到其它代理插件时应使用此命令禁用 sing-box 服务，避免机器重启后 sing-box 自动启动造成两个代理插件同时运行发生冲突。
+- `/etc/init.d/sing-box start` 启动 sing-box，配置文件准备好后使用此命令启动 sing-box。
+- `/etc/init.d/sing-box stop` 关闭 sing-box，停止 sing-box 运行。
+- `/etc/init.d/sing-box reload` 重新读取配置文件，当 sing-box 正在运行过程中配置文件发生变化时使用此命令重新读取配置文件。
 
 ### 准备配置文件
 
