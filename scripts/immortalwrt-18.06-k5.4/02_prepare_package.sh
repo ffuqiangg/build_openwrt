@@ -50,5 +50,7 @@ git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git pa
 pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd
+# NetSpeedTest
+cp -rf ../netspeedtest package/netspeedtest
 
 exit 0

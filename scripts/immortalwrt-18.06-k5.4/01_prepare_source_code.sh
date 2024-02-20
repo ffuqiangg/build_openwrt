@@ -7,6 +7,7 @@ clone_repo $immortalwrt_repo openwrt-18.06-k5.4 openwrt &
 clone_repo $mosdns_repo v5 mosdns &
 clone_repo $mosdns_pkg master mosdns_pkg &
 clone_repo $sirpdboy_repo main sirpdboy &
+clone_repo $netspeedtest_repo master netspeedtest &
 
 wait
 

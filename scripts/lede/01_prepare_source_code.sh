@@ -12,6 +12,7 @@ clone_repo $mosdns_pkg master mosdns_pkg &
 clone_repo $sirpdboy_repo main sirpdboy &
 clone_repo $openclash_repo master openclash &
 clone_repo $lienol_pkg_repo main lienol_pkg &
+clone_repo $netspeedtest_repo master netspeedtest &
 
 wait
 

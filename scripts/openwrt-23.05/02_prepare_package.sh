@@ -177,6 +177,8 @@ cp -rf ../immortalwrt_pkg/net/verysync ./package/new/verysync
 pushd package/new/luci-app-verysync
 move_2_services nas
 popd
+# NetSpeedTest
+cp -rf ../netspeedtest ./package/new/netspeedtest
 # 翻译及部分功能优化
 cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
 cp -f ../patch/addition-trans-zh/files/zzz-default-settings ./package/new/addition-trans-zh/files/zzz-default-settings
