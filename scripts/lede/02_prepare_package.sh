@@ -11,7 +11,7 @@ sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 # Passwall
 cp -rf ../passwall_luci ./package/luci-app-passwall
 cp -rf ../passwall_pkg ./package/passwall-pkg
-sed ~i '/gVisor/{n;s/n/y/;}' ./package/passwall-pkg/sing-box/Makefile
+sed -i '/gVisor/{n;s/n/y/;}' ./package/passwall-pkg/sing-box/Makefile
 # Openclash
 cp -rf ../openclash ./package/luci-app-openclash
 # Filebrowser
