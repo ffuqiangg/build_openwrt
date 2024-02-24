@@ -118,14 +118,14 @@ jobs:
     - name: Clear server space
       run: |
         cd openwrt/
-        [[ -d "ouput" ]] || mkdir output
+        [[ -d "output" ]] || mkdir output
         cp -f bin/targets/*/*/*rootfs.tar.gz output/
-        rm -rf $(ls . | grep -v "^ouput$" | xargs) 2>/dev/null
+        rm -rf $(ls . | grep -v "^output$" | xargs) 2>/dev/null
 
     - name: Package firmware
       uses: ffuqiangg/amlogic-s9xxx-openwrt@main
       with:
-        openwrt_path: openwrt/ouput/*rootfs.tar.gz
+        openwrt_path: openwrt/output/*rootfs.tar.gz
         openwrt_board: s905d
         kernel_repo: ophub/kernel
         openwrt_kernel: 5.15.1
