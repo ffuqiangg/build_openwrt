@@ -118,7 +118,7 @@ jobs:
     - name: Clear server space
       run: |
         cd openwrt/
-        mkdir output
+        [[ -d "ouput" ]] || mkdir output
         cp -f bin/targets/*/*/*rootfs.tar.gz output/
         rm -rf $(ls . | grep -v "^ouput$" | xargs) 2>/dev/null
 
@@ -136,7 +136,7 @@ jobs:
     - name: Upload firmware to release
       uses: ncipollo/release-action@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag: ${{ env.build_date }}
         allowUpdates: true
