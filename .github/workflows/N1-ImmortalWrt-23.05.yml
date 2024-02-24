@@ -104,6 +104,13 @@ jobs:
         name: OpenWrt_rootfs_${{ env.build_date }}
         path: openwrt/bin
 
+    - name: Clear server space
+      run: |
+        cd openwrt/
+        mkdir output
+        cp -f bin/targets/*/*/*rootfs.tar.gz output/
+        rm -rf $(ls . | grep -v "^ouput$" | xargs) 2>/dev/null
+
     - name: Package firmware
       uses: ffuqiangg/amlogic-s9xxx-openwrt@main
       with:
