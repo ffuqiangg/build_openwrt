@@ -101,11 +101,18 @@ jobs:
         name: OpenWrt_rootfs_${{ env.build_date }}
         path: openwrt/bin
 
+    - name: Clear server space
+      run: |
+        cd openwrt
+        mkdir output
+        cp -f bin/targets/*/*/*rootfs.tar.gz output/
+        rm -rf $(ls . | grep -v "^output$" | xargs) 2>/dev/null
+
     - name: Package firmware
       uses: ffuqiangg/openwrt_packit@master
       env:
         SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
-        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*rootfs.tar.gz
+        OPENWRT_ARMVIRT: openwrt/output/*rootfs.tar.gz
         PACKAGE_SOC: s905d
         KERNEL_REPO_URL: breakings/OpenWrt
         KERNEL_VERSION_NAME: 5.15.1
