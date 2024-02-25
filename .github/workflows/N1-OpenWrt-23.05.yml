@@ -118,7 +118,7 @@ jobs:
     - name: Clear server space
       run: |
         cd openwrt/
-        [[ -d "output" ]] || mkdir output
+        [[ -d output ]] || mkdir output
         cp -f bin/targets/*/*/*rootfs.tar.gz output/
         rm -rf $(ls . | grep -v "^output$" | xargs) 2>/dev/null
 
