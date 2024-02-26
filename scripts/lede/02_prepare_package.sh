@@ -53,8 +53,7 @@ git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git pa
 cp -rf ../immortalwrt_pkg_18.06/net/v2raya ./feeds/packages/net/v2raya
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # verysync
-cp -rf ../Lienol_pkg/luci-app-verysync ./package/luci-app-verysync
-pushd package/luci-app-verysync
+pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd
 # NetSpeedTest
