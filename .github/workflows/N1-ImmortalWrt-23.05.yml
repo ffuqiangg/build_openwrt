@@ -122,7 +122,7 @@ jobs:
     - name: Package firmware
       uses: ffuqiangg/amlogic-s9xxx-openwrt@main
       with:
-        openwrt_path: openwrt/output/*rootfs.tar.gz
+        openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
         openwrt_board: s905d
         kernel_repo: ophub/kernel
         openwrt_kernel: 5.15.1
