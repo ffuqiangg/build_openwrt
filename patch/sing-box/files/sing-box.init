@@ -26,7 +26,6 @@ CONF=./config.json   # where is the config file, it can be a relative path to $R
 #####  ONLY CHANGE THIS BLOCK  ######
 
 start_service() {
-  sleep 10 
   procd_open_instance
   procd_set_param command $PROG run -D $RES_DIR -c $CONF
 
@@ -53,7 +52,7 @@ stop_service() {
 
 reload_service() {
   stop
-  sleep 5s
+  sleep 2s
   echo "sing-box is restarted!"
   start
 }
