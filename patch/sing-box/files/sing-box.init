@@ -39,6 +39,8 @@ start_service() {
     ip rule add fwmark 1 table 100
     ip route add local 0.0.0.0/0 dev lo table 100
     nft -f /etc/sing-box/nftables.rules
+    nft add chain inet sing-box docker { type nat hook prerouting priority -100 \; }
+    nft add rule inet sing-box docker ip saddr != {172.17.0.0/16} return
     echo "sing-box is started!"
 }
 
