@@ -20,15 +20,18 @@ table inet singbox {
     chain prerouting {
         type filter hook prerouting priority filter; policy accept;
         ip daddr $RESERVED_IP return
+        ## 下面两行的网段根据你的局域网配置修改
         meta l4proto tcp ip daddr 192.168.1.0/24 return
         ip daddr 192.168.1.0/24 udp dport != 53 return
         meta mark 0x000000ff return
+        ## 下面一行的端口保持与配置文件一致
         meta l4proto { tcp, udp } meta mark set 0x00000001 tproxy ip to 127.0.0.1:10105 accept
     }
 
     chain output {
         type route hook output priority filter; policy accept;
         ip daddr $RESERVED_IP return
+        ## 下面两行的网段根据你的局域网配置修改
         meta l4proto tcp ip daddr 192.168.1.0/24 return
         ip daddr 192.168.1.0/24 udp dport != 53 return
         meta mark 0x000000ff return
