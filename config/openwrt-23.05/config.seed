@@ -98,7 +98,6 @@ CONFIG_PACKAGE_luci-compat=y
 CONFIG_PACKAGE_luci-app-amlogic=y
 CONFIG_PACKAGE_luci-app-arpbind=y
 CONFIG_PACKAGE_luci-app-autoreboot=y
-CONFIG_PACKAGE_luci-app-autotimeset=y
 CONFIG_PACKAGE_luci-app-filebrowser=y
 CONFIG_PACKAGE_luci-app-frpc=y
 CONFIG_PACKAGE_frpc=y
@@ -115,7 +114,6 @@ CONFIG_PACKAGE_luci-app-vlmcsd=y
 CONFIG_PACKAGE_luci-app-vsftpd=y
 CONFIG_PACKAGE_luci-app-v2raya=y
 CONFIG_PACKAGE_luci-app-upnp=y
-CONFIG_PACKAGE_luci-app-netspeedtest=y
 
 ### PASSWALL ###
 CONFIG_PACKAGE_luci-app-passwall=y
