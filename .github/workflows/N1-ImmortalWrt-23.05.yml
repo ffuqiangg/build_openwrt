@@ -124,9 +124,9 @@ jobs:
       with:
         openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
         openwrt_board: s905d
-        kernel_repo: ophub/kernel
+        kernel_repo: breakings/OpenWrt
         openwrt_kernel: 5.15.1
-        kernel_usage: flippy
+        kernel_usage: stable
         auto_kernel: true
         image_name: N1-ImmortalWrt-${{ env.latest_release }}-${{ env.build_date }}
 
