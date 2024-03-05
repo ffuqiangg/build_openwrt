@@ -18,9 +18,7 @@ diskman_repo="https://github.com/lisaac/luci-app-diskman"
 docker_lib_repo="https://github.com/lisaac/luci-lib-docker"
 mosdns_repo="https://github.com/sbwml/luci-app-mosdns"
 mosdns_pkg="https://github.com/sbwml/v2ray-geodata"
-sirpdboy_repo="https://github.com/sirpdboy/sirpdboy-package"
 openclash_repo="https://github.com/vernesong/OpenClash.git"
-netspeedtest_repo="https://github.com/sirpdboy/netspeedtest.git"
 lucidaednext_repo="https://github.com/QiuSimons/luci-app-daed-next"
 
 clone_repo() {

@@ -36,21 +36,11 @@ sed -i -e 's|admin\",|& \"network\",|g' -e 's,admin/,&network/,g' package/feeds/
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
-# sirpdboy
-mkdir -p package/sirpdboy
-cp -rf ../sirpdboy/luci-app-autotimeset ./package/sirpdboy/luci-app-autotimeset
-sed -i 's,"control","system",g' package/sirpdboy/luci-app-autotimeset/luasrc/controller/autotimeset.lua
-sed -i '/firstchild/d' package/sirpdboy/luci-app-autotimeset/luasrc/controller/autotimeset.lua
-sed -i 's,control,system,g' package/sirpdboy/luci-app-autotimeset/luasrc/view/autotimeset/log.htm
-sed -i '/start()/a \    echo "Service autotimesetrun started!" >/dev/null' package/sirpdboy/luci-app-autotimeset/root/etc/init.d/autotimesetrun
-rm -rf ./package/sirpdboy/luci-app-autotimeset/po/zh_Hans
 # v2raya
 git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
 # verysync
 pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd
-# NetSpeedTest
-cp -rf ../netspeedtest package/netspeedtest
 
 exit 0
