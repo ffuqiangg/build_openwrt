@@ -57,6 +57,10 @@ uci set mosdns.config.adblock='1'
 uci add_list mosdns.config.ad_source='https://github.com/QiuSimons/openwrt-mos/raw/master/dat/serverlist.txt'
 uci commit mosdns
 
+#默认停用 sing-box
+/etc/init.d/sing-box stop
+/etc/init.d/sing-box disable
+
 #定时清理
 (crontab -l | sed '/find \/tmp/d'; echo "0 0 1 * * find /tmp -type f \( -name \"*.log\" -o -name \"*.txt\" \) -exec sh -c 'rm {} && touch {}' \;") | sed '/^$/d' | crontab -
 
