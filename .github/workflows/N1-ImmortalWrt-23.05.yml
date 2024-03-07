@@ -36,7 +36,7 @@ jobs:
         sudo swapoff -a
         sudo rm -f /swapfile /mnt/swapfile
         sudo -E apt-get -y update
-        sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
+        sudo -E apt-get -y purge azure-cli ghc* zulu* texlive* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
         sudo -E apt-get -y install $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt)
         sudo -E systemctl daemon-reload
         #sudo -E apt-get -y full-upgrade
@@ -47,6 +47,7 @@ jobs:
 
     - name: Prepare source code
       run: |
+        sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r scripts/immortalwrt-23.05/. ./
         /bin/bash 01_prepare_source_code.sh
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
