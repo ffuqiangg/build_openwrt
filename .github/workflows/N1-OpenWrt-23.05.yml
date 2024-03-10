@@ -75,6 +75,11 @@ jobs:
         mv ./openwrt /builder/
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
         ln -sf /builder/openwrt /home/runner/work/_actions/ffuqiangg/amlogic-s9xxx-openwrt/main/openwrt
+        ls -alhF 
+        echo --------------
+        ls -alhF /builder
+        echo --------------
+        ls -alhF ${GITHUB_WORKSPACE}
 
     - name: Prepare package
       run: |
