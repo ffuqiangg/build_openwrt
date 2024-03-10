@@ -78,9 +78,9 @@ jobs:
 
     - name: Prepare package
       run: |
+        pwd
+        echo ${GITHUB_WORKSPACE}
         cd openwrt
-        ls -CF ./
-        ls -CF ../
         cp -r ../scripts/openwrt-23.05/. ./
         /bin/bash 02_prepare_package.sh
 
