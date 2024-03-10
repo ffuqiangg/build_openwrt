@@ -73,7 +73,7 @@ jobs:
         /bin/bash 01_prepare_source_code.sh
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
-        ln -sf /builder/openwrt /home/runner/work/_actions/ophub/amlogic-s9xxx-openwrt/main/openwrt
+        ln -sf /builder/openwrt ${GITHUB_ACTION_PATH}
 
     - name: Prepare package
       run: |
