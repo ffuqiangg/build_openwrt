@@ -79,6 +79,8 @@ jobs:
     - name: Prepare package
       run: |
         cd openwrt
+        ls ./
+        ls ../
         cp -r ../scripts/openwrt-23.05/. ./
         /bin/bash 02_prepare_package.sh
 
