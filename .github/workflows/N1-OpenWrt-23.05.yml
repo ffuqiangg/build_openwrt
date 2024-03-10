@@ -68,23 +68,17 @@ jobs:
         df -Th
 
     - name: Prepare source code
+      working-directory: /builder
       run: |
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
+        cp -r ${GITHUB_WORKSPACE}/. ./
         cp -r ./scripts/openwrt-23.05/. ./
         /bin/bash 01_prepare_source_code.sh
-        mv ./openwrt /builder/
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
         ln -sf /builder/openwrt /home/runner/work/_actions/ffuqiangg/amlogic-s9xxx-openwrt/main/openwrt
-        ls -alhF 
-        echo --------------
-        ls -alhF /builder
-        echo --------------
-        ls -alhF ${GITHUB_WORKSPACE}
 
     - name: Prepare package
       run: |
-        pwd
-        echo ${GITHUB_WORKSPACE}
         cd openwrt
         cp -r ../scripts/openwrt-23.05/. ./
         /bin/bash 02_prepare_package.sh
