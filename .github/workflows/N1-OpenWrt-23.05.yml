@@ -70,12 +70,12 @@ jobs:
     - name: Prepare source code
       working-directory: /builder
       run: |
-        mkdir -p /builder/openwrt
+        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
+        cp -r ${GITHUB_WORKSPACE}/scripts/openwrt-23.05/. ./
+        cp ${GITHUB_WORKSPACE}/scripts/funcations.sh ./
+        /bin/bash 01_prepare_source_code.sh
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
         ln -sf /builder/openwrt /home/runner/work/_actions/ffuqiangg/amlogic-s9xxx-openwrt/main/openwrt
-        cp -r scripts/openwrt-23.05/. ./
-        /bin/bash 01_prepare_source_code.sh
-        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
 
     - name: Prepare package
       run: |
