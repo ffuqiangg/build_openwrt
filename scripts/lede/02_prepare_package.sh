@@ -12,6 +12,9 @@ sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 cp -rf ../passwall_luci ./package/luci-app-passwall
 cp -rf ../passwall_pkg ./package/passwall-pkg
 sed -i '/gVisor/{n;s/n/y/;}' ./package/passwall-pkg/sing-box/Makefile
+# golang 1.22
+rm feeds/packages/lang/golang/golang/Makefile
+cp ../patch/lede/golang/Makefile feeds/packages/lang/golang/golang/Makefile
 # Openclash
 cp -rf ../openclash ./package/luci-app-openclash
 # Filebrowser
