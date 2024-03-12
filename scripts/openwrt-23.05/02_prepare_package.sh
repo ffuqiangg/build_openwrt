@@ -125,8 +125,8 @@ sed -i '/defaults/{N;d;}' ./feeds/packages/net/frp/Makefile
 cp -rf ../lede_luci/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
 cp -rf ../lede_luci/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
 # Mosdns
-cp -rf ../mosdns ./package/new/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
+cp -rf ../mosdns ./package/new/luci-app-mosdns
 cp -rf ../mosdns_pkg ./package/new/v2ray-geodata
 # Sing-box
 rm -rf ./feeds/packages/net/sing-box
