@@ -12,9 +12,6 @@ sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 cp -rf ../passwall_luci ./package/luci-app-passwall
 cp -rf ../passwall_pkg ./package/passwall-pkg
 sed -i '/gVisor/{n;s/n/y/;}' ./package/passwall-pkg/sing-box/Makefile
-# golang 1.22
-rm feeds/packages/lang/golang/golang/Makefile
-cp ../patch/lede/golang/Makefile feeds/packages/lang/golang/golang/Makefile
 # Openclash
 cp -rf ../openclash ./package/luci-app-openclash
 # Filebrowser
@@ -22,6 +19,9 @@ cp -rf ../lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
 pushd package/luci-app-filebrowser
 move_2_services nas
 popd
+# golang
+rm -rf feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 # Mosdns
 cp -rf ../mosdns ./package/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
