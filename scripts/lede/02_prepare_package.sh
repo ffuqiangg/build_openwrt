@@ -26,6 +26,8 @@ git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/l
 cp -rf ../mosdns ./package/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns_pkg ./package/v2ray-geodata
+sed -i '39i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)) CGO_ENABLED=1\n' ./package/luci-app-mosdns/mosdns/Makefile
+sed -i '40i\nGO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)) CGO_ENABLED=1' ./package/luci-app-mosdns/v2dat/Makefile
 # vsftpd
 pushd package/feeds/luci/luci-app-vsftpd
 move_2_services nas
