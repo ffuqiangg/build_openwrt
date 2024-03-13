@@ -11,8 +11,7 @@ sing-box 作为通用代理平台拥有和 clash 相当的灵活性和更好的�
 - `/etc/init.d/sing-box reload` 重新读取配置文件，当 sing-box 正在运行过程中配置文件发生变化时使用此命令重新读取配置文件。
 
 > [!TIP]
-> 避免和其它科学插件冲突，sing-box 服务默认处于禁用状态，使用前用 `/etc/init.d/sing-box enable` 命令启用服务。
-> 配置文件 `/etc/sing-box/config.json` 缺失的情况下，即使启用服务 sing-box 也不会自动启动。
+> 避免和其它科学插件冲突，sing-box 服务默认处于禁用状态，使用前用 `/etc/init.d/sing-box enable` 命令启用服务。配置文件 `/etc/sing-box/config.json` 缺失的情况下，即使启用服务 sing-box 也不会自动启动。
 
 ### 准备配置文件
 
