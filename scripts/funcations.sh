@@ -20,6 +20,7 @@ mosdns_repo="https://github.com/sbwml/luci-app-mosdns"
 mosdns_pkg="https://github.com/sbwml/v2ray-geodata"
 openclash_repo="https://github.com/vernesong/OpenClash.git"
 lucidaednext_repo="https://github.com/QiuSimons/luci-app-daed-next"
+node_prebuilt_repo="https://github.com/sbwml/feeds_packages_lang_node-prebuilt"
 
 clone_repo() {
     repo_url=$1

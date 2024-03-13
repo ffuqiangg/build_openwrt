@@ -42,6 +42,9 @@ git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone packag
 cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 
 ### 获取额外的 LuCI 应用和依赖 ###
+# 预编译 node
+rm -rf feeds/packages/lang/node
+cp -rf ../node feeds/packages/lang/node
 # dae ready
 cp -rf ../immortalwrt_pkg/net/dae ./feeds/packages/net/dae
 ln -sf ../../../feeds/packages/net/dae ./package/feeds/packages/dae

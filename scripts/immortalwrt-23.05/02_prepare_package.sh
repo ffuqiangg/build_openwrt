@@ -6,6 +6,9 @@
 ./scripts/feeds install -a
 
 ### Prepare package
+# 预编译 node
+rm -rf feeds/packages/lang/node
+cp -rf ../node feeds/packages/lang/node
 # Luci-app-amlogic
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/luci-app-amlogic
 # Wget
