@@ -30,6 +30,7 @@ clone_repo $mosdns_repo v5 mosdns &
 clone_repo $mosdns_pkg master mosdns_pkg &
 clone_repo $lucidaednext_repo rebase lucidaednext &
 clone_repo $node_prebuilt_repo packages-23.05 node &
+clone_repo $openclash_repo master openclash &
 
 wait
 
