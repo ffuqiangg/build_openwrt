@@ -127,10 +127,6 @@ sed -i '/etc/d' ./feeds/packages/net/frp/Makefile
 sed -i '/defaults/{N;d;}' ./feeds/packages/net/frp/Makefile
 cp -rf ../lede_luci/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
 cp -rf ../lede_luci/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
-# Mosdns
-rm -rf ./feeds/packages/net/v2ray-geodata
-cp -rf ../mosdns ./package/new/luci-app-mosdns
-cp -rf ../mosdns_pkg ./package/new/v2ray-geodata
 # Sing-box
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
@@ -138,14 +134,15 @@ cp -f ../patch/sing-box/files/sing-box.init ./feeds/packages/net/sing-box/files/
 sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)) CGO_ENABLED=1\n' ./feeds/packages/net/sing-box/Makefile
 # OpenClash
 cp -rf ../openclash ./package/luci-app-openclash
+# golang
+rm -rf ./feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 # Passwall
 cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 pushd package/new/luci-app-passwall
 move_2_services vpn
 popd
 cp -rf ../passwall_pkg ./package/new/passwall_pkg
-cp -rf ../patch/xray-core/. ./package/passwall-pkg/xray-core/
-cp -rf ../patch/xray-plugin/. ./package/passwall-pkg/xray-plugin/
 # Passwall 白名单
 echo '
 teamviewer.com
@@ -160,6 +157,10 @@ ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn
 ' >>./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
+# Mosdns
+find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
+find ./ | grep Makefile | grep mosdns | xargs rm -f
+cp -rf ../mosdns ./package/new/luci-app-mosdns
 # 清理内存
 cp -rf ../lede_luci/applications/luci-app-ramfree ./package/new/luci-app-ramfree
 # v2raya

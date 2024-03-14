@@ -8,12 +8,13 @@
 ### Prepare package
 # Delete default menu setting
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
+# golang
+rm -rf feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 # Passwall
 cp -rf ../passwall_luci ./package/luci-app-passwall
 cp -rf ../passwall_pkg ./package/passwall-pkg
 sed -i '/gVisor/{n;s/n/y/;}' ./package/passwall-pkg/sing-box/Makefile
-cp -rf ../patch/xray-core/. ./package/passwall-pkg/xray-core/
-cp -rf ../patch/xray-plugin/. ./package/passwall-pkg/xray-plugin/
 # Openclash
 cp -rf ../openclash ./package/luci-app-openclash
 # Filebrowser
@@ -25,7 +26,6 @@ popd
 find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
 find ./ | grep Makefile | grep mosdns | xargs rm -f
 cp -rf ../mosdns ./package/luci-app-mosdns
-cp -rf ../mosdns_pkg ./package/v2ray-geodata
 # vsftpd
 pushd package/feeds/luci/luci-app-vsftpd
 move_2_services nas
