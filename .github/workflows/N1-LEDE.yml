@@ -155,9 +155,10 @@ jobs:
     - name: Telegram notification
       if: github.event_name == 'repository_dispatch'
       run: |
+        firmware_num=$(curl -fsSL https://github.com/ffuqiangg/build_openwrt/releases/expanded_assets/${{ env.build_date }} | grep -oE "N1-.*.zip" | wc -l)
         MSG="
-        *LEDE ${{ env.distrib_revision }}* 编译完成
-        [N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}.zip](https://github.com/ffuqiangg/build\_openwrt/releases/download/${{ env.build_date }}/N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}.zip)
+        *${{ env.latest_release }}* 固件编译完成
+        https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.build_date }}
         "
-        curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+        [[ ${firmware_num} == 4 ]] && curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
           -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"

@@ -32,9 +32,3 @@ jobs:
       with:
         token: ${{ secrets.GH_TOKEN }}
         event-type: N1-OpenWrt-23.05
-
-    - name: telegram notification
-      run: |
-        MSG="*$(date +%Y.%m.%d)* 开始编译"
-        curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
-          -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown"
