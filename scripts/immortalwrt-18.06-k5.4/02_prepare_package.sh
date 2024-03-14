@@ -10,9 +10,6 @@
 rm ./package/emortal/default-settings/files/openwrt_banner
 sed -i '/openwrt_banner/d' ./package/emortal/default-settings/files/99-default-settings
 sed -i '/etc$/,+2d' ./package/emortal/default-settings/Makefile
-# golang
-rm -rf ./feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 # Mosdns
 find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
 find ./ | grep Makefile | grep mosdns | xargs rm -f

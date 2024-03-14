@@ -14,9 +14,6 @@ git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/luci
 # Wget
 rm -rf ./feeds/packages/net/wget
 cp -rf ../lede_pkg/net/wget ./feeds/packages/net/wget
-# golang
-rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 # Mosdns
 find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
 find ./ | grep Makefile | grep mosdns | xargs rm -f
