@@ -153,7 +153,7 @@ jobs:
       run: |
         firmware_num="$(curl -fsSL https://github.com/ffuqiangg/build_openwrt/releases/expanded_assets/${{ env.build_date }} | grep -oE "N1-.*.zip" | sort -u | wc -l)"
         MSG="
-        *${{ env.latest_release }}* 固件编译完成
+        *${{ env.build_date }}* 固件编译完成
         https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.build_date }}
         "
         if [[ "${firmware_num}" == 4 ]]; then
