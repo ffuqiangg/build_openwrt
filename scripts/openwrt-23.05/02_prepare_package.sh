@@ -148,6 +148,7 @@ cp -rf ../passwall_pkg/brook ./package/new/brook
 cp -rf ../passwall_pkg/ssocks ./package/new/ssocks
 cp -rf ../passwall_pkg/microsocks ./package/new/microsocks
 cp -rf ../passwall_pkg/dns2socks ./package/new/dns2socks
+cp -rf ../passwall_pkg/dns2tcp ./package/new/dns2tcp
 cp -rf ../passwall_pkg/ipt2socks ./package/new/ipt2socks
 cp -rf ../passwall_pkg/pdnsd-alt ./package/new/pdnsd-alt
 cp -rf ../OpenWrt-Add/trojan-plus ./package/new/trojan-plus
