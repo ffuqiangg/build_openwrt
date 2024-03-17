@@ -142,7 +142,19 @@ cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 pushd package/new/luci-app-passwall
 move_2_services vpn
 popd
-cp -rf ../passwall_pkg ./package/new/passwall_pkg
+cp -rf ../passwall_pkg/tcping ./package/new/tcping
+cp -rf ../passwall_pkg/trojan-go ./package/new/trojan-go
+cp -rf ../passwall_pkg/brook ./package/new/brook
+cp -rf ../passwall_pkg/ssocks ./package/new/ssocks
+cp -rf ../passwall_pkg/microsocks ./package/new/microsocks
+cp -rf ../passwall_pkg/dns2socks ./package/new/dns2socks
+cp -rf ../passwall_pkg/ipt2socks ./package/new/ipt2socks
+cp -rf ../passwall_pkg/pdnsd-alt ./package/new/pdnsd-alt
+cp -rf ../OpenWrt-Add/trojan-plus ./package/new/trojan-plus
+cp -rf ../passwall_pkg/xray-plugin ./package/new/xray-plugin
+cp -rf ../passwall_pkg/hysteria ./package/new/hysteria
+rm -rf ./feeds/packages/net/xray-core
+cp -rf ../immortalwrt_pkg/net/xray-core ./feeds/packages/net/xray-core
 # Passwall 白名单
 echo '
 teamviewer.com
