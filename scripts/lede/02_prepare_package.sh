@@ -23,8 +23,9 @@ pushd package/luci-app-filebrowser
 move_2_services nas
 popd
 # Mosdns
-find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
-find ./ | grep Makefile | grep mosdns | xargs rm -f
+rm -rf ./feeds/packages/utils/v2dat
+rm -rf ./feeds/packages/net/v2ray-geodata
+rm -rf ./feeds/packages/net/mosdns
 cp -rf ../mosdns ./package/luci-app-mosdns
 # vsftpd
 pushd package/feeds/luci/luci-app-vsftpd
