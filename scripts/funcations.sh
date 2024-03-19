@@ -20,6 +20,7 @@ mosdns_repo="https://github.com/QiuSimons/openwrt-mos"
 openclash_repo="https://github.com/vernesong/OpenClash.git"
 lucidaednext_repo="https://github.com/QiuSimons/luci-app-daed-next"
 node_prebuilt_repo="https://github.com/sbwml/feeds_packages_lang_node-prebuilt"
+sbwml_openwrt_repo="https://github.com/sbwml/openwrt_helloworld"
 
 clone_repo() {
     repo_url=$1

@@ -159,7 +159,7 @@ cp -rf ../OpenWrt-Add/trojan-plus ./package/new/trojan-plus
 cp -rf ../passwall_pkg/xray-plugin ./package/new/xray-plugin
 cp -rf ../passwall_pkg/hysteria ./package/new/hysteria
 rm -rf ./feeds/packages/net/xray-core
-cp -rf ../immortalwrt_pkg/net/xray-core ./feeds/packages/net/xray-core
+cp -rf ../sbwml/xray-core ./feeds/packages/net/xray-core
 # Passwall 白名单
 echo '
 teamviewer.com
@@ -175,8 +175,7 @@ cn.ntp.org.cn
 ntp.ntsc.ac.cn
 ' >>./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # Mosdns
-find ./ | grep Makefile | grep v2ray-geodata | xargs rm -f
-find ./ | grep Makefile | grep mosdns | xargs rm -f
+rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/new/luci-app-mosdns
 # 清理内存
 cp -rf ../lede_luci/applications/luci-app-ramfree ./package/new/luci-app-ramfree
