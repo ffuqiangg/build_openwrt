@@ -1,6 +1,7 @@
-set ts=4 sts=4 sw=4 expandtab
+set ts=4 sts=4 sw=4 et
 set smartindent cindent
 let g:netrw_banner=0
+set nu wmnu
 
 nnoremap j gj
 nnoremap k gk
@@ -21,3 +22,5 @@ nnoremap B L
 
 autocmd filetype yaml set ts=2 sts=2 sw=2
 autocmd filetype json set ts=2 sts=2 sw=2
+
+colorscheme desert
