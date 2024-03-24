@@ -11,6 +11,14 @@ rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
 # Luci-app-amlogic
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/luci-app-amlogic
+# mount cgroupv2
+pushd feeds/packages
+patch -p1 <../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
+popd
+mkdir -p feeds/packages/utils/cgroupfs-mount/patches
+cp -rf ../patch/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # Wget
 rm -rf ./feeds/packages/net/wget
 cp -rf ../lede_pkg/net/wget ./feeds/packages/net/wget
