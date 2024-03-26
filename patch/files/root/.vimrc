@@ -1,5 +1,5 @@
 set ts=4 sts=4 sw=4 et
-set smartindent cindent
+set si cin ci ai
 let g:netrw_banner=0
 set nu wmnu
 
