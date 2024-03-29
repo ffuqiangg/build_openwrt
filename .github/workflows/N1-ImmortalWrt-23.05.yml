@@ -91,9 +91,11 @@ jobs:
     - name: Load custom configuration
       run: |
         latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
+        kernel_reversion=$(cat openwrt/include/kernel-5.15 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")
         cp -rf patch/files openwrt/files
         sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_VERSION,ImmortalWrt ${latest_release}," ./openwrt/files/etc/banner
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
+        echo "kernel_version=${kernel_reversion}" >> ${GITHUB_ENV}
 
     - name: Make config
       run: |
@@ -132,9 +134,9 @@ jobs:
         openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
         openwrt_board: s905d
         kernel_repo: ffuqiangg/kernel_5.15.y
-        openwrt_kernel: 5.15.1
+        openwrt_kernel: ${{ env.kernel_version }}
         kernel_usage: stable
-        auto_kernel: true
+        auto_kernel: false
         image_name: N1-ImmortalWrt-${{ env.latest_release }}-${{ env.build_date }}
 
     - name: Upload firmware to release
