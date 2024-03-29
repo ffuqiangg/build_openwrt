@@ -87,8 +87,8 @@ jobs:
       run: |
         cp -rf patch/files openwrt/files
         sed -i -e "s,DATE,${{ env.build_date }}," -e 's,WRT_VERSION,ImmortalWrt 18.06 K5.4,' ./openwrt/files/etc/banner
-        kernel_reversion=$(cat openwrt/include/kernel-5.4 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")
-        echo "kernel_version=${kernel_reversion}" >> ${GITHUB_ENV}
+        kernel_version=$(cat openwrt/include/kernel-5.4 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")
+        echo "kernel_version=${kernel_version}" >> ${GITHUB_ENV}
 
     - name: Make config
       run: |

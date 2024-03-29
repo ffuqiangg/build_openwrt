@@ -86,11 +86,11 @@ jobs:
     - name: Load custom configuration
       run: |
         distrib_revision=$(cat openwrt/package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
-        kernel_reversion=$(cat openwrt/include/kernel-5.15 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")
+        kernel_version=$(cat openwrt/include/kernel-5.15 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")
         cp -rf patch/files openwrt/files
         sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_VERSION,LEDE ${distrib_revision}," ./openwrt/files/etc/banner
         echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
-        echo "kernel_version=${kernel_reversion}" >> ${GITHUB_ENV}
+        echo "kernel_version=${kernel_version}" >> ${GITHUB_ENV}
 
     - name: Make config
       run: |

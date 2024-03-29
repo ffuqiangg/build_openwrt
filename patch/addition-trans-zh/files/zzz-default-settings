@@ -22,8 +22,9 @@ uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
 uci commit passwall
 
 #Feeds 更换镜像源
-sed -i 's,23.05,OPENWRT_VER,g' /etc/opkg/distfeeds.conf
+# sed -i 's,23.05,OPENWRT_VER,g' /etc/opkg/distfeeds.conf
 sed -i 's,downloads.openwrt.org,mirror.sjtu.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
+sed -i 's,mirror.sjtu.edu.cn/openwrt,mirrors.pku.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
 
 #uhttpd 设置
 uci set uhttpd.main.rfc1918_filter=0
