@@ -41,7 +41,7 @@ popd
 git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone package/new/nft-fullcone
 cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 # Patch LuCI 以支持自定义 nft 规则
-patch -p1 <../../../PATCH/firewall/04-luci-add-firewall4-nft-rules-file.patch
+patch -p1 <../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 预编译 node
