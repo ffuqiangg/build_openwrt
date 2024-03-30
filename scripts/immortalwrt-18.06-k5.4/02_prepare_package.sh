@@ -11,7 +11,6 @@ rm ./package/emortal/default-settings/files/openwrt_banner
 sed -i '/openwrt_banner/d' ./package/emortal/default-settings/files/99-default-settings
 sed -i '/etc$/,+2d' ./package/emortal/default-settings/Makefile
 # Mosdns
-rm -rf ./feeds/packages/net/mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/luci-app-mosdns
 # samba4
