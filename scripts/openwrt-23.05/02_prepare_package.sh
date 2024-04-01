@@ -13,8 +13,6 @@
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
 cp -rf ../lede/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch ./target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
-# bcmfullcone
-cp -a ../patch/bcmfullcone/*.patch target/linux/generic/hack-5.15/
 # Patch FireWall 以增添 FullCone 功能
 # FW4
 mkdir -p package/network/config/firewall4/patches
