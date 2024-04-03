@@ -46,6 +46,7 @@ cp -rf ../istoreos/target/linux/amlogic ./target/linux/amlogic
 cp -rf ../istoreos/package/boot/uboot-amlogic-prebuilt ./package/boot/uboot-amlogic-prebuilt
 cp -f ../istoreos/include/kernel-5.10 ./include/kernel-5.10
 sed -i "/TARGET_sunxi/a\		default y if TARGET_amlogic_meson" ./package/kernel/mac80211/broadcom.mk
+echo 'CONFIG_KERNEL_MODULES=y' >> ./target/linux/amlogic/kernel-5.10
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
