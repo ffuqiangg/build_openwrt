@@ -22,6 +22,8 @@ lucidaednext_repo="https://github.com/QiuSimons/luci-app-daed-next"
 node_prebuilt_repo="https://github.com/sbwml/feeds_packages_lang_node-prebuilt"
 sbwml_openwrt_repo="https://github.com/sbwml/openwrt_helloworld"
 istoreos_repo="https://github.com/istoreos/istoreos.git"
+openwrt_node="https://github.com/nxhack/openwrt-node-packages.git"
+ssrp_repo="https://github.com/fw876/helloworld"
 
 clone_repo() {
     repo_url=$1

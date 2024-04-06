@@ -21,15 +21,11 @@ sed -i '/mirror02/d' scripts/download.pl
 echo "net.netfilter.nf_conntrack_helper = 1" >>./package/kernel/linux/files/sysctl-nf-conntrack.conf
 
 ### 必要的 Patches ###
-# Patch arm64 型号名称
-cp -rf ../immortalwrt/target/linux/generic/hack-5.10/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch ./target/linux/generic/hack-5.10/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
 # SSL
 rm -rf ./package/libs/mbedtls
 cp -rf ../immortalwrt/package/libs/mbedtls ./package/libs/mbedtls
 rm -rf ./package/libs/openssl
 cp -rf ../immortalwrt_21/package/libs/openssl ./package/libs/openssl
-# fstool
-wget -qO - https://github.com/coolsnowwolf/lede/commit/8a4db76.patch | patch -p1
 
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
@@ -59,13 +55,6 @@ popd
 # FullCone PKG
 git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone package/new/nft-fullcone
 cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
-
-### 获取额外的基础软件包 ###
-# Dnsmasq
-rm -rf ./package/network/services/dnsmasq
-cp -rf ../openwrt_ma/package/network/services/dnsmasq ./package/network/services/dnsmasq
-cp -rf ../openwrt_luci_ma/modules/luci-mod-network/htdocs/luci-static/resources/view/network/dhcp.js ./feeds/luci/modules/luci-mod-network/htdocs/luci-static/resources/view/network/
-
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # dae ready
@@ -145,24 +134,6 @@ ln -sf ../../../feeds/luci/applications/luci-app-arpbind ./package/feeds/luci/lu
 # 定时重启
 cp -rf ../immortalwrt_luci/applications/luci-app-autoreboot ./feeds/luci/applications/luci-app-autoreboot
 ln -sf ../../../feeds/luci/applications/luci-app-autoreboot ./package/feeds/luci/luci-app-autoreboot
-# Boost 通用即插即用
-rm -rf ./feeds/packages/net/miniupnpd
-cp -rf ../openwrt_pkg_ma/net/miniupnpd ./feeds/packages/net/miniupnpd
-pushd feeds/packages
-wget -qO- https://github.com/openwrt/packages/commit/785bbcb.patch | patch -p1
-wget -qO- https://github.com/openwrt/packages/commit/d811cb4.patch | patch -p1
-wget -qO- https://github.com/openwrt/packages/commit/9a2da85.patch | patch -p1
-wget -qO- https://github.com/openwrt/packages/commit/71dc090.patch | patch -p1
-popd
-wget -P feeds/packages/net/miniupnpd/patches/ https://github.com/ptpt52/openwrt-packages/raw/master/net/miniupnpd/patches/201-change-default-chain-rule-to-accept.patch
-wget -P feeds/packages/net/miniupnpd/patches/ https://github.com/ptpt52/openwrt-packages/raw/master/net/miniupnpd/patches/500-0004-miniupnpd-format-xml-to-make-some-app-happy.patch
-wget -P feeds/packages/net/miniupnpd/patches/ https://github.com/ptpt52/openwrt-packages/raw/master/net/miniupnpd/patches/500-0005-miniupnpd-stun-ignore-external-port-changed.patch
-wget -P feeds/packages/net/miniupnpd/patches/ https://github.com/ptpt52/openwrt-packages/raw/master/net/miniupnpd/patches/500-0006-miniupnpd-fix-stun-POSTROUTING-filter-for-openwrt.patch
-rm -rf ./feeds/luci/applications/luci-app-upnp
-cp -rf ../openwrt_luci_ma/applications/luci-app-upnp ./feeds/luci/applications/luci-app-upnp
-pushd feeds/luci
-wget -qO- https://github.com/openwrt/luci/commit/0b5fb915.patch | patch -p1
-popd
 # ChinaDNS
 git clone -b luci --depth 1 https://github.com/QiuSimons/openwrt-chinadns-ng.git package/new/luci-app-chinadns-ng
 cp -rf ../passwall_pkg/chinadns-ng ./package/new/chinadns-ng
@@ -271,12 +242,6 @@ ln -sf ../../../feeds/packages/net/kcptun ./package/feeds/packages/kcptun
 # ShadowsocksR Plus+
 cp -rf ../ssrp/luci-app-ssr-plus ./package/new/luci-app-ssr-plus
 rm -rf ./package/new/luci-app-ssr-plus/po/zh_Hans
-pushd package/new
-wget -qO - https://github.com/fw876/helloworld/commit/5bbf6e7.patch | patch -p1
-popd
-pushd package/new/luci-app-ssr-plus
-sed -i '/Clang.CN.CIDR/a\o:value("https://gh.404delivr.workers.dev/https://github.com/QiuSimons/Chnroute/raw/master/dist/chnroute/chnroute.txt", translate("QiuSimons/Chnroute"))' luasrc/model/cbi/shadowsocksr/advanced.lua
-popd
 # v2raya
 git clone --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
 rm -rf ./feeds/packages/net/v2raya
