@@ -3,7 +3,7 @@
 . ./scripts/funcations.sh
 
 latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/22.03/p' | sed -n 1p | sed 's/.tar.gz//g')"
-clone_repo $openclash_repo $latest_release openwrt_release
+clone_repo $openwrt_repo $latest_release openwrt_release
 clone_repo $istoreos_repo istoreos-22.03 istoreos
 clone_repo $openwrt_repo openwrt-22.03 openwrt
 rm -f ./openwrt/include/version.mk
