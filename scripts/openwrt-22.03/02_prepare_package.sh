@@ -21,19 +21,8 @@ sed -i '/mirror02/d' scripts/download.pl
 echo "net.netfilter.nf_conntrack_helper = 1" >>./package/kernel/linux/files/sysctl-nf-conntrack.conf
 
 ### 必要的 Patches ###
-# introduce "MG-LRU" Linux kernel patches
-cp -rf ../PATCH/backport/MG-LRU/* ./target/linux/generic/pending-5.10/
-# TCP optimizations
-cp -rf ../PATCH/backport/TCP/* ./target/linux/generic/backport-5.10/
-wget -P target/linux/generic/pending-5.10/ https://github.com/openwrt/openwrt/raw/v22.03.3/target/linux/generic/pending-5.10/613-netfilter_optional_tcp_window_check.patch
 # Patch arm64 型号名称
 cp -rf ../immortalwrt/target/linux/generic/hack-5.10/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch ./target/linux/generic/hack-5.10/312-arm64-cpuinfo-Add-model-name-in-proc-cpuinfo-for-64bit-ta.patch
-# BBRv2
-cp -rf ../PATCH/BBRv2/kernel/* ./target/linux/generic/hack-5.10/
-cp -rf ../PATCH/BBRv2/openwrt/package ./
-wget -qO - https://github.com/openwrt/openwrt/commit/7db9763.patch | patch -p1
-# LRNG
-cp -rf ../PATCH/LRNG/* ./target/linux/generic/hack-5.10/
 # SSL
 rm -rf ./package/libs/mbedtls
 cp -rf ../immortalwrt/package/libs/mbedtls ./package/libs/mbedtls
@@ -50,7 +39,7 @@ cp -rf ../lede/target/linux/generic/hack-5.10/982-add-bcm-fullconenat-support.pa
 # FW4
 rm -rf ./package/network/config/firewall4
 cp -rf ../immortalwrt/package/network/config/firewall4 ./package/network/config/firewall4
-cp -f ../PATCH/firewall/990-unconditionally-allow-ct-status-dnat.patch ./package/network/config/firewall4/patches/990-unconditionally-allow-ct-status-dnat.patch
+cp -f ../patch/firewall/990-unconditionally-allow-ct-status-dnat.patch ./package/network/config/firewall4/patches/990-unconditionally-allow-ct-status-dnat.patch
 rm -rf ./package/libs/libnftnl
 cp -rf ../immortalwrt/package/libs/libnftnl ./package/libs/libnftnl
 rm -rf ./package/network/utils/nftables
@@ -139,15 +128,6 @@ cp -rf ../openwrt-node/node-yarn ./feeds/packages/lang/node-yarn
 ln -sf ../../../feeds/packages/lang/node-yarn ./package/feeds/packages/node-yarn
 cp -rf ../openwrt-node/node-serialport-bindings-cpp ./feeds/packages/lang/node-serialport-bindings-cpp
 ln -sf ../../../feeds/packages/lang/node-serialport-bindings-cpp ./package/feeds/packages/node-serialport-bindings-cpp
-# R8168驱动
-git clone -b master --depth 1 https://github.com/BROBIRD/openwrt-r8168.git package/new/r8168
-patch -p1 <../PATCH/r8168/r8168-fix_LAN_led-for_r4s-from_TL.patch
-# R8152驱动
-cp -rf ../immortalwrt/package/kernel/r8152 ./package/new/r8152
-# r8125驱动
-git clone https://github.com/sbwml/package_kernel_r8125 package/new/r8125
-# igc-backport
-cp -rf ../PATCH/igc-files-5.10 ./target/linux/x86/files-5.10
 # UPX 可执行软件压缩
 sed -i '/patchelf pkgconf/i\tools-y += ucl upx' ./tools/Makefile
 sed -i '\/autoconf\/compile :=/i\$(curdir)/upx/compile := $(curdir)/ucl/compile' ./tools/Makefile
@@ -318,19 +298,5 @@ sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/ne
 ### 最后的收尾工作 ###
 # 生成默认配置及缓存
 rm -rf .config
-cat ../SEED/extra.cfg >> ./target/linux/generic/config-5.10
-
-### Shortcut-FE 部分 ###
-# Patch Kernel 以支持 Shortcut-FE
-cp -rf ../lede/target/linux/generic/hack-5.10/953-net-patch-linux-kernel-to-support-shortcut-fe.patch ./target/linux/generic/hack-5.10/953-net-patch-linux-kernel-to-support-shortcut-fe.patch
-# Patch LuCI 以增添 Shortcut-FE 开关
-patch -p1 < ../PATCH/firewall/luci-app-firewall_add_sfe_switch.patch
-# Shortcut-FE 相关组件
-mkdir ./package/lean
-mkdir ./package/lean/shortcut-fe
-cp -rf ../lede/package/lean/shortcut-fe/fast-classifier ./package/lean/shortcut-fe/fast-classifier
-cp -rf ../lede/package/lean/shortcut-fe/shortcut-fe ./package/lean/shortcut-fe/shortcut-fe
-cp -rf ../lede/package/lean/shortcut-fe/simulated-driver ./package/lean/shortcut-fe/simulated-driver
-wget -qO - https://github.com/coolsnowwolf/lede/commit/e517080.patch | patch -p1
 
 #exit 0
