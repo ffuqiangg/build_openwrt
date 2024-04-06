@@ -131,16 +131,6 @@ jobs:
         name: OpenWrt_rootfs_${{ env.build_date }}
         path: openwrt/bin
 
-    - name: Upload firmware to release
-      uses: ncipollo/release-action@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag: ${{ env.build_date }}
-        allowUpdates: true
-        replacesArtifacts: true
-        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}.zip
-
     - name: telegram notification
       if: github.event_name == 'repository_dispatch'
       run: |
