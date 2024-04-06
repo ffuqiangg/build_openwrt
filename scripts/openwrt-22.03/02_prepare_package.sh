@@ -20,13 +20,6 @@ sed -i '/unshift/d' scripts/download.pl
 sed -i '/mirror02/d' scripts/download.pl
 echo "net.netfilter.nf_conntrack_helper = 1" >>./package/kernel/linux/files/sysctl-nf-conntrack.conf
 
-### 必要的 Patches ###
-# SSL
-rm -rf ./package/libs/mbedtls
-cp -rf ../immortalwrt/package/libs/mbedtls ./package/libs/mbedtls
-rm -rf ./package/libs/openssl
-cp -rf ../immortalwrt_21/package/libs/openssl ./package/libs/openssl
-
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
 cp -rf ../lede/target/linux/generic/hack-5.10/952-net-conntrack-events-support-multiple-registrant.patch ./target/linux/generic/hack-5.10/952-net-conntrack-events-support-multiple-registrant.patch
@@ -77,26 +70,12 @@ ln -sf ../../../feeds/packages/net/dae ./package/feeds/packages/dae
 pushd feeds/packages
 wget -qO - https://github.com/openwrt/packages/commit/7a64a5f4.patch | patch -p1
 popd
-# i915
-wget -qO - https://github.com/openwrt/openwrt/commit/c21a3570.patch | patch -p1
-cp -rf ../lede/target/linux/x86/64/config-5.10 ./target/linux/x86/64/config-5.10
-# Haproxy
-rm -rf ./feeds/packages/net/haproxy
-cp -rf ../openwrt_pkg_ma/net/haproxy feeds/packages/net/haproxy
-pushd feeds/packages
-wget -qO - https://github.com/openwrt/packages/commit/a09cbcd.patch | patch -p1
-popd
 # AutoCore
 cp -rf ../OpenWrt-Add/autocore ./package/new/autocore
 sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/new/autocore/files/generic/luci-mod-status-autocore.json
 sed -i '/"$threads"/d' package/new/autocore/files/x86/autocore
 rm -rf ./feeds/packages/utils/coremark
 cp -rf ../immortalwrt_pkg/utils/coremark ./feeds/packages/utils/coremark
-# Airconnect
-cp -rf ../OpenWrt-Add/airconnect ./package/new/airconnect
-cp -rf ../OpenWrt-Add/luci-app-airconnect ./package/new/luci-app-airconnect
-# luci-app-irqbalance
-cp -rf ../OpenWrt-Add/luci-app-irqbalance ./package/new/luci-app-irqbalance
 # 更换 Nodejs 版本
 rm -rf ./feeds/packages/lang/node
 cp -rf ../openwrt-node/node ./feeds/packages/lang/node
@@ -140,9 +119,6 @@ cp -rf ../passwall_pkg/chinadns-ng ./package/new/chinadns-ng
 # CPU 控制相关
 cp -rf ../OpenWrt-Add/luci-app-cpufreq ./feeds/luci/applications/luci-app-cpufreq
 ln -sf ../../../feeds/luci/applications/luci-app-cpufreq ./package/feeds/luci/luci-app-cpufreq
-sed -i 's,1608,1800,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
-sed -i 's,2016,2208,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
-sed -i 's,1512,1608,g' feeds/luci/applications/luci-app-cpufreq/root/etc/uci-defaults/10-cpufreq
 cp -rf ../OpenWrt-Add/luci-app-cpulimit ./package/new/luci-app-cpulimit
 cp -rf ../immortalwrt_pkg/utils/cpulimit ./feeds/packages/utils/cpulimit
 ln -sf ../../../feeds/packages/utils/cpulimit ./package/feeds/packages/cpulimit
