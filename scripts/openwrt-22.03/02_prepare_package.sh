@@ -150,9 +150,6 @@ ln -sf ../../../feeds/packages/utils/cpulimit ./package/feeds/packages/cpulimit
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
-pushd feeds/luci
-wget -qO- https://github.com/openwrt/luci/commit/0c1fc7f.patch | patch -p1
-popd
 pushd feeds/packages
 wget -qO- https://github.com/openwrt/packages/commit/d9d5109.patch | patch -p1
 popd
@@ -230,7 +227,6 @@ cp -rf ../ssrp/simple-obfs ./package/new/simple-obfs
 cp -rf ../ssrp/naiveproxy ./package/new/naiveproxy
 cp -rf ../ssrp/v2ray-core ./package/new/v2ray-core
 cp -rf ../ssrp/hysteria ./package/new/hysteria
-cp -rf ../ssrp/sagernet-core ./package/new/sagernet-core
 rm -rf ./feeds/packages/net/xray-core
 cp -rf ../ssrp/xray-core ./package/new/xray-core
 cp -rf ../ssrp/v2ray-plugin ./package/new/v2ray-plugin
