@@ -19,12 +19,6 @@ cp -rf ../immortalwrt/include/download.mk ./include/download.mk
 sed -i '/unshift/d' scripts/download.pl
 sed -i '/mirror02/d' scripts/download.pl
 echo "net.netfilter.nf_conntrack_helper = 1" >>./package/kernel/linux/files/sysctl-nf-conntrack.conf
-# Nginx
-sed -i "s/client_max_body_size 128M/client_max_body_size 2048M/g" feeds/packages/net/nginx-util/files/uci.conf.template
-sed -i '/client_max_body_size/a\\tclient_body_buffer_size 8192M;' feeds/packages/net/nginx-util/files/uci.conf.template
-sed -i '/ubus_parallel_req/a\        ubus_script_timeout 600;' feeds/packages/net/nginx/files-luci-support/60_nginx-luci-support
-sed -ri "/luci-webui.socket/i\ \t\tuwsgi_send_timeout 600\;\n\t\tuwsgi_connect_timeout 600\;\n\t\tuwsgi_read_timeout 600\;" feeds/packages/net/nginx/files-luci-support/luci.locations
-sed -ri "/luci-cgi_io.socket/i\ \t\tuwsgi_send_timeout 600\;\n\t\tuwsgi_connect_timeout 600\;\n\t\tuwsgi_read_timeout 600\;" feeds/packages/net/nginx/files-luci-support/luci.locations
 
 ### 必要的 Patches ###
 # introduce "MG-LRU" Linux kernel patches
@@ -78,30 +72,6 @@ git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone packag
 cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 
 ### 获取额外的基础软件包 ###
-# 更换为 ImmortalWrt Uboot 以及 Target
-rm -rf ./target/linux/rockchip
-cp -rf ../lede/target/linux/rockchip ./target/linux/rockchip
-rm -rf ./target/linux/rockchip/Makefile
-cp -rf ../openwrt_release/target/linux/rockchip/Makefile ./target/linux/rockchip/Makefile
-rm -rf ./target/linux/rockchip/armv8/config-5.10
-cp -rf ../openwrt_release/target/linux/rockchip/armv8/config-5.10 ./target/linux/rockchip/armv8/config-5.10
-rm -rf ./target/linux/rockchip/patches-5.10/002-net-usb-r8152-add-LED-configuration-from-OF.patch
-rm -rf ./target/linux/rockchip/patches-5.10/003-dt-bindings-net-add-RTL8152-binding-documentation.patch
-cp -rf ../PATCH/rockchip-5.10/* ./target/linux/rockchip/patches-5.10/
-rm -rf ./package/firmware/linux-firmware/intel.mk
-cp -rf ../lede/package/firmware/linux-firmware/intel.mk ./package/firmware/linux-firmware/intel.mk
-rm -rf ./package/firmware/linux-firmware/Makefile
-cp -rf ../lede/package/firmware/linux-firmware/Makefile ./package/firmware/linux-firmware/Makefile
-mkdir -p target/linux/rockchip/files-5.10
-cp -rf ../PATCH/files-5.10 ./target/linux/rockchip/
-sed -i 's,+LINUX_6_1:kmod-drm-display-helper,,g' target/linux/rockchip/modules.mk
-sed -i '/drm_dp_aux_bus\.ko/d' target/linux/rockchip/modules.mk
-rm -rf ./package/boot/uboot-rockchip
-cp -rf ../lede/package/boot/uboot-rockchip ./package/boot/uboot-rockchip
-cp -rf ../lede/package/boot/arm-trusted-firmware-rockchip-vendor ./package/boot/arm-trusted-firmware-rockchip-vendor
-rm -rf ./package/kernel/linux/modules/video.mk
-cp -rf ../immortalwrt/package/kernel/linux/modules/video.mk ./package/kernel/linux/modules/video.mk
-sed -i '/nouveau\.ko/d' package/kernel/linux/modules/video.mk
 # Dnsmasq
 rm -rf ./package/network/services/dnsmasq
 cp -rf ../openwrt_ma/package/network/services/dnsmasq ./package/network/services/dnsmasq
