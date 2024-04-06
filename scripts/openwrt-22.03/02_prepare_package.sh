@@ -50,6 +50,9 @@ git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone packag
 cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 
 ### 获取额外的 LuCI 应用和依赖 ###
+# 添加 Amlogic Uboot 及 Target
+cp -rf ../istoreos/target/linux/amlogic ./target/linux/amlogic
+sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic_meson' ./package/kernel/mac80211/broadcom.mk
 # dae ready
 cp -rf ../immortalwrt/config/Config-kernel.in ./config/Config-kernel.in
 rm -rf ./tools/dwarves

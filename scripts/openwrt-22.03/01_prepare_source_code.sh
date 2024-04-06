@@ -2,15 +2,10 @@
 
 . ./scripts/funcations.sh
 
+# 开始克隆仓库，并行执行
 latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/22.03/p' | sed -n 1p | sed 's/.tar.gz//g')"
 clone_repo $istoreos_repo istoreos-22.03 istoreos
 clone_repo $openwrt_repo $latest_release openwrt
-rm -rf ./openwrt/target/linux/*
-rm -rf ./openwrt/package/kernel/linux/*
-cp -rf ./istoreos/target/linux/* ./openwrt/target/linux/
-cp -rf ./istoreos/package/kernel/linux/* ./openwrt/package/kernel/linux/
-
-# 开始克隆仓库，并行执行
 clone_repo $immortalwrt_repo master immortalwrt &
 clone_repo $immortalwrt_repo openwrt-21.02 immortalwrt_21 &
 clone_repo $immortalwrt_repo openwrt-23.05 immortalwrt_23 &
