@@ -144,9 +144,6 @@ cp -rf ../passwall_pkg/chinadns-ng ./package/new/chinadns-ng
 # CPU 控制相关
 cp -rf ../OpenWrt-Add/luci-app-cpufreq ./feeds/luci/applications/luci-app-cpufreq
 ln -sf ../../../feeds/luci/applications/luci-app-cpufreq ./package/feeds/luci/luci-app-cpufreq
-cp -rf ../OpenWrt-Add/luci-app-cpulimit ./package/new/luci-app-cpulimit
-cp -rf ../immortalwrt_pkg/utils/cpulimit ./feeds/packages/utils/cpulimit
-ln -sf ../../../feeds/packages/utils/cpulimit ./package/feeds/packages/cpulimit
 # Docker 容器
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman

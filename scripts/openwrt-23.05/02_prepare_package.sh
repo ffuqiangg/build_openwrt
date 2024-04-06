@@ -79,10 +79,6 @@ rm -rf ./feeds/packages/utils/coremark
 cp -rf ../immortalwrt_pkg/utils/coremark ./feeds/packages/utils/coremark
 sed -i "s,-O3,-Ofast -funroll-loops -fpeel-loops -fgcse-sm -fgcse-las,g" feeds/packages/utils/coremark/Makefile
 cp -rf ../immortalwrt_23/package/utils/mhz ./package/utils/mhz
-# CPU 控制
-cp -rf ../OpenWrt-Add/luci-app-cpulimit ./package/new/luci-app-cpulimit
-cp -rf ../immortalwrt_pkg/utils/cpulimit ./feeds/packages/utils/cpulimit
-ln -sf ../../../feeds/packages/utils/cpulimit ./package/feeds/packages/cpulimit
 # MAC 地址与 IP 绑定
 cp -rf ../immortalwrt_luci/applications/luci-app-arpbind ./feeds/luci/applications/luci-app-arpbind
 ln -sf ../../../feeds/luci/applications/luci-app-arpbind ./package/feeds/luci/luci-app-arpbind
