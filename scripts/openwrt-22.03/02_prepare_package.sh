@@ -19,6 +19,10 @@ cp -rf ../immortalwrt/include/download.mk ./include/download.mk
 sed -i '/unshift/d' scripts/download.pl
 sed -i '/mirror02/d' scripts/download.pl
 echo "net.netfilter.nf_conntrack_helper = 1" >>./package/kernel/linux/files/sysctl-nf-conntrack.conf
+# 补充工具链
+git clone --depth 1 https://github.com/kuoruan/openwrt-upx.git ./package/openwrt-upx
+cp -rf ../lede/tools/rust ./tools/rust
+cp -rf ../lede/tools/pcre2 ./tools/pcre2
 
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
@@ -69,6 +73,25 @@ rm -rf ./feeds/packages/net/frr
 cp -rf ../openwrt_pkg_ma/net/frr feeds/packages/net/frr
 cp -rf ../immortalwrt_pkg/net/dae ./feeds/packages/net/dae
 ln -sf ../../../feeds/packages/net/dae ./package/feeds/packages/dae
+cat >> ./package/kernel/linux/modules/netsupport.mk << EOF
+
+define KernelPackage/xdp-sockets-diag
+  SUBMENU:=\$(NETWORK_SUPPORT_MENU)
+  TITLE:=PF_XDP sockets monitoring interface support for ss utility
+  KCONFIG:= \
+	CONFIG_XDP_SOCKETS=y \
+	CONFIG_XDP_SOCKETS_DIAG
+  FILES:=\$(LINUX_DIR)/net/xdp/xsk_diag.ko
+  AUTOLOAD:=\$(call AutoLoad,31,xsk_diag)
+endef
+
+define KernelPackage/xdp-sockets-diag/description
+ Support for PF_XDP sockets monitoring interface used by the ss tool
+endef
+
+\$(eval \$(call KernelPackage,xdp-sockets-diag))
+EOF
+git clone -b master --depth 1 https://github.com/QiuSimons/luci-app-daed.git ./package/new/luci-app-daed
 # mount cgroupv2
 pushd feeds/packages
 wget -qO - https://github.com/openwrt/packages/commit/7a64a5f4.patch | patch -p1
@@ -76,7 +99,6 @@ popd
 # AutoCore
 cp -rf ../OpenWrt-Add/autocore ./package/new/autocore
 sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/new/autocore/files/generic/luci-mod-status-autocore.json
-sed -i '/"$threads"/d' package/new/autocore/files/x86/autocore
 rm -rf ./feeds/packages/utils/coremark
 cp -rf ../immortalwrt_pkg/utils/coremark ./feeds/packages/utils/coremark
 # 更换 Nodejs 版本
@@ -128,11 +150,15 @@ ln -sf ../../../feeds/packages/utils/cpulimit ./package/feeds/packages/cpulimit
 # Docker 容器
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
-sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
-pushd feeds/packages
-wget -qO- https://github.com/openwrt/packages/commit/d9d5109.patch | patch -p1
+pushd feeds/luci/applications/luci-app-dockerman
+docker_2_services
 popd
-sed -i '/sysctl.d/d' feeds/packages/utils/dockerd/Makefile
+sed -i '/auto_start/d' ./feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
+pushd feeds/packages
+wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
+wget -qO- https://github.com/openwrt/packages/pull/20054.patch | patch -p1
+popd
+sed -i '/sysctl.d/d' ./feeds/packages/utils/dockerd/Makefile
 rm -rf ./feeds/luci/collections/luci-lib-docker
 cp -rf ../docker_lib/collections/luci-lib-docker ./feeds/luci/collections/luci-lib-docker
 # DiskMan
@@ -156,41 +182,7 @@ cp -rf ../mosdns/mosdns ./package/new/mosdns
 cp -rf ../mosdns/luci-app-mosdns ./package/new/luci-app-mosdns
 cp -rf ../mosdns/v2ray-geodata ./package/new/v2ray-geodata
 # OpenClash
-git clone --single-branch --depth 1 -b dev https://github.com/vernesong/OpenClash.git package/new/luci-app-openclash
-# Passwall
-cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
-pushd package/new/luci-app-passwall
-sed -i 's,iptables-legacy,iptables-nft,g' Makefile
-popd
-wget -P package/new/luci-app-passwall/ https://github.com/QiuSimons/OpenWrt-Add/raw/master/move_2_services.sh
-chmod -R 755 ./package/new/luci-app-passwall/move_2_services.sh
-pushd package/new/luci-app-passwall
-bash move_2_services.sh
-popd
-cp -rf ../passwall_pkg/tcping ./package/new/tcping
-cp -rf ../passwall_pkg/trojan-go ./package/new/trojan-go
-cp -rf ../passwall_pkg/brook ./package/new/brook
-cp -rf ../passwall_pkg/ssocks ./package/new/ssocks
-cp -rf ../passwall_pkg/microsocks ./package/new/microsocks
-cp -rf ../passwall_pkg/dns2socks ./package/new/dns2socks
-cp -rf ../passwall_pkg/ipt2socks ./package/new/ipt2socks
-cp -rf ../passwall_pkg/pdnsd-alt ./package/new/pdnsd-alt
-cp -rf ../OpenWrt-Add/trojan-plus ./package/new/trojan-plus
-cp -rf ../passwall_pkg/xray-plugin ./package/new/xray-plugin
-# Passwall 白名单
-echo '
-teamviewer.com
-epicgames.com
-dangdang.com
-account.synology.com
-ddns.synology.com
-checkip.synology.com
-checkip.dyndns.org
-checkipv6.synology.com
-ntp.aliyun.com
-cn.ntp.org.cn
-ntp.ntsc.ac.cn
-' >>./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
+cp -rf ../openclash ./package/luci-app-openclash
 # 清理内存
 cp -rf ../lede_luci/applications/luci-app-ramfree ./package/new/luci-app-ramfree
 # ShadowsocksR Plus+ 依赖
@@ -214,14 +206,11 @@ cp -rf ../ssrp/lua-neturl ./package/new/lua-neturl
 rm -rf ./feeds/packages/net/kcptun
 cp -rf ../immortalwrt_pkg/net/kcptun ./feeds/packages/net/kcptun
 ln -sf ../../../feeds/packages/net/kcptun ./package/feeds/packages/kcptun
+cp -rf ../ssrp/tuic-client ./package/new/tuic-client
+cp -rf ../ssrp/shadow-tls ./package/new/shadow-tls
 # ShadowsocksR Plus+
 cp -rf ../ssrp/luci-app-ssr-plus ./package/new/luci-app-ssr-plus
 rm -rf ./package/new/luci-app-ssr-plus/po/zh_Hans
-# v2raya
-git clone --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
-rm -rf ./feeds/packages/net/v2raya
-cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
-ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # rpcd
 sed -i 's/option timeout 30/option timeout 60/g' package/system/rpcd/files/rpcd.config
 sed -i 's#20) \* 1000#60) \* 1000#g' feeds/luci/modules/luci-base/htdocs/luci-static/resources/rpc.js
@@ -238,5 +227,6 @@ sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/ne
 ### 最后的收尾工作 ###
 # 生成默认配置及缓存
 rm -rf .config
+cat ../config/openwrt-22.03/extra.cfg >> ./target/linux/generic/config-5.10
 
 #exit 0

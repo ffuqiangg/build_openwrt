@@ -81,6 +81,7 @@ jobs:
         cd openwrt
         cp -r ../scripts/openwrt-22.03/. ./
         /bin/bash 02_prepare_package.sh
+        /bin/bash 04_remove_upx.sh
 
     - name: Convert Translation
       run: |
