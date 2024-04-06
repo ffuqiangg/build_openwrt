@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. ./scripts/funcations.sh
+
 clone_repo $istoreos_repo istoreos-22.03 istoreos
 clone_repo $openwrt_repo openwrt-22.03 openwrt
 rm -f ./openwrt/include/version.mk
