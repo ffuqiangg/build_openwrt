@@ -6,6 +6,7 @@
 
 ### 说明
 
+- 由于仓库的代码大部分时间都处于不可用的状态，所以并不建议 fork 使用。除非能够自行排查和修复错误。
 - 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)，下载前往 [Releases](https://github.com/ffuqiangg/build_openwrt/releases)
 - 默认 IP：192.168.1.99，  默认密码：password
 - 插件包含：PassWall，OpenClash，Homeproxy `ImmortalWrt 23.05`，v2rayA，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP服务器，DockerMan，DocKer Compose，UPNP，VerySync，DAED `ImmortalWrt 23.05`，DAED-Next `OpenWrt 23.05`
