@@ -21,8 +21,6 @@ sed -i '/mirror02/d' scripts/download.pl
 echo "net.netfilter.nf_conntrack_helper = 1" >>./package/kernel/linux/files/sysctl-nf-conntrack.conf
 # 补充工具链
 git clone --depth 1 https://github.com/kuoruan/openwrt-upx.git ./package/openwrt-upx
-cp -rf ../lede/tools/rust ./tools/rust
-cp -rf ../lede/tools/pcre2 ./tools/pcre2
 
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
