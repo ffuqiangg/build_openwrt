@@ -21,6 +21,7 @@ sed -i '/mirror02/d' scripts/download.pl
 echo "net.netfilter.nf_conntrack_helper = 1" >>./package/kernel/linux/files/sysctl-nf-conntrack.conf
 # 补充工具链
 git clone --depth 1 https://github.com/kuoruan/openwrt-upx.git ./package/openwrt-upx
+cp -rf ../lede_pkg/lang/rust ./packages/lang/rust
 
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
@@ -54,6 +55,7 @@ cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 ### 获取额外的 LuCI 应用和依赖 ###
 # 添加 Amlogic Uboot 及 Target
 cp -rf ../istoreos/target/linux/amlogic ./target/linux/amlogic
+cp -f ../istoreos/package/firmware/cypress-nvram/Makefile ./package/firmware/cypress-nvram/Makefile
 sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic_meson' ./package/kernel/mac80211/broadcom.mk
 # dae ready
 cp -rf ../immortalwrt/config/Config-kernel.in ./config/Config-kernel.in
@@ -90,6 +92,8 @@ endef
 \$(eval \$(call KernelPackage,xdp-sockets-diag))
 EOF
 git clone -b master --depth 1 https://github.com/QiuSimons/luci-app-daed.git ./package/new/luci-app-daed
+cp -rf ../immortalwrt_pkg/net/daed ./feeds/packages/net/daed
+ln -sf ../../../feeds/packages/net/daed ./package/feeds/packages/daed
 # mount cgroupv2
 pushd feeds/packages
 wget -qO - https://github.com/openwrt/packages/commit/7a64a5f4.patch | patch -p1
@@ -203,6 +207,9 @@ cp -rf ../immortalwrt_pkg/net/kcptun ./feeds/packages/net/kcptun
 ln -sf ../../../feeds/packages/net/kcptun ./package/feeds/packages/kcptun
 cp -rf ../ssrp/tuic-client ./package/new/tuic-client
 cp -rf ../ssrp/shadow-tls ./package/new/shadow-tls
+cp -rf ../ssrp/dns2socks ./package/new/dns2socks
+cp -rf ../ssrp/microsocks ./package/new/microsocks
+cp -rf ../ssrp/ipt2socks ./package/new/ipt2socks
 # ShadowsocksR Plus+
 cp -rf ../ssrp/luci-app-ssr-plus ./package/new/luci-app-ssr-plus
 rm -rf ./package/new/luci-app-ssr-plus/po/zh_Hans
