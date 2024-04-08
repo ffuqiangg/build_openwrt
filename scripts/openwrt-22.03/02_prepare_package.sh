@@ -21,7 +21,8 @@ sed -i '/mirror02/d' scripts/download.pl
 echo "net.netfilter.nf_conntrack_helper = 1" >>./package/kernel/linux/files/sysctl-nf-conntrack.conf
 # 补充工具链
 git clone --depth 1 https://github.com/kuoruan/openwrt-upx.git ./package/openwrt-upx
-cp -rf ../lede_pkg/lang/rust ./packages/lang/rust
+cp -rf ../lede_pkg/lang/rust ./feeds/packages/lang/rust
+ln -sf ../../../feeds/packages/lang/rust ./package/feeds/packages/rust
 
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
@@ -94,6 +95,8 @@ EOF
 git clone -b master --depth 1 https://github.com/QiuSimons/luci-app-daed.git ./package/new/luci-app-daed
 cp -rf ../immortalwrt_pkg/net/daed ./feeds/packages/net/daed
 ln -sf ../../../feeds/packages/net/daed ./package/feeds/packages/daed
+cp -rf ../immortalwrt_pkg/lib/libcron ./feeds/packages/lib/libcron
+ln -sf ../../../feeds/packages/lib/libcron ./package/feeds/packages/libcron
 # mount cgroupv2
 pushd feeds/packages
 wget -qO - https://github.com/openwrt/packages/commit/7a64a5f4.patch | patch -p1
