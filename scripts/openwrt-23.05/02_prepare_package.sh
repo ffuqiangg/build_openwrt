@@ -41,6 +41,11 @@ git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone packag
 cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 
 ### 获取额外的 LuCI 应用和依赖 ###
+# 添加 IstoreOS N1 Uboot 和 Target
+cp -rf ../istoreos/target/linux/amlogic ./target/linux/amlogic
+rm -f ./package/firmware/cypress-nvram/Makefile
+cp -f ../isoreos/package/firmware/cypress-nvram/Makefile ./package/firmware/cypress-nvram/Makefile
+sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic_meson' ./package/kernel/mac80211/broadcom.mk
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
