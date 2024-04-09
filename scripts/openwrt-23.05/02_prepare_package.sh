@@ -44,7 +44,7 @@ cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 # 添加 IstoreOS N1 Uboot 和 Target
 cp -rf ../istoreos/target/linux/amlogic ./target/linux/amlogic
 rm -f ./package/firmware/cypress-nvram/Makefile
-cp -f ../isoreos/package/firmware/cypress-nvram/Makefile ./package/firmware/cypress-nvram/Makefile
+cp -f ../istoreos/package/firmware/cypress-nvram/Makefile ./package/firmware/cypress-nvram/Makefile
 sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic_meson' ./package/kernel/mac80211/broadcom.mk
 # 预编译 node
 rm -rf feeds/packages/lang/node
