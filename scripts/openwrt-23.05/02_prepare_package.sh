@@ -42,9 +42,29 @@ cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 添加 IstoreOS N1 Uboot 和 Target
-cp -rf ../istoreos/target/linux/amlogic ./target/linux/amlogic
-rm -f ./package/firmware/cypress-nvram/Makefile
-cp -f ../istoreos/package/firmware/cypress-nvram/Makefile ./package/firmware/cypress-nvram/Makefile
+cp -rf ../patch/amlogic ./target/linux/amlogic
+cat >> ./package/firmware/cypress-nvram/Makefile << EOF
+
+# Cypress 43455 SDIO Raspberry Pi 4B NVRAM
+define Package/cypress-nvram-43455-sdio-rpi-4b
+  $(Package/cypress-nvram-default)
+  TITLE:=CYW43455 NVRAM for Raspberry Pi 4B
+  DEPENDS:=@TARGET_bcm27xx
+  CONFLICTS:=brcmfmac-firmware-43455-sdio-rpi-4b
+endef
+
+define Package/cypress-nvram-43455-sdio-rpi-4b/install
+	$(INSTALL_DIR) $(1)/lib/firmware/brcm
+	$(INSTALL_DATA) \
+		$(PKG_BUILD_DIR)/brcmfmac43455-sdio.raspberrypi,4-model-b.txt \
+		$(1)/lib/firmware/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt
+	$(INSTALL_DATA) \
+		$(PKG_BUILD_DIR)/brcmfmac43455-sdio.raspberrypi,4-model-b.txt \
+		$(1)/lib/firmware/brcm/brcmfmac43455-sdio.raspberrypi,4-compute-module.txt
+endef
+
+$(eval $(call BuildPackage,cypress-nvram-43455-sdio-rpi-4b))
+EOF
 sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic_meson' ./package/kernel/mac80211/broadcom.mk
 # 预编译 node
 rm -rf feeds/packages/lang/node
