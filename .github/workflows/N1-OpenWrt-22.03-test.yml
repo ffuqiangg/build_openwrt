@@ -1,10 +1,10 @@
-name: N1-OpenWrt-23.05-test
+name: N1-OpenWrt-22.03-test
 
 on:
   workflow_dispatch:
   repository_dispatch:
     types:
-      - N1-OpenWrt-23.05-test
+      - N1-OpenWrt-22.03-test
 
 env:
   TZ: Asia/Shanghai
@@ -82,33 +82,10 @@ jobs:
         cp -r ../scripts/openwrt-23.05/. ./
         /bin/bash 02_prepare_package.sh
 
-    - name: Convert Translation
-      run: |
-        cd openwrt
-        /bin/bash 03_convert_translation.sh
-
-    - name: Demote Iptables
-      run: |
-        cd openwrt
-        /bin/bash 04_demote_iptables.sh
-
-    - name: Add ACL
-      run: |
-        cd openwrt
-        /bin/bash 05_create_acl_for_luci.sh -a
-
-    - name: Load custom configuration
-      run: |
-        latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
-        cp -rf patch/files openwrt/files && cp -r patch/openwrt-23.05/. openwrt/files/
-        sed -i "s,DATE,${{ env.build_date }}," ./openwrt/files/etc/banner
-        sed -i "s,OPENWRT_VER,${latest_release}," ./openwrt/package/new/addition-trans-zh/files/zzz-default-settings
-        echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
-
     - name: Make config
       run: |
         cd openwrt
-        cp ../config/openwrt-23.05/config.test .config
+        cp ../config/openwrt-22.03/config.seed .config
         touch target/linux/*/Makefile
         make defconfig
 
