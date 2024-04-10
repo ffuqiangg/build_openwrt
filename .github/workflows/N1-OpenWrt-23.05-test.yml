@@ -108,7 +108,7 @@ jobs:
     - name: Make config
       run: |
         cd openwrt
-        cp ../config/openwrt-23.05/config.seed .config
+        cp ../config/openwrt-23.05/config.test .config
         touch target/linux/*/Makefile
         make defconfig
 
