@@ -1,10 +1,10 @@
-name: N1-OpenWrt-22.03-test
+name: N1-iStoreOS-test
 
 on:
   workflow_dispatch:
   repository_dispatch:
     types:
-      - N1-OpenWrt-22.03-test
+      - N1-iStoreOS-test
 
 env:
   TZ: Asia/Shanghai
@@ -72,21 +72,14 @@ jobs:
       run: |
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
         cp -r ${GITHUB_WORKSPACE}/. ./
-        cp -r ./scripts/openwrt-22.03/. ./
+        cp -r ./scripts/istoreos/. ./
         /bin/bash 01_prepare_source_code.sh
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
-
-    - name: Prepare package
-      run: |
-        cd openwrt
-        cp -r ../scripts/openwrt-22.03/. ./
-        /bin/bash 02_prepare_package.sh
 
     - name: Make config
       run: |
         cd openwrt
-        cp ../config/openwrt-22.03/config.seed .config
-        touch target/linux/*/Makefile
+        cp ../config/istoreos/config.seed .config
         make defconfig
 
     - name: Download package
