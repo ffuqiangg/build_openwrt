@@ -76,6 +76,12 @@ jobs:
         /bin/bash 01_prepare_source_code.sh
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
 
+    - name: Prepare package
+      run: |
+        cd openwrt
+        cp -r ../scripts/istoreos/. ./
+        /bin/bash 02_prepare_package.sh
+
     - name: Make config
       run: |
         cd openwrt
