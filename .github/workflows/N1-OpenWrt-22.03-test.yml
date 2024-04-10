@@ -72,14 +72,14 @@ jobs:
       run: |
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
         cp -r ${GITHUB_WORKSPACE}/. ./
-        cp -r ./scripts/openwrt-23.05/. ./
+        cp -r ./scripts/openwrt-22.03/. ./
         /bin/bash 01_prepare_source_code.sh
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
 
     - name: Prepare package
       run: |
         cd openwrt
-        cp -r ../scripts/openwrt-23.05/. ./
+        cp -r ../scripts/openwrt-22.03/. ./
         /bin/bash 02_prepare_package.sh
 
     - name: Make config
