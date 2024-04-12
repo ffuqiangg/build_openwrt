@@ -67,6 +67,9 @@ endef
 EOF
 sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic_meson' ./package/kernel/mac80211/broadcom.mk
 wget -O ./include/kernel-5.10 https://github.com/istoreos/istoreos/raw/istoreos-22.03/include/kernel-5.10
+cp -rf ../istoreos/package/boot/uboot-amlogic-prebuilt ./package/boot/uboot-amlogic-prebuilt
+rm -rf ./package/kernel/linux/modules/video.mk
+cp -rf ../istoreos/package/kernel/linux/modules/video.mk ./package/kernel/linux/modules/video.mk
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
