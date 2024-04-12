@@ -42,7 +42,7 @@ cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 添加 IstoreOS N1 Uboot 和 Target
-cp -rf ../patch/amlogic ./target/linux/amlogic
+cp -rf ../istoreos/target/linux/amlogic ./target/linux/amlogic
 cat >> ./package/firmware/cypress-nvram/Makefile << EOF
 
 # Cypress 43455 SDIO Raspberry Pi 4B NVRAM
