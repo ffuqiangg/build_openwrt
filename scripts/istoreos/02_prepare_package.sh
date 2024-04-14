@@ -41,10 +41,6 @@
 # cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 
 ### 获取额外的 LuCI 应用和依赖 ###
-# 添加 IstoreOS N1 Uboot 和 Target
-cp -rf ../patch/amlogic ./target/linux/amlogic
-sed -i '/PROVIDES:=brcmfmac-firmware-43455-sdio-rpi-4b/d' ./package/firmware/cypress-nvram/Makefile
-sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic_meson' ./package/kernel/mac80211/broadcom.mk
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
@@ -217,6 +213,6 @@ git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
 ### 最后的收尾工作 ###
 # 生成默认配置及缓存
 rm -rf .config
-# sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
+sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.10
 
 exit 0
