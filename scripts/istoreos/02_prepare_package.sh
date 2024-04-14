@@ -46,8 +46,8 @@ cp -rf ../patch/amlogic ./target/linux/amlogic
 sed -i '/PROVIDES:=brcmfmac-firmware-43455-sdio-rpi-4b/d' ./package/firmware/cypress-nvram/Makefile
 sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic_meson' ./package/kernel/mac80211/broadcom.mk
 # 预编译 node
-# rm -rf feeds/packages/lang/node
-# cp -rf ../node feeds/packages/lang/node
+rm -rf feeds/packages/lang/node
+cp -rf ../node feeds/packages/lang/node
 # dae ready
 # cp -rf ../immortalwrt_pkg/net/dae ./feeds/packages/net/dae
 # ln -sf ../../../feeds/packages/net/dae ./package/feeds/packages/dae
@@ -66,8 +66,6 @@ sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic_meson' ./package/kernel/ma
 # cp -rf ../patch/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
-# 晶晨宝盒
-# git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
 # AutoCore
 # cp -rf ../immortalwrt_23/package/emortal/autocore ./package/new/autocore
 # sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/new/autocore/files/luci-mod-status-autocore.json
@@ -136,10 +134,10 @@ sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic_meson' ./package/kernel/ma
 # cp -f ../patch/sing-box/files/sing-box.init ./feeds/packages/net/sing-box/files/sing-box.init
 # sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)) CGO_ENABLED=1\n' ./feeds/packages/net/sing-box/Makefile
 # OpenClash
-# cp -rf ../openclash ./package/luci-app-openclash
+cp -rf ../openclash ./package/luci-app-openclash
 # golang
-# rm -rf ./feeds/packages/lang/golang
-# git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+rm -rf ./feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 # Passwall
 # cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 # pushd package/new/luci-app-passwall
@@ -174,9 +172,9 @@ sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic_meson' ./package/kernel/ma
 # ntp.ntsc.ac.cn
 # ' >>./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # Mosdns
-# rm -rf ./feeds/packages/net/v2ray-geodata
-# cp -rf ../mosdns ./package/new/luci-app-mosdns
-# git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
+rm -rf ./feeds/packages/net/v2ray-geodata
+cp -rf ../mosdns ./package/new/luci-app-mosdns
+git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
 # 清理内存
 # cp -rf ../lede_luci/applications/luci-app-ramfree ./package/new/luci-app-ramfree
 # v2raya
