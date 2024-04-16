@@ -2,44 +2,6 @@
 
 . ../scripts/funcations.sh
 
-### 基础部分 ###
-# 更新 Feeds
-./scripts/feeds update -a
-./scripts/feeds install -a
-# 移除 SNAPSHOT 标签
-# sed -i 's,-SNAPSHOT,,g' include/version.mk
-# sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
-
-### Fullcone-NAT 部分 ###
-# Patch Kernel 以解决 FullCone 冲突
-# cp -rf ../lede/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch ./target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
-# Patch FireWall 以增添 FullCone 功能
-# FW4
-# mkdir -p package/network/config/firewall4/patches
-# cp -f ../patch/firewall/firewall4_patches/*.patch ./package/network/config/firewall4/patches/
-# mkdir -p package/libs/libnftnl/patches
-# cp -f ../patch/firewall/libnftnl/*.patch ./package/libs/libnftnl/patches/
-# sed -i '/PKG_INSTALL:=/iPKG_FIXUP:=autoreconf' package/libs/libnftnl/Makefile
-# mkdir -p package/network/utils/nftables/patches
-# cp -f ../patch/firewall/nftables/*.patch ./package/network/utils/nftables/patches/
-# Patch LuCI 以支持自定义 nft 规则
-# patch -p1 < ../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
-# FW3
-# mkdir -p package/network/config/firewall/patches
-# cp -rf ../immortalwrt_21/package/network/config/firewall/patches/100-fullconenat.patch ./package/network/config/firewall/patches/100-fullconenat.patch
-# cp -rf ../lede/package/network/config/firewall/patches/101-bcm-fullconenat.patch ./package/network/config/firewall/patches/101-bcm-fullconenat.patch
-# iptables
-# cp -rf ../lede/package/network/utils/iptables/patches/900-bcm-fullconenat.patch ./package/network/utils/iptables/patches/900-bcm-fullconenat.patch
-# network
-# wget -qO - https://github.com/openwrt/openwrt/commit/bbf39d07.patch | patch -p1
-# Patch LuCI 以增添 FullCone 开关
-# pushd feeds/luci
-# patch -p1 <../../../patch/firewall/01-luci-app-firewall_add_nft-fullcone-bcm-fullcone_option.patch
-# popd
-# FullCone PKG
-# git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone package/new/nft-fullcone
-# cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
-
 ### 获取额外的 LuCI 应用和依赖 ###
 # 预编译 node
 rm -rf feeds/packages/lang/node
@@ -99,10 +61,10 @@ cp -rf ../node feeds/packages/lang/node
 # cp -rf ../passwall_pkg/chinadns-ng ./package/new/chinadns-ng
 # Docker 容器
 # rm -rf ./feeds/luci/applications/luci-app-dockerman
-# cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
-# pushd feeds/luci/applications/luci-app-dockerman
-# docker_2_services
-# popd
+cp -rf ../dockerman/applications/luci-app-dockerman ./package/luci-app-dockerman
+pushd package/luci-app-dockerman
+docker_2_services
+popd
 # sed -i '/auto_start/d' ./feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 # pushd feeds/packages
 # wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
@@ -169,8 +131,8 @@ git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/l
 # ' >>./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # Mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
-cp -rf ../mosdns ./package/new/luci-app-mosdns
-git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
+cp -rf ../mosdns ./package/luci-app-mosdns
+git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 # 清理内存
 # cp -rf ../lede_luci/applications/luci-app-ramfree ./package/new/luci-app-ramfree
 # v2raya
