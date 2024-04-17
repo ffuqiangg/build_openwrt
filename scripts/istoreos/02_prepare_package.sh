@@ -74,7 +74,7 @@ popd
 # rm -rf ./feeds/luci/collections/luci-lib-docker
 # cp -rf ../docker_lib/collections/luci-lib-docker ./feeds/luci/collections/luci-lib-docker
 # DiskMan
-cp -rf ../diskman/applications/luci-app-diskman ./package/new/luci-app-diskman
+cp -rf ../diskman/applications/luci-app-diskman ./package/luci-app-diskman
 mkdir -p package/parted && \
 wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
 # FRP 内网穿透
@@ -94,8 +94,8 @@ wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Mak
 # OpenClash
 cp -rf ../openclash ./package/luci-app-openclash
 # golang
-rm -rf ./feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+# rm -rf ./feeds/packages/lang/golang
+# git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 # Passwall
 # cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 # pushd package/new/luci-app-passwall
@@ -136,10 +136,10 @@ git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 # 清理内存
 # cp -rf ../lede_luci/applications/luci-app-ramfree ./package/new/luci-app-ramfree
 # v2raya
-# git clone --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
-# rm -rf ./feeds/packages/net/v2raya
-# cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
-# ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
+git clone --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/luci-app-v2raya
+rm -rf ./feeds/packages/net/v2raya
+cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
+ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # KMS 激活助手
 # cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
 # cp -rf ../lede_pkg/net/vlmcsd ./package/new/vlmcsd
@@ -150,10 +150,10 @@ git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 # move_2_services nas
 # popd
 # Filebrowser 文件浏览器
-# cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
-# pushd package/new/luci-app-filebrowser
-# move_2_services nas
-# popd
+cp -rf ../Lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
+pushd package/new/luci-app-filebrowser
+move_2_services nas
+popd
 # nlbw
 # sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 # ttyd
