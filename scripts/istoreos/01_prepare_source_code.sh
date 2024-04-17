@@ -17,9 +17,9 @@ clone_repo https://github.com/istoreos/istoreos.git istoreos-22.03 openwrt &
 # clone_repo $lede_pkg_repo master lede_pkg &
 # clone_repo $openwrt_repo main openwrt_ma &
 # clone_repo $openwrt_repo openwrt-22.03 openwrt_22 &
-# clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
+clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 # clone_repo $lienol_repo 23.05 Lienol &
-# clone_repo $lienol_pkg_repo main Lienol_pkg &
+clone_repo $lienol_pkg_repo main Lienol_pkg &
 # clone_repo $openwrt_add_repo master OpenWrt-Add &
 # clone_repo $passwall_pkg_repo main passwall_pkg &
 # clone_repo $passwall_luci_repo main passwall_luci &
