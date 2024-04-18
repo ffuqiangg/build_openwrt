@@ -94,8 +94,8 @@ wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Mak
 # OpenClash
 cp -rf ../openclash ./package/luci-app-openclash
 # golang
-# rm -rf ./feeds/packages/lang/golang
-# git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+rm -rf ./feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 # Passwall
 # cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 # pushd package/new/luci-app-passwall
