@@ -67,6 +67,8 @@ wget -O ./include/kernel-5.10 https://github.com/istoreos/istoreos/raw/istoreos-
 cp -rf ../istoreos/package/boot/uboot-amlogic-prebuilt ./package/boot/uboot-amlogic-prebuilt
 rm -rf ./package/kernel/linux/modules/video.mk
 cp -rf ../istoreos/package/kernel/linux/modules/video.mk ./package/kernel/linux/modules/video.mk
+rm -rf ./target/linux/generic
+cp -rf ../istoreos/target/linux/generic ./target/linux/generic
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
