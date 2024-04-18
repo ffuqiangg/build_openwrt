@@ -2,9 +2,6 @@
 
 . ../scripts/funcations.sh
 
-./scripts/feeds update -a
-./scripts/feeds install -a
-
 ### Prepare package
 # Default settings
 rm ./package/emortal/default-settings/files/openwrt_banner

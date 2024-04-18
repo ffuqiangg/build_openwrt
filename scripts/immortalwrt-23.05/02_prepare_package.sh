@@ -2,9 +2,6 @@
 
 . ../scripts/funcations.sh
 
-./scripts/feeds update -a
-./scripts/feeds install -a
-
 ### Prepare package
 # 预编译 node
 rm -rf feeds/packages/lang/node

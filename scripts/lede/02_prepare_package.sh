@@ -2,9 +2,6 @@
 
 . ../scripts/funcations.sh
 
-./scripts/feeds update -a
-./scripts/feeds install -a
-
 ### Prepare package
 # Delete default menu setting
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
