@@ -243,6 +243,6 @@ sed -i "s,PKG_HASH:=.*,PKG_HASH:=ce4b6a6655431147624aaf582632a36fe1ade262d5fab38
 ### 最后的收尾工作 ###
 # 生成默认配置及缓存
 rm -rf .config
-sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
+sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.10
 
 exit 0
