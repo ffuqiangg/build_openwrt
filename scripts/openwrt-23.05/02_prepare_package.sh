@@ -63,7 +63,8 @@ endef
 \$(eval \$(call BuildPackage,cypress-nvram-43455-sdio-rpi-4b))
 EOF
 sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic_meson' ./package/kernel/mac80211/broadcom.mk
-wget -O ./include/kernel-5.10 https://github.com/istoreos/istoreos/raw/istoreos-22.03/include/kernel-5.10
+rm -rf ./include
+cp -rf ../istoreos/include ./include
 cp -rf ../istoreos/package/boot/uboot-amlogic-prebuilt ./package/boot/uboot-amlogic-prebuilt
 rm -rf ./package/kernel/linux/modules/video.mk
 cp -rf ../istoreos/package/kernel/linux/modules/video.mk ./package/kernel/linux/modules/video.mk
