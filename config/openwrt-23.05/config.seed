@@ -101,9 +101,9 @@ CONFIG_LUCI_LANG_en=y
 CONFIG_PACKAGE_luci-compat=y
 
 ### APPLICATION ###
+CONFIG_PACKAGE_luci-app-amlogic=y
 CONFIG_PACKAGE_luci-app-arpbind=y
 CONFIG_PACKAGE_luci-app-autoreboot=y
-CONFIG_PACKAGE_luci-app-cpufreq=y
 CONFIG_PACKAGE_luci-app-filebrowser=y
 CONFIG_PACKAGE_luci-app-frpc=y
 CONFIG_PACKAGE_frpc=y
