@@ -38,37 +38,6 @@ git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone packag
 cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 
 ### 获取额外的 LuCI 应用和依赖 ###
-# 添加 IstoreOS N1 Uboot 和 Target
-cp -rf ../istoreos/target/linux/amlogic ./target/linux/amlogic
-cat >> ./package/firmware/cypress-nvram/Makefile << EOF
-
-# Cypress 43455 SDIO Raspberry Pi 4B NVRAM
-define Package/cypress-nvram-43455-sdio-rpi-4b
-  \$(Package/cypress-nvram-default)
-  TITLE:=CYW43455 NVRAM for Raspberry Pi 4B
-  DEPENDS:=@TARGET_bcm27xx
-  CONFLICTS:=brcmfmac-firmware-43455-sdio-rpi-4b
-endef
-
-define Package/cypress-nvram-43455-sdio-rpi-4b/install
-	\$(INSTALL_DIR) \$(1)/lib/firmware/brcm
-	\$(INSTALL_DATA) \\
-		\$(PKG_BUILD_DIR)/brcmfmac43455-sdio.raspberrypi,4-model-b.txt \\
-		\$(1)/lib/firmware/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt
-	\$(INSTALL_DATA) \\
-		\$(PKG_BUILD_DIR)/brcmfmac43455-sdio.raspberrypi,4-model-b.txt \\
-		\$(1)/lib/firmware/brcm/brcmfmac43455-sdio.raspberrypi,4-compute-module.txt
-endef
-
-\$(eval \$(call BuildPackage,cypress-nvram-43455-sdio-rpi-4b))
-EOF
-sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic_meson' ./package/kernel/mac80211/broadcom.mk
-rm -rf ./include
-cp -rf ../istoreos/include ./include
-cp -rf ../istoreos/package/boot/uboot-amlogic-prebuilt ./package/boot/uboot-amlogic-prebuilt
-rm -rf ./package/kernel/linux/modules/video.mk
-cp -rf ../istoreos/package/kernel/linux/modules/video.mk ./package/kernel/linux/modules/video.mk
-cp -rf ../istoreos/target/linux/generic/*5.10* ./target/linux/generic/
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
@@ -243,6 +212,6 @@ sed -i "s,PKG_HASH:=.*,PKG_HASH:=ce4b6a6655431147624aaf582632a36fe1ade262d5fab38
 ### 最后的收尾工作 ###
 # 生成默认配置及缓存
 rm -rf .config
-sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.10
+sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
 
 exit 0
