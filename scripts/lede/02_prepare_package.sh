@@ -7,7 +7,7 @@
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 # golang
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # Passwall
 cp -rf ../passwall_luci ./package/luci-app-passwall
 cp -rf ../passwall_pkg ./package/passwall-pkg

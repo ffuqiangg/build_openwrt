@@ -3,9 +3,13 @@
 . ../scripts/funcations.sh
 
 ### 基础部分 ###
-# 移除 SNAPSHOT 标签
-# sed -i 's,-SNAPSHOT,,g' include/version.mk
-# sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
+# 使用 O2 级别的优化
+sed -i 's/Os/O2/g' include/target.mk
+# 更新 Feeds
+# ./scripts/feeds update -a
+# ./scripts/feeds install -a
+# 默认开启 Irqbalance
+sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
@@ -48,6 +52,7 @@ cp -rf ../immortalwrt_pkg/net/daed ./feeds/packages/net/daed
 ln -sf ../../../feeds/packages/net/daed ./package/feeds/packages/daed
 cp -rf ../lucidaednext/daed-next ./package/new/daed-next
 cp -rf ../lucidaednext/luci-app-daed-next ./package/new/luci-app-daed-next
+git clone -b master --depth 1 https://github.com/QiuSimons/luci-app-daed package/new/luci-app-daed
 # bpf
 wget -qO - https://github.com/immortalwrt/immortalwrt/commit/73e5679.patch | patch -p1
 wget https://github.com/immortalwrt/immortalwrt/raw/openwrt-23.05/target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch -O target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch
@@ -132,7 +137,7 @@ sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)
 cp -rf ../openclash ./package/luci-app-openclash
 # golang
 rm -rf ./feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # Passwall
 cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 pushd package/new/luci-app-passwall
