@@ -56,6 +56,8 @@ git clone -b master --depth 1 https://github.com/QiuSimons/luci-app-daed package
 # bpf
 wget -qO - https://github.com/immortalwrt/immortalwrt/commit/73e5679.patch | patch -p1
 wget https://github.com/immortalwrt/immortalwrt/raw/openwrt-23.05/target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch -O target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch
+cp -rf ../immortalwrt_pkg/libs/libcron ./feeds/packages/libs/libcron
+ln -sf ../../../feeds/packages/libs/libcron ./package/feeds/packages/libcron
 # mount cgroupv2
 pushd feeds/packages
 patch -p1 <../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
