@@ -10,6 +10,9 @@ sed -i 's/Os/O2/g' include/target.mk
 # ./scripts/feeds install -a
 # 默认开启 Irqbalance
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
+# 移除 SNAPSHOT 标签
+sed -i 's,-SNAPSHOT,,g' include/version.mk
+sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
@@ -213,12 +216,22 @@ cp -rf ../OpenWrt-Add/addition-trans-zh ./package/new/addition-trans-zh
 cp -f ../patch/addition-trans-zh/files/zzz-default-settings ./package/new/addition-trans-zh/files/zzz-default-settings
 sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/new/addition-trans-zh/Makefile
 # curl 8.6.0 passwall 冲突降级
-sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=8\.5\.0," ./feeds/packages/net/curl/Makefile
-sed -i "s,PKG_HASH:=.*,PKG_HASH:=ce4b6a6655431147624aaf582632a36fe1ade262d5fab385c60f78942dd8d87b," ./feeds/packages/net/curl/Makefile
+# sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=8\.5\.0," ./feeds/packages/net/curl/Makefile
+# sed -i "s,PKG_HASH:=.*,PKG_HASH:=ce4b6a6655431147624aaf582632a36fe1ade262d5fab385c60f78942dd8d87b," ./feeds/packages/net/curl/Makefile
 
 ### 最后的收尾工作 ###
 # 生成默认配置及缓存
 rm -rf .config
 sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
+
+#Vermagic
+latest_version="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/v//g' | sed 's/.tar.gz//g')"
+wget https://downloads.openwrt.org/releases/${latest_version}/targets/armsr/armv8/packages/Packages.gz
+zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' >.vermagic
+sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
+
+chmod -R 755 ./
+find ./ -name *.orig | xargs rm -f
+find ./ -name *.rej | xargs rm -f
 
 exit 0

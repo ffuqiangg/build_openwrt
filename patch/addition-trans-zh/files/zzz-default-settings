@@ -22,7 +22,6 @@ uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
 uci commit passwall
 
 #Feeds 更换镜像源
-# sed -i 's,23.05,OPENWRT_VER,g' /etc/opkg/distfeeds.conf
 sed -i 's,downloads.openwrt.org,mirror.sjtu.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
 sed -i 's,mirror.sjtu.edu.cn/openwrt,mirrors.pku.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
 
@@ -54,9 +53,9 @@ uci set upnpd.config.force_forwarding='1'
 uci commit upnpd
 
 #MosDNS广告源
-# uci set mosdns.config.adblock='1'
-# uci add_list mosdns.config.ad_source='https://github.com/QiuSimons/openwrt-mos/raw/master/dat/serverlist.txt'
-# uci commit mosdns
+uci set mosdns.config.adblock='1'
+uci add_list mosdns.config.ad_source='https://github.com/QiuSimons/openwrt-mos/raw/master/dat/serverlist.txt'
+uci commit mosdns
 
 #默认停用 sing-box
 /etc/init.d/sing-box stop
