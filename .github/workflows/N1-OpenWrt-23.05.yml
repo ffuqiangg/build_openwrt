@@ -111,6 +111,10 @@ jobs:
         kernel_version=$(cat openwrt/include/kernel-5.15 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")
         cp -rf patch/files openwrt/files && cp -r patch/openwrt-23.05/. openwrt/files/
         sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_SOUR,OpenWrt," -e ",RELEASES,${latest_release}," ./openwrt/files/etc/banner
+        mkdir -p openwrt/files/etc/openclash/core && cd openwrt/files/etc/openclash/core
+        wget https://github.com/vernesong/OpenClash/blob/core/master/premium/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz && mv clash clash_tun && rm clash-linux-arm64.tar.gz
+        wget https://github.com/vernesong/OpenClash/blob/core/master/meta/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz && mv clash clash_meta && rm clash-linux-arm64.tar.gz
+        wget https://github.com/vernesong/OpenClash/blob/core/master/dev/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz && rm clash-linux-arm64.tar.gz
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
         echo "kernel_version=${kernel_version}" >> ${GITHUB_ENV}
 
