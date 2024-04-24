@@ -41,4 +41,11 @@ pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd
 
+# 预配置一些插件
+cp -rf ../patch/files ./files
+
+chmod -R 755 ./
+find ./ -name *.orig | xargs rm -f
+find ./ -name *.rej | xargs rm -f
+
 exit 0

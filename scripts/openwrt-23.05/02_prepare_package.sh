@@ -230,6 +230,10 @@ wget https://downloads.openwrt.org/releases/${latest_version}/targets/armsr/armv
 zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' >.vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
+# 预配置一些插件
+cp -rf ../patch/files ./files
+cp -rf ../patch/openwrt-23.05/. ./files/
+
 chmod -R 755 ./
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
