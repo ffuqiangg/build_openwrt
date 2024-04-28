@@ -231,6 +231,15 @@ sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic
 # 预配置一些插件
 cp -rf ../patch/files ./files
 cp -rf ../patch/openwrt-23.05/. ./files/
+mkdir -p files/etc/openclash/core
+pushd files/etc/openclash/core
+premium_core_version="$(curl -fsSL https://github.com/vernesong/OpenClash/raw/core/master/core_version | sed -n '2p')"
+wget https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-arm64-${premium_core_version}.gz && gzip -d clash-linux-arm64-${premium_core_version}.gz && mv clash-linux-arm64-${premium_core_version}.gz clash_tun
+wget https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz && mv clash clash_meta
+wget https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz
+chmod +x ./clash*
+find ./ -name *.tar.gz | xargs rm -f
+popd
 
 chmod -R 755 ./
 find ./ -name *.orig | xargs rm -f

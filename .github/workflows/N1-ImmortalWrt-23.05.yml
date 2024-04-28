@@ -98,11 +98,7 @@ jobs:
       run: |
         latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
         kernel_version=$(cat openwrt/include/kernel-5.15 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")
-        sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_SOUR,ImmortalWrt," -e ",RELEASES,${latest_release}," ./openwrt/files/etc/banner
-        mkdir -p openwrt/files/etc/openclash/core && cd openwrt/files/etc/openclash/core
-        wget https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz && mv clash clash_tun && rm clash-linux-arm64.tar.gz
-        wget https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz && mv clash clash_meta && rm clash-linux-arm64.tar.gz
-        wget https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz && rm clash-linux-arm64.tar.gz
+        sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_SOUR,ImmortalWrt," -e "s,RELEASES,${latest_release}," ./openwrt/files/etc/banner
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
         echo "kernel_version=${kernel_version}" >> ${GITHUB_ENV}
 
