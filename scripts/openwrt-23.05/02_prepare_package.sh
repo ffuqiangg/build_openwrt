@@ -181,7 +181,9 @@ git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
 # 清理内存
 cp -rf ../lede_luci/applications/luci-app-ramfree ./package/new/luci-app-ramfree
 # v2raya
-git clone --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
+git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git luci-app-v2raya
+cp -rf ./luci-app-v2raya/luci-app-v2raya ./package/new/
+rm -rf ./luci-app-v2raya
 rm -rf ./feeds/packages/net/v2raya
 cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
