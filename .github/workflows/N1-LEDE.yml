@@ -92,10 +92,8 @@ jobs:
     - name: Load custom configuration
       run: |
         distrib_revision=$(cat openwrt/package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
-        kernel_version=$(cat openwrt/include/kernel-5.15 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")
         sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_SOUR,LEDE," -e "s,RELEASES,${distrib_revision}," ./openwrt/files/etc/banner
         echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
-        echo "kernel_version=${kernel_version}" >> ${GITHUB_ENV}
 
     - name: Make config
       run: |
@@ -130,24 +128,13 @@ jobs:
         name: OpenWrt_rootfs_${{ env.build_date }}
         path: openwrt/bin
 
-    - name: Package firmware
-      uses: ffuqiangg/openwrt_packit@master
-      env:
-        SCRIPT_REPO_URL: https://github.com/ffuqiangg/openwrt_packit
-        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*rootfs.tar.gz
-        PACKAGE_SOC: s905d
-        KERNEL_REPO_URL: breakings/OpenWrt
-        KERNEL_VERSION_NAME: ${{ env.kernel_version }}
-        KERNEL_AUTO_LATEST: false
-        GZIP_IMGS: .zip
-        SCRIPT_S905D: mk_lede_n1.sh
-        OPENWRT_VER: ${{ env.distrib_revision }}
-        SFE_FLOW: 0
-        ENABLE_WIFI_K504: 0
-        ENABLE_WIFI_K510: 0
-        DISTRIB_REVISION: ${{ env.distrib_revision }}
-        DISTRIB_DESCRIPTION: OpenWrt
-        BUILD_DATE: ${{ env.build_date }}
+    - name: Organize files
+      run: |
+        rm -rf ./artifact/
+        mkdir -p ./artifact/
+        mv openwrt/bin/targets/amlogic/armv8/*sysupgrade.img* ./artifact/
+        cd ./artifact/
+        zip N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}.zip *n1*squashfs*
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@v1
@@ -157,7 +144,7 @@ jobs:
         tag: ${{ env.build_date }}
         allowUpdates: true
         replacesArtifacts: true
-        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}.zip
+        artifacts: ./artifact/*.zip
 
     - name: Telegram notification
       if: github.event_name == 'repository_dispatch'
