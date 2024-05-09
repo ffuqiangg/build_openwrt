@@ -2,12 +2,13 @@
 
 . ../scripts/funcations.sh
 
+### 基础部分 ###
+# 默认开启 Irqbalance
+sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
+
 ### Prepare package
 # Delete default menu setting
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
-# golang
-rm -rf feeds/packages/lang/golang
-cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # Passwall
 cp -rf ../passwall_luci ./package/luci-app-passwall
 cp -rf ../passwall_pkg ./package/passwall-pkg
