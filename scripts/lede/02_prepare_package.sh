@@ -44,7 +44,7 @@ sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nl
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 # v2raya
 git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
-cp -rf ../immortalwrt_pkg_18.06/net/v2raya ./feeds/packages/net/v2raya
+cp -rf ../immortalwrt_pkg/net/v2raya ./feeds/packages/net/v2raya
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # verysync
 pushd package/feeds/luci/luci-app-verysync
