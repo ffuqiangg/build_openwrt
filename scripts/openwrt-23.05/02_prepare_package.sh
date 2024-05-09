@@ -41,6 +41,13 @@ popd
 git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone package/new/nft-fullcone
 cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 
+### 获取额外的基础软件包 ###
+# 更换为 ImmortalWrt Uboot 以及 Target
+cp -rf ../lede/target/linux/amlogic ./target/linux/amlogic
+cp -rf ../lede/target/linux/meson ./target/linux/meson
+cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/uboot-amlogic
+sed -i '/TARGET_rockchip/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
+
 ### 获取额外的 LuCI 应用和依赖 ###
 # 预编译 node
 rm -rf feeds/packages/lang/node
