@@ -75,7 +75,6 @@ jobs:
         cp -r ./scripts/lede/. ./
         /bin/bash 01_prepare_source_code.sh
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
-        ln -sf /builder/openwrt /home/runner/work/_actions/ffuqiangg/openwrt_packit/master/openwrt
 
     - name: Update & install feeds
       run: |
