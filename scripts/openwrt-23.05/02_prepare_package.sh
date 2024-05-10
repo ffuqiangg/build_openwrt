@@ -44,7 +44,6 @@ cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 ### 获取额外的基础软件包 ###
 # 更换为 ImmortalWrt Uboot 以及 Target
 cp -rf ../lede/target/linux/amlogic ./target/linux/amlogic
-cp -rf ../lede/target/linux/meson ./target/linux/meson
 cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/uboot-amlogic
 sed -i '/TARGET_rockchip/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
 
