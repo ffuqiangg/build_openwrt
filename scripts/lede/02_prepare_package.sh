@@ -65,7 +65,7 @@ pushd files/etc/openclash/core
 clash_version="$(curl -fsSL https://github.com/vernesong/OpenClash/raw/core/master/core_version | sed -n '2p')"
 wget https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-arm64-${clash_version}.gz && gzip -d clash-linux-arm64-${clash_version}.gz && mv clash-linux-arm64-${clash_version} clash_tun
 wget https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz && mv clash clash_meta
-wget https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz
+wget https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz.1
 chmod +x ./clash*
 find ./ -name *.tar.gz | xargs rm -f
 popd

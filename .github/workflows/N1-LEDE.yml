@@ -131,9 +131,12 @@ jobs:
       run: |
         rm -rf ./artifact/
         mkdir -p ./artifact/
-        mv openwrt/bin/targets/amlogic/armv8/*sysupgrade.img* ./artifact/
+        mv openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img* ./artifact/
         cd ./artifact/
-        zip N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}.zip *n1*squashfs*
+        gzip -d *.gz && exit 0
+        gzip --best *.img
+        zip N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}-ext4.zip *n1*ext4*
+        zip N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}-sfs.zip *n1*squashfs*
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@v1
