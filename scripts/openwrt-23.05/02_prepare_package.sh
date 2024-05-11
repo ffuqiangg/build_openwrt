@@ -46,6 +46,7 @@ cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 cp -rf ../lede/target/linux/amlogic ./target/linux/amlogic
 cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/uboot-amlogic
 sed -i '/TARGET_rockchip/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
+cp -f ../lede/include/kernel-6.1 ./include/kernel-6.1
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 预编译 node
