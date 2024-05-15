@@ -46,9 +46,6 @@ cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 cp -rf ../lede/target/linux/amlogic ./target/linux/amlogic
 cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/uboot-amlogic
 sed -i '/TARGET_rockchip/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
-cp -f ../lede/include/kernel-6.1 ./include/kernel-6.1
-rm -f ./include/kernel-5.15
-cp -f ../lede/include/kernel-5.15 ./include/kernel-5.15
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 预编译 node
@@ -229,9 +226,9 @@ sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/con
 
 #Vermagic
 latest_version="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/v//g' | sed 's/.tar.gz//g')"
-wget https://downloads.openwrt.org/releases/${latest_version}/targets/armsr/armv8/packages/Packages.gz
-zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' >.vermagic
-sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
+# wget https://downloads.openwrt.org/releases/${latest_version}/targets/armsr/armv8/packages/Packages.gz
+# zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' >.vermagic
+# sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
