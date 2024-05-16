@@ -45,6 +45,10 @@ cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 # 更换为 ImmortalWrt Uboot 以及 Target
 cp -rf ../lede/target/linux/amlogic ./target/linux/amlogic
 cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/uboot-amlogic
+rm -rf ./package/kernel
+cp -rf ../lede/package/kernel ./package/kernel
+rm -rf ./target/linux/generic
+cp -rf ../lede/target/linux/generic ./target/linux/generic
 sed -i '/TARGET_rockchip/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
 
 ### 获取额外的 LuCI 应用和依赖 ###
