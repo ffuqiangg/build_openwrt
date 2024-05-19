@@ -44,6 +44,9 @@ cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 ### 获取额外的基础软件包 ###
 # 更换为 ImmortalWrt Uboot 以及 Target
 cp -rf ../lede/target/linux/amlogic ./target/linux/amlogic
+rm -rf ./target/linux/amlogic/patches-5.15/.
+wget -P ./target/linux/amlogic/patches-5.15 https://raw.githubusercontent.com/coolsnowwolf/lede/6e604e9875c6dfdc44345254cc4c86bfe3694902/target/linux/amlogic/patches-5.15/001-dts-s905d-fix-high-load.patch
+wget -P ./target/linux/amlogic/patches-5.15 https://raw.githubusercontent.com/coolsnowwolf/lede/6e604e9875c6dfdc44345254cc4c86bfe3694902/target/linux/amlogic/patches-5.15/002-dts-improve-phicomm-n1-support.patch
 cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/uboot-amlogic
 # rm -rf ./package/kernel
 # cp -rf ../lede/package/kernel ./package/kernel
@@ -75,7 +78,7 @@ cp -rf ../patch/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cg
 cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # 晶晨宝盒
-git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
+# git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
 # AutoCore
 cp -rf ../immortalwrt_23/package/emortal/autocore ./package/new/autocore
 sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/new/autocore/files/luci-mod-status-autocore.json
