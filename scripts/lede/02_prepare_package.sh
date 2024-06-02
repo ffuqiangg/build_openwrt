@@ -3,6 +3,8 @@
 . ../scripts/funcations.sh
 
 ### 基础部分 ###
+# 使用 O2 级别的优化
+sed -i 's/Os/O2/g' include/target.mk
 # 默认开启 Irqbalance
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
@@ -68,7 +70,7 @@ wget https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-
 wget https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz && mv clash clash_meta
 wget https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz.1
 chmod +x ./clash*
-find ./ -name *.tar.gz | xargs rm -f
+find ./ -name *.tar.gz* | xargs rm -f
 popd
 
 chmod -R 755 ./
