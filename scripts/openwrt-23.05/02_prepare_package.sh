@@ -44,7 +44,7 @@ cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 ### 获取额外的基础软件包 ###
 # 更换为 ImmortalWrt Uboot 以及 Target
 cp -rf ../lede/target/linux/amlogic ./target/linux/amlogic
-rm -rf ./target/linux/amlogic/patches-5.15/.
+rm -f ./target/linux/amlogic/patches-5.15/*
 wget -P ./target/linux/amlogic/patches-5.15 https://raw.githubusercontent.com/coolsnowwolf/lede/6e604e9875c6dfdc44345254cc4c86bfe3694902/target/linux/amlogic/patches-5.15/001-dts-s905d-fix-high-load.patch
 wget -P ./target/linux/amlogic/patches-5.15 https://raw.githubusercontent.com/coolsnowwolf/lede/6e604e9875c6dfdc44345254cc4c86bfe3694902/target/linux/amlogic/patches-5.15/002-dts-improve-phicomm-n1-support.patch
 cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/uboot-amlogic
