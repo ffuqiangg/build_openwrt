@@ -248,7 +248,7 @@ wget https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-
 wget https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz && mv clash clash_meta
 wget https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz.1
 chmod +x ./clash*
-find ./ -name *.tar.gz* | xargs rm -f
+find ./ -name "*.tar.gz*" | xargs rm -f
 popd
 
 chmod -R 755 ./
