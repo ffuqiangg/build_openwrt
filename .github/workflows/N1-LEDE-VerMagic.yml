@@ -1,4 +1,4 @@
-name: N1-LEDE-Releases
+name: N1-LEDE-VerMagic
 
 on:
   workflow_dispatch:
@@ -114,7 +114,7 @@ jobs:
         name: OpenWrt_rootfs_${{ env.build_date }}
         path: openwrt/bin
 
-    - name: Organize files
+    - name: Check manifest
       run: |
         ls -alF openwrt/bin/targets/amlogic/mesongx/
         echo '-----------------------------------------'
