@@ -1,4 +1,4 @@
-name: N1-LEDE
+name: N1-LEDE-Releases
 
 on:
   workflow_dispatch:
