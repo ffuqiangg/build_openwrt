@@ -70,6 +70,7 @@ jobs:
     - name: Prepare source code
       working-directory: /builder
       run: |
+        cp -r ${GITHUB_WORKSPACE}/. ./
         git clone https://github.com/coolsnowwolf/lede.git openwrt
         cd openwrt && git reset --hard 1b3612a
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
