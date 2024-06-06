@@ -117,5 +117,5 @@ jobs:
     - name: Organize files
       run: |
         ls -alF openwrt/bin/targets/amlogic/mesongx/
-        ehco '-----------------------------------------'
+        echo '-----------------------------------------'
         cat openwrt/bin/targets/amlogic/mesongx/*.manifest
