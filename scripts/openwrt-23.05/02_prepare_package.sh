@@ -48,7 +48,7 @@ rm -f ./target/linux/amlogic/patches-5.15/*
 wget -P ./target/linux/amlogic/patches-5.15 https://raw.githubusercontent.com/coolsnowwolf/lede/6e604e9875c6dfdc44345254cc4c86bfe3694902/target/linux/amlogic/patches-5.15/001-dts-s905d-fix-high-load.patch
 wget -P ./target/linux/amlogic/patches-5.15 https://raw.githubusercontent.com/coolsnowwolf/lede/6e604e9875c6dfdc44345254cc4c86bfe3694902/target/linux/amlogic/patches-5.15/002-dts-improve-phicomm-n1-support.patch
 cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/uboot-amlogic
-cp -r ../lede/include/kernel-6.1 ./include/kernel-6.1
+cp -f ../lede/include/kernel-6.1 ./include/kernel-6.1
 # rm -rf ./package/kernel
 # cp -rf ../lede/package/kernel ./package/kernel
 # rm -rf ./target/linux/generic
