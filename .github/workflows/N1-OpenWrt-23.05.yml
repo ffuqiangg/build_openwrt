@@ -77,31 +77,31 @@ jobs:
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
 
     - name: Update & install feeds
+      working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
     - name: Prepare package
+      working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cd openwrt
         cp -r ../scripts/openwrt-23.05/. ./
         /bin/bash 02_prepare_package.sh
         /bin/bash 02_remove_upx.sh
 
     - name: Convert Translation
+      working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cd openwrt
         /bin/bash 03_convert_translation.sh
 
     - name: Demote Iptables
+      working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cd openwrt
         /bin/bash 04_demote_iptables.sh
 
     - name: Add ACL
+      working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cd openwrt
         /bin/bash 05_create_acl_for_luci.sh -a
 
     - name: Load custom configuration
@@ -111,30 +111,30 @@ jobs:
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
 
     - name: Make config
+      working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cd openwrt
         touch ./target/linux/*/Makefile
         cp ../config/openwrt-23.05/config.seed .config
         make defconfig
 
     - name: Download package
+      working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cd openwrt
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
     - name: Compile the firmware
-      id: compile
+      working-directory: ${{ github.workspace }}/openwrt
+      id: compileopenwrt
       continue-on-error: true
       run: |
-        cd openwrt
         make -j$(($(nproc) + 1))
 
     - name: If error
-      if: steps.compile.outcome == 'failure'
+      if: steps.compileopenwrt.outcome == 'failure'
       run: |
-        cd openwrt && make -j1 V=s
+         make -j1 V=s
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main

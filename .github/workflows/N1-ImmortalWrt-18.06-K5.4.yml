@@ -78,14 +78,14 @@ jobs:
         ln -sf /builder/openwrt /home/runner/work/_actions/ffuqiangg/openwrt_packit/master/openwrt
 
     - name: Update & install feeds
+      working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
     - name: Prepare package
+      working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cd openwrt
         cp -r ../scripts/immortalwrt-18.06-k5.4/. ./
         /bin/bash 02_prepare_package.sh
 
@@ -96,29 +96,30 @@ jobs:
         echo "kernel_version=${kernel_version}" >> ${GITHUB_ENV}
 
     - name: Make config
+      working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cd openwrt
         cp ../config/immortalwrt-18.06-k5.4/config.seed .config
         make defconfig
 
     - name: Download package
+      working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cd openwrt
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
     - name: Compile the firmware
-      id: compile
+      working-directory: ${{ github.workspace }}/openwrt
+      id: compileopenwrt
       continue-on-error: true
       run: |
-        cd openwrt
         make -j$(($(nproc) + 1))
 
     - name: If error
-      if: steps.compile.outcome == 'failure'
+      working-directory: ${{ github.workspace }}/openwrt
+      if: steps.compileopenwrt.outcome == 'failure'
       run: |
-        cd openwrt && make -j1 V=s
+        make -j1 V=s
   
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
