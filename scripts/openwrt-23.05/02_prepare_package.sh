@@ -51,8 +51,8 @@ cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/uboot-amlogic
 cp -f ../lede/include/kernel-6.1 ./include/kernel-6.1
 # rm -rf ./package/kernel
 # cp -rf ../lede/package/kernel ./package/kernel
-rm -rf ./target/linux/generic
-cp -rf ../lede/target/linux/generic ./target/linux/generic
+# rm -rf ./target/linux/generic
+# cp -rf ../lede/target/linux/generic ./target/linux/generic
 sed -i '/TARGET_rockchip/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
 
 ### 获取额外的 LuCI 应用和依赖 ###
