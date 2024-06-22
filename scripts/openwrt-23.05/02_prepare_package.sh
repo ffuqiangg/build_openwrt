@@ -49,11 +49,12 @@ wget -P ./target/linux/amlogic/patches-5.15 https://raw.githubusercontent.com/co
 wget -P ./target/linux/amlogic/patches-5.15 https://raw.githubusercontent.com/coolsnowwolf/lede/6e604e9875c6dfdc44345254cc4c86bfe3694902/target/linux/amlogic/patches-5.15/002-dts-improve-phicomm-n1-support.patch
 cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/uboot-amlogic
 cp -f ../lede/include/kernel-6.1 ./include/kernel-6.1
-# rm -rf ./package/kernel
-# cp -rf ../lede/package/kernel ./package/kernel
-# rm -rf ./target/linux/generic
-# cp -rf ../lede/target/linux/generic ./target/linux/generic
+cp -f ../lede/package/kernel/linux/modules/video.mk ./package/kernel/linux/modules/video.mk
+rm -rf ./target/linux/generic/hack-5.15
+cp -rf ../lede/target/linux/generic/hack-5.15 ./target/linux/generic/hack-5.15
+cp -f ../lede/target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch
 sed -i '/TARGET_rockchip/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
+sed -i "s/no-lto,$/no-lto no-mold,$/" include/package.mk
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 预编译 node
@@ -236,8 +237,8 @@ sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/con
 # latest_version="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/v//g' | sed 's/.tar.gz//g')"
 # wget https://downloads.openwrt.org/releases/${latest_version}/targets/armsr/armv8/packages/Packages.gz
 # zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' >.vermagic
-echo 'b8bb5886a3b5c15d5935e6bbba7303fe' > .vermagic
-sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
+# echo 'b8bb5886a3b5c15d5935e6bbba7303fe' > .vermagic
+# sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
