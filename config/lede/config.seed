@@ -13,6 +13,10 @@ CONFIG_KERNEL_BUILD_USER="builder"
 # GCC
 CONFIG_TOOLCHAINOPTS=y
 
+### THEME ###
+CONFIG_PACKAGE_luci-theme-design=y
+CONFIG_PACKAGE_luci-app-design-config=y
+
 ### ZLIB
 CONFIG_ZLIB_OPTIMIZE_SPEED=y
 

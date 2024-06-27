@@ -246,11 +246,11 @@ cp -rf ../patch/openwrt-23.05/. ./files/
 mkdir -p files/etc/openclash/core
 pushd files/etc/openclash/core
 clash_version="$(curl -fsSL https://github.com/vernesong/OpenClash/raw/core/master/core_version | sed -n '2p')"
-wget https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-arm64-${clash_version}.gz && gzip -d clash-linux-arm64-${clash_version}.gz && mv clash-linux-arm64-${clash_version} clash_tun
-wget https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz && mv clash clash_meta
-wget https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-arm64.tar.gz && tar -zxvf clash-linux-arm64.tar.gz.1
+wget https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-arm64-${clash_version}.gz -O clash_tun.gz && gzip -d clash_tun.gz
+wget https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz -O clash_meta.tar.gz && tar -zxvf clash_meta.tar.gz && mv clash clash_meta
+wget https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-arm64.tar.gz -O clash.tar.gz && tar -zxvf clash.tar.gz
 chmod +x ./clash*
-find ./ -name "*.tar.gz*" | xargs rm -f
+find ./ -name "*.tar.gz" | xargs rm -f
 popd
 
 chmod -R 755 ./

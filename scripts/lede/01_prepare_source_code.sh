@@ -10,6 +10,8 @@ clone_repo $lienol_pkg_repo main Lienol_pkg &
 clone_repo $mosdns_repo v5 mosdns &
 clone_repo $openclash_repo master openclash &
 clone_repo $lienol_pkg_repo main lienol_pkg &
+clone_repo $design_theme_repo main design_theme &
+clone_repo $design_theme_config_repo master design_theme_config &
 
 wait
 

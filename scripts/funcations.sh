@@ -21,6 +21,8 @@ openclash_repo="https://github.com/vernesong/OpenClash.git"
 lucidaednext_repo="https://github.com/QiuSimons/luci-app-daed-next"
 node_prebuilt_repo="https://github.com/sbwml/feeds_packages_lang_node-prebuilt"
 sbwml_openwrt_repo="https://github.com/sbwml/openwrt_helloworld"
+design_theme_repo="https://github.com/gngpp/luci-theme-design.git"
+design_theme_config_repo="https://github.com/gngpp/luci-app-design-config.git"
 
 clone_repo() {
     repo_url=$1
