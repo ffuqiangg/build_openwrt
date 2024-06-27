@@ -73,7 +73,7 @@ chmod +x ./clash*
 find ./ -name "*.tar.gz" | xargs rm -f
 popd
 
-sed -i 's/bootstrap/design/g' ./feeds/luci/collections/luci/Makefile
+sed -i 's,bootstrap,design,g' ./feeds/luci/collections/luci/Makefile
 
 chmod -R 755 ./
 find ./ -name *.orig | xargs rm -f
