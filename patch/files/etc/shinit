@@ -1,5 +1,5 @@
 [ -x /bin/more ] || [ -x /usr/bin/more ] || alias more=less
-[ -x /usr/bin/vim ] && alias vi='vim -u NONE' || alias vim=vi
+[ -x /usr/bin/vim ] && alias vi=vim || alias vim=vi
 
 # Alias's for multiple directory listing commands
 alias ll='ls -alhF --color=auto'
