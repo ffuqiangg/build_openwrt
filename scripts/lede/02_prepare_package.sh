@@ -72,8 +72,8 @@ wget https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-arm6
 chmod +x ./clash*
 find ./ -name "*.tar.gz" | xargs rm -f
 popd
-
 sed -i 's,bootstrap,design,g' ./feeds/luci/collections/luci/Makefile
+[ -x ./bin/bash ] && sed -e "s,/bin/ash,/bin/bash," -i ./etc/passwd && sed -e "s,/bin/ash,/bin/bash," -i ./usr/libexec/login.sh
 
 chmod -R 755 ./
 find ./ -name *.orig | xargs rm -f
