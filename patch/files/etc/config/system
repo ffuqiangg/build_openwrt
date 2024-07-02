@@ -11,7 +11,7 @@ config system
 	option cronloglevel '8'
 	option zram_size_mb '1024'
 	option zram_comp_algo 'lz4'
-	option zram_comp_streams '4'
+	option zram_comp_streams '2'
 
 config timeserver 'ntp'
 	option enabled '1'
