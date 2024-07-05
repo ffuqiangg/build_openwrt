@@ -73,7 +73,7 @@ chmod +x ./clash*
 find ./ -name "*.tar.gz" | xargs rm -f
 popd
 sed -i 's,bootstrap,design,g' ./feeds/luci/collections/luci/Makefile
-[ -x ./bin/bash ] && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
+sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 
 chmod -R 755 ./
 find ./ -name *.orig | xargs rm -f
