@@ -55,7 +55,6 @@ rm -rf ./target/linux/generic/hack-5.15
 cp -rf ../lede/target/linux/generic/hack-5.15 ./target/linux/generic/hack-5.15
 cp -f ../lede/target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch
 sed -i '/TARGET_rockchip/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
-sed -i "s/no-lto,$/no-lto no-mold,$/" include/package.mk
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 预编译 node
