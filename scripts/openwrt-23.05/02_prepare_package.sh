@@ -44,16 +44,7 @@ cp -rf ../Lienol/package/network/utils/fullconenat ./package/new/fullconenat
 ### 获取额外的基础软件包 ###
 # 更换为 ImmortalWrt Uboot 以及 Target
 cp -rf ../lede/target/linux/amlogic ./target/linux/amlogic
-rm -f ./target/linux/amlogic/patches-5.15/*
-wget -P ./target/linux/amlogic/patches-5.15 https://raw.githubusercontent.com/coolsnowwolf/lede/6e604e9875c6dfdc44345254cc4c86bfe3694902/target/linux/amlogic/patches-5.15/001-dts-s905d-fix-high-load.patch
-wget -P ./target/linux/amlogic/patches-5.15 https://raw.githubusercontent.com/coolsnowwolf/lede/6e604e9875c6dfdc44345254cc4c86bfe3694902/target/linux/amlogic/patches-5.15/002-dts-improve-phicomm-n1-support.patch
 cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/uboot-amlogic
-# cp -f ../lede/target/linux/generic/hack-6.1 ./target/linux/generic/hack-6.1
-# cp -f ../lede/target/linux/generic/pending-6.1/613-netfilter_optional_tcp_window_check.patch ./target/linux/generic/pending-6.1/613-netfilter_optional_tcp_window_check.patch
-cp -f ../lede/package/kernel/linux/modules/video.mk ./package/kernel/linux/modules/video.mk
-rm -rf ./target/linux/generic/hack-5.15
-cp -rf ../lede/target/linux/generic/hack-5.15 ./target/linux/generic/hack-5.15
-cp -f ../lede/target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch
 sed -i '/TARGET_rockchip/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
 
 ### 获取额外的 LuCI 应用和依赖 ###
