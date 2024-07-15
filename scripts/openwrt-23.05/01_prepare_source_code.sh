@@ -26,7 +26,6 @@ clone_repo $dockerman_repo master dockerman &
 clone_repo $diskman_repo master diskman &
 clone_repo $docker_lib_repo master docker_lib &
 clone_repo $mosdns_repo v5 mosdns &
-clone_repo $lucidaednext_repo rebase lucidaednext &
 clone_repo $node_prebuilt_repo packages-23.05 node &
 clone_repo $openclash_repo master openclash &
 clone_repo $sbwml_openwrt_repo v5 sbwml &
