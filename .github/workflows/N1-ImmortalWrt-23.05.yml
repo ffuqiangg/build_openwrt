@@ -106,7 +106,6 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp ../config/immortalwrt-23.05/config.seed .config
-        touch target/linux/*/Makefile
         make defconfig
 
     - name: Download package
