@@ -47,6 +47,7 @@ cp -rf ../lede/target/linux/amlogic ./target/linux/amlogic
 cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/uboot-amlogic
 sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
 cp -f ../lede/include/kernel-6.1 ./include/kernel-6.1
+cp -rf ../lede/target/linux/generic/backport-6.1 ../lede/target/linux/generic/hack-6.1 ../lede/target/linux/generic/pending-6.1 ../lede/target/linux/generic/config-6.1 ./target/linux/generic/
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 预编译 node
