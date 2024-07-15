@@ -19,7 +19,7 @@ clone_repo $openwrt_repo openwrt-22.03 openwrt_22 &
 clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 clone_repo $lienol_repo 23.05 lienol &
 clone_repo $lienol_pkg_repo main lienol_pkg &
-clone_repo $openwrt_add_repo master openWrt-add &
+clone_repo $openwrt_add_repo master openwrt-add &
 clone_repo $passwall_pkg_repo main passwall_pkg &
 clone_repo $passwall_luci_repo main passwall_luci &
 clone_repo $dockerman_repo master dockerman &

@@ -77,7 +77,7 @@ cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-system
 # AutoCore
 cp -rf ../immortalwrt_23/package/emortal/autocore ./package/new/autocore
 sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/new/autocore/files/luci-mod-status-autocore.json
-cp -rf ../openWrt-add/autocore/files/x86/autocore ./package/new/autocore/files/autocore
+cp -rf ../openwrt-add/autocore/files/x86/autocore ./package/new/autocore/files/autocore
 sed -i '/i386 i686 x86_64/{n;n;n;d;}' package/new/autocore/Makefile
 sed -i '/i386 i686 x86_64/d' package/new/autocore/Makefile
 rm -rf ./feeds/luci/modules/luci-base
@@ -160,7 +160,7 @@ cp -rf ../passwall_pkg/dns2socks ./package/new/dns2socks
 cp -rf ../passwall_pkg/dns2tcp ./package/new/dns2tcp
 cp -rf ../passwall_pkg/ipt2socks ./package/new/ipt2socks
 cp -rf ../passwall_pkg/pdnsd-alt ./package/new/pdnsd-alt
-cp -rf ../openWrt-add/trojan-plus ./package/new/trojan-plus
+cp -rf ../openwrt-add/trojan-plus ./package/new/trojan-plus
 cp -rf ../passwall_pkg/xray-plugin ./package/new/xray-plugin
 cp -rf ../passwall_pkg/hysteria ./package/new/hysteria
 rm -rf ./feeds/packages/net/xray-core
@@ -217,7 +217,7 @@ pushd package/new/luci-app-verysync
 move_2_services nas
 popd
 # 翻译及部分功能优化
-cp -rf ../openWrt-add/addition-trans-zh ./package/new/addition-trans-zh
+cp -rf ../openwrt-add/addition-trans-zh ./package/new/addition-trans-zh
 cp -f ../patch/addition-trans-zh/files/zzz-default-settings ./package/new/addition-trans-zh/files/zzz-default-settings
 sed -i 's,iptables-mod-fullconenat,iptables-nft +kmod-nft-fullcone,g' package/new/addition-trans-zh/Makefile
 
