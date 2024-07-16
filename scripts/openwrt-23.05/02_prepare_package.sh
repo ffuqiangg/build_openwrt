@@ -44,7 +44,7 @@ cp -rf ../lienol/package/network/utils/fullconenat ./package/new/fullconenat
 ### 获取额外的基础软件包 ###
 # 添加 Uboot 以及 Target
 cp -rf ../lede/target/linux/amlogic ./target/linux/amlogic
-cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/uboot-amlogic
+cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/
 sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
 cp -f ../lede/include/kernel-6.1 ./include/kernel-6.1
 cp -rf ../lede/target/linux/generic/backport-6.1 ../lede/target/linux/generic/hack-6.1 ../lede/target/linux/generic/pending-6.1 ../lede/target/linux/generic/config-6.1 ./target/linux/generic/
