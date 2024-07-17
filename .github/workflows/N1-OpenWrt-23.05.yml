@@ -117,11 +117,11 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         touch ./target/linux/*/Makefile
-        cp ../config/openwrt-23.05/config.seed .config
-        make defconfig
-        ls ./target/linux/amlogic
-        echo '---------------------------------'
-        cat .config
+        cp -f ../config/openwrt-23.05/.config .config
+        # make defconfig
+        # ls ./target/linux/amlogic
+        # echo '---------------------------------'
+        # cat .config
 
     - name: Download package
       working-directory: ${{ github.workspace }}/openwrt
