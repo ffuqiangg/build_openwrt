@@ -116,7 +116,6 @@ jobs:
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        touch ./target/linux/*/Makefile
         cp -f ../config/openwrt-23.05/.config .config
         # make defconfig
         # ls ./target/linux/amlogic
@@ -129,6 +128,7 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
+        touch ./target/linux/*/Makefile
 
     - name: Compile the firmware
       working-directory: ${{ github.workspace }}/openwrt
