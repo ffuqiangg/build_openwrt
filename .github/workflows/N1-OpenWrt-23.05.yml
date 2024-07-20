@@ -117,7 +117,7 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp -f ../config/openwrt-23.05/.config .config
-        # make defconfig
+        make defconfig
         # ls ./target/linux/amlogic
         # echo '---------------------------------'
         # cat .config
