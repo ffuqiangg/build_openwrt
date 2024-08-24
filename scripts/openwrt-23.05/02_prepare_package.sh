@@ -43,11 +43,11 @@ cp -rf ../lienol/package/network/utils/fullconenat ./package/new/fullconenat
 
 ### 获取额外的基础软件包 ###
 # 添加 Uboot 以及 Target
-cp -rf ../lede/target/linux/amlogic ./target/linux/amlogic
-cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/
-sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
-cp -f ../lede/include/kernel-6.1 ./include/kernel-6.1
-cp -rf ../lede/target/linux/generic/backport-6.1 ../lede/target/linux/generic/hack-6.1 ../lede/target/linux/generic/pending-6.1 ../lede/target/linux/generic/config-6.1 ./target/linux/generic/
+# cp -rf ../lede/target/linux/amlogic ./target/linux/amlogic
+# cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/
+# sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
+# cp -f ../lede/include/kernel-6.1 ./include/kernel-6.1
+# cp -rf ../lede/target/linux/generic/backport-6.1 ../lede/target/linux/generic/hack-6.1 ../lede/target/linux/generic/pending-6.1 ../lede/target/linux/generic/config-6.1 ./target/linux/generic/
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 预编译 node
@@ -72,7 +72,7 @@ cp -rf ../patch/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cg
 cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # 晶晨宝盒
-# git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
+git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
 # AutoCore
 cp -rf ../immortalwrt_23/package/emortal/autocore ./package/new/autocore
 sed -i 's/"getTempInfo" /"getTempInfo", "getCPUBench", "getCPUUsage" /g' package/new/autocore/files/luci-mod-status-autocore.json
