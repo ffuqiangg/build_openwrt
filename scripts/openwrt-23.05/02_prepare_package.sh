@@ -248,8 +248,8 @@ cp -rf ../patch/openwrt-23.05/. ./files/
 # wget https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz -O clash_meta.tar.gz && tar -zxvf clash_meta.tar.gz && mv clash clash_meta
 # wget https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-arm64.tar.gz -O clash.tar.gz && tar -zxvf clash.tar.gz
 # chmod +x ./clash*
-find ./ -name "*.tar.gz" | xargs rm -f
-popd
+# find ./ -name "*.tar.gz" | xargs rm -f
+# popd
 
 chmod -R 755 ./
 find ./ -name *.orig | xargs rm -f
