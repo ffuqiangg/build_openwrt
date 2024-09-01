@@ -21,7 +21,6 @@ rm -rf ./feeds/packages/net/wget
 cp -rf ../lede_pkg/net/wget ./feeds/packages/net/wget
 # Mosdns
 rm -rf ./feeds/packages/net/mosdns
-rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/luci-app-mosdns
 # samba4
 sed -i 's,nas,services,g' package/feeds/luci/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
