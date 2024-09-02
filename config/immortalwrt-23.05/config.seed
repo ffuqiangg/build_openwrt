@@ -21,12 +21,6 @@ CONFIG_KERNEL_XDP_SOCKETS=y
 CONFIG_PACKAGE_kmod-xdp-sockets-diag=y
 CONFIG_PACKAGE_luci-app-daed=y
 
-# SAVING RAM FOR DAE
-CONFIG_PACKAGE_zram-swap=y
-CONFIG_PACKAGE_kmod-lib-lz4=y
-CONFIG_PACKAGE_kmod-lib-lzo=y
-CONFIG_PACKAGE_kmod-lib-zstd=y
-
 ### BASIC ###
 CONFIG_PACKAGE_htop=y
 CONFIG_PACKAGE_autocore=y
