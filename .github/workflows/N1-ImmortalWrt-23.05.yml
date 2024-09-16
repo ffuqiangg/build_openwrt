@@ -138,7 +138,7 @@ jobs:
         kernel_usage: 5.x.y
         auto_kernel: false
         image_name: N1-ImmortalWrt-${{ env.latest_release }}-${{ env.build_date }}
-    
+
     - name: Upload firmware to release
       uses: ncipollo/release-action@v1
       env:
@@ -148,7 +148,7 @@ jobs:
         allowUpdates: true
         replacesArtifacts: true
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-ImmortalWrt-${{ env.latest_release }}-${{ env.build_date }}.zip
-    
+
     - name: telegram notification
       if: github.event_name == 'repository_dispatch'
       run: |
