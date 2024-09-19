@@ -135,7 +135,7 @@ jobs:
         openwrt_board: s905d
         kernel_repo: ffuqiangg/kernel_5.15.y
         openwrt_kernel: ${{ env.kernel_version }}
-        kernel_usage: 5.x.y
+        kernel_usage: stable
         auto_kernel: false
         image_name: N1-ImmortalWrt-${{ env.latest_release }}-${{ env.build_date }}
 
