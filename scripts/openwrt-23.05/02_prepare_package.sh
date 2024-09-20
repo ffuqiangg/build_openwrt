@@ -192,9 +192,9 @@ ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # mihomo
 cp -rf ../mihomo ./package/new/mihomo
 # homeproxy
-# git clone --single-branch --depth 1 -b dev https://github.com/immortalwrt/homeproxy.git package/new/homeproxy
-# rm -rf ./feeds/packages/net/sing-box
-# cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
+git clone --single-branch --depth 1 -b dev https://github.com/immortalwrt/homeproxy.git package/new/homeproxy
+rm -rf ./feeds/packages/net/sing-box
+cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
 # KMS 激活助手
 cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
 cp -rf ../lede_pkg/net/vlmcsd ./package/new/vlmcsd
