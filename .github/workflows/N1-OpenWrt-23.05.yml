@@ -110,8 +110,10 @@ jobs:
     - name: Load custom configuration
       run: |
         latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
+        kernel_version=$(cat openwrt/include/kernel-5.15 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")
         sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_SOUR,OpenWrt," -e "s,RELEASES,${latest_release}," ./openwrt/files/etc/banner
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
+        echo "kernel_version"=${kernel_version}" >> ${GITHUB_ENV}
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
@@ -138,22 +140,16 @@ jobs:
       run: |
          make -j1 V=s
 
-    - name: Upload firmware directory
-      uses: actions/upload-artifact@main
+    - name: Package firmware
+      uses: ffuqiangg/amlogic-s9xxx-openwrt@main
       with:
-        name: OpenWrt_rootfs_${{ env.build_date }}
-        path: openwrt/bin
-
-    - name: Organize files
-      run: |
-        rm -rf ./artifact/
-        mkdir -p ./artifact/
-        mv openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img* ./artifact/
-        cd ./artifact/
-        gzip -d *.gz && exit 0
-        gzip --best *.img
-        zip N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}-ext4.zip *n1*ext4*
-        zip N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}-sfs.zip *n1*squashfs*
+        openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
+        openwrt_board: s905d
+        kernel_repo: ffuqiangg/kernel_5.15.y
+        openwrt_kernel: ${{ env.kernel_version }}
+        kernel_usage: stable
+        auto_kernel: false
+        image_name: N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@v1
@@ -163,7 +159,7 @@ jobs:
         tag: ${{ env.build_date }}
         allowUpdates: true
         replacesArtifacts: true
-        artifacts: ./artifact/*.zip
+        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}.zip
 
     - name: telegram notification
       if: github.event_name == 'repository_dispatch'
