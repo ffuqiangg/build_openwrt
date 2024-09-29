@@ -29,28 +29,28 @@ git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
 rm -rf ./feeds/packages/utils/v2dat
 rm -rf ./feeds/packages/net/mosdns
 cp -rf ../mosdns ./package/luci-app-mosdns
-# vsftpd
+# Vsftpd
 pushd package/feeds/luci/luci-app-vsftpd
 move_2_services nas
 popd
-# cpufreq
+# Cpufreq
 sed -i 's,\"system\",\"services\",g' package/feeds/luci/luci-app-cpufreq/luasrc/controller/cpufreq.lua
 # rclone
 sed -i -e 's,\"NAS\",\"Services\",g' -e 's,\"nas\",\"services\",g' package/feeds/luci/luci-app-rclone/luasrc/controller/rclone.lua
-# dockerman
+# Dockerman
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
-# nlbw
+# Nlbw
 sed -i -e 's|admin\",|& \"network\",|g' -e 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/controller/nlbw.lua
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
-# v2raya
+# V2raya
 git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
 cp -rf ../immortalwrt_pkg/net/v2raya ./feeds/packages/net/v2raya
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
-# verysync
+# Verysync
 pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd
