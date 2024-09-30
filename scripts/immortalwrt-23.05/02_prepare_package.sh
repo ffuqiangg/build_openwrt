@@ -25,41 +25,41 @@ cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-system
 # Wget
 rm -rf ./feeds/packages/net/wget
 cp -rf ../lede_pkg/net/wget ./feeds/packages/net/wget
-# golang
+# Golang
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
-# mosdns
+# Mosdns
 rm -rf ./feeds/packages/net/mosdns
 cp -rf ../mosdns/mosdns ./package/mosdns
 cp -rf ../mosdns/luci-app-mosdns ./package/luci-app-mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns/v2ray-geodata ./package/v2ray-geodata
-# samba4
+# Samba4
 sed -i 's,nas,services,g' package/feeds/luci/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
-# cpufreq
+# Cpufreq
 sed -i 's,system,services,g' package/feeds/luci/luci-app-cpufreq/root/usr/share/luci/menu.d/luci-app-cpufreq.json
-# hd-idle
+# HD-idle
 sed -i 's,nas,services,g' package/feeds/luci/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
-# vsftpd
+# Vsftpd
 pushd package/feeds/luci/luci-app-vsftpd
 move_2_services nas
 popd
-# filebrowser
+# Filebrowser
 sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.1," package/feeds/packages/filebrowser/Makefile
 sed -i "s,PKG_HASH:=.*,PKG_HASH:=5917529F03F88AB3128C89C330BD9EABFADC05CF4179887FF3BA04A111888E49," package/feeds/packages/filebrowser/Makefile
-# rclone
+# Rclone
 sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' package/feeds/luci/luci-app-rclone/luasrc/controller/rclone.lua
-# dockerman
+# Dockerman
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
-# nlbw
+# Nlbw
 sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
-# verysync
+# Verysync
 pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd
-# mihomo
+# Mihomo
 cp -rf ../mihomo ./package/mihomo
 
 # 预配置一些插件

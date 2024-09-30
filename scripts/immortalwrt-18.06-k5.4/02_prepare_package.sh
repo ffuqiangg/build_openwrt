@@ -10,33 +10,33 @@ sed -i '/etc$/,+2d' ./package/emortal/default-settings/Makefile
 # Mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/luci-app-mosdns
-# samba4
+# Samba4
 sed -i 's,\"nas\",\"services\",g' package/feeds/luci/luci-app-samba4/luasrc/controller/samba4.lua
-# cpufreq
+# Cpufreq
 sed -i 's,\"system\",\"services\",g' package/feeds/luci/luci-app-cpufreq/luasrc/controller/cpufreq.lua
-# hd-idle
+# HD-idle
 sed -i 's,\"nas\",\"services\",g' package/feeds/luci/luci-app-hd-idle/luasrc/controller/hd_idle.lua
-# vsftpd
+# Vsftpd
 sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' package/feeds/luci/luci-app-vsftpd/luasrc/controller/vsftpd.lua
-# filebrowser
+# Filebrowser
 sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.1," package/feeds/packages/filebrowser/Makefile
 sed -i "s,PKG_MIRROR_HASH:=.*,PKG_MIRROR_HASH:=5917529F03F88AB3128C89C330BD9EABFADC05CF4179887FF3BA04A111888E49," package/feeds/packages/filebrowser/Makefile
 sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' package/feeds/luci/luci-app-filebrowser/luasrc/controller/filebrowser.lua
 sed -i 's,nas,services,g' package/feeds/luci/luci-app-filebrowser/luasrc/view/filebrowser/filebrowser_status.htm
-# rclone
+# Rclone
 sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' package/feeds/luci/luci-app-rclone/luasrc/controller/rclone.lua
-# dockerman
+# Dockerman
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
-# nlbw
+# Nlbw
 sed -i -e 's|admin\",|& \"network\",|g' -e 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/controller/nlbw.lua
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
 sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
-# v2raya
+# V2raya
 git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
-# verysync
+# Verysync
 pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd

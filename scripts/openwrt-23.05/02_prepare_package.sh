@@ -24,7 +24,7 @@ sed -i '/PKG_INSTALL:=/iPKG_FIXUP:=autoreconf' package/libs/libnftnl/Makefile
 mkdir -p package/network/utils/nftables/patches
 cp -f ../patch/firewall/nftables/*.patch ./package/network/utils/nftables/patches/
 # Patch LuCI 以支持自定义 nft 规则
-patch -p1 < ../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
+patch -p1 <../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
 # FW3
 mkdir -p package/network/config/firewall/patches
 cp -rf ../immortalwrt_21/package/network/config/firewall/patches/100-fullconenat.patch ./package/network/config/firewall/patches/100-fullconenat.patch
@@ -124,8 +124,8 @@ rm -rf ./feeds/luci/collections/luci-lib-docker
 cp -rf ../docker_lib/collections/luci-lib-docker ./feeds/luci/collections/luci-lib-docker
 # DiskMan
 cp -rf ../diskman/applications/luci-app-diskman ./package/new/luci-app-diskman
-mkdir -p package/parted && \
-wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
+mkdir -p package/parted &&
+  wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
 # FRP 内网穿透
 rm -rf ./feeds/luci/applications/luci-app-frps
 rm -rf ./feeds/luci/applications/luci-app-frpc
@@ -205,11 +205,11 @@ cp -rf ../lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
 pushd package/new/luci-app-filebrowser
 move_2_services nas
 popd
-# nlbw
+# Nlbw
 sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 # ttyd
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
-# verysync
+# Verysync
 cp -rf ../immortalwrt_luci_23/applications/luci-app-verysync ./package/new/luci-app-verysync
 cp -rf ../immortalwrt_pkg/net/verysync ./package/new/verysync
 pushd package/new/luci-app-verysync
