@@ -182,18 +182,15 @@ cp -rf ../mosdns ./package/new/luci-app-mosdns
 git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
 # 清理内存
 cp -rf ../lede_luci/applications/luci-app-ramfree ./package/new/luci-app-ramfree
-# v2raya
+# V2raya
 git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git luci-app-v2raya
 cp -rf ./luci-app-v2raya/luci-app-v2raya ./package/new/
 rm -rf ./luci-app-v2raya
 rm -rf ./feeds/packages/net/v2raya
 cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
-# mihomo
+# Mihomo
 cp -rf ../mihomo ./package/new/mihomo
-# singbox
-rm -rf ./feeds/packages/net/sing-box
-cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
 # KMS 激活助手
 cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
 cp -rf ../lede_pkg/net/vlmcsd ./package/new/vlmcsd
