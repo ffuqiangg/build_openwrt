@@ -10,11 +10,17 @@ sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqba
 # 移除 SNAPSHOT 标签
 # sed -i 's,-SNAPSHOT,,g' include/version.mk
 # sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
+# FW4
+rm -rf ./package/network/config/firewall4
+cp -rf ../openwrt_ma/package/network/config/firewall4 ./package/network/config/firewall4
 
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
 cp -rf ../lede/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch ./target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
+# bcmfullcone
+cp -a ../patch/bcmfullcone/*.patch target/linux/generic/hack-5.15/
 # Patch FireWall 以增添 FullCone 功能
+
 # FW4
 mkdir -p package/network/config/firewall4/patches
 cp -f ../patch/firewall/firewall4_patches/*.patch ./package/network/config/firewall4/patches/
@@ -140,7 +146,7 @@ rm -rf ./feeds/packages/net/sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
 cp -f ../patch/sing-box/files/sing-box.init ./feeds/packages/net/sing-box/files/sing-box.init
 sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)) CGO_ENABLED=1\n' ./feeds/packages/net/sing-box/Makefile
-# golang
+# Golang
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # Passwall
