@@ -52,7 +52,7 @@ ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd
-# curl 8.6.0 passwall 冲突降级
+# Curl 8.6.0 passwall 冲突降级
 sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=8\.5\.0," ./feeds/packages/net/curl/Makefile
 sed -i "s,PKG_HASH:=.*,PKG_HASH:=ce4b6a6655431147624aaf582632a36fe1ade262d5fab385c60f78942dd8d87b," ./feeds/packages/net/curl/Makefile
 
