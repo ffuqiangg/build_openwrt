@@ -25,8 +25,6 @@ move_2_services nas
 popd
 # Mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
-git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
-rm -rf ./feeds/packages/utils/v2dat
 rm -rf ./feeds/packages/net/mosdns
 cp -rf ../mosdns ./package/luci-app-mosdns
 # Vsftpd
