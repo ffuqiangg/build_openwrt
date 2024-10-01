@@ -33,7 +33,7 @@ move_2_services nas
 popd
 # Cpufreq
 sed -i 's,\"system\",\"services\",g' package/feeds/luci/luci-app-cpufreq/luasrc/controller/cpufreq.lua
-# rclone
+# Rclone
 sed -i -e 's,\"NAS\",\"Services\",g' -e 's,\"nas\",\"services\",g' package/feeds/luci/luci-app-rclone/luasrc/controller/rclone.lua
 # Dockerman
 pushd package/feeds/luci/luci-app-dockerman
