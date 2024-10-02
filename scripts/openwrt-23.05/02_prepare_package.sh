@@ -8,11 +8,8 @@ sed -i 's/Os/O2/g' include/target.mk
 # 默认开启 Irqbalance
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 # 移除 SNAPSHOT 标签
-# sed -i 's,-SNAPSHOT,,g' include/version.mk
-# sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
-# FW4
-rm -rf ./package/network/config/firewall4
-cp -rf ../openwrt_ma/package/network/config/firewall4 ./package/network/config/firewall4
+sed -i 's,-SNAPSHOT,,g' include/version.mk
+sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
@@ -31,6 +28,7 @@ mkdir -p package/network/utils/nftables/patches
 cp -f ../patch/firewall/nftables/*.patch ./package/network/utils/nftables/patches/
 # Patch LuCI 以支持自定义 nft 规则
 patch -p1 <../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
+
 # FW3
 mkdir -p package/network/config/firewall/patches
 cp -rf ../immortalwrt_21/package/network/config/firewall/patches/100-fullconenat.patch ./package/network/config/firewall/patches/100-fullconenat.patch
