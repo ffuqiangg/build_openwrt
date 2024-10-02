@@ -10,6 +10,11 @@ sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqba
 # 移除 SNAPSHOT 标签
 sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
+# FW4
+rm -rf ./package/network/config/firewall4
+cp -rf ../openwrt_ma/package/network/config/firewall4 ./package/network/config/firewall4
+# TCP optimizations
+cp -rf ../PATCH/backport/TCP/* ./target/linux/generic/backport-5.15/
 
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
