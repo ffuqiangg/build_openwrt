@@ -90,7 +90,6 @@ jobs:
       run: |
         cp -r ../scripts/openwrt-23.05/. ./
         /bin/bash 02_prepare_package.sh
-        /bin/bash 02_remove_upx.sh
 
     - name: Convert Translation
       working-directory: ${{ github.workspace }}/openwrt
