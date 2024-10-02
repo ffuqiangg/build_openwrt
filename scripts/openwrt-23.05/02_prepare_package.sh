@@ -14,7 +14,17 @@ sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 rm -rf ./package/network/config/firewall4
 cp -rf ../openwrt_ma/package/network/config/firewall4 ./package/network/config/firewall4
 # TCP optimizations
-cp -rf ../PATCH/backport/TCP/* ./target/linux/generic/backport-5.15/
+cp -rf ../patch/backport/tcp/* ./target/linux/generic/backport-5.15/
+# LRNG
+cp -rf ../patch/lrng/* ./target/linux/generic/hack-5.15/
+echo '
+# CONFIG_RANDOM_DEFAULT_IMPL is not set
+CONFIG_LRNG=y
+# CONFIG_LRNG_IRQ is not set
+CONFIG_LRNG_JENT=y
+CONFIG_LRNG_CPU=y
+# CONFIG_LRNG_SCHED is not set
+' >>./target/linux/generic/config-5.15
 
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
