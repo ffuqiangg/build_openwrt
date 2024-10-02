@@ -34,7 +34,7 @@ cp -a ../patch/bcmfullcone/*.patch target/linux/generic/hack-5.15/
 # Patch FireWall 以增添 FullCone 功能
 
 # FW4
-mkdir -p package/network/config/firewall4/patches
+mkder -p package/network/config/firewall4/patches
 cp -f ../patch/firewall/firewall4_patches/*.patch ./package/network/config/firewall4/patches/
 mkdir -p package/libs/libnftnl/patches
 cp -f ../patch/firewall/libnftnl/*.patch ./package/libs/libnftnl/patches/

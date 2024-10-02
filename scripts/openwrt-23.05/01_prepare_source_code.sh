@@ -15,6 +15,7 @@ clone_repo $lede_repo master lede &
 clone_repo $lede_luci_repo master lede_luci &
 clone_repo $lede_pkg_repo master lede_pkg &
 clone_repo $openwrt_repo openwrt-22.03 openwrt_22 &
+clone_repo $openwrt_repo main openwrt_ma &
 clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 clone_repo $lienol_repo 23.05 lienol &
 clone_repo $lienol_pkg_repo main lienol_pkg &
