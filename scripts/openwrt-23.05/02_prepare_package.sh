@@ -10,63 +10,55 @@ sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqba
 # 移除 SNAPSHOT 标签
 sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
-# FW4
-rm -rf ./package/network/config/firewall4
-cp -rf ../openwrt_ma/package/network/config/firewall4 ./package/network/config/firewall4
-# TCP optimizations
-cp -rf ../patch/backport/tcp/* ./target/linux/generic/backport-5.15/
-# LRNG
-cp -rf ../patch/lrng/* ./target/linux/generic/hack-5.15/
-echo '
-# CONFIG_RANDOM_DEFAULT_IMPL is not set
-CONFIG_LRNG=y
-# CONFIG_LRNG_IRQ is not set
-CONFIG_LRNG_JENT=y
-CONFIG_LRNG_CPU=y
-# CONFIG_LRNG_SCHED is not set
-' >>./target/linux/generic/config-5.15
+# # FW4
+# rm -rf ./package/network/config/firewall4
+# cp -rf ../openwrt_ma/package/network/config/firewall4 ./package/network/config/firewall4
+# # TCP optimizations
+# cp -rf ../patch/backport/tcp/* ./target/linux/generic/backport-5.15/
+# # LRNG
+# cp -rf ../patch/lrng/* ./target/linux/generic/hack-5.15/
+# echo '
+# # CONFIG_RANDOM_DEFAULT_IMPL is not set
+# CONFIG_LRNG=y
+# # CONFIG_LRNG_IRQ is not set
+# CONFIG_LRNG_JENT=y
+# CONFIG_LRNG_CPU=y
+# # CONFIG_LRNG_SCHED is not set
+# ' >>./target/linux/generic/config-5.15
 
-### Fullcone-NAT 部分 ###
-# Patch Kernel 以解决 FullCone 冲突
-cp -rf ../lede/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch ./target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
-# bcmfullcone
-cp -a ../patch/bcmfullcone/*.patch target/linux/generic/hack-5.15/
-# Patch FireWall 以增添 FullCone 功能
+# ### Fullcone-NAT 部分 ###
+# # Patch Kernel 以解决 FullCone 冲突
+# cp -rf ../lede/target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch ./target/linux/generic/hack-5.15/952-add-net-conntrack-events-support-multiple-registrant.patch
+# # bcmfullcone
+# cp -a ../patch/bcmfullcone/*.patch target/linux/generic/hack-5.15/
+# # Patch FireWall 以增添 FullCone 功能
 
-# FW4
-mkdir -p package/network/config/firewall4/patches
-cp -f ../patch/firewall/firewall4_patches/*.patch ./package/network/config/firewall4/patches/
-mkdir -p package/libs/libnftnl/patches
-cp -f ../patch/firewall/libnftnl/*.patch ./package/libs/libnftnl/patches/
-sed -i '/PKG_INSTALL:=/iPKG_FIXUP:=autoreconf' package/libs/libnftnl/Makefile
-mkdir -p package/network/utils/nftables/patches
-cp -f ../patch/firewall/nftables/*.patch ./package/network/utils/nftables/patches/
-# Patch LuCI 以支持自定义 nft 规则
-patch -p1 <../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
+# # FW4
+# mkdir -p package/network/config/firewall4/patches
+# cp -f ../patch/firewall/firewall4_patches/*.patch ./package/network/config/firewall4/patches/
+# mkdir -p package/libs/libnftnl/patches
+# cp -f ../patch/firewall/libnftnl/*.patch ./package/libs/libnftnl/patches/
+# sed -i '/PKG_INSTALL:=/iPKG_FIXUP:=autoreconf' package/libs/libnftnl/Makefile
+# mkdir -p package/network/utils/nftables/patches
+# cp -f ../patch/firewall/nftables/*.patch ./package/network/utils/nftables/patches/
+# # Patch LuCI 以支持自定义 nft 规则
+# patch -p1 <../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
 
-# FW3
-mkdir -p package/network/config/firewall/patches
-cp -rf ../immortalwrt_21/package/network/config/firewall/patches/100-fullconenat.patch ./package/network/config/firewall/patches/100-fullconenat.patch
-cp -rf ../lede/package/network/config/firewall/patches/101-bcm-fullconenat.patch ./package/network/config/firewall/patches/101-bcm-fullconenat.patch
-# iptables
-cp -rf ../lede/package/network/utils/iptables/patches/900-bcm-fullconenat.patch ./package/network/utils/iptables/patches/900-bcm-fullconenat.patch
-# Network
-wget -qO - https://github.com/openwrt/openwrt/commit/bbf39d07.patch | patch -p1
-# Patch LuCI 以增添 FullCone 开关
-pushd feeds/luci
-patch -p1 <../../../patch/firewall/01-luci-app-firewall_add_nft-fullcone-bcm-fullcone_option.patch
-popd
-# FullCone PKG
-git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone package/new/nft-fullcone
-cp -rf ../lienol/package/network/utils/fullconenat ./package/new/fullconenat
-
-### 获取额外的基础软件包 ###
-# 添加 Uboot 以及 Target
-# cp -rf ../lede/target/linux/amlogic ./target/linux/amlogic
-# cp -rf ../lede/package/boot/uboot-amlogic ./package/boot/
-# sed -i '/TARGET_sunxi/a\		default y if TARGET_amlogic' ./package/kernel/mac80211/broadcom.mk
-# cp -f ../lede/include/kernel-6.1 ./include/kernel-6.1
-# cp -rf ../lede/target/linux/generic/backport-6.1 ../lede/target/linux/generic/hack-6.1 ../lede/target/linux/generic/pending-6.1 ../lede/target/linux/generic/config-6.1 ./target/linux/generic/
+# # FW3
+# mkdir -p package/network/config/firewall/patches
+# cp -rf ../immortalwrt_21/package/network/config/firewall/patches/100-fullconenat.patch ./package/network/config/firewall/patches/100-fullconenat.patch
+# cp -rf ../lede/package/network/config/firewall/patches/101-bcm-fullconenat.patch ./package/network/config/firewall/patches/101-bcm-fullconenat.patch
+# # iptables
+# cp -rf ../lede/package/network/utils/iptables/patches/900-bcm-fullconenat.patch ./package/network/utils/iptables/patches/900-bcm-fullconenat.patch
+# # Network
+# wget -qO - https://github.com/openwrt/openwrt/commit/bbf39d07.patch | patch -p1
+# # Patch LuCI 以增添 FullCone 开关
+# pushd feeds/luci
+# patch -p1 <../../../patch/firewall/01-luci-app-firewall_add_nft-fullcone-bcm-fullcone_option.patch
+# popd
+# # FullCone PKG
+# git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone package/new/nft-fullcone
+# cp -rf ../lienol/package/network/utils/fullconenat ./package/new/fullconenat
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 预编译 node
