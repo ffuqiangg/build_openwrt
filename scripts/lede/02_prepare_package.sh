@@ -16,8 +16,8 @@ cp -rf ../passwall_luci ./package/luci-app-passwall
 cp -rf ../passwall_pkg ./package/passwall-pkg
 rm -rf ./package/passwall-pkg/v2ray-geodata
 sed -i '/gVisor/{n;s/n/y/;}' ./package/passwall-pkg/sing-box/Makefile
-# Mihomo
-cp -rf ../mihomo ./package/mihomo
+# Opencalsh
+cp -rf ../openclash ./package/luci-app-openclash
 # Filebrowser
 cp -rf ../lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
 pushd package/luci-app-filebrowser

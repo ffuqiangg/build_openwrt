@@ -8,7 +8,7 @@ clone_repo $passwall_pkg_repo main passwall_pkg &
 clone_repo $passwall_luci_repo main passwall_luci &
 clone_repo $lienol_pkg_repo main lienol_pkg &
 clone_repo $mosdns_repo master mosdns &
-clone_repo $mihomo_repo main mihomo &
+clone_repo $openclash_repo master openclash &
 
 wait
 
