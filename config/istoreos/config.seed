@@ -1,0 +1,91 @@
+### INITIALIZATION ###
+CONFIG_TARGET_amlogic=y
+CONFIG_TARGET_amlogic_meson=y
+CONFIG_TARGET_amlogic_meson_DEVICE_phicomm_n1=y
+CONFIG_TARGET_ROOTFS_EXT4FS=y
+CONFIG_TARGET_ROOTFS_SQUASHFS=y
+CONFIG_TARGET_IMAGES_GZIP=y
+CONFIG_TARGET_ROOTFS_PARTSIZE=822
+CONFIG_ALL_KMODS=y
+CONFIG_DEVEL=y
+# CONFIG_KERNEL_KALLSYMS is not set
+# CONFIG_KERNEL_WERROR is not set
+
+# GCC
+CONFIG_TOOLCHAINOPTS=y
+
+### ZLIB
+CONFIG_ZLIB_OPTIMIZE_SPEED=y
+
+### BASIC ###
+CONFIG_PACKAGE_bash=y
+CONFIG_PACKAGE_bsdtar=y
+CONFIG_PACKAGE_ethtool=y
+CONFIG_PACKAGE_htop=y
+CONFIG_HTOP_LMSENSORS=y
+CONFIG_PACKAGE_iftop=y
+CONFIG_PACKAGE_iperf3=y
+CONFIG_PACKAGE_dnsmasq-full=y
+CONFIG_PACKAGE_dnsmasq_full_ipset=y
+# CONFIG_PACKAGE_dnsmasq_full_broken_rtc is not set
+# CONFIG_PACKAGE_dnsmasq is not set
+
+### APPLICATIONS ###
+CONFIG_PACKAGE_luci-app-filebrowser=y
+CONFIG_PACKAGE_luci-app-filetransfer=y
+CONFIG_PACKAGE_luci-app-firewall=y
+CONFIG_PACKAGE_luci-app-frpc=y
+CONFIG_PACKAGE_luci-app-hd-idle=y
+CONFIG_PACKAGE_luci-app-mihomo=y
+CONFIG_PACKAGE_luci-app-mosdns=y
+CONFIG_PACKAGE_luci-app-nlbwmon=y
+CONFIG_PACKAGE_luci-app-opkg=y
+CONFIG_PACKAGE_luci-app-samba4=y
+CONFIG_PACKAGE_luci-app-ttyd=y
+CONFIG_PACKAGE_luci-app-upnp=y
+CONFIG_PACKAGE_luci-app-v2raya=y
+CONFIG_PACKAGE_luci-app-verysync=y
+CONFIG_PACKAGE_luci-app-vlmcsd=y
+CONFIG_PACKAGE_luci-app-vsftpd=y
+
+### Video Support ###
+CONFIG_PACKAGE_kmod-drm-amlogic-meson=y
+CONFIG_PACKAGE_kmod-drm-amlogic-meson-hdmitx=y
+
+### PASSWALL ###
+CONFIG_PACKAGE_luci-app-passwall=y
+CONFIG_PACKAGE_luci-app-passwall_Nftables_Transparent_Proxy=y
+CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Brook=n
+CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Haproxy=y
+CONFIG_PACKAGE_luci-app-passwall_INCLUDE_NavieProxy=y
+CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Hysteria=n
+# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Client is not set
+# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server is not set
+CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Rust_Client=y
+CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Rust_Server=y
+CONFIG_PACKAGE_luci-app-passwall_INCLUDE_ShadowsocksR_Libev_Client=y
+CONFIG_PACKAGE_luci-app-passwall_INCLUDE_ShadowsocksR_Libev_Server=y
+CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Simple_Obfs=y
+CONFIG_PACKAGE_luci-app-passwall_INCLUDE_SingBox=y
+# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Trojan_GO is not set
+# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Trojan_Plus is not set
+# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray is not set
+# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray_Geodata is not set
+# CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray_Plugin is not set
+CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Xray=y
+
+### DOCKER ###
+CONFIG_PACKAGE_luci-app-dockerman=y
+CONFIG_PACKAGE_luci-app-diskman=y
+CONFIG_PACKAGE_luci-app-diskman_INCLUDE_btrfs_progs=y
+CONFIG_PACKAGE_luci-app-diskman_INCLUDE_lsblk=y
+CONFIG_PACKAGE_block-mount=y
+CONFIG_PACKAGE_docker-compose=y
+CONFIG_DOCKER_CGROUP_OPTIONS=y
+CONFIG_DOCKER_OPTIONAL_FEATURES=y
+CONFIG_DOCKER_NET_ENCRYPT=y
+CONFIG_DOCKER_NET_MACVLAN=y
+CONFIG_DOCKER_NET_OVERLAY=y
+CONFIG_DOCKER_NET_TFTP=y
+CONFIG_DOCKER_STO_BTRFS=y
+CONFIG_DOCKER_STO_EXT4=y
