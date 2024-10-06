@@ -62,6 +62,15 @@ sed -i 's,TARGET_CFLAGS += -DHAVE_MAP_SYNC,& -D_LARGEFILE64_SOURCE,' feeds/packa
 # 预配置一些插件
 cp -rf ../patch/files ./files
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
+mkdir -p files/etc/openclash/core
+pushd files/etc/openclash/core
+clash_version="$(curl -fsSL https://github.com/vernesong/OpenClash/raw/core/master/core_version | sed -n '2p')"
+wget https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-arm64-${clash_version}.gz -O clash_tun.gz && gzip -d clash_tun.gz
+wget https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz -O clash_meta.tar.gz && tar -zxvf clash_meta.tar.gz && mv clash clash_meta
+wget https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-arm64.tar.gz -O clash.tar.gz && tar -zxvf clash.tar.gz
+chmod +x ./clash*
+find ./ -name "*.tar.gz" | xargs rm -f
+popd
 
 chmod -R 755 ./
 find ./ -name *.orig | xargs rm -f
