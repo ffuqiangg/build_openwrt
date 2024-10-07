@@ -33,7 +33,7 @@ ln -sf ../../../feeds/packages/lang/golang/golang ./package/feeds/packages/golan
 # Sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./package/new/sing-box
 cp -f ../patch/sing-box/files/sing-box.init ./package/new/sing-box/files/sing-box.init
-sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)) CGO_ENABLED=1\n' ./package/new/sing-box/Makefile
+# sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)) CGO_ENABLED=1\n' ./package/new/sing-box/Makefile
 # Passwall
 cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 pushd package/new/luci-app-passwall
