@@ -27,8 +27,8 @@ mkdir -p package/parted &&
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/new/luci-app-mosdns
 # Golang
-rm -rf ./feeds/packages/lang/golang
-cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
+# rm -rf ./feeds/packages/lang/golang
+# cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # Sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./package/new/sing-box
 cp -f ../patch/sing-box/files/sing-box.init ./package/new/sing-box/files/sing-box.init
