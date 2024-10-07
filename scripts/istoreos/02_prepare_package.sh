@@ -66,6 +66,9 @@ ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn
 ' >>./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
+# ChinaDNS
+git clone -b luci --depth 1 https://github.com/QiuSimons/openwrt-chinadns-ng.git package/new/luci-app-chinadns-ng
+cp -rf ../passwall_pkg/chinadns-ng ./package/new/chinadns-ng
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
 # Vsftpd
