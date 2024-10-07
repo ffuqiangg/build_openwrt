@@ -4,9 +4,9 @@
  
  define Package/$(PKG_NAME)/install
  	$(call GoPackage/Package/Install/Bin,$(1))
--
--	$(INSTALL_DIR) $(1)/etc/init.d/
--	$(INSTALL_BIN) ./files/sing-box.init $(1)/etc/init.d/sing-box
++
++	$(INSTALL_DIR) $(1)/etc/init.d/
++	$(INSTALL_BIN) ./files/sing-box.init $(1)/etc/init.d/sing-box
  endef
  
  $(eval $(call GoBinPackage,sing-box))

@@ -31,7 +31,7 @@ rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 ln -sf ../../../feeds/packages/lang/golang/golang ./package/feeds/packages/golang
 # Passwall
-cp -rf ../passwall_luci ./package/new/luci-app-passwall
+cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 cp -rf ../passwall_pkg ./package/new/passwall-pkg
 rm -rf ./package/passwall-pkg/v2ray-geodata
 mkdir -p package/new/passwall-pkg/sing-box/files && \
