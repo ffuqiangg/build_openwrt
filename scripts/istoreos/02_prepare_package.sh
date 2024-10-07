@@ -30,29 +30,13 @@ cp -rf ../mosdns ./package/new/luci-app-mosdns
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 ln -sf ../../../feeds/packages/lang/golang/golang ./package/feeds/packages/golang
-# Sing-box
-cp -rf ../immortalwrt_pkg/net/sing-box ./package/new/sing-box
-cp -f ../patch/sing-box/files/sing-box.init ./package/new/sing-box/files/sing-box.init
-# sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)) CGO_ENABLED=1\n' ./package/new/sing-box/Makefile
 # Passwall
-cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
-pushd package/new/luci-app-passwall
-move_2_services vpn
-popd
-cp -rf ../passwall_pkg/tcping ./package/new/tcping
-cp -rf ../passwall_pkg/trojan-go ./package/new/trojan-go
-cp -rf ../passwall_pkg/brook ./package/new/brook
-cp -rf ../passwall_pkg/ssocks ./package/new/ssocks
-cp -rf ../passwall_pkg/microsocks ./package/new/microsocks
-cp -rf ../passwall_pkg/dns2socks ./package/new/dns2socks
-cp -rf ../passwall_pkg/dns2tcp ./package/new/dns2tcp
-cp -rf ../passwall_pkg/ipt2socks ./package/new/ipt2socks
-cp -rf ../passwall_pkg/pdnsd-alt ./package/new/pdnsd-alt
-cp -rf ../openwrt-add/trojan-plus ./package/new/trojan-plus
-cp -rf ../passwall_pkg/xray-plugin ./package/new/xray-plugin
-cp -rf ../passwall_pkg/hysteria ./package/new/hysteria
-rm -rf ./feeds/packages/net/xray-core
-cp -rf ../sbwml/xray-core ./feeds/packages/net/xray-core
+cp -rf ../passwall_luci ./package/new/luci-app-passwall
+cp -rf ../passwall_pkg ./package/new/passwall-pkg
+rm -rf ./package/passwall-pkg/v2ray-geodata
+mkdir -p package/new/passwall-pkg/sing-box/files && \
+cp -f ../patch/sing-box/files/sing-box.init ./package/new/passwall-pkg/sing-box/files/sing-box.init && \
+patch -p1 < ../patch/sing-box/001-sing-box-add-init.patch
 # Passwall 白名单
 echo '
 teamviewer.com
@@ -67,9 +51,6 @@ ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn
 ' >>./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
-# ChinaDNS
-git clone -b luci --depth 1 https://github.com/QiuSimons/openwrt-chinadns-ng.git package/new/luci-app-chinadns-ng
-cp -rf ../passwall_pkg/chinadns-ng ./package/new/chinadns-ng
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
 # Vsftpd

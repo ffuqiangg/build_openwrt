@@ -1,0 +1,12 @@
+--- a/package/new/passwall-pkg/sing-box/Makefile	2024-10-07 21:55:14.190389654 +0800
++++ b/package/new/passwall-pkg/sing-box/Makefile	2024-10-07 21:54:30.380384590 +0800
+@@ -137,9 +137,6 @@
+ 
+ define Package/$(PKG_NAME)/install
+ 	$(call GoPackage/Package/Install/Bin,$(1))
+-
+-	$(INSTALL_DIR) $(1)/etc/init.d/
+-	$(INSTALL_BIN) ./files/sing-box.init $(1)/etc/init.d/sing-box
+ endef
+ 
+ $(eval $(call GoBinPackage,sing-box))
