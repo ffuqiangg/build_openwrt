@@ -52,7 +52,7 @@ cn.ntp.org.cn
 ntp.ntsc.ac.cn
 ' >>./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # 添加 rust
-cp -rf ../openwrt_pkg/lang/rust ./feeds/packages/lang/rust
+cp -rf ../openwrt_pkg_ma/lang/rust ./feeds/packages/lang/rust
 ln -sf ../../../feeds/packages/lang/rust ./package/feeds/packages/rust
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
