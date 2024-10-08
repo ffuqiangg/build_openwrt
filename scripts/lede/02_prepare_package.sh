@@ -12,10 +12,23 @@ sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqba
 # Delete default menu setting
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 # Passwall
-cp -rf ../passwall_luci ./package/luci-app-passwall
+cp -rf ../passwall_luci/luci-app-passwall ./package/luci-app-passwall
 cp -rf ../passwall_pkg ./package/passwall-pkg
 rm -rf ./package/passwall-pkg/v2ray-geodata
-sed -i '/gVisor/{n;s/n/y/;}' ./package/passwall-pkg/sing-box/Makefile
+# Passwall 白名单
+echo '
+teamviewer.com
+epicgames.com
+dangdang.com
+account.synology.com
+ddns.synology.com
+checkip.synology.com
+checkip.dyndns.org
+checkipv6.synology.com
+ntp.aliyun.com
+cn.ntp.org.cn
+ntp.ntsc.ac.cn
+' >>./package/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # Opencalsh
 cp -rf ../openclash ./package/luci-app-openclash
 # Filebrowser
