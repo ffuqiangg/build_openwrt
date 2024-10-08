@@ -33,7 +33,6 @@ ln -sf ../../../feeds/packages/lang/golang/golang ./package/feeds/packages/golan
 # Passwall
 cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 cp -rf ../passwall_pkg ./package/new/passwall-pkg
-cp -f ../openwrt-add/shadowsocks-rust/Makefile ./package/new/passwall-pkg/shadowsocks/Makefile
 rm -rf ./package/new/passwall-pkg/v2ray-geodata
 mkdir -p package/new/passwall-pkg/sing-box/files && \
 cp -f ../patch/sing-box/files/sing-box.init ./package/new/passwall-pkg/sing-box/files/sing-box.init && \
