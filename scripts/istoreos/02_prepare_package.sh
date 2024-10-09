@@ -34,6 +34,8 @@ ln -sf ../../../feeds/packages/lang/golang/golang ./package/feeds/packages/golan
 cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 cp -rf ../passwall_pkg ./package/new/passwall-pkg
 rm -rf ./package/new/passwall-pkg/v2ray-geodata
+rm -rf ./feeds/packages/net/xray-core
+mv ./package/new/passwall-pkg/xray-core ./feeds/packages/net/xray-core
 mkdir -p package/new/passwall-pkg/sing-box/files && \
 cp -f ../patch/sing-box/files/sing-box.init ./package/new/passwall-pkg/sing-box/files/sing-box.init && \
 patch -p1 < ../patch/sing-box/001-sing-box-add-init.patch
