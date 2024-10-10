@@ -26,36 +26,39 @@ wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Mak
 # Mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/new/luci-app-mosdns
-# 更换 golang 版本
-rm -rf ./feeds/packages/lang/golang
-cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
-ln -sf ../../../feeds/packages/lang/golang/golang ./package/feeds/packages/golang
-# Passwall
-cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
-cp -rf ../passwall_pkg ./package/new/passwall-pkg
-rm -rf ./package/new/passwall-pkg/v2ray-geodata
-rm -rf ./feeds/packages/net/xray-core
-mv ./package/new/passwall-pkg/xray-core ./feeds/packages/net/xray-core
-mkdir -p package/new/passwall-pkg/sing-box/files && \
-cp -f ../patch/sing-box/files/sing-box.init ./package/new/passwall-pkg/sing-box/files/sing-box.init && \
-patch -p1 < ../patch/sing-box/001-sing-box-add-init.patch
-# Passwall 白名单
-echo '
-teamviewer.com
-epicgames.com
-dangdang.com
-account.synology.com
-ddns.synology.com
-checkip.synology.com
-checkip.dyndns.org
-checkipv6.synology.com
-ntp.aliyun.com
-cn.ntp.org.cn
-ntp.ntsc.ac.cn
-' >>./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
-# 添加 rust
-cp -rf ../lede_pkg/lang/rust ./feeds/packages/lang/rust
-ln -sf ../../../feeds/packages/lang/rust ./package/feeds/packages/rust
+# # 更换 golang 版本
+# rm -rf ./feeds/packages/lang/golang
+# cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
+# ln -sf ../../../feeds/packages/lang/golang/golang ./package/feeds/packages/golang
+# # Passwall
+# cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
+# cp -rf ../passwall_pkg ./package/new/passwall-pkg
+# rm -rf ./package/new/passwall-pkg/v2ray-geodata
+# rm -rf ./feeds/packages/net/xray-core
+# mv ./package/new/passwall-pkg/xray-core ./feeds/packages/net/xray-core
+# cp -rf ../immortalwrt_pkg/net/sing-box ./package/new/passwall_pkg/sing-box
+# cp -f ../patch/sing-box/files/sing-box.init ./package/new/passwall_pkg/sing-box/files/sing-box.init
+# sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)) CGO_ENABLED=1\n' ./package/new/passwall_pkg/sing-box/Makefile
+# # mkdir -p package/new/passwall-pkg/sing-box/files && \
+# # cp -f ../patch/sing-box/files/sing-box.init ./package/new/passwall-pkg/sing-box/files/sing-box.init && \
+# # patch -p1 < ../patch/sing-box/001-sing-box-add-init.patch
+# # Passwall 白名单
+# echo '
+# teamviewer.com
+# epicgames.com
+# dangdang.com
+# account.synology.com
+# ddns.synology.com
+# checkip.synology.com
+# checkip.dyndns.org
+# checkipv6.synology.com
+# ntp.aliyun.com
+# cn.ntp.org.cn
+# ntp.ntsc.ac.cn
+# ' >>./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
+# # 添加 rust
+# cp -rf ../lede_pkg/lang/rust ./feeds/packages/lang/rust
+# ln -sf ../../../feeds/packages/lang/rust ./package/feeds/packages/rust
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
 # Vsftpd
