@@ -23,9 +23,9 @@ popd
 cp -rf ../diskman/applications/luci-app-diskman ./package/new/luci-app-diskman
 mkdir -p package/parted && \
 wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
-# Mosdns
-rm -rf ./feeds/packages/net/v2ray-geodata
-cp -rf ../mosdns ./package/new/luci-app-mosdns
+# # Mosdns
+# rm -rf ./feeds/packages/net/v2ray-geodata
+# cp -rf ../mosdns ./package/new/luci-app-mosdns
 # # 更换 golang 版本
 # rm -rf ./feeds/packages/lang/golang
 # cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
