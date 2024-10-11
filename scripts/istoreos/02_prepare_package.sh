@@ -73,15 +73,15 @@ cp -rf ../immortalwrt_pkg/net/verysync ./package/new/verysync
 pushd package/new/luci-app-verysync
 move_2_services nas
 popd
-# FRP 内网穿透
-rm -rf ./feeds/luci/applications/luci-app-frps
-rm -rf ./feeds/luci/applications/luci-app-frpc
-rm -rf ./feeds/packages/net/frp
-cp -rf ../immortalwrt_pkg/net/frp ./feeds/packages/net/frp
-sed -i '/etc/d' ./feeds/packages/net/frp/Makefile
-sed -i '/defaults/{N;d;}' ./feeds/packages/net/frp/Makefile
-cp -rf ../lede_luci/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
-cp -rf ../lede_luci/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
+# # FRP 内网穿透
+# rm -rf ./feeds/luci/applications/luci-app-frps
+# rm -rf ./feeds/luci/applications/luci-app-frpc
+# rm -rf ./feeds/packages/net/frp
+# cp -rf ../immortalwrt_pkg/net/frp ./feeds/packages/net/frp
+# sed -i '/etc/d' ./feeds/packages/net/frp/Makefile
+# sed -i '/defaults/{N;d;}' ./feeds/packages/net/frp/Makefile
+# cp -rf ../lede_luci/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
+# cp -rf ../lede_luci/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
 # V2raya
 rm -rf ./feeds/luci/applications/luci-app-v2raya
 cp -rf ../v2raya/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
