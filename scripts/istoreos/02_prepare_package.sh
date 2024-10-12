@@ -73,22 +73,6 @@ cp -rf ../immortalwrt_pkg/net/verysync ./package/new/verysync
 pushd package/new/luci-app-verysync
 move_2_services nas
 popd
-# # FRP 内网穿透
-# rm -rf ./feeds/luci/applications/luci-app-frps
-# rm -rf ./feeds/luci/applications/luci-app-frpc
-# rm -rf ./feeds/packages/net/frp
-# cp -rf ../immortalwrt_pkg/net/frp ./feeds/packages/net/frp
-# sed -i '/etc/d' ./feeds/packages/net/frp/Makefile
-# sed -i '/defaults/{N;d;}' ./feeds/packages/net/frp/Makefile
-# cp -rf ../lede_luci/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
-# cp -rf ../lede_luci/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
-# V2raya
-rm -rf ./feeds/luci/applications/luci-app-v2raya
-cp -rf ../v2raya/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
-ln -sf ../../../feeds/luci/applications/luci-app-v2raya ./package/feeds/luci/luci-app-v2raya
-rm -rf ./feeds/packages/net/v2raya
-cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
-ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
