@@ -24,11 +24,13 @@ cp -rf ../diskman/applications/luci-app-diskman ./package/new/luci-app-diskman
 mkdir -p package/parted && \
 wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
 # Mosdns
+rm -rf ./feeds/packages/net/v2ray-geodata
+mv ./package/new/luci-app-mosdns/v2ray-geodata ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/new/luci-app-mosdns
-# # 更换 golang 版本
-# rm -rf ./feeds/packages/lang/golang
-# cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
-# ln -sf ../../../feeds/packages/lang/golang/golang ./package/feeds/packages/golang
+# 更换 golang 版本
+rm -rf ./feeds/packages/lang/golang
+cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
+ln -sf ../../../feeds/packages/lang/golang/golang ./package/feeds/packages/golang
 # # Passwall
 # cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 # cp -rf ../passwall_pkg ./package/new/passwall-pkg
