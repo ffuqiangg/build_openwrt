@@ -50,6 +50,10 @@ cp -rf ../lede/package/lean/vsftpd-alt ./package/new/vsftpd-alt
 pushd package/new/luci-app-vsftpd
 move_2_services nas
 popd
+# Sing-box
+cp -rf ../immortalwrt_pkg/net/sing-box ./package/new/sing-box
+cp -f ../patch/sing-box/files/sing-box.init ./package/new/sing-box/files/sing-box.init
+sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)) CGO_ENABLED=1\n' ./package/new/sing-box/Makefile
 
 # 预配置一些插件
 cp -rf ../patch/files ./files

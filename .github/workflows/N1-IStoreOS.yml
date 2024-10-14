@@ -130,7 +130,6 @@ jobs:
         cd ./artifact/
         gzip -d *.gz && exit 0
         gzip --best *.img
-        zip N1-IStoreOS-${{ env.build_date }}-ext4.zip *n1*ext4*
         zip N1-IStoreOS-${{ env.build_date }}-sfs.zip *n1*squashfs*
 
     - name: Upload firmware to release
