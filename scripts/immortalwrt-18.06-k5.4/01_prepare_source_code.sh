@@ -5,7 +5,6 @@
 # Clone source code
 clone_repo $immortalwrt_repo openwrt-18.06-k5.4 openwrt &
 clone_repo $mosdns_repo master mosdns &
-clone_repo $mihomo_repo main mihomo &
 
 wait
 

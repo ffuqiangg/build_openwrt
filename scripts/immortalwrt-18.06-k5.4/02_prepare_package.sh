@@ -40,8 +40,6 @@ git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git pa
 pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd
-# mihomo
-cp -rf ../mihomo ./package/mihomo
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
