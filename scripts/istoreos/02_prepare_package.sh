@@ -41,30 +41,6 @@ popd
 # CPU 调度
 cp -rf ../lede_luci/applications/luci-app-cpufreq ./package/new/luci-app-cpufreq
 sed -i 's,\"system\",\"services\",g' ./package/new/luci-app-cpufreq/luasrc/controller/cpufreq.lua
-# KMS 激活助手
-cp -rf ../lede_luci/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
-cp -rf ../lede_pkg/net/vlmcsd ./package/new/vlmcsd
-# Vsftpd
-cp -rf ../lede_luci/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
-cp -rf ../lede/package/lean/vsftpd-alt ./package/new/vsftpd-alt
-pushd package/new/luci-app-vsftpd
-move_2_services nas
-popd
-# Sing-box
-cp -rf ../immortalwrt_pkg/net/sing-box ./package/new/sing-box
-cp -f ../patch/sing-box/files/sing-box.init ./package/new/sing-box/files/sing-box.init
-sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)) CGO_ENABLED=1\n' ./package/new/sing-box/Makefile
-# 更换 golang 版本
-rm -rf ./feeds/packages/lang/golang
-cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
-# FRP 内网穿透
-rm -rf ./feeds/luci/applications/luci-app-frps
-rm -rf ./feeds/luci/applications/luci-app-frpc
-rm -rf ./feeds/packages/net/frp
-rm -f ./package/feeds/packages/frp
-cp -rf ../lede_luci/applications/luci-app-frps ./package/new/luci-app-frps
-cp -rf ../lede_luci/applications/luci-app-frpc ./package/new/luci-app-frpc
-cp -rf ../lede_pkg/net/frp ./package/new/frp
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
