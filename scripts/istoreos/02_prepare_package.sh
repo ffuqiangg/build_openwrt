@@ -57,6 +57,14 @@ sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)
 # 更换 golang 版本
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
+# FRP 内网穿透
+rm -rf ./feeds/luci/applications/luci-app-frps
+rm -rf ./feeds/luci/applications/luci-app-frpc
+rm -rf ./feeds/packages/net/frp
+rm -f ./package/feeds/packages/frp
+cp -rf ../lede_luci/applications/luci-app-frps ./package/new/luci-app-frps
+cp -rf ../lede_luci/applications/luci-app-frpc ./package/new/luci-app-frpc
+cp -rf ../lede_pkg/net/frp ./package/new/frp
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
