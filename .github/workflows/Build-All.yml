@@ -32,3 +32,9 @@ jobs:
       with:
         token: ${{ secrets.GH_TOKEN }}
         event-type: N1-OpenWrt-23.05
+
+    - name: IStoreOS
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.GH_TOKEN }}
+        event-type: N1-IStoreOS
