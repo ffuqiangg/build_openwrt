@@ -54,6 +54,9 @@ popd
 cp -rf ../immortalwrt_pkg/net/sing-box ./package/new/sing-box
 cp -f ../patch/sing-box/files/sing-box.init ./package/new/sing-box/files/sing-box.init
 sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)) CGO_ENABLED=1\n' ./package/new/sing-box/Makefile
+# 更换 golang 版本
+rm -rf ./feeds/packages/lang/golang
+cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 
 # 预配置一些插件
 cp -rf ../patch/files ./files

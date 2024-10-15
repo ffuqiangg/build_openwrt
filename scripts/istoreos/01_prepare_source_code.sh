@@ -17,7 +17,6 @@ clone_repo $diskman_repo master diskman &
 clone_repo $mosdns_repo master mosdns &
 clone_repo $mihomo_repo main mihomo &
 clone_repo $sbwml_openwrt_repo v5 sbwml &
-clone_repo $v2raya_repo master v2raya &
 
 wait
 
