@@ -44,14 +44,13 @@ popd
 # 预配置一些插件
 cp -rf ../patch/files ./files
 mkdir -p files/etc/openclash/core
-pushd files/etc/openclash/core
 clash_version="$(curl -fsSL https://github.com/vernesong/OpenClash/raw/core/master/core_version | sed -n '2p')"
-wget https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-arm64-${clash_version}.gz -O clash_tun.gz && gzip -d clash_tun.gz
-wget https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz -O clash_meta.tar.gz && tar -zxvf clash_meta.tar.gz && mv clash clash_meta
-wget https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-arm64.tar.gz -O clash.tar.gz && tar -zxvf clash.tar.gz
-chmod +x ./clash*
-find ./ -name "*.tar.gz" | xargs rm -f
-popd
+wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-arm64-${clash_version}.gz | gunzip -c > files/etc/openclash/core/clash_tun
+wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
+wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash
+chmod +x files/etc/openclash/core/clash*
+wget -qO- https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat > files/etc/openclash/GeoIP.dat
+wget -qO- https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat > files/etc/openclash/GeoSite.dat
 
 chmod -R 755 ./
 find ./ -name *.orig | xargs rm -f
