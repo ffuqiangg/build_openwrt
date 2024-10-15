@@ -52,10 +52,10 @@ sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 # cp -rf ../lede/package/network/utils/iptables/patches/900-bcm-fullconenat.patch ./package/network/utils/iptables/patches/900-bcm-fullconenat.patch
 # # Network
 # wget -qO - https://github.com/openwrt/openwrt/commit/bbf39d07.patch | patch -p1
-# # Patch LuCI 以增添 FullCone 开关
-# pushd feeds/luci
-# patch -p1 <../../../patch/firewall/01-luci-app-firewall_add_nft-fullcone-bcm-fullcone_option.patch
-# popd
+# Patch LuCI 以增添 FullCone 开关
+pushd feeds/luci
+patch -p1 <../../../patch/firewall/01-luci-app-firewall_add_nft-fullcone-bcm-fullcone_option.patch
+popd
 # FullCone PKG
 git clone --depth 1 https://github.com/fullcone-nat-nftables/nft-fullcone package/new/nft-fullcone
 cp -rf ../lienol/package/network/utils/fullconenat ./package/new/fullconenat

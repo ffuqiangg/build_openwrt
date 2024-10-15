@@ -17,12 +17,11 @@ passwall_luci_repo="https://github.com/xiaorouji/openwrt-passwall"
 dockerman_repo="https://github.com/lisaac/luci-app-dockerman"
 diskman_repo="https://github.com/lisaac/luci-app-diskman"
 docker_lib_repo="https://github.com/lisaac/luci-lib-docker"
-mosdns_repo="https://github.com/QiuSimons/openwrt-mos"
+mosdns_repo="https://github.com/sbwml/luci-app-mosdns.git"
 openclash_repo="https://github.com/vernesong/OpenClash.git"
 node_prebuilt_repo="https://github.com/sbwml/feeds_packages_lang_node-prebuilt"
 sbwml_openwrt_repo="https://github.com/sbwml/openwrt_helloworld"
 mihomo_repo="https://github.com/morytyann/OpenWrt-mihomo.git"
-v2raya_repo="https://github.com/v2rayA/v2raya-openwrt.git"
 
 clone_repo() {
     repo_url=$1
