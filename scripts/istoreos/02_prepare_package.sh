@@ -53,7 +53,8 @@ cp -rf ../immortalwrt_pkg_21/devel/gn ./feeds/packages/devel/gn
 ln -sf ../../../feeds/packages/devel/gn ./package/feeds/packages/gn
 # Mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
-cp -rf ../mosdns ./package/luci-app-mosdns
+cp -rf ../mosdns ./package/new/luci-app-mosdns
+git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
