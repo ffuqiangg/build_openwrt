@@ -83,6 +83,9 @@ wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/dev/clash-linux
 chmod +x files/etc/openclash/core/clash*
 wget -qO- https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat > files/etc/openclash/GeoIP.dat
 wget -qO- https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat > files/etc/openclash/GeoSite.dat
+mkdir -p files/usr/share/xray
+wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat > files/usr/share/xray/geoip.dat
+wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat > files/usr/share/xray/geosite.dat
 
 chmod -R 755 ./
 find ./ -name *.orig | xargs rm -f

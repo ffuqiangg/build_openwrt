@@ -236,6 +236,9 @@ sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/con
 # 预配置一些插件
 cp -rf ../patch/files ./files
 cp -rf ../patch/openwrt-23.05/. ./files/
+mkdir -p files/usr/share/xray
+wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat > files/usr/share/xray/geoip.dat
+wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat > files/usr/share/xray/geosite.dat
 
 chmod -R 755 ./
 find ./ -name *.orig | xargs rm -f
