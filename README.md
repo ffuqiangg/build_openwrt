@@ -7,7 +7,7 @@
 ### 说明
 
 - 由于仓库的代码大部分时间都处于不可用的状态，所以并不建议 fork 使用。除非能够自行排查和修复错误。
-- ImmortalWrt18.06 ImmortalWrt23.05 OpenWrt23.05 固件均采用 [Flippy](https://github.com/unifreq) 大佬的方案由 Armbian 内核打包制作，LEDE IStoreOS 由于硬件原生支持，为直接编译。
+- ImmortalWrt-18.06 ImmortalWrt-23.05 OpenWrt-23.05 固件均采用 [Flippy](https://github.com/unifreq) 大佬的方案由 Armbian 内核打包制作，LEDE IStoreOS 由于硬件原生支持，为直接编译。
 - 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)，下载前往 [Releases](https://github.com/ffuqiangg/build_openwrt/releases)
 - 默认 IP：192.168.1.99，  默认密码：password
 - 插件：PassWall，v2rayA，Homeproxy，OpenClash，mihomo，DAED，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP服务器，DockerMan，DocKer Compose，UPNP，VerySync  
@@ -19,7 +19,7 @@
 > 注意：ImmortalWrt18.06 不含 mihomo Homeproxy DAED，ImmortalWrt23.05 不含 OpenClash，LEDE 不含 mihomo Homeproxy DAED，OpenWrt23.05 不含 Openclash Homeproxy，IStoreOS 不含 Passwall Homeproxy OpenClash DAED MosDNS。
 
 > [!TIP]
-> OpenWrt 23.05 纯 Sing-Box 核心使用方法阅读 [sing-Box 使用文档](docs/sing-box.md)，LEDE，ImmortalWrt 18.06 固件使用 Sing-Box 裸跑可到 Telegram 频道下载替换文件。
+> OpenWrt-23.05 纯 Sing-Box 核心使用方法阅读 [sing-Box 使用文档](docs/sing-box.md)，LEDE 固件使用 Sing-Box 裸跑可到 Telegram 频道下载替换文件。
 
 ### 感谢
 
