@@ -49,6 +49,8 @@ cp -rf ../immortalwrt_pkg_21/net/naiveproxy ./package/new/naiveproxy
 cp -rf ../immortalwrt_pkg_21/net/shadowsocks-rust ./package/new/shadowsocks-rust
 cp -rf ../immortalwrt_pkg_21/net/simple-obfs ./package/new/simple-obfs
 cp -rf ../immortalwrt_pkg_21/net/chinadns-ng ./package/new/chinadns-ng
+cp -rf ../immortalwrt_pkg_21/devel/gn ./feeds/packages/devel/gn
+ln -sf ../../../feeds/packages/devel/gn ./package/feeds/packages/gn
 # Mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/luci-app-mosdns
