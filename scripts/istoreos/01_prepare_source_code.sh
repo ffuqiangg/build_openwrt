@@ -14,7 +14,7 @@ clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 clone_repo $lienol_pkg_repo main lienol_pkg &
 clone_repo $openwrt_add_repo master openwrt-add &
 clone_repo $diskman_repo master diskman &
-clone_repo $mosdns_repo master mosdns &
+clone_repo $mosdns_repo v5 mosdns &
 clone_repo $mihomo_repo main mihomo &
 
 wait
