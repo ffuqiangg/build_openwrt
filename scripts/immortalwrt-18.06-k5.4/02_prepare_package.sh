@@ -9,7 +9,9 @@ sed -i '/openwrt_banner/d' ./package/emortal/default-settings/files/99-default-s
 sed -i '/etc$/,+2d' ./package/emortal/default-settings/Makefile
 # Mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
-cp -rf ../mosdns ./package/luci-app-mosdns
+mkdir -p package/new
+cp -rf ../mosdns ./package/new/luci-app-mosdns
+git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
 # Samba4
 sed -i 's,\"nas\",\"services\",g' package/feeds/luci/luci-app-samba4/luasrc/controller/samba4.lua
 # Cpufreq
