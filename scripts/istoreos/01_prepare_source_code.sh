@@ -16,6 +16,7 @@ clone_repo $openwrt_add_repo master openwrt-add &
 clone_repo $diskman_repo master diskman &
 clone_repo $mosdns_repo v5 mosdns &
 clone_repo $mihomo_repo main mihomo &
+clone_repo $node_prebuilt_repo packages-22.03 node &
 
 wait
 
