@@ -10,7 +10,9 @@ sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqba
 
 ### 获取额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
-
+# 预编译 node
+rm -rf feeds/packages/lang/node
+cp -rf ../node feeds/packages/lang/node
 # Filebrowser 文件浏览器
 cp -rf ../lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
 pushd package/new/luci-app-filebrowser

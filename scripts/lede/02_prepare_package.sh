@@ -9,6 +9,9 @@ sed -i 's/Os/O2/g' include/target.mk
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
 ### Prepare package
+# 预编译 node
+rm -rf feeds/packages/lang/node
+cp -rf ../node feeds/packages/lang/node
 # Delete default menu setting
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 # Passwall
