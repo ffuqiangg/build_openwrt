@@ -77,6 +77,7 @@ cp -rf ../passwall_pkg/xray-plugin ./package/new/xray-plugin
 cp -rf ../passwall_pkg/hysteria ./package/new/hysteria
 rm -rf ./feeds/packages/net/xray-core
 cp -rf ../sbwml/xray-core ./feeds/packages/net/xray-core
+cp -rf ../passwall_pkg/chinadns-ng ./package/new/chinadns-ng
 # Passwall 白名单
 echo '
 teamviewer.com
