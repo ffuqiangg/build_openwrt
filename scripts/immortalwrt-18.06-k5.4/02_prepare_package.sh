@@ -11,7 +11,7 @@ sed -i '/etc$/,+2d' ./package/emortal/default-settings/Makefile
 rm -rf ./feeds/packages/net/v2ray-geodata
 mkdir -p package/new
 cp -rf ../mosdns ./package/new/luci-app-mosdns
-git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
+cp -rf ../v2ray_geodata package/new/v2ray-geodata
 # Samba4
 sed -i 's,\"nas\",\"services\",g' package/feeds/luci/luci-app-samba4/luasrc/controller/samba4.lua
 # Cpufreq

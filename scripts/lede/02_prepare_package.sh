@@ -40,6 +40,7 @@ popd
 rm -rf ./feeds/packages/net/v2ray-geodata
 rm -rf ./feeds/packages/net/mosdns
 cp -rf ../mosdns ./package/luci-app-mosdns
+cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
 # Vsftpd
 pushd package/feeds/luci/luci-app-vsftpd
 move_2_services nas

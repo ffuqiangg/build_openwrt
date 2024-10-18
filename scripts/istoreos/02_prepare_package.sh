@@ -95,7 +95,7 @@ ntp.ntsc.ac.cn
 # Mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/new/luci-app-mosdns
-git clone https://github.com/sbwml/v2ray-geodata package/new/v2ray-geodata
+cp -rf ../v2ray_geodata package/new/v2ray-geodata
 
 # 预配置一些插件
 cp -rf ../patch/files ./files

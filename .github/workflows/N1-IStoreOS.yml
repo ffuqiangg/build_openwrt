@@ -88,8 +88,12 @@ jobs:
       run: |
         cp -r ../scripts/istoreos/. ./
         /bin/bash 02_prepare_package.sh
-        /bin/bash 03_convert.sh
         sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_SOUR,IStoreOS," -e "s,RELEASES ,," ./files/etc/banner
+
+    - name: Convert Makefiles
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        /bin/bash 03_convert.sh
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt

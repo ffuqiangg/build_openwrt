@@ -29,6 +29,7 @@ clone_repo $mosdns_repo v5 mosdns &
 clone_repo $node_prebuilt_repo packages-23.05 node &
 clone_repo $sbwml_openwrt_repo v5 sbwml &
 clone_repo $mihomo_repo main mihomo &
+clone_repo $v2ray_geodata_repo master v2ray_geodata &
 
 wait
 

@@ -22,6 +22,7 @@ openclash_repo="https://github.com/vernesong/OpenClash.git"
 node_prebuilt_repo="https://github.com/sbwml/feeds_packages_lang_node-prebuilt"
 sbwml_openwrt_repo="https://github.com/sbwml/openwrt_helloworld"
 mihomo_repo="https://github.com/morytyann/OpenWrt-mihomo.git"
+v2ray_geodata_repo="https://github.com/sbwml/v2ray-geodata"
 
 clone_repo() {
     repo_url=$1
