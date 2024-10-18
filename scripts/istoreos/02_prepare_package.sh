@@ -43,9 +43,6 @@ popd
 # CPU 调度
 cp -rf ../lede_luci/applications/luci-app-cpufreq ./package/new/luci-app-cpufreq
 sed -i 's,\"system\",\"services\",g' ./package/new/luci-app-cpufreq/luasrc/controller/cpufreq.lua
-# # Passwall
-cp -rf ../immortalwrt_pkg_21/devel/gn ./feeds/packages/devel/gn
-ln -sf ../../../feeds/packages/devel/gn ./package/feeds/packages/gn
 # Sing-box
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
@@ -55,22 +52,10 @@ sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # Passwall
-cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
-cp -rf ../passwall_pkg/tcping ./package/new/tcping
-cp -rf ../passwall_pkg/trojan-go ./package/new/trojan-go
-cp -rf ../passwall_pkg/brook ./package/new/brook
-cp -rf ../passwall_pkg/ssocks ./package/new/ssocks
-cp -rf ../passwall_pkg/microsocks ./package/new/microsocks
-cp -rf ../passwall_pkg/dns2socks ./package/new/dns2socks
-cp -rf ../passwall_pkg/dns2tcp ./package/new/dns2tcp
-cp -rf ../passwall_pkg/ipt2socks ./package/new/ipt2socks
-cp -rf ../passwall_pkg/pdnsd-alt ./package/new/pdnsd-alt
-cp -rf ../openwrt-add/trojan-plus ./package/new/trojan-plus
-cp -rf ../passwall_pkg/xray-plugin ./package/new/xray-plugin
-cp -rf ../passwall_pkg/hysteria ./package/new/hysteria
-rm -rf ./feeds/packages/net/xray-core
-cp -rf ../sbwml/xray-core ./feeds/packages/net/xray-core
-cp -rf ../passwall_pkg/chinadns-ng ./package/new/chinadns-ng
+cp -rf ../passwall_luci ./package/new/luci-app-passwall
+cp -rf ../passwall_pkg ./package/new/passwall_pkg
+rm -rf ./package/new/passwall-pkg/v2ray-geodata
+rm -rf ./package/new/passwall_pkg/sing-box
 # Passwall 白名单
 echo '
 teamviewer.com
@@ -107,6 +92,9 @@ rm -rf ./luci-app-v2raya
 rm -rf ./feeds/packages/net/v2raya
 cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
+# 添加 rust
+cp -rf ../immortalwrt_pkg/lang/rust ./feeds/package/lang/rust
+ln -sf ../../../feeds/packages/lang/rust ./package/feeds/package/lang/rust
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
