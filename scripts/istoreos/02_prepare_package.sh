@@ -52,7 +52,7 @@ sed -i '63i\GO_PKG_TARGET_VARS:=$(filter-out CGO_ENABLED=%,$(GO_PKG_TARGET_VARS)
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # Passwall
-cp -rf ../passwall_luci ./package/new/luci-app-passwall
+cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 cp -rf ../passwall_pkg ./package/new/passwall_pkg
 rm -rf ./package/new/passwall-pkg/v2ray-geodata
 rm -rf ./package/new/passwall_pkg/sing-box
@@ -85,16 +85,16 @@ cp -rf ../lede_luci/applications/luci-app-frps ./feeds/luci/applications/luci-ap
 cp -rf ../lede_luci/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
 # V2raya
 git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git luci-app-v2raya
-rm -rf ./feeds/packages/applications/luci-app-v2raya
-cp -rf ./luci-app-v2raya/luci-app-v2raya ./feeds/packages/applications/luci-app-v2raya
-cp -rf ./lcui-app-v2raya/v2fly-geodata ./package/new/v2fly-geodata
+rm -rf ./feeds/luci/applications/luci-app-v2raya
+cp -rf ./luci-app-v2raya/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
+cp -rf ./luci-app-v2raya/v2fly-geodata ./package/new/v2fly-geodata
 rm -rf ./luci-app-v2raya
 rm -rf ./feeds/packages/net/v2raya
 cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # 添加 rust
-cp -rf ../immortalwrt_pkg/lang/rust ./feeds/package/lang/rust
-ln -sf ../../../feeds/packages/lang/rust ./package/feeds/package/lang/rust
+cp -rf ../immortalwrt_pkg/lang/rust ./feeds/packages/lang/rust
+ln -sf ../../../feeds/packages/lang/rust ./package/feeds/packages/lang/rust
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
