@@ -44,13 +44,6 @@ popd
 cp -rf ../lede_luci/applications/luci-app-cpufreq ./package/new/luci-app-cpufreq
 sed -i 's,\"system\",\"services\",g' ./package/new/luci-app-cpufreq/luasrc/controller/cpufreq.lua
 # # Passwall
-# cp -rf ../immortalwrt_luci_21/applications/luci-app-passwall ./package/new/luci-app-passwall
-# cp -rf ../immortalwrt_pkg_21/net/brook ./package/new/brook
-# cp -rf ../immortalwrt_pkg_21/net/hysteria ./package/new/hysteria
-# cp -rf ../immortalwrt_pkg_21/net/naiveproxy ./package/new/naiveproxy
-# cp -rf ../immortalwrt_pkg_21/net/shadowsocks-rust ./package/new/shadowsocks-rust
-# cp -rf ../immortalwrt_pkg_21/net/simple-obfs ./package/new/simple-obfs
-# cp -rf ../immortalwrt_pkg_21/net/chinadns-ng ./package/new/chinadns-ng
 cp -rf ../immortalwrt_pkg_21/devel/gn ./feeds/packages/devel/gn
 ln -sf ../../../feeds/packages/devel/gn ./package/feeds/packages/gn
 # Sing-box
@@ -95,7 +88,16 @@ ntp.ntsc.ac.cn
 # Mosdns
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/new/luci-app-mosdns
-cp -rf ../v2ray_geodata package/new/v2ray-geodata
+cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
+# 替换 FRP 内网穿透
+rm -rf ./feeds/luci/applications/luci-app-frps
+rm -rf ./feeds/luci/applications/luci-app-frpc
+rm -rf ./feeds/packages/net/frp
+cp -rf ../immortalwrt_pkg/net/frp ./feeds/packages/net/frp
+sed -i '/etc/d' ./feeds/packages/net/frp/Makefile
+sed -i '/defaults/{N;d;}' ./feeds/packages/net/frp/Makefile
+cp -rf ../lede_luci/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
+cp -rf ../lede_luci/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
