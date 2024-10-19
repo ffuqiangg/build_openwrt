@@ -24,8 +24,8 @@ docker_2_services
 popd
 # DiskMan
 cp -rf ../diskman/applications/luci-app-diskman ./package/new/luci-app-diskman
-mkdir -p package/parted && \
-wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
+mkdir -p package/parted &&
+  wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
 # Vsftpd
@@ -95,13 +95,15 @@ ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # 添加 rust
 cp -rf ../immortalwrt_pkg/lang/rust ./feeds/packages/lang/rust
 ln -sf ../../../feeds/packages/lang/rust ./package/feeds/packages/rust
+cp -rf ../openwrt_pkg_ma/devel/cargo-c ./feeds/packages/devel/rust
+ln -sf ../../../feeds/packages/devel/cargo-c ./package/feeds/packages/cargo-c
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 mkdir -p files/usr/share/xray
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat > files/usr/share/xray/geoip.dat
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat > files/usr/share/xray/geosite.dat
+wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat >files/usr/share/xray/geoip.dat
+wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat >files/usr/share/xray/geosite.dat
 
 chmod -R 755 ./
 find ./ -name *.orig | xargs rm -f
