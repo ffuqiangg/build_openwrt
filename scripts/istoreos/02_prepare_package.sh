@@ -93,10 +93,10 @@ rm -rf ./feeds/packages/net/v2raya
 cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # 添加 rust
-cp -rf ../immortalwrt_pkg/lang/rust ./feeds/packages/lang/rust
-ln -sf ../../../feeds/packages/lang/rust ./package/feeds/packages/rust
-cp -rf ../openwrt_pkg_ma/devel/cargo-c ./feeds/packages/devel/rust
-ln -sf ../../../feeds/packages/devel/cargo-c ./package/feeds/packages/cargo-c
+# cp -rf ../immortalwrt_pkg/lang/rust ./feeds/packages/lang/rust
+# ln -sf ../../../feeds/packages/lang/rust ./package/feeds/packages/rust
+# cp -rf ../openwrt_pkg_ma/devel/cargo-c ./feeds/packages/devel/rust
+# ln -sf ../../../feeds/packages/devel/cargo-c ./package/feeds/packages/cargo-c
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
