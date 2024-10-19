@@ -102,8 +102,8 @@ ln -sf ../../../feeds/packages/devel/cargo-c ./package/feeds/packages/cargo-c
 cp -rf ../patch/files ./files
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 mkdir -p files/usr/share/xray
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat >files/usr/share/xray/geoip.dat
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat >files/usr/share/xray/geosite.dat
+wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat > files/usr/share/xray/geoip.dat
+wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat > files/usr/share/xray/geosite.dat
 
 chmod -R 755 ./
 find ./ -name *.orig | xargs rm -f
