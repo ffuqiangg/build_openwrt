@@ -60,7 +60,8 @@ cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # Passwall
 cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 cp -rf ../passwall_pkg ./package/new/passwall_pkg
-rm -rf ./package/new/passwall_pkg/v2ray_geodata
+rm -rf ./package/new/passwall_pkg/{v2ray_geodata,shadowsocks-rust}
+cp -rf ../immortalwrt_pkg_21/net/shadowsocks-rust ./package/new/passwall_pkg/shadowsocks-rust
 # Passwall 白名单
 echo '
 teamviewer.com
