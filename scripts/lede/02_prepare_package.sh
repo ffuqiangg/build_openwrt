@@ -56,7 +56,7 @@ sed -i -e 's,\"NAS\",\"Services\",g' -e 's,\"nas\",\"services\",g' feeds/luci/ap
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
-# Nlbw
+# nlbw
 sed -i -e 's|admin\",|& \"network\",|g' -e 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
@@ -64,7 +64,6 @@ sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/vi
 # V2raya
 git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
 cp -rf ../immortalwrt_pkg/net/v2raya ./feeds/packages/net/v2raya
-ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # Verysync
 pushd package/feeds/luci/luci-app-verysync
 move_2_services nas

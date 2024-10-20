@@ -4,6 +4,7 @@
 
 # Clone source code
 clone_repo $immortalwrt_repo openwrt-18.06-k5.4 openwrt &
+clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg &
 clone_repo $mosdns_repo v5 mosdns &
 clone_repo $v2ray_geodata_repo master v2ray_geodata &
 

@@ -2,14 +2,16 @@
 
 . ../scripts/funcations.sh
 
+### 替换准备 ###
+rm -rf feeds/packages/net/{v2ray-geodata,v2raya}
+
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 修改 banner
 rm ./package/emortal/default-settings/files/openwrt_banner
 sed -i '/openwrt_banner/d' ./package/emortal/default-settings/files/99-default-settings
 sed -i '/etc$/,+2d' ./package/emortal/default-settings/Makefile
-# Mosdns
-rm -rf ./feeds/packages/net/v2ray-geodata
+# MosDNS
 cp -rf ../mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata package/new/v2ray-geodata
 # Samba4
@@ -31,13 +33,14 @@ sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' feeds/luci/applicatio
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
-# Nlbw
+# nlbw
 sed -i -e 's|admin\",|& \"network\",|g' -e 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 # V2raya
 git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
+cp -rf ../immortalwrt_pkg/net/v2raya ./feeds/packages/net/v2raya
 # Verysync
 pushd feeds/luci/applications/luci-app-verysync
 move_2_services nas
