@@ -1,10 +1,14 @@
 #!/bin/bash
 
-#自动语言
+# 自动语言
 uci set luci.main.lang=auto
 uci commit luci
 
-#时区设置
+# 自动挂载
+uci set fstab.@global[0].anon_mount=1
+uci commit fstab
+
+# 时区设置
 uci set system.@system[0].timezone=CST-8
 uci set system.@system[0].zonename=Asia/Shanghai
 uci del system.ntp.server
@@ -13,18 +17,22 @@ uci add_list system.ntp.server='cn.ntp.org.cn'
 uci add_list system.ntp.server='ntp.ntsc.ac.cn'
 uci commit system
 
-#PASSWALL
+# Dropbear
+uci set dropbear.@dropbear[0].Interface='lan'
+uci commit dropbear
+
+# PASSWALL
 [ -f '/usr/share/v2ray/geoip.dat' ] && uci set passwall.@global_rules[0].v2ray_location_asset='/usr/share/v2ray/'
 uci set passwall.@global_subscribe[0].ss_aead_type='shadowsocks-rust'
 uci set passwall.@global_delay[0].start_delay='5'
 uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
 uci commit passwall
 
-#Feeds 更换镜像源
-sed -i 's,downloads.openwrt.org,mirror.sjtu.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
+# Feeds 更换镜像源
+sed -i 's,downloads.openwrt.org,mirrors.pku.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
 sed -i 's,mirror.sjtu.edu.cn/openwrt,mirrors.pku.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
 
-#uhttpd 设置
+# uhttpd 设置
 uci set uhttpd.main.rfc1918_filter=0
 uci set uhttpd.main.redirect_https=0
 uci set uhttpd.main.http_keepalive=0
@@ -34,39 +42,55 @@ uci set uhttpd.main.http_keepalive=0
 uci commit uhttpd
 /etc/init.d/uhttpd restart
 
-#在防火墙默认开启全锥形 NAT
-uci set firewall.@defaults[0].fullcone='2'
-[ -f '/sbin/fw4' ] && uci set firewall.@defaults[0].fullcone='1'
+# nginx 设置
+sed -i 's,deny all,allow all,g' /etc/nginx/restrict_locally
+uci delete nginx._redirect2ssl.return
+uci delete nginx._redirect2ssl.include
+uci add_list nginx._redirect2ssl.include='restrict_locally'
+uci add_list nginx._redirect2ssl.include='conf.d/*.locations'
+uci commit nginx
+/etc/init.d/nginx restart
+
+# 在防火墙默认开启全锥形 NAT 以及关闭 Flow Offloading 并开启 SFE
+uci set firewall.@defaults[0].fullcone='1'
+uci set firewall.@defaults[0].brcmfullcone='1'
+uci set firewall.@zone[1].fullcone4='1'
+uci set firewall.@zone[1].fullcone6='1'
+uci set firewall.@defaults[0].natflow='0'
+uci set firewall.@defaults[0].shortcut_fe='0'
+uci set firewall.@defaults[0].flow_offloading='1'
 uci set firewall.@defaults[0].input='ACCEPT'
 uci commit firewall
+/etc/init.d/autocore restart
 
-#默认开启 Packet Steering
+# SFE
+sed -i '/shortcutfe/d' /usr/share/rpcd/ucode/luci
+sed -i '/offloading/ a\                shortcutfe: access('\''/etc/init.d/shortcut-fe'\'') == true,' /usr/share/rpcd/ucode/luci
+
+# 默认开启 Packet Steering
 uci set network.globals.packet_steering='1'
 uci commit network
 
-#通用即插即用
+# 通用即插即用
 uci set upnpd.config.enabled='1'
 uci set upnpd.config.force_forwarding='1'
 #uci del upnpd.config.use_stun
 #uci del upnpd.config.stun_host
 uci commit upnpd
 
-#MosDNS广告源
-uci set mosdns.config.adblock='1'
-uci add_list mosdns.config.ad_source='https://github.com/QiuSimons/openwrt-mos/raw/master/dat/serverlist.txt'
-uci commit mosdns
-
-#默认停用 sing-box
+# 默认停用 sing-box
 /etc/init.d/sing-box stop
 /etc/init.d/sing-box disable
 
-#定时清理
+# 定时清理
 (crontab -l | sed '/find \/tmp/d'; echo "0 0 1 * * find /tmp -type f \( -name \"*.log\" -o -name \"*.txt\" \) -exec sh -c 'rm {} && touch {}' \;") | sed '/^$/d' | crontab -
 
-#rpcd
+# rpcd
 [ $(uci -q get rpcd.@rpcd[0].timeout) -lt 60 ] && uci set rpcd.@rpcd[0].timeout=60 && uci commit rpcd
 
-#清除 LuCI 残留缓存
+chmod 0755 /etc/init.d/*
+
+# 清除 LuCI 残留缓存
 rm -rf /tmp/luci-modulecache
 rm -f /tmp/luci-indexcache
 
