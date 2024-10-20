@@ -8,13 +8,18 @@ sed -i 's/Os/O2/g' include/target.mk
 # 默认开启 Irqbalance
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
-### Prepare package
-# Delete default menu setting
+### 替换准备 ###
+rm -rf feeds/packages/net/{xray-core,v2ray-geodata,shadowsocks-libev,v2raya.mosdns}
+rm -rf feeds/luci/applications/luci-app-v2raya
+
+### 额外的 LuCI 应用和依赖 ###
+mkdir -p package/new
+# 调整 default settings
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 # Passwall
-cp -rf ../passwall_luci/luci-app-passwall ./package/luci-app-passwall
-cp -rf ../passwall_pkg ./package/passwall-pkg
-rm -rf ./package/passwall-pkg/v2ray-geodata
+cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
+cp -rf ../passwall_pkg ./package/new/passwall-pkg
+rm -rf ./package/new/passwall-pkg/v2ray-geodata
 # Passwall 白名单
 echo '
 teamviewer.com
@@ -28,36 +33,34 @@ checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn
-' >>./package/luci-app-passwall/root/usr/share/passwall/rules/direct_host
+' >> ./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # Opencalsh
-cp -rf ../openclash ./package/luci-app-openclash
+cp -rf ../openclash ./package/new/luci-app-openclash
 # Filebrowser
-cp -rf ../lienol_pkg/luci-app-filebrowser ./package/luci-app-filebrowser
+cp -rf ../lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
 pushd package/luci-app-filebrowser
 move_2_services nas
 popd
 # Mosdns
-rm -rf ./feeds/packages/net/v2ray-geodata
-rm -rf ./feeds/packages/net/mosdns
-cp -rf ../mosdns ./package/luci-app-mosdns
+cp -rf ../mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
 # Vsftpd
-pushd package/feeds/luci/luci-app-vsftpd
+pushd feeds/luci/applications/luci-app-vsftpd
 move_2_services nas
 popd
 # Cpufreq
-sed -i 's,\"system\",\"services\",g' package/feeds/luci/luci-app-cpufreq/luasrc/controller/cpufreq.lua
+sed -i 's,\"system\",\"services\",g' feeds/luci/applications/luci-app-cpufreq/luasrc/controller/cpufreq.lua
 # Rclone
-sed -i -e 's,\"NAS\",\"Services\",g' -e 's,\"nas\",\"services\",g' package/feeds/luci/luci-app-rclone/luasrc/controller/rclone.lua
+sed -i -e 's,\"NAS\",\"Services\",g' -e 's,\"nas\",\"services\",g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Dockerman
-pushd package/feeds/luci/luci-app-dockerman
+pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
 # Nlbw
-sed -i -e 's|admin\",|& \"network\",|g' -e 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/controller/nlbw.lua
-sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
-sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
-sed -i 's,admin/,&network/,g' package/feeds/luci/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
+sed -i -e 's|admin\",|& \"network\",|g' -e 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
+sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
+sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
+sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 # V2raya
 git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
 cp -rf ../immortalwrt_pkg/net/v2raya ./feeds/packages/net/v2raya
@@ -66,9 +69,9 @@ ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd
-# Curl 8.6.0 passwall 冲突降级
-sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=8\.5\.0," ./feeds/packages/net/curl/Makefile
-sed -i "s,PKG_HASH:=.*,PKG_HASH:=ce4b6a6655431147624aaf582632a36fe1ade262d5fab385c60f78942dd8d87b," ./feeds/packages/net/curl/Makefile
+# Curl
+sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=8\.10\.1," ./feeds/packages/net/curl/Makefile
+sed -i "s,PKG_HASH:=.*,PKG_HASH:=73a4b0e99596a09fa5924a4fb7e4b995a85fda0d18a2c02ab9cf134bebce04ee," ./feeds/packages/net/curl/Makefile
 
 # fix xfsprogs
 sed -i 's,TARGET_CFLAGS += -DHAVE_MAP_SYNC,& -D_LARGEFILE64_SOURCE,' feeds/packages/utils/xfsprogs/Makefile
