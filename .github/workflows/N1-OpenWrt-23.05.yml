@@ -97,11 +97,6 @@ jobs:
       run: |
         /bin/bash 03_convert_translation.sh
 
-    - name: Demote Iptables
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        /bin/bash 04_demote_iptables.sh
-
     - name: Add ACL
       working-directory: ${{ github.workspace }}/openwrt
       run: |

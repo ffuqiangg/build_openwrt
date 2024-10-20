@@ -89,11 +89,6 @@ jobs:
         cp -r ../scripts/immortalwrt-23.05/. ./
         /bin/bash 02_prepare_package.sh
 
-    - name: Iptables
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        /bin/bash 04_demote_iptables.sh
-
     - name: Load custom configuration
       run: |
         latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"

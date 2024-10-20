@@ -100,11 +100,12 @@ cp -f ../patch/bpf_loop/*.patch ./target/linux/generic/backport-5.15/
 
 ### 替换准备 ###
 cp -rf ../openwrt-add ./package/new
-rm -rf package/new/{luci-app-mosdns,OpenWrt-mihomo,openwrt_helloworld/v2ray-geodata}
+rm -rf package/new/{luci-app-mosdns,OpenWrt-mihomo,openwrt_helloworld/v2ray-geodata,luci-app-daed}
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,frp,microsocks,shadowsocks-libev,daed,v2raya,frp}
-rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-daed,luci-app-dockerman}
+rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-dockerman}
 rm -rf feeds/packages/utils/coremark
 rm -rf feeds/luci/modules/{luci-base,luci-mod-status}
+rm -rf feeds/luci/collections/luci-lib-docker
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 更换 golang 版本
@@ -156,7 +157,6 @@ wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
 wget -qO- https://github.com/openwrt/packages/pull/20054.patch | patch -p1
 popd
 sed -i '/sysctl.d/d' feeds/packages/utils/dockerd/Makefile
-rm -rf ./feeds/luci/collections/luci-lib-docker
 cp -rf ../docker_lib/collections/luci-lib-docker ./feeds/luci/collections/luci-lib-docker
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
@@ -177,7 +177,7 @@ wget https://github.com/openwrt/odhcp6c/pull/90.patch -O package/network/ipv6/od
 echo > ./feeds/packages/utils/watchcat/files/watchcat.config
 # MosDNS
 cp -rf ../mosdns ./package/new/luci-app-mosdns
-cp -rf ../v2ray-geodata ./package/new/v2ray-geodata
+cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
 # V2raya
 git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git luci-app-v2raya
 cp -rf ./luci-app-v2raya/luci-app-v2raya ./package/new/luci-app-v2raya
