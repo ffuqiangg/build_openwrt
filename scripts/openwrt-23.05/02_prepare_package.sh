@@ -111,8 +111,8 @@ rm -rf feeds/luci/collections/luci-lib-docker
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # 预编译 node
-rm -rf feeds/packages/lang/node
-cp -rf ../node feeds/packages/lang/node
+# rm -rf feeds/packages/lang/node
+# cp -rf ../node feeds/packages/lang/node
 # mount cgroupv2
 pushd feeds/packages
 patch -p1 <../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
