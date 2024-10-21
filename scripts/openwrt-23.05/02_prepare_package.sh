@@ -46,7 +46,7 @@ CONFIG_LRNG=y
 CONFIG_LRNG_JENT=y
 CONFIG_LRNG_CPU=y
 # CONFIG_LRNG_SCHED is not set
-' >> target/linux/generic/config-5.15
+' >>target/linux/generic/config-5.15
 
 ### Fullcone-NAT 部分 ###
 # Patch Kernel 以解决 FullCone 冲突
@@ -55,7 +55,7 @@ cp -rf ../lede/target/linux/generic/hack-5.15/952-add-net-conntrack-events-suppo
 cp -a ../patch/bcmfullcone/*.patch target/linux/generic/hack-5.15/
 # set nf_conntrack_expect_max for fullcone
 wget -qO - https://github.com/openwrt/openwrt/commit/bbf39d07.patch | patch -p1
-echo "net.netfilter.nf_conntrack_helper = 1" >> package/kernel/linux/files/sysctl-nf-conntrack.conf
+echo "net.netfilter.nf_conntrack_helper = 1" >>package/kernel/linux/files/sysctl-nf-conntrack.conf
 # FW4
 mkdir -p package/network/config/firewall4/patches
 cp -f ../patch/firewall/firewall4_patches/*.patch ./package/network/config/firewall4/patches/
@@ -66,7 +66,7 @@ mkdir -p package/network/utils/nftables/patches
 cp -f ../patch/firewall/nftables/*.patch ./package/network/utils/nftables/patches/
 # Patch LuCI 以增添 FullCone 开关
 pushd feeds/luci
-patch -p1 < ../../../patch/firewall/01-luci-app-firewall_add_nft-fullcone-bcm-fullcone_option.patch
+patch -p1 <../../../patch/firewall/01-luci-app-firewall_add_nft-fullcone-bcm-fullcone_option.patch
 popd
 
 ### Shortcut-FE 部分 ###
@@ -75,16 +75,16 @@ cp -rf ../lede/target/linux/generic/hack-5.15/953-net-patch-linux-kernel-to-supp
 cp -f ../patch/backport/sfe/601-netfilter-export-udp_get_timeouts-function.patch ./target/linux/generic/hack-5.15/
 cp -rf ../lede/target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch ./target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch
 # Patch LuCI 以增添 Shortcut-FE 开关
-patch -p1 < ../patch/firewall/luci-app-firewall_add_sfe_switch.patch
+patch -p1 <../patch/firewall/luci-app-firewall_add_sfe_switch.patch
 
 ### NAT6 部分 ###
 # custom nft command
-patch -p1 < ../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
+patch -p1 <../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
 # Patch LuCI 以增添 NAT6 开关
 pushd feeds/luci
-patch -p1 < ../../../patch/firewall/03-luci-app-firewall_add_ipv6-nat.patch
+patch -p1 <../../../patch/firewall/03-luci-app-firewall_add_ipv6-nat.patch
 # Patch LuCI 以支持自定义 nft 规则
-patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
+patch -p1 <../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
 ### Other Kernel Hack 部分 ###
@@ -100,8 +100,8 @@ cp -f ../patch/bpf_loop/*.patch ./target/linux/generic/backport-5.15/
 
 ### 替换准备 ###
 cp -rf ../openwrt-add ./package/new
-rm -rf package/new/{luci-app-mosdns,OpenWrt-mihomo,openwrt_helloworld/v2ray-geodata,luci-app-daed}
-rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,frp,microsocks,shadowsocks-libev,daed,v2raya,frp}
+rm -rf package/new/{luci-app-mosdns,OpenWrt-mihomo,openwrt_helloworld/v2ray-geodata,luci-app-daed,feeds_packages_lang_node-prebuilt}
+rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,frp,microsocks,shadowsocks-libev,daed,v2raya}
 rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-dockerman}
 rm -rf feeds/packages/utils/coremark
 rm -rf feeds/luci/collections/luci-lib-docker
@@ -142,8 +142,8 @@ wget https://github.com/miniupnp/miniupnp/commit/3f3582b.patch -O feeds/packages
 sed -i 's,/miniupnpd/,/,g' ./feeds/packages/net/miniupnpd/patches/3f3582b.patch
 cp -rf ../patch/miniupnpd/301-options-force_forwarding-support.patch ./feeds/packages/net/miniupnpd/patches/
 pushd feeds/packages
-patch -p1 < ../../../patch/miniupnpd/01-set-presentation_url.patch
-patch -p1 < ../../../patch/miniupnpd/02-force_forwarding.patch
+patch -p1 <../../../patch/miniupnpd/01-set-presentation_url.patch
+patch -p1 <../../../patch/miniupnpd/02-force_forwarding.patch
 popd
 pushd feeds/luci
 wget -qO- https://github.com/openwrt/luci/commit/0b5fb915.patch | patch -p1
@@ -173,7 +173,7 @@ wget https://github.com/openwrt/odhcp6c/pull/83.patch -O package/network/ipv6/od
 wget https://github.com/openwrt/odhcp6c/pull/84.patch -O package/network/ipv6/odhcp6c/patches/84.patch
 wget https://github.com/openwrt/odhcp6c/pull/90.patch -O package/network/ipv6/odhcp6c/patches/90.patch
 # watchcat
-echo > ./feeds/packages/utils/watchcat/files/watchcat.config
+echo >./feeds/packages/utils/watchcat/files/watchcat.config
 # MosDNS
 cp -rf ../mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
@@ -214,8 +214,8 @@ sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/con
 cp -rf ../patch/files ./files
 cp -rf ../patch/openwrt-23.05/. ./files/
 mkdir -p files/usr/share/xray
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat > files/usr/share/xray/geoip.dat
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat > files/usr/share/xray/geosite.dat
+wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat >files/usr/share/xray/geoip.dat
+wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat >files/usr/share/xray/geosite.dat
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
