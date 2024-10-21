@@ -75,7 +75,8 @@ jobs:
       run: |
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
         cp -r ${GITHUB_WORKSPACE}/. ./
-        git clone --depth 1 -b v23.05.5 https://github.com/openwrt/openwrt.git
+        cp -r ./scripts/openwrt-23.05/. ./
+        /bin/bash 01_prepare_source_code.sh
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
         cd ${{ github.workspace }}/openwrt
         ./scripts/feeds update -a
