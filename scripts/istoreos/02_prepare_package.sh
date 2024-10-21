@@ -92,6 +92,26 @@ cp -rf ./luci-app-v2raya/v2fly-geodata ./package/new/v2fly-geodata
 rm -rf ./luci-app-v2raya
 cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
+# DAED
+git clone --depth 1 https://github.com/QiuSimons/luci-app-daed package/new/luci-app-daed
+echo '
+
+define KernelPackage/xdp-sockets-diag
+  SUBMENU:=$(NETWORK_SUPPORT_MENU)
+  TITLE:=PF_XDP sockets monitoring interface support for ss utility
+  KCONFIG:= \
+	CONFIG_XDP_SOCKETS=y \
+	CONFIG_XDP_SOCKETS_DIAG
+  FILES:=$(LINUX_DIR)/net/xdp/xsk_diag.ko
+  AUTOLOAD:=$(call AutoLoad,31,xsk_diag)
+endef
+
+define KernelPackage/xdp-sockets-diag/description
+ Support for PF_XDP sockets monitoring interface used by the ss tool
+endef
+
+$(eval $(call KernelPackage,xdp-sockets-diag))
+' >> package/kernel/linux/modules/netsupport.mk
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
