@@ -31,8 +31,8 @@ docker_2_services
 popd
 # DiskMan
 cp -rf ../diskman/applications/luci-app-diskman ./package/new/luci-app-diskman
-mkdir -p package/parted && \
-wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
+mkdir -p package/parted &&
+  wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
 # Vsftpd
@@ -75,7 +75,7 @@ checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn
-' >> package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
+' >>package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # Mosdns
 cp -rf ../mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
@@ -92,35 +92,13 @@ cp -rf ./luci-app-v2raya/v2fly-geodata ./package/new/v2fly-geodata
 rm -rf ./luci-app-v2raya
 cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
-# DAED
-cp -rf ../immortalwrt_pkg/libs/libcron ./feeds/packages/libs/libcron
-ln -sf ../../../feeds/packages/libs/libcron ./package/feeds/packages/libcron
-git clone --depth 1 https://github.com/QiuSimons/luci-app-daed package/new/luci-app-daed
-echo '
-
-define KernelPackage/xdp-sockets-diag
-  SUBMENU:=$(NETWORK_SUPPORT_MENU)
-  TITLE:=PF_XDP sockets monitoring interface support for ss utility
-  KCONFIG:= \
-	CONFIG_XDP_SOCKETS=y \
-	CONFIG_XDP_SOCKETS_DIAG
-  FILES:=$(LINUX_DIR)/net/xdp/xsk_diag.ko
-  AUTOLOAD:=$(call AutoLoad,31,xsk_diag)
-endef
-
-define KernelPackage/xdp-sockets-diag/description
- Support for PF_XDP sockets monitoring interface used by the ss tool
-endef
-
-$(eval $(call KernelPackage,xdp-sockets-diag))
-' >> package/kernel/linux/modules/netsupport.mk
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 mkdir -p files/usr/share/xray
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat > files/usr/share/xray/geoip.dat
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat > files/usr/share/xray/geosite.dat
+wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat >files/usr/share/xray/geoip.dat
+wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat >files/usr/share/xray/geosite.dat
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
