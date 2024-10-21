@@ -93,6 +93,8 @@ rm -rf ./luci-app-v2raya
 cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # DAED
+cp -rf ../immortalwrt_pkg/libs/libcron ./feeds/packages/libs/libcron
+ln -sf ../../../feeds/packages/libs/libcron ./package/feeds/packages/libcron
 git clone --depth 1 https://github.com/QiuSimons/luci-app-daed package/new/luci-app-daed
 echo '
 
