@@ -15,7 +15,7 @@
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
 - 刷机方法：将固件写入U盘，插入设备并从U盘启动。进入终端输入命令 `openwrt-install-amlogic` 然后根据屏幕提示完成刷机。
 - 升级固件/内核：将固件/内核文件（内核文件须包含 `dtb-xxx.tar.gz`, `modules-xxx.tar.gz`, `boot-xxx.tar.gz` 文件）放入 `/mnt/mmcblk2p4` 目录，终端输入命令 `openwrt-update-amlogic` 升级固件，`openwrt-kernel` 升级内核。
-> 注意：ImmortalWrt-18.06 不含 mihomo Homeproxy DAED，ImmortalWrt-23.05 不含 OpenClash，LEDE 不含 mihomo Homeproxy DAED，OpenWrt-23.05 不含 Openclash Homeproxy，IStoreOS 不含 Homeproxy OpenClash DAED MosDNS。
+> 注意：ImmortalWrt-18.06 不含 mihomo Homeproxy DAED，ImmortalWrt-23.05 不含 OpenClash，LEDE 不含 mihomo Homeproxy DAED，OpenWrt-23.05 不含 Openclash Homeproxy，IStoreOS 不含 Homeproxy OpenClash DAED。
 
 > [!TIP]
 > OpenWrt-23.05，IStoreOS 纯 Sing-Box 核心使用方法阅读 [sing-Box 使用文档](docs/sing-box.md)，LEDE 固件使用 Sing-Box 裸跑可到 Telegram 频道下载替换文件。
