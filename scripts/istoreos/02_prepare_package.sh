@@ -31,8 +31,8 @@ docker_2_services
 popd
 # DiskMan
 cp -rf ../diskman/applications/luci-app-diskman ./package/new/luci-app-diskman
-mkdir -p package/parted &&
-  wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
+mkdir -p package/parted && \
+wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
 # Vsftpd
@@ -60,7 +60,7 @@ cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # Passwall
 cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 cp -rf ../passwall_pkg ./package/new/passwall_pkg
-rm -rf ./package/new/passwall_pkg/{v2ray_geodata,shadowsocks-rust}
+rm -rf ./package/new/passwall_pkg/{v2ray_geodata,shadowsocks-rust,sing-box}
 cp -rf ../immortalwrt_pkg_21/net/shadowsocks-rust ./package/new/passwall_pkg/shadowsocks-rust
 # Passwall 白名单
 echo '
@@ -75,7 +75,7 @@ checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn
-' >>package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
+' >> package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # Mosdns
 cp -rf ../mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
