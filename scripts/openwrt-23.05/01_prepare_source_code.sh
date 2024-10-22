@@ -16,7 +16,6 @@ clone_repo $openwrt_add_repo master openwrt-add &
 clone_repo $dockerman_repo master dockerman &
 clone_repo $docker_lib_repo master docker_lib &
 clone_repo $mosdns_repo v5 mosdns &
-clone_repo $node_prebuilt_repo packages-23.05 node &
 clone_repo $mihomo_repo main mihomo &
 clone_repo $v2ray_geodata_repo master v2ray_geodata &
 # 等待所有后台任务完成
