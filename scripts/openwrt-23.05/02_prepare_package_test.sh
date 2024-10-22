@@ -11,22 +11,11 @@ sed -i 's/Os/O2/g' include/target.mk
 sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
-### FW4 ###
-rm -rf ./package/network/config/firewall4
-cp -rf ../openwrt_ma/package/network/config/firewall4 ./package/network/config/firewall4
-mkdir -p package/network/config/firewall4/patches
-cp -f ../patch/firewall/firewall4_patches/*.patch ./package/network/config/firewall4/patches/
-mkdir -p package/libs/libnftnl/patches
-cp -f ../patch/firewall/libnftnl/*.patch ./package/libs/libnftnl/patches/
-sed -i '/PKG_INSTALL:=/iPKG_FIXUP:=autoreconf' package/libs/libnftnl/Makefile
-mkdir -p package/network/utils/nftables/patches
-cp -f ../patch/firewall/nftables/*.patch ./package/network/utils/nftables/patches/
+### 一些补丁 ###
 # Patch LuCI 以增添 FullCone 开关
 pushd feeds/luci
 patch -p1 <../../../patch/firewall/01-luci-app-firewall_add_nft-fullcone-bcm-fullcone_option.patch
 popd
-
-### NAT6 部分 ###
 # custom nft command
 patch -p1 < ../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
 # Patch LuCI 以增添 NAT6 开关
