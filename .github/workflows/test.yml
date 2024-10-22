@@ -82,8 +82,8 @@ jobs:
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         cp -r ../scripts/openwrt-23.05/. ./
-        /bin/bash 02_prepare_package.sh
-        cp ../config/openwrt-23.05/config.test .config
+        /bin/bash 02_prepare_package_test.sh
+        cp ../config/openwrt-23.05/config.seed .config
         make defconfig
 
     - name: Download package
