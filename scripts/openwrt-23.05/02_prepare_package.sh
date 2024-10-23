@@ -23,10 +23,17 @@ patch -p1 < ../../../patch/firewall/03-luci-app-firewall_add_ipv6-nat.patch
 patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
+### Other Kernel Hack 部分 ###
+# btf
+wget -qO - https://github.com/immortalwrt/immortalwrt/commit/73e5679.patch | patch -p1
+wget https://github.com/immortalwrt/immortalwrt/raw/openwrt-23.05/target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch -O target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch
+# bpf_loop
+cp -f ../patch/bpf_loop/*.patch ./target/linux/generic/backport-5.15/
+
 ### 替换准备 ###
 cp -rf ../openwrt-add ./package/new
-rm -rf package/new/{luci-app-mosdns,OpenWrt-mihomo,openwrt_helloworld/v2ray-geodata,luci-app-daed,feeds_packages_lang_node-prebuilt}
-rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,frp,microsocks,shadowsocks-libev,daed,v2raya}
+rm -rf package/new/{luci-app-mosdns,OpenWrt-mihomo,openwrt_helloworld/v2ray-geodata,feeds_packages_lang_node-prebuilt}
+rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,frp,microsocks,shadowsocks-libev,v2raya}
 rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-dockerman}
 rm -rf feeds/packages/utils/coremark
 rm -rf feeds/luci/collections/luci-lib-docker
@@ -45,8 +52,6 @@ cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/ut
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # fstool
 wget -qO - https://github.com/coolsnowwolf/lede/commit/8a4db76.patch | patch -p1
-# DAE
-git clone -b master --depth 1 https://github.com/QiuSimons/luci-app-daed package/new/luci-app-daed
 # Boost 通用即插即用
 rm -rf ./feeds/packages/net/miniupnpd
 cp -rf ../openwrt_pkg_ma/net/miniupnpd ./feeds/packages/net/miniupnpd
