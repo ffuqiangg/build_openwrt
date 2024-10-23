@@ -47,8 +47,6 @@ CONFIG_PACKAGE_uuidgen=y
 ### BASIC ###
 CONFIG_PACKAGE_addition-trans-zh=y
 CONFIG_PACKAGE_kmod-fs-f2fs=y
-CONFIG_PACKAGE_libustream-openssl=y
-# CONFIG_PACKAGE_libustream-wolfssl is not set
 CONFIG_PACKAGE_coremark=y
 CONFIG_PACKAGE_sing-box=y
 CONFIG_PACKAGE_htop=y
