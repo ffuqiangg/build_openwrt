@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./scripts/funcations.sh
+source ./scripts/funcations.sh
 
 clone_repo $lede_repo master openwrt &
 clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg &

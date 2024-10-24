@@ -1,10 +1,13 @@
 #!/bin/bash
 
-. ../scripts/funcations.sh
+source ../scripts/funcations.sh
 
 ### 基础部分 ###
 # 使用 O2 级别的优化
 sed -i 's/Os/O2/g' include/target.mk
+# 更新 Feeds
+./scripts/feeds update -a
+./scripts/feeds install -a
 # 默认开启 Irqbalance
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 

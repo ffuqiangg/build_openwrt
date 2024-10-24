@@ -76,12 +76,6 @@ jobs:
         /bin/bash 01_prepare_source_code.sh
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
 
-    - name: Update & install feeds
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
-
     - name: Prepare package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
