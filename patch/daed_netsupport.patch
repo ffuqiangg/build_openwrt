@@ -1,0 +1,14 @@
+--- a/package/kernel/linux/modules/netsupport.mk	2024-10-24 16:03:05.586028693 +0800
++++ b/package/kernel/linux/modules/netsupport.mk	2024-10-24 16:04:04.776042712 +0800
+@@ -1445,8 +1445,9 @@
+ define KernelPackage/xdp-sockets-diag
+   SUBMENU:=$(NETWORK_SUPPORT_MENU)
+   TITLE:=PF_XDP sockets monitoring interface support for ss utility
+-  DEPENDS:=@KERNEL_XDP_SOCKETS
+-  KCONFIG:=CONFIG_XDP_SOCKETS_DIAG
++  KCONFIG:= \
++	CONFIG_XDP_SOCKETS=y \
++	CONFIG_XDP_SOCKETS_DIAG
+   FILES:=$(LINUX_DIR)/net/xdp/xsk_diag.ko
+   AUTOLOAD:=$(call AutoLoad,31,xsk_diag)
+ endef
