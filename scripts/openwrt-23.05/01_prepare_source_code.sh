@@ -9,7 +9,6 @@ clone_repo $openwrt_repo openwrt-23.05 openwrt_snap &
 clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg &
 clone_repo $immortalwrt_luci_repo openwrt-23.05 immortalwrt_luci_23 &
 clone_repo $lede_repo master lede &
-clone_repo $lede_luci_repo master lede_luci &
 clone_repo $openwrt_repo main openwrt_ma &
 clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 clone_repo $openwrt_add_repo master openwrt-add &
