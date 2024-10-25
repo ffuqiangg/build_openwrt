@@ -109,12 +109,6 @@ wget https://github.com/immortalwrt/immortalwrt/raw/openwrt-23.05/target/linux/g
 # bpf_loop
 cp -f ../patch/bpf_loop/*.patch ./target/linux/generic/backport-5.15/
 
-# Disable Mitigations
-sed -i 's,rootwait,rootwait mitigations=off,g' target/linux/rockchip/image/default.bootscript
-sed -i 's,@CMDLINE@ noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-efi.cfg
-sed -i 's,@CMDLINE@ noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-iso.cfg
-sed -i 's,@CMDLINE@ noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/grub-pc.cfg
-
 ### ADD PKG 部分 ###
 cp -rf ../openwrt-add ./package/new
 rm -rf package/new/{luci-app-mosdns,openwrt_helloworld/v2ray-geodata,OpenWrt-mihomo}
@@ -242,6 +236,11 @@ sed -i 's,no-mips16,no-mips16 no-lto,g' feeds/packages/libs/libsodium/Makefile
 
 ### 使用特定的优化 ###
 sed -i 's,-mcpu=generic,-march=armv8-a+crc+crypto,g' include/target.mk
+# Vermagic
+latest_version="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/[2-9][3-9]/p' | sed -n 1p | sed 's/v//g' | sed 's/.tar.gz//g')"
+wget https://downloads.openwrt.org/releases/${latest_version}/targets/armsr/armv8/packages/Packages.gz
+zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' >.vermagic
+sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
 ### 预配置一些插件 ###
 cp -rf ../patch/files ./files
