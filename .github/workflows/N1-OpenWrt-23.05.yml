@@ -40,7 +40,8 @@ jobs:
         sudo -E apt-get -y install asciidoc bash bcc bin86 binutils bison bzip2 clang-15 llvm-15 file flex g++ g++-multilib gawk gcc \
           gcc-multilib gettext git gzip help2man intltool libboost-dev libelf-dev libncurses-dev libncurses5-dev libssl-dev \
           libthread-queue-any-perl libusb-dev libxml-parser-perl make patch perl-modules python3-dev python3-pip python3-pyelftools \
-          python3-setuptools rsync sharutils swig time unzip util-linux wget xsltproc zlib1g-dev zip
+          python3-setuptools rsync sharutils swig time unzip util-linux wget xsltproc zlib1g-dev zip install dos2unix dwarves quilt
+        pip3 install --user -U pylibfdt --break-system-packages
         sudo -E systemctl daemon-reload
         #sudo -E apt-get -y full-upgrade
         sudo -E apt-get -y autoremove --purge
