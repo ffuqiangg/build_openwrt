@@ -80,6 +80,14 @@ pushd feeds/luci
 patch -p1 < ../../../patch/firewall/01-luci-app-firewall_add_nft-fullcone-bcm-fullcone_option.patch
 popd
 
+### Shortcut-FE 部分 ###
+# Patch Kernel 以支持 Shortcut-FE
+cp -rf ../lede/target/linux/generic/hack-5.15/953-net-patch-linux-kernel-to-support-shortcut-fe.patch ./target/linux/generic/hack-5.15/953-net-patch-linux-kernel-to-support-shortcut-fe.patch
+cp -f ../patch/backport/sfe/601-netfilter-export-udp_get_timeouts-function.patch ./target/linux/generic/hack-5.15/
+cp -rf ../lede/target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch ./target/linux/generic/pending-5.15/613-netfilter_optional_tcp_window_check.patch
+# Patch LuCI 以增添 Shortcut-FE 开关
+patch -p1 < ../patch/firewall/luci-app-firewall_add_sfe_switch.patch
+
 ### NAT6 部分 ###
 # custom nft command
 patch -p1 < ../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
@@ -109,7 +117,7 @@ sed -i 's,@CMDLINE@ noinitrd,noinitrd mitigations=off,g' target/linux/x86/image/
 
 ### ADD PKG 部分 ###
 cp -rf ../openwrt-add ./package/new
-rm -rf package/new/{luci-app-mosdns,openwrt_helloworld/v2ray-geodata}
+rm -rf package/new/{luci-app-mosdns,openwrt_helloworld/v2ray-geodata,OpenWrt-mihomo}
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,v2ray-geodata,sing-box,frp,microsocks,shadowsocks-libev,zerotier,v2raya}
 rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-zerotier}
 rm -rf feeds/packages/utils/coremark
