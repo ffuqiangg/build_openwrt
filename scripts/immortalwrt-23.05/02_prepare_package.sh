@@ -46,8 +46,7 @@ move_2_services nas
 popd
 # Filebrowser
 sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.2," feeds/packages/utils/filebrowser/Makefile
-sed -i "s,PKG_HASH:=.*,PKG_HASH:=6136f11f85d2cc0a7f4828772d389cad4d6d44f6840c036e3bae204deea147ae," feeds/packages/utils/filebrowser/Makefile
-sed -i "s,PKG_RELEASE:=.*,PKG_RELEASE:=2," feeds/packages/utils/filebrowser/Makefile
+sed -i "s,PKG_HASH:=.*,PKG_HASH:=bfda9ea7c44d4cb93c47a007c98b84f853874e043049b44eff11ca00157d8426," feeds/packages/utils/filebrowser/Makefile
 # Rclone
 sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Dockerman
