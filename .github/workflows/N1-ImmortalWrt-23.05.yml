@@ -61,8 +61,7 @@ jobs:
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
         cp -r ./scripts/immortalwrt-23.05/. ./
         /bin/bash 01_prepare_source_code.sh
-        mkdir -p /builder/amlogic
-        ln -sf /builder/amlogic /home/runner/work/_actions/ffuqiangg/amlogic-s9xxx-openwrt/main/openwrt
+        ln -sf /home/runner/work/build_openwrt/build_openwrt/openwrt /home/runner/work/_actions/ffuqiangg/amlogic-s9xxx-openwrt/main/openwrt
 
     - name: Prepare package
       working-directory: ${{ github.workspace }}/openwrt
