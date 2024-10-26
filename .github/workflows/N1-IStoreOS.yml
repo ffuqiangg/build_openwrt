@@ -56,7 +56,6 @@ jobs:
         df -h
 
     - name: Prepare source code
-      working-directory: /builder
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
