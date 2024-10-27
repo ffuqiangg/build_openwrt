@@ -115,7 +115,7 @@ jobs:
         image_name: N1-ImmortalWrt-${{ env.latest_release }}-${{ env.build_date }}
 
     - name: Upload firmware to release
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:

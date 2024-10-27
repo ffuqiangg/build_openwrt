@@ -117,7 +117,7 @@ jobs:
         zip N1-IStoreOS-${{ env.build_date }}-sfs.zip *n1*squashfs*
 
     - name: Upload firmware to release
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
