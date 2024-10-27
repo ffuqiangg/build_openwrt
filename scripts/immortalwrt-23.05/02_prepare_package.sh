@@ -14,14 +14,9 @@ sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
 ### 替换准备 ###
 rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns}
-rm -rf feeds/packages/lang/{node,golang}
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
-# 预编译 node
-cp -rf ../node feeds/packages/lang/node
-# Golang
-cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # Luci-app-amlogic
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
 # mount cgroupv2
