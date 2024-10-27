@@ -43,7 +43,7 @@ jobs:
       run: |
         sudo -E apt-get -qq update
         sudo /bin/bash -c "$(curl -sL https://git.io/vokNn)"
-        sudo -E apt-fast -y -qq ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache clang-13 cmake \
+        sudo -E apt-fast -y -qq antlr3 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache clang-13 cmake \
           cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib g++-multilib git gnutls-dev gperf haveged help2man \
           intltool lib32gcc-s1 libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses-dev \
           libpython3-dev ibreadline-dev libssl-dev libtool libyaml-dev libz-dev lld llvm lrzsz mkisofs msmtp nano ninja-build p7zip p7zip-full \
