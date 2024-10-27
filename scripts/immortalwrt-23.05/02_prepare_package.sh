@@ -17,6 +17,9 @@ rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns}
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
+# 更换 golang 版本
+rm -rf ./feeds/packages/lang/golang
+cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # Luci-app-amlogic
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
 # mount cgroupv2
