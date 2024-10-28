@@ -5,8 +5,6 @@ source ../scripts/funcations.sh
 ### 基础部分 ###
 # 使用 O2 级别的优化
 sed -i 's/Os/O2/g' include/target.mk
-# 更新 Feeds
-./scripts/feeds update -a
 ./scripts/feeds install -a
 # 默认开启 Irqbalance
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
@@ -60,12 +58,14 @@ pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
 # nlbw
-sed -i -e 's|admin\",|& \"network\",|g' -e 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
-sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
-sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
-sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
+# sed -i -e 's|admin\",|& \"network\",|g' -e 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
+# sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
+# sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
+# sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 # V2raya
-git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
+git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git luci-app-v2raya
+cp -rf ./luci-app-v2raya/luci-app-v2raya ./package/new/luci-app-v2raya
+rm -rf ./luci-app-v2raya
 cp -rf ../immortalwrt_pkg/net/v2raya ./feeds/packages/net/v2raya
 # Verysync
 pushd package/feeds/luci/luci-app-verysync
