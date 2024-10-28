@@ -17,6 +17,9 @@ rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns}
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
+# 预编译 node
+rm -rf ./feeds/patches/lang/node
+cp -rf ../node ./feeds/package/lang/node
 # 更换 golang 版本
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
