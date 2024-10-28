@@ -9,9 +9,6 @@ sed -i 's/Os/O2/g' include/target.mk
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
-### 替换准备 ###
-rm -rf feeds/packages/net/{v2ray-geodata,v2raya}
-
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 修改 banner
@@ -19,6 +16,7 @@ rm ./package/emortal/default-settings/files/openwrt_banner
 sed -i '/openwrt_banner/d' ./package/emortal/default-settings/files/99-default-settings
 sed -i '/etc$/,+2d' ./package/emortal/default-settings/Makefile
 # MosDNS
+rm -rf feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata package/new/v2ray-geodata
 # Samba4
@@ -47,7 +45,6 @@ sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/vi
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 # V2raya
 git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
-cp -rf ../immortalwrt_pkg/net/v2raya ./feeds/packages/net/v2raya
 # Verysync
 pushd feeds/luci/applications/luci-app-verysync
 move_2_services nas
