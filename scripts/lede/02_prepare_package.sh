@@ -11,18 +11,10 @@ sed -i 's/Os/O2/g' include/target.mk
 # 默认开启 Irqbalance
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
-### 替换准备 ###
-rm -rf feeds/packages/net/{xray-core,v2ray-geodata,shadowsocks-libev,v2raya.mosdns}
-rm -rf feeds/luci/applications/luci-app-v2raya
-
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
-# Passwall
-cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
-cp -rf ../passwall_pkg ./package/new/passwall-pkg
-rm -rf ./package/new/passwall-pkg/v2ray-geodata
 # Passwall 白名单
 echo '
 teamviewer.com
@@ -36,17 +28,7 @@ checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn
-' >> ./package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
-# Opencalsh
-cp -rf ../openclash ./package/new/luci-app-openclash
-# Filebrowser
-cp -rf ../lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
-pushd package/luci-app-filebrowser
-move_2_services nas
-popd
-# Mosdns
-cp -rf ../mosdns ./package/new/luci-app-mosdns
-cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
+' >> feeds/luci/applications/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # Vsftpd
 pushd feeds/luci/applications/luci-app-vsftpd
 move_2_services nas
@@ -64,11 +46,6 @@ popd
 # sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
 # sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
 # sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
-# V2raya
-git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git luci-app-v2raya
-cp -rf ./luci-app-v2raya/luci-app-v2raya ./package/new/luci-app-v2raya
-rm -rf ./luci-app-v2raya
-cp -rf ../immortalwrt_pkg/net/v2raya ./feeds/packages/net/v2raya
 # Verysync
 pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
