@@ -24,7 +24,10 @@ cp -rf ../openwrt_pkg_ma/utils/coremark ./feeds/packages/utils/coremark
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
 # Filebrowser 文件浏览器
-cp -rf ../lienol_pkg/luci-app-filebrowser ./package/new/luci-app-filebrowser
+cp -rf ../immortalwrt_luci_23/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
+cp -rf ../immortalwrt_pkg/utils/filebrowser ./package/new/filebrowser
+sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.2," package/new/filebrowser/Makefile
+sed -i "s,PKG_HASH:=.*,PKG_HASH:=bfda9ea7c44d4cb93c47a007c98b84f853874e043049b44eff11ca00157d8426," package/new/filebrowser/Makefile
 pushd package/new/luci-app-filebrowser
 move_2_services nas
 popd
@@ -39,8 +42,8 @@ wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Mak
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
 # Vsftpd
-cp -rf ../lede_luci/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
-cp -rf ../lede/package/lean/vsftpd-alt ./package/new/vsftpd-alt
+cp -rf ../immortalwrt_luci_23/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
+cp -rf ../immortalwrt_pkg/net/vsftpd ./package/new/vsftpd
 pushd package/new/luci-app-vsftpd
 move_2_services nas
 popd
@@ -51,7 +54,7 @@ pushd package/new/luci-app-verysync
 move_2_services nas
 popd
 # CPU 调度
-cp -rf ../lede_luci/applications/luci-app-cpufreq ./package/new/luci-app-cpufreq
+cp -rf ../immortalwrt_luci_23/applications/luci-app-cpufreq ./package/new/luci-app-cpufreq
 sed -i 's,\"system\",\"services\",g' ./package/new/luci-app-cpufreq/luasrc/controller/cpufreq.lua
 # Sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
@@ -86,8 +89,8 @@ cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
 cp -rf ../immortalwrt_pkg/net/frp ./feeds/packages/net/frp
 sed -i '/etc/d' ./feeds/packages/net/frp/Makefile
 sed -i '/defaults/{N;d;}' ./feeds/packages/net/frp/Makefile
-cp -rf ../lede_luci/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
-cp -rf ../lede_luci/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
+cp -rf ../immortalwrt_luci_23/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
+cp -rf ../immortalwrt_luci_23/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
 # V2raya
 git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git luci-app-v2raya
 cp -rf ./luci-app-v2raya/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya

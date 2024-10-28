@@ -2,14 +2,12 @@
 
 source ./scripts/funcations.sh
 
+# 开始克隆仓库，并行执行
 clone_repo $istoreos_repo istoreos-22.03 openwrt &
 clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg &
 clone_repo $immortalwrt_luci_repo openwrt-23.05 immortalwrt_luci_23 &
 clone_repo $immortalwrt_pkg_repo openwrt-21.02 immortalwrt_pkg_21 &
-clone_repo $lede_repo master lede &
-clone_repo $lede_luci_repo master lede_luci &
 clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
-clone_repo $lienol_pkg_repo main lienol_pkg &
 clone_repo $diskman_repo master diskman &
 clone_repo $mosdns_repo v5 mosdns &
 clone_repo $mihomo_repo main mihomo &
