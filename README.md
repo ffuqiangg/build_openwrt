@@ -17,7 +17,7 @@
 - 升级固件/内核：将固件/内核文件（内核文件须包含 `dtb-xxx.tar.gz`, `modules-xxx.tar.gz`, `boot-xxx.tar.gz` 文件）放入 `/mnt/mmcblk2p4` 目录，终端输入命令 `openwrt-update-amlogic` 升级固件，`openwrt-kernel` 升级内核。
 
 > [!IMPORTANT]
-> ImmortalWrt-18.06 不含 mihomo、Homeproxy、DAED，ImmortalWrt-23.05 不含 OpenClash，LEDE 不含 mihomo、Homeproxy、DAED，OpenWrt-23.05 不含 Openclash、Homeproxy，IStoreOS 不含 Homeproxy、OpenClash、DAED。
+> **ImmortalWrt-18.06** 不含 mihomo、Homeproxy、DAED，**ImmortalWrt-23.05** 不含 OpenClash，**LEDE** 不含 mihomo、Homeproxy、DAED，**OpenWrt-23.05** 不含 Openclash、Homeproxy，**IStoreOS** 不含 Homeproxy、OpenClash、DAED。
 
 > [!TIP]
 > OpenWrt-23.05、IStoreOS 纯 Sing-Box 核心使用方法阅读 [sing-Box 使用文档](docs/sing-box.md)，LEDE 固件使用 Sing-Box 裸跑可到 Telegram 频道下载替换文件。
@@ -28,7 +28,7 @@
 - 固件打包解决方案以及面向路由优化的内核源码源自 [Flippy](https://github.com/unifreq) 大佬的多个开源项目。
 - 打包及内核编译参考了 [Ophub](https://github.com/ophub) 的开源项目中的代码。
 - shell 脚本参考了爆操老哥 [Breakings](https://github.com/breakings) 及 [YAOF](https://github.com/QiuSimons/YAOF) 项目的代码。
-- 感谢 [OpenWrt](https://github.com/openwrt/openwrt) , [Immortalwrt](https://github.com/immortalwrt/immortalwrt) , [LEDE](https://github.com/coolsnowwolf/lede) 等项目对开源路由的贡献。
+- 感谢 [OpenWrt](https://github.com/openwrt/openwrt) , [Immortalwrt](https://github.com/immortalwrt/immortalwrt) , [LEDE](https://github.com/coolsnowwolf/lede) , [IStoreOS](https://github.com/istoreos/istoreos) 等项目对开源路由的贡献。
 
 ##
 
