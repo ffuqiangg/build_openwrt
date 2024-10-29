@@ -55,7 +55,7 @@ move_2_services nas
 popd
 # CPU 调度
 cp -rf ../immortalwrt_luci_23/applications/luci-app-cpufreq ./package/new/luci-app-cpufreq
-sed -i 's,\"system\",\"services\",g' ./package/new/luci-app-cpufreq/luasrc/controller/cpufreq.lua
+sed -i 's,\"system\",\"services\",g' ./package/new/luci-app-cpufreq/root/usr/share/luci/menu.d/luci-app-cpufreq.json
 # Sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
 cp -f ../patch/sing-box/files/sing-box.init ./feeds/packages/net/sing-box/files/sing-box.init
