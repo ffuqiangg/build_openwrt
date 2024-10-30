@@ -76,17 +76,12 @@ jobs:
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
         ln -sf /builder/openwrt /home/runner/work/_actions/ffuqiangg/openwrt_packit/master/openwrt
 
-    - name: Prepare package
+    - name: Prepare package & custom configuration
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp -r ../scripts/immortalwrt-18.06-k5.4/. ./
         /bin/bash 02_prepare_package.sh
-
-    - name: Load custom configuration
-      run: |
-        sed -i -e "s,DATE,${{ env.build_date }}," -e 's,WRT_SOUR,ImmortalWrt,' -e 's,RELEASES,18.06 K5.4,' ./openwrt/files/etc/banner
-        kernel_version=$(cat openwrt/include/kernel-5.4 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")
-        echo "kernel_version=${kernel_version}" >> ${GITHUB_ENV}
+        sed -i -e "s,DATE,${{ env.build_date }}," -e 's,WRT_SOUR,ImmortalWrt,' -e 's,RELEASES,18.06 K5.4,' ./files/etc/banner
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
@@ -127,8 +122,8 @@ jobs:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*rootfs.tar.gz
         PACKAGE_SOC: s905d
         KERNEL_REPO_URL: ffuqiangg/amlogic-s9xxx-armbian
-        KERNEL_VERSION_NAME: ${{ env.kernel_version }}
-        KERNEL_AUTO_LATEST: false
+        KERNEL_VERSION_NAME: 5.4.100
+        KERNEL_AUTO_LATEST: true
         GZIP_IMGS: zip
         SCRIPT_S905D: mk_immortalwrt_18.06_k5.4_n1.sh
         OPENWRT_VER: '18.06 k5.4'
