@@ -12,8 +12,8 @@ sed -i 's/Os/O2/g' include/target.mk
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
 ### 替换准备 ###
-rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,shadowsocks-libev,v2raya}
-rm -rf feeds/luci/applications/luci-app-v2raya
+rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,frp,shadowsocks-libev,v2raya}
+rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya}
 rm -rf feeds/packages/utils/coremark
 
 ### 获取额外的 LuCI 应用和依赖 ###
@@ -92,6 +92,12 @@ cp -rf ./luci-app-v2raya/v2fly-geodata ./package/new/v2fly-geodata
 rm -rf ./luci-app-v2raya
 cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
+# FRP 内网穿透
+cp -rf ../immortalwrt_pkg/net/frp ./feeds/packages/net/frp
+sed -i '/etc/d' feeds/packages/net/frp/Makefile
+sed -i '/defaults/{N;d;}' feeds/packages/net/frp/Makefile
+cp -rf ../lede_luci/applications/luci-app-frps ./package/new/luci-app-frps
+cp -rf ../lede_luci/applications/luci-app-frpc ./package/new/luci-app-frpc
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
