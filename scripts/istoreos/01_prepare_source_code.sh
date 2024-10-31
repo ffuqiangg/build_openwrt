@@ -19,6 +19,5 @@ clone_repo $v2ray_geodata_repo master v2ray_geodata &
 wait
 
 # 修改默认 IP ( 192.168.1.1 改为 192.168.1.99 )
-sed -i 's/192.168.1.1/192.168.1.99/g' openwrt/package/base-files/files/bin/config_generate
-
+sed -i 's/192.168.100.1/192.168.1.99/g' openwrt/package/istoreos-files/Makefile
 exit 0
