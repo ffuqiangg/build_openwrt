@@ -26,6 +26,10 @@ CONFIG_PACKAGE_iperf3=y
 CONFIG_PACKAGE_vim=y
 CONFIG_PACKAGE_wget-ssl=y
 
+### LUCI ###
+CONFIG_PACKAGE_luci-nginx=y
+CONFIG_PACKAGE_luci-compat=y
+
 ### APPLICATIONS ###
 CONFIG_PACKAGE_luci-app-cpufreq=y
 CONFIG_PACKAGE_luci-app-filebrowser=y
