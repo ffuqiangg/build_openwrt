@@ -12,8 +12,8 @@ sed -i 's/Os/O2/g' include/target.mk
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
 ### 替换准备 ###
-rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,frp,shadowsocks-libev,v2raya}
-rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya}
+rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,shadowsocks-libev,v2raya}
+rm -rf feeds/luci/applications/luci-app-v2raya
 rm -rf feeds/packages/utils/coremark
 
 ### 获取额外的 LuCI 应用和依赖 ###
@@ -85,12 +85,6 @@ ntp.ntsc.ac.cn
 # Mosdns
 cp -rf ../mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
-# 替换 FRP 内网穿透
-cp -rf ../immortalwrt_pkg/net/frp ./feeds/packages/net/frp
-sed -i '/etc/d' ./feeds/packages/net/frp/Makefile
-sed -i '/defaults/{N;d;}' ./feeds/packages/net/frp/Makefile
-cp -rf ../immortalwrt_luci_23/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
-cp -rf ../immortalwrt_luci_23/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
 # V2raya
 git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git luci-app-v2raya
 cp -rf ./luci-app-v2raya/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya

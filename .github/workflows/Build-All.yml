@@ -37,4 +37,4 @@ jobs:
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-IStoreOS
+        event-type: N1-iStoreOS

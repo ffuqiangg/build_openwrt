@@ -4,6 +4,7 @@ source ./scripts/funcations.sh
 
 # 开始克隆仓库，并行执行
 clone_repo $lede_repo master openwrt &
+clone_repo $mihomo_repo main mihomo &
 # 等待所有后台任务完成
 wait
 

@@ -54,6 +54,8 @@ popd
 # Curl
 # sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=8\.10\.1," ./feeds/packages/net/curl/Makefile
 # sed -i "s,PKG_HASH:=.*,PKG_HASH:=73a4b0e99596a09fa5924a4fb7e4b995a85fda0d18a2c02ab9cf134bebce04ee," ./feeds/packages/net/curl/Makefile
+# Mihomo
+cp -rf ../mihomo ./package/new/mihomo
 
 # fix xfsprogs
 sed -i 's,TARGET_CFLAGS += -DHAVE_MAP_SYNC,& -D_LARGEFILE64_SOURCE,' feeds/packages/utils/xfsprogs/Makefile
