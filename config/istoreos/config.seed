@@ -54,6 +54,10 @@ CONFIG_PACKAGE_nat6=y
 CONFIG_PACKAGE_luci-nginx=y
 CONFIG_PACKAGE_luci-compat=y
 
+### THEME ###
+CONFIG_PACKAGE_luci-theme-argon=y
+CONFIG_PACKAGE_luci-theme-bootstrap=y
+
 ### APPLICATIONS ###
 CONFIG_PACKAGE_luci-app-cpufreq=y
 CONFIG_PACKAGE_luci-app-filebrowser=y
