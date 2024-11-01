@@ -19,6 +19,8 @@ clone_repo $v2ray_geodata_repo master v2ray_geodata &
 # 等待所有后台任务完成
 wait
 
-# 修改默认 IP ( 192.168.1.1 改为 192.168.1.99 )
+# 修改 lan 默认协议
+sed -i 's/ \'dhcp\'//' openwrt/target/linux/amlogic/base-files/etc/board.d/02_network
+# 修改默认 IP 为 192.168.1.99
 sed -i 's/192.168.100.1/192.168.1.99/g' openwrt/package/istoreos-files/Makefile
 exit 0
