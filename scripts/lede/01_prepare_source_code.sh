@@ -9,6 +9,6 @@ clone_repo $mihomo_repo main mihomo &
 wait
 
 # 修改默认 IP ( 192.168.1.1 改为 192.168.1.99 )
-sed -i 's/192.168.1.1/192.168.1.99/g' openwrt/package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.1.99/g' openwrt/package/base-files/luci2/bin/config_generate
 
 exit 0
