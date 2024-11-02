@@ -49,5 +49,5 @@ docker_2_services() {
         [ -n "$(grep 'admin/' "$a")" ] && sed -i "s,admin/,&services/,g" "$a"
         [ -n "$(grep 'admin\\/' "$a")" ] && sed -i "s,admin\\/,&services\\/,g" "$a"
     done
-    sed -i 's,Docker,&Man,' ${dockerman_lua}
+    sed -i -e 's,Docker,&Man,' -e 's,1),8),' ${dockerman_lua}
 }
