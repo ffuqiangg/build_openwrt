@@ -34,7 +34,6 @@ pushd feeds/luci/applications/luci-app-vsftpd
 move_2_services nas
 popd
 # Cpufreq
-# sed -i 's,\"system\",\"services\",g' feeds/luci/applications/luci-app-cpufreq/luasrc/controller/cpufreq.lua
 sed -i 's,\"system\",\"services\",g' feeds/luci/applications/luci-app-cpufreq/root/usr/share/luci/menu.d/luci-app-cpufreq.json
 # Rclone
 sed -i -e 's,\"NAS\",\"Services\",g' -e 's,\"nas\",\"services\",g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
@@ -42,18 +41,10 @@ sed -i -e 's,\"NAS\",\"Services\",g' -e 's,\"nas\",\"services\",g' feeds/luci/ap
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
-# nlbw
-# sed -i -e 's|admin\",|& \"network\",|g' -e 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
-# sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
-# sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
-# sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 # Verysync
 pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd
-# Curl
-# sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=8\.10\.1," ./feeds/packages/net/curl/Makefile
-# sed -i "s,PKG_HASH:=.*,PKG_HASH:=73a4b0e99596a09fa5924a4fb7e4b995a85fda0d18a2c02ab9cf134bebce04ee," ./feeds/packages/net/curl/Makefile
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
 
@@ -67,7 +58,6 @@ mkdir -p files/usr/share/xray
 wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat > files/usr/share/xray/geoip.dat
 wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat > files/usr/share/xray/geosite.dat
 
-chmod -R 755 ./
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
 
