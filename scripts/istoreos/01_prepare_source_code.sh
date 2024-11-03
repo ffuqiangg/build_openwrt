@@ -23,6 +23,8 @@ wait
 sed -i 's/ '\''dhcp'\''//' openwrt/target/linux/amlogic/base-files/etc/board.d/02_network
 # 修改默认 IP 为 192.168.1.99
 sed -i 's/192.168.100.1/192.168.1.99/g' openwrt/package/istoreos-files/Makefile
+# # 修改 overlay 分区大小
+sed -i 's/2812/1788/' openwrt/target/linux/amlogic/meson/base-files/usr/sbin/install-to-emmc.sh
 # 修改默认主题为 bootstrap
 rm openwrt/package/istoreos-files/files/etc/uci-defaults/99_theme
 exit 0
