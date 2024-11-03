@@ -26,8 +26,6 @@ cp -rf ../node feeds/packages/lang/node
 # Filebrowser 文件浏览器
 cp -rf ../immortalwrt_luci_23/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
 cp -rf ../immortalwrt_pkg/utils/filebrowser ./package/new/filebrowser
-sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.2," package/new/filebrowser/Makefile
-sed -i "s,PKG_HASH:=.*,PKG_HASH:=bfda9ea7c44d4cb93c47a007c98b84f853874e043049b44eff11ca00157d8426," package/new/filebrowser/Makefile
 pushd package/new/luci-app-filebrowser
 move_2_services nas
 popd
