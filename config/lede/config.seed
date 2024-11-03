@@ -21,12 +21,8 @@ CONFIG_KERNEL_DEBUG_INFO_BTF=y
 # CONFIG_KERNEL_DEBUG_INFO_REDUCED is not set
 CONFIG_KERNEL_MODULE_ALLOW_BTF_MISMATCH=y
 CONFIG_KERNEL_XDP_SOCKETS=y
-CONFIG_PACKAGE_luci-app-daed=y
-
-### BPF Kernel Modules ###
-CONFIG_PACKAGE_kmod-sched-core=y
-CONFIG_PACKAGE_kmod-sched-bpf=y
 CONFIG_PACKAGE_kmod-xdp-sockets-diag=y
+CONFIG_PACKAGE_luci-app-daed=y
 
 ### KERNEL LRNG ###
 CONFIG_KERNEL_LRNG=y
@@ -36,19 +32,20 @@ CONFIG_KERNEL_LRNG=y
 ### BASIC ###
 CONFIG_PACKAGE_autocore=y
 CONFIG_PACKAGE_bash=y
+CONFIG_PACKAGE_cfdisk=y
 CONFIG_PACKAGE_coremark=y
-CONFIG_PACKAGE_ethtool=y
-CONFIG_PACKAGE_iftop=y
-CONFIG_PACKAGE_iperf3=y
-CONFIG_PACKAGE_wget-ssl=y
+CONFIG_PACKAGE_curl=y
 CONFIG_PACKAGE_dnsmasq-full=y
 # CONFIG_PACKAGE_dnsmasq is not set
-CONFIG_PACKAGE_kmod-fs-f2fs=y
-CONFIG_PACKAGE_libustream-openssl=y
-# CONFIG_PACKAGE_libustream-wolfssl is not set
-CONFIG_PACKAGE_coreutils-truncate=y
+CONFIG_PACKAGE_ethtool=y
+CONFIG_PACKAGE_htop=y
+CONFIG_HTOP_LMSENSORS=y
+CONFIG_PACKAGE_iftop=y
+CONFIG_PACKAGE_iperf3=y
+CONFIG_PACKAGE_vim-fuller=y
+CONFIG_PACKAGE_wget-ssl=y
 
-### 22.03 ###
+### FIREWALL ###
 # CONFIG_PACKAGE_firewall is not set
 CONFIG_PACKAGE_firewall4=y
 CONFIG_PACKAGE_kmod-nft-offload=y
