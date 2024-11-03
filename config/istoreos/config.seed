@@ -55,7 +55,7 @@ CONFIG_PACKAGE_luci-nginx=y
 CONFIG_PACKAGE_luci-compat=y
 
 ### THEME ###
-CONFIG_PACKAGE_luci-theme-argon=y
+# CONFIG_PACKAGE_luci-theme-argon is not set
 CONFIG_PACKAGE_luci-theme-bootstrap=y
 
 ### APPLICATIONS ###
