@@ -23,6 +23,8 @@ cp -rf ../openwrt_pkg_ma/utils/coremark ./feeds/packages/utils/coremark
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
+# Autocore
+cp -rf ../lede/package/lean/autocore package/new/autocore
 # Filebrowser 文件浏览器
 cp -rf ../immortalwrt_luci_23/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
 cp -rf ../immortalwrt_pkg/utils/filebrowser ./package/new/filebrowser
