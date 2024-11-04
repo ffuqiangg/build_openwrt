@@ -57,8 +57,8 @@ popd
 cp -rf ../immortalwrt_luci_23/applications/luci-app-cpufreq ./package/new/luci-app-cpufreq
 sed -i 's,\"system\",\"services\",g' ./package/new/luci-app-cpufreq/root/usr/share/luci/menu.d/luci-app-cpufreq.json
 # Sing-box
-cp -rf ../immortalwrt_pkg/net/sing-box ./packages/new/sing-box
-cp -f ../patch/sing-box/files/sing-box.init ./packages/new/sing-box/files/sing-box.init
+cp -rf ../immortalwrt_pkg/net/sing-box ./package/new/sing-box
+cp -f ../patch/sing-box/files/sing-box.init ./package/new/sing-box/files/sing-box.init
 # Golang
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
