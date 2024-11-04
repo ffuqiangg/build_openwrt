@@ -15,6 +15,10 @@ sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqba
 mkdir -p package/new
 # 调整 default settings
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
+# SingBox
+rm -f ./feeds/packages/net/sing-box
+cp -rf ../immortalwrt_pkg/net/sing-box ./packages/new/sing-box
+cp -f ../patch/sing-box/files/sing-box.init ./packages/new/sing-box/files/sing-box.init
 # Passwall 白名单
 echo '
 teamviewer.com
