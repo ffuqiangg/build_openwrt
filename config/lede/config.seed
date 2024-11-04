@@ -23,11 +23,6 @@ CONFIG_KERNEL_XDP_SOCKETS=y
 CONFIG_PACKAGE_kmod-xdp-sockets-diag=y
 CONFIG_PACKAGE_luci-app-daed=y
 
-### KERNEL LRNG ###
-CONFIG_KERNEL_LRNG=y
-# CONFIG_PACKAGE_urandom-seed is not set
-# CONFIG_PACKAGE_urngd is not set
-
 ### BASIC ###
 CONFIG_PACKAGE_autocore=y
 CONFIG_PACKAGE_bash=y
