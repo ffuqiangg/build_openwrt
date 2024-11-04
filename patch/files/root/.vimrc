@@ -57,6 +57,12 @@ nnoremap <silent> <C-Right> :vertical resize -3<CR>
 nnoremap <silent> <C-Up> :resize -3<CR>
 nnoremap <silent> <C-Down> :resize +3<CR>
 
+" Cancel Search Hilight
+nnoremap <Esc> :noh<CR>
+
+" Close buffer
+nnoremap <silent> <Leader>bd :bd<CR> 
+
 "remap split navigation to just CTRL + hjkl
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
