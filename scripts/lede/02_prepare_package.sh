@@ -48,9 +48,6 @@ popd
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
 
-# fix xfsprogs
-sed -i 's,TARGET_CFLAGS += -DHAVE_MAP_SYNC,& -D_LARGEFILE64_SOURCE,' feeds/packages/utils/xfsprogs/Makefile
-
 # 预配置一些插件
 cp -rf ../patch/files ./files
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
