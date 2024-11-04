@@ -6,11 +6,6 @@ alias ll='ls -alhF --color=auto'
 alias la='ls -A'
 alias l='ls -CF'
 
-# Change directory aliases
-[ -d /mnt/mmcblk2p4 ] && alias p4='cd /mnt/mmcblk2p4'
-[ -d /mnt/sda1 ] && alias sda1='cd /mnt/sda1'
-alias bd='cd "$OLDPWD"'
-
 # Alias's for archives
 alias mktar='tar -cvf'
 alias mkbz2='tar -cvjf'
