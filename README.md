@@ -19,7 +19,8 @@
 > [!IMPORTANT]
 > 各版本固件插件略有差别：**ImmortalWrt-18.06** 不含 mihomo、Homeproxy、DAED，**ImmortalWrt-23.05** 不含 OpenClash，**LEDE** 不含 OpenClash、Homeproxy、DAED，**OpenWrt-23.05** 不含 Openclash、Homeproxy，**IStoreOS** 不含 Homeproxy、OpenClash、DAED。
 
-> [!TIP] > **OpenWrt-23.05**、**IStoreOS** 纯 Sing-Box 核心使用方法阅读 [sing-Box 使用文档](docs/sing-box.md)，**LEDE** 固件使用 Sing-Box 裸跑可到 Telegram 频道下载替换文件。
+> [!TIP]
+> **OpenWrt-23.05**、**IStoreOS** 纯 Sing-Box 核心使用方法阅读 [sing-Box 使用文档](docs/sing-box.md)，**LEDE** 固件使用 Sing-Box 裸跑可到 Telegram 频道下载替换文件。
 
 ### 感谢
 
