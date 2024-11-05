@@ -11,10 +11,18 @@ sed -i 's/Os/O2/g' include/target.mk
 # 默认开启 Irqbalance
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
+# patch LuCI 以支持自定义 nft 规则
+patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
+popd
+
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
+# SingBox
+rm -f ./feeds/packages/net/sing-box
+cp -rf ../immortalwrt_pkg/net/sing-box ./feeds/packages/net/sing-box
+cp -f ../patch/sing-box/files/sing-box.init ./feeds/packages/net/sing-box/files/sing-box.init
 # Passwall 白名单
 echo '
 teamviewer.com
@@ -50,8 +58,6 @@ cp -rf ../mihomo ./package/new/mihomo
 
 # 预配置一些插件
 cp -rf ../patch/files ./files
-mkdir -p ./files/etc/init.d
-cp -f ../patch/sing-box/files/sing-box.init ./files/etc/init.d/sing-box.init
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 mkdir -p files/usr/share/xray
 wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat > files/usr/share/xray/geoip.dat
