@@ -11,6 +11,11 @@ sed -i 's/Os/O2/g' include/target.mk
 # 默认开启 Irqbalance
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
+# patch LuCI 以支持自定义 nft 规则
+pushd feeds/luci
+patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
+popd
+
 ### 替换准备 ###
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,frp,shadowsocks-libev,v2raya}
 rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya}
