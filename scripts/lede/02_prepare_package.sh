@@ -11,6 +11,9 @@ sed -i 's/Os/O2/g' include/target.mk
 # 默认开启 Irqbalance
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
+### FIREWALL ###
+# custom nft command
+patch -p1 < ../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
 # patch LuCI 以支持自定义 nft 规则
 pushd feeds/luci
 patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch

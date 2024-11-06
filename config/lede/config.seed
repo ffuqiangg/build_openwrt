@@ -39,8 +39,30 @@ CONFIG_PACKAGE_wget-ssl=y
 ### FIREWALL ###
 # CONFIG_PACKAGE_firewall is not set
 CONFIG_PACKAGE_firewall4=y
-CONFIG_PACKAGE_arptables=y
-CONFIG_PACKAGE_ebtables=y
+CONFIG_PACKAGE_kmod-nft-offload=y
+CONFIG_PACKAGE_kmod-nft-fullcone=y
+# CONFIG_PACKAGE_arptables-legacy is not set
+CONFIG_PACKAGE_arptables-nft=y
+# CONFIG_PACKAGE_ebtables-legacy is not set
+CONFIG_PACKAGE_ebtables-nft=y
+# CONFIG_PACKAGE_ip6tables-legacy is not set
+CONFIG_PACKAGE_ip6tables-nft=y
+# CONFIG_PACKAGE_xtables-legacy is not set
+CONFIG_PACKAGE_xtables-nft=y
+# CONFIG_PACKAGE_iptables-legacy is not set
+CONFIG_PACKAGE_iptables-nft=y
+CONFIG_PACKAGE_iptables-mod-conntrack-extra=y
+CONFIG_PACKAGE_iptables-mod-iprange=y
+CONFIG_PACKAGE_iptables-mod-nat-extra=y
+CONFIG_PACKAGE_iptables-mod-socket=y
+CONFIG_PACKAGE_iptables-mod-tproxy=y
+# CONFIG_PACKAGE_miniupnpd-iptables is not set
+CONFIG_PACKAGE_miniupnpd-nftables=y
+CONFIG_PACKAGE_nat6=y
+
+### LUCI ###
+CONFIG_PACKAGE_luci-nginx=y
+CONFIG_PACKAGE_luci-compat=y
 
 ### APPLICATIONS ###
 # CONFIG_PACKAGE_luci-app-accesscontrol is not set
@@ -66,13 +88,6 @@ CONFIG_PACKAGE_luci-app-vlmcsd=y
 CONFIG_PACKAGE_luci-app-vsftpd=y
 CONFIG_PACKAGE_luci-app-v2raya=y
 # CONFIG_PACKAGE_luci-app-wol is not set
-
-### TURBOACC ###
-CONFIG_PACKAGE_luci-app-turboacc=y
-CONFIG_PACKAGE_TURBOACC_INCLUDE_FLOW_OFFLOADDING=y
-# CONFIG_PACKAGE_TURBOACC_INCLUDE_FAST_CLASSIFIER is not set
-# CONFIG_PACKAGE_TURBOACC_INCLUDE_SHORTCUT_FE_CM is not set
-CONFIG_PACKAGE_TURBOACC_INCLUDE_BBR_CCA=y
 
 ### PASSWALL ###
 CONFIG_PACKAGE_luci-app-passwall=y
