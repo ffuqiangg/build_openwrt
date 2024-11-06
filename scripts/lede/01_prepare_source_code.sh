@@ -5,6 +5,7 @@ source ./scripts/funcations.sh
 # 开始克隆仓库，并行执行
 clone_repo $lede_repo master openwrt &
 clone_repo $mihomo_repo main mihomo &
+clone_repo $passwall_luci_repo main passwall_luci &
 # 等待所有后台任务完成
 wait
 

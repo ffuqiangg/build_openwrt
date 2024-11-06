@@ -23,6 +23,9 @@ popd
 mkdir -p package/new
 # 调整 default settings
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
+# Passwall
+rm -rf feeds/packages/luci/applications/luci-app-passwall
+cp -rf ../openwrt_luci/luci-app-passwall feeds/packages/luci/applications/luci-app-passwall
 # Passwall 白名单
 echo '
 teamviewer.com
