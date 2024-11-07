@@ -6,6 +6,7 @@ source ./scripts/funcations.sh
 clone_repo $lede_repo master openwrt &
 clone_repo $mihomo_repo main mihomo &
 clone_repo $passwall_luci_repo main passwall_luci &
+clone_repo $dockerman_repo master dockerman &
 # 等待所有后台任务完成
 wait
 
