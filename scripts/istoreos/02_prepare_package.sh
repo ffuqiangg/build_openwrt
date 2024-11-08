@@ -8,8 +8,6 @@ sed -i 's/Os/O2/g' include/target.mk
 # 更新 Feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
-# 默认开启 Irqbalance
-sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
 # patch LuCI 以支持自定义 nft 规则
 pushd feeds/luci
@@ -36,7 +34,7 @@ cp -rf ../immortalwrt_pkg/utils/filebrowser ./package/new/filebrowser
 pushd package/new/luci-app-filebrowser
 move_2_services nas
 popd
-# Dockerman
+# Docker 容器
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
