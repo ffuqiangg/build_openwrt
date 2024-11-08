@@ -215,7 +215,7 @@ popd
 # 晶晨宝盒
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git package/new/luci-app-amlogic
 # 翻译及部分功能优化
-cp -f ../patch/addition-trans-zh/files/zzz-default-settings ./package/new/addition-trans-zh/files/zzz-default-settings
+cp -f ../files/addition-trans-zh/files/zzz-default-settings ./package/new/addition-trans-zh/files/zzz-default-settings
 # mihomo
 cp -rf ../mihomo ./package/new/luci-app-mihomo
 
@@ -243,8 +243,8 @@ zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' >.ve
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
 ### 预配置一些插件 ###
-cp -rf ../patch/files ./files
-cp -rf ../patch/openwrt-23.05/. ./files/
+mkdir -p files
+cp -rf ../files/{etc,/net/*,sing-box/*} files/
 mkdir -p files/usr/share/xray
 wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat > files/usr/share/xray/geoip.dat
 wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat > files/usr/share/xray/geosite.dat

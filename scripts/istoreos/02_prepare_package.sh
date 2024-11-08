@@ -61,7 +61,6 @@ cp -rf ../immortalwrt_luci_23/applications/luci-app-cpufreq ./package/new/luci-a
 sed -i 's,\"system\",\"services\",g' ./package/new/luci-app-cpufreq/root/usr/share/luci/menu.d/luci-app-cpufreq.json
 # Sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./package/new/sing-box
-cp -f ../patch/sing-box/files/sing-box.init ./package/new/sing-box/files/sing-box.init
 # Golang
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
@@ -102,7 +101,8 @@ cp -rf ../lede_luci/applications/luci-app-frps ./package/new/luci-app-frps
 cp -rf ../lede_luci/applications/luci-app-frpc ./package/new/luci-app-frpc
 
 # 预配置一些插件
-cp -rf ../patch/files ./files
+mkdir -p files
+cp -rf ../files/{etc,cpufreq/*,net/*,sing-box/*} files/
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 mkdir -p files/usr/share/xray
 wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat >files/usr/share/xray/geoip.dat

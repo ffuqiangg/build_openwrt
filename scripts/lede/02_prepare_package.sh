@@ -102,9 +102,8 @@ cp -rf ../openwrt_pkg/utils/ttyd feeds/packages/utils/ttyd
 cp -rf ../mihomo ./package/new/mihomo
 
 # 预配置一些插件
-cp -rf ../patch/files ./files
-mkdir -p ./files/etc/init.d
-cp -f ../patch/sing-box/files/sing-box.init ./files/etc/init.d/sing-box.init
+mkdir -p files
+cp -rf ../files/{etc,cpufreq/*,net/*,sing-box/*} files/
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 mkdir -p files/usr/share/xray
 wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat > files/usr/share/xray/geoip.dat

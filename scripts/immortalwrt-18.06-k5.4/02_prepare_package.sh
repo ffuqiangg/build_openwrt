@@ -51,7 +51,8 @@ move_2_services nas
 popd
 
 # 预配置一些插件
-cp -rf ../patch/files ./files
+mkdir -p files
+cp -rf ../files/{etc,/cpufreq/*,net/*} files/
 mkdir -p files/etc/openclash/core
 clash_version="$(curl -fsSL https://github.com/vernesong/OpenClash/raw/core/master/core_version | sed -n '2p')"
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-arm64-${clash_version}.gz | gunzip -c > files/etc/openclash/core/clash_tun
