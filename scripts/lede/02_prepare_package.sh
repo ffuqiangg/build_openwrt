@@ -28,7 +28,7 @@ sed -i 's/cheaper = 1/cheaper = 2/g' feeds/packages/net/uwsgi/files-luci-support
 sed -i 's/option timeout 30/option timeout 60/g' package/system/rpcd/files/rpcd.config
 sed -i 's#20) \* 1000#60) \* 1000#g' feeds/luci/modules/luci-base/htdocs/luci-static/resources/rpc.js
 # LRNG
-cp -rf ../PATCH/LRNG/* ./target/linux/generic/hack-5.15/
+cp -rf ../patch/LRNG/* ./target/linux/generic/hack-5.15/
 echo '
 # CONFIG_RANDOM_DEFAULT_IMPL is not set
 CONFIG_LRNG=y
