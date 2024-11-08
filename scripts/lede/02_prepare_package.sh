@@ -63,7 +63,7 @@ mkdir -p package/new
 # 调整 default settings
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 # Passwall
-cp -rf ../passwall_luci/luci-app-passwall feeds/packages/luci/applications/luci-app-passwall
+cp -rf ../passwall_luci/luci-app-passwall feeds/luci/applications/luci-app-passwall
 # Passwall 白名单
 echo '
 teamviewer.com
