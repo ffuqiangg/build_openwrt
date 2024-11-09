@@ -39,6 +39,11 @@ CONFIG_LRNG_CPU=y
 ' >> target/linux/generic/config-5.15
 
 ### FIREWALL ###
+# bcmfullcone
+cp -a ../patch/bcmfullcone/*.patch target/linux/generic/hack-5.15/
+# set nf_conntrack_expect_max for fullcone
+wget -qO - https://github.com/openwrt/openwrt/commit/bbf39d07.patch | patch -p1
+echo "net.netfilter.nf_conntrack_helper = 1" >>./package/kernel/linux/files/sysctl-nf-conntrack.conf
 # FW4
 mkdir -p package/network/config/firewall4/patches
 cp -f ../patch/firewall/firewall4_patches/*.patch ./package/network/config/firewall4/patches/
@@ -47,8 +52,15 @@ cp -f ../patch/firewall/libnftnl/*.patch ./package/libs/libnftnl/patches/
 sed -i '/PKG_INSTALL:=/iPKG_FIXUP:=autoreconf' package/libs/libnftnl/Makefile
 mkdir -p package/network/utils/nftables/patches
 cp -f ../patch/firewall/nftables/*.patch ./package/network/utils/nftables/patches/
+# Patch LuCI 以增添 FullCone 开关
+pushd feeds/luci
+patch -p1 <../../../patch/firewall/01-luci-app-firewall_add_nft-fullcone-bcm-fullcone_option.patch
+popd
 # custom nft command
 patch -p1 < ../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
+# Patch LuCI 以增添 NAT6 开关
+pushd feeds/luci
+patch -p1 <../../../patch/firewall/03-luci-app-firewall_add_ipv6-nat.patch
 # patch LuCI 以支持自定义 nft 规则
 pushd feeds/luci
 patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
@@ -103,7 +115,7 @@ cp -rf ../mihomo ./package/new/mihomo
 
 # 预配置一些插件
 mkdir -p files
-cp -rf ../files/{etc,cpufreq/*,net/*,sing-box/*} files/
+cp -rf ../files/{etc,lede/*,cpufreq/*,net/*,sing-box/*} files/
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 mkdir -p files/usr/share/xray
 wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat > files/usr/share/xray/geoip.dat

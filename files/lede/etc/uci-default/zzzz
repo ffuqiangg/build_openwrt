@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# Dropbear
+uci set dropbear.@dropbear[0].Interface='lan'
+uci commit dropbear
+
+# PASSWALL
+[ -f '/usr/share/v2ray/geoip.dat' ] && uci set passwall.@global_rules[0].v2ray_location_asset='/usr/share/v2ray/'
+uci set passwall.@global_subscribe[0].ss_aead_type='shadowsocks-rust'
+uci set passwall.@global_delay[0].start_delay='5'
+uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
+uci commit passwall
+
+# uhttpd 设置
+uci set uhttpd.main.rfc1918_filter=0
+uci set uhttpd.main.redirect_https=0
+uci set uhttpd.main.http_keepalive=0
+#uci set uhttpd.main.tcp_keepalive=0
+#uci set uhttpd.main.script_timeout=65535
+#uci set uhttpd.main.script_network_timeout=65535
+uci commit uhttpd
+/etc/init.d/uhttpd restart
+
+# nginx 设置
+sed -i 's,deny all,allow all,g' /etc/nginx/restrict_locally
+uci delete nginx._redirect2ssl.return
+uci delete nginx._redirect2ssl.include
+uci add_list nginx._redirect2ssl.include='restrict_locally'
+uci add_list nginx._redirect2ssl.include='conf.d/*.locations'
+uci commit nginx
+/etc/init.d/nginx restart
+
+# 在防火墙默认开启全锥形 NAT 以及关闭 Flow Offloading 并开启 SFE
+uci set firewall.@defaults[0].fullcone='1'
+uci set firewall.@defaults[0].brcmfullcone='1'
+uci set firewall.@zone[1].fullcone4='1'
+uci set firewall.@zone[1].fullcone6='1'
+uci set firewall.@defaults[0].natflow='0'
+uci set firewall.@defaults[0].flow_offloading='1'
+uci set firewall.@defaults[0].input='ACCEPT'
+uci commit firewall
+/etc/init.d/autocore restart
+
+# 默认开启 Packet Steering
+uci set network.globals.packet_steering='1'
+uci commit network
+
+# 通用即插即用
+uci set upnpd.config.enabled='1'
+uci set upnpd.config.force_forwarding='1'
+#uci del upnpd.config.use_stun
+#uci del upnpd.config.stun_host
+uci commit upnpd
+
+# 默认停用 sing-box
+/etc/init.d/sing-box stop
+/etc/init.d/sing-box disable
+
+# 定时清理
+(crontab -l | sed '/find \/tmp/d'; echo "0 0 1 * * find /tmp -type f \( -name \"*.log\" -o -name \"*.txt\" \) -exec sh -c 'rm {} && touch {}' \;") | sed '/^$/d' | crontab -
+
+# rpcd
+[ $(uci -q get rpcd.@rpcd[0].timeout) -lt 60 ] && uci set rpcd.@rpcd[0].timeout=60 && uci commit rpcd
+
+chmod 0755 /etc/init.d/*
+
+# 清除 LuCI 残留缓存
+rm -rf /tmp/luci-modulecache
+rm -f /tmp/luci-indexcache
+
+exit 0
