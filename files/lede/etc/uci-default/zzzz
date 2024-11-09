@@ -11,26 +11,7 @@ uci set passwall.@global_delay[0].start_delay='5'
 uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
 uci commit passwall
 
-# uhttpd 设置
-uci set uhttpd.main.rfc1918_filter=0
-uci set uhttpd.main.redirect_https=0
-uci set uhttpd.main.http_keepalive=0
-#uci set uhttpd.main.tcp_keepalive=0
-#uci set uhttpd.main.script_timeout=65535
-#uci set uhttpd.main.script_network_timeout=65535
-uci commit uhttpd
-/etc/init.d/uhttpd restart
-
-# nginx 设置
-sed -i 's,deny all,allow all,g' /etc/nginx/restrict_locally
-uci delete nginx._redirect2ssl.return
-uci delete nginx._redirect2ssl.include
-uci add_list nginx._redirect2ssl.include='restrict_locally'
-uci add_list nginx._redirect2ssl.include='conf.d/*.locations'
-uci commit nginx
-/etc/init.d/nginx restart
-
-# 在防火墙默认开启全锥形 NAT 以及关闭 Flow Offloading 并开启 SFE
+# 在防火墙默认开启全锥形 NAT 以及 Flow Offloading
 uci set firewall.@defaults[0].fullcone='1'
 uci set firewall.@defaults[0].brcmfullcone='1'
 uci set firewall.@zone[1].fullcone4='1'
@@ -106,9 +87,5 @@ uci commit dockerd
 /etc/init.d/sing-box stop
 
 chmod 0755 /etc/init.d/*
-
-# 清除 LuCI 残留缓存
-rm -rf /tmp/luci-modulecache
-rm -f /tmp/luci-indexcache
 
 exit 0
