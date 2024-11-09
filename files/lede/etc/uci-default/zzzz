@@ -52,15 +52,58 @@ uci set upnpd.config.force_forwarding='1'
 #uci del upnpd.config.stun_host
 uci commit upnpd
 
-# 默认停用 sing-box
-/etc/init.d/sing-box stop
-/etc/init.d/sing-box disable
-
 # 定时清理
 (crontab -l | sed '/find \/tmp/d'; echo "0 0 1 * * find /tmp -type f \( -name \"*.log\" -o -name \"*.txt\" \) -exec sh -c 'rm {} && touch {}' \;") | sed '/^$/d' | crontab -
 
 # rpcd
 [ $(uci -q get rpcd.@rpcd[0].timeout) -lt 60 ] && uci set rpcd.@rpcd[0].timeout=60 && uci commit rpcd
+
+# OpenClash 设置
+echo "/etc/openclash/" >> /etc/sysupgrade.conf && cat /etc/sysupgrade.conf | sort | uniq > /tmp/tmp_sysupgrade_conf && cat /tmp/tmp_sysupgrade_conf > /etc/sysupgrade.conf
+[ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geosite.dat /etc/openclash/GeoSite.dat
+
+# Flag packages (禁止更新)
+opkg flag hold luci-app-firewall
+opkg flag hold firewall
+opkg flag hold dnsmasq-full
+
+# 禁用Docker自动启动
+uci set dockerd.globals.auto_start='0'
+uci commit dockerd
+
+# 禁用某些可能会自启动且用不上的依赖包服务
+/etc/init.d/php7-fastcgi disable 2>/dev/null
+/etc/init.d/php7-fastcgi stop
+/etc/init.d/php7-fpm disable 2>/dev/null
+/etc/init.d/php7-fpm stop
+/etc/init.d/php8-fastcgi disable 2>/dev/null
+/etc/init.d/php8-fastcgi stop
+/etc/init.d/php8-fpm disable 2>/dev/null
+/etc/init.d/php8-fpm stop
+/etc/init.d/softethervpnbridge disable 2>/dev/null
+/etc/init.d/softethervpnbridge stop
+/etc/init.d/softethervpnserver disable 2>/dev/null
+/etc/init.d/softethervpnserver stop
+/etc/init.d/softethervpnclient disable 2>/dev/null
+/etc/init.d/softethervpnclient stop
+/etc/init.d/haproxy disable 2>/dev/null
+/etc/init.d/haproxy stop
+/etc/init.d/kcptun disable 2>/dev/null
+/etc/init.d/kcptun stop
+/etc/init.d/socat disable 2>/dev/null
+/etc/init.d/socat stop
+/etc/init.d/fa-rk3399-pwmfan disable 2>/dev/null
+/etc/init.d/fa-rk3399-pwmfan stop
+/etc/init.d/fa-rk3328-pwmfan disable 2>/dev/null
+/etc/init.d/fa-rk3328-pwmfan stop
+/etc/init.d/ttyd disable 2>/dev/null
+/etc/init.d/ttyd stop
+/etc/init.d/shortcut-fe enable 2>/dev/null
+/etc/init.d/shortcut-fe start
+/etc/init.d/qemu-ga disable 2>/dev/null
+/etc/init.d/qemu-ga stop
+/etc/init.d/sing-box disable 2>/dev/null
+/etc/init.d/sing-box stop
 
 chmod 0755 /etc/init.d/*
 
