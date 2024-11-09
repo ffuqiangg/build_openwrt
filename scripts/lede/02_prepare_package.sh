@@ -20,7 +20,6 @@ patch -p1 < ../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-suppo
 pushd feeds/luci
 patch -p1 < ../../../patch/firewall/03-luci-app-firewall_add_ipv6-nat.patch
 # patch LuCI 以支持自定义 nft 规则
-pushd feeds/luci
 patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
