@@ -10,16 +10,8 @@ sed -i 's/Os/O2/g' include/target.mk
 ./scripts/feeds install -a
 
 ### FIREWALL ###
-# Patch LuCI 以增添 FullCone 开关
-pushd feeds/luci
-patch -p1 < ../../../patch/firewall/01-luci-app-firewall_add_nft-fullcone-bcm-fullcone_option.patch
-popd
-# custom nft command
-patch -p1 < ../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
-# Patch LuCI 以增添 NAT6 开关
-pushd feeds/luci
-patch -p1 < ../../../patch/firewall/03-luci-app-firewall_add_ipv6-nat.patch
 # patch LuCI 以支持自定义 nft 规则
+pushd feeds/luci
 patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
