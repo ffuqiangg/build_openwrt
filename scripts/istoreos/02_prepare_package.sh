@@ -16,7 +16,7 @@ popd
 
 ### 替换准备 ###
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,frp,shadowsocks-libev,v2raya}
-rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya}
+rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya,luci-app-dockerman}
 rm -rf feeds/packages/utils/coremark
 
 ### 获取额外的 LuCI 应用和依赖 ###
@@ -35,6 +35,7 @@ pushd package/new/luci-app-filebrowser
 move_2_services nas
 popd
 # Docker 容器
+cp -rf ../dockerman/applications/luci-app-dockerman feeds/luci/applications/luci-app-dockerman
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd

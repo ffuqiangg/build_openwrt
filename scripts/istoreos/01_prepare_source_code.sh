@@ -18,6 +18,7 @@ clone_repo $node_prebuilt_repo packages-22.03 node &
 clone_repo $passwall_pkg_repo main passwall_pkg &
 clone_repo $passwall_luci_repo main passwall_luci &
 clone_repo $v2ray_geodata_repo master v2ray_geodata &
+clone_repo $dockerman_repo master dockerman &
 # 等待所有后台任务完成
 wait
 

@@ -19,7 +19,6 @@ CONFIG_PACKAGE_dnsmasq_full_ipset=y
 # CONFIG_PACKAGE_dnsmasq is not set
 CONFIG_PACKAGE_ethtool=y
 CONFIG_PACKAGE_htop=y
-CONFIG_HTOP_LMSENSORS=y
 CONFIG_PACKAGE_iftop=y
 CONFIG_PACKAGE_iperf3=y
 CONFIG_PACKAGE_vim-fuller=y
