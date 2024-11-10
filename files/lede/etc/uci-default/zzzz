@@ -11,21 +11,6 @@ uci set passwall.@global_delay[0].start_delay='5'
 uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
 uci commit passwall
 
-# 在防火墙默认开启全锥形 NAT 以及 Flow Offloading
-uci set firewall.@defaults[0].fullcone='1'
-uci set firewall.@defaults[0].brcmfullcone='1'
-uci set firewall.@zone[1].fullcone4='1'
-uci set firewall.@zone[1].fullcone6='1'
-uci set firewall.@defaults[0].natflow='0'
-uci set firewall.@defaults[0].flow_offloading='1'
-uci set firewall.@defaults[0].input='ACCEPT'
-uci commit firewall
-/etc/init.d/autocore restart
-
-# 默认开启 Packet Steering
-uci set network.globals.packet_steering='1'
-uci commit network
-
 # 通用即插即用
 uci set upnpd.config.enabled='1'
 uci set upnpd.config.force_forwarding='1'
@@ -39,9 +24,6 @@ uci commit upnpd
 
 # 定时清理
 (crontab -l | sed '/find \/tmp/d'; echo "0 0 1 * * find /tmp -type f \( -name \"*.log\" -o -name \"*.txt\" \) -exec sh -c 'rm {} && touch {}' \;") | sed '/^$/d' | crontab -
-
-# rpcd
-[ $(uci -q get rpcd.@rpcd[0].timeout) -lt 60 ] && uci set rpcd.@rpcd[0].timeout=60 && uci commit rpcd
 
 # Flag packages (禁止更新)
 opkg flag hold luci-app-firewall
