@@ -4,6 +4,7 @@ source ./scripts/funcations.sh
 
 # 开始克隆仓库，并行执行
 clone_repo $istoreos_repo istoreos-22.03 openwrt &
+clone_repo $immortalwrt_repo master immortalwrt_ma &
 clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg &
 clone_repo $immortalwrt_luci_repo openwrt-23.05 immortalwrt_luci_23 &
 clone_repo $immortalwrt_pkg_repo openwrt-21.02 immortalwrt_pkg_21 &

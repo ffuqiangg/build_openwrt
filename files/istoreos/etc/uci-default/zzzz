@@ -11,17 +11,6 @@ uci set passwall.@global_delay[0].start_delay='5'
 uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
 uci commit passwall
 
-# 在防火墙默认开启全锥形 NAT 以及 Flow Offloading
-uci set firewall.@defaults[0].fullcone='1'
-uci set firewall.@defaults[0].brcmfullcone='1'
-uci set firewall.@zone[1].fullcone4='1'
-uci set firewall.@zone[1].fullcone6='1'
-uci set firewall.@defaults[0].natflow='0'
-uci set firewall.@defaults[0].flow_offloading='1'
-uci set firewall.@defaults[0].input='ACCEPT'
-uci commit firewall
-/etc/init.d/autocore restart
-
 # 默认开启 Packet Steering
 uci set network.globals.packet_steering='1'
 uci commit network
@@ -63,5 +52,9 @@ uci commit dockerd
 /etc/init.d/sing-box stop
 
 chmod 0755 /etc/init.d/*
+
+# 清除 LuCI 残留缓存
+rm -rf /tmp/luci-modulecache
+rm -f /tmp/luci-indexcache
 
 exit 0

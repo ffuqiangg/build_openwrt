@@ -40,8 +40,6 @@ docker_2_services
 popd
 # DiskMan
 cp -rf ../diskman/applications/luci-app-diskman ./package/new/luci-app-diskman
-mkdir -p package/parted && \
-wget https://raw.githubusercontent.com/lisaac/luci-app-diskman/master/Parted.Makefile -O package/parted/Makefile
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
 # Vsftpd
@@ -58,6 +56,7 @@ move_2_services nas
 popd
 # CPU 调度
 cp -rf ../immortalwrt_luci_23/applications/luci-app-cpufreq ./package/new/luci-app-cpufreq
+cp -rf ../immortalwrt_ma/package/emortal/cpufreq ./package/new/cpufreq
 sed -i 's,\"system\",\"services\",g' ./package/new/luci-app-cpufreq/root/usr/share/luci/menu.d/luci-app-cpufreq.json
 # Sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./package/new/sing-box
@@ -102,11 +101,8 @@ cp -rf ../lede_luci/applications/luci-app-frpc ./package/new/luci-app-frpc
 
 # 预配置一些插件
 mkdir -p files
-cp -rf ../files/{etc,cpufreq/*,net/*,sing-box/*} files/
+cp -rf ../files/{etc,istoreos/*,cpufreq/*,net/*,sing-box/*} files/
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
-mkdir -p files/usr/share/xray
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat >files/usr/share/xray/geoip.dat
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat >files/usr/share/xray/geosite.dat
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f

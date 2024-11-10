@@ -245,9 +245,6 @@ sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic
 ### 预配置一些插件 ###
 mkdir -p files
 cp -rf ../files/{etc,/net/*,sing-box/*} files/
-mkdir -p files/usr/share/xray
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat > files/usr/share/xray/geoip.dat
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat > files/usr/share/xray/geosite.dat
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f

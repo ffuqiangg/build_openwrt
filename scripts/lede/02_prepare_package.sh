@@ -74,9 +74,6 @@ cp -rf ../mihomo ./package/new/mihomo
 mkdir -p files
 cp -rf ../files/{etc,lede/*,cpufreq/*,net/*,sing-box/*} files/
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
-mkdir -p files/usr/share/xray
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geoip.dat > files/usr/share/xray/geoip.dat
-wget -qO- https://github.com/v2fly/geoip/releases/latest/download/geosite.dat > files/usr/share/xray/geosite.dat
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
