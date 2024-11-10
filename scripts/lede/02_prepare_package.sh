@@ -25,12 +25,14 @@ popd
 
 ### 替换准备 ###
 rm -rf feeds/luci/applications/{luci-app-passwall,luci-app-dockerman,luci-app-ttyd}
-rm -rf feeds/packages/utils/ttyd
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
+# 预编译 node
+rm -rf feeds/packages/lang/node
+cp -rf ../node feeds/packages/lang/node
 # Passwall
 cp -rf ../passwall_luci/luci-app-passwall feeds/luci/applications/luci-app-passwall
 # Passwall 白名单
@@ -66,6 +68,7 @@ move_2_services nas
 popd
 # TTYD
 cp -rf ../openwrt_luci_ma/applications/luci-app-ttyd feeds/luci/applications/luci-app-ttyd
+rm -rf feeds/packages/utils/ttyd
 cp -rf ../openwrt_pkg/utils/ttyd feeds/packages/utils/ttyd
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
