@@ -65,6 +65,8 @@ cp -rf ../openwrt_pkg/utils/ttyd feeds/packages/utils/ttyd
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
 
+### 特定优化 ###
+sed -i 's,-mcpu=generic,-march=armv8-a+crc+crypto,g' include/target.mk
 # 预配置一些插件
 mkdir -p files
 cp -rf ../files/{etc,lede/*,cpufreq/*,sing-box/*} files/
