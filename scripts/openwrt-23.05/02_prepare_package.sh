@@ -244,7 +244,7 @@ sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic
 
 ### 预配置一些插件 ###
 mkdir -p files
-cp -rf ../files/{etc,/net/*,sing-box/*} files/
+cp -rf ../files/{etc,sing-box/*} files/
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f

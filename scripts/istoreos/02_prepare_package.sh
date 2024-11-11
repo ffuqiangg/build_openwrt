@@ -102,7 +102,7 @@ cp -rf ../lede_luci/applications/luci-app-frpc ./package/new/luci-app-frpc
 
 # 预配置一些插件
 mkdir -p files
-cp -rf ../files/{etc,istoreos/*,cpufreq/*,net/*,sing-box/*} files/
+cp -rf ../files/{etc,istoreos/*,cpufreq/*,sing-box/*} files/
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 
 find ./ -name *.orig | xargs rm -f

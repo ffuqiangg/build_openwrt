@@ -68,7 +68,7 @@ cp -rf ../mihomo ./package/mihomo
 
 # 预配置一些插件
 mkdir -p files
-cp -rf ../files/{etc,immortalwrt-23.05/*,net/*} files/
+cp -rf ../files/{etc,immortalwrt-23.05/*} files/
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
