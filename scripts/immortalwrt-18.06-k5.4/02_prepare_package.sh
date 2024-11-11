@@ -52,7 +52,7 @@ popd
 
 # 预配置一些插件
 mkdir -p files
-cp -rf ../files/{etc,immortalwrt-18.06/*,/cpufreq/*} files/
+cp -rf ../files/{etc,root,immortalwrt-18.06/*,/cpufreq/*} files/
 mkdir -p files/etc/openclash/core
 clash_version="$(curl -fsSL https://github.com/vernesong/OpenClash/raw/core/master/core_version | sed -n '2p')"
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-arm64-${clash_version}.gz | gunzip -c > files/etc/openclash/core/clash_tun

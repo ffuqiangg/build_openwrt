@@ -69,7 +69,7 @@ cp -rf ../mihomo ./package/new/mihomo
 sed -i 's,-mcpu=generic,-march=armv8-a+crc+crypto,g' include/target.mk
 # 预配置一些插件
 mkdir -p files
-cp -rf ../files/{etc,lede/*,cpufreq/*,sing-box/*} files/
+cp -rf ../files/{etc,root,lede/*,cpufreq/*,sing-box/*} files/
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 
 find ./ -name *.orig | xargs rm -f
