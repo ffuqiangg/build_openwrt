@@ -15,13 +15,6 @@ uci commit passwall
 uci set network.globals.packet_steering='1'
 uci commit network
 
-# 通用即插即用
-uci set upnpd.config.enabled='1'
-uci set upnpd.config.force_forwarding='1'
-#uci del upnpd.config.use_stun
-#uci del upnpd.config.stun_host
-uci commit upnpd
-
 # OpenClash
 echo "/etc/openclash/" >> /etc/sysupgrade.conf && cat /etc/sysupgrade.conf | sort | uniq > /tmp/tmp_sysupgrade_conf && cat /tmp/tmp_sysupgrade_conf > /etc/sysupgrade.conf
 [ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geosite.dat /etc/openclash/GeoSite.dat

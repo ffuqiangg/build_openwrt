@@ -17,11 +17,11 @@ popd
 ### 替换准备 ###
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,frp,shadowsocks-libev,v2raya}
 rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya,luci-app-dockerman}
-rm -rf feeds/packages/utils/coremark
 
 ### 获取额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
 # 替换 coremark
+rm -rf feeds/packages/utils/coremark
 cp -rf ../openwrt_pkg_ma/utils/coremark ./feeds/packages/utils/coremark
 # 预编译 node
 rm -rf feeds/packages/lang/node
