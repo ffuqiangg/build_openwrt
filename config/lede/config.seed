@@ -21,14 +21,6 @@ CONFIG_KERNEL_CGROUP_BPF=y
 CONFIG_PACKAGE_kmod-xdp-sockets-diag=y
 CONFIG_PACKAGE_luci-app-daed=y
 
-### AGGRESSIVE ###
-CONFIG_USE_GC_SECTIONS=y
-CONFIG_USE_LTO=y
-
-# RNGD
-# CONFIG_PACKAGE_urandom-seed is not set
-# CONFIG_PACKAGE_urngd is not set
-
 ### BASIC ###
 CONFIG_PACKAGE_autocore-arm=y
 CONFIG_PACKAGE_bash=y
@@ -42,12 +34,7 @@ CONFIG_PACKAGE_iftop=y
 CONFIG_PACKAGE_iperf3=y
 CONFIG_PACKAGE_vim-fuller=y
 CONFIG_PACKAGE_dnsmasq-full=y
-CONFIG_PACKAGE_dnsmasq_full_ipset=y
-# CONFIG_PACKAGE_dnsmasq_full_broken_rtc is not set
-# CONFIG_PACKAGE_dnsmasq is not set
 CONFIG_PACKAGE_kmod-fs-f2fs=y
-CONFIG_PACKAGE_libustream-openssl=y
-# CONFIG_PACKAGE_libustream-wolfssl is not set
 CONFIG_PACKAGE_wget-ssl=y
 
 ### DDNS ###
@@ -55,7 +42,6 @@ CONFIG_PACKAGE_luci-app-ddns=y
 CONFIG_PACKAGE_ddns-scripts=y
 CONFIG_PACKAGE_ddns-scripts_dnspod=y
 CONFIG_PACKAGE_ddns-scripts_aliyun=y
-CONFIG_PACKAGE_bind-host=y
 
 ### FIREWALL ###
 # CONFIG_PACKAGE_firewall is not set
@@ -129,7 +115,3 @@ CONFIG_DOCKER_NET_OVERLAY=y
 CONFIG_DOCKER_NET_TFTP=y
 CONFIG_DOCKER_STO_BTRFS=y
 CONFIG_DOCKER_STO_EXT4=y
-
-### OTHERS ###
-CONFIG_PACKAGE_kmod-crypto-cmac=y
-CONFIG_PACKAGE_kmod-crypto-ccm=y
