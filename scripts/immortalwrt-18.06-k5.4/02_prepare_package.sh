@@ -11,9 +11,10 @@ sed -i 's/Os/O2/g' include/target.mk
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
-# 修改 banner
-rm ./package/emortal/default-settings/files/openwrt_banner
-sed -i '/openwrt_banner/d' ./package/emortal/default-settings/files/99-default-settings
+# 调整 default settings
+rm -f ./package/emortal/default-settings/files/openwrt_banner
+sed -i '/openwrt_banner/,&d' ./package/emortal/default-settings/files/99-default-settings
+cat ../files/immortalwrt-18.06/default-settings/99-default-settings >> ./package/emortal/default-settings/files/99-default-settings
 sed -i '/etc$/,+2d' ./package/emortal/default-settings/Makefile
 # MosDNS
 rm -rf feeds/packages/net/v2ray-geodata
@@ -52,7 +53,7 @@ popd
 
 # 预配置一些插件
 mkdir -p files
-cp -rf ../files/{etc,root,immortalwrt-18.06/*,/cpufreq/*} files/
+cp -rf ../files/{etc,root,/cpufreq/*} files/
 mkdir -p files/etc/openclash/core
 clash_version="$(curl -fsSL https://github.com/vernesong/OpenClash/raw/core/master/core_version | sed -n '2p')"
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/premium/clash-linux-arm64-${clash_version}.gz | gunzip -c > files/etc/openclash/core/clash_tun

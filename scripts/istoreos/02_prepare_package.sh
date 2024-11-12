@@ -20,6 +20,8 @@ rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya,luci
 
 ### 获取额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
+# 添加 default settings
+cp -f ../files/istoreos/default-settings/zzz-default-settings ./package/istoreos-files/files/etc/uci-defaults/
 # 替换 coremark
 rm -rf feeds/packages/utils/coremark
 cp -rf ../openwrt_pkg_ma/utils/coremark ./feeds/packages/utils/coremark
@@ -102,7 +104,7 @@ cp -rf ../lede_luci/applications/luci-app-frpc ./package/new/luci-app-frpc
 
 # 预配置一些插件
 mkdir -p files
-cp -rf ../files/{etc,root,istoreos/*,cpufreq/*,sing-box/*} files/
+cp -rf ../files/{etc,root,cpufreq/*,sing-box/*} files/
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 
 find ./ -name *.orig | xargs rm -f

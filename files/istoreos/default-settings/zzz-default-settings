@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Dropbear
 uci set dropbear.@dropbear[0].Interface='lan'
 uci commit dropbear

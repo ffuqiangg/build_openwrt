@@ -23,7 +23,8 @@ rm -rf feeds/luci/applications/{luci-app-passwall,luci-app-dockerman,luci-app-tt
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
-sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
+sed -i -e '/services/d' -e '/modulecache/,$d' package/lean/default-settings/files/zzz-default-settings
+cat ../files/lede/default-settings/zzz-default-settings >> package/lean/default-settings/files/zzz-default-settings
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
@@ -71,7 +72,7 @@ cp -rf ../mihomo ./package/new/mihomo
 sed -i 's,-mcpu=generic,-march=armv8-a+crc+crypto,g' include/target.mk
 # 预配置一些插件
 mkdir -p files
-cp -rf ../files/{etc,root,lede/*,cpufreq/*,sing-box/*} files/
+cp -rf ../files/{etc,root,cpufreq/*,sing-box/*} files/
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 
 find ./ -name *.orig | xargs rm -f
