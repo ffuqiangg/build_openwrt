@@ -1,0 +1,22 @@
+name: test
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types:
+      - test
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    if: github.event.repository.owner.id == github.event.sender.id
+
+    steps:
+    - name: Organize files
+      run: |
+        echo "prerelease_symbol=true" >> ${GITHUB_ENV}
+        [[ "${{ github.event_name }}" == "repository_dispatchb" ]] && echo "prerelease_symbol=false" >> ${GITHUB_ENV}
+        echo ${{ env.prerelease_symbol }}
