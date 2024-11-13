@@ -6,7 +6,7 @@ set matchtime=1                      " tenths of a secend to show the matching p
 set backspace=indent,eol,start       " make that backspace key work the way it should
 set textwidth=0                      " don't wrap lines by default
 set ruler                            " show the current row and column
-"set number                          " show line numbers
+set number                           " show line numbers
 set wildmenu                         " show list instead of just completing
 set splitright                       " put new split window in right
 set nobackup                         " don't keep a backup file
@@ -65,6 +65,7 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+nnoremap <Leader>wc <C-w>c
 
 " switch tab
 nnoremap H gT
