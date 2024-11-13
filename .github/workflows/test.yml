@@ -17,8 +17,8 @@ jobs:
     steps:
     - name: Organize files
       run: |
-        echo 'prerelease_symbol=true' >> ${GITHUB_ENV}
-        [[ ${{ github.event_name }} == repository_dispatch ]] && echo 'prerelease_symbol=false' >> ${GITHUB_ENV}
+        echo "prerelease_symbol=true" >> ${GITHUB_ENV}
+        [[ ${{ github.event_name }} == repository_dispatch ]] && echo "prerelease_symbol=false" >> ${GITHUB_ENV}
 
     - name: test
       run: |
