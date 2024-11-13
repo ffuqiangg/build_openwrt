@@ -51,35 +51,32 @@ nnoremap k gk
 nnoremap gj j
 nnoremap gk k
 
-"adjust split sizes easier
+" adjust split sizes easier
 nnoremap <silent> <C-Left> :vertical resize +3<CR>
 nnoremap <silent> <C-Right> :vertical resize -3<CR>
 nnoremap <silent> <C-Up> :resize -3<CR>
 nnoremap <silent> <C-Down> :resize +3<CR>
 
-" Cancel Search Hilight
-nnoremap <Esc> :noh<CR>
-
 " Close buffer
 nnoremap <silent> <Leader>bd :bd<CR> 
 
-"remap split navigation to just CTRL + hjkl
+" remap split navigation to just CTRL + hjkl
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-"switch tab
+" switch tab
 nnoremap H gT
 nnoremap L gt
 nnoremap T H
 nnoremap B L
 
-"change split windows from vertical to horizontal or vice versa
+" change split windows from vertical to horizontal or vice versa
 nnoremap <leader>th <C-w>t<C-w>H
 nnoremap <leader>tk <C-w>t<C-w>K
 
-"move current line
+" move current line
 nnoremap <silent> <C-n> :m +1<CR>
 nnoremap <silent> <C-p> :m -2<CR>
 vnoremap <silent> <C-n> :m '>+1<CR>gv=gv
