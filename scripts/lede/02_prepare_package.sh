@@ -18,7 +18,7 @@ patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
 ### 替换准备 ###
-rm -rf feeds/luci/applications/{luci-app-passwall,luci-app-dockerman,luci-app-ttyd}
+rm -rf feeds/luci/applications/{luci-app-passwall,luci-app-dockerman}
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
@@ -61,10 +61,6 @@ popd
 pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd
-# TTYD
-cp -rf ../openwrt_luci_ma/applications/luci-app-ttyd feeds/luci/applications/luci-app-ttyd
-rm -rf feeds/packages/utils/ttyd
-cp -rf ../openwrt_pkg/utils/ttyd feeds/packages/utils/ttyd
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
 
