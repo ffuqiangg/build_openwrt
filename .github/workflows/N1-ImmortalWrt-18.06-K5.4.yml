@@ -82,6 +82,10 @@ jobs:
         cp -r ../scripts/immortalwrt-18.06-k5.4/. ./
         /bin/bash 02_prepare_package.sh
         sed -i -e "s,DATE,${{ env.build_date }}," -e 's,WRT_SOUR,ImmortalWrt,' -e 's,RELEASES,18.06 K5.4,' ./files/etc/banner
+        echo "prerelease_symbol=true" >> ${GITHUB_ENV}
+        if [[ "${{ github.event_name }}" == 'repository_dispatch' ]]; then
+          echo "prerelease_symbol=false" >> ${GITHUB_ENV}
+        fi
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
@@ -142,6 +146,7 @@ jobs:
         tag: ${{ env.build_date }}
         allowUpdates: true
         replacesArtifacts: true
+        prerelease: ${{ env.prerelease_symbol }}
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-ImmortalWrt-18.06-K5.4-${{ env.build_date }}.zip
 
     - name: Telegram notification
