@@ -12,10 +12,7 @@ sed -i 's/Os/O2/g' include/target.mk
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
-rm -f ./package/emortal/default-settings/files/openwrt_banner
-sed -i '/openwrt_banner/,&d' ./package/emortal/default-settings/files/99-default-settings
-cat ../files/immortalwrt-18.06/default-settings/99-default-settings >> ./package/emortal/default-settings/files/99-default-settings
-sed -i '/etc$/,+2d' ./package/emortal/default-settings/Makefile
+patch -p1 < ../patch/default-settings/immortalwrt-18.06/01_modify_immortalwrt-18.06-k5.4_default-settings.patch
 # MosDNS
 rm -rf feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/new/luci-app-mosdns

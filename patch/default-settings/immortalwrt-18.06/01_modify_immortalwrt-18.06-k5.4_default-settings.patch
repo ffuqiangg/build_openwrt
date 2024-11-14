@@ -1,0 +1,94 @@
+diff --git a/package/emortal/default-settings/Makefile b/package/emortal/default-settings/Makefile
+index e94002e..e9edfe4 100644
+--- a/package/emortal/default-settings/Makefile
++++ b/package/emortal/default-settings/Makefile
+@@ -36,9 +36,6 @@ define Build/Compile
+ endef
+ 
+ define Package/default-settings/install
+-	$(INSTALL_DIR) $(1)/etc
+-	$(INSTALL_DATA) ./files/openwrt_banner $(1)/etc/openwrt_banner
+-
+ 	$(INSTALL_DIR) $(1)/etc/uci-defaults
+ 	$(INSTALL_BIN) ./files/99-default-settings $(1)/etc/uci-defaults/
+ endef
+diff --git a/package/emortal/default-settings/files/99-default-settings b/package/emortal/default-settings/files/99-default-settings
+index e331a70..ea249fa 100755
+--- a/package/emortal/default-settings/files/99-default-settings
++++ b/package/emortal/default-settings/files/99-default-settings
+@@ -30,6 +30,57 @@ echo 'hsts=0' > /root/.wgetrc
+ rm -rf /tmp/luci-modulecache/
+ rm -f /tmp/luci-indexcache
+ 
+-mv /etc/openwrt_banner /etc/banner
++# Dropbear
++uci set dropbear.@dropbear[0].Interface='lan'
++uci commit dropbear
++
++# PASSWALL
++[ -f '/usr/share/v2ray/geoip.dat' ] && uci set passwall.@global_rules[0].v2ray_location_asset='/usr/share/v2ray/'
++uci set passwall.@global_subscribe[0].ss_aead_type='shadowsocks-rust'
++uci set passwall.@global_delay[0].start_delay='5'
++uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
++uci commit passwall
++
++# 默认开启 Packet Steering
++uci set network.globals.packet_steering='1'
++uci commit network
++
++# OpenClash
++echo "/etc/openclash/" >> /etc/sysupgrade.conf && cat /etc/sysupgrade.conf | sort | uniq > /tmp/tmp_sysupgrade_conf && cat /tmp/tmp_sysupgrade_conf > /etc/sysupgrade.conf
++[ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geosite.dat /etc/openclash/GeoSite.dat
++[ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geoip.dat /etc/openclash/GeoIP.dat
++
++# V2rayA
++[ -f /usr/share/v2ray/geoip.dat ] && ln -sf /usr/share/v2ray/geoip.dat /usr/share/xray/geoip.dat
++[ -f /usr/share/v2ray/geosite.dat ] && ln -sf /usr/share/v2ray/geosite.dat /usr/share/xray/geosite.dat
++
++# 定时清理
++(crontab -l | sed '/find \/tmp/d'; echo "0 0 1 * * find /tmp -type f \( -name \"*.log\" -o -name \"*.txt\" \) -exec sh -c 'rm {} && touch {}' \;") | sed '/^$/d' | crontab -
++
++# rpcd
++[ $(uci -q get rpcd.@rpcd[0].timeout) -lt 60 ] && uci set rpcd.@rpcd[0].timeout=60 && uci commit rpcd
++
++# Flag packages (禁止更新)
++opkg flag hold luci-app-firewall
++opkg flag hold firewall
++opkg flag hold dnsmasq-full
++
++# 禁用Docker自动启动
++uci set dockerd.globals.auto_start='0'
++uci commit dockerd
++
++# 禁用某些可能会自启动且用不上的依赖包服务
++/etc/init.d/haproxy disable 2>/dev/null
++/etc/init.d/haproxy stop
++/etc/init.d/kcptun disable 2>/dev/null
++/etc/init.d/kcptun stop
++/etc/init.d/sing-box disable 2>/dev/null
++/etc/init.d/sing-box stop
++
++chmod 0755 /etc/init.d/*
++
++# 清除 LuCI 残留缓存
++rm -rf /tmp/luci-modulecache
++rm -f /tmp/luci-indexcache
+ 
+ exit 0
+diff --git a/package/emortal/default-settings/files/openwrt_banner b/package/emortal/default-settings/files/openwrt_banner
+deleted file mode 100644
+index 82919a7..0000000
+--- a/package/emortal/default-settings/files/openwrt_banner
++++ /dev/null
+@@ -1,11 +0,0 @@
+-[0;1;34;94m┌────────────[0;34m────────────[0;37m─────────────[0;1;30;90m────────┐[0m
+-[0;1;34;94m│[0m                                             [0;1;30;90m│[0m
+-[0;1;34;94m│[0m [0;1;34;94mmmmmm[0m                         [0;37mm[0m       [0;1;30;90m""#[0m   [0;34m│[0m
+-[0;1;34;94m│[0m   [0;34m#[0m   [0;34mmmmmm[0m [0;34mm[0;37mmmmm[0m  [0;37mmmm[0m  [0;37mm[0m[0;1;30;90mmm[0m [0;1;30;90mmm#mm[0m  [0;1;30;90mmmm[0m  [0;1;34;94m#[0m   [0;34m│[0m
+-[0;37m│[0m   [0;34m#[0m   [0;37m#[0m [0;37m#[0m [0;37m#[0m [0;37m#[0m [0;37m#[0m [0;37m#[0m [0;37m#"[0m [0;1;30;90m"#[0m [0;1;30;90m#"[0m [0;1;30;90m"[0m  [0;1;30;90m#[0m   [0;1;34;94m"[0m   [0;1;34;94m#[0m [0;1;34;94m#[0m   [0;34m│[0m
+-[0;37m│[0m   [0;37m#[0m   [0;37m#[0m [0;37m#[0m [0;37m#[0m [0;37m#[0m [0;1;30;90m#[0m [0;1;30;90m#[0m [0;1;30;90m#[0m   [0;1;30;90m#[0m [0;1;30;90m#[0m     [0;1;34;94m#[0m   [0;1;34;94mm"""#[0m [0;34m#[0m   [0;1;34;94m│[0m
+-[0;37m│[0m [0;37mmm#mm[0m [0;1;30;90m#[0m [0;1;30;90m#[0m [0;1;30;90m#[0m [0;1;30;90m#[0m [0;1;30;90m#[0m [0;1;30;90m#[0m [0;1;30;90m"#[0;1;34;94mm#"[0m [0;1;34;94m#[0m     [0;1;34;94m"m[0;34mm[0m [0;34m"mm"#[0m [0;34m"mm[0m [0;1;34;94m│[0m
+-[0;1;30;90m│[0m                                             [0;37m│[0m
+-[0;1;30;90m│[0;34m───────────────────[0;1;34;94m────────────[0;37m──────────────│[0m
+-[0;1;30;90m│[0m              [0;1;34;94mImmortalWrt[0m [0;1;34;94m18.06[0m              [0;37m│[0m
+-[0;1;34;94m└[0;1;34;94m─────────────[0;34m──────────────[0;1;30;90m───────────[0;37m───────┘[0m

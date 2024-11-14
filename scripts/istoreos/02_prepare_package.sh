@@ -21,7 +21,7 @@ rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya,luci
 ### 获取额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
 # 添加 default settings
-cp -f ../files/istoreos/default-settings/zzz-default-settings ./package/istoreos-files/files/etc/uci-defaults/
+cp -f ../patch/default-settings/istoreos/zzz-default-settings ./package/istoreos-files/files/etc/uci-defaults/
 # 替换 coremark
 rm -rf feeds/packages/utils/coremark
 cp -rf ../openwrt_pkg_ma/utils/coremark ./feeds/packages/utils/coremark

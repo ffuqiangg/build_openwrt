@@ -23,8 +23,7 @@ rm -rf feeds/luci/applications/{luci-app-passwall,luci-app-dockerman}
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
-sed -i -e '/services/d' -e '/modulecache/,$d' package/lean/default-settings/files/zzz-default-settings
-cat ../files/lede/default-settings/zzz-default-settings >> package/lean/default-settings/files/zzz-default-settings
+patch -p1 < ../patch/default-settings/lede/01_modify_lede_default-settings.patch
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
