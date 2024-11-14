@@ -12,10 +12,6 @@ sed -i 's/Os/O2/g' include/target.mk
 sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
-### FW4 ###
-rm -rf ./package/network/config/firewall4
-cp -rf ../openwrt_ma/package/network/config/firewall4 ./package/network/config/firewall4
-
 ### FIREWALL ###
 # custom nft command
 patch -p1 < ../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
@@ -27,15 +23,14 @@ popd
 ### ADD PKG 部分 ###
 cp -rf ../openwrt-add ./package/new
 rm -rf package/new/{luci-app-mosdns,openwrt_helloworld/v2ray-geodata,OpenWrt-mihomo}
-rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,v2ray-geodata,sing-box,frp,microsocks,shadowsocks-libev,zerotier,v2raya,daed}
+rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,frp,microsocks,shadowsocks-libev,zerotier,v2raya,daed}
 rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-zerotier}
 rm -rf feeds/packages/utils/coremark
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 更换 Nodejs 版本
 rm -rf ./feeds/packages/lang/node
-rm -rf ./package/new/feeds_packages_lang_node-prebuilt
-cp -rf ../openwrt-add/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
+mv ./package/new/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
 # 更换 golang 版本
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
