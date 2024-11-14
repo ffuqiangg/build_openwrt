@@ -53,6 +53,7 @@ sed -i 's,\"system\",\"services\",g' feeds/luci/applications/luci-app-cpufreq/ro
 sed -i -e 's,\"NAS\",\"Services\",g' -e 's,\"nas\",\"services\",g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Docker 容器
 cp -rf ../dockerman/applications/luci-app-dockerman feeds/luci/applications/luci-app-dockerman
+sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
@@ -63,12 +64,9 @@ popd
 # Mihomo
 cp -rf ../mihomo ./package/new/mihomo
 
-### 特定优化 ###
-sed -i 's,-mcpu=generic,-march=armv8-a+crc+crypto,g' include/target.mk
 # 预配置一些插件
 mkdir -p files
 cp -rf ../files/{etc,root,cpufreq/*,sing-box/*} files/
-sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f

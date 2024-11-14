@@ -32,7 +32,8 @@ sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' feeds/luci/applicatio
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-filebrowser/luasrc/view/filebrowser/filebrowser_status.htm
 # Rclone
 sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
-# Dockerman
+# Docker 容器
+sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd

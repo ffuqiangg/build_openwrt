@@ -38,6 +38,7 @@ move_2_services nas
 popd
 # Docker 容器
 cp -rf ../dockerman/applications/luci-app-dockerman feeds/luci/applications/luci-app-dockerman
+sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
@@ -105,7 +106,6 @@ cp -rf ../lede_luci/applications/luci-app-frpc ./package/new/luci-app-frpc
 # 预配置一些插件
 mkdir -p files
 cp -rf ../files/{etc,root,cpufreq/*,sing-box/*} files/
-sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
