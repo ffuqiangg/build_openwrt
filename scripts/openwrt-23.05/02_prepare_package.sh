@@ -27,12 +27,12 @@ rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsock
 mkdir -p ./package/new
 # 预编译 node
 rm -rf ./feeds/packages/lang/node
-mv ./package/new/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
+cp -rf ../node ./feeds/packages/lang/node
 # 更换 golang 版本
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # Autocore
-cp -rf ../openwrt-add/autocore-arm ./package/new/autocore-arm
+cp -rf ../immortalwrt_23/package/emortal/autocore ./package/new/autocore
 # mount cgroupv2
 pushd feeds/packages
 patch -p1 < ../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
@@ -113,10 +113,10 @@ cp -rf ../immortalwrt_pkg/net/vlmcsd ./package/new/vlmcsd
 # 晶晨宝盒
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git package/new/luci-app-amlogic
 # DDNS scripts
-cp -rf ../openwrt-add/openwrt_pkgs/ddns-scripts-aliyun ./package/new/ddns-scripts-aliyun
-# 翻译及部分功能优化
-cp -rf ../openwrt-add/addition-trans-zh ./package/new/addidtion-trans-zh
-cp -f ../patch/default-settings/openwrt-23.05/zzz-default-settings ./package/new/addition-trans-zh/files/zzz-default-settings
+cp -rf ../immortalwrt_pkg/net/ddns-scripts_dnspod ./package/new/ddns-scripts_dnspod
+cp -rf ../immortalwrt_pkg/net/ddns-scripts_aliyun ./package/new/ddns-scripts_aliyun
+# default settings
+cp -rf ../files/default-settings ./package/new/default-settings
 # mihomo
 cp -rf ../mihomo ./package/new/luci-app-mihomo
 

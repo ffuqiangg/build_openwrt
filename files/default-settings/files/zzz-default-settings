@@ -56,7 +56,7 @@ opkg flag hold luci-app-firewall
 opkg flag hold firewall
 opkg flag hold dnsmasq-full
 
-# 禁用Docker自动启动
+# 禁用 Docker 自动启动
 uci set dockerd.globals.auto_start='0'
 uci commit dockerd
 
