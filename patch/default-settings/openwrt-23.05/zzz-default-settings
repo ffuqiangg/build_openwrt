@@ -32,43 +32,9 @@ uci commit passwall
 sed -i 's,downloads.openwrt.org,mirrors.pku.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
 sed -i 's,mirror.sjtu.edu.cn/openwrt,mirrors.pku.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
 
-# uhttpd 设置
-uci set uhttpd.main.rfc1918_filter=0
-uci set uhttpd.main.redirect_https=0
-uci set uhttpd.main.http_keepalive=0
-#uci set uhttpd.main.tcp_keepalive=0
-#uci set uhttpd.main.script_timeout=65535
-#uci set uhttpd.main.script_network_timeout=65535
-uci commit uhttpd
-/etc/init.d/uhttpd restart
-
-# nginx 设置
-sed -i 's,deny all,allow all,g' /etc/nginx/restrict_locally
-uci delete nginx._redirect2ssl.return
-uci delete nginx._redirect2ssl.include
-uci add_list nginx._redirect2ssl.include='restrict_locally'
-uci add_list nginx._redirect2ssl.include='conf.d/*.locations'
-uci commit nginx
-/etc/init.d/nginx restart
-
-# 在防火墙默认开启全锥形 NAT 以及关闭 Flow Offloading 并开启 SFE
-uci set firewall.@defaults[0].fullcone='1'
-uci set firewall.@defaults[0].brcmfullcone='1'
-uci set firewall.@zone[1].fullcone4='1'
-uci set firewall.@zone[1].fullcone6='1'
-uci set firewall.@defaults[0].natflow='0'
-uci set firewall.@defaults[0].shortcut_fe='0'
-uci set firewall.@defaults[0].flow_offloading='1'
-uci set firewall.@defaults[0].input='ACCEPT'
-uci commit firewall
-/etc/init.d/autocore restart
-
-# SFE
-sed -i '/shortcutfe/d' /usr/share/rpcd/ucode/luci
-sed -i '/offloading/ a\                shortcutfe: access('\''/etc/init.d/shortcut-fe'\'') == true,' /usr/share/rpcd/ucode/luci
-
-# 默认开启 Packet Steering
-uci set network.globals.packet_steering='1'
+#默认开启 Packet Steering
+uci set network.globals.packet_steering=$(( $(uname -r | grep -q "^5\.15"; echo $?) ? 2 : 1 ))
+uci set network.globals.steering_flows='128'
 uci commit network
 
 # 通用即插即用
@@ -85,9 +51,6 @@ uci commit upnpd
 # 定时清理
 (crontab -l | sed '/find \/tmp/d'; echo "0 0 1 * * find /tmp -type f \( -name \"*.log\" -o -name \"*.txt\" \) -exec sh -c 'rm {} && touch {}' \;") | sed '/^$/d' | crontab -
 
-# rpcd
-[ $(uci -q get rpcd.@rpcd[0].timeout) -lt 60 ] && uci set rpcd.@rpcd[0].timeout=60 && uci commit rpcd
-
 # Flag packages (禁止更新)
 opkg flag hold luci-app-firewall
 opkg flag hold firewall
@@ -97,7 +60,7 @@ opkg flag hold dnsmasq-full
 uci set dockerd.globals.auto_start='0'
 uci commit dockerd
 
-# 默认停用 sing-box
+# 停用服务
 /etc/init.d/haproxy disable 2>/dev/null
 /etc/init.d/haproxy stop
 /etc/init.d/kcptun disable 2>/dev/null
