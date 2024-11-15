@@ -8,9 +8,6 @@ sed -i 's/Os/O2/g' include/target.mk
 # 更新 Feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
-# 移除 SNAPSHOT 标签
-sed -i 's,-SNAPSHOT,,g' include/version.mk
-sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
 ### FIREWALL ###
 # custom nft command
@@ -60,8 +57,8 @@ ntp.ntsc.ac.cn
 # Passwall package
 cp -rf ../passwall_pkg ./package/new/passwall_pkg
 # CPU 占用率限制
-cp -rf ../openwrt-add/luci-app-cpulimit ./package/new/luci-app-cpulimit
-cp -rf ../openwrt-add/imm_pkg/cpulimit ./package/new/cpulimit
+cp -rf ../immortalwrt_luci_23/applications/luci-app-cpulimit ./package/new/luci-app-cpulimit
+cp -rf ../immortalwrt_pkg/utils/cpulimit ./package/new/cpulimit
 # Filebrowser 文件浏览器
 cp -rf ../immortalwrt_luci_23/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
 cp -rf ../immortalwrt_pkg/utils/filebrowser ./package/new/filebrowser
@@ -84,7 +81,7 @@ checkip.dyndns.org
 checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
-ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
+ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
 # V2raya
 git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git v2raya

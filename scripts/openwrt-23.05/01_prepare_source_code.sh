@@ -8,7 +8,6 @@ clone_repo $openwrt_repo $latest_release openwrt &
 clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg &
 clone_repo $immortalwrt_luci_repo openwrt-23.05 immortalwrt_luci_23 &
 clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
-clone_repo $openwrt_add_repo master openwrt-add &
 clone_repo $dockerman_repo master dockerman &
 clone_repo $docker_lib_repo master docker_lib &
 clone_repo $mosdns_repo v5 mosdns &
