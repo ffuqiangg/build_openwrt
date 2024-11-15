@@ -17,7 +17,7 @@ pushd feeds/luci
 patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
-### ADD PKG 部分 ###
+### 替换准备 ###
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsocks,shadowsocks-libev,v2raya}
 
 ### 获取额外的 LuCI 应用和依赖 ###
@@ -116,9 +116,6 @@ cp -rf ../immortalwrt_pkg/net/ddns-scripts_aliyun ./package/new/ddns-scripts_ali
 cp -rf ../files/default-settings ./package/new/default-settings
 # mihomo
 cp -rf ../mihomo ./package/new/luci-app-mihomo
-
-### 一些收尾工作 ###
-sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
 
 ### 预配置一些插件 ###
 mkdir -p files
