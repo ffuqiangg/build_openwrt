@@ -88,6 +88,15 @@ ntp.ntsc.ac.cn
 ' >> package/new/luci-app-passwall/root/usr/share/passwall/rules/direct_host
 # Mosdns
 cp -rf ../mosdns ./package/new/luci-app-mosdns
+# Mosdns 白名单
+echo 'account.synology.com
+ddns.synology.com
+checkip.synology.com
+checkip.dyndns.org
+checkipv6.synology.com
+ntp.aliyun.com
+cn.ntp.org.cn
+ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
 # V2raya
 git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git luci-app-v2raya

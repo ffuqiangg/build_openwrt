@@ -47,6 +47,15 @@ ntp.ntsc.ac.cn
 pushd feeds/luci/applications/luci-app-vsftpd
 move_2_services nas
 popd
+# Mosdns 白名单
+echo 'account.synology.com
+ddns.synology.com
+checkip.synology.com
+checkip.dyndns.org
+checkipv6.synology.com
+ntp.aliyun.com
+cn.ntp.org.cn
+ntp.ntsc.ac.cn' >> feeds/luci/applications/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 # Cpufreq
 sed -i 's,\"system\",\"services\",g' feeds/luci/applications/luci-app-cpufreq/root/usr/share/luci/menu.d/luci-app-cpufreq.json
 # Rclone

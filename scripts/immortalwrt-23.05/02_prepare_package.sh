@@ -39,6 +39,15 @@ cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-system
 cp -rf ../lede_pkg/net/wget ./feeds/packages/net/wget
 # Mosdns
 cp -rf ../mosdns ./package/new/luci-app-mosdns
+# Mosdns 白名单
+echo 'account.synology.com
+ddns.synology.com
+checkip.synology.com
+checkip.dyndns.org
+checkipv6.synology.com
+ntp.aliyun.com
+cn.ntp.org.cn
+ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 cp -rf ../v2ray_geodata feeds/packages/net/v2ray-geodata
 # Samba4
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
