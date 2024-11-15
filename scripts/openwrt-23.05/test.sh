@@ -96,6 +96,13 @@ cp -rf ../files/default-settings ./package/new/default-settings
 # mihomo
 cp -rf ../mihomo ./package/new/luci-app-mihomo
 
+### 一些后续处理 ###
+makefile_file="$({ find package -type f | grep Makefile | sed "/Makefile./d"; } 2>"/dev/null")"
+for g in ${makefile_file}; do
+    [ -n "$(grep "golang-package.mk" "$g")" ] && sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/packages|g" "$g"
+    [ -n "$(grep "luci.mk" "$g")" ] && sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" "$g"
+done
+
 ### 预配置一些插件 ###
 mkdir -p files
 cp -rf ../files/{etc,root,sing-box/*} files/
