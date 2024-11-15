@@ -118,7 +118,6 @@ cp -rf ../files/default-settings ./package/new/default-settings
 cp -rf ../mihomo ./package/new/luci-app-mihomo
 
 ### 一些收尾工作 ###
-rm -rf .config
 sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
 
 ### 预配置一些插件 ###
