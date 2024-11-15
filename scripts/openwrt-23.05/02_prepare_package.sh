@@ -79,14 +79,6 @@ cp -f ../patch/default-settings/openwrt-23.05/zzz-default-settings ./package/new
 # mihomo
 cp -rf ../mihomo ./package/new/luci-app-mihomo
 
-
-### 使用特定的优化 ###
-# Vermagic
-latest_version="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/v//g' | sed 's/.tar.gz//g')"
-wget https://downloads.openwrt.org/releases/${latest_version}/targets/armsr/armv8/packages/Packages.gz
-zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' >.vermagic
-sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
-
 ### 预配置一些插件 ###
 mkdir -p files
 cp -rf ../files/{etc,root,sing-box/*} files/
