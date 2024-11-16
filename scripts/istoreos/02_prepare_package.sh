@@ -25,6 +25,9 @@ cp -f ../patch/default-settings/istoreos/zzz-default-settings ./package/istoreos
 # 替换 coremark
 rm -rf feeds/packages/utils/coremark
 cp -rf ../openwrt_pkg_ma/utils/coremark ./feeds/packages/utils/coremark
+# Golang
+rm -rf ./feeds/packages/lang/golang
+cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
@@ -32,7 +35,9 @@ cp -rf ../node feeds/packages/lang/node
 cp -rf ../lede/package/lean/autocore package/new/autocore
 # Filebrowser 文件浏览器
 cp -rf ../immortalwrt_luci_23/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
+convert_luci_mk package/new/luci-app-filebrowser/Makefile
 cp -rf ../immortalwrt_pkg/utils/filebrowser ./package/new/filebrowser
+convert_golang_package_mk package/new/filebrowser/Makefile
 pushd package/new/luci-app-filebrowser
 move_2_services nas
 popd
@@ -48,25 +53,26 @@ cp -rf ../diskman/applications/luci-app-diskman ./package/new/luci-app-diskman
 cp -rf ../mihomo ./package/new/mihomo
 # Vsftpd
 cp -rf ../immortalwrt_luci_23/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
+convert_luci_mk package/new/luci-app-vsftpd/Makefile
 cp -rf ../immortalwrt_pkg/net/vsftpd ./package/new/vsftpd
 pushd package/new/luci-app-vsftpd
 move_2_services nas
 popd
 # Verysync
 cp -rf ../immortalwrt_luci_23/applications/luci-app-verysync ./package/new/luci-app-verysync
+convert_luci_mk package/new/luci-app-verysync/Makefile
 cp -rf ../immortalwrt_pkg/net/verysync ./package/new/verysync
 pushd package/new/luci-app-verysync
 move_2_services nas
 popd
 # CPU 调度
 cp -rf ../immortalwrt_luci_23/applications/luci-app-cpufreq ./package/new/luci-app-cpufreq
+convert_luci_mk package/new/luci-app-cpufreq/Makefile
 cp -rf ../immortalwrt_ma/package/emortal/cpufreq ./package/new/cpufreq
 sed -i 's,\"system\",\"services\",g' ./package/new/luci-app-cpufreq/root/usr/share/luci/menu.d/luci-app-cpufreq.json
 # Sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./package/new/sing-box
-# Golang
-rm -rf ./feeds/packages/lang/golang
-cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
+convert_golang_package_mk package/new/sing-box/Makefile
 # Passwall
 cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 cp -rf ../passwall_pkg ./package/new/passwall_pkg
@@ -99,10 +105,10 @@ cn.ntp.org.cn
 ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
 # V2raya
-git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git luci-app-v2raya
-cp -rf ./luci-app-v2raya/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
-cp -rf ./luci-app-v2raya/v2fly-geodata ./package/new/v2fly-geodata
-rm -rf ./luci-app-v2raya
+git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git v2raya
+cp -rf ./v2raya/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
+cp -rf ./v2raya/v2fly-geodata ./package/new/v2fly-geodata
+rm -rf ./v2raya
 cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 ln -sf ../../../feeds/packages/net/v2raya ./package/feeds/packages/v2raya
 # FRP 内网穿透
@@ -110,7 +116,9 @@ cp -rf ../immortalwrt_pkg/net/frp ./feeds/packages/net/frp
 sed -i '/etc/d' feeds/packages/net/frp/Makefile
 sed -i '/defaults/{N;d;}' feeds/packages/net/frp/Makefile
 cp -rf ../lede_luci/applications/luci-app-frps ./package/new/luci-app-frps
+convert_luci_mk package/new/luci-app-frps/Makefile
 cp -rf ../lede_luci/applications/luci-app-frpc ./package/new/luci-app-frpc
+convert_luci_mk package/new/luci-app-frpc/Makefile
 
 # 预配置一些插件
 mkdir -p files

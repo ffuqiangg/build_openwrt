@@ -68,11 +68,6 @@ jobs:
         cp -r ../scripts/openwrt-23.05/. ./
         /bin/bash 02_prepare_package.sh
 
-    - name: Convert Translation
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        /bin/bash 03_convert.sh
-
     - name: Load custom configuration
       run: |
         latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"

@@ -55,3 +55,13 @@ docker_2_services ()
     done
     sed -i 's,Docker,&Man,' ${dockerman_lua}
 }
+
+convert_luci_mk ()
+{
+    sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" "$1"
+}
+
+convert_golang_package_mk ()
+{
+    sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/packages|g" "$1"
+}

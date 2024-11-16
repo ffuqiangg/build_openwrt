@@ -68,11 +68,6 @@ jobs:
         /bin/bash 02_prepare_package.sh
         sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_SOUR,iStoreOS," -e "s,RELEASES,22.03," ./files/etc/banner
 
-    - name: Convert Makefiles
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        /bin/bash 03_convert.sh
-
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
