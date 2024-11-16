@@ -70,6 +70,7 @@ move_2_services nas
 popd
 # DAED
 git clone --depth 1 -b master https://github.com/QiuSimons/luci-app-daed.git package/new/luci-app-daed
+cp -rf ../immortalwrt_pkg/libs/libcron ./package/new/libcron
 # Docker 容器
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
