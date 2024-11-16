@@ -111,7 +111,7 @@ move_2_services nas
 popd
 # KMS 服务器
 cp -rf ../immortalwrt_luci_23/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
-convert_luci_mkpackage/new/luci-app-vlmcsd/Makefile 
+convert_luci_mk package/new/luci-app-vlmcsd/Makefile 
 cp -rf ../immortalwrt_pkg/net/vlmcsd ./package/new/vlmcsd
 # 晶晨宝盒
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git package/new/luci-app-amlogic
