@@ -3,8 +3,7 @@
 source ../scripts/funcations.sh
 
 ### 基础部分 ###
-# 使用 O2 级别的优化
-sed -i 's/Os/O2/g' include/target.mk
+
 # 更新 Feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
@@ -14,13 +13,6 @@ sed -i 's/Os/O2/g' include/target.mk
 
 ### 获取额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
-
-### 一些后续处理 ###
-makefile_file="$({ find package -type f | grep Makefile | sed "/Makefile./d"; } 2>"/dev/null")"
-for g in ${makefile_file}; do
-    [ -n "$(grep "golang-package.mk" "$g")" ] && sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/packages|g" "$g"
-    [ -n "$(grep "luci.mk" "$g")" ] && sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" "$g"
-done
 
 ### 预配置一些插件 ###
 mkdir -p files
