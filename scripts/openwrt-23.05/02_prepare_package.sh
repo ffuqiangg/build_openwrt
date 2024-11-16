@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ../scripts/funcations.sh
+. ../scripts/funcations.sh
 
 ### 基础部分 ###
 # 使用 O2 级别的优化
@@ -18,6 +18,8 @@ patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
 ### Kernel Hack 部分 ###
+# make olddefconfig
+wget -qO - https://github.com/openwrt/openwrt/commit/c21a3570.patch | patch -p1
 # btf
 wget -qO - https://github.com/immortalwrt/immortalwrt/commit/73e5679.patch | patch -p1
 wget https://github.com/immortalwrt/immortalwrt/raw/openwrt-23.05/target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch -O target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch
@@ -141,6 +143,10 @@ cp -rf ../immortalwrt_pkg/net/ddns-scripts_aliyun ./package/new/ddns-scripts_ali
 cp -rf ../files/default-settings ./package/new/default-settings
 # mihomo
 cp -rf ../mihomo ./package/new/luci-app-mihomo
+
+# 生成默认配置及缓存
+rm -rf .config
+sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
 
 ### 预配置一些插件 ###
 mkdir -p files
