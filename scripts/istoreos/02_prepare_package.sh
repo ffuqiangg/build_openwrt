@@ -35,9 +35,9 @@ cp -rf ../node feeds/packages/lang/node
 cp -rf ../lede/package/lean/autocore package/new/autocore
 # Filebrowser 文件浏览器
 cp -rf ../immortalwrt_luci_23/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
-convert_luci_mk package/new/luci-app-filebrowser/Makefile
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-filebrowser/Makefile
 cp -rf ../immortalwrt_pkg/utils/filebrowser ./package/new/filebrowser
-convert_golang_package_mk package/new/filebrowser/Makefile
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/packages|g" package/new/filebrowser/Makefile
 pushd package/new/luci-app-filebrowser
 move_2_services nas
 popd
@@ -53,26 +53,26 @@ cp -rf ../diskman/applications/luci-app-diskman ./package/new/luci-app-diskman
 cp -rf ../mihomo ./package/new/mihomo
 # Vsftpd
 cp -rf ../immortalwrt_luci_23/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
-convert_luci_mk package/new/luci-app-vsftpd/Makefile
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-vsftpd/Makefile
 cp -rf ../immortalwrt_pkg/net/vsftpd ./package/new/vsftpd
 pushd package/new/luci-app-vsftpd
 move_2_services nas
 popd
 # Verysync
 cp -rf ../immortalwrt_luci_23/applications/luci-app-verysync ./package/new/luci-app-verysync
-convert_luci_mk package/new/luci-app-verysync/Makefile
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-verysync/Makefile
 cp -rf ../immortalwrt_pkg/net/verysync ./package/new/verysync
 pushd package/new/luci-app-verysync
 move_2_services nas
 popd
 # CPU 调度
 cp -rf ../immortalwrt_luci_23/applications/luci-app-cpufreq ./package/new/luci-app-cpufreq
-convert_luci_mk package/new/luci-app-cpufreq/Makefile
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-cpufreq/Makefile
 cp -rf ../immortalwrt_ma/package/emortal/cpufreq ./package/new/cpufreq
 sed -i 's,\"system\",\"services\",g' ./package/new/luci-app-cpufreq/root/usr/share/luci/menu.d/luci-app-cpufreq.json
 # Sing-box
 cp -rf ../immortalwrt_pkg/net/sing-box ./package/new/sing-box
-convert_golang_package_mk package/new/sing-box/Makefile
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/packages|g" package/new/sing-box/Makefile
 # Passwall
 cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 cp -rf ../passwall_pkg ./package/new/passwall_pkg
@@ -116,9 +116,9 @@ cp -rf ../immortalwrt_pkg/net/frp ./feeds/packages/net/frp
 sed -i '/etc/d' feeds/packages/net/frp/Makefile
 sed -i '/defaults/{N;d;}' feeds/packages/net/frp/Makefile
 cp -rf ../lede_luci/applications/luci-app-frps ./package/new/luci-app-frps
-convert_luci_mk package/new/luci-app-frps/Makefile
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-frps/Makefile
 cp -rf ../lede_luci/applications/luci-app-frpc ./package/new/luci-app-frpc
-convert_luci_mk package/new/luci-app-frpc/Makefile
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-frpc/Makefile
 
 # 预配置一些插件
 mkdir -p files

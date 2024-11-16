@@ -58,13 +58,13 @@ ntp.ntsc.ac.cn
 cp -rf ../passwall_pkg ./package/new/passwall_pkg
 # CPU 占用率限制
 cp -rf ../immortalwrt_luci_23/applications/luci-app-cpulimit ./package/new/luci-app-cpulimit
-convert_luci_mk package/new/luci-app-cpulimit/Makefile
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-cpulimit/Makefile
 cp -rf ../immortalwrt_pkg/utils/cpulimit ./package/new/cpulimit
 # Filebrowser 文件浏览器
 cp -rf ../immortalwrt_luci_23/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
-convert_luci_mk package/new/luci-app-filebrowser/Makefile
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-filebrowser/Makefile
 cp -rf ../immortalwrt_pkg/utils/filebrowser ./package/new/filebrowser
-convert_golang_package_mk package/new/filebrowser/Makefile
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/packages|g" package/new/filebrowser/Makefile
 pushd package/new/luci-app-filebrowser
 move_2_services nas
 popd
@@ -93,7 +93,7 @@ rm -rf ./v2raya
 cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 # FTP 服务器
 cp -rf ../immortalwrt_luci_23/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
-convert_luci_mk package/new/luci-app-vsftpd/Makefile
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-vsftpd/Makefile
 cp -rf ../immortalwrt_pkg/net/vsftpd ./package/new/vsftpd
 pushd package/new/luci-app-vsftpd
 move_2_services nas
@@ -104,14 +104,14 @@ sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # Verysync
 cp -rf ../immortalwrt_luci_23/applications/luci-app-verysync ./package/new/luci-app-verysync
-convert_luci_mk package/new/luci-app-verysync/Makefile
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-verysync/Makefile
 cp -rf ../immortalwrt_pkg/net/verysync ./package/new/verysync
 pushd package/new/luci-app-verysync
 move_2_services nas
 popd
 # KMS 服务器
 cp -rf ../immortalwrt_luci_23/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
-convert_luci_mk package/new/luci-app-vlmcsd/Makefile 
+sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-vlmcsd/Makefile 
 cp -rf ../immortalwrt_pkg/net/vlmcsd ./package/new/vlmcsd
 # 晶晨宝盒
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git package/new/luci-app-amlogic
