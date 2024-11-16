@@ -70,7 +70,7 @@ jobs:
     - name: Load custom configuration
       run: |
         distrib_revision=$(cat openwrt/package/lean/default-settings/files/zzz-default-settings | grep -oE "R[0-9\.]+")
-        sed -i -e "s,DATE,${{ env.build_date }}," -e "s,WRT_SOUR,LEDE," -e "s,RELEASES,${distrib_revision}," ./openwrt/files/etc/banner
+        sed -i "s/DATE/${{ env.build_date }}/;s/WRT_SOUR/LEDE/;s/RELEASES/${distrib_revision}/" ./openwrt/files/etc/banner
         echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
 
     - name: Make config
