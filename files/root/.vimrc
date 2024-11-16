@@ -94,3 +94,6 @@ nnoremap <silent> <leader>e :Ex<CR>
 
 " Specify file config
 autocmd filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
+
+" Theme
+colorscheme desert
