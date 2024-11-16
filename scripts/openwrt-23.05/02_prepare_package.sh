@@ -17,6 +17,13 @@ pushd feeds/luci
 patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
+### Kernel Hack 部分 ###
+# btf
+wget -qO - https://github.com/immortalwrt/immortalwrt/commit/73e5679.patch | patch -p1
+wget https://github.com/immortalwrt/immortalwrt/raw/openwrt-23.05/target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch -O target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch
+# bpf_loop
+cp -f ../patch/bpf_loop/*.patch ./target/linux/generic/backport-5.15/
+
 ### 替换准备 ###
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsocks,shadowsocks-libev,v2raya}
 
