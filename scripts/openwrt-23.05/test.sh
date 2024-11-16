@@ -10,13 +10,10 @@ sed -i 's/Os/O2/g' include/target.mk
 ./scripts/feeds install -a
 
 ### 替换准备 ###
-rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsocks,shadowsocks-libev,v2raya}
+# rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsocks,shadowsocks-libev,v2raya}
 
 ### 获取额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
-
-# Autocore
-cp -rf ../files/autocore ./package/new/autocore
 
 ### 一些后续处理 ###
 makefile_file="$({ find package -type f | grep Makefile | sed "/Makefile./d"; } 2>"/dev/null")"
