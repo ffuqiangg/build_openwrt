@@ -41,7 +41,7 @@ rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsock
 ### 获取额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
 # Default settings
-cp -f ../patch/default-settings/openwrt-23.05/99-default-settings ./package/base-files/files/etc/uci-dafaults/
+cp -f ../patch/default-settings/openwrt-23.05/99-default-settings ./package/base-files/files/etc/uci-defaults/
 # 预编译 node
 rm -rf ./feeds/packages/lang/node
 cp -rf ../node ./feeds/packages/lang/node
@@ -141,8 +141,6 @@ git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git package/new/lu
 # DDNS scripts
 cp -rf ../immortalwrt_pkg/net/ddns-scripts_dnspod ./package/new/ddns-scripts_dnspod
 cp -rf ../immortalwrt_pkg/net/ddns-scripts_aliyun ./package/new/ddns-scripts_aliyun
-# default settings
-cp -rf ../files/default-settings ./package/new/default-settings
 # mihomo
 cp -rf ../mihomo ./package/new/luci-app-mihomo
 
