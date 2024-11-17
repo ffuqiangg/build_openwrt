@@ -49,7 +49,7 @@ cp -rf ../node ./feeds/packages/lang/node
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # Autocore
-cp -rf ../files/autocore ./package/new/autocore
+git clone --depth 1 -b openwrt-23.05 https://github.com/sbwml/autocore-arm package/new/autocore-arm
 # mount cgroupv2
 pushd feeds/packages
 patch -p1 < ../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
