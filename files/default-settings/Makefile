@@ -5,10 +5,11 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=default-settings
-PKG_RELEASE:=29
-
-PKG_LICENSE:=GPL-2.0-only
+PKG_NAME:=default-setting
+PKG_VERSION:=1
+PKG_RELEASE:=1
+PKG_LICENSE:=GPLv3
+PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -17,7 +18,7 @@ define Package/default-settings
   CATEGORY:=LuCI
   TITLE:=LuCI support for Default Settings
   DEPENDS:=+luci
-  PKGARCH:=+default-settings +@LUCI_LANG_zh_Hans +luci-i18n-base-zh-cn
+  PKGARCH:=all
 endef
 
 define Build/Compile
