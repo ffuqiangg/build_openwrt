@@ -81,7 +81,7 @@ jobs:
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cp -f ../config/openwrt-23.05/config.seed .config
+        cp -f ../config/openwrt-23.05/config.test .config
         make defconfig
 
     - name: Download package
