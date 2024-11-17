@@ -24,16 +24,7 @@ wget -qO - https://github.com/openwrt/openwrt/commit/c21a3570.patch | patch -p1
 wget -qO - https://github.com/immortalwrt/immortalwrt/commit/73e5679.patch | patch -p1
 wget https://github.com/immortalwrt/immortalwrt/raw/openwrt-23.05/target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch -O target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch
 # bpf_loop
-# cp -f ../patch/bpf_loop/*.patch ./target/linux/generic/backport-5.15/
-pushd target/linux/generic/backport-5.15
-wget https://github.com/QiuSimons/YAOF/raw/refs/heads/23.05/PATCH/bpf_loop/052-v5.16-bpf-Replace-want-address-users-of-BPF_CAST_CALL-with.patch
-wget https://github.com/QiuSimons/YAOF/raw/refs/heads/23.05/PATCH/bpf_loop/053-v5.16-bpf-Replace-callers-of-BPF_CAST_CALL-with-proper-function.patch
-wget https://github.com/QiuSimons/YAOF/raw/refs/heads/23.05/PATCH/bpf_loop/054-v5.17-bpf-Add-bpf_loop-helper.patch
-wget https://github.com/QiuSimons/YAOF/raw/refs/heads/23.05/PATCH/bpf_loop/055-v6.0-01-bpf-Inline-calls-to-bpf_loop-when-callback-is-known.patch
-wget https://github.com/QiuSimons/YAOF/raw/refs/heads/23.05/PATCH/bpf_loop/055-v6.0-02-bpf-Fix-for-use-after-free-bug-in-inline_bpf_loop.patch
-wget https://github.com/QiuSimons/YAOF/raw/refs/heads/23.05/PATCH/bpf_loop/055-v6.0-03-bpf-Fix-dubious-one-bit-signed-bitfield-warnings.patch
-wget https://github.com/QiuSimons/YAOF/raw/refs/heads/23.05/PATCH/bpf_loop/056-v6.2-bpf-allow-precision-tracking-for-programs-with-subprogs.patch
-popd
+cp -f ../patch/bpf_loop/*.patch ./target/linux/generic/backport-5.15/
 
 ### 替换准备 ###
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsocks,shadowsocks-libev,v2raya}
