@@ -40,6 +40,8 @@ rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsock
 
 ### 获取额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
+# Default settings
+cp -f ../patch/default-settings/opemwrt-23.05/99-default-settings ./package/base-files/files/etc/uci-dafaults/
 # 预编译 node
 rm -rf ./feeds/packages/lang/node
 cp -rf ../node ./feeds/packages/lang/node
