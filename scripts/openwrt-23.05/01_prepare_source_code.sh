@@ -16,7 +16,7 @@ clone_repo $dockerman_repo master dockerman &
 #clone_repo $passwall_luci_repo main passwall_luci &
 #clone_repo $passwall_pkg_repo main passwall_pkg &
 clone_repo $node_prebuilt_repo packages-23.05 node &
-clone-repo $openwrt_add_repo master openwrt-add &
+clone_repo $openwrt_apps_repo main openwrt-apps &
 # 等待所有后台任务完成
 wait
 
