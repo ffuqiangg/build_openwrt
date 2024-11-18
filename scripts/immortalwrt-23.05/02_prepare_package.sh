@@ -57,7 +57,7 @@ sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-d
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
-# Nlbw
+# Nlbw 带宽监控
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 # Verysync
 pushd feeds/luci/applications/luci-app-verysync
