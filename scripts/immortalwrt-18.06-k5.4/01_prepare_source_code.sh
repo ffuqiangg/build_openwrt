@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./scripts/funcations.sh
+. ./scripts/funcations.sh
 
 # 开始克隆仓库，并行执行
 clone_repo $immortalwrt_repo openwrt-18.06-k5.4 openwrt &

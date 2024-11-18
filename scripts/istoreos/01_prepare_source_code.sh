@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./scripts/funcations.sh
+. ./scripts/funcations.sh
 
 # 开始克隆仓库，并行执行
 clone_repo $istoreos_repo istoreos-22.03 openwrt &
