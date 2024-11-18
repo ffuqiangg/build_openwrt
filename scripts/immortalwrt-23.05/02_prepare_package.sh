@@ -8,9 +8,6 @@ sed -i 's/Os/O2/g' include/target.mk
 # 更新 Feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
-# 移除 SNAPSHOT 标签
-sed -i 's,-SNAPSHOT,,g' include/version.mk
-sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
 ### 替换准备 ###
 rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns}
@@ -38,17 +35,8 @@ cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-system
 # Wget
 cp -rf ../lede_pkg/net/wget ./feeds/packages/net/wget
 # Mosdns
-cp -rf ../mosdns ./package/new/luci-app-mosdns
-# Mosdns 白名单
-echo 'account.synology.com
-ddns.synology.com
-checkip.synology.com
-checkip.dyndns.org
-checkipv6.synology.com
-ntp.aliyun.com
-cn.ntp.org.cn
-ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
-cp -rf ../v2ray_geodata feeds/packages/net/v2ray-geodata
+cp -rf ../openwrt-apps/luci-app-mosdns ./package/new/luci-app-mosdns
+cp -rf ../openwrt-apps/openwrt_helloworld/v2ray-geodata ./package/new/v2ray-geodata
 # Samba4
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 # Cpufreq
@@ -76,7 +64,7 @@ pushd feeds/luci/applications/luci-app-verysync
 move_2_services nas
 popd
 # Mihomo
-cp -rf ../mihomo ./package/mihomo
+cp -rf ../openwrt-apps/OpenWrt-mihomo ./package/new/luci-app-mihomo
 
 # 预配置一些插件
 mkdir -p files
