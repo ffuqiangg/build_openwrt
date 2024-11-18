@@ -37,7 +37,6 @@ rm -rf feeds/packages/utils/coremark
 cp -f ../patch/default-settings/openwrt-23.05/99-default-settings ./package/base-files/files/etc/uci-defaults/
 # 预编译 node
 rm -rf ./feeds/packages/lang/node
-rm -rf ./package/new/feeds_packages_lang_node-prebuilt
 cp -rf ../node ./feeds/packages/lang/node
 # 更换 golang 版本
 rm -rf ./feeds/packages/lang/golang
@@ -104,28 +103,28 @@ sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-d
 #ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 #cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
 # V2raya
-git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git v2raya
-cp -rf ./v2raya/luci-app-v2raya ./package/new/luci-app-v2raya
-rm -rf ./v2raya
-cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
+#git clone --depth 1 https://github.com/v2rayA/v2raya-openwrt.git v2raya
+#cp -rf ./v2raya/luci-app-v2raya ./package/new/luci-app-v2raya
+#rm -rf ./v2raya
+#cp -rf ../openwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 # FTP 服务器
-cp -rf ../immortalwrt_luci_23/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
-sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-vsftpd/Makefile
-cp -rf ../immortalwrt_pkg/net/vsftpd ./package/new/vsftpd
-pushd package/new/luci-app-vsftpd
-move_2_services nas
-popd
+#cp -rf ../immortalwrt_luci_23/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
+#sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-vsftpd/Makefile
+#cp -rf ../immortalwrt_pkg/net/vsftpd ./package/new/vsftpd
+#pushd package/new/luci-app-vsftpd
+#move_2_services nas
+#popd
 # nlbw
 sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 # ttyd
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # Verysync
-cp -rf ../immortalwrt_luci_23/applications/luci-app-verysync ./package/new/luci-app-verysync
-sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-verysync/Makefile
-cp -rf ../immortalwrt_pkg/net/verysync ./package/new/verysync
-pushd package/new/luci-app-verysync
-move_2_services nas
-popd
+#cp -rf ../immortalwrt_luci_23/applications/luci-app-verysync ./package/new/luci-app-verysync
+#sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-verysync/Makefile
+#cp -rf ../immortalwrt_pkg/net/verysync ./package/new/verysync
+#pushd package/new/luci-app-verysync
+fmove_2_services nas
+#popd
 # KMS 服务器
 #cp -rf ../immortalwrt_luci_23/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
 #sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-vlmcsd/Makefile 
