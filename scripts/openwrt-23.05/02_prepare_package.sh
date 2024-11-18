@@ -123,7 +123,7 @@ sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luc
 #sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-verysync/Makefile
 #cp -rf ../immortalwrt_pkg/net/verysync ./package/new/verysync
 #pushd package/new/luci-app-verysync
-fmove_2_services nas
+#move_2_services nas
 #popd
 # KMS 服务器
 #cp -rf ../immortalwrt_luci_23/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
