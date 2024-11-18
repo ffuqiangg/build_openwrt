@@ -33,21 +33,21 @@ sed -i 's,\"system\",\"services\",g' feeds/luci/applications/luci-app-cpufreq/lu
 # HD-idle
 sed -i 's,\"nas\",\"services\",g' feeds/luci/applications/luci-app-hd-idle/luasrc/controller/hd_idle.lua
 # Vsftpd
-sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' feeds/luci/applications/luci-app-vsftpd/luasrc/controller/vsftpd.lua
-# Filebrowser
+sed -i 's,\"nas\",\"services\",g;s,NAS,Services,g' feeds/luci/applications/luci-app-vsftpd/luasrc/controller/vsftpd.lua
+# Filebrowser 文件浏览器
 sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.2," feeds/packages/utils/filebrowser/Makefile
 sed -i "s,PKG_MIRROR_HASH:=.*,PKG_MIRROR_HASH:=bfda9ea7c44d4cb93c47a007c98b84f853874e043049b44eff11ca00157d8426," feeds/packages/utils/filebrowser/Makefile
-sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' feeds/luci/applications/luci-app-filebrowser/luasrc/controller/filebrowser.lua
+sed -i 's,\"nas\",\"services\",g;s,NAS,Services,g' feeds/luci/applications/luci-app-filebrowser/luasrc/controller/filebrowser.lua
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-filebrowser/luasrc/view/filebrowser/filebrowser_status.htm
 # Rclone
-sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
+sed -i 's,\"nas\",\"services\",g;s,NAS,Services,g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Docker 容器
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
 # nlbw
-sed -i -e 's|admin\",|& \"network\",|g' -e 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
+sed -i 's|admin\",|& \"network\",|g;s,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm

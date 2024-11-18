@@ -51,7 +51,7 @@ popd
 sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.2," feeds/packages/utils/filebrowser/Makefile
 sed -i "s,PKG_HASH:=.*,PKG_HASH:=bfda9ea7c44d4cb93c47a007c98b84f853874e043049b44eff11ca00157d8426," feeds/packages/utils/filebrowser/Makefile
 # Rclone
-sed -i -e 's,\"nas\",\"services\",g' -e 's,NAS,Services,g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
+sed -i 's,\"nas\",\"services\",g;s,NAS,Services,g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Docker 容器
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/luci/applications/luci-app-dockerman

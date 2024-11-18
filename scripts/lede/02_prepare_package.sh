@@ -48,7 +48,7 @@ ntp.ntsc.ac.cn' >> feeds/luci/applications/luci-app-mosdns/root/etc/mosdns/rule/
 # Cpufreq
 sed -i 's,\"system\",\"services\",g' feeds/luci/applications/luci-app-cpufreq/root/usr/share/luci/menu.d/luci-app-cpufreq.json
 # Rclone
-sed -i -e 's,\"NAS\",\"Services\",g' -e 's,\"nas\",\"services\",g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
+sed -i 's,\"NAS\",\"Services\",g;s,\"nas\",\"services\",g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Docker 容器
 cp -rf ../dockerman/applications/luci-app-dockerman feeds/luci/applications/luci-app-dockerman
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
