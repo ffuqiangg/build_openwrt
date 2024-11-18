@@ -27,7 +27,7 @@ wget https://github.com/immortalwrt/immortalwrt/raw/openwrt-23.05/target/linux/g
 #cp -f ../patch/bpf_loop/*.patch ./target/linux/generic/backport-5.15/
 
 ### 替换准备 ###
-cp -rf ../openwrt-add ./package/new
+cp -rf ../openwrt-apps ./package/new
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,frp,microsocks,shadowsocks-libev,zerotier,daed}
 rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-zerotier}
 rm -rf feeds/packages/utils/coremark
@@ -79,9 +79,9 @@ cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-system
 #sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/luci|g" package/new/luci-app-filebrowser/Makefile
 #cp -rf ../immortalwrt_pkg/utils/filebrowser ./package/new/filebrowser
 #sed -i "s|\.\./\.\.|$\(TOPDIR\)/feeds/packages|g" package/new/filebrowser/Makefile
-pushd package/new/luci-app-filebrowser
-move_2_services nas
-popd
+#pushd package/new/luci-app-filebrowser
+#move_2_services nas
+#popd
 # DAED
 #git clone --depth 1 -b master https://github.com/QiuSimons/luci-app-daed.git package/new/luci-app-daed
 #cp -rf ../immortalwrt_pkg/libs/libcron ./package/new/libcron
