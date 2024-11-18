@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ../scripts/funcations.sh
+. ../scripts/funcations.sh
 
 ### 基础部分 ###
 # 使用 O2 级别的优化
@@ -28,21 +28,10 @@ patch -p1 < ../patch/default-settings/lede/01_modify_lede_default-settings.patch
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
 # Passwall
-cp -rf ../passwall_luci/luci-app-passwall feeds/luci/applications/luci-app-passwall
-# Passwall 白名单
-echo '
-teamviewer.com
-epicgames.com
-dangdang.com
-account.synology.com
-ddns.synology.com
-checkip.synology.com
-checkip.dyndns.org
-checkipv6.synology.com
-ntp.aliyun.com
-cn.ntp.org.cn
-ntp.ntsc.ac.cn
-' >> feeds/luci/applications/luci-app-passwall/root/usr/share/passwall/rules/direct_host
+cp -rf ../openwrt-apps/openwrt_helloworld/luci-app-passwall feeds/luci/applications/luci-app-passwall
+# 替换 sing-box
+rm -rf ./feeds/packages/net/sing-box
+cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./feeds/packages/net/sing-box
 # Vsftpd
 pushd feeds/luci/applications/luci-app-vsftpd
 move_2_services nas
@@ -71,7 +60,7 @@ pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd
 # Mihomo
-cp -rf ../mihomo ./package/new/mihomo
+cp -rf ../openwrt-apps/OpenWrt-mihomo ./package/new/mihomo
 
 # 预配置一些插件
 mkdir -p files

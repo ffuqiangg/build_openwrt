@@ -4,12 +4,9 @@ source ./scripts/funcations.sh
 
 # 开始克隆仓库，并行执行
 clone_repo $lede_repo master openwrt &
-clone_repo $openwrt_pkg_repo master openwrt_pkg &
-clone_repo $openwrt_luci_repo master openwrt_luci_ma &
-clone_repo $mihomo_repo main mihomo &
-clone_repo $passwall_luci_repo main passwall_luci &
 clone_repo $dockerman_repo master dockerman &
 clone_repo $node_prebuilt_repo packages-24.10 node &
+clone_repo $openwrt_apps_repo main openwrt-apps &
 # 等待所有后台任务完成
 wait
 
