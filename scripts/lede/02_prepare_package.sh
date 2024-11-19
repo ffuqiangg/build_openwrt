@@ -17,9 +17,6 @@ pushd feeds/luci
 patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
-### 替换准备 ###
-rm -rf feeds/luci/applications/{luci-app-passwall,luci-app-dockerman}
-
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
@@ -28,6 +25,7 @@ patch -p1 < ../patch/default-settings/lede/01_modify_lede_default-settings.patch
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
 # Passwall
+rm -rf ./feeds/luci/applications/luci-app-passwall
 cp -rf ../openwrt-apps/openwrt_helloworld/luci-app-passwall feeds/luci/applications/luci-app-passwall
 # 替换 sing-box
 rm -rf ./feeds/packages/net/sing-box
@@ -52,7 +50,8 @@ sed -i 's,\"NAS\",\"Services\",g;s,\"nas\",\"services\",g' feeds/luci/applicatio
 # Nlbw 带宽监控
 sed -i 's/services/network' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 # Docker 容器
-cp -rf ../dockerman/applications/luci-app-dockerman feeds/luci/applications/luci-app-dockerman
+rm -rf ./feeds/luci/applications/luci-app-dockerman
+cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
