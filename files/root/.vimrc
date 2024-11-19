@@ -41,7 +41,6 @@ set smartcase                        " no ignorecase if Uppercase char present
 set autoindent                       " always set autoindenting on
 set smartindent                      " indent works for c-like
 set tabstop=4                        " <Tab> width look for
-set expandtab                        " expand <Tab> as spaces
 set softtabstop=4                    " spaces number when insert <Tab>
 set shiftround                       " indent not to multiple of 'shiftwidth'
 set shiftwidth=4                     " number of spaces to use for (auto)indent
