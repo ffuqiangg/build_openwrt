@@ -12,7 +12,7 @@ sed -i 's/Os/O2/g' include/target.mk
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
-patch -p1 < ../patch/default-settings/immortalwrt-18.06/01_modify_immortalwrt-18.06-k5.4_default-settings.patch
+patch -p1 < ../patch/default-settings/immortalwrt-18.06/default-settings_add_custom_command.patch
 # MosDNS
 cp -rf ../mosdns ./package/new/luci-app-mosdns
 # Mosdns 白名单

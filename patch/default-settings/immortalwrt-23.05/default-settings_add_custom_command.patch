@@ -1,8 +1,8 @@
 diff --git a/package/emortal/default-settings/files/99-default-settings b/package/emortal/default-settings/files/99-default-settings
-index db75346..83a11d2 100755
+index db75346..4666932 100755
 --- a/package/emortal/default-settings/files/99-default-settings
 +++ b/package/emortal/default-settings/files/99-default-settings
-@@ -17,4 +17,50 @@ echo "log-facility=/dev/null" >> "/etc/dnsmasq.conf"
+@@ -17,4 +17,52 @@ echo "log-facility=/dev/null" >> "/etc/dnsmasq.conf"
  
  ln -sf "/sbin/ip" "/usr/bin/ip"
  
@@ -45,6 +45,8 @@ index db75346..83a11d2 100755
 +/etc/init.d/haproxy stop
 +/etc/init.d/kcptun disable 2>/dev/null
 +/etc/init.d/kcptun stop
++/etc/init.d/ttyd disable 2>/dev/null
++/etc/init.d/ttyd stop
 +
 +chmod 0755 /etc/init.d/*
 +

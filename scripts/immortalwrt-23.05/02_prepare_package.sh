@@ -15,10 +15,10 @@ rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns}
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
-patch -p1 < ../patch/default-settings/immortalwrt-23.05/01_modify_immortalwrt-23.05_default-settings.patch
+patch -p1 < ../patch/default-settings/immortalwrt-23.05/default-settings_add_custom_command.patch
 # 预编译 node
-rm -rf ./feeds/patches/lang/node
-cp -rf ../node ./feeds/package/lang/node
+rm -rf ./feeds/packages/lang/node
+cp -rf ../node ./feeds/packages/lang/node
 # 更换 golang 版本
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang

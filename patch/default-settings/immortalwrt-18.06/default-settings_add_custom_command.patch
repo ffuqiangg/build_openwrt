@@ -13,10 +13,10 @@ index e94002e..e9edfe4 100644
  	$(INSTALL_BIN) ./files/99-default-settings $(1)/etc/uci-defaults/
  endef
 diff --git a/package/emortal/default-settings/files/99-default-settings b/package/emortal/default-settings/files/99-default-settings
-index e331a70..ea249fa 100755
+index e331a70..3c7cdd9 100755
 --- a/package/emortal/default-settings/files/99-default-settings
 +++ b/package/emortal/default-settings/files/99-default-settings
-@@ -30,6 +30,57 @@ echo 'hsts=0' > /root/.wgetrc
+@@ -30,6 +30,58 @@ echo 'hsts=0' > /root/.wgetrc
  rm -rf /tmp/luci-modulecache/
  rm -f /tmp/luci-indexcache
  
@@ -37,7 +37,6 @@ index e331a70..ea249fa 100755
 +uci commit network
 +
 +# OpenClash
-+echo "/etc/openclash/" >> /etc/sysupgrade.conf && cat /etc/sysupgrade.conf | sort | uniq > /tmp/tmp_sysupgrade_conf && cat /tmp/tmp_sysupgrade_conf > /etc/sysupgrade.conf
 +[ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geosite.dat /etc/openclash/GeoSite.dat
 +[ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geoip.dat /etc/openclash/GeoIP.dat
 +
@@ -67,6 +66,8 @@ index e331a70..ea249fa 100755
 +/etc/init.d/kcptun stop
 +/etc/init.d/sing-box disable 2>/dev/null
 +/etc/init.d/sing-box stop
++/etc/init.d/ttyd disable 2>/dev/null
++/etc/init.d/ttyd stop
 +
 +chmod 0755 /etc/init.d/*
 +

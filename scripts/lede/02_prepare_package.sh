@@ -20,7 +20,7 @@ popd
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
-patch -p1 < ../patch/default-settings/lede/01_modify_lede_default-settings.patch
+patch -p1 < ../patch/default-settings/lede/default-settings_add_custom_command.patch
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
@@ -48,7 +48,7 @@ sed -i 's,\"system\",\"services\",g' feeds/luci/applications/luci-app-cpufreq/ro
 # Rclone
 sed -i 's,\"NAS\",\"Services\",g;s,\"nas\",\"services\",g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Nlbw 带宽监控
-sed -i 's/services/network' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
+sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 # Docker 容器
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman

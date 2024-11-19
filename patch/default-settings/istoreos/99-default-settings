@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Dropbear
 uci set dropbear.@dropbear[0].Interface='lan'
 uci commit dropbear
@@ -39,6 +41,8 @@ uci commit dockerd
 /etc/init.d/kcptun stop
 /etc/init.d/sing-box disable 2>/dev/null
 /etc/init.d/sing-box stop
+/etc/init.d/ttyd disable 2>/dev/null
+/etc/init.d/ttyd stop
 
 chmod 0755 /etc/init.d/*
 
