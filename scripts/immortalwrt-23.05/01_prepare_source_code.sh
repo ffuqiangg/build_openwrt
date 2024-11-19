@@ -8,7 +8,9 @@ clone_repo $immortalwrt_repo ${latest_release} openwrt &
 clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 clone_repo $lede_pkg_repo master lede_pkg &
 clone_repo $node_prebuilt_repo packages-23.05 node &
-clone_repo $openwrt_apps_repo main openwrt-apps &
+clone_repo $mosdns_repo v5 mosnds &
+clone_repo $v2ray_geodata_repo master v2ray_geodata & 
+clone_repo $mihomo_repo main mihomo &
 # 等待所有后台任务完成
 wait
 
