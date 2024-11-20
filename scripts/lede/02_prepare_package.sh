@@ -63,6 +63,10 @@ popd
 # Mihomo
 cp -rf ../openwrt-apps/OpenWrt-mihomo ./package/new/mihomo
 
+# 生成默认配置及缓存
+rm -rf .config
+sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
+
 # 预配置一些插件
 mkdir -p files
 cp -rf ../files/{etc,root,cpufreq/*,sing-box/*} files/
