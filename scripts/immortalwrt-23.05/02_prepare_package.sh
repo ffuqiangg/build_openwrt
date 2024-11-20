@@ -66,6 +66,13 @@ popd
 # Mihomo
 cp -rf ../openwrt-apps/OpenWrt-mihomo ./package/new/luci-app-mihomo
 
+#Vermagic
+latest_version="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/v//g' | sed 's/.tar.gz//g')"
+wget https://downloads.immortalwrt.org/releases/${latest_version}/targets/armsr/armv8/packages/Packages.gz
+zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' > .vermagic
+cat .vermagic
+sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
+
 # 预配置一些插件
 mkdir -p files
 cp -rf ../files/{etc,root} files/
