@@ -58,7 +58,7 @@ jobs:
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
-        git clone --dpeth 1 https://github.com/istoreos/istoreos.git openwrt
+        git clone --depth 1 https://github.com/istoreos/istoreos.git openwrt
         cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
