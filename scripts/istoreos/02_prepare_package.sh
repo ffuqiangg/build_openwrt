@@ -27,7 +27,7 @@ rm -rf feeds/packages/utils/coremark
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 添加 default settings
-cp -f ../patch/default-settings/istoreos/zzz-default-settings ./package/istoreos-files/files/etc/uci-defaults/
+cp -f ../patch/default-settings/istoreos/99-default-settings ./package/istoreos-files/files/etc/uci-defaults/
 # Golang
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
