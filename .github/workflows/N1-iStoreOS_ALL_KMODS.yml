@@ -1,0 +1,105 @@
+name: N1-iStoreOS_ALL_KMODS
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types:
+      - N1-iStoreOS_ALL_KMODS
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    if: github.event.repository.owner.id == github.event.sender.id
+
+    steps:
+    - name: Show system
+      run: |
+        echo -e "💬 Server information \n"
+        echo -e "💻 Server running on Ubuntu: [ Release: $(cat /etc/os-release | grep VERSION_CODENAME | cut -d '=' -f2) / Host: $(arch) ] \n"
+        echo -e "🧮 Server CPU configuration information: \n$(cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c) \n"
+        echo -e "💾 Server memory usage: \n$(free -h) \n"
+        echo -e "🗃️ Server space usag: \n$(df -hT ${GITHUB_WORKSPACE}) \n"
+
+    - name: Maximize build space
+      uses: easimon/maximize-build-space@master
+      with:
+        swap-size-mb: 1024
+        temp-reserve-mb: 512
+        root-reserve-mb: 4608
+        remove-dotnet: 'true'
+        remove-android: 'true'
+        remove-haskell: 'true'
+        remove-codeql: 'true'
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Init build dependencies
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        docker rmi $(docker images -q) 2>/dev/null
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install dwarves quilt llvm clang-13 lldb lld build-essential rsync asciidoc binutils bzip2 gawk gettext git libncurses5-dev \
+          patch python2.7 unzip zlib1g-dev lib32gcc-s1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib p7zip-full msmtp libssl-dev texinfo libreadline-dev \
+          libglib2.0-dev xmlto qemu-utils upx-ucl libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget ccache curl \
+          swig coreutils vim nano python3 python3-dev python3-pip python3-ply python3-pyelftools lrzsz scons
+        pip3 install --user -U pylibfdt
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
+        sudo -E git config --global user.name 'GitHub Actions' && git config --global user.email 'noreply@github.com'
+        sudo -E git config --global core.abbrev auto
+        df -h
+
+    - name: Prepare source code
+      run: |
+        sudo chown -R runner:runner /home/runner/work/build_openwrt
+        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
+        git clone --dpeth 1 https://github.com/istoreos/istoreos.git openwrt
+        cd openwrt
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        rm .config*
+        echo 'CONFIG_TARGET_amlogic=y
+        CONFIG_TARGET_amlogic_meson=y
+        CONFIG_TARGET_amlogic_meson_DEVICE_phicomm_n1=y
+        CONFIG_TARGET_ROOTFS_INITRAMFS=y
+        # CONFIG_TARGET_ROOTFS_CPIOGZ is not set
+        CONFIG_TARGET_ROOTFS_TARGZ=y
+        # CONFIG_TARGET_ROOTFS_EXT4FS is not set
+        # CONFIG_TARGET_ROOTFS_SQUASHFS is not set
+        # CONFIG_TARGET_IMAGES_GZIP is not set
+        CONFIG_TARGET_KERNEL_PARTSIZE=128
+        CONFIG_TARGET_ROOTFS_PARTSIZE=820
+        CONFIG_ALL_KMODS=y
+        # CONFIG_KERNEL_WERROR is not set' > .config
+        make defconfig
+
+    - name: Download package
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
+
+    - name: Compile the firmware
+      id: compileopenwrt
+      continue-on-error: true
+      run: |
+        cd openwrt
+        make -j$(($(nproc) + 1))
+
+    - name: If error
+      working-directory: ${{ github.workspace }}/openwrt
+      if: steps.compileopenwrt.outcome == 'failure'
+      run: |
+        make -j1 V=s
+
+    - name: Upload firmware directory
+      uses: actions/upload-artifact@main
+      with:
+        name: OpenWrt_rootfs_${{ env.build_date }}
+        path: openwrt/bin
