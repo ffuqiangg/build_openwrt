@@ -62,7 +62,6 @@ jobs:
         cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-        rm .config*
         echo 'CONFIG_TARGET_amlogic=y
         CONFIG_TARGET_amlogic_meson=y
         CONFIG_TARGET_amlogic_meson_DEVICE_phicomm_n1=y
