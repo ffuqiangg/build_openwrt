@@ -43,6 +43,7 @@ popd
 
 # 预配置一些插件
 mkdir -p files
+sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 cp -rf ../files/{etc,root,cpufreq/*,sing-box/*} files/
 
 find ./ -name *.orig | xargs rm -f
