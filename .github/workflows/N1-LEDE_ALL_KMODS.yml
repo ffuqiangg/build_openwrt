@@ -66,7 +66,7 @@ jobs:
         CONFIG_TARGET_amlogic_mesongx=y
         CONFIG_TARGET_amlogic_mesongx_DEVICE_phicomm_n1=y
         CONFIG_TARGET_KERNEL_PARTSIZE=32
-        CONFIG_TARGET_ROOTFS_PARTSIZE=512
+        CONFIG_TARGET_ROOTFS_PARTSIZE=820
         CONFIG_ALL_KMODS=y
         # CONFIG_KERNEL_WERROR is not set' > .config
         make defconfig
