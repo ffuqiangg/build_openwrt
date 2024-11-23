@@ -65,10 +65,7 @@ jobs:
         cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-        echo 'CONFIG_TARGET_amlogic=y
-        CONFIG_TARGET_amlogic_mesongx=y
-        CONFIG_TARGET_amlogic_mesongx_DEVICE_phicomm_n1=y
-        CONFIG_ALL_KMODS=y'> .config
+        cp ./config/lede/config.test .config
         make defconfig
 
     - name: Download package
