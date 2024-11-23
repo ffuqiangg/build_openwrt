@@ -65,11 +65,11 @@ jobs:
         echo 'CONFIG_TARGET_amlogic=y
         CONFIG_TARGET_amlogic_mesongx=y
         CONFIG_TARGET_amlogic_mesongx_DEVICE_phicomm_n1=y
-        CONFIG_TARGET_ROOTFS_INITRAMFS=y
+        # CONFIG_TARGET_ROOTFS_INITRAMFS is not set
         # CONFIG_TARGET_ROOTFS_CPIOGZ is not set
         CONFIG_TARGET_ROOTFS_TARGZ=y
         # CONFIG_TARGET_ROOTFS_EXT4FS is not set
-        # CONFIG_TARGET_ROOTFS_SQUASHFS is not set
+        CONFIG_TARGET_ROOTFS_SQUASHFS=y
         # CONFIG_TARGET_IMAGES_GZIP is not set
         CONFIG_TARGET_KERNEL_PARTSIZE=128
         CONFIG_TARGET_ROOTFS_PARTSIZE=820
