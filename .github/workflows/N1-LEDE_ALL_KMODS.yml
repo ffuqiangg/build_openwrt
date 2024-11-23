@@ -73,9 +73,7 @@ jobs:
         # CONFIG_TARGET_IMAGES_GZIP is not set
         CONFIG_TARGET_KERNEL_PARTSIZE=128
         CONFIG_TARGET_ROOTFS_PARTSIZE=820
-        CONFIG_ALL_KMODS=y
-        # CONFIG_KERNEL_KALLSYMS is not set
-        # CONFIG_KERNEL_WERROR is not set' > .config
+        CONFIG_ALL_KMODS=y' > .config
         make defconfig
 
     - name: Download package
