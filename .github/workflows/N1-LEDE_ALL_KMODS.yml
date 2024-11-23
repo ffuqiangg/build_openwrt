@@ -65,7 +65,7 @@ jobs:
         cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-        cp ./config/lede/config.test .config
+        wget https://raw.githubusercontent.com/ffuqiangg/build_openwrt/refs/heads/main/config/lede/config.test -O .config
         make defconfig
 
     - name: Download package
