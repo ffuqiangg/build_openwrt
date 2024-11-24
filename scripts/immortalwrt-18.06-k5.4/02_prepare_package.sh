@@ -60,6 +60,10 @@ pushd feeds/luci/applications/luci-app-verysync
 move_2_services nas
 popd
 
+# Vermagic
+echo 'f61e6059e4d2da5a44b60b362de89967' > .vermagic
+sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
+
 # 预配置一些插件
 mkdir -p files/etc/openclash/core
 cp -rf ../files/{etc,root,/cpufreq/*} files/
