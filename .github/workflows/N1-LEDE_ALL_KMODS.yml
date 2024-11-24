@@ -80,7 +80,7 @@ jobs:
       continue-on-error: true
       run: |
         cd openwrt
-        IGNORE_ERRORS=1 make -j$(($(nproc) + 1))
+        IGNORE_ERRORS=m make -j$(($(nproc) + 1))
 
     - name: If error
       working-directory: ${{ github.workspace }}/openwrt
