@@ -40,6 +40,10 @@ sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-d
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
+# Nlbw 带宽监控
+sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
+# 终端 TTYD
+sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 
 # 预配置一些插件
 mkdir -p files
