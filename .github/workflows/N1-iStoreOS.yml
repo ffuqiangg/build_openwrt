@@ -66,7 +66,7 @@ jobs:
       run: |
         cp -r ../scripts/istoreos/. ./
         /bin/bash 02_prepare_package.sh
-        sed -i "s/DATE/${{ env.build_date }}/;s/WRT_SOUR/iStoreOS/;s/RELEASES/22.03/" ./files/etc/banner
+        sed -i "s/DATE/${{ env.build_date }}/;s/WRT_SOUR/iStoreOS/;s/RELEASES/22.03.7/" ./files/etc/banner
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
