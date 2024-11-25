@@ -10,7 +10,7 @@ sed -i 's/Os/O2/g' include/target.mk
 ./scripts/feeds install -a
 
 ### 替换准备 ###
-rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns}
+rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns,sing-box}
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
@@ -34,6 +34,8 @@ cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/ut
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # Wget
 cp -rf ../lede_pkg/net/wget ./feeds/packages/net/wget
+# sing-box
+cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./package/new/sing-box
 # Mosdns
 cp -rf ../openwrt-apps/luci-app-mosdns ./package/new/luci-app-mosdns
 cp -rf ../openwrt-apps/openwrt_helloworld/v2ray-geodata ./package/new/v2ray-geodata
