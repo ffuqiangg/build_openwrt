@@ -14,7 +14,7 @@
 - 插件：PassWall，v2rayA，Homeproxy，OpenClash，mihomo，DAED，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP 服务器，DockerMan，DocKer-Compose，UPNP，VerySync
 - 固件对一些命令进行了简化，如 `ungz = tar -xvzf`，`777 = chmod -R 777`，`mkdirg = 创建并进入目录` 等，详情可查看仓库 files/etc/shinit 文件。
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
-- 固件刷机：ImmortalWrt-18.06 ImmortalWrt-23.05 OpenWrt-23.05 固件直接用 `openwrt-install-amlogic` 将固件写入 emmc 即可。LEDE iStoreOS 固件使用命令 `install-to-emmc.sh` 刷入之后还需要手动扩容 overlay 及 Docker 空间,操作方法阅读 [openwrt 扩容](docs/openwrt_expand.md)`还没写`
+- 固件刷机：ImmortalWrt-18.06 ImmortalWrt-23.05 OpenWrt-23.05 固件直接用 `openwrt-install-amlogic` 将固件写入 emmc 即可。LEDE iStoreOS 固件使用命令 `install-to-emmc.sh` 刷入之后还需要手动扩容 overlay 及 Docker 空间，操作方法阅读 [openwrt 扩容](docs/openwrt_expand.md)`还没写`。
 
 > [!IMPORTANT]
 > 各版本固件插件略有差别：**ImmortalWrt-18.06** 不含 mihomo、Homeproxy、DAED，**ImmortalWrt-23.05** 不含 OpenClash，**LEDE** 不含 OpenClash、Homeproxy，**OpenWrt-23.05** 不含 Openclash、Homeproxy，**iStoreOS** 不含 Homeproxy、OpenClash、DAED。
