@@ -9,7 +9,7 @@
 - 由于仓库的代码大部分时间都处于不可用的状态，所以并不建议 fork 使用。除非能够自行排查和修复错误。
 - ImmortalWrt-18.06 ImmortalWrt-23.05 OpenWrt-23.05 固件采用 [Flippy](https://github.com/unifreq) 大佬的方案由 Armbian 内核打包制作，LEDE iStoreOS 由于硬件原生支持，为直接编译。  
 `注：iStoreOS 固件相对于其官方固件仅保留 iStore 插件商店,可以看作包含 iStore 插件商店的原版 OpenWrt-22.03 固件`
-- 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)，下载前往 [Releases](https://github.com/ffuqiangg/build_openwrt/releases)`带 Pre-release 标签的是测试固件不要下载，可能有各种问题。`
+- 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)，下载前往 [Releases](https://github.com/ffuqiangg/build_openwrt/releases) ` Pre-release 为测试固件，可能有各种问题。`
 - 默认 IP：192.168.1.99， 默认密码：password
 - 插件：PassWall，v2rayA，Homeproxy，OpenClash，mihomo，DAED，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP 服务器，DockerMan，DocKer-Compose，UPNP，VerySync
 - 固件对一些命令进行了简化，如 `ungz = tar -xvzf`，`777 = chmod -R 777`，`mkdirg = 创建并进入目录` 等，详情可查看仓库 files/etc/shinit 文件。
