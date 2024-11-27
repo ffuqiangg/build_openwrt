@@ -5,6 +5,20 @@ CONFIG_TARGET_amlogic_meson_DEVICE_phicomm_n1=y
 CONFIG_TARGET_ROOTFS_PARTSIZE=820
 # CONFIG_KERNEL_WERROR is not set
 
+### DAED ###
+CONFIG_DEVEL=y
+CONFIG_KERNEL_DEBUG_INFO=y
+# CONFIG_KERNEL_DEBUG_INFO_REDUCED is not set
+CONFIG_KERNEL_DEBUG_INFO_BTF=y
+CONFIG_KERNEL_CGROUP=y
+CONFIG_KERNEL_CGROUP_BPF=y
+CONFIG_KERNEL_BPF_EVENTS=y
+CONFIG_BPF_TOOLCHAIN_HOST=y
+# CONFIG_BPF_TOOLCHAIN_NONE is not set
+CONFIG_KERNEL_XDP_SOCKETS=y
+CONFIG_PACKAGE_kmod-xdp-sockets-diag=y
+CONFIG_PACKAGE_luci-app-daed=y
+
 ### BASIC ###
 CONFIG_PACKAGE_autocore-arm=y
 CONFIG_PACKAGE_bash=y
@@ -34,29 +48,6 @@ CONFIG_PACKAGE_ddns-scripts-dnspod=y
 CONFIG_PACKAGE_ddns-scripts-aliyun=y
 CONFIG_PACKAGE_bind-host=y
 
-### FIREWALL ###
-# CONFIG_PACKAGE_firewall is not set
-CONFIG_PACKAGE_firewall4=y
-CONFIG_PACKAGE_kmod-ipt-offload=y
-CONFIG_DEFAULT_kmod-nft-offload=y
-# CONFIG_PACKAGE_arptables-legacy is not set
-CONFIG_PACKAGE_arptables-nft=y
-# CONFIG_PACKAGE_ebtables-legacy is not set
-CONFIG_PACKAGE_ebtables-nft=y
-# CONFIG_PACKAGE_ip6tables-legacy is not set
-CONFIG_PACKAGE_ip6tables-mod-fullconenat=y
-CONFIG_PACKAGE_ip6tables-nft=y
-# CONFIG_PACKAGE_iptables-legacy is not set
-CONFIG_PACKAGE_iptables-mod-fullconenat=y
-CONFIG_PACKAGE_iptables-nft=y
-CONFIG_PACKAGE_iptables-mod-conntrack-extra=y
-CONFIG_PACKAGE_iptables-mod-iprange=y
-CONFIG_PACKAGE_iptables-mod-nat-extra=y
-CONFIG_PACKAGE_iptables-mod-socket=y
-CONFIG_PACKAGE_iptables-mod-tproxy=y
-# CONFIG_PACKAGE_miniupnpd-iptables is not set
-CONFIG_PACKAGE_miniupnpd-nftables=y
-
 ### THEME ###
 # CONFIG_PACKAGE_luci-theme-argon is not set
 CONFIG_PACKAGE_luci-theme-bootstrap=y
@@ -68,9 +59,9 @@ CONFIG_PACKAGE_luci-app-filetransfer=y
 CONFIG_PACKAGE_luci-app-firewall=y
 CONFIG_PACKAGE_luci-app-frpc=y
 CONFIG_PACKAGE_luci-app-hd-idle=y
-CONFIG_PACKAGE_luci-app-mihomo=y
 CONFIG_PACKAGE_luci-app-mosdns=y
 CONFIG_PACKAGE_luci-app-nlbwmon=y
+CONFIG_PACKAGE_luci-app-openclash=y
 CONFIG_PACKAGE_luci-app-opkg=y
 CONFIG_PACKAGE_luci-app-samba4=y
 CONFIG_PACKAGE_luci-app-ttyd=y

@@ -37,6 +37,24 @@ cp -rf ../node feeds/packages/lang/node
 # Autocore
 rm -rf ./package/new/autocore-arm
 git clone --depth 1 -b openwrt-22.03 https://github.com/sbwml/autocore-arm.git ./package/new/autocore-arm
+# DAED
+echo '
+
+define KernelPackage/xdp-sockets-diag
+  SUBMENU:=$(NETWORK_SUPPORT_MENU)
+  TITLE:=PF_XDP sockets monitoring interface support for ss utility
+  KCONFIG:= \
+	CONFIG_XDP_SOCKETS=y \
+	CONFIG_XDP_SOCKETS_DIAG
+  FILES:=$(LINUX_DIR)/net/xdp/xsk_diag.ko
+  AUTOLOAD:=$(call AutoLoad,31,xsk_diag)
+endef
+
+define KernelPackage/xdp-sockets-diag/description
+ Support for PF_XDP sockets monitoring interface used by the ss tool
+endef
+
+$(eval $(call KernelPackage,xdp-sockets-diag))' >> ./package/kernel/linux/modules/netsupport.mk
 # Docker 容器
 cp -rf ../dockerman/applications/luci-app-dockerman feeds/luci/applications/luci-app-dockerman
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
