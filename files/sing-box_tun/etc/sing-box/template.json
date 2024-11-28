@@ -1,0 +1,43 @@
+{
+    "log": {
+        "level": "info",
+        "timestamp": true
+    },
+    "experimental": {
+        "clash_api": {
+            "external_controller": "0.0.0.0:9900",
+            "external_ui": "ui",
+            "secret": "ffuqiangg",
+            "external_ui_download_url": "https://mirror.ghproxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip",
+            "external_ui_download_detour": "direct"
+        },
+        "cache_file": {
+            "enabled": true,
+            "store_fakeip": false
+        }
+    },
+    "inbounds": [
+        {
+            "type": "tun",
+            "tag": "tun-in",
+            "interface_name": "tun0",
+            "domain_strategy": "ipv4_only",
+            "inet4_address": "172.19.0.1/30",
+            "endpoint_independent_nat": false,
+            "mtu": 1500,
+            "gso": true,
+            "stack": "system",
+            "auto_route": true,
+            "strict_route": false,
+            "sniff": true,
+            "sniff_override_destination": true
+        },
+        {
+            "type": "mixed",
+            "listen": "127.0.0.1",
+            "listen_port": 2080,
+            "sniff": true,
+            "users": []
+        }
+    ]
+}
