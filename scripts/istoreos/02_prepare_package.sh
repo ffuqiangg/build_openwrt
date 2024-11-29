@@ -21,7 +21,7 @@ popd
 
 ### 替换准备 ###
 cp -rf ../openwrt-apps ./package/new
-rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,frp,shadowsocks-libev,v2raya}
+rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,frp,shadowsocks-libev,v2raya,curl}
 rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya,luci-app-dockerman}
 rm -rf feeds/packages/utils/coremark
 
@@ -44,6 +44,8 @@ popd
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 # 终端 TTYD
 sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+# Curl
+cp -rf ../openwrt_pkg_ma/net/curl ./feeds/packages/net/curl
 
 # 预配置一些插件
 mkdir -p files
