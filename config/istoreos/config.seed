@@ -6,6 +6,7 @@ CONFIG_TARGET_ROOTFS_PARTSIZE=820
 # CONFIG_KERNEL_WERROR is not set
 
 ### BASIC ###
+CONFIG_PACKAGE_addition-trans-zh=y
 CONFIG_PACKAGE_autocore-arm=y
 CONFIG_PACKAGE_bash=y
 CONFIG_PACKAGE_bsdtar=y
