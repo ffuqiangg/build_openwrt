@@ -18,6 +18,10 @@ sed -i 's,downloads.openwrt.org,mirrors.tuna.tsinghua.edu.cn/openwrt,g' /etc/opk
 uci set network.globals.packet_steering='1'
 uci commit network
 
+# 通用即插即用
+uci set upnpd.config.enabled='1'
+uci commit upnpd
+
 # OpenClash
 [ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geosite.dat /etc/openclash/GeoSite.dat
 [ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geoip.dat /etc/openclash/GeoIP.dat

@@ -1,8 +1,8 @@
 diff --git a/package/emortal/default-settings/files/99-default-settings b/package/emortal/default-settings/files/99-default-settings
-index db75346..4666932 100755
+index db75346..53744e9 100755
 --- a/package/emortal/default-settings/files/99-default-settings
 +++ b/package/emortal/default-settings/files/99-default-settings
-@@ -17,4 +17,52 @@ echo "log-facility=/dev/null" >> "/etc/dnsmasq.conf"
+@@ -17,4 +17,56 @@ echo "log-facility=/dev/null" >> "/etc/dnsmasq.conf"
  
  ln -sf "/sbin/ip" "/usr/bin/ip"
  
@@ -20,6 +20,10 @@ index db75346..4666932 100755
 +# 默认开启 Packet Steering
 +uci set network.globals.packet_steering='1'
 +uci commit network
++
++# 通用即插即用
++uci set upnpd.config.enabled='1'
++uci commit upnpd
 +
 +# V2rayA
 +[ -f /usr/share/v2ray/geoip.dat ] && ln -sf /usr/share/v2ray/geoip.dat /usr/share/xray/geoip.dat
