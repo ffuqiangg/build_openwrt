@@ -4,6 +4,7 @@
 
 # 开始克隆仓库，并行执行
 clone_repo $lede_repo master openwrt &
+clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 clone_repo $dockerman_repo master dockerman &
 clone_repo $node_prebuilt_repo packages-24.10 node &
 clone_repo $openwrt_apps_repo main openwrt-apps &

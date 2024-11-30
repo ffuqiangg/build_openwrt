@@ -68,6 +68,9 @@ popd
 pushd package/feeds/luci/luci-app-verysync
 move_2_services nas
 popd
+# Curl
+rm -rf ./feeds/packages/net/curl
+rm -rf ../openwrt_pkg_ma/net/curl ./feeds/packages/net/curl
 # Mihomo
 cp -rf ../openwrt-apps/OpenWrt-mihomo ./package/new/mihomo
 
