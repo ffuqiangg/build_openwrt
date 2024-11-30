@@ -13,7 +13,8 @@ wait
 
 # 修改默认 IP ( 192.168.1.1 改为 192.168.1.99 )
 sed -i 's/192.168.1.1/192.168.1.99/g' openwrt/package/base-files/luci2/bin/config_generate
-# 修改 mmcblk1p3 分区大小
-sed -i 's/2812/1788/' openwrt/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
+# 调整分区
+sed -i 's/2812MiB/1788MiB \\/' openwrt/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
+sed -i '/1788/a\		mkpart primary 1788MiB 0MiB' openwrt/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
 
 exit 0
