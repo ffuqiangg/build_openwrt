@@ -42,7 +42,7 @@ cp -rf ../node ./feeds/packages/lang/node
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # 添加翻译
-cp -rf ../patch/addition-trans-zh ./package/new/addition-trans-zh
+cp -rf ../openwrt-apps/addition-trans-zh ./package/new/addition-trans-zh
 # mount cgroupv2
 pushd feeds/packages
 patch -p1 < ../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
