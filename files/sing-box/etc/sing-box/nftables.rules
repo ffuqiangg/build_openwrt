@@ -1,5 +1,7 @@
 #!/usr/sbin/nft -f
 
+flush ruleset
+
 define RESERVED_IP = {
     0.0.0.0/8,
     10.0.0.0/8,

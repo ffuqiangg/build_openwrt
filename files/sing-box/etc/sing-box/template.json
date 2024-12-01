@@ -1,6 +1,8 @@
 {
   "log": {
+    "disabled": false,
     "level": "info",
+    "output": "/var/log/sing-box-c.log",
     "timestamp": true
   },
   "experimental": {
@@ -9,7 +11,8 @@
       "external_ui": "ui",
       "secret": "ffuqiangg",
       "external_ui_download_url": "https://mirror.ghproxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip",
-      "external_ui_download_detour": "direct"
+      "external_ui_download_detour": "direct",
+	  "default_mode": "rule"
     },
     "cache_file": {
       "enabled": true,
@@ -22,16 +25,16 @@
       "tag": "tproxy-in",
       "listen": "::",
       "listen_port": 10105,
-      "tcp_fast_open": true,
-      "udp_fragment": true,
-      "sniff": true
+      "sniff": true,
+      "sniff_override_destination": false
     },
     {
       "type": "mixed",
-      "listen": "127.0.0.1",
+      "listen": "::",
       "listen_port": 2080,
       "sniff": true,
-      "users": []
+      "sniff_override_destination": false,
+      "set_system_proxy": false
     }
   ]
 }
