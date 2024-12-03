@@ -74,10 +74,6 @@ jobs:
         sed -i "s/DATE/${{ env.build_date }}/;s/WRT_SOUR/OpenWrt/;s/RELEASES/${latest_release}/" ./openwrt/files/etc/banner
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
         echo "kernel_version=${kernel_version}" >> ${GITHUB_ENV}
-        echo "prerelease_symbol=true" >> ${GITHUB_ENV}
-        if [[ "${{ github.event_name }}" == 'repository_dispatch' ]]; then
-          echo "prerelease_symbol=false" >> ${GITHUB_ENV}
-        fi
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
@@ -120,16 +116,29 @@ jobs:
         openwrt_kernel: ${{ env.kernel_version }}
         kernel_usage: stable
         auto_kernel: false
-        image_name: N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}
+
+    - name: Organize files
+      run: |
+        rm -rf ./artifact/
+        mkdir -p ./artifact/
+        cp ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz ./artifact/
+        cd ./artifact/
+        zip N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}.zip *.img.gz
+        echo "prerelease_symbol=true" >> ${GITHUB_ENV}
+        if [[ "${{ github.event_name }}" == 'repository_dispatch' ]]; then
+          echo "prerelease_symbol=false" >> ${GITHUB_ENV}
+        fi
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag: ${{ env.build_date }}
         allowUpdates: true
         replacesArtifacts: true
         prerelease: ${{ env.prerelease_symbol }}
-        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}.zip
+        artifacts: ./artifact/*.zip
 
     - name: telegram notification
       if: github.event_name == 'repository_dispatch'
