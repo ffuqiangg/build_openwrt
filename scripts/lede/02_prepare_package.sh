@@ -73,6 +73,10 @@ popd
 # Curl
 rm -rf ./feeds/packages/net/curl
 cp -rf ../openwrt_pkg_ma/net/curl ./feeds/packages/net/curl
+cp -rf ../openwrt_pkg_ma/libs/nghttp3 ./feeds/packages/libs/nghttp3
+ln -sf ../../../feeds/packages/libs/nghttp3 ./package/feeds/packages/nghttp3
+cp -rf ../openwrt_pkg_ma/libs/ngtcp2 ./feeds/packages/libs/ngtcp2
+ln -sf ../../../feeds/packages/libs/ngtcp2 ./package/feeds/packages/ngtcp2
 # Mihomo
 cp -rf ../openwrt-apps/OpenWrt-mihomo ./package/new/mihomo
 
