@@ -1,0 +1,69 @@
+diff --git a/target/linux/amlogic/image/Makefile b/target/linux/amlogic/image/Makefile
+index 3190b93d..56257a02 100644
+--- a/target/linux/amlogic/image/Makefile
++++ b/target/linux/amlogic/image/Makefile
+@@ -7,34 +7,6 @@ include $(INCLUDE_DIR)/image.mk
+ 
+ DEVICE_VARS += UBOOT_DEVICE_NAME
+ 
+-FAT32_BLOCK_SIZE=1024
+-FAT32_BLOCKS=$(shell echo $$(($(CONFIG_TARGET_KERNEL_PARTSIZE)*1024*1024/$(FAT32_BLOCK_SIZE))))
+-
+-define Build/boot-script
+-	# Make an U-boot image and copy it to the boot partition
+-	mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n "boot.scr" -d boot.txt  $(KDIR)/boot.scr
+-endef
+-
+-define Build/emmc-common
+-	$(RM) -f $@.boot
+-	mkfs.fat -C $@.boot $(FAT32_BLOCKS)
+-
+-	mkdir -p $(KDIR)/boot.fat
+-
+-	$(CP) $(KDIR)/boot.scr $(KDIR)/boot.fat/boot.scr
+-	mcopy -i $@.boot $(KDIR)/boot.scr ::
+-	$(CP) $(IMAGE_KERNEL) $(KDIR)/boot.fat/uImage
+-	mcopy -i $@.boot $(KDIR)/boot.fat/uImage ::
+-
+-	$(foreach dts,$(shell echo $(DEVICE_DTS)),$(CP) $(DTS_DIR)/$(dts).dtb $(KDIR)/boot.fat/dtb;)
+-	mcopy -i $@.boot $(KDIR)/boot.fat/dtb ::
+-
+-	$(RM) -rf $(KDIR)/boot.fat
+-
+-	./gen_aml_emmc_img.sh $@ $@.boot $(IMAGE_ROOTFS) \
+-		$(CONFIG_TARGET_KERNEL_PARTSIZE) $(CONFIG_TARGET_ROOTFS_PARTSIZE)
+-endef
+-
+ ### Image scripts ###
+ 
+ define Build/boot-common
+diff --git a/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh b/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
+index 299684c1..d2218408 100755
+--- a/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
++++ b/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
+@@ -27,7 +27,8 @@ function part_disk() {
+ 		mktable msdos \
+ 		mkpart primary 68MiB 132MiB \
+ 		mkpart primary 132MiB 388MiB \
+-		mkpart primary 764MiB 2812MiB
++		mkpart primary 764MiB 1788MiB \
++		mkpart primary 1788MiB 100%
+ }
+ 
+ function get_bootdisk() {
+@@ -129,9 +130,12 @@ function main() {
+ 			dd if=/dev/$partdev of=/dev/$partdevto bs=1M conv=notrunc
+ 		done
+ 		# mark RESET overlay partition
+-		partdevto=${to}p3
+-		echo "mark /dev/$partdevto as RESET"
+-		echo "RESET000" | dd of="/dev/$partdevto" bs=512 count=1 conv=sync,fsync
++		for part in 3 4; do
++			echo "mark /dev/${to}p$part as RESET"
++			echo "RESET000" | dd of="/dev/${to}p$part" bs=512 count=1 conv=sync,fsync
++			mkfs.ext4 /dev/${to}p$part
++		done
++		rm -f /opt/docker && ln -sf /mnt/mmcblk2p4/docker/ /opt/docker >/dev/null
+ 		echo "All Done!"
+ 	else
+ 		echo "Bye!"
