@@ -21,8 +21,6 @@ popd
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
-# 修改 target
-patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
 patch -p1 < ../patch/default-settings/lede/default-settings_add_custom_command.patch
 # 预编译 node
@@ -79,6 +77,8 @@ cp -rf ../openwrt_pkg_ma/libs/ngtcp2 ./feeds/packages/libs/ngtcp2
 ln -sf ../../../feeds/packages/libs/ngtcp2 ./package/feeds/packages/ngtcp2
 # Mihomo
 cp -rf ../openwrt-apps/OpenWrt-mihomo ./package/new/mihomo
+# 自动扩容挂载
+cp -rf ../openwrt-apps/luci-app-partexp ./package/new/luci-app-partexp
 
 # 生成默认配置及缓存
 rm -rf .config
