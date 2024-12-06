@@ -26,6 +26,8 @@ rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya,luci
 rm -rf feeds/packages/utils/coremark
 
 ### 获取额外的 LuCI 应用和依赖 ###
+# 调整刷机脚本
+patch -p1 < ../patch/custom_install/istoreos/custom_target_amlogic_scripts.patch
 # 添加 default settings
 cp -f ../patch/default-settings/istoreos/99-default-settings ./package/istoreos-files/files/etc/uci-defaults/
 # Golang

@@ -21,6 +21,8 @@ popd
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
+# 调整刷机脚本
+patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
 patch -p1 < ../patch/default-settings/lede/default-settings_add_custom_command.patch
 # 预编译 node
