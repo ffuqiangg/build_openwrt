@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ../scripts/funcations.sh
+. ../scripts/functions.sh
 
 ### 基础部分 ###
 # 使用 O2 级别的优化

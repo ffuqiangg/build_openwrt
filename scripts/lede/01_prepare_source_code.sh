@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./scripts/funcations.sh
+. ./scripts/functions.sh
 
 # 开始克隆仓库，并行执行
 clone_repo $lede_repo master openwrt &

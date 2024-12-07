@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ./scripts/funcations.sh
+. ./scripts/functions.sh
 
 # 开始克隆仓库，并行执行
 latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/.tar.gz//g')"
