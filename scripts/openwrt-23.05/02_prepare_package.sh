@@ -67,6 +67,7 @@ sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # 晶晨宝盒
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git package/new/luci-app-amlogic
+cp -f ../patch/amlogic/openwrt-install-amlogic ./package/new/luci-app-amlogic/luci-app-amlogic/root/usr/sbin/openwrt-install-amlogic
 
 # 生成默认配置及缓存
 rm -rf .config
@@ -80,7 +81,7 @@ sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic
 
 ### 预配置一些插件 ###
 mkdir -p files
-cp -rf ../files/{etc,root,amlogic/*} files/
+cp -rf ../files/{etc,root} files/
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
