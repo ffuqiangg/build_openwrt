@@ -71,7 +71,6 @@ sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-vlmcsd/Makefile
 cp -rf ../immortalwrt_pkg_23/net/vlmcsd ./package/new/vlmcsd
 # 晶晨宝盒
 git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git package/new/luci-app-amlogic
-cp -f ../patch/amlogic/openwrt-install-amlogic ./package/new/luci-app-amlogic/luci-app-amlogic/root/usr/sbin/openwrt-install-amlogic
 
 # 生成默认配置及缓存
 rm -rf .config
