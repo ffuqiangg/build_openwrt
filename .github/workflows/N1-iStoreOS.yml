@@ -102,6 +102,8 @@ jobs:
 
     - name: Organize files
       run: |
+        echo '
+        默认 IP：192.168.1.1 | 默认密码：password | 使用说明：[README](https://github.com/ffuqiangg/build_openwrt/blob/main/documents/readme.md)' > release.md
         rm -rf ./artifact/
         mkdir -p ./artifact/
         mv openwrt/bin/targets/amlogic/meson/*sysupgrade.img* ./artifact/
@@ -124,6 +126,7 @@ jobs:
         replacesArtifacts: true
         prerelease: ${{ env.prerelease_symbol }}
         artifacts: ./artifact/*.zip
+        bodyFile: release.md
 
     - name: Telegram notification
       if: github.event_name == 'repository_dispatch'
