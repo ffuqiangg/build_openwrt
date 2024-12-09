@@ -23,7 +23,7 @@ index 3b90978..f5a1bfa 100755
 +			partdevto=${to}p$part
 +			echo "mark /dev/$partdevto as RESET"
 +			echo "RESET000" | dd of="/dev/$partdevto" bs=512 count=1 conv=sync,fsync
-+			umount -f /mnt/$partdevto && mkfs.ext4 -F /dev/$partdevto >/dev/null
++			umount -f /dev/$partdevto && mkfs.ext4 -F /dev/$partdevto >/dev/null
 +		done
  		echo "All Done!"
  	else
