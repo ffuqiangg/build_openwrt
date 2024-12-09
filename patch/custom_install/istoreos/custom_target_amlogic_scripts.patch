@@ -1,5 +1,5 @@
 diff --git a/target/linux/amlogic/meson/base-files/usr/sbin/install-to-emmc.sh b/target/linux/amlogic/meson/base-files/usr/sbin/install-to-emmc.sh
-index 3b90978..427f8b4 100755
+index 3b90978..f5a1bfa 100755
 --- a/target/linux/amlogic/meson/base-files/usr/sbin/install-to-emmc.sh
 +++ b/target/linux/amlogic/meson/base-files/usr/sbin/install-to-emmc.sh
 @@ -34,7 +34,8 @@ function part_disk() {
@@ -12,7 +12,7 @@ index 3b90978..427f8b4 100755
  }
  
  function get_bootdisk() {
-@@ -136,9 +137,11 @@ function main() {
+@@ -136,9 +137,12 @@ function main() {
  			dd if=/dev/$partdev of=/dev/$partdevto bs=1M conv=notrunc
  		done
  		# mark RESET overlay partition
@@ -23,6 +23,7 @@ index 3b90978..427f8b4 100755
 +			partdevto=${to}p$part
 +			echo "mark /dev/$partdevto as RESET"
 +			echo "RESET000" | dd of="/dev/$partdevto" bs=512 count=1 conv=sync,fsync
++			umount -f /mnt/$partdevto && mkfs.ext4 -F /dev/$partdevto >/dev/null
 +		done
  		echo "All Done!"
  	else
