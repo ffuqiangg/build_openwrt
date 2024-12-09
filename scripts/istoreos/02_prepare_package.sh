@@ -51,7 +51,7 @@ cp -rf ../openwrt_pkg_ma/net/curl ./feeds/packages/net/curl
 # 预配置一些插件
 mkdir -p files
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
-cp -rf ../files/{etc,root,cpufreq/*,sing-box_tun/*} files/
+cp -rf ../files/{etc,root,cpufreq/*} files/
 mkdir -p files/etc/openclash/core
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
 chmod +x files/etc/openclash/core/clash*
