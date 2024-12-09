@@ -121,7 +121,7 @@ jobs:
     - name: Organize files
       run: |
         echo '
-        默认 IP：192.168.1.1 | 默认密码：password | 使用说明：[README](https://github.com/ffuqiangg/build_openwrt/blob/main/documents/readme.md)' > release.md
+        默认 IP：192.168.1.1  /  默认密码：password  /  使用说明：[README](https://github.com/ffuqiangg/build_openwrt/blob/main/documents/readme.md)' > release.md
         rm -rf ./artifact/
         mkdir -p ./artifact/
         cp ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz ./artifact/
