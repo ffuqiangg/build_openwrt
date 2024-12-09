@@ -13,10 +13,10 @@ index e94002e..e9edfe4 100644
  	$(INSTALL_BIN) ./files/99-default-settings $(1)/etc/uci-defaults/
  endef
 diff --git a/package/emortal/default-settings/files/99-default-settings b/package/emortal/default-settings/files/99-default-settings
-index e331a70..2f30a9f 100755
+index e331a70..e98730f 100755
 --- a/package/emortal/default-settings/files/99-default-settings
 +++ b/package/emortal/default-settings/files/99-default-settings
-@@ -30,6 +30,62 @@ echo 'hsts=0' > /root/.wgetrc
+@@ -30,6 +30,64 @@ echo 'hsts=0' > /root/.wgetrc
  rm -rf /tmp/luci-modulecache/
  rm -f /tmp/luci-indexcache
  
@@ -72,6 +72,8 @@ index e331a70..2f30a9f 100755
 +/etc/init.d/sing-box stop
 +/etc/init.d/ttyd disable 2>/dev/null
 +/etc/init.d/ttyd stop
++/etc/init.d/dockerd disable 2>/dev/null
++/etc/init.d/dockerd stop
 +
 +chmod 0755 /etc/init.d/*
 +

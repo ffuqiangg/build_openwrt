@@ -38,6 +38,7 @@ rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
 # Docker 容器
 cp -rf ../dockerman/applications/luci-app-dockerman feeds/luci/applications/luci-app-dockerman
+sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
