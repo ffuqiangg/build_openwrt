@@ -7,21 +7,18 @@
 ### 说明
 
 - 由于仓库的代码大部分时间都处于不可用的状态，所以并不建议 fork 使用。除非能够自行排查和修复错误。
-- ImmortalWrt-18.06 ImmortalWrt-23.05 OpenWrt-23.05 固件采用 [Flippy](https://github.com/unifreq) 大佬的方案由 Armbian 内核打包制作，LEDE iStoreOS 由于硬件原生支持，为直接编译。  
-`注：iStoreOS 固件相对于其官方固件仅保留 iStore 插件商店,可以看作包含 iStore 插件商店的原版 OpenWrt-22.03 固件`
-- 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)，下载前往 [Releases](https://github.com/ffuqiangg/build_openwrt/releases)  
-`注：带 Pre-release 标签的是测试固件，可能有各种问题。`
+- ImmortalWrt-18.06 ImmortalWrt-23.05 OpenWrt-23.05 固件采用 [Flippy](https://github.com/unifreq) 大佬的方案由 Armbian 内核打包制作，LEDE iStoreOS 由于硬件原生支持，为直接编译。
+- 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)，下载前往 [Releases](https://github.com/ffuqiangg/build_openwrt/releases)
 - 默认 IP：192.168.1.99， 默认密码：password
 - 插件：PassWall，v2rayA，Homeproxy，OpenClash，mihomo，DAED，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP 服务器，DockerMan，DocKer-Compose，UPNP，VerySync
+- 各固件包含的科学插件略有差别，具体区别见 [插件差异](doc/readme.md#插件差异)
 - 固件对一些命令进行了简化，如 `ungz = tar -xvzf`，`777 = chmod -R 777`，`mkdirg = 创建并进入目录` 等，详情可查看仓库 files/etc/shinit 文件。
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
-- 固件刷机：ImmortalWrt-18.06 ImmortalWrt-23.05 OpenWrt-23.05 固件直接用 `openwrt-install-amlogic` 将固件写入 emmc 即可。LEDE iStoreOS 固件使用命令 `install-to-emmc.sh` 刷入之后还需要手动扩容 overlay 及 Docker 空间，操作方法阅读 [openwrt 扩容](docs/openwrt_expand.md)(还没写)。
+- 固件刷机：具体方法请认真阅读 [使用说明](doc/readme.md) `还没写`
+- 由于 sing-box 更新太快实在没有精力跟进，新固件暂时停止编译 sing-box 纯内核使用所需文件，如有需要可以看看 [EasySingbox](https://github.com/qichiyuhub/EasySingbox) 和 [shellcrash](https://github.com/juewuy/ShellCrash) 这两个开源项目。2024.03.15 的 OpenWrt-23.05 固件纯 Sing-Box 核心使用方法见 [sing-Box 使用文档](doc/sing-box.md)。
 
-> [!IMPORTANT]
-> 各版本固件插件略有差别：**ImmortalWrt-18.06** 不含 mihomo、Homeproxy、DAED，**ImmortalWrt-23.05** 不含 OpenClash，**LEDE** 不含 OpenClash、Homeproxy，**OpenWrt-23.05** 不含 Openclash、Homeproxy，**iStoreOS** 不含 Homeproxy、OpenClash、DAED。
-
-> [!TIP]
-> **OpenWrt-23.05**、**iStoreOS**、**LEDE** 纯 Sing-Box 核心使用方法阅读 [sing-Box 使用文档](docs/sing-box.md)。
+> [!IMPORTANT]  
+> 带 Pre-release 标签的是测试固件随时删除，且可能有各种问题请谨慎下载使用。iStoreOS 固件相对于其官方固件仅保留 iStore 插件商店,可以看作包含 iStore 插件商店的原版 OpenWrt-22.03 固件
 
 ### 感谢
 
