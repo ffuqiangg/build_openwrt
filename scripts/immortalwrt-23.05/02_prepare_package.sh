@@ -18,7 +18,7 @@ rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns,sing-box}
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
-patch -p1 < ../patch/default-settings/immortalwrt-23.05/default-settings_add_custom_command.patch
+sed -i '/sbin/r ../patch/default-settings/immortalwrt-23.05/default-settings' package/emortal/default-settings/files/99-default-settings
 # 预编译 node
 rm -rf ./feeds/packages/lang/node
 cp -rf ../node ./feeds/packages/lang/node
