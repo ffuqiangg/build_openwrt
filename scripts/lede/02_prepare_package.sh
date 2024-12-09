@@ -24,7 +24,8 @@ mkdir -p package/new
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
-patch -p1 < ../patch/default-settings/lede/default-settings_add_custom_command.patch
+sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
+sed -i '/log-facility=/r ../patch/default-settings/lede/default-settings' package/lean/default-settings/files/zzz-default-settings
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
