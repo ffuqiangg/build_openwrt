@@ -62,6 +62,7 @@ sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/shar
 # Docker 容器
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
+sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
@@ -78,8 +79,6 @@ cp -rf ../openwrt_pkg_ma/libs/ngtcp2 ./feeds/packages/libs/ngtcp2
 ln -sf ../../../feeds/packages/libs/ngtcp2 ./package/feeds/packages/ngtcp2
 # Mihomo
 cp -rf ../openwrt-apps/OpenWrt-mihomo ./package/new/mihomo
-# 自动扩容挂载
-cp -rf ../openwrt-apps/luci-app-partexp ./package/new/luci-app-partexp
 
 # 生成默认配置及缓存
 rm -rf .config
