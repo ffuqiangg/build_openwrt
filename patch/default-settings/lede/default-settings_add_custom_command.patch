@@ -1,5 +1,5 @@
 diff --git a/package/lean/default-settings/files/zzz-default-settings b/package/lean/default-settings/files/zzz-default-settings
-index 4c4b60e7..bd97fc57 100755
+index 4c4b60e7..44261cdd 100755
 --- a/package/lean/default-settings/files/zzz-default-settings
 +++ b/package/lean/default-settings/files/zzz-default-settings
 @@ -17,21 +17,6 @@ rm -f /usr/lib/lua/luci/view/admin_status/index/upnp.htm
@@ -24,7 +24,7 @@ index 4c4b60e7..bd97fc57 100755
  sed -i 's#downloads.openwrt.org#mirrors.tencent.com/lede#g' /etc/opkg/distfeeds.conf
  sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
  sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
-@@ -54,6 +39,50 @@ echo "DISTRIB_DESCRIPTION='LEDE '" >> /etc/openwrt_release
+@@ -54,6 +39,52 @@ echo "DISTRIB_DESCRIPTION='LEDE '" >> /etc/openwrt_release
  sed -i '/log-facility/d' /etc/dnsmasq.conf
  echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
  
@@ -68,6 +68,8 @@ index 4c4b60e7..bd97fc57 100755
 +/etc/init.d/sing-box stop
 +/etc/init.d/ttyd disable 2>/dev/null
 +/etc/init.d/ttyd stop
++/etc/init.d/dockerd disable 2>/dev/null
++/etc/init.d/dockerd stop
 +
 +chmod 0755 /etc/init.d/*
 +
