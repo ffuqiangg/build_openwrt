@@ -18,7 +18,7 @@
 - 由于 sing-box 更新太快实在没有精力跟进，新固件暂时停止编译 sing-box 纯内核使用所需文件，如有需要可以看看 [EasySingbox](https://github.com/qichiyuhub/EasySingbox) 和 [shellcrash](https://github.com/juewuy/ShellCrash) 这两个开源项目。2024.03.15 的 OpenWrt-23.05 固件纯 Sing-Box 核心使用方法见 [sing-Box 使用文档](doc/sing-box.md)。
 
 > [!IMPORTANT]
-> iStoreOS 固件相对于其官方固件仅保留 iStore 插件商店,可以看作包含 iStore 插件商店的原版 OpenWrt-22.03 固件。  
+> iStoreOS 固件相对于其官方固件仅保留插件商店,可以看作包含 iStore 插件商店的原版 OpenWrt-22.03 固件。  
 > 带 Pre-release 标签的是测试固件随时删除，且可能有各种问题请谨慎下载使用。
 
 ### 感谢
