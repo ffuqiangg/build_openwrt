@@ -48,6 +48,10 @@ sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/
 sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # Curl
 cp -rf ../openwrt_pkg_ma/net/curl ./feeds/packages/net/curl
+cp -rf ../openwrt_pkg_ma/libs/nghttp3 ./feeds/packages/libs/nghttp3
+ln -sf ../../../feeds/packages/libs/nghttp3 ./package/feeds/packages/nghttp3
+cp -rf ../openwrt_pkg_ma/libs/ngtcp2 ./feeds/packages/libs/ngtcp2
+ln -sf ../../../feeds/packages/libs/ngtcp2 ./package/feeds/packages/ngtcp2
 
 # 预配置一些插件
 mkdir -p files
