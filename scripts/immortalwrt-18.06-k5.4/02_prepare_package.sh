@@ -11,8 +11,6 @@ sed -i 's/Os/O2/g' include/target.mk
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
-# fix image.mk
-patch -p1 < ../patch/fix_imm18/fix_include_image.mk.patch
 # 调整 default settings
 patch -p1 < ../patch/default-settings/immortalwrt-18.06/default-settings_add_custom_command.patch
 # MosDNS
