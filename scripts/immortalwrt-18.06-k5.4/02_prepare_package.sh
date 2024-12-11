@@ -42,8 +42,8 @@ sed -i 's,nas,services,g' feeds/luci/applications/luci-app-filebrowser/luasrc/vi
 # Rclone
 sed -i 's,\"nas\",\"services\",g;s,NAS,Services,g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Docker 容器
-rm -rf ./feeds/luci/applications/luci-app-dockerman
-cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
+# rm -rf ./feeds/luci/applications/luci-app-dockerman
+# cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
@@ -62,10 +62,6 @@ git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git pa
 pushd feeds/luci/applications/luci-app-verysync
 move_2_services nas
 popd
-
-# Vermagic
-echo 'f61e6059e4d2da5a44b60b362de89967' > .vermagic
-sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
 # 预配置一些插件
 mkdir -p files
