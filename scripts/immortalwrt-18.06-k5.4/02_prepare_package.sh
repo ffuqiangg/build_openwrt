@@ -49,8 +49,8 @@ pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
 # OpenClash
-rm -rf ./luci/applications/luci-app-openclash
-cp -rf ../openclash/luci-app-openclash ./luci/applications/luci-app-openclash
+rm -rf ./feeds/luci/applications/luci-app-openclash
+cp -rf ../openclash/luci-app-openclash ./feeds/luci/applications/luci-app-openclash
 # nlbw
 sed -i 's|admin\",|& \"network\",|g;s,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
@@ -68,6 +68,7 @@ echo 'f61e6059e4d2da5a44b60b362de89967' > .vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
 # 预配置一些插件
+mkdir -p files
 cp -rf ../files/{etc,root,/cpufreq/*} files/
 mkdir -p files/etc/openclash/core
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta

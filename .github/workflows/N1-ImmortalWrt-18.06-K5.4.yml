@@ -115,7 +115,7 @@ jobs:
         name: OpenWrt_rootfs_${{ env.build_date }}
         path: openwrt/bin
 
-    - name: Package firmware
+    - name: Packit firmware
       uses: ffuqiangg/openwrt_packit@master
       env:
         SCRIPT_REPO_URL: ffuqiangg/openwrt_packit
