@@ -84,7 +84,7 @@ sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic
 
 ### 预配置一些插件 ###
 mkdir -p files
-cp -rf ../files/{etc,root} files/
+cp -rf ../files/{etc,vim/*} files/
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
