@@ -62,10 +62,12 @@ git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git pa
 pushd feeds/luci/applications/luci-app-verysync
 move_2_services nas
 popd
+# 晶晨宝盒
+git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
 
 # 预配置一些插件
 mkdir -p files
-cp -rf ../files/{etc,root,/cpufreq/*} files/
+cp -rf ../files/{etc,vim/*} files/
 mkdir -p files/etc/openclash/core
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
 chmod +x files/etc/openclash/core/clash*
