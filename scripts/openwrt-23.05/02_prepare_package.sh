@@ -70,7 +70,7 @@ cp -rf ../immortalwrt_luci_23/applications/luci-app-vlmcsd ./package/new/luci-ap
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-vlmcsd/Makefile
 cp -rf ../immortalwrt_pkg_23/net/vlmcsd ./package/new/vlmcsd
 # 晶晨宝盒
-git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git package/new/luci-app-amlogic
+cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
 # 生成默认配置及缓存
 rm -rf .config

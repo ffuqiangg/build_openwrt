@@ -25,8 +25,6 @@ cp -rf ../node ./feeds/packages/lang/node
 # 更换 golang 版本
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
-# Luci-app-amlogic
-git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
 # mount cgroupv2
 pushd feeds/packages
 patch -p1 < ../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
@@ -70,6 +68,8 @@ move_2_services nas
 popd
 # Mihomo
 cp -rf ../openwrt-apps/OpenWrt-mihomo ./package/new/luci-app-mihomo
+# 晶晨宝盒
+cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
 #Vermagic
 latest_version="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/v//g' | sed 's/.tar.gz//g')"

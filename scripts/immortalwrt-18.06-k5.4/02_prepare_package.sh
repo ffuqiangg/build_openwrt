@@ -63,7 +63,7 @@ pushd feeds/luci/applications/luci-app-verysync
 move_2_services nas
 popd
 # 晶晨宝盒
-git clone --depth 1 https://github.com/ophub/luci-app-amlogic.git ./package/new/luci-app-amlogic
+cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
 # 预配置一些插件
 mkdir -p files

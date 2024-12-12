@@ -12,6 +12,7 @@ clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 clone_repo $dockerman_repo master dockerman &
 clone_repo $node_prebuilt_repo packages-23.05 node &
 clone_repo $openwrt_apps_repo main openwrt-apps &
+clone_repo $amlogic_repo main amlogic &
 # 等待所有后台任务完成
 wait
 

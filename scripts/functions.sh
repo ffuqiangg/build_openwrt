@@ -22,6 +22,7 @@ openclash_repo="https://github.com/vernesong/OpenClash.git"
 node_prebuilt_repo="https://github.com/sbwml/feeds_packages_lang_node-prebuilt"
 mihomo_repo="https://github.com/morytyann/OpenWrt-mihomo.git"
 v2ray_geodata_repo="https://github.com/sbwml/v2ray-geodata"
+amlogic_repo="https://github.com/ophub/luci-app-amlogic.git"
 
 clone_repo () 
 {
