@@ -15,19 +15,18 @@
 - 固件对一些命令进行了简化，如 `ungz = tar -xvzf`，`777 = chmod -R 777`，`mkdirg = 创建并进入目录` 等，详情可查看仓库 files/etc/shinit 文件。
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
 - 固件刷机：具体方法请认真阅读 [使用说明](doc/readme.md) `还没写`
-- 由于 sing-box 更新太快实在没有精力跟进，新固件暂时停止编译 sing-box 纯内核使用所需文件，如有需要可以看看 [EasySingbox](https://github.com/qichiyuhub/EasySingbox) 和 [shellcrash](https://github.com/juewuy/ShellCrash) 这两个开源项目。2024.03.15 的 OpenWrt-23.05 固件纯 Sing-Box 核心使用方法见 [sing-Box 使用文档](doc/sing-box.md)。
+- 由于 sing-box 更新太快实在没有精力跟进，新固件暂时停止编译 sing-box 纯内核使用所需文件，如有需要可以看看 [EasySingbox](https://github.com/qichiyuhub/EasySingbox) 和 [shellcrash](https://github.com/juewuy/ShellCrash) 这两个开源项目。2024.03.15 的 OpenWrt-23.05 固件纯 Sing-Box 核心使用方法见 [sing-Box 使用文档](doc/sing-box.md)
 
 > [!IMPORTANT]
-> iStoreOS 固件相对于其官方固件仅保留插件商店,可以看作包含 iStore 插件商店的原版 OpenWrt-22.03 固件。  
+> iStoreOS 固件相对于其官方固件仅保留插件商店，可以看作包含 iStore 插件商店的原版 OpenWrt-22.03 固件。  
 > 带 Pre-release 标签的是测试固件随时删除，且可能有各种问题请谨慎下载使用。
 
 ### 感谢
 
-- 本项目固件编译方法来自于 [P3TERX](https://p3terx.com) 的 [Actions-OpenWrt](https://github.com/P3TERX/Actions-OpenWrt) 项目。
-- 固件打包解决方案以及面向路由优化的内核源码源自 [Flippy](https://github.com/unifreq) 大佬的多个开源项目。
-- 打包及内核编译参考了 [Ophub](https://github.com/ophub) 的开源项目中的代码。
-- shell 脚本参考了爆操老哥 [Breakings](https://github.com/breakings) 及 [YAOF](https://github.com/QiuSimons/YAOF) 项目的代码。
-- 感谢 [OpenWrt](https://github.com/openwrt/openwrt) , [Immortalwrt](https://github.com/immortalwrt/immortalwrt) , [LEDE](https://github.com/coolsnowwolf/lede) , [IStoreOS](https://github.com/istoreos/istoreos) 等项目对开源路由的贡献。
+- 本项目源自于 [P3TERX](https://p3terx.com) 的 [Actions-OpenWrt](https://github.com/P3TERX/Actions-OpenWrt) 项目。
+- 固件打包方案来自 [Flippy](https://github.com/unifreq) 的 [openwrt_packit](https://github.com/unifreq/openwrt_packit) 以及 [Ophub](https://github.com/ophub) 的 [amlogic-s9xxx-openwrt](https://github.com/ophub/amlogic-s9xxx-openwrt) 项目。
+- 本项目使用的一部分补丁取自 [YAOF](https://github.com/QiuSimons/YAOF) 项目，项目在代码重构时也大量参考该改项目。
+- 感谢 [OpenWrt](https://github.com/openwrt/openwrt) , [Immortalwrt](https://github.com/immortalwrt/immortalwrt) , [LEDE](https://github.com/coolsnowwolf/lede) , [IStoreOS](https://github.com/istoreos/istoreos) 等项目以及所有插件作者对开源路由所作的贡献。
 
 ##
 
