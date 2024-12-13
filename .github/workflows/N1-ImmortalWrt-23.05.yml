@@ -118,6 +118,7 @@ jobs:
         kernel_usage: stable
         auto_kernel: false
         openwrt_size: 820
+        build_date: ${{ env.build_date }}
 
     - name: Organize files
       run: |
