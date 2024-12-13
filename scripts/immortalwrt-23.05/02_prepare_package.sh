@@ -12,6 +12,14 @@ sed -i 's/Os/O2/g' include/target.mk
 sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
+### FIREWALL ###
+# custom nft command
+patch -p1 < ../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
+# patch LuCI 以支持自定义 nft 规则
+pushd feeds/luci
+patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
+popd
+
 ### 替换准备 ###
 rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns,sing-box}
 
@@ -19,6 +27,8 @@ rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns,sing-box}
 mkdir -p package/new
 # 调整 default settings
 sed -i '/sbin/r ../patch/default-settings/immortalwrt-23.05/default-settings' package/emortal/default-settings/files/99-default-settings
+# 添加翻译
+cp -rf ../openwrt-apps/addition-trans-zh ./package/new/addition-trans-zh
 # 预编译 node
 rm -rf ./feeds/packages/lang/node
 cp -rf ../node ./feeds/packages/lang/node
