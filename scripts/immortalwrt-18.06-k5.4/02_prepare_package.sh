@@ -14,6 +14,7 @@ mkdir -p package/new
 # 调整 default settings
 patch -p1 < ../patch/default-settings/immortalwrt-18.06/default-settings_add_custom_command.patch
 # MosDNS
+rm -rf ./feeds/packages/net/mosdns
 cp -rf ../mosdns ./package/new/luci-app-mosdns
 # Mosdns 白名单
 echo 'account.synology.com
@@ -42,8 +43,6 @@ sed -i 's,nas,services,g' feeds/luci/applications/luci-app-filebrowser/luasrc/vi
 # Rclone
 sed -i 's,\"nas\",\"services\",g;s,NAS,Services,g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Docker 容器
-# rm -rf ./feeds/luci/applications/luci-app-dockerman
-# cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
