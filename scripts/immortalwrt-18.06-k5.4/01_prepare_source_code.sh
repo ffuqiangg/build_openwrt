@@ -4,6 +4,7 @@
 
 # 开始克隆仓库，并行执行
 clone_repo $immortalwrt_repo openwrt-18.06-k5.4 openwrt &
+clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 clone_repo $mosdns_repo v5-lua mosdns &
 clone_repo $v2ray_geodata_repo master v2ray_geodata &
 clone_repo $dockerman_repo master dockerman &
