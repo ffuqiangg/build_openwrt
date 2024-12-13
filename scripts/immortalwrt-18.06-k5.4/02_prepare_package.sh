@@ -67,7 +67,7 @@ cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
 # 预配置一些插件
 mkdir -p files
-cp -rf ../files/{etc,vim/*} files/
+cp -rf ../files/init/* files/
 mkdir -p files/etc/openclash/core
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
 chmod +x files/etc/openclash/core/clash*

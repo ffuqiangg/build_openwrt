@@ -88,7 +88,7 @@ sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/con
 
 # 预配置一些插件
 mkdir -p files
-cp -rf ../files/{etc,vim/*,cpufreq/*} files/
+cp -rf ../files/{init/*,cpufreq/*} files/
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
