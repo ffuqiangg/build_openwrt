@@ -9,7 +9,7 @@ clone_repo $mosdns_repo v5.3.1 mosdns &
 clone_repo $dockerman_repo master dockerman &
 clone_repo $openclash_repo master openclash &
 clone_repo $amlogic_repo main amlogic &
-clone_repo $openwrt_apps_repo master openwrt-apps &
+clone_repo $openwrt_apps_repo main openwrt-apps &
 # 等待所有后台任务完成
 wait
 
