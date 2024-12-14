@@ -11,8 +11,9 @@ sed -i 's/Os/O2/g' include/target.mk
 
 ### 替换准备 ###
 rm -rf feeds/packages/net/{mosdns,chinadns-ng,dns2socks,dns2tcp,hysteria,ipt2socks,microsocks,naiveproxy,pdnsd-alt,redsocks2,shadowsocks-libev,\
-    shadowsocks-rust,shadowsocksr-libev,simple-obfs,tcping,trojan-plus,trojan,v2ray-core,v2ray-geodata,v2ray-plugin,xray-core,xray-plugin}
+    shadowsocks-rust,shadowsocksr-libev,simple-obfs,tcping,trojan-plus,trojan,v2ray-core,v2ray-geodata,v2ray-plugin,xray-core,xray-plugin,v2raya}
 rm -rf feeds/packages/lang/{lua-neturl,golang}
+rm -rf feeds/luci/applications/{luci-app-passwall,luci-app-openclash,luci-app-ssr-plus}
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
@@ -54,7 +55,6 @@ pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
 # OpenClash
-rm -rf ./feeds/luci/applications/luci-app-openclash
 cp -rf ../openclash/luci-app-openclash ./feeds/luci/applications/luci-app-openclash
 # nlbw
 sed -i 's|admin\",|& \"network\",|g;s,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
@@ -63,6 +63,7 @@ sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/vi
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 # V2raya
 git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
+cp -rf ../openwrt-apps/imm_pkg/v2raya ./package/new/v2raya
 # Verysync
 pushd feeds/luci/applications/luci-app-verysync
 move_2_services nas
