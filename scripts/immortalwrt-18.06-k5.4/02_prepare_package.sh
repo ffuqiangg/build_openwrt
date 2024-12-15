@@ -56,8 +56,6 @@ sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/vi
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 # V2raya
 git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
-rm -rf ./feeds/packages/net/v2raya
-cp -rf ../openwrt-apps/imm_pkg/v2raya ./package/new/v2raya
 # Verysync
 pushd feeds/luci/applications/luci-app-verysync
 move_2_services nas
