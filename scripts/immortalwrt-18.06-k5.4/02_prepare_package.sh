@@ -9,21 +9,12 @@ sed -i 's/Os/O2/g' include/target.mk
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
-### 替换准备 ###
-rm -rf feeds/packages/net/{mosdns,chinadns-ng,dns2socks,dns2tcp,hysteria,ipt2socks,microsocks,naiveproxy,pdnsd-alt,redsocks2,shadowsocks-libev,\
-    shadowsocks-rust,shadowsocksr-libev,simple-obfs,tcping,trojan-plus,trojan,v2ray-core,v2ray-geodata,v2ray-plugin,xray-core,xray-plugin,v2raya}
-rm -rf feeds/packages/lang/{lua-neturl,golang}
-rm -rf feeds/luci/applications/{luci-app-passwall,luci-app-openclash,luci-app-ssr-plus}
-
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
 patch -p1 < ../patch/default-settings/immortalwrt-18.06/default-settings_add_custom_command.patch
-# Golang
-git clone --depth 1 https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
-# PassWall
-cp -rf ../openwrt-apps/openwrt_helloworld ./package/new/helloworld
 # MosDNS
+rm -rf feeds/packages/net/mosdns
 cp -rf ../mosdns ./package/new/luci-app-mosdns
 # Mosdns 白名单
 echo 'account.synology.com
@@ -34,6 +25,8 @@ checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
+rm -rf feeds/packages/net/v2ray_geodata
+cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
 # Samba4
 sed -i 's,\"nas\",\"services\",g' feeds/luci/applications/luci-app-samba4/luasrc/controller/samba4.lua
 # Cpufreq
@@ -55,6 +48,7 @@ pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
 # OpenClash
+rm -rf feeds/luci/applications/luci-app-openclash
 cp -rf ../openclash/luci-app-openclash ./feeds/luci/applications/luci-app-openclash
 # nlbw
 sed -i 's|admin\",|& \"network\",|g;s,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
