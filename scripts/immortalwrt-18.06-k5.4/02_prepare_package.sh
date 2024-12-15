@@ -24,7 +24,7 @@ checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
-rm -rf ./feeds/packages/net/v2ray_geodata
+rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
 # Samba4
 sed -i 's,\"nas\",\"services\",g' feeds/luci/applications/luci-app-samba4/luasrc/controller/samba4.lua
