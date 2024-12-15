@@ -23,7 +23,7 @@ checkip.dyndns.org
 checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
-ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
+ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 rm -rf ./feeds/packages/net/v2ray_geodata
 cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
 # Samba4
