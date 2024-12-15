@@ -76,7 +76,7 @@ jobs:
         ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
         ln -sf /builder/openwrt /home/runner/work/_actions/ffuqiangg/openwrt_packit/master/openwrt
 
-    - name: Prepare package & custom configuration
+    - name: Prepare package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp -r ../scripts/immortalwrt-18.06-k5.4/. ./

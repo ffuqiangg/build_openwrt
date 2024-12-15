@@ -14,8 +14,7 @@ mkdir -p package/new
 # 调整 default settings
 patch -p1 < ../patch/default-settings/immortalwrt-18.06/default-settings_add_custom_command.patch
 # MosDNS
-rm -rf feeds/packages/net/mosdns
-cp -rf ../mosdns ./package/new/luci-app-mosdns
+cp -rf ../mosdns/luci-app-mosdns ./package/new/luci-app-mosdns
 # Mosdns 白名单
 echo 'account.synology.com
 ddns.synology.com
@@ -25,7 +24,7 @@ checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
-rm -rf feeds/packages/net/v2ray_geodata
+rm -rf ./feeds/packages/net/v2ray_geodata
 cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
 # Samba4
 sed -i 's,\"nas\",\"services\",g' feeds/luci/applications/luci-app-samba4/luasrc/controller/samba4.lua
@@ -57,6 +56,7 @@ sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/vi
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 # V2raya
 git clone -b 18.06 --depth 1 https://github.com/zxlhhyccc/luci-app-v2raya.git package/new/luci-app-v2raya
+rm -rf ./feeds/packages/net/v2raya
 cp -rf ../openwrt-apps/imm_pkg/v2raya ./package/new/v2raya
 # Verysync
 pushd feeds/luci/applications/luci-app-verysync
