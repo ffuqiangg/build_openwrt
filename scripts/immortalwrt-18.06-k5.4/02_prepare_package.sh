@@ -19,6 +19,8 @@ rm -rf feeds/luci/applications/{luci-app-passwall,luci-app-openclash,luci-app-ss
 mkdir -p package/new
 # 调整 default settings
 patch -p1 < ../patch/default-settings/immortalwrt-18.06/default-settings_add_custom_command.patch
+# Golang
+git clone --depth 1 https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 # PassWall
 cp -rf ../openwrt-apps/openwrt_helloworld ./package/new/helloworld
 # MosDNS
