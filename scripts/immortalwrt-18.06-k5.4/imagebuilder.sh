@@ -42,7 +42,7 @@ adjust_settings() {
     fi
 
     # For custom packages
-    mkdir -p custom_packages && sed -i '/custom/a\src custom file:custom_packages' repositories.conf
+    mkdir -p custom_packages && sed -i "/src custom/a\src custom file:custom_packages" repositories.conf
 
     sync && sleep 3
     echo -e "💬 [ openwrt ] directory status: $(ls -al 2>/dev/null)"
@@ -124,7 +124,7 @@ custom_packages() {
     echo -e "💬 The [ v2raya ] is downloaded successfully."
 
     sync && sleep 3
-    echo -e "💬 [ packages ] directory status: $(ls packages -l 2>/dev/null)"
+    echo -e "💬 [ packages ] directory status: $(ls -al 2>/dev/null)"
 }
 
 custom_files() {
@@ -147,7 +147,7 @@ custom_files() {
     chmod +x files/etc/openclash/core/clash*
 
     sync && sleep 3
-    echo -e "💬 [ files ] directory status: $(ls files -l 2>/dev/null)"
+    echo -e "💬 [ files ] directory status: $(ls files -al 2>/dev/null)"
 }
 
 build_firmware() {
