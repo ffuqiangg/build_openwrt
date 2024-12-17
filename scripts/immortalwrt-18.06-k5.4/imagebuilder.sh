@@ -96,7 +96,7 @@ custom_packages() {
     curl -fsSOJL 'https://github.com/sbwml/luci-app-mosdns/releases/download/v4.5.3/luci-app-mosdns_1.4.4_all.ipk'
     [[ "${?}" -eq "0" ]] || error_msg "[ luci-app-mosdns ] download failed!"
     echo -e "💬 The [ luci-app-mosdns ] is downloaded successfully."
-    curl -fsSOJL 'https://github.com/sbwml/luci-app-mosdns/releases/download/v4.5.3/mosdns_4.5.3-1_aarch64_cortex-a53.ipk'
+    curl -fsSOJL 'https://github.com/sbwml/luci-app-mosdns/releases/download/v4.5.3/luci-i18n-mosdns-zh-cn_git-22.338.28208-fe2caaa_all.ipk'
     [[ "${?}" -eq "0" ]] || error_msg "[ luci-i18n-mosdns ] download failed!"
     echo -e "💬 The [ luci-i18n-mosdns ] is downloaded successfully."
     # geodata
@@ -189,7 +189,7 @@ build_firmware() {
     make image PROFILE="Default" PACKAGES="${my_packages}" FILES="files"
 
     sync && sleep 3
-    echo -e "💬 [ bin/targets/*/* ] directory status: $(ls bin/targets/*/* -l 2>/dev/null)"
+    echo -e "💬 [ ${openwrt_dir}bin/targets/*/* ] directory status: $(ls bin/targets/*/* -l 2>/dev/null)"
     echo -e "💬 The rebuild is successful, the current path: [ ${PWD} ]"
 }
 
