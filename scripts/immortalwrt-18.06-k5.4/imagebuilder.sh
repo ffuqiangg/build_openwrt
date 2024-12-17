@@ -41,9 +41,6 @@ adjust_settings() {
         error_msg "There is no .config file"
     fi
 
-    # For custom packages
-    mkdir -p custom_packages && sed -i "/src custom/a\src custom file:custom_packages" repositories.conf
-
     sync && sleep 3
     echo -e "💬 [ openwrt ] directory status: $(ls -al 2>/dev/null)"
 }
@@ -115,7 +112,6 @@ custom_packages() {
     openclash_down="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*openclash.*.ipk" | head -n 1)"
     curl -fsSOJL ${openclash_down}
     [[ "${?}" -eq "0" ]] || error_msg "[ openclash ] download failed!"
-    mv *openclash*.ipk ${imagebuilder_path}/custom_packages/
     echo -e "💬 The [ openclash ] is downloaded successfully."
 
     ### V2rayA
@@ -181,7 +177,7 @@ build_firmware() {
         kmod-ipt-offload kmod-fast-classifier luci-i18n-arpbind-zh-cn luci-i18n-autoreboot-zh-cn -luci-app-cpufreq \
         -luci-i18n-cpufreq-zh-cn luci-i18n-cpulimit-zh-cn \
         \
-        luci-i18n-amlogic-zh-cn luci-i18n-passwall-zh-cn  chinadns-ng luci-app-openclash \
+        luci-i18n-amlogic-zh-cn luci-i18n-passwall-zh-cn chinadns-ng luci-app-openclash \
         naiveproxy shadowsocks-rust-sslocal shadowsocks-rust-ssserver simple-obfs-client xray-core \
         sing-box luci-i18n-mosdns-zh-cn v2ray-geoip v2ray-geosite luci-i18n-v2raya-zh-cn \
         "
