@@ -51,15 +51,13 @@ adjust_settings() {
 custom_packages() {
     cd "${imagebuilder_path}"
     echo -e "🍺 Start adding custom packages..."
-    custom_packages_list=""
     github_api="https://api.github.com/repos"
-    packages_list=$(jq -c 'keys' "${packages_json_file}" | sed -e 's/\[//' -e 's/\]//' -e 's/,/ /g')
 
     [[ -d "packages" ]] || mkdir packages
     cd packages
 
     ### luci-app-amlogic
-    amlogic_api="https://api.github.com/repos/ophub/luci-app-amlogic/releases"
+    amlogic_api="${github_api}/ophub/luci-app-amlogic/releases"
     # luci
     amlogic_file="luci-app-amlogic"
     amlogic_file_down="$(curl -s ${amlogic_api} | grep "browser_download_url" | grep -oE "https.*${amlogic_file}.*.ipk" | head -n 1)"
@@ -74,7 +72,7 @@ custom_packages() {
     echo -e "💬 The [ ${amlogic_i18n} ] is downloaded successfully."
 
     ### Passwall
-    passwall_api="https://api.github.com/repos/xiaorouji/openwrt-passwall/releases"
+    passwall_api="${github_api}/xiaorouji/openwrt-passwall/releases"
     # luci
     passwall_file="luci-app-passwall"
     passwall_file_down="$(curl -s ${passwall_api} | grep "browser_download_url" | grep -oE "https.*19.07_${passwall_file}.*.ipk" | head -n 1)"
@@ -91,7 +89,7 @@ custom_packages() {
     passwall_packages_down="$(curl -s ${passwall_api} | grep "browser_download_url" | grep -oE "https.*passwall_packages.*cortex-a53.zip" | head -n 1)"
     curl -fsSOJL ${passwall_packages_down}
     [[ "${?}" -eq "0" ]] || error_msg "[ passwall_packages ] download failed!"
-    unzip *.zip && rm *.zip v2ray-geo*.ipk
+    unzip -q *.zip && rm *.zip v2ray-geo*.ipk
     echo -e "💬 The [ passwall_packages ] is downloaded successfully."
 
     ### MosDNS
@@ -102,7 +100,7 @@ custom_packages() {
     [[ "${?}" -eq "0" ]] || error_msg "[ luci-i18n-mosdns ] download failed!"
     echo -e "💬 The [ luci-i18n-mosdns ] is downloaded successfully."
     # geodata
-    geodata_api="https://api.github.com/repos/sbwml/luci-app-mosdns/releases"
+    geodata_api="${github_api}/sbwml/luci-app-mosdns/releases"
     geoip_down="$(curl -s ${geodata_api} | grep "browser_download_url" | grep -oE "https.*v2ray-geoip.*.ipk" | head -n 1)"
     curl -fsSOJL ${geoip_down}
     [[ "${?}" -eq "0" ]] || error_msg "[ v2ray-geoip ] download failed!"
@@ -113,7 +111,7 @@ custom_packages() {
     echo -e "💬 The [ v2ray-geosite ] is downloaded successfully."
 
     ### OpenClash
-    openclash_api="https://api.github.com/repos/vernesong/OpenClash/releases"
+    openclash_api="${github_api}/vernesong/OpenClash/releases"
     openclash_down="$(curl -s ${openclash_api} | grep "browser_download_url" | grep -oE "https.*openclash.*.ipk" | head -n 1)"
     curl -fsSOJL ${openclash_down}
     [[ "${?}" -eq "0" ]] || error_msg "[ openclash ] download failed!"
@@ -135,8 +133,8 @@ custom_files() {
 
     # Copy custom files
     [[ -d "files" ]] || mkdir -p files/etc/uci-defaults
-    cp -rf ../../files/init/* files/
-    cp -f ../../patch/default-settings/immortalwrt-18.06/99-default-settings files/etc/uci-defaults/
+    cp -rf ../files/init/* files/
+    cp -f ../patch/default-settings/immortalwrt-18.06/99-default-settings files/etc/uci-defaults/
 
     # banner
     echo "
@@ -152,7 +150,7 @@ custom_files() {
     echo -e "💬 [ files ] directory status: $(ls files -l 2>/dev/null)"
 }
 
-rebuild_firmware() {
+build_firmware() {
     cd "${imagebuilder_path}"
     echo -e "🍺 Start building OpenWrt with Image Builder..."
 
@@ -171,42 +169,40 @@ rebuild_firmware() {
         uuidgen wget-ssl whereis which wpad-basic wwan xfs-fsck xfs-mkfs xz iperf3 \
         xz-utils ziptool zoneinfo-asia zoneinfo-core zstd vim-fuller htop iftop \
         \
-        luci luci-base luci-compat luci-i18n-base-en luci-i18n-base-zh-cn luci-lib-base \
-        luci-lib-docker luci-lib-ip luci-lib-ipkg luci-lib-jsonc luci-lib-nixio \
-        luci-mod-admin-full luci-mod-network luci-mod-status luci-mod-system \
+        luci luci-base luci-compat luci-i18n-base-en luci-i18n-base-zh-cn \
+        luci-lib-docker luci-lib-ip luci-lib-ipkg luci-lib-jsonc luci-lib-nixio luci-mod-admin-full \
         luci-proto-3g luci-proto-bonding luci-proto-ipip luci-proto-ipv6 luci-proto-ncm \
         luci-proto-openconnect luci-proto-ppp luci-proto-qmi luci-proto-relay \
         \
         luci-i18n-diskman-zh-cn luci-i18n-hd-idle-zh-cn luci-i18n-nlbwmon-zh-cn luci-theme-bootstrap \
         luci-i18n-ddns-zh-cn luci-i18n-dockerman-zh-cn luci-i18n-firewall-zh-cn \
-        luci-i18n-frpc-zh-cn luci-i18n-opkg-zh-cn luci-i18n-samba4-zh-cn luci-i18n-ttyd-zh-cn \
+        luci-i18n-frpc-zh-cn luci-i18n-samba4-zh-cn luci-i18n-ttyd-zh-cn \
         luci-i18n-upnp-zh-cn luci-i18n-wol-zh-cn luci-i18n-turboacc-zh-cn kmod-tcp-bbr dnsforwarder dnsproxy \
         kmod-ipt-offload kmod-fast-classifier luci-i18n-arpbind-zh-cn luci-i18n-autoreboot-zh-cn -luci-app-cpufreq \
-        -luci-i18n-cpufreq-zh-cn luci-i18n-cpulimit-zh-cn luci-i18n-filebrowser-zh-cn \
+        -luci-i18n-cpufreq-zh-cn luci-i18n-cpulimit-zh-cn \
         \
-        luci-i18n-amlogic-zh-cn luci-i18n-passwall-zh-cn  chinadns-ng -luci-app-openclash luci-app-openclash \
+        luci-i18n-amlogic-zh-cn luci-i18n-passwall-zh-cn  chinadns-ng luci-app-openclash \
         naiveproxy shadowsocks-rust-sslocal shadowsocks-rust-ssserver simple-obfs-client xray-core \
-        sing-box luci-i18n-mosdns-zh-cn mosdns v2ray-geoip v2ray-geosite luci-i18n-v2ray-zh-cn \
+        sing-box luci-i18n-mosdns-zh-cn v2ray-geoip v2ray-geosite luci-i18n-v2raya-zh-cn \
         "
 
     make image PROFILE="Default" PACKAGES="${my_packages}" FILES="files"
 
     sync && sleep 3
-    echo -e "💬 [ imagebuilder/bin/targets/*/* ] directory status: $(ls bin/targets/*/* -l 2>/dev/null)"
+    echo -e "💬 [ bin/targets/*/* ] directory status: $(ls bin/targets/*/* -l 2>/dev/null)"
     echo -e "💬 The rebuild is successful, the current path: [ ${PWD} ]"
 }
 
 echo -e "🍺 Welcome to Rebuild OpenWrt Using the Image Builder."
 [[ -x "${0}" ]] || error_msg "Please give the script permission to run: [ chmod x ${0} ]"
-echo -e "💬 Rebuild path: [ ${PWD} ]"
+echo -e "💬 Build path: [ ${PWD} ]"
 echo -e "💬 Server space usage before starting to compile: \n$(df -hT "${make_path}") \n"
 
 download_imagebuilder
 adjust_settings
 custom_packages
-custom_config
 custom_files
-rebuild_firmware
+build_firmware
 
 echo -e "Server space usage after compilation: \n$(df -hT "${make_path}") \n"
 

@@ -66,27 +66,26 @@ jobs:
         sudo chown -R runner.runner /builder
         df -Th
 
-    - name: Prepare source code
+    - name: Build firmware
       working-directory: /builder
       run: |
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
         cp -r ${GITHUB_WORKSPACE}/. ./
         cp -r ./scripts/immortalwrt-18.06-k5.4/. ./
         /bin/bash imagebuilder.sh
-        ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
         ln -sf /builder/openwrt /home/runner/work/_actions/ffuqiangg/openwrt_packit/master/openwrt
   
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt_rootfs_${{ env.build_date }}
-        path: openwrt/imagebuilder/bin
+        path: imagebuilder/bin
 
     - name: Packit firmware
       uses: ffuqiangg/openwrt_packit@master
       env:
         SCRIPT_REPO_URL: ffuqiangg/openwrt_packit
-        OPENWRT_ARMVIRT: openwrt/imagebuilder/bin/targets/*/*/*rootfs.tar.gz
+        OPENWRT_ARMVIRT: imagebuilder/bin/targets/*/*/*rootfs.tar.gz
         PACKAGE_SOC: s905d
         KERNEL_REPO_URL: ffuqiangg/amlogic-s9xxx-armbian
         KERNEL_VERSION_NAME: 5.4.100
