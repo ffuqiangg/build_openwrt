@@ -29,7 +29,10 @@ rm -rf feeds/packages/utils/coremark
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/istoreos/custom_target_amlogic_scripts.patch
 # 添加 default settings
-cp -f ../patch/default-settings/istoreos/99-default-settings ./package/istoreos-files/files/etc/uci-defaults/
+sed -i '/overlay\/upper/d' package/istoreos-files/files/etc/uci-defaults/09_istoreos
+sed -i 'N;/\n.*commit dockerd/!P;D' package/istoreos-files/files/etc/uci-defaults/09_istoreos 
+sed -i '/commit dockerd/{N;d;}' package/istoreos-files/files/etc/uci-defaults/09_istoreos
+cp -f ../patch/default-settings/istoreos/zz-default-settings ./package/istoreos-files/files/etc/uci-defaults/
 # Golang
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
