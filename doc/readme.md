@@ -32,7 +32,7 @@ EMMC 中，ImmortalWrt 和 OpenWrt 系统默认的系统分区为 720M，LEDE �
 287 if [[ "${AMLOGIC_SOC}" == "s912" ]] && [[ "${boxtype}" == "213" || "${boxtype}" == "2e" ]]; then
 ```
 
-2. LEDE 和 iStoreOS 系统修改 `/usr/sbin/install-to-emmc.sh` 文件的 30，31 两行中的数字 `1788`，30 行中的第二个数字减去第一个数字就是 overlay 分区的大小。注意 1788 之外的其它数字不要修改。
+2. LEDE 和 iStoreOS 系统修改 `/usr/sbin/install-to-emmc.sh` 文件的第 30，31 两行中的数字 `1788`，第 30 行中的第二个数字减去第一个数字就是 overlay 分区的大小。注意 1788 之外的其它数字不要修改。
 
 ```bash
  29 		mkpart primary 132MiB 388MiB \
