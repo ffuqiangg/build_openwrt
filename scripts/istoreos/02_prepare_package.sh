@@ -42,7 +42,7 @@ rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
 # Autocore
 git clone --depth 1 -b openwrt-22.03 https://github.com/sbwml/autocore-arm.git ./package/new/autocore-arm
-sed -i '/| cpu_arch/s/?/$(uname -m)/' package/new/autocore-arm/files/generic/cpuinfo
+sed -i 's/?/ARMv8 Processor/' package/new/autocore-arm/files/generic/cpuinfo
 # Docker 容器
 cp -rf ../dockerman/applications/luci-app-dockerman feeds/luci/applications/luci-app-dockerman
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
