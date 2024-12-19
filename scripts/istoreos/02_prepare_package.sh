@@ -24,6 +24,7 @@ cp -rf ../openwrt-apps ./package/new
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,frp,shadowsocks-libev,v2raya,curl}
 rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya,luci-app-dockerman}
 rm -rf feeds/packages/utils/coremark
+rm -rf ./package/new/autocore-arm
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 调整刷机脚本
@@ -39,6 +40,8 @@ cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
+# Autocore
+git clone --depth 1 -b openwrt-22.03 https://github.com/sbwml/autocore-arm.git ./package/new/autocore-arm
 # Docker 容器
 cp -rf ../dockerman/applications/luci-app-dockerman feeds/luci/applications/luci-app-dockerman
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
