@@ -11,11 +11,11 @@
 - 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)，下载前往 [Releases](https://github.com/ffuqiangg/build_openwrt/releases)
 - 默认 IP：192.168.1.99， 默认密码：password
 - 插件：PassWall，v2rayA，Homeproxy，OpenClash，mihomo，DAED，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP 服务器，DockerMan，DocKer-Compose，UPNP，VerySync
-- 各固件包含的科学插件略有差别，具体区别见 [插件差异](doc/readme.md#插件差异)
-- ImmortalWrt-23.05 以及 OpenWrt-23.05 固件经过优化应该可以自由的从 opkg 或者 luci 的软件包页面安装 kmod 内核模块，不会出现 pkg_hash 错误。
-- 固件对一些命令进行了简化，如 `ungz = tar -xvzf`，`777 = chmod -R 777`，`mkdirg = 创建并进入目录` 等，详情可查看仓库 files/etc/shinit 文件。
+- 各固件包含的科学插件略有差别，具体区别见使用说明文档的 [插件差异](doc/readme.md#插件差异) 部分。
+- ImmortalWrt-23.05 以及 OpenWrt-23.05 固件经过特殊优化可避免安装 kmod 内核模块时出现 pkg_hash 错误。
+- 固件对一些命令进行了简化，如 `ungz = tar -xvzf`，`777 = chmod -R 777`，`mkdirg = 创建并进入目录` 等，详情可查看仓库 files/init/etc/shinit 文件。
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
-- 固件刷机：具体方法请认真阅读 [使用说明](doc/readme.md) `还没写`
+- 固件刷机：具体方法请认真阅读 [使用说明](doc/readme.md)
 - 由于 sing-box 更新太快实在没有精力跟进，新固件暂时停止编译 sing-box 纯内核使用所需文件，如有需要可以看看 [EasySingbox](https://github.com/qichiyuhub/EasySingbox) 和 [shellcrash](https://github.com/juewuy/ShellCrash) 这两个开源项目。2024.03.15 的 OpenWrt-23.05 固件纯 Sing-Box 核心使用方法见 [sing-Box 使用文档](doc/sing-box.md)
 
 > [!IMPORTANT]
@@ -26,7 +26,7 @@
 
 - 本项目源自于 [P3TERX](https://p3terx.com) 的 [Actions-OpenWrt](https://github.com/P3TERX/Actions-OpenWrt) 项目。
 - 固件打包方案来自 [Flippy](https://github.com/unifreq) 的 [openwrt_packit](https://github.com/unifreq/openwrt_packit) 以及 [Ophub](https://github.com/ophub) 的 [amlogic-s9xxx-openwrt](https://github.com/ophub/amlogic-s9xxx-openwrt) 项目。
-- 本项目使用的一部分补丁取自 [YAOF](https://github.com/QiuSimons/YAOF) 项目，代码重构时也大量参考该该项目。
+- 本项目使用的一部分补丁取自 [YAOF](https://github.com/QiuSimons/YAOF) 项目，仓库重构时也大量参考了该项目。
 - 感谢 [OpenWrt](https://github.com/openwrt/openwrt) , [Immortalwrt](https://github.com/immortalwrt/immortalwrt) , [LEDE](https://github.com/coolsnowwolf/lede) , [IStoreOS](https://github.com/istoreos/istoreos) 等项目以及所有插件作者对开源路由所作的贡献。
 
 ##
