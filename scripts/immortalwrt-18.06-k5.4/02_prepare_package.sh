@@ -13,6 +13,8 @@ sed -i 's/Os/O2/g' include/target.mk
 mkdir -p package/new
 # 调整 default settings
 patch -p1 < ../patch/default-settings/immortalwrt-18.06/default-settings_add_custom_command.patch
+# Autocore
+sed -i 's/?/ARMv8 Processor/' package/emortal/autocore/files/generic/cpuinfo
 # MosDNS
 cp -rf ../mosdns/luci-app-mosdns ./package/new/luci-app-mosdns
 # Mosdns 白名单
