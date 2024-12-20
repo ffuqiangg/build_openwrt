@@ -35,8 +35,6 @@ cp -rf ../node ./feeds/packages/lang/node
 # 更换 golang 版本
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
-# Autocore
-sed 's/?/ARMv8 Processor/' package/emortal/autocore/files/cpuinfo
 # mount cgroupv2
 pushd feeds/packages
 patch -p1 < ../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
