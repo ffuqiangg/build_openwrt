@@ -67,7 +67,7 @@ openwrt-update-amlogic
 > [!IMPORTANT]
 > - **一定不要改动系统挂载点，一定不要改动系统挂载点，一定不要改动系统挂载点。**
 > - 更新系统两种方法都须先将固件文件解压为 `.img.gz` 格式再上传，否则系统无法识别。
-> - 如果使用 `晶晨宝盒` - `在线下载更新` 功能更新固件会变为 [breakings](https://github.com/breakings/OpenWrt) 仓库的固件。
+> - 如果使用 `晶晨宝盒` - `在线下载更新` 功能更新固件会变为 [breakings](https://github.com/breakings/OpenWrt) 或 [ophub](https://github.com/ophub/amlogic-s9xxx-openwrt) 仓库的固件。
 > - 系统可单独升级内核但不建议。尤其是 ImmortalWrt-23.05 和 OpenWrt-23.05 固件，其经过特殊优化解决了安装内核模块报错的问题，单独升级内核可能使其失效。
 > - 使用过程中 docker 容器中的目录如需映射到 EMMC 务必映射到 `/mnt/mmcblk2p4` 目录。
 
