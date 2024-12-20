@@ -38,7 +38,7 @@ rm -rf feeds/packages/utils/coremark
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # Default settings
-cp -f ../patch/default-settings/openwrt-23.05/99-default-settings ./package/base-files/files/etc/uci-defaults/
+cp -f ../patch/default-settings/openwrt-23.05/zzz-default-settings ./package/base-files/files/etc/uci-defaults/
 # 预编译 node
 rm -rf ./feeds/packages/lang/node
 cp -rf ../node ./feeds/packages/lang/node

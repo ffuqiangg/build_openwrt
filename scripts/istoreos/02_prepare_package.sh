@@ -33,7 +33,7 @@ patch -p1 < ../patch/custom_install/istoreos/custom_target_amlogic_scripts.patch
 sed -i '/overlay\/upper/d' package/istoreos-files/files/etc/uci-defaults/09_istoreos
 sed -i 'N;/\n.*commit dockerd/!P;D' package/istoreos-files/files/etc/uci-defaults/09_istoreos 
 sed -i '/commit dockerd/{N;d;}' package/istoreos-files/files/etc/uci-defaults/09_istoreos
-cp -f ../patch/default-settings/istoreos/zz-default-settings ./package/istoreos-files/files/etc/uci-defaults/
+cp -f ../patch/default-settings/istoreos/zzz-default-settings ./package/istoreos-files/files/etc/uci-defaults/
 # Golang
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang

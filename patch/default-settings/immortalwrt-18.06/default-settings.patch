@@ -1,5 +1,5 @@
 diff --git a/package/emortal/default-settings/Makefile b/package/emortal/default-settings/Makefile
-index e94002e..e9edfe4 100644
+index e94002e..4ace3cb 100644
 --- a/package/emortal/default-settings/Makefile
 +++ b/package/emortal/default-settings/Makefile
 @@ -36,9 +36,6 @@ define Build/Compile
@@ -12,76 +12,14 @@ index e94002e..e9edfe4 100644
  	$(INSTALL_DIR) $(1)/etc/uci-defaults
  	$(INSTALL_BIN) ./files/99-default-settings $(1)/etc/uci-defaults/
  endef
-diff --git a/package/emortal/default-settings/files/99-default-settings b/package/emortal/default-settings/files/99-default-settings
-index e331a70..e98730f 100755
---- a/package/emortal/default-settings/files/99-default-settings
-+++ b/package/emortal/default-settings/files/99-default-settings
-@@ -30,6 +30,64 @@ echo 'hsts=0' > /root/.wgetrc
- rm -rf /tmp/luci-modulecache/
- rm -f /tmp/luci-indexcache
+@@ -46,6 +43,7 @@ endef
+ define Package/default-settings-chn/install
+ 	$(INSTALL_DIR) $(1)/etc/uci-defaults
+ 	$(INSTALL_BIN) ./files/99-default-settings-chinese $(1)/etc/uci-defaults/
++	$(INSTALL_BIN) ./files/zzz-default-settings $(1)/etc/uci-defaults/
  
--mv /etc/openwrt_banner /etc/banner
-+# Dropbear
-+uci set dropbear.@dropbear[0].Interface='lan'
-+uci commit dropbear
-+
-+# PASSWALL
-+[ -f '/usr/share/v2ray/geoip.dat' ] && uci set passwall.@global_rules[0].v2ray_location_asset='/usr/share/v2ray/'
-+uci set passwall.@global_subscribe[0].ss_aead_type='shadowsocks-rust'
-+uci set passwall.@global_delay[0].start_delay='5'
-+uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
-+uci commit passwall
-+
-+# 默认开启 Packet Steering
-+uci set network.globals.packet_steering='1'
-+uci commit network
-+
-+# 通用即插即用
-+uci set upnpd.config.enabled='1'
-+uci commit upnpd
-+
-+# OpenClash
-+[ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geosite.dat /etc/openclash/GeoSite.dat
-+[ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geoip.dat /etc/openclash/GeoIP.dat
-+
-+# V2rayA
-+[ -f /usr/share/v2ray/geoip.dat ] && ln -sf /usr/share/v2ray/geoip.dat /usr/share/xray/geoip.dat
-+[ -f /usr/share/v2ray/geosite.dat ] && ln -sf /usr/share/v2ray/geosite.dat /usr/share/xray/geosite.dat
-+
-+# 定时清理
-+(crontab -l | sed '/find \/tmp/d'; echo "0 0 1 * * find /tmp -type f \( -name \"*.log\" -o -name \"*.txt\" \) -exec sh -c 'rm {} && touch {}' \;") | sed '/^$/d' | crontab -
-+
-+# rpcd
-+[ $(uci -q get rpcd.@rpcd[0].timeout) -lt 60 ] && uci set rpcd.@rpcd[0].timeout=60 && uci commit rpcd
-+
-+# Flag packages (禁止更新)
-+opkg flag hold luci-app-firewall
-+opkg flag hold firewall
-+opkg flag hold dnsmasq-full
-+
-+# 禁用Docker自动启动
-+uci set dockerd.globals.auto_start='0'
-+uci commit dockerd
-+
-+# 禁用某些可能会自启动且用不上的依赖包服务
-+/etc/init.d/haproxy disable 2>/dev/null
-+/etc/init.d/haproxy stop
-+/etc/init.d/kcptun disable 2>/dev/null
-+/etc/init.d/kcptun stop
-+/etc/init.d/sing-box disable 2>/dev/null
-+/etc/init.d/sing-box stop
-+/etc/init.d/ttyd disable 2>/dev/null
-+/etc/init.d/ttyd stop
-+/etc/init.d/dockerd disable 2>/dev/null
-+/etc/init.d/dockerd stop
-+
-+chmod 0755 /etc/init.d/*
-+
-+# 清除 LuCI 残留缓存
-+rm -rf /tmp/luci-modulecache
-+rm -f /tmp/luci-indexcache
- 
- exit 0
+ 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
+ 	po2lmo ./i18n/default.zh-cn.po $(1)/usr/lib/lua/luci/i18n/default.zh-cn.lmo
 diff --git a/package/emortal/default-settings/files/openwrt_banner b/package/emortal/default-settings/files/openwrt_banner
 deleted file mode 100644
 index 82919a7..0000000

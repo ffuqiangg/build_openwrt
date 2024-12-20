@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Dropbear
 uci set dropbear.@dropbear[0].Interface='lan'
@@ -13,6 +13,13 @@ uci commit passwall
 
 # Feeds 更换镜像源
 sed -i 's,downloads.openwrt.org,mirrors.tuna.tsinghua.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
+
+# uhttpd 设置
+uci set uhttpd.main.rfc1918_filter=0
+uci set uhttpd.main.redirect_https=0
+uci set uhttpd.main.http_keepalive=0
+uci commit uhttpd
+/etc/init.d/uhttpd restart
 
 # 默认开启 Packet Steering
 uci set network.globals.packet_steering='1'
