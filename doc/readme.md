@@ -16,14 +16,14 @@
 
 ## 使用说明
 
-本仓库的固件默认禁用了 docker 和 ttyd 服务，可前往 `系统` - `启动项` 页面找到 dockerd 和 ttyd 条目点击其右侧的 `停用` / `已禁用` 和 `启动` 按钮启用对应服务。docker 的启用也可以到 DockerMan 概览页面点击启动，并在其配置页面勾选自动启动项，作用与 `启动项` 页面的操作相同。  
+本仓库的固件默认禁用了 docker 和 ttyd 服务，ttyd 服务可前往 `系统` - `启动项` 页面找到对应条目点击其右侧的 `停用` / `已禁用` 和 `启动` 按钮启用对应服务。docker 的启用可以到 DockerMan 概览页面点击启动，并在其配置页面勾选自动启动项。  
 `禁用 ttyd 只影响终端网页的使用，对依赖 ttyd 的插件和 ssh 连接设备操作无任何影响。`
 
 ### 1. 安装前准备
 
 EMMC 中，ImmortalWrt 和 OpenWrt 系统默认的系统分区为 720M，LEDE 和 iStoreOS 系统默认的 overlay 分区大小为 1G。在将系统写入 EMMC 前可以通过修改刷机脚本调整大小，但修改后预留给 docker 的运行空间也会相应的变化 ( 系统/overlay 增大 > docker 空间缩小 )。下面是修改方法，如果不需要修改请忽略这部分内容。
 
-1. ImmortalWrt 和 OpenWrt 系统修改`/usr/sbin/openwrt-install-amlogic` 文件的 285，286 两行中的数字为想要的系统分区大小，单位 MiB。注意两个数字必须相同。
+1. ImmortalWrt 和 OpenWrt 系统修改 `/usr/sbin/openwrt-install-amlogic` 文件的 285，286 两行中的数字为想要的系统分区大小，单位 MiB。注意两个数字必须相同。
 
 ```bash
 284 # you can change ROOT size(MB) >= 320
