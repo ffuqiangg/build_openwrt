@@ -30,6 +30,7 @@ CONFIG_PACKAGE_wget-ssl=y
 ### LUCI ###
 CONFIG_PACKAGE_uhttpd=y
 CONFIG_PACKAGE_uhttpd-mod-ubus=y
+CONFIG_PACKAGE_uhttpd-mod-lua=y
 CONFIG_PACKAGE_luci-compat=y
 
 ### DDNS ###
