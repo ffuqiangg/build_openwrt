@@ -27,7 +27,7 @@ rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns,sing-box}
 mkdir -p package/new
 # 调整 default settings
 cp -f ../patch/default-settings/immortalwrt-23.05/zzz-default-settings ./package/emortal/default-settings/files/
-sed -i '/chinese/a\	$(INSTALL_BIN) ./files/zzz-default-settings-chinese $(1)/etc/uci-defaults/' package/emortal/default-settings/Makefile
+sed -i '/chinese/a\	$(INSTALL_BIN) ./files/zzz-default-settings $(1)/etc/uci-defaults/' package/emortal/default-settings/Makefile
 # 添加翻译
 cp -rf ../openwrt-apps/addition-trans-zh ./package/new/addition-trans-zh
 # 预编译 node
