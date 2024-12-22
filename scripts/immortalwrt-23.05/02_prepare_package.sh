@@ -26,7 +26,7 @@ rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns,sing-box}
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
-cp -f ../patch/default-settings/immortalwrt-23.05/zzz-default-settings ./pacage/base-files/files/etc/uci-defaults/
+cp -f ../patch/default-settings/immortalwrt-23.05/zzz-default-settings ./package/base-files/files/etc/uci-defaults/
 # 添加翻译
 cp -rf ../openwrt-apps/addition-trans-zh ./package/new/addition-trans-zh
 # 预编译 node
