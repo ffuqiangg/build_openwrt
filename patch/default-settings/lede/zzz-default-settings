@@ -1,3 +1,4 @@
+#!/bin/sh
 
 # Dropbear
 uci set dropbear.@dropbear[0].Interface='lan'
@@ -41,3 +42,9 @@ uci commit dockerd
 /etc/init.d/ttyd stop
 /etc/init.d/dockerd disable 2>/dev/null
 /etc/init.d/dockerd stop
+
+# 清除 LuCI 残留缓存
+rm -rf /tmp/luci-modulecache
+rm -f /tmp/luci-indexcache
+
+exit 0

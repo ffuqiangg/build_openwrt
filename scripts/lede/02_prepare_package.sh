@@ -25,8 +25,7 @@ mkdir -p package/new
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
-sed -i '/log-facility=/r ../patch/default-settings/lede/default-settings' package/lean/default-settings/files/zzz-default-settings
-sed -i 's/99/zzz/' package/lean/default-settings/Makefile
+cp -f ../patch/default-settings/lede/zzz-default-settings ./package/lean/base-files/files/etc/uci-defaults/
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
