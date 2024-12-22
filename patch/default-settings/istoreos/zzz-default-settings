@@ -64,8 +64,6 @@ uci commit dockerd
 /etc/init.d/dockerd disable 2>/dev/null
 /etc/init.d/dockerd stop
 
-chmod 0755 /etc/init.d/*
-
 # 清除 LuCI 残留缓存
 rm -rf /tmp/luci-modulecache
 rm -f /tmp/luci-indexcache
