@@ -25,7 +25,6 @@ mkdir -p package/new
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
-cp -f ../patch/default-settings/lede/zzz-default-settings ./package/lean/base-files/files/etc/uci-defaults/
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
@@ -80,6 +79,8 @@ cp -rf ../openwrt_pkg_ma/libs/ngtcp2 ./feeds/packages/libs/ngtcp2
 ln -sf ../../../feeds/packages/libs/ngtcp2 ./package/feeds/packages/ngtcp2
 # Mihomo
 cp -rf ../openwrt-apps/OpenWrt-mihomo ./package/new/mihomo
+# Homeproxy
+cp -rf ../openwrt-apps/homeproxy ./package/new/homeproxy
 
 # 生成默认配置及缓存
 rm -rf .config
@@ -89,6 +90,8 @@ sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/con
 # 预配置一些插件
 mkdir -p files
 cp -rf ../files/{init/*,cpufreq/*} files/
+mkdir -p files/etc/uci-defaults
+cp -f ../patch/default-settings/lede/zzz-default-settings ./files/etc/uci-defaults/
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f

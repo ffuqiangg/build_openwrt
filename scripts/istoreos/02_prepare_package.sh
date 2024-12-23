@@ -25,7 +25,6 @@ patch -p1 < ../patch/custom_install/istoreos/custom_target_amlogic_scripts.patch
 sed -i '/overlay\/upper/d' package/istoreos-files/files/etc/uci-defaults/09_istoreos
 sed -i 'N;/\n.*commit dockerd/!P;D' package/istoreos-files/files/etc/uci-defaults/09_istoreos 
 sed -i '/commit dockerd/{N;d;}' package/istoreos-files/files/etc/uci-defaults/09_istoreos
-cp -f ../patch/default-settings/istoreos/zzz-default-settings ./package/istoreos-files/files/etc/uci-defaults/
 # Golang
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
@@ -60,6 +59,8 @@ sed -i 's/system/services/g' package/new/luci-app-filebrowser/root/usr/share/luc
 mkdir -p files
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
 cp -rf ../files/{init/*,cpufreq/*} files/
+mkdir -p files/etc/uci-defaults
+cp -f ../patch/default-settings/istoreos/zzz-default-settings ./files/etc/uci-defaults/
 mkdir -p files/etc/openclash/core
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
 chmod +x files/etc/openclash/core/clash*

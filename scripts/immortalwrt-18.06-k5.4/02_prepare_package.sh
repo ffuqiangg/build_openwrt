@@ -12,7 +12,6 @@ sed -i 's/Os/O2/g' include/target.mk
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
 # 调整 default settings
-cp -f ../patch/default-settings/immortalwrt-18.06/zzz-default-settings ./package/base-files/files/etc/uci-defaults/
 rm -f package/emortal/default-settings/files/openwrt_banner
 sed -i '/settings\/install/{n;N;N;d}' package/emortal/default-settings/Makefile
 # MosDNS
@@ -68,6 +67,8 @@ cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 # 预配置一些插件
 mkdir -p files
 cp -rf ../files/init/* files/
+mkdir -p files/etc/uci-defaults
+cp -f ../patch/default-settings/immortalwrt-18.06/zzz-default-settings ./files/etc/uci-defaults/
 mkdir -p files/etc/openclash/core
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
 chmod +x files/etc/openclash/core/clash*

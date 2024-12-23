@@ -47,8 +47,6 @@ uci commit dockerd
 /etc/init.d/haproxy stop
 /etc/init.d/kcptun disable 2>/dev/null
 /etc/init.d/kcptun stop
-/etc/init.d/sing-box disable 2>/dev/null
-/etc/init.d/sing-box stop
 /etc/init.d/ttyd disable 2>/dev/null
 /etc/init.d/ttyd stop
 

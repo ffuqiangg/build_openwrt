@@ -25,8 +25,6 @@ rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns,sing-box}
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
-# 调整 default settings
-cp -f ../patch/default-settings/immortalwrt-23.05/zzz-default-settings ./package/base-files/files/etc/uci-defaults/
 # 添加翻译
 cp -rf ../openwrt-apps/addition-trans-zh ./package/new/addition-trans-zh
 # 预编译 node
@@ -90,6 +88,8 @@ sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic
 # 预配置一些插件
 mkdir -p files
 cp -rf ../files/init/* files/
+mkdir -p files/etc/uci-defaults
+cp -f ../patch/default-settings/immortalwrt-23.05/zzz-default-settings ./files/etc/uci-defaults/
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
