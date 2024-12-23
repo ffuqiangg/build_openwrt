@@ -21,24 +21,18 @@
 
 ### 1. 安装前准备
 
-EMMC 中，ImmortalWrt 和 OpenWrt 系统默认的系统分区为 720M，LEDE 和 iStoreOS 系统默认的 overlay 分区大小为 1G。在将系统写入 EMMC 前可以通过修改刷机脚本调整大小，但修改后预留给 docker 的运行空间也会相应的变化 ( 系统/overlay 增大 > docker 空间缩小 )。下面是修改方法，如果不需要修改请忽略这部分内容。
+EMMC 中，ImmortalWrt 和 OpenWrt 系统默认的系统分区为 720M，LEDE 和 iStoreOS 系统默认的 overlay 分区大小为 1G。在将系统写入 EMMC 前可以通过下面的命令调整大小，但修改后预留给 docker 的运行空间也会相应的变化 ( 系统/overlay 增大 > docker 空间缩小 )。如果不修改请忽略这部分内容。
 
-1. ImmortalWrt 和 OpenWrt 系统修改 `/usr/sbin/openwrt-install-amlogic` 文件的 285，286 两行中的数字为想要的系统分区大小，单位 MiB。注意两个数字必须相同。
+1. ImmortalWrt 和 OpenWrt 系统，将命令中的 `NUM` 修改为你想要的大小，单位 MiB。
 
 ```bash
-284 # you can change ROOT size(MB) >= 320
-285 ROOT1="720"
-286 ROOT2="720"
-287 if [[ "${AMLOGIC_SOC}" == "s912" ]] && [[ "${boxtype}" == "213" || "${boxtype}" == "2e" ]]; then
+sed -i 's/720/NUM/2g' /usr/sbin/openwrt-install-amlogic
 ```
 
-2. LEDE 和 iStoreOS 系统修改 `/usr/sbin/install-to-emmc.sh` 文件的第 30，31 两行中的数字 `1788`，第 30 行中的第二个数字减去第一个数字就是 overlay 分区的大小。注意 1788 之外的其它数字不要修改。
+2. LEDE 和 iStoreOS 系统，将命令中的 `NUM` 修改为你想要的大小，单位 MiB。
 
 ```bash
- 29 		mkpart primary 132MiB 388MiB \
- 30 		mkpart primary 764MiB 1788MiB \
- 31 		mkpart primary 1788MiB 100%
- 32 }
+sed -i "s/1788/$((764 + NUM))/g" /usr/sbin/install-to-emmc.sh
 ```
 
 ### 2. ImmortalWrt、OpenWrt 固件的安装使用
