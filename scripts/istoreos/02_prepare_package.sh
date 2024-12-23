@@ -51,9 +51,8 @@ ln -sf ../../../feeds/packages/libs/nghttp3 ./package/feeds/packages/nghttp3
 cp -rf ../openwrt_pkg_ma/libs/ngtcp2 ./feeds/packages/libs/ngtcp2
 ln -sf ../../../feeds/packages/libs/ngtcp2 ./package/feeds/packages/ngtcp2
 # Filebrowser
-cp -rf ../immortalwrt_luci_23/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
+cp -rf ../immortalwrt_luci_21/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-filebrowser/Makefile
-sed -i 's/system/services/g' package/new/luci-app-filebrowser/root/usr/share/luci/menu.d/luci-app-filebrowser.json
 
 # 预配置一些插件
 mkdir -p files

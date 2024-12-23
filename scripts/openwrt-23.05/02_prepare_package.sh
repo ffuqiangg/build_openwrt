@@ -70,7 +70,6 @@ cp -rf ../immortalwrt_pkg_23/net/vlmcsd ./package/new/vlmcsd
 # Filebrowser
 cp -rf ../immortalwrt_luci_23/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-filebrowser/Makefile
-sed -i 's/system/services/g' package/new/luci-app-filebrowser/root/usr/share/luci/menu.d/luci-app-filebrowser.json
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
