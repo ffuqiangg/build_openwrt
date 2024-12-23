@@ -14,14 +14,14 @@ sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqba
 ### 替换准备 ###
 cp -rf ../openwrt-apps ./package/new
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,frp,shadowsocks-libev,v2raya,curl}
-rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya,luci-app-dockerman,luci-app-filebrowser-go}
+rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya,luci-app-dockerman}
 rm -rf feeds/packages/utils/coremark
-rm -rf ./package/new/autocore-arm
+rm -rf ./package/new/{autocore-arm,luci-app-filebrowser-go}
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/istoreos/custom_target_amlogic_scripts.patch
-# 添加 default settings
+# 调整 default settings
 sed -i '/overlay\/upper/d' package/istoreos-files/files/etc/uci-defaults/09_istoreos
 sed -i 'N;/\n.*commit dockerd/!P;D' package/istoreos-files/files/etc/uci-defaults/09_istoreos 
 sed -i '/commit dockerd/{N;d;}' package/istoreos-files/files/etc/uci-defaults/09_istoreos
