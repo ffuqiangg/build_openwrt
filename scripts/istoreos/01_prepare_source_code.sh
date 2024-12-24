@@ -5,7 +5,6 @@
 # 开始克隆仓库，并行执行
 clone_repo $istoreos_repo istoreos-22.03 openwrt &
 clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
-clone_repo $immortalwrt_luci_repo openwrt-21.02 immortalwrt_luci_21 &
 clone_repo $node_prebuilt_repo packages-22.03 node &
 clone_repo $dockerman_repo master dockerman &
 clone_repo $openwrt_apps_repo main openwrt-apps &

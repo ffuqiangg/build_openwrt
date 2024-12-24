@@ -16,7 +16,7 @@ cp -rf ../openwrt-apps ./package/new
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,frp,shadowsocks-libev,v2raya,curl}
 rm -rf feeds/luci/applications/{luci-app-frps,luci-app-frpc,luci-app-v2raya,luci-app-dockerman}
 rm -rf feeds/packages/utils/coremark
-rm -rf ./package/new/{autocore-arm,luci-app-filebrowser-go}
+rm -rf ./package/new/autocore-arm
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 调整刷机脚本
@@ -50,9 +50,6 @@ cp -rf ../openwrt_pkg_ma/libs/nghttp3 ./feeds/packages/libs/nghttp3
 ln -sf ../../../feeds/packages/libs/nghttp3 ./package/feeds/packages/nghttp3
 cp -rf ../openwrt_pkg_ma/libs/ngtcp2 ./feeds/packages/libs/ngtcp2
 ln -sf ../../../feeds/packages/libs/ngtcp2 ./package/feeds/packages/ngtcp2
-# Filebrowser
-cp -rf ../immortalwrt_luci_21/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-filebrowser/Makefile
 
 # 预配置一些插件
 mkdir -p files
