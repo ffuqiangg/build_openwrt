@@ -31,7 +31,7 @@ cp -f ../patch/bpf_loop/*.patch ./target/linux/generic/backport-5.15/
 
 ### 替换准备 ###
 cp -rf ../openwrt-apps ./package/new
-rm -rf package/new/{luci-app-frpc,luci-app-frps,imm_pkg/frp,openwrt_pkg/vlmcsd,openwrt_pkg/luci-app-vlmcsd}
+rm -rf package/new/{luci-app-frpc,luci-app-frps,imm_pkg/frp,openwrt_pkg/vlmcsd,openwrt_pkg/luci-app-vlmcsd,imm_pkg/filebrowser,luci-app-filebrowser-go}
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsocks,shadowsocks-libev,zerotier,daed,v2raya}
 rm -rf feeds/luci/applications/{luci-app-zerotier,luci-app-v2raya,luci-app-dockerman}
 rm -rf feeds/packages/utils/coremark
@@ -69,6 +69,11 @@ sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-vlmcsd/Makefile
 cp -rf ../immortalwrt_pkg_23/net/vlmcsd ./package/new/vlmcsd
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
+# Filebrowser
+cp -rf ../immortalwrt_luci_23/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
+cp -rf ../immortalwrt_pkg_23/applications/utils/filebrowser ./package/new/filebrowser
+sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.2," package/new/filebrowser/Makefile
+sed -i "s,PKG_HASH:=.*,PKG_HASH:=bfda9ea7c44d4cb93c47a007c98b84f853874e043049b44eff11ca00157d8426," package/new/filebrowser/Makefile
 
 # 生成默认配置及缓存
 rm -rf .config
