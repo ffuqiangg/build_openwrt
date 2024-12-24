@@ -31,7 +31,7 @@ cp -f ../patch/bpf_loop/*.patch ./target/linux/generic/backport-5.15/
 
 ### 替换准备 ###
 cp -rf ../openwrt-apps ./package/new
-rm -rf package/new/{luci-app-frpc,luci-app-frps,imm_pkg/frp,openwrt_pkg/vlmcsd,openwrt_pkg/luci-app-vlmcsd,luci-app-filebrowser-go}
+rm -rf package/new/{luci-app-frpc,luci-app-frps,imm_pkg/frp,openwrt_pkg/vlmcsd,openwrt_pkg/luci-app-vlmcsd}
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsocks,shadowsocks-libev,zerotier,daed,v2raya}
 rm -rf feeds/luci/applications/{luci-app-zerotier,luci-app-v2raya,luci-app-dockerman}
 rm -rf feeds/packages/utils/coremark
@@ -67,9 +67,6 @@ sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luc
 cp -rf ../immortalwrt_luci_23/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-vlmcsd/Makefile
 cp -rf ../immortalwrt_pkg_23/net/vlmcsd ./package/new/vlmcsd
-# Filebrowser
-cp -rf ../immortalwrt_luci_23/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-filebrowser/Makefile
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
