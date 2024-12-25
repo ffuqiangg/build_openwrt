@@ -52,7 +52,9 @@ cp -rf ../openwrt_pkg_ma/libs/ngtcp2 ./feeds/packages/libs/ngtcp2
 ln -sf ../../../feeds/packages/libs/ngtcp2 ./package/feeds/packages/ngtcp2
 # Filebrowser
 cp -rf ../immortalwrt_luci_21/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-filebrowser/Makefile
 cp -rf ../immortalwrt_pkg_21/utils/filebrowser ./package/new/filebrowser
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/filebrowser/Makefile
 sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.2," package/new/filebrowser/Makefile
 sed -i "s,PKG_HASH:=.*,PKG_HASH:=bfda9ea7c44d4cb93c47a007c98b84f853874e043049b44eff11ca00157d8426," package/new/filebrowser/Makefile
 
