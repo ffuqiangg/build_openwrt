@@ -45,7 +45,7 @@ sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/
 # 终端 TTYD
 sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # Curl
-cp -rf ../openwrt_pkg_23/net/curl ./feeds/packages/net/curl
+patch -p1 < ../patch/curl/downgrade_curl_8.6.0_to_8.5.0.patch
 # Filebrowser
 cp -rf ../immortalwrt_luci_21/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-filebrowser/Makefile
