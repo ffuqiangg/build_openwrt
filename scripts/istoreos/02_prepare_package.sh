@@ -32,7 +32,7 @@ cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 rm -rf feeds/packages/lang/node
 cp -rf ../node feeds/packages/lang/node
 # Autocore
-git clone --depth 1 -b openwrt-22.03 https://github.com/sbwml/autocore-arm.git ./package/new/autocore-arm
+clone_repo https://github.com/sbwml/autocore-arm.git openwrt-22.03 package/new/autocore-arm
 sed -i 's/?/ARMv8 Processor/' package/new/autocore-arm/files/generic/cpuinfo
 # Docker 容器
 cp -rf ../dockerman/applications/luci-app-dockerman feeds/luci/applications/luci-app-dockerman
