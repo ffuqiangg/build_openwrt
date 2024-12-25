@@ -46,6 +46,8 @@ sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/
 sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # Curl
 patch -p1 < ../patch/curl/downgrade_curl_8.6.0_to_8.5.0.patch
+# pcre2
+cp -rf ../immortalwrt_pkg_21/libs/pcre2 ./package/new/pcre2
 # Filebrowser
 cp -rf ../immortalwrt_luci_21/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-filebrowser/Makefile
