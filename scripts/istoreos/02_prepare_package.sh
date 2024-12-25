@@ -47,8 +47,8 @@ sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/shar
 # Curl
 patch -p1 < ../patch/curl/downgrade_curl_8.6.0_to_8.5.0.patch
 # pcre2
-cp -rf ../immortalwrt_pkg_21/libs/pcre2 ./feeds/packages/lib/pcre2
-ln -sf ../../../feeds/packages/lib/pcre2 ./package/feeds/packages/pcre2
+cp -rf ../immortalwrt_pkg_21/libs/pcre2 ./feeds/packages/libs/pcre2
+ln -sf ../../../feeds/packages/libs/pcre2 ./package/feeds/packages/pcre2
 # Filebrowser
 cp -rf ../immortalwrt_luci_21/applications/luci-app-filebrowser ./package/new/luci-app-filebrowser
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-filebrowser/Makefile
