@@ -11,14 +11,13 @@ sed -i 's/Os/O2/g' include/target.mk
 # 默认开启 Irqbalance
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
-### 替换准备 ###
-#cp -rf ../openwrt-apps ./package/new
-rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,shadowsocks-libev,v2raya}
+### 替换源码 ###
+rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,shadowsocks-libev,v2raya,frp}
 rm -rf feeds/luci/applications/{luci-app-v2raya,luci-app-dockerman}
-#rm -rf feeds/packages/utils/coremark
-#rm -rf ./package/new/{autocore-arm,imm_pkg/filebrowser,luci-app-filebrowser-go}
 mkdir -p ./package/new
-cp -rf ../openwrt-apps/{openwrt_helloworld,openwrt_pkgs/luci-app-diskman,imm_pkg/v2raya,luci-app-v2raya} ./package/new/
+cp -rf ../openwrt-apps/{openwrt_helloworld,luci-app-v2raya,luci-app-arpbind,addition-trans-zh,luci-app-cpulimit} ./package/new/
+cp -rf ../openwrt-apps/openwrt_pkgs/{luci-app-diskman,luci-app-autoreboot,luci-app-cpufreq} ./package/new/
+cp -rf ../openwrt-apps/imm_pkg/{v2raya,frp,cpulimit} ./package/new/
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 调整刷机脚本
