@@ -15,9 +15,9 @@ sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqba
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,shadowsocks-libev,v2raya,frp}
 rm -rf feeds/luci/applications/{luci-app-v2raya,luci-app-dockerman}
 mkdir -p ./package/new
-cp -rf ../openwrt-apps/{openwrt_helloworld,luci-app-v2raya,luci-app-arpbind,addition-trans-zh,luci-app-cpulimit} ./package/new/
+cp -rf ../openwrt-apps/{openwrt_helloworld,luci-app-v2raya,luci-app-arpbind,addition-trans-zh,luci-app-cpulimit,OpenClash,luci-app-vsftpd} ./package/new/
 cp -rf ../openwrt-apps/openwrt_pkgs/{luci-app-diskman,luci-app-autoreboot,luci-app-cpufreq} ./package/new/
-cp -rf ../openwrt-apps/imm_pkg/{v2raya,frp,cpulimit} ./package/new/
+cp -rf ../openwrt-apps/imm_pkg/{v2raya,frp,cpulimit,vsftpd} ./package/new/
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 调整刷机脚本
@@ -26,6 +26,9 @@ patch -p1 < ../patch/custom_install/istoreos/custom_target_amlogic_scripts.patch
 sed -i '/overlay\/upper/d' package/istoreos-files/files/etc/uci-defaults/09_istoreos
 sed -i 'N;/\n.*commit dockerd/!P;D' package/istoreos-files/files/etc/uci-defaults/09_istoreos 
 sed -i '/commit dockerd/{N;d;}' package/istoreos-files/files/etc/uci-defaults/09_istoreos
+# iproute2
+rm -rf ./package/network/utils/iproute2
+cp -rf ../openwrt_ma/package/network/utils/iproute2 ./package/network/utils/iproute2
 # Golang
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
