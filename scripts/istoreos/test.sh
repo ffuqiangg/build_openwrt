@@ -18,7 +18,7 @@ rm -rf feeds/luci/applications/{luci-app-v2raya,luci-app-dockerman}
 #rm -rf feeds/packages/utils/coremark
 #rm -rf ./package/new/{autocore-arm,imm_pkg/filebrowser,luci-app-filebrowser-go}
 mkdir -p ./package/new
-cp -rf ../openwrt-apps/{openwrt_helloworld,openwrt_pkg/luci-app-diskman,imm_pkg/v2raya,luci-app-v2raya} ./package/new/
+cp -rf ../openwrt-apps/{openwrt_helloworld,openwrt_pkgs/luci-app-diskman,imm_pkg/v2raya,luci-app-v2raya} ./package/new/
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 调整刷机脚本
