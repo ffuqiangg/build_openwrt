@@ -26,9 +26,6 @@ patch -p1 < ../patch/custom_install/istoreos/custom_target_amlogic_scripts.patch
 sed -i '/overlay\/upper/d' package/istoreos-files/files/etc/uci-defaults/09_istoreos
 sed -i 'N;/\n.*commit dockerd/!P;D' package/istoreos-files/files/etc/uci-defaults/09_istoreos 
 sed -i '/commit dockerd/{N;d;}' package/istoreos-files/files/etc/uci-defaults/09_istoreos
-# iproute2
-rm -rf ./package/network/utils/iproute2
-cp -rf ../openwrt_ma/package/network/utils/iproute2 ./package/network/utils/iproute2
 # Golang
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
