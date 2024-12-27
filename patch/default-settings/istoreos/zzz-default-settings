@@ -1,5 +1,14 @@
 #!/bin/sh
 
+#时区设置
+uci set system.@system[0].timezone=CST-8
+uci set system.@system[0].zonename=Asia/Shanghai
+uci del system.ntp.server
+uci add_list system.ntp.server='ntp.aliyun.com'
+uci add_list system.ntp.server='cn.ntp.org.cn'
+uci add_list system.ntp.server='ntp.ntsc.ac.cn'
+uci commit system
+
 # Dropbear
 uci set dropbear.@dropbear[0].Interface='lan'
 uci commit dropbear
