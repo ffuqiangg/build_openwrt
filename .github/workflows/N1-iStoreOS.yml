@@ -72,7 +72,6 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp ../config/istoreos/config.seed .config
-        sed -i '/passwall/d;/addition/d;/autocore/d;/arpbind/d;/autoreboot/d;/cpufreq/d;/cpulimit/d;/filebrowser/d;/openclash/d;/vsftpd/d' .config
         make defconfig
 
     - name: Download package
@@ -82,17 +81,8 @@ jobs:
 
     - name: Compile the firmware
       working-directory: ${{ github.workspace }}/openwrt
-      id: compileopenwrt
-      continue-on-error: true
       run: |
-        IGNORE_ERRORS=1 make -j$(($(nproc) + 1))
-        echo $?
-
-    - name: If error
-      working-directory: ${{ github.workspace }}/openwrt
-      if: steps.compileopenwrt.outcome == 'failure'
-      run: |
-        make -j1 V=s
+        make -j$(nproc) || make -j1 || make -j1 V=s
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main

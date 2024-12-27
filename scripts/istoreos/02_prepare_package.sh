@@ -13,9 +13,9 @@ sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqba
 
 ### 替换源码 ###
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,shadowsocks-libev,v2raya,frp}
-rm -rf feeds/luci/applications/{luci-app-v2raya,luci-app-dockerman}
+rm -rf feeds/luci/applications/{luci-app-v2raya,luci-app-dockerman,luci-app-frps,luci-app-frpc}
 mkdir -p ./package/new
-cp -rf ../openwrt-apps/{openwrt_helloworld,luci-app-v2raya,luci-app-arpbind,addition-trans-zh,luci-app-cpulimit,OpenClash,luci-app-vsftpd} ./package/new/
+cp -rf ../openwrt-apps/{openwrt_helloworld,luci-app-v2raya,luci-app-arpbind,addition-trans-zh,luci-app-cpulimit,OpenClash,luci-app-vsftpd,luci-app-frps,luci-app-frpc} ./package/new/
 cp -rf ../openwrt-apps/openwrt_pkgs/{luci-app-diskman,luci-app-autoreboot,luci-app-cpufreq} ./package/new/
 cp -rf ../openwrt-apps/imm_pkg/{v2raya,frp,cpulimit,vsftpd} ./package/new/
 
