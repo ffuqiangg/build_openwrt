@@ -65,7 +65,7 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp -r ../scripts/istoreos/. ./
-        /bin/bash test.sh
+        /bin/bash 02_prepare_package.sh
         sed -i "s/DATE/${{ env.build_date }}/;s/WRT_SOUR/iStoreOS/;s/RELEASES/22.03.7/" ./files/etc/banner
 
     - name: Make config
@@ -77,16 +77,15 @@ jobs:
     - name: Download package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        make download -j8
-        find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
+        make download -j50
 
     - name: Compile the firmware
+      working-directory: ${{ github.workspace }}/openwrt
       id: compileopenwrt
       continue-on-error: true
       run: |
-        cd openwrt
-        make -j$(($(nproc) + 1))
+        IGNORE_ERRORS=1 make -j$(($(nproc) + 1))
+        echo $?
 
     - name: If error
       working-directory: ${{ github.workspace }}/openwrt
