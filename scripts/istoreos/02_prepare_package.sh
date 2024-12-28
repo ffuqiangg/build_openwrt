@@ -16,7 +16,7 @@ rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,shadowsocks-libev,
 rm -rf feeds/luci/applications/{luci-app-v2raya,luci-app-dockerman,luci-app-frps,luci-app-frpc}
 rm -rf feeds/packages/utils/coremark
 mkdir -p ./package/new
-cp -rf ../openwrt-apps/{openwrt_helloworld,luci-app-v2raya,luci-app-arpbind,addition-trans-zh,luci-app-cpulimit,OpenClash,luci-app-vsftpd,luci-app-frps,luci-app-frpc} ./package/new/
+cp -rf ../openwrt-apps/{openwrt_helloworld,luci-app-v2raya,luci-app-arpbind,addition-trans-zh,luci-app-cpulimit,OpenClash,luci-app-vsftpd,luci-app-frps,luci-app-frpc,luci-app-mosdns} ./package/new/
 cp -rf ../openwrt-apps/openwrt_pkgs/{luci-app-diskman,luci-app-autoreboot,luci-app-cpufreq,coremark} ./package/new/
 cp -rf ../openwrt-apps/imm_pkg/{v2raya,frp,cpulimit,vsftpd} ./package/new/
 
