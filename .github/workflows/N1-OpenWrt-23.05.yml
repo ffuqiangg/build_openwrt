@@ -90,16 +90,8 @@ jobs:
 
     - name: Compile the firmware
       working-directory: ${{ github.workspace }}/openwrt
-      id: compileopenwrt
-      continue-on-error: true
       run: |
-        IGNORE_ERRORS=1 make -j$(($(nproc) + 1))
-        echo $?
-
-    - name: If error
-      if: steps.compileopenwrt.outcome == 'failure'
-      run: |
-         make -j1 V=s
+        make -j$(nproc) || make -j1 || make -j1 V=s
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
