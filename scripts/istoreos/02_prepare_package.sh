@@ -16,9 +16,9 @@ rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,shadowsocks-libev,
 rm -rf feeds/luci/applications/{luci-app-v2raya,luci-app-dockerman,luci-app-frps,luci-app-frpc}
 rm -rf feeds/packages/utils/coremark
 mkdir -p ./package/new
-cp -rf ../openwrt-apps/{openwrt_helloworld,luci-app-v2raya,luci-app-arpbind,addition-trans-zh,luci-app-cpulimit,OpenClash,luci-app-vsftpd,luci-app-frps,luci-app-frpc,luci-app-mosdns} ./package/new/
+cp -rf ../openwrt-apps/{openwrt_helloworld,luci-app-v2raya,luci-app-arpbind,addition-trans-zh,luci-app-cpulimit,OpenClash,luci-app-frps,luci-app-frpc,luci-app-mosdns} ./package/new/
 cp -rf ../openwrt-apps/openwrt_pkgs/{luci-app-diskman,luci-app-autoreboot,luci-app-cpufreq,coremark} ./package/new/
-cp -rf ../openwrt-apps/imm_pkg/{v2raya,frp,cpulimit,vsftpd} ./package/new/
+cp -rf ../openwrt-apps/imm_pkg/{v2raya,frp,cpulimit} ./package/new/
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 调整刷机脚本
@@ -55,6 +55,20 @@ cp -rf ../immortalwrt_pkg_21/utils/filebrowser ./package/new/filebrowser
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' package/new/filebrowser/Makefile
 sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.2," package/new/filebrowser/Makefile
 sed -i "s,PKG_HASH:=.*,PKG_HASH:=bfda9ea7c44d4cb93c47a007c98b84f853874e043049b44eff11ca00157d8426," package/new/filebrowser/Makefile
+# FTP 服务器
+cp -rf ../immortalwrt_luci_21/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-vsftpd
+cp -rf ../immortalwrt_pkg_21/net/vsftpd ./package/new/vsftpd
+pushd package/new/luci-app-vsftpd
+move_2_services nas
+popd
+# verysync
+cp -rf ../immortalwrt_luci_21/applications/luci-app-verysync ./package/new/luci-app-verysync
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-verysync
+cp -rf ../immortalwrt_pkg_21/net/verysync ./package/new/verysync
+pushd package/new/luci-app-verysync
+move_2_services nas
+popd
 
 # 预配置一些插件
 mkdir -p files
