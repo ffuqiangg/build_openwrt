@@ -57,14 +57,14 @@ sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.2," package/new/filebrowser/Makefi
 sed -i "s,PKG_HASH:=.*,PKG_HASH:=bfda9ea7c44d4cb93c47a007c98b84f853874e043049b44eff11ca00157d8426," package/new/filebrowser/Makefile
 # FTP 服务器
 cp -rf ../immortalwrt_luci_21/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-vsftpd
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-vsftpd/Makefile
 cp -rf ../immortalwrt_pkg_21/net/vsftpd ./package/new/vsftpd
 pushd package/new/luci-app-vsftpd
 move_2_services nas
 popd
 # verysync
 cp -rf ../immortalwrt_luci_21/applications/luci-app-verysync ./package/new/luci-app-verysync
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-verysync
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-verysync/Makefile
 cp -rf ../immortalwrt_pkg_21/net/verysync ./package/new/verysync
 pushd package/new/luci-app-verysync
 move_2_services nas
