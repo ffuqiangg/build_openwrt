@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#时区设置
+# 时区设置
 uci set system.@system[0].timezone=CST-8
 uci set system.@system[0].zonename=Asia/Shanghai
 uci del system.ntp.server
