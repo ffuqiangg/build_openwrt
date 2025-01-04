@@ -1,37 +1,21 @@
 #!/usr/sbin/nft -f
 
-flush ruleset
-
-define RESERVED_IP = {
-    0.0.0.0/8,
-    10.0.0.0/8,
-    100.64.0.0/10,
-    127.0.0.0/8,
-    169.254.0.0/16,
-    172.17.0.0/16,
-    192.0.0.0/24,
-    192.168.0.0/24,
-    224.0.0.0/4,
-    240.0.0.0/4,
-    255.255.255.255/32
-}
-
-table inet singbox {
+table inet sing-box {
     chain prerouting {
         type filter hook prerouting priority filter; policy accept;
-        ip daddr $RESERVED_IP return
-        ## 下面两行的网段根据你的局域网配置修改
+        ip daddr { 0.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.17.0.0/16, 192.0.0.0/24, 192.168.0.0/24, 224.0.0.0/4, 240.0.0.0/4, 255.255.255.255/32 } return
+        ## 以下两行的网段根据自己的网络情况修改
         meta l4proto tcp ip daddr 192.168.1.0/24 return
         ip daddr 192.168.1.0/24 udp dport != 53 return
         meta mark 0x000000ff return
-        ## 下面一行的端口保持与配置文件一致
+        ## 以下两行端口需要跟sing-box 配置文件的tproxy端口一致
         meta l4proto { tcp, udp } meta mark set 0x00000001 tproxy ip to 127.0.0.1:10105 accept
     }
 
     chain output {
         type route hook output priority filter; policy accept;
-        ip daddr $RESERVED_IP return
-        ## 下面两行的网段根据你的局域网配置修改
+        ip daddr { 0.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.17.0.0/16, 192.0.0.0/24, 192.168.0.0/24, 224.0.0.0/4, 240.0.0.0/4, 255.255.255.255/32 } return
+        ## 以下两行的网段根据自己的网络情况修改
         meta l4proto tcp ip daddr 192.168.1.0/24 return
         ip daddr 192.168.1.0/24 udp dport != 53 return
         meta mark 0x000000ff return

@@ -2,7 +2,7 @@
   "log": {
     "disabled": false,
     "level": "info",
-    "output": "/var/log/sing-box-c.log",
+    "output": "/tmp/sing-box.log",
     "timestamp": true
   },
   "experimental": {
@@ -32,9 +32,7 @@
       "type": "mixed",
       "listen": "::",
       "listen_port": 2080,
-      "sniff": true,
-      "sniff_override_destination": false,
-      "set_system_proxy": false
+      "sniff": true
     }
   ]
 }
