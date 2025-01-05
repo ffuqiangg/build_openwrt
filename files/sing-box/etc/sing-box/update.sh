@@ -14,5 +14,7 @@ fi
 popd
 
 /etc/init.d/sing-box start
+[[ -z $(ls /etc/rc.d | grep sing-box) ]] && /etc/init.d/sing-box enable
+[[ -z $(grep sing-box/update.sh /etc/crontabs/root) ]] && echo "0 5 * * * /etc/sing-box/update.sh" >> /etc/crontabs/root
 
 exit 0
