@@ -2,6 +2,13 @@
 
 subscription_url=""
 
+if [[ ${1}a == stopa ]]; then
+    /etc/init.d/sing-box stop
+    /etc/init.d/sing-box disable 2>/dev/null
+    sed -i '/sing-box\/update.sh/d' /etc/crontabs/root
+    exit 0
+fi
+
 /etc/init.d/sing-box stop
 
 pushd /etc/sing-box
