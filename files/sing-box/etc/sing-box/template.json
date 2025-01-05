@@ -1,7 +1,7 @@
 {
   "log": {
     "disabled": false,
-    "level": "info",
+    "level": "warn",
     "output": "/tmp/sing-box.log",
     "timestamp": true
   },
@@ -10,7 +10,7 @@
       "external_controller": "0.0.0.0:9900",
       "external_ui": "ui",
       "secret": "ffuqiangg",
-      "external_ui_download_url": "https://ghp.ci/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip",
+      "external_ui_download_url": "https://ghgo.xyz/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip",
       "external_ui_download_detour": "direct",
 	    "default_mode": "rule"
     },
