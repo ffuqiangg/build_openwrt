@@ -1,6 +1,7 @@
 #!/bin/bash
 
-url="" #两个"之间填入订阅地址
+url="" # 订阅地址
+up_time="5" # 更新时间，范围0-23
 work_dir="/etc/sing-box"
 
 download_config() {
@@ -28,7 +29,7 @@ first_run() {
     [[ "${ip_cidr%.*}" != "${ip_cidr_nft%.*}" ]] && sed -i "s,${ip_cidr_nft},${ip_cidr%.*}.0/${ip_cidr##*/},g" ${work_dir}/nftables.conf
     download_config 1
     [[ -z $(ls /etc/rc.d | grep sing-box) ]] && /etc/init.d/sing-box enable
-    [[ -z $(grep sing-box/update.sh /etc/crontabs/root) ]] && echo "0 5 * * * /etc/sing-box/update.sh" >> /etc/crontabs/root
+    [[ -z $(grep sing-box/update.sh /etc/crontabs/root) ]] && echo -e "0 $up_time * * * /etc/sing-box/update.sh" >> /etc/crontabs/root
 }
 
 if [ -z $1 ]; then
