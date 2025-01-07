@@ -1,27 +1,47 @@
 #!/bin/bash
 
-subscription_url=""
+url="" #两个"之间填入订阅地址
+work_dir="/etc/sing-box"
 
-/etc/init.d/sing-box stop
+download_config() {
+    [[ -n $(ps | grep sing-box | grep -v grep) ]] && /etc/init.d/sing-box stop
+    curl --user-agent sing-box ~~connect-timeout 30 -m 600 -klo "${work_dir}/1.json.new" $url
+    if [ $? -eq 0 ];then
+        mv ${work_dir}/1.json.new ${work_dir}/1.json && jq -s add ${work_dir}/1.json ${work_dir}/template.json > ${work_dir}/config.json
+    else
+        [ -f ${work_dir}/1.json.new ] && rm -f ${work_dir}/1.json.new
+        [ $1 == 1 ] && exit 1
+    fi
+    /etc/init.d/sing-box start
+}
 
-if [[ ${1}a == stopa ]]; then
-    /etc/init.d/sing-box disable 2>/dev/null
-    sed -i '/sing-box\/update.sh/d' /etc/crontabs/root
-    exit 0
-fi
+stop_servives() {
+    [[ -n $(ps | grep sing-box | grep -v grep) ]] && etc/init.d/sing-box stop
+    [[ -n $(ls /etc/rc.d | grep sing-box) ]] && etc/init.d/sing-box disable
+    [[ -n $(grep sing-box/update.sh /etc/crontabs/root) ]] && sed -i '/sing-box\/update.sh/d' /etc/crontabs/root
+    rm -rf /var/log/sing-box.log ${work_dir}/cache.db
+}
 
-pushd /etc/sing-box
-wget -q -U sing-box "${subscription_url}" -O 1.json.new
-if [[ $? -eq 0 ]];then
-    mv 1.json.new 1.json && jq -s add 1.json config.temp > config.json
+first_run() {
+    ip_cidr="$(ip addr | grep inet | grep global | grep -v docker | awk '{print $2}')"
+    ip_cidr_nft="$(awk 'NR==8 {print $6}' ${work_dir}/nftables.conf)"
+    [[ "${ip_cidr%.*}" != "${ip_cidr_nft%.*}" ]] && sed -i "s,${ip_cidr_nft},${ip_cidr%.*}.0/${ip_cidr##*/},g" ${work_dir}/nftables.conf
+    download_config 1
+    [[ -z $(ls /etc/rc.d | grep sing-box) ]] && /etc/init.d/sing-box enable
+    [[ -z $(grep sing-box/update.sh /etc/crontabs/root) ]] && echo "0 5 * * * /etc/sing-box/update.sh" >> /etc/crontabs/root
+}
+
+if [ -z $1 ]; then
+    download_config
 else
-    [ -f 1.json.new ] && rm -f 1.json.new
+    case $1 in
+    -e | --enable)
+        first_run
+        ;;
+    -d | --disable)
+        stop_services
+        ;;
+    esac
 fi
-popd
-
-/etc/init.d/sing-box start
-
-[[ -z $(ls /etc/rc.d | grep sing-box) ]] && /etc/init.d/sing-box enable
-[[ -z $(grep sing-box/update.sh /etc/crontabs/root) ]] && echo "0 5 * * * /etc/sing-box/update.sh" >> /etc/crontabs/root
 
 exit 0
