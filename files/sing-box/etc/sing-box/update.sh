@@ -12,7 +12,7 @@ if [ $? -eq 0 ];then
     mv ${RES_DIR}1.json.new ${RES_DIR}1.json && jq -s add ${RES_DIR}1.json ${RES_DIR}template.json > ${RES_DIR}config.json
 else
     [ -f ${RES_DIR}1.json.new ] && rm -f ${RES_DIR}1.json.new
-    [ $first_run == 1 ] && echo "Warning! 订阅下载失败，请重试 ..."
+    [ $first_run -eq 1 ] && echo "Warning! 订阅下载失败，请重试 ..."
 fi
 
 /etc/init.d/sing-box start
