@@ -12,7 +12,7 @@
       "secret": "ffuqiangg",
       "external_ui_download_url": "https://gh-proxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip",
       "external_ui_download_detour": "direct",
-	    "default_mode": "rule"
+      "default_mode": "rule"
     },
     "cache_file": {
       "enabled": true,
