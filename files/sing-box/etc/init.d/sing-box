@@ -40,7 +40,7 @@ delcron() {
 start_service() {
     update_subscription
     local auto_update="$(jq -r '.auto_update' $RES_DIR$SUB_CONF)"
-    [ -d ${RES_DIR}ui ] || init
+    [ ! -d ${RES_DIR}ui ] && init
     if [ $auto_update -eq 1 ]; then
         delcron ; setcron
     fi
