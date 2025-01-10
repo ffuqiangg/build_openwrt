@@ -12,7 +12,7 @@ SUB_CONF=sing-box.json
 init() {
     local net_device="$(uci -q get network.lan.device)"
     local ipaddr="$(ip addr | grep inet | grep "$net_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')"
-    sed -i "s,192.168.1.0/24,${ipaddr},g" ${RES_DIR}nftables.conf
+    sed -i "/##/,+2 s,192.168.1.0/24,${ipaddr},g" ${RES_DIR}nftables.conf
 }
 
 update_subscription() {
