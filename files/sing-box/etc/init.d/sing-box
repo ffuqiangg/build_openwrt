@@ -9,6 +9,12 @@ RES_DIR=/etc/sing-box/
 CONF=./config.json
 SUB_CONF=sing-box.json
 
+init() {
+    local net_device="$(uci -q get network.lan.device)"
+    local ipaddr="$(ip addr | grep inet | grep "$net_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')"
+    sed -i "s,192.168.1.0/24,${ipaddr},g" ${RES_DIR}nftables.conf
+}
+
 update_subscription() {
     local url="$(jq -r '.url' $RES_DIR$SUB_CONF)"
     curl --user-agent sing-box --connect-timeout 30 -m 600 -klo ${RES_DIR}1.json.new $url
@@ -34,6 +40,7 @@ delcron() {
 start_service() {
     update_subscription
     local auto_update="$(jq -r '.auto_update' $RES_DIR$SUB_CONF)"
+    [ -d ${RES_DIR}ui ] || init
     if [ $auto_update -eq 1 ]; then
         delcron ; setcron
     fi
