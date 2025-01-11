@@ -1,0 +1,38 @@
+{
+  "log": {
+    "disabled": false,
+    "level": "warn",
+    "output": "/var/log/sing-box.log",
+    "timestamp": true
+  },
+  "experimental": {
+    "clash_api": {
+      "external_controller": "0.0.0.0:9900",
+      "external_ui": "ui",
+      "secret": "ffuqiangg",
+      "external_ui_download_url": "https://gh-proxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip",
+      "external_ui_download_detour": "direct",
+      "default_mode": "rule"
+    },
+    "cache_file": {
+      "enabled": true,
+      "store_fakeip": false
+    }
+  },
+  "inbounds": [
+    {
+      "type": "tproxy",
+      "tag": "tproxy-in",
+      "listen": "::",
+      "listen_port": 10105,
+      "sniff": true,
+      "sniff_override_destination": false
+    },
+    {
+      "type": "mixed",
+      "listen": "::",
+      "listen_port": 2080,
+      "sniff": true
+    }
+  ]
+}
