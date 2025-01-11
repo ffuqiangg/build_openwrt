@@ -26,7 +26,7 @@ start_service() {
     curl --user-agent sing-box --connect-timeout 30 -m 600 -klo "${workdir}/config.tmp" "$url"
     if [ "$?" -eq "0" ]; then
         if [ "$mixenabled" -eq "1" ]; then
-            mv "${workdir}/config.tmp" "${workdir}/1.json" && jq -s add "${workdir}/1.json" "$tempfile" > "${workdir}/config.tmp" && jq -s add "${workdir}/config.tmp" "mixfile" > "$conffile"
+            mv "${workdir}/config.tmp" "${workdir}/1.json" && jq -s add "${workdir}/1.json" "$tempfile" > "${workdir}/config.tmp" && jq -s add "${workdir}/config.tmp" "$mixfile" > "$conffile"
         else
             mv "${workdir}/config.tmp" "${workdir}/1.json" && jq -s add "${workdir}/1.json" "$tempfile" > "$conffile"
         fi
