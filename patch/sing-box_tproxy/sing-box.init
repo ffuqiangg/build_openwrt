@@ -14,8 +14,8 @@ start_service() {
 
     config_get user "main" "user" "root"
     config_get conffile "main" "conffile"
-	config_get tempfile "main" "tempfile"
-	config_get nftfile "main" "nftfile"
+    config_get tempfile "main" "tempfile"
+    config_get nftfile "main" "nftfile"
     config_get workdir "main" "workdir" "/etc/sing-box"
     config_get auto_update "main" "auto_update"
     config_get update_time "main" "updatet_time"
