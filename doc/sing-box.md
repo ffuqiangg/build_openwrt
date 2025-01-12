@@ -31,7 +31,7 @@ wget -U "sing-box" "订阅地址" -O /etc/sing-box/xxx.json
     "external_controller": "0.0.0.0:9900",
     "external_ui": "ui",
     "secret": "ffuqiangg",
-    "external_ui_download_url": "https://mirror.ghproxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip",
+    "external_ui_download_url": "https://gh-proxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip",
     "external_ui_download_detour": "direct"
 },
 ```
