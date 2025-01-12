@@ -11,12 +11,11 @@
 - 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)，下载前往 [Releases](https://github.com/ffuqiangg/build_openwrt/releases)
 - 默认 IP：192.168.1.99， 默认密码：password
 - 插件：PassWall，v2rayA，Homeproxy，OpenClash，mihomo，DAED，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP 服务器，DockerMan，DocKer-Compose，UPNP，VerySync
-- 各固件包含的科学插件略有差别，具体区别 Releases 备注有说明。
+- 各固件包含的科学插件略有差别，具体区别见 release 说明。
 - ImmortalWrt-23.05 以及 OpenWrt-23.05 固件经过特殊优化可避免安装 kmod 内核模块时出现 pkg_hash 错误。
 - 固件对一些命令进行了简化，如 `ungz = tar -xvzf`，`777 = chmod -R 777`，`mkdirg = 创建并进入目录` 等，详情可查看仓库 files/init/etc/shinit 文件。
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
 - 固件刷机：具体方法请认真阅读 ⌈ [使用说明](doc/readme.md) ⌋
-- 2024.12.29 固件没有编译 sing-box 纯内核使用所需文件，如有需要可根据 release 说明一键安装。2024.03.15 的 OpenWrt-23.05 固件纯 Sing-Box 核心使用方法见 ⌈ [sing-Box 使用文档](doc/sing-box.md) ⌋
 
 > [!IMPORTANT]
 > iStoreOS 固件相对于其官方固件仅保留插件商店，可以看作包含 iStore 插件商店的原版 OpenWrt-22.03 固件。  
