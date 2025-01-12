@@ -25,7 +25,7 @@ set mouse=a                          " turn mouse support on
 "set list                            " show nontext
 "set listchars=extends:>,precedes:<  " show at line left/right if wrap is off
 "set sidescroll=1                    " line exceed screen cursor smooth scrolling
-"set laststatus=2                    " always show statusline
+set laststatus=2                     " always show statusline
 "set numberwidth=5                   " line number width configure 
 "set cursorline                      " highlight current line
 set scrolloff=2                      " keep <n> lines when scrolling
@@ -92,7 +92,5 @@ nnoremap <silent> <leader>e :Ex<CR>
 "autocmd filetype netrw nnoremap <buffer> <C-l> <C-w>l
 
 " Specify file config
-autocmd filetype yaml set tabstop=2 shiftwidth=2 softtabstop=2
-
-" Theme
-colorscheme desert
+autocmd filetype yaml set ts=2 sw=2 sts=2
+autocmd filetype json set ts=2 sw=2 sts=2
