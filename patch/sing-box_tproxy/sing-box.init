@@ -19,7 +19,7 @@ start_service() {
     config_get nftfile "main" "nftfile"
     config_get workdir "main" "workdir" "/etc/sing-box"
     config_get auto_update "main" "auto_update"
-    config_get update_time "main" "update_time" "5"
+    config_get update_cron "main" "update_cron" "0 5 * * *"
     config_get url "subscription" "url"
     config_get mixin "mix" "mixin" "0"
     config_get mixfile "mix" "mixfile"
@@ -44,7 +44,7 @@ start_service() {
 
     if [ "$auto_update" -eq "1" ]; then
         sed -i "/init.d\/sing-box/d" "/etc/crontabs/root" 2>/dev/null
-        echo -e "0 $update_time * * * /etc/init.d/sing-box restart" >> "/etc/crontabs/root"
+        echo -e "$update_cron /etc/init.d/sing-box restart" >> "/etc/crontabs/root"
         /etc/init.d/cron restart
     fi
 
