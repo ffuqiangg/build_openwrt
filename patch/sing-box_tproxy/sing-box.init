@@ -9,7 +9,8 @@ PROG="/usr/bin/sing-box"
 start_service() {
     config_load "$NAME"
 
-    config_get_bool enabled "main" "enabled" "1"
+    local user conffile tempfile nftfile workdir auto_update update_time url mixenabled mixfile
+    config_get_bool enabled "main" "enabled" "0"
     [ "$enabled" -eq "1" ] || return 0
 
     config_get user "main" "user" "root"
@@ -18,22 +19,24 @@ start_service() {
     config_get nftfile "main" "nftfile"
     config_get workdir "main" "workdir" "/etc/sing-box"
     config_get auto_update "main" "auto_update"
-    config_get update_time "main" "updatet_time"
+    config_get update_time "main" "update_time" "5"
     config_get url "subscription" "url"
-    config_get mixenabled "mix" "enabled" "0"
+    config_get mixin "mix" "mixin" "0"
     config_get mixfile "mix" "mixfile"
 
-    curl --user-agent sing-box --connect-timeout 30 -m 600 -klo "${workdir}/config.tmp" "$url"
+    curl --user-agent sing-box --connect-timeout 30 -m 600 -kLo "${workdir}/config.tmp" "$url"
     if [ "$?" -eq "0" ]; then
-        if [ "$mixenabled" -eq "1" ]; then
-            mv "${workdir}/config.tmp" "${workdir}/1.json" && jq -s add "${workdir}/1.json" "$tempfile" > "${workdir}/config.tmp" && jq -s add "${workdir}/config.tmp" "$mixfile" > "$conffile"
+        mv "${workdir}/config.tmp" "${workdir}/1.json"
+        if [ "$mixin" -eq "1" ]; then
+            jq -s add "${workdir}/1.json" "$tempfile" "$mixfile" > "$conffile"
         else
-            mv "${workdir}/config.tmp" "${workdir}/1.json" && jq -s add "${workdir}/1.json" "$tempfile" > "$conffile"
+            jq -s add "${workdir}/1.json" "$tempfile" > "$conffile"
         fi
+    else
+        [ -f "${workdir}/config.tmp" ] && rm -f "${workdir}/config.tmp"
     fi
-    [ -f "${workdir}/config.tmp" ] && rm -f "${workdir}/config.tmp"
 
-    if [ ! -d ${workdir}/ui ]; then
+    if [ ! -d "${workdir}/ui" ]; then
         local net_device="$(uci -q get network.lan.device)"
         local ipaddr="$(ip addr | grep inet | grep "$net_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')"
         sed -i "/##/,+2s,192.168.1.0/24,${ipaddr},g" "$nftfile"
