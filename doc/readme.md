@@ -1,18 +1,6 @@
 # Phicomm N1
 
-本仓库编译的 N1 固件大致上分为 LEDE，iStoreOS 的直接编译和 ImmortalWrt，OpenWrt 的 Armbian 内核打包两种类型，在刷机和初始化配置上会有些不同。每个固件由于代码差异所以包含的插件也会有一定的区别。详细情况请继续阅读本文档后面的内容。
-
-## 插件差异
-
-|固件 \ 插件 |PassWall |OpenClash |V2rayA |HomeProxy |Mihomo |DAED |
-|:---: |:---: |:---: |:---: |:---: |:---: |:---: |
-|ImmortalWrt-18.06 |⭕ |⭕ |⭕ |❌ |❌ |❌ |
-|ImmortalWrt-23.05 |⭕ |❌ |⭕ |⭕ |⭕ |⭕ |
-|Openwrt-23.05 |⭕ |❌ |⭕ |⭕ |⭕ |⭕ |
-|LEDE |⭕ |❌ |⭕ |❌ |⭕ |⭕ |
-|iStoreOS-22.03 |⭕ |⭕ |⭕ |❌ |❌ |❌ |
-
-`注：ImmortalWrt-18.06 固件由于源码太老其 PassWall 插件不含 Sing-box 核心。`
+本仓库编译的 N1 固件大致上分为 LEDE，iStoreOS 的直接编译和 ImmortalWrt，OpenWrt 的 Armbian 内核打包两种类型，在刷机和初始化配置上会有些不同。每个固件由于代码差异所以包含的插件也会有一定的区别，详细情况见 Releases 备注。
 
 ## 使用说明
 
