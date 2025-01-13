@@ -17,10 +17,10 @@ start_service() {
     config_get tempfile "main" "tempfile"
     config_get nftfile "main" "nftfile"
     config_get workdir "main" "workdir" "/etc/sing-box"
-    config_get auto_update "main" "auto_update"
+    config_get_bool auto_update "main" "auto_update"
     config_get update_cron "main" "update_cron" "0 5 * * *"
     config_get url "subscription" "url"
-    config_get mixin "mix" "mixin" "0"
+    config_get_bool mixin "mix" "mixin" "0"
     config_get mixfile "mix" "mixfile"
 
     curl --user-agent sing-box --connect-timeout 30 -m 600 -kLo "${workdir}/config.tmp" "$url"
@@ -36,8 +36,8 @@ start_service() {
     fi
 
     if [ ! -d "${workdir}/ui" ]; then
-        local iface="$(uci -q get network.lan.device)"
-        local ipaddr="$(ip addr | grep inet | grep "$iface" | awk '{print $2}' | sed 's,[^.]*/,0/,')"
+        local lan_device="$(uci -q get network.lan.device)"
+        local ipaddr="$(ip addr | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')"
         sed -i "/##/,+2s,192.168.1.0/24,${ipaddr},g" "$nftfile"
     fi
 
