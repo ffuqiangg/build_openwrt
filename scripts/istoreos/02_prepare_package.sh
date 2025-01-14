@@ -24,7 +24,7 @@ cp -rf ../openwrt-apps/imm_pkg/{v2raya,frp,cpulimit} ./package/new/
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/istoreos/custom_target_amlogic_scripts.patch
 # 调整 default settings
-sed -i '/overlay\/upper/d' package/istoreos-files/files/etc/uci-defaults/09_istoreos
+sed -i '/dockerd.globals.data_root/d' package/istoreos-files/files/etc/uci-defaults/09_istoreos
 sed -i 'N;/\n.*commit dockerd/!P;D' package/istoreos-files/files/etc/uci-defaults/09_istoreos 
 sed -i '/commit dockerd/{N;d;}' package/istoreos-files/files/etc/uci-defaults/09_istoreos
 # Golang
