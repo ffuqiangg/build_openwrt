@@ -38,6 +38,9 @@ cp -rf ../openwrt-apps/openwrt_helloworld/luci-app-passwall feeds/luci/applicati
 # 替换 sing-box
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./feeds/packages/net/sing-box
+cp -rf ../patch/sing-box_tproxy ./feeds/packages/net/sing-box/files
+sed -i '/sing-box.conf/a\	$(INSTALL_CONF) ./files/template.json $(1)/etc/config/sing-box' feeds/packages/net/sing-box/Makefile
+sed -i '/sing-box.conf/a\	$(INSTALL_CONF) ./files/nftables.conf $(1)/etc/config/sing-box' feeds/packages/net/sing-box/Makefile
 # Vsftpd
 pushd feeds/luci/applications/luci-app-vsftpd
 move_2_services nas

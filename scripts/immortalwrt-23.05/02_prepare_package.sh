@@ -45,6 +45,9 @@ cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-system
 cp -rf ../lede_pkg/net/wget ./feeds/packages/net/wget
 # sing-box
 cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./package/new/sing-box
+cp -rf ../patch/sing-box_tproxy ./package/new/sing-box/files
+sed -i '/sing-box.conf/a\	$(INSTALL_CONF) ./files/template.json $(1)/etc/config/sing-box' package/new/sing-box/Makefile
+sed -i '/sing-box.conf/a\	$(INSTALL_CONF) ./files/nftables.conf $(1)/etc/config/sing-box' package/new/sing-box/Makefile
 # Mosdns
 cp -rf ../openwrt-apps/luci-app-mosdns ./package/new/luci-app-mosdns
 cp -rf ../openwrt-apps/openwrt_helloworld/v2ray-geodata ./package/new/v2ray-geodata
