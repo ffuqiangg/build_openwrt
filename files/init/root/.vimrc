@@ -76,12 +76,6 @@ nnoremap B L
 nnoremap <leader>th <C-w>t<C-w>H
 nnoremap <leader>tk <C-w>t<C-w>K
 
-" move current line
-nnoremap <silent> <C-n> :m +1<CR>
-nnoremap <silent> <C-p> :m -2<CR>
-vnoremap <silent> <C-n> :m '>+1<CR>gv=gv
-vnoremap <silent> <C-p> :m -2<CR>gv=gv
-
 " filetree
 let g:netrw_banner=0
 "let g:netrw_winsize=30
