@@ -39,7 +39,7 @@ start_service() {
             [ -f "${workdir}/config.tmp" ] && rm -f "${workdir}/config.tmp"
         fi
     else
-        mixin=0 ; auto_update=0
+        auto_update=0
         jq -s add "$lofile" "$tempfile" > "$conffile"
     fi
 
@@ -55,7 +55,7 @@ start_service() {
         /etc/init.d/cron restart
     fi
 
-    procd_open_instance "#NAME"
+    procd_open_instance "$NAME"
     procd_set_param command "$PROG" run -c "$conffile" -D "$workdir"
 
     procd_set_param user root
