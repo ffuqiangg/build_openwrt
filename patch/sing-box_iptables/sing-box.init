@@ -46,7 +46,7 @@ start_service() {
     if [ ! -d "${workdir}/ui"  ]; then
         local lan_device="$(uci -q get network.lan.device)"
         local ipaddr="$(ip addr | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')"
-        sed -i "/##/,+2s,192.168.1.0/24,${ipaddr},g" "$nftfile"
+        sed -i "/##/,+2s,192.168.1.0/24,${ipaddr},g" "$iptfile"
     fi
 
     if [ "$auto_update" -eq "1"  ]; then
@@ -68,7 +68,7 @@ start_service() {
 
     ip rule add fwmark 1 table 100
     ip route add local 0.0.0.0/0 dev lo table 100
-    /bin/sh /etc/sing-box/iptables.conf
+    /bin/sh "$iptfile"
     echo "sing-box is started!"
 }
 
