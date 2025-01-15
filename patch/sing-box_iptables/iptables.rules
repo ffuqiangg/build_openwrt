@@ -13,7 +13,7 @@ iptables -t mangle -A SINGBOX -d 224.0.0.0/4 -j RETURN
 iptables -t mangle -A SINGBOX -d 240.0.0.0/4 -j RETURN
 iptables -t mangle -A SINGBOX -d 255.255.255.255/32 -j RETURN
 ## 下面两行的网段根据你的局域网配置修改
-iptables -t mangle -A SINGBOX -d 192.168.1.0/24 -p tcp ! --dport 53 -j RETURN
+iptables -t mangle -A SINGBOX -d 192.168.1.0/24 -p tcp -j RETURN
 iptables -t mangle -A SINGBOX -d 192.168.1.0/24 -p udp ! --dport 53 -j RETURN
 iptables -t mangle -A SINGBOX -j RETURN -m mark --mark 0xff
 iptables -t mangle -A SINGBOX -p udp -j TPROXY --on-port 10105 --tproxy-mark 1
@@ -33,7 +33,7 @@ iptables -t mangle -A SINGBOX_LOCAL -d 224.0.0.0/4 -j RETURN
 iptables -t mangle -A SINGBOX_LOCAL -d 240.0.0.0/4 -j RETURN
 iptables -t mangle -A SINGBOX_LOCAL -d 255.255.255.255/32 -j RETURN
 ## 下面两行的网段根据你的局域网配置修改
-iptables -t mangle -A SINGBOX_LOCAL -d 192.168.1.0/24 -p tcp ! --dport 53 -j RETURN
+iptables -t mangle -A SINGBOX_LOCAL -d 192.168.1.0/24 -p tcp -j RETURN
 iptables -t mangle -A SINGBOX_LOCAL -d 192.168.1.0/24 -p udp ! --dport 53 -j RETURN
 iptables -t mangle -A SINGBOX_LOCAL -j RETURN -m mark --mark 0xff
 iptables -t mangle -A SINGBOX_LOCAL -p udp -j MARK --set-mark 1
