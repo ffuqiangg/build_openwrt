@@ -1,82 +1,69 @@
 #!/bin/sh /etc/rc.common
 
-START=99
 USE_PROCD=1
+START=99
 
 script=$(readlink "$initscript")
 NAME="$(basename ${script:-$initscript})"
-PROG="/usr/bin/sing-box" 
+PROG="/usr/bin/sing-box"
 
 start_service() {
     config_load "$NAME"
 
-    local enabled user confdir conffile tempfile iptfile workdir auto_update update_cron url mixini mixfile remote user
+    local enabled user confdir conffile tempfile workdir auto_update update_cron url mixin mixfile remote user
     config_get_bool enabled "main" "enabled" "0"
-    [ "$enabled"  -eq "1" ] || return 0
+    [ "$enabled" -eq "1" ] || return 0
 
     config_get user "main" "user" "root"
     config_get confdir "main" "confdir" "/etc/sing-box"
     config_get conffile "main" "conffile"
     config_get tempfile "main" "tempfile"
-    config_get iptfile "mian" "iptfile"
     config_get workdir "main" "workdir" "/usr/share/sing-box"
     config_get_bool remote "config" "remote" "1"
     config_get url "config" "url"
     config_get_bool auto_update "config" "auto_update"
     config_get update_cron "config" "update_cron" "0 5 * * *"
-    config_get_bool "mixin" "mix" "mixin" "0"
-    config_get mixfile "mixin" "mixfile"
+    config_get_bool mixin "mix" "mixin" "0"
+    config_get mixfile "mix" "mixfile"
 
     mkdir -p "$workdir"
     local group="$(id -ng $user)"
     chown $user:$group "$workdir"
 
-    if [ "$remote" -eq "1"  ]; then
+    if [ "$remote" -eq "1" ]; then
         curl --silent --user-agent sing-box --connect-timeout 30 -m 600 -kLo "${confdir}/config.tmp" "$url"
-        if [ "$?" -eq "0"  ]; then
+        if [ "$?" -eq "0" ]; then
             mv "${confdir}/config.tmp" "${confdir}/1.json"
-            if [ "$mixin" -eq "1"  ]; then
+            if [ "$mixin" -eq "1" ]; then
                 jq -s add "${confdir}/1.json" "$tempfile" "$mixfile" > "$conffile"
             else
                 jq -s add "${confdir}/1.json" "$tempfile" > "$conffile"
             fi
         else
-            [ -f "${confdir}/config.tmp"  ] && rm -f "${confdir}/config.tmp"
+            [ -f "${confdir}/config.tmp" ] && rm -f "${confdir}/config.tmp"
         fi
     fi
 
-    if [ ! -d "${workdir}/ui"  ]; then
-        local lan_device="$(uci -q get network.lan.device)"
-        local ipaddr="$(ip addr | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')"
-        sed -i "/##/,+2s,192.168.1.0/24,${ipaddr},g" "$iptfile"
-    fi
-
-    if [ "$auto_update" -eq "1"  ]; then
+    if [ "$auto_update" -eq "1" ]; then
         sed -i "/sing-box/d" "/etc/crontabs/root" 2>/dev/null
         echo -e "$update_cron /etc/init.d/sing-box reload" >> "/etc/crontabs/root"
         /etc/init.d/cron restart
     fi
 
     procd_open_instance "$NAME"
-    procd_set_param command $PROG run -c "$conffile" -D "$workdir"
+    procd_set_param command "$PROG" run -c "$conffile" -D "$workdir"
 
     procd_set_param user "$user"
     procd_set_param file "$conffile"
     procd_set_param stdout 1
     procd_set_param stderr 1
     procd_set_param respawn
-    procd_close_instance
 
-    ip rule add fwmark 1 table 100
-    ip route add local 0.0.0.0/0 dev lo table 100
-    /bin/sh "$iptfile"
+    procd_close_instance
 }
 
 stop_service() {
     service_stop $PROG
-    ip rule del fwmark 1 table 100
-    ip route del local 0.0.0.0/0 dev lo table 100
-    iptables -t mangle -F
     sed -i "/sing-box/d" "/etc/crontabs/root" 2>/dev/null
     /etc/init.d/cron restart
 }

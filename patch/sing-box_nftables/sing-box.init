@@ -3,7 +3,8 @@
 START=99
 USE_PROCD=1
 
-NAME="sing-box"
+script=$(readlink "$initscript")
+NAME="$(basename ${script:-$initscript})"
 PROG="/usr/bin/sing-box"
 
 start_service() {
@@ -31,7 +32,7 @@ start_service() {
     chown $user:$group "$workdir"
 
     if [ "$remote" -eq "1" ]; then
-        curl --user-agent sing-box --connect-timeout 30 -m 600 -kLo "${confdir}/config.tmp" "$url"
+        curl --silent --user-agent sing-box --connect-timeout 30 -m 600 -kLo "${confdir}/config.tmp" "$url"
         if [ "$?" -eq "0" ]; then
             mv "${confdir}/config.tmp" "${confdir}/1.json"
             if [ "$mixin" -eq "1" ]; then
@@ -51,8 +52,8 @@ start_service() {
     fi
 
     if [ "$auto_update" -eq "1" ]; then
-        sed -i "/init.d\/sing-box/d" "/etc/crontabs/root" 2>/dev/null
-        echo -e "$update_cron /etc/init.d/sing-box restart" >> "/etc/crontabs/root"
+        sed -i "/sing-box/d" "/etc/crontabs/root" 2>/dev/null
+        echo -e "$update_cron /etc/init.d/sing-box reload" >> "/etc/crontabs/root"
         /etc/init.d/cron restart
     fi
 
@@ -60,8 +61,7 @@ start_service() {
     procd_set_param command "$PROG" run -c "$conffile" -D "$workdir"
 
     procd_set_param user "$user"
-    procd_set_param limits core="unlimited"
-    procd_set_param limits nofile="1000000 1000000"
+    procd_set_param file "$conffile"
     procd_set_param stdout 1
     procd_set_param stderr 1
     procd_set_param respawn
@@ -72,7 +72,6 @@ start_service() {
     nft -f "$nftfile"
     nft add chain inet sing-box docker { type nat hook prerouting priority -100 \; }
     nft add rule inet sing-box docker ip saddr != {172.17.0.0/16} return
-    echo "sing-box is started!"
 }
 
 stop_service() {
@@ -80,14 +79,12 @@ stop_service() {
     ip rule del fwmark 1 table 100
     ip route del local 0.0.0.0/0 dev lo table 100
     nft delete table inet sing-box
-    sed -i "/init.d\/sing-box/d" "/etc/crontabs/root" 2>/dev/null
+    sed -i "/sing-box/d" "/etc/crontabs/root" 2>/dev/null
     /etc/init.d/cron restart
-    echo "sing-box is stopped!"
 }
 
 reload_service() {
     stop
     sleep 2s
-    echo "sing-box is restarted!"
     start
 }
