@@ -12,7 +12,7 @@
       "secret": "ffuqiangg",
       "external_ui_download_url": "https://gh-proxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip",
       "external_ui_download_detour": "direct",
-	    "default_mode": "rule"
+      "default_mode": "rule"
     },
     "cache_file": {
       "enabled": true,
@@ -21,16 +21,16 @@
   },
   "inbounds": [
     {
-			"auto_route": true,
-			"strict_route": true,
-			"endpoint_independent_nat": false,
-			"address": "172.18.0.1/30",
-			"mtu": 9000,
+      "auto_route": true,
+      "strict_route": true,
+      "endpoint_independent_nat": false,
+      "address": "172.18.0.1/30",
+      "mtu": 9000,
       "route_exclude_address_set": "geoip-cn",
-			"sniff": true,
-			"sniff_override_destination": false,
-			"tag": "tun-in",
-			"type": "tun"
+      "sniff": true,
+      "sniff_override_destination": false,
+      "tag": "tun-in",
+      "type": "tun"
     },
     {
       "type": "mixed",
