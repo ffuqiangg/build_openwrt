@@ -10,7 +10,7 @@ PROG="/usr/bin/sing-box"
 start_service() {
     config_load "$NAME"
 
-    local enabled user conffile tempfile workdir auto_update update_cron url mixin mixfile remote user
+    local enabled user conffile tempfile workdir auto_update update_cron url mixfile remote user
     config_get_bool enabled "main" "enabled" "0"
     [ "$enabled" -eq "1" ] || return 0
 
@@ -61,7 +61,6 @@ start_service() {
 }
 
 stop_service() {
-    service_stop $PROG
     sed -i "/sing-box/d" "/etc/crontabs/root" 2>/dev/null
     /etc/init.d/cron restart
 }
