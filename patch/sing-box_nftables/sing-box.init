@@ -51,7 +51,7 @@ start_service() {
 
     if [ "$auto_update" -eq "1" ]; then
         sed -i "/sing-box/d" "/etc/crontabs/root" 2>/dev/null
-        echo -e "$update_cron /etc/init.d/sing-box reload" >> "/etc/crontabs/root"
+        echo -e "$update_cron /etc/init.d/sing-box restart" >> "/etc/crontabs/root"
         /etc/init.d/cron restart
     fi
 
