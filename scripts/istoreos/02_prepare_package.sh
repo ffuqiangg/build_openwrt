@@ -12,7 +12,7 @@ sed -i 's/Os/O2/g' include/target.mk
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
 ### 替换源码 ###
-rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,shadowsocks-libev,v2raya,frp}
+rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,shadowsocks-libev,v2raya,frp,vsftpd}
 rm -rf feeds/luci/applications/{luci-app-v2raya,luci-app-dockerman,luci-app-frps,luci-app-frpc}
 rm -rf feeds/packages/utils/coremark
 mkdir -p ./package/new
