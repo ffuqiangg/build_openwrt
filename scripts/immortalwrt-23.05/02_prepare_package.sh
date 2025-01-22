@@ -46,8 +46,8 @@ cp -rf ../lede_pkg/net/wget ./feeds/packages/net/wget
 # sing-box
 cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./package/new/sing-box
 cp -rf ../patch/sing-box_nftables ./package/new/sing-box/files
-sed -i '/sing-box.conf/a\	$(INSTALL_CONF) ./files/template.json $(1)/etc/config/sing-box' package/new/sing-box/Makefile
-sed -i '/sing-box.conf/a\	$(INSTALL_CONF) ./files/nftables.rules $(1)/etc/config/sing-box' package/new/sing-box/Makefile
+sed -i '/config.json/a\	$(INSTALL_DATA) ./files/template.json $(1)/etc/sing-box' package/new/sing-box/Makefile
+sed -i '/config.json/a\	$(INSTALL_DATA) ./files/nftables.rules $(1)/etc/sing-box' package/new/sing-box/Makefile
 # Mosdns
 cp -rf ../openwrt-apps/luci-app-mosdns ./package/new/luci-app-mosdns
 cp -rf ../openwrt-apps/openwrt_helloworld/v2ray-geodata ./package/new/v2ray-geodata

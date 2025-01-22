@@ -77,9 +77,9 @@ sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' package/new/filebrowser/Makefile
 sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.2," package/new/filebrowser/Makefile
 sed -i "s,PKG_HASH:=.*,PKG_HASH:=bfda9ea7c44d4cb93c47a007c98b84f853874e043049b44eff11ca00157d8426," package/new/filebrowser/Makefile
 # Sing-box
-cp -rf ../patch/sing-box_nftables ./package/new/openwrt_helloworld/sing-box/files
-sed -i '/sing-box.conf/a\	$(INSTALL_CONF) ./files/template.json $(1)/etc/config/sing-box' package/new/openwrt_helloworld/sing-box/Makefile
-sed -i '/sing-box.conf/a\	$(INSTALL_CONF) ./files/nftables.rules $(1)/etc/config/sing-box' package/new/openwrt_helloworld/sing-box/Makefile
+cp -rf ../patch/sing-box/nftables ./package/new/openwrt_helloworld/sing-box/files
+sed -i '/config.json/a\	$(INSTALL_DATA) ./files/template.json $(1)/etc/sing-box' package/new/openwrt_helloworld/sing-box/Makefile
+sed -i '/config.json/a\	$(INSTALL_DATA) ./files/nftables.rules $(1)/etc/sing-box' package/new/openwrt_helloworld/sing-box/Makefile
 
 # 生成默认配置及缓存
 rm -rf .config
