@@ -27,7 +27,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 echo -e "${GREEN_COLOR}Download nftables rules file ...${RES}"
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/iptables.rules $mirror${download_dir}/etc/sing-box/iptables.rules
+curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/iptables.rules $mirror${download_dir}/iptables.rules
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}Error! download nftables file rules failed.${RES}"
     exit 1
