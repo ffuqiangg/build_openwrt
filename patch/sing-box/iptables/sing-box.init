@@ -22,9 +22,9 @@ start_service() {
     config_get_bool auto_update "config" "auto_update"
     config_get update_cron "config" "update_cron" "0 5 * * *"
 
-    mkdir -p "$workdir"
+    mkdir -p $workdir
     local group="$(id -ng $user)"
-    chown $user:$group "$workdir"
+    chown $user:$group $workdir
 
     local confdir="$(dirname $conffile)"
     local tempfile="$confdir/template.json"
@@ -32,23 +32,23 @@ start_service() {
     local mixfile="$confdir/custom.json"
 
     if [ "$remote" -eq "1"  ]; then
-        curl --silent --user-agent sing-box --connect-timeout 30 -m 600 -kLo "$confdir/config.tmp" "$url"
+        curl --silent --user-agent sing-box --connect-timeout 30 -m 600 -kLo $confdir/config.tmp $url
         if [ "$?" -eq "0"  ]; then
-            mv "$confdir/config.tmp" "$confdir/1.json"
+            mv $confdir/config.tmp $confdir/1.json
             if [ -f "$mixfile" ]; then
-                jq -s add "$confdir/1.json" "$tempfile" "$mixfile" > "$conffile"
+                jq -s add $confdir/1.json $tempfile $mixfile > $conffile
             else
-                jq -s add "$confdir/1.json" "$tempfile" > "$conffile"
+                jq -s add $confdir/1.json $tempfile > $conffile
             fi
         else
-            [ -f "$confdir/config.tmp"  ] && rm -f "$confdir/config.tmp"
+            [ -f "$confdir/config.tmp"  ] && rm -f $confdir/config.tmp
         fi
     fi
 
     if [ ! -d "$workdir/ui"  ]; then
         local lan_device="$(uci -q get network.lan.device)"
         local ipaddr="$(ip addr | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')"
-        sed -i "/##/,+2s,192.168.1.0/24,$ipaddr,g" "$iptfile"
+        sed -i "/##/,+2s,192.168.1.0/24,$ipaddr,g" $iptfile
     fi
 
     if [ "$auto_restart" -eq "1"  ]; then
