@@ -52,7 +52,7 @@ start_service() {
     fi
 
     if [ "$auto_restart" -eq "1"  ]; then
-        sed -i "/sing-box/d" /etc/crontabs/root 2>/dev/null
+        sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null
         echo -e "$restart_cron /etc/init.d/sing-box restart" >> /etc/crontabs/root
         /etc/init.d/cron restart
     fi
@@ -82,6 +82,6 @@ stop_service() {
     ip route del local 0.0.0.0/0 dev lo table 100
     iptables -t mangle -F
     rm -rf $logfile
-    sed -i "/sing-box/d" /etc/crontabs/root 2>/dev/null
+    sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null
     /etc/init.d/cron restart
 }
