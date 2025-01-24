@@ -31,7 +31,7 @@ start_service() {
     local nftfile="$confdir/nftables.rules"
     local mixfile="$confdir/custom.json"
 
-    if [ "$remote" -eq "1" ]; then
+    [ "$remote" -eq "1" ] && {
         curl --silent --user-agent sing-box --connect-timeout 30 -m 600 -kLo $confdir/config.tmp $url
         if [ "$?" -eq "0" ]; then
             mv $confdir/config.tmp $confdir/1.json
@@ -43,19 +43,21 @@ start_service() {
         else
             [ -f "$confdir/config.tmp" ] && rm -f $confdir/config.tmp
         fi
-    fi
+    }
 
-    if [ ! -d "$workdir/ui" ]; then
+    [ ! -d "$workdir/ui" ] && {
         local lan_device="$(uci -q get network.lan.device)"
-        local ipaddr="$(ip addr | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')"
-        sed -i "/##/,+2s,192.168.1.0/24,$ipaddr,g" $nftfile
-    fi
+        local lan_subnet="$(ip a | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')"
+        local docker_subnet="$(ip a | grep inet | grep docker0 | awk '{print $2}' | sed 's,[^.]*/,0/,')"
+        sed -i "/##/,+2s,192.168.1.0/24,$lan_subnet,g" $nftfile
+        sed -i "s,172.17.0.0/16,$docker_subnet,g" $nftfile
+    }
 
-    if [ "$auto_restart" -eq "1" ]; then
+    [ "$auto_restart" -eq "1" ] && {
         sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null
         echo -e "$restart_cron /etc/init.d/sing-box restart" >> /etc/crontabs/root
         /etc/init.d/cron restart
-    fi
+    }
 
     procd_open_instance $NAME
     procd_set_param command $PROG run -c $conffile -D $workdir
@@ -71,7 +73,7 @@ start_service() {
     ip route add local 0.0.0.0/0 dev lo table 100
     nft -f $nftfile
     nft add chain inet sing-box docker { type nat hook prerouting priority -100 \; }
-    nft add rule inet sing-box docker ip saddr != {172.17.0.0/16} return
+    nft add rule inet sing-box docker ip saddr != {$docker_subnet} return
 }
 
 stop_service() {

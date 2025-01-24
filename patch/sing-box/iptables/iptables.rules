@@ -1,41 +1,41 @@
 #!/bin/sh
 
-iptables -t mangle -N SINGBOX
-iptables -t mangle -A SINGBOX -d 10.0.0.0/8 -j RETURN
-iptables -t mangle -A SINGBOX -d 100.64.0.0/10 -j RETURN
-iptables -t mangle -A SINGBOX -d 127.0.0.0/8 -j RETURN
-iptables -t mangle -A SINGBOX -d 169.254.0.0/16 -j RETURN
-iptables -t mangle -A SINGBOX -d 172.17.0.0/16 -j RETURN
-iptables -t mangle -A SINGBOX -d 192.0.0.0/24 -j RETURN
-iptables -t mangle -A SINGBOX -d 224.0.0.0/4 -j RETURN
-iptables -t mangle -A SINGBOX -d 240.0.0.0/4 -j RETURN
-iptables -t mangle -A SINGBOX -d 255.255.255.255/32 -j RETURN
+iptables -t mangle -N singbox
+iptables -t mangle -A singbox -d 10.0.0.0/8 -j RETURN
+iptables -t mangle -A singbox -d 100.64.0.0/10 -j RETURN
+iptables -t mangle -A singbox -d 127.0.0.0/8 -j RETURN
+iptables -t mangle -A singbox -d 169.254.0.0/16 -j RETURN
+iptables -t mangle -A singbox -d 172.17.0.0/16 -j RETURN
+iptables -t mangle -A singbox -d 192.0.0.0/24 -j RETURN
+iptables -t mangle -A singbox -d 224.0.0.0/4 -j RETURN
+iptables -t mangle -A singbox -d 240.0.0.0/4 -j RETURN
+iptables -t mangle -A singbox -d 255.255.255.255/32 -j RETURN
 ## 下面两行的网段根据你的局域网配置修改
-iptables -t mangle -A SINGBOX -d 192.168.1.0/24 -p tcp -j RETURN
-iptables -t mangle -A SINGBOX -d 192.168.1.0/24 -p udp ! --dport 53 -j RETURN
-iptables -t mangle -A SINGBOX -j RETURN -m mark --mark 0xff
-iptables -t mangle -A SINGBOX -p udp -j TPROXY --on-ip 127.0.0.1 --on-port 10105 --tproxy-mark 1
-iptables -t mangle -A SINGBOX -p tcp -j TPROXY --on-ip 127.0.0.1 --on-port 10105 --tproxy-mark 1
-iptables -t mangle -A PREROUTING -j SINGBOX
+iptables -t mangle -A singbox -d 192.168.1.0/24 -p tcp -j RETURN
+iptables -t mangle -A singbox -d 192.168.1.0/24 -p udp ! --dport 53 -j RETURN
+iptables -t mangle -A singbox -j RETURN -m mark --mark 0xff
+iptables -t mangle -A singbox -p udp -j TPROXY --on-ip 127.0.0.1 --on-port 10105 --tproxy-mark 1
+iptables -t mangle -A singbox -p tcp -j TPROXY --on-ip 127.0.0.1 --on-port 10105 --tproxy-mark 1
+iptables -t mangle -A PREROUTING -j singbox
 
-iptables -t mangle -N SINGBOX_LOCAL
-iptables -t mangle -A SINGBOX_LOCAL -d 0.0.0.0/8 -j RETURN
-iptables -t mangle -A SINGBOX_LOCAL -d 10.0.0.0/8 -j RETURN
-iptables -t mangle -A SINGBOX_LOCAL -d 100.64.0.0/10 -j RETURN
-iptables -t mangle -A SINGBOX_LOCAL -d 127.0.0.0/8 -j RETURN
-iptables -t mangle -A SINGBOX_LOCAL -d 169.254.0.0/16 -j RETURN
-iptables -t mangle -A SINGBOX_LOCAL -d 172.17.0.0/16 -j RETURN
-iptables -t mangle -A SINGBOX_LOCAL -d 192.0.0.0/24 -j RETURN
-iptables -t mangle -A SINGBOX_LOCAL -d 224.0.0.0/4 -j RETURN
-iptables -t mangle -A SINGBOX_LOCAL -d 240.0.0.0/4 -j RETURN
-iptables -t mangle -A SINGBOX_LOCAL -d 255.255.255.255/32 -j RETURN
+iptables -t mangle -N singbox_local
+iptables -t mangle -A singbox_local -d 0.0.0.0/8 -j RETURN
+iptables -t mangle -A singbox_local -d 10.0.0.0/8 -j RETURN
+iptables -t mangle -A singbox_local -d 100.64.0.0/10 -j RETURN
+iptables -t mangle -A singbox_local -d 127.0.0.0/8 -j RETURN
+iptables -t mangle -A singbox_local -d 169.254.0.0/16 -j RETURN
+iptables -t mangle -A singbox_local -d 172.17.0.0/16 -j RETURN
+iptables -t mangle -A singbox_local -d 192.0.0.0/24 -j RETURN
+iptables -t mangle -A singbox_local -d 224.0.0.0/4 -j RETURN
+iptables -t mangle -A singbox_local -d 240.0.0.0/4 -j RETURN
+iptables -t mangle -A singbox_local -d 255.255.255.255/32 -j RETURN
 ## 下面两行的网段根据你的局域网配置修改
-iptables -t mangle -A SINGBOX_LOCAL -d 192.168.1.0/24 -p tcp -j RETURN
-iptables -t mangle -A SINGBOX_LOCAL -d 192.168.1.0/24 -p udp ! --dport 53 -j RETURN
-iptables -t mangle -A SINGBOX_LOCAL -j RETURN -m mark --mark 0xff
-iptables -t mangle -A SINGBOX_LOCAL -p udp -j MARK --set-mark 1
-iptables -t mangle -A SINGBOX_LOCAL -p tcp -j MARK --set-mark 1
-iptables -t mangle -A OUTPUT -j SINGBOX_LOCAL
+iptables -t mangle -A singbox_local -d 192.168.1.0/24 -p tcp -j RETURN
+iptables -t mangle -A singbox_local -d 192.168.1.0/24 -p udp ! --dport 53 -j RETURN
+iptables -t mangle -A singbox_local -j RETURN -m mark --mark 0xff
+iptables -t mangle -A singbox_local -p udp -j MARK --set-mark 1
+iptables -t mangle -A singbox_local -p tcp -j MARK --set-mark 1
+iptables -t mangle -A OUTPUT -j singbox_local
 
 iptables -t mangle -N DIVERT
 iptables -t mangle -A DIVERT -j MARK --set-mark 1
