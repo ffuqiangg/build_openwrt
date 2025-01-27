@@ -16,7 +16,12 @@ fi
 echo -e "\r\n${GREEN_COLOR}Download files ...${RES}\r\n"
 
 # prepare
-download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/nftables"
+if [ -n "$(nft list tables)" ]; then
+    firewall="nftables"
+else
+    firewall="iptables"
+fi
+download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/$firewall"
 [ -d /etc/sing-box ] || mkdir -p /etc/sing-box
 
 # download
@@ -26,10 +31,10 @@ if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}Error! download Sing-box init failed.${RES}"
     exit 1
 fi
-echo -e "${GREEN_COLOR}Download nftables rules file ...${RES}"
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/nftables.rules $mirror${download_dir}/nftables.rules
+echo -e "${GREEN_COLOR}Download $firewall file ...${RES}"
+curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/$firewall.rules $mirror${download_dir}/$firewall.rules
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}Error! download nftables file rules failed.${RES}"
+    echo -e "${RED_COLOR}Error! download $firewall rules failed.${RES}"
     exit 1
 fi
 echo -e "${GREEN_COLOR}Download config template ...${RES}"
