@@ -44,7 +44,7 @@ if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}Error! download sing-box.json failed.${RES}"
     exit 1
 fi
-echo -e "${GREEN_COLOR}Fix permissions ...${RES}"
+echo -e "${GREEN_COLOR}Fix permissions ...${RES}\n"
 chmod +x /etc/init.d/sing-box
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}Error! fix permissions failed.${RES}"
