@@ -65,7 +65,7 @@ start_service() {
         touch $workdir/br_netfilter.flag
         sysctl -q -w net.bridge.bridge-nf-call-iptables=0
     fi
-    
+
     if [ "$auto_restart" -eq "1" ]; then
         sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null
         echo -e "$restart_cron /etc/init.d/sing-box restart" >> /etc/crontabs/root

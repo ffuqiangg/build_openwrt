@@ -26,7 +26,7 @@ start_service() {
     local lan_device=$(uci -q get network.lan.device)
     local lan_subnet=$(ip a | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')
     local ipt_subnet=$(cat $iptfile | sed -n '/##/{n;p;}' | awk '{print $7}' | sort -u)
-    
+
     if [[ "$ipt_subnet" != "$lan_subnet" ]]; then
         sed -i "/##/,+2s,$ipt_subnet,$lan_subnet,g" $iptfile
     fi
@@ -65,7 +65,7 @@ start_service() {
         touch $workdir/br_netfilter.flag
         sysctl -q -w net.bridge.bridge-nf-call-iptables=0
     fi
-    
+
     if [ "$auto_restart" -eq "1" ]; then
         sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null
         echo -e "$restart_cron /etc/init.d/sing-box restart" >> /etc/crontabs/root
