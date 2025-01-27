@@ -47,7 +47,7 @@ start_service() {
     procd_set_param respawn
 
     procd_close_instance
-    
+
     if [ "$auto_restart" -eq "1" ]; then
         sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null
         echo -e "$restart_cron /etc/init.d/sing-box restart" >> /etc/crontabs/root
