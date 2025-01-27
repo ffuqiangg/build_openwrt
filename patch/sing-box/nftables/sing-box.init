@@ -25,9 +25,10 @@ start_service() {
     local mixfile="$workdir/custom.json"
     local lan_device="$(uci -q get network.lan.device)"
     local lan_subnet="$(ip a | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')"
+    local nft_subnet="$(cat $nftfile | sed -n '/##/{n;p;}' | awk '{print $6}' | sort -u)"
 
-    if [ ! -d "$workdir/ui" ]; then
-        sed -i "/##/,+2s,192.168.1.0/24,$lan_subnet,g" $nftfile
+    if [[ "$lan_subnet" != "$nft_subnet" ]]; then
+        sed -i "/##/,+2s,$nft_subnet,$lan_subnet,g" $nftfile
     fi
 
     if [ "$remote" -eq "1" ]; then

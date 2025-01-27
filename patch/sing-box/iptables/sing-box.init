@@ -17,17 +17,18 @@ start_service() {
     config_get workdir "main" "workdir" "/etc/sing-box"
     config_get_bool remote "config" "remote" "1"
     config_get url "config" "url"
-    config_get_bool auto_update "config" "auto_update"
-    config_get update_cron "config" "update_cron" "0 5 * * *"
+    config_get_bool auto_restart "config" "auto_update"
+    config_get restart_cron "config" "update_cron" "0 5 * * *"
 
     local tempfile="$workdir/template.json"
     local iptfile="$workdir/iptables.rules"
     local mixfile="$workdir/custom.json"
     local lan_device="$(uci -q get network.lan.device)"
     local lan_subnet="$(ip a | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')"
+    local ipt_subnet="$(cat $iptfile | sed -n '/##/{n;p;}' | awk '{print $7}' | sort -u)"
     
-    if [ ! -d "$workdir/ui" ]; then
-        sed -i "/##/,+2s,192.168.1.0/24,$lan_subnet,g" $iptfile
+    if [[ "$ipt_subnet" != "$lan_subnet" ]]; then
+        sed -i "/##/,+2s,$ipt_subnet,$lan_subnet,g" $iptfile
     fi
 
     if [ "$remote" -eq "1" ]; then
