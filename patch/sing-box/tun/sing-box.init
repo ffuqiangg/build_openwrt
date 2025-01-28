@@ -20,21 +20,20 @@ start_service() {
     config_get_bool auto_restart "config" "auto_restart"
     config_get restart_cron "config" "restart_cron" "0 5 * * *"
 
-    local tempfile="$workdir/template.json"
-    local mixfile="$workdir/custom.json"
-
     if [ "$remote" -eq "1" ]; then
         curl -s -A sing-box --connect-timeout 30 -m 600 -kLo $workdir/config.tmp $url
         if [ "$?" -eq "0" ]; then
-            mv $workdir/config.tmp $workdir/1.json
-            if [ -f "$mixfile" ]; then
-                jq -s add $workdir/1.json $tempfile $mixfile > $conffile
+            mv $workdir/config.tmp $workdir/sub.json
+            if [ -f "$workdir/custom.json" ]; then
+                jq -s add $workdir/sub.json $workdir/template.json $workdir/custom.json > $conffile
             else
-                jq -s add $workdir/1.json $tempfile > $conffile
+                jq -s add $workdir/sub.json $workdir/template.json > $conffile
             fi
         else
             [ -f "$workdir/config.tmp" ] && rm -f $workdir/config.tmp
         fi
+    elif [ -f "$workdir/sing-box.json" ]; then
+        jq -s add $workdir/sing-box.json $workdir/template.json > $conffile
     fi
 
     procd_open_instance sing-box
@@ -59,7 +58,6 @@ stop_service() {
     config_load sing-box
     config_get conffile "main" "conffile"
     local logfile=$(jq -r '.log.output' $conffile)
-
     rm -f $logfile
 
     sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null

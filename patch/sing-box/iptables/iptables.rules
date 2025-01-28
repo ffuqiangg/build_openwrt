@@ -1,5 +1,8 @@
 #!/bin/sh
 
+LAN_SUBNET=$1
+TPROXY_PORT=$2
+
 iptables -t mangle -N singbox
 iptables -t mangle -A singbox -d 0.0.0.0/8 -j RETURN
 iptables -t mangle -A singbox -d 10.0.0.0/8 -j RETURN
@@ -12,12 +15,11 @@ iptables -t mangle -A singbox -d 192.168.0.0/24 -j RETURN
 iptables -t mangle -A singbox -d 224.0.0.0/4 -j RETURN
 iptables -t mangle -A singbox -d 240.0.0.0/4 -j RETURN
 iptables -t mangle -A singbox -d 255.255.255.255/32 -j RETURN
-## 下面两行的网段根据你的局域网配置修改
-iptables -t mangle -A singbox -d 192.168.1.0/24 -p tcp -j RETURN
-iptables -t mangle -A singbox -d 192.168.1.0/24 -p udp ! --dport 53 -j RETURN
+iptables -t mangle -A singbox -d $LAN_SUBNET -p tcp -j RETURN
+iptables -t mangle -A singbox -d $LAN_SUBNET -p udp ! --dport 53 -j RETURN
 iptables -t mangle -A singbox -j RETURN -m mark --mark 0xff
-iptables -t mangle -A singbox -p udp -j TPROXY --on-ip 127.0.0.1 --on-port 10105 --tproxy-mark 1
-iptables -t mangle -A singbox -p tcp -j TPROXY --on-ip 127.0.0.1 --on-port 10105 --tproxy-mark 1
+iptables -t mangle -A singbox -p udp -j TPROXY --on-ip 127.0.0.1 --on-port $TPROXY_PORT --tproxy-mark 1
+iptables -t mangle -A singbox -p tcp -j TPROXY --on-ip 127.0.0.1 --on-port $TPROXY_PORT --tproxy-mark 1
 iptables -t mangle -A PREROUTING -j singbox
 
 iptables -t mangle -N singbox_local
@@ -32,9 +34,8 @@ iptables -t mangle -A singbox_local -d 192.168.0.0/24 -j RETURN
 iptables -t mangle -A singbox_local -d 224.0.0.0/4 -j RETURN
 iptables -t mangle -A singbox_local -d 240.0.0.0/4 -j RETURN
 iptables -t mangle -A singbox_local -d 255.255.255.255/32 -j RETURN
-## 下面两行的网段根据你的局域网配置修改
-iptables -t mangle -A singbox_local -d 192.168.1.0/24 -p tcp -j RETURN
-iptables -t mangle -A singbox_local -d 192.168.1.0/24 -p udp ! --dport 53 -j RETURN
+iptables -t mangle -A singbox_local -d $LAN_SUBNET -p tcp -j RETURN
+iptables -t mangle -A singbox_local -d $LAN_SUBNET -p udp ! --dport 53 -j RETURN
 iptables -t mangle -A singbox_local -j RETURN -m mark --mark 0xff
 iptables -t mangle -A singbox_local -p udp -j MARK --set-mark 1
 iptables -t mangle -A singbox_local -p tcp -j MARK --set-mark 1
