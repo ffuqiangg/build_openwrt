@@ -41,7 +41,7 @@ iptables -t mangle -A singbox_local -p udp -j MARK --set-mark 1
 iptables -t mangle -A singbox_local -p tcp -j MARK --set-mark 1
 iptables -t mangle -A OUTPUT -j singbox_local
 
-iptables -t mangle -N DIVERT
-iptables -t mangle -A DIVERT -j MARK --set-mark 1
-iptables -t mangle -A DIVERT -j ACCEPT
-iptables -t mangle -I PREROUTING -p tcp -m socket -j DIVERT
+iptables -t mangle -N divert
+iptables -t mangle -A divert -j MARK --set-mark 1
+iptables -t mangle -A divert -j ACCEPT
+iptables -t mangle -I PREROUTING -p tcp -m socket -j divert

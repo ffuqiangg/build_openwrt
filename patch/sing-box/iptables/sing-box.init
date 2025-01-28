@@ -15,14 +15,13 @@ start_service() {
     local conffile workdir remote url auto_restart restart_cron
     config_get conffile "main" "conffile"
     config_get workdir "main" "workdir" "/etc/sing-box"
-    config_get_bool remote "config" "remote" 1
-    config_get url "config" "url"
-    config_get_bool auto_restart "config" "auto_update"
-    config_get restart_cron "config" "update_cron" "0 5 * * *"
+    config_get_bool remote "subscription" "remote" 1
+    config_get url "subscription" "url"
+    config_get_bool auto_restart "subscription" "auto_update"
+    config_get restart_cron "subscription" "update_cron" "0 5 * * *"
 
-    if [ "$remote" -eq "1" ]; then
-        curl -s -A sing-box --connect-timeout 30 -m 600 -kLo $workdir/config.tmp $url
-        if [ "$?" -eq "0"  ]; then
+    if [ "$remote" -eq "1" ] && [ -n "$url"]; then
+        if (curl -s -f -A sing-box --connect-timeout 15 --retry 3 -L -X GET -o $workdir/config.tmp $url); then
             mv $workdir/config.tmp $workdir/sub.json
             if [ -f "$workdir/custom.json" ]; then
                 jq -s add $workdir/sub.json $workdir/template.json $workdir/custom.json > $conffile
@@ -77,7 +76,7 @@ stop_service() {
 
     ip rule del fwmark 1 table 100
     ip route del local 0.0.0.0/0 dev lo table 100
-    iptables -t mangle -F
+    iptables -t mangle -F {singbox,singbox_local,divert}
 
     if [ -f "$workdir/br_netfilter.flag" ]; then
         rm -f $workdir/br_netfilter.flag

@@ -20,9 +20,8 @@ start_service() {
     config_get_bool auto_restart "subscription" "auto_restart"
     config_get restart_cron "subscription" "restart_cron" "0 5 * * *"
 
-    if [ "$remote" -eq "1" ]; then
-        curl -s -A sing-box --connect-timeout 30 -m 600 -kLo $workdir/config.tmp $url
-        if [ "$?" -eq "0" ]; then
+    if [ "$remote" -eq "1" ] && [ -n "$url"]; then
+        if (curl -s -f -A sing-box --connect-timeout 15 --retry 3 -L -X GET -o $workdir/config.tmp $url); then
             mv $workdir/config.tmp $workdir/sub.json
             if [ -f "$workdir/custom.json" ]; then
                 jq -s add $workdir/sub.json $workdir/template.json $workdir/custom.json > $conffile
