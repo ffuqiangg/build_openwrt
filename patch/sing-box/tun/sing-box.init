@@ -10,7 +10,7 @@ start_service() {
 
     local enabled
     config_get_bool enabled "main" "enabled" 0
-    [ "$enabled" -eq "1" ] || return 0
+    [ "$enabled" = "1" ] || return 0
 
     local conffile workdir remote url auto_restart restart_cron
     config_get conffile "main" "conffile"
@@ -20,7 +20,7 @@ start_service() {
     config_get_bool auto_restart "subscription" "auto_restart"
     config_get restart_cron "subscription" "restart_cron" "0 5 * * *"
 
-    if [ "$remote" -eq "1" ] && [ -n "$url"]; then
+    if [ "$remote" = "1" ] && [ -n "$url"]; then
         if (curl -s -f -A sing-box --connect-timeout 15 --retry 3 -L -X GET -o $workdir/config.tmp $url); then
             mv $workdir/config.tmp $workdir/sub.json
             if [ -f "$workdir/custom.json" ]; then
@@ -31,7 +31,7 @@ start_service() {
         else
             [ -f "$workdir/config.tmp" ] && rm -f $workdir/config.tmp
         fi
-    elif [ -f "$workdir/sing-box.json" ]; then
+    elif [ "$remote" = "0" ] && [ -f "$workdir/sing-box.json" ]; then
         jq -s add $workdir/sing-box.json $workdir/template.json > $conffile
     fi
 
@@ -46,7 +46,7 @@ start_service() {
 
     procd_close_instance
 
-    if [ "$auto_restart" -eq "1" ]; then
+    if [ "$auto_restart" = "1" ]; then
         sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null
         echo -e "$restart_cron /etc/init.d/sing-box restart" >> /etc/crontabs/root
         /etc/init.d/cron restart
