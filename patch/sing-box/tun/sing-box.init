@@ -55,8 +55,10 @@ start_service() {
 
 stop_service() {
     config_load sing-box
+
+    local conffile logfile
     config_get conffile "main" "conffile"
-    local logfile=$(jq -r '.log.output' $conffile)
+    logfile=$(jq -r '.log.output' $conffile)
     rm -f $logfile
 
     sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null

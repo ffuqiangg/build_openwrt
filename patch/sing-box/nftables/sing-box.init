@@ -69,9 +69,12 @@ start_service() {
 }
 
 stop_service() {
-    config_load sing-box
+    config_load sing-box 
+
+    local conffile workdir logfile
     config_get conffile "main" "conffile"
-    local logfile=$(jq -r '.log.ouput' $conffile)
+    config_get workdir "main" "workdir" "/etc/sing-box"
+    logfile=$(jq -r '.log.ouput' $conffile)
     rm -f $logfile
 
     ip rule del fwmark 1 table 100
