@@ -16,7 +16,7 @@ fi
 echo -e "\r\n${GREEN_COLOR}Download files ...${RES}\r\n"
 
 # prepare
-if (command -v fw4 2>/dev/null); then
+if [ -n "$(nft list tables 2>/dev/null)" ]; then
     firewall="nftables"
 else
     firewall="iptables"
