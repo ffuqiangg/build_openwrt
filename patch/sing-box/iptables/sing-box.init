@@ -30,9 +30,9 @@ start_service() {
     config_get listen_port "inbounds" "listen_port" "10105"
 
     local log experimental inbounds
-    log="{\"log\":{\"disable\":false,\"level\":\"$level\",\"output\":\"$output\",\"timestamp\":true}}"
-    experimental="{\"experimental\":{\"clash_api\":{\"external_controller\":\"0.0.0.0:$external_controller_port\",\"external_ui\":\"$external_ui\",\"secret\":\"$secret\",\"external_ui_download_url\":\"https://gh-proxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip\",\"external_ui_download_detour\":\"direct\",\"default_mode\":\"$default_mode\"},\"cache_file\":{\"enabled\":true,\"store_fakeip\":false}}}"
-    inbounds="{\"inbounds\":[{\"type\":\"tproxy\",\"tag\":\"tproxy-in\",\"listen\":\"::\",\"listen_port\":$listen_port,\"sniff\":true,\"sniff_override_destination\":false},{\"type\":\"mixed\",\"listen\":\"::\",\"listen_port\":2080,\"sniff\":true}]}"
+    log="{\"disabled\":false,\"level\":\"$level\",\"output\":\"$output\",\"timestamp\":true}"
+    experimental="{\"clash_api\":{\"external_controller\":\"0.0.0.0:$external_controller_port\",\"external_ui\":\"$external_ui\",\"secret\":\"$secret\",\"external_ui_download_url\":\"https://gh-proxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip\",\"external_ui_download_detour\":\"direct\",\"default_mode\":\"$default_mode\"},\"cache_file\":{\"enabled\":true,\"store_fakeip\":false}}"
+    inbounds="[{\"type\":\"tproxy\",\"tag\":\"tproxy-in\",\"listen\":\"::\",\"listen_port\":$listen_port,\"sniff\":true,\"sniff_override_destination\":false},{\"type\":\"mixed\",\"listen\":\"::\",\"listen_port\":2080,\"sniff\":true}]"
 
     local mixin mixfile
     if [ "$remote" = "1" ] && [ -n "$url" ]; then
