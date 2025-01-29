@@ -37,12 +37,6 @@ if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}Error! download $firewall rules failed.${RES}"
     exit 1
 fi
-echo -e "${GREEN_COLOR}Download config template ...${RES}"
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/template.json $mirror${download_dir}/template.json
-if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}Error! download config template failed.${RES}"
-    exit 1
-fi
 echo -e "${GREEN_COLOR}Download sing-box config file ...${RES}"
 curl --connect-timeout 30 -m 600 -kLo /etc/config/sing-box $mirror${download_dir}/sing-box.conf
 if [ $? -ne 0 ]; then
