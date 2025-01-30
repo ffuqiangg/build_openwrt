@@ -20,19 +20,19 @@ start_service() {
     config_get_bool auto_restart "subscription" "auto_restart"
     config_get restart_cron "subscription" "restart_cron" "0 5 * * *"
 
-    local level output external_controller_port external_ui secret default_mode listen_port
+    local level output external_controller_port external_ui secret default_mode tproxy_port
     config_get level "log" "level" "warn"
     config_get output "log" "output" "/var/log/sing-box.log"
     config_get external_controller_port "experimental" "external_controller_port" "9900"
     config_get external_ui "experimental" "external_ui" "ui"
     config_get secret "experimental" "secret" "ffuqiangg"
     config_get default_mode "experimental" "default_mode" "rule"
-    config_get listen_port "inbounds" "listen_port" "10105"
+    config_get tproxy_port "inbounds" "tproxy_port" "10105"
 
     local log experimental inbounds
     log="{\"disabled\":false,\"level\":\"$level\",\"output\":\"$output\",\"timestamp\":true}"
     experimental="{\"clash_api\":{\"external_controller\":\"0.0.0.0:$external_controller_port\",\"external_ui\":\"$external_ui\",\"secret\":\"$secret\",\"external_ui_download_url\":\"https://gh-proxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip\",\"external_ui_download_detour\":\"direct\",\"default_mode\":\"$default_mode\"},\"cache_file\":{\"enabled\":true,\"store_fakeip\":false}}"
-    inbounds="[{\"type\":\"tproxy\",\"tag\":\"tproxy-in\",\"listen\":\"::\",\"listen_port\":$listen_port,\"sniff\":true,\"sniff_override_destination\":false},{\"type\":\"mixed\",\"listen\":\"::\",\"listen_port\":2080,\"sniff\":true}]"
+    inbounds="[{\"type\":\"tproxy\",\"tag\":\"tproxy-in\",\"listen\":\"::\",\"listen_port\":$tproxy_port,\"sniff\":true,\"sniff_override_destination\":false},{\"type\":\"mixed\",\"listen\":\"::\",\"listen_port\":2080,\"sniff\":true}]"
 
     local profile_file
     if [ "$remote" = "1" ] && [ -n "$url" ]; then
@@ -76,7 +76,7 @@ start_service() {
     local lan_device lan_subnet
     lan_device=$(uci -q get network.lan.device)
     lan_subnet=$(ip a | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')
-    nft -f $workdir/nftables.rules -D LAN_SUBNET="$lan_subnet" -D TPROXY_PORT="$listen_port"
+    nft -f $workdir/nftables.rules -D LAN_SUBNET="$lan_subnet" -D TPROXY_PORT="$tproxy_port"
 
     local bridge_nf_call_iptables; bridge_nf_call_iptables=$(sysctl -e -n net.bridge.bridge-nf-call-iptables)
     if [ "$bridge_nf_call_iptables" = "1" ]; then
