@@ -44,6 +44,8 @@ start_service() {
         profile_file="$workdir/subscription.json"
     elif [ - f "$workdir/sing-box.json" ]; then
         profile_file="$workdir/sing-box.json"
+    else
+        return 0
     fi
 
     jq --argjson log $log --argjson experimental $experimental --argjson inbounds $inbounds '.log=$log | .experimental=$experimental | .inbounds=$inbounds' $profile_file > $workdir/config.tmp
