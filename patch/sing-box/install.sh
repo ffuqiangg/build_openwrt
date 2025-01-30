@@ -22,7 +22,7 @@ else
     firewall="iptables"
 fi
 download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/$firewall"
-[ -d /etc/sing-box ] || mkdir -p /etc/sing-box
+[ -d /etc/sing-box ] && rm -rf /etc/sing-box && mkdir -p /etc/sing-box
 
 # download
 echo -e "${GREEN_COLOR}Download Sing-box init ...${RES}"

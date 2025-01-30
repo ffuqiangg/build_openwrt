@@ -34,25 +34,25 @@ start_service() {
     experimental="{\"clash_api\":{\"external_controller\":\"0.0.0.0:$external_controller_port\",\"external_ui\":\"$external_ui\",\"secret\":\"$secret\",\"external_ui_download_url\":\"https://gh-proxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip\",\"external_ui_download_detour\":\"direct\",\"default_mode\":\"$default_mode\"},\"cache_file\":{\"enabled\":true,\"store_fakeip\":false}}"
     inbounds="[{\"type\":\"tproxy\",\"tag\":\"tproxy-in\",\"listen\":\"::\",\"listen_port\":$listen_port,\"sniff\":true,\"sniff_override_destination\":false},{\"type\":\"mixed\",\"listen\":\"::\",\"listen_port\":2080,\"sniff\":true}]"
 
-    local mixin mixfile
+    local profile_file
     if [ "$remote" = "1" ] && [ -n "$url" ]; then
         if (curl -s -f -A sing-box --connect-timeout 15 --retry 3 -L -X GET -o $workdir/config.tmp $url); then
-            mv $workdir/config.tmp $workdir/sub.json
-            mixfile="$workdir/sub.json"; mixin="1"
+            mv $workdir/config.tmp $workdir/subscription.json
         else
             [ -f "$workdir/config.tmp" ] && rm -f $workdir/config.tmp
-            mixin="0"
         fi
-    elif [ "$remote" = "0" ] && [ -f "$workdir/sing-box.json" ]; then
-        mixfile="$workdir/sing-box.json"; mixin="1"
+        profile_file="$workdir/subscription.json"
+    elif [ - f "$workdir/sing-box.json" ]; then
+        profile_file="$workdir/sing-box.json"
     fi
 
-    if [ "$mixin" = "1" ]; then
-        jq --argjson log $log --argjson experimental $experimental --argjson inbounds $inbounds '.log=$log | .experimental=$experimental | .inbounds=$inbounds' $mixfile > $workdir/config.tmp
-    fi
+    jq --argjson log $log --argjson experimental $experimental --argjson inbounds $inbounds '.log=$log | .experimental=$experimental | .inbounds=$inbounds' $profile_file > $workdir/config.tmp
     
-    if [ -f "$workdir/custom.json" ]; then
-        jq -s add $workdir/config.tmp $workdir/custom.json > $conffile && rm -f $workdir/config.tmp
+    local mixin mixfile
+    config_get mixin "mix" "mixin" 0
+    config_get mixfile "mix" "mixfile"
+    if [ "$mixin" = "1" ] && [ -f "$mixfile" ]; then
+        jq -s add $workdir/config.tmp $mixfile > $conffile && rm -f $workdir/config.tmp
     else
         mv $workdir/config.tmp $conffile
     fi
@@ -62,6 +62,8 @@ start_service() {
 
     procd_set_param user root
     procd_set_param file $conffile
+    procd_set_param limits core="unlimited"
+    procd_set_param limits nofile="1000000 1000000"
     procd_set_param stdout 1
     procd_set_param stderr 1
     procd_set_param respawn

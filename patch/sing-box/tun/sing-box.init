@@ -20,19 +20,41 @@ start_service() {
     config_get_bool auto_restart "subscription" "auto_restart"
     config_get restart_cron "subscription" "restart_cron" "0 5 * * *"
 
-    if [ "$remote" = "1" ] && [ -n "$url"]; then
+    local level output external_controller_port external_ui secret default_mode mtu
+    config_get level "log" "level" "warn"
+    config_get output "log" "output" "/var/log/sing-box.log"
+    config_get external_controller_port "experimental" "external_controller_port" "9900"
+    config_get external_ui "experimental" "external_ui" "ui"
+    config_get secret "experimental" "secret" "ffuqiangg"
+    config_get default_mode "experimental" "default_mode" "rule"
+    config_get mtu "inbounds" "mtu" "9000"
+
+    local log experimental inbounds
+    log="{\"disabled\":false,\"level\":\"$level\",\"output\":\"$output\",\"timestamp\":true}"
+    experimental="{\"clash_api\":{\"external_controller\":\"0.0.0.0:$external_controller_port\",\"external_ui\":\"$external_ui\",\"secret\":\"$secret\",\"external_ui_download_url\":\"https://gh-proxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip\",\"external_ui_download_detour\":\"direct\",\"default_mode\":\"$default_mode\"},\"cache_file\":{\"enabled\":true,\"store_fakeip\":false}}"
+    inbounds="[{\"auto_route\":true,\"strict_route\":true,\"endpoint_independent_nat\":false,\"address\":\"172.18.0.1/30\",\"mtu\":$mtu,\"sniff\":true,\"sniff_override_destination\":false,\"tag\":\"tun-in\",\"type\":\"tun\"},{\"type\":\"mixed\",\"listen\":\"::\",\"listen_port\":2080,\"sniff\":true}]"
+
+    local profile_file
+    if [ "$remote" = "1" ] && [ -n "$url" ]; then
         if (curl -s -f -A sing-box --connect-timeout 15 --retry 3 -L -X GET -o $workdir/config.tmp $url); then
-            mv $workdir/config.tmp $workdir/sub.json
-            if [ -f "$workdir/custom.json" ]; then
-                jq -s add $workdir/sub.json $workdir/template.json $workdir/custom.json > $conffile
-            else
-                jq -s add $workdir/sub.json $workdir/template.json > $conffile
-            fi
+            mv $workdir/config.tmp $workdir/subscription.json
         else
             [ -f "$workdir/config.tmp" ] && rm -f $workdir/config.tmp
         fi
-    elif [ "$remote" = "0" ] && [ -f "$workdir/sing-box.json" ]; then
-        jq -s add $workdir/sing-box.json $workdir/template.json > $conffile
+        profile_file="$workdir/subscription.json"
+    elif [ - f "$workdir/sing-box.json" ]; then
+        profile_file="$workdir/sing-box.json"
+    fi
+
+    jq --argjson log $log --argjson experimental $experimental --argjson inbounds $inbounds '.log=$log | .experimental=$experimental | .inbounds=$inbounds' $profile_file > $workdir/config.tmp
+    
+    local mixin mixfile
+    config_get mixin "mix" "mixin" 0
+    config_get mixfile "mix" "mixfile"
+    if [ "$mixin" = "1" ] && [ -f "$mixfile" ]; then
+        jq -s add $workdir/config.tmp $mixfile > $conffile && rm -f $workdir/config.tmp
+    else
+        mv $workdir/config.tmp $conffile
     fi
 
     procd_open_instance sing-box
@@ -40,6 +62,8 @@ start_service() {
 
     procd_set_param user root
     procd_set_param file $conffile
+    procd_set_param limits core="unlimited"
+    procd_set_param limits nofile="1000000 1000000"
     procd_set_param stdout 1
     procd_set_param stderr 1
     procd_set_param respawn
@@ -56,10 +80,11 @@ start_service() {
 stop_service() {
     config_load sing-box
 
-    local conffile logfile
-    config_get conffile "main" "conffile"
-    logfile=$(jq -r '.log.output' $conffile)
-    rm -f $logfile
+    local output workdir
+    config_get workdir "main" "workdir" "/etc/sing-box"
+    config_get output "log" "output"
+
+    rm -f $output
 
     sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null
     /etc/init.d/cron restart
