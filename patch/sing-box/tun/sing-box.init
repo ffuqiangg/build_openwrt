@@ -80,8 +80,7 @@ start_service() {
 stop_service() {
     config_load sing-box
 
-    local output workdir
-    config_get workdir "main" "workdir" "/etc/sing-box"
+    local output
     config_get output "log" "output"
 
     rm -f $output
