@@ -49,7 +49,7 @@ config sing-box 'subscription'
 ```config
 config sing-box 'log'
 	option level 'warn'                     # 日志等级
-	option output '/var/log/sing-box.log'   # 目录文件路径
+	option output '/var/log/sing-box.log'   # 日志文件路径
 
 config sing-box 'experimental'
 	option external_controller_port '9900'  # 后台页面端口
