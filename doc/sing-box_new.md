@@ -61,7 +61,7 @@ config sing-box 'inbounds'
 	option tproxy_port '10105'              # tproxy 监听端口
 ```
 - 这部分配置的详细说明可以查看 sing-box [官方配置文档](https://sing-box.sagernet.org/zh/configuration/)的对应项目。
-- 修改端口项目时注意端口冲突，避免使用已被其它插件使用的端口。
+- 修改端口项目时注意端口冲突，避免使用已被其它插件占用的端口。
 
 4. **模板**
 ```config
@@ -86,7 +86,7 @@ config sing-box 'subscription'
 ```
 
 2. **使用本地配置文件**  
-然后将配置文件放到 /etc/sing-box 目录命令为 sing-box.json
+将配置文件放到 /etc/sing-box 目录命令为 sing-box.json
 ```config
 config sing-box 'main'
 	option enabled '1'
