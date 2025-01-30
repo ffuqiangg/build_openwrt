@@ -17,19 +17,13 @@ echo -e "\r\n${GREEN_COLOR}Download files ...${RES}\r\n"
 
 # prepare
 download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/tun"
-[ -d /etc/sing-box ] || mkdir -p /etc/sing-box
+[ -d /etc/sing-box ] && rm -r /etc/sing-box && mkdir -p /etc/sing-box
 
 # download
 echo -e "${GREEN_COLOR}Download Sing-box init ...${RES}"
 curl --connect-timeout 30 -m 600 -kLo /etc/init.d/sing-box $mirror${download_dir}/sing-box.init
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}Error! download Sing-box init failed.${RES}"
-    exit 1
-fi
-echo -e "${GREEN_COLOR}Download config template ...${RES}"
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/template.json $mirror${download_dir}/template.json
-if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}Error! download config template failed.${RES}"
     exit 1
 fi
 echo -e "${GREEN_COLOR}Download sing-box config file ...${RES}"
