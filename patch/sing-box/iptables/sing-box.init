@@ -98,7 +98,7 @@ stop_service() {
     config_get workdir "main" "workdir" "/etc/sing-box"
     config_get output "log" "output"
 
-    rm -rf $output
+    rm -f $output
 
     ip rule del fwmark 1 table 100
     ip route del local 0.0.0.0/0 dev lo table 100
