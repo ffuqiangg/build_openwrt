@@ -25,7 +25,8 @@ sh -c "$(curl -ksS https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/buil
 
 ### 配置服务
 
-所有的配置选项都通过修改 /etc/config/sing-box 文件实现，下面分几个部分说明其各个项目的作用。文末有分别使用订阅链接和本地配置文件的极简配置实例。
+所有的配置选项都通过修改 /etc/config/sing-box 文件实现，下面分几个部分说明其各个项目的作用。文末有分别使用订阅链接和本地配置文件的极简配置实例。  
+`对 /etc/config/sing-box 文件的修改只能修改 option 开头的行两个冒号 ' 中间的部分，一定不要删除或增加条目。`
 
 1. **基本设置**
 ```config
@@ -77,8 +78,7 @@ config sing-box 'mix'
 
 ### 极简配置
 
-后台地址：IP:9900/ui | 密钥：ffuqiangg  
-**注：下面实例中的配置文件显示的是需要修改的部分，不是删除后保留的部分。**
+后台地址：IP:9900/ui | 密钥：ffuqiangg
 
 1. **使用订阅**
 ```config
