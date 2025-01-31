@@ -105,9 +105,7 @@ stop_service() {
     ip rule del fwmark 1 table 100
     ip route del local 0.0.0.0/0 dev lo table 100
     iptables -t mangle -F
-    iptables -t mangle -X singbox
-    iptables -t mangle -X singbox_local
-    iptables -t mangle -X divert
+    for i in singbox singbox_local divert; do iptables -t mangle -X $i; done
     iptables -t mangle -F
 
     if [ -f "$workdir/br_netfilter.flag" ]; then
