@@ -39,14 +39,14 @@ config sing-box 'main'
 2. **配置文件和订阅相关**
 ```config
 config sing-box 'subscription'
-	option remote '1'                  # 控制使用订阅还是本地配置文件，1 使用订阅，改为 0 使用本地配置文件
+	option remote '1'                  # 控制使用订阅还是本地配置文件，1 使用订阅，0 使用本地配置文件
 	option url ''                      # 订阅链接
 	option auto_restart '1'            # 是否开启定时重启，0 关闭，1 开启
 	option restart_cron '0 5 * * *'    # 自动重启 cron，默认为每天早上 5 点
 ```
 - 如果使用本地配置文件保存到 /etc/sing-box 目录命名为 sing-box.json 。
 - url 为空时即使 remote 设置为 1，也会使用本地配置文件启动，如果本地配置文件也不存在自动停止运行。
-- 由于服务启动时会自动下载订阅，所以定时重启也可以作为定时更新用。
+- 由于服务启动时会自动下载订阅，所以定时重启作为定时更新订阅使用。
 
 3. **网关相关配置**
 ```config
@@ -72,12 +72,12 @@ config sing-box 'mix'
 	option mixin '0'  # 是否开启模板功能
 	option mixfile '/etc/sing-box/mixin.json'   # 模板文件路径
 ```
-- 这个功能通常配合订阅使用，用以对 DNS route 等进行自定义。本地配置文件完全没必要使用这个功能直接修改原文件就好。
+- 模板功能通常配合订阅使用，用以对 DNS route 等进行自定义。本地配置文件完全没必要使用这个功能直接修改原文件就好。
 - 服务默认只修改必要的部分以满足作为代理网关使用的需求，需要更多自定义就可以使用这个功能。范本 [mixin.json](https://gist.github.com/ffuqiangg/d9bfcb1b37e58e6450711cd8060b57c8)，更多请参考[官方配置文档](https://sing-box.sagernet.org/zh/configuration/)。
 
 ### 极简配置
 
-后台地址： IP:9900/ui | 密钥： ffuqiangg
+后台地址：IP:9900/ui | 密钥：ffuqiangg
 
 1. **使用订阅**
 ```config
