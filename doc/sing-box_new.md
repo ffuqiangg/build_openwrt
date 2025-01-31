@@ -9,8 +9,8 @@ sh -c "$(curl -ksS https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/buil
 ```
 
 - 仅支持 ipv4，不支持 ipv6 。
-- 注意本命令安装时会清空 /etc/sing-box 目录，有需要的请提前备份文件。
-- 本仓库除 ImmortalWrt-18.06 之外的固件都能直接安装使用。如果使用的其它固件需要安装有 sing-box 和 jq 。
+- 注意本命令安装时会清空 /etc/sing-box 目录，有需要的请提前备份数据。
+- 本仓库固件除 ImmortalWrt-18.06 之外都能直接安装使用。如果使用的其它固件需要安装有 sing-box 和 jq 。
 - 如果在非本仓库固件中使用，注意本项目只在N1 硬件 sing-box 版本 1.10.x 上经过测试。其它硬件及 sing-box 版本是否可用未知。
 
 ### 使用基础
@@ -25,7 +25,7 @@ sh -c "$(curl -ksS https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/buil
 
 ### 配置服务
 
-所有的配置选项都通过修改 /etc/config/sing-box 文件实现，下面分几个部分说明其各个项目的作用。
+所有的配置选项都通过修改 /etc/config/sing-box 文件实现，下面分几个部分说明其各个项目的作用。文末有分别使用订阅链接和本地配置文件的极简配置实例。
 
 1. **基本设置**
 ```config
@@ -41,11 +41,12 @@ config sing-box 'main'
 config sing-box 'subscription'
 	option remote '1'                  # 控制使用订阅还是本地配置文件，1 使用订阅，改为 0 使用本地配置文件
 	option url ''                      # 订阅链接
-	option auto_restart '1'            # 是否开启定时重启，由于启动时会自动更新订阅也作为自动更新用
+	option auto_restart '1'            # 是否开启定时重启，0 关闭，1 开启
 	option restart_cron '0 5 * * *'    # 自动重启 cron，默认为每天早上 5 点
 ```
 - 如果使用本地配置文件保存到 /etc/sing-box 目录命名为 sing-box.json 。
 - url 为空时即使 remote 设置为 1，也会使用本地配置文件启动，如果本地配置文件也不存在自动停止运行。
+- 由于服务启动时会自动下载订阅，所以定时重启也可以作为定时更新用。
 
 3. **基本配置参数**
 ```config
@@ -74,7 +75,7 @@ config sing-box 'mix'
 - 这个功能通常配合订阅使用，用以对 DNS route 等进行自定义。本地配置文件完全没必要使用这个功能直接修改原文件就好。
 - 服务默认只修改必要的部分以满足作为代理网关使用的需求，需要更多自定义就可以使用这个功能。范本 [mixin.json](https://gist.github.com/ffuqiangg/d9bfcb1b37e58e6450711cd8060b57c8)，更多请参考[官方配置文档](https://sing-box.sagernet.org/zh/configuration/)。
 
-### 简单配置
+### 极简配置
 
 后台地址： IP:9900/ui | 密钥： ffuqiangg
 
