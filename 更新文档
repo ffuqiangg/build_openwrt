@@ -40,7 +40,7 @@ config sing-box 'main'
 config sing-box 'subscription'
 	option remote '1'                  # 控制使用订阅还是本地配置文件，1 使用订阅，改为 0 使用本地配置文件
 	option url ''                      # 订阅链接
-	option auto_restart '1'            # 是否开启定义重启，由于启动时会自动更新订阅也作为自动更新用
+	option auto_restart '1'            # 是否开启定时重启，由于启动时会自动更新订阅也作为自动更新用
 	option restart_cron '0 5 * * *'    # 自动重启 cron，默认为每天早上 5 点
 ```
 - 如果使用本地配置文件保存到 /etc/sing-box 目录命名为 sing-box.json 。
