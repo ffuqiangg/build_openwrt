@@ -3,18 +3,10 @@
 LAN_SUBNET=$1
 TPROXY_PORT=$2
 
+RESERVED_IP='0.0.0.0/8 10.0.0.0/8 100.64.0.0/10 127.0.0.0/8 169.254.0.0/16 172.16.0.0/12 192.0.0.0/24 192.168.0.0/24 224.0.0.0/4 240.0.0.0/4 255.255.255.255/32'
+
 iptables -t mangle -N singbox
-iptables -t mangle -A singbox -d 0.0.0.0/8 -j RETURN
-iptables -t mangle -A singbox -d 10.0.0.0/8 -j RETURN
-iptables -t mangle -A singbox -d 100.64.0.0/10 -j RETURN
-iptables -t mangle -A singbox -d 127.0.0.0/8 -j RETURN
-iptables -t mangle -A singbox -d 169.254.0.0/16 -j RETURN
-iptables -t mangle -A singbox -d 172.16.0.0/12 -j RETURN
-iptables -t mangle -A singbox -d 192.0.0.0/24 -j RETURN
-iptables -t mangle -A singbox -d 192.168.0.0/24 -j RETURN
-iptables -t mangle -A singbox -d 224.0.0.0/4 -j RETURN
-iptables -t mangle -A singbox -d 240.0.0.0/4 -j RETURN
-iptables -t mangle -A singbox -d 255.255.255.255/32 -j RETURN
+for i in $(echo $RESERVED_IP); do iptables -t mangle -A singbox -d $i -j RETURN; done
 iptables -t mangle -A singbox -d $LAN_SUBNET -p tcp -j RETURN
 iptables -t mangle -A singbox -d $LAN_SUBNET -p udp ! --dport 53 -j RETURN
 iptables -t mangle -A singbox -j RETURN -m mark --mark 0xff
@@ -23,17 +15,7 @@ iptables -t mangle -A singbox -p tcp -j TPROXY --on-ip 127.0.0.1 --on-port $TPRO
 iptables -t mangle -A PREROUTING -j singbox
 
 iptables -t mangle -N singbox_local
-iptables -t mangle -A singbox_local -d 0.0.0.0/8 -j RETURN
-iptables -t mangle -A singbox_local -d 10.0.0.0/8 -j RETURN
-iptables -t mangle -A singbox_local -d 100.64.0.0/10 -j RETURN
-iptables -t mangle -A singbox_local -d 127.0.0.0/8 -j RETURN
-iptables -t mangle -A singbox_local -d 169.254.0.0/16 -j RETURN
-iptables -t mangle -A singbox_local -d 172.16.0.0/12 -j RETURN
-iptables -t mangle -A singbox_local -d 192.0.0.0/24 -j RETURN
-iptables -t mangle -A singbox_local -d 192.168.0.0/24 -j RETURN
-iptables -t mangle -A singbox_local -d 224.0.0.0/4 -j RETURN
-iptables -t mangle -A singbox_local -d 240.0.0.0/4 -j RETURN
-iptables -t mangle -A singbox_local -d 255.255.255.255/32 -j RETURN
+for i in $(echo $RESERVED_IP); do iptables -t mangle -A singbox_local -d $i -j RETURN; done
 iptables -t mangle -A singbox_local -d $LAN_SUBNET -p tcp -j RETURN
 iptables -t mangle -A singbox_local -d $LAN_SUBNET -p udp ! --dport 53 -j RETURN
 iptables -t mangle -A singbox_local -j RETURN -m mark --mark 0xff
@@ -45,3 +27,5 @@ iptables -t mangle -N divert
 iptables -t mangle -A divert -j MARK --set-mark 1
 iptables -t mangle -A divert -j ACCEPT
 iptables -t mangle -I PREROUTING -p tcp -m socket -j divert
+
+exit 0
