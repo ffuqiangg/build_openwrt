@@ -10,6 +10,7 @@ sh -c "$(curl -ksS https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/buil
 
 - 注意本命令安装时会清空 /etc/sing-box 目录，有需要的请提前备份文件。
 - 本仓库除 ImmortalWrt-18.06 之外的固件都能直接安装使用。如果使用的其它固件需要安装有 sing-box 和 jq 。
+- 如果在非本仓库固件中使用，注意本项目只支持 sing-box 1.10.x，且仅在 N1 硬件上测试过。其它硬件是否可用未知。
 
 ### 使用基础
 
