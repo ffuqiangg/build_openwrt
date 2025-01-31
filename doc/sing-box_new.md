@@ -77,7 +77,8 @@ config sing-box 'mix'
 
 ### 极简配置
 
-后台地址：IP:9900/ui | 密钥：ffuqiangg
+后台地址：IP:9900/ui | 密钥：ffuqiangg  
+**注：下面实例中的配置文件显示的是需要修改的部分，不是删除后保留的部分。**
 
 1. **使用订阅**
 ```config
