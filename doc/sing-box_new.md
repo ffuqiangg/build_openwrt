@@ -48,7 +48,7 @@ config sing-box 'subscription'
 - url 为空时即使 remote 设置为 1，也会使用本地配置文件启动，如果本地配置文件也不存在自动停止运行。
 - 由于服务启动时会自动下载订阅，所以定时重启也可以作为定时更新用。
 
-3. **基本配置参数**
+3. **网关相关配置**
 ```config
 config sing-box 'log'
 	option level 'warn'                     # 日志等级
