@@ -76,7 +76,7 @@ start_service() {
     ip route add local 0.0.0.0/0 dev lo table 100
 
     local lan_device lan_subnet
-    lan_device=$(uci -q get network.lan.device)
+    lan_device=$(ip route show default | awk '/default/ {print $5}')
     lan_subnet=$(ip a | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')
     nft -f $workdir/nftables.rules -D LAN_SUBNET="$lan_subnet" -D TPROXY_PORT="$tproxy_port"
 
