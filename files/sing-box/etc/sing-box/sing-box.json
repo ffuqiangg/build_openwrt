@@ -1,6 +1,0 @@
-{
-    "_comment": "url:sing-bx订阅地址，auto_update:是否自动更新订阅(0/1)，update_time:更新时间(0-23)",
-    "url": "",
-    "auto_update": "1",
-    "update_time": "5"
-}
