@@ -43,11 +43,6 @@ cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/ut
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # Wget
 cp -rf ../lede_pkg/net/wget ./feeds/packages/net/wget
-# sing-box
-cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./package/new/sing-box
-cp -rf ../patch/sing-box_nftables ./package/new/sing-box/files
-sed -i '/config.json/a\	$(INSTALL_DATA) ./files/template.json $(1)/etc/sing-box' package/new/sing-box/Makefile
-sed -i '/config.json/a\	$(INSTALL_DATA) ./files/nftables.rules $(1)/etc/sing-box' package/new/sing-box/Makefile
 # Mosdns
 cp -rf ../openwrt-apps/luci-app-mosdns ./package/new/luci-app-mosdns
 cp -rf ../openwrt-apps/openwrt_helloworld/v2ray-geodata ./package/new/v2ray-geodata

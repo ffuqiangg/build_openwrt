@@ -69,10 +69,6 @@ cp -rf ../immortalwrt_pkg_21/net/verysync ./package/new/verysync
 pushd package/new/luci-app-verysync
 move_2_services nas
 popd
-# Sing-box
-cp -rf ../patch/sing-box/iptables ./package/new/openwrt_helloworld/sing-box/files
-sed -i '/config.json/a\	$(INSTALL_DATA) ./files/template.json $(1)/etc/sing-box' package/new/openwrt_helloworld/sing-box/Makefile
-sed -i '/config.json/a\	$(INSTALL_DATA) ./files/iptables.rules $(1)/etc/sing-box' package/new/openwrt_helloworld/sing-box/Makefile
 
 # 预配置一些插件
 mkdir -p files
