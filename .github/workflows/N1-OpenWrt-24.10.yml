@@ -1,10 +1,10 @@
-name: N1-OpenWrt-23.05
+name: N1-OpenWrt-24.10
 
 on:
   workflow_dispatch:
   repository_dispatch:
     types:
-      - N1-OpenWrt-23.05
+      - N1-OpenWrt-24.10
 
 env:
   TZ: Asia/Shanghai
@@ -57,20 +57,20 @@ jobs:
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
-        cp -r ./scripts/openwrt-23.05/. ./
+        cp -r ./scripts/openwrt-24.10/. ./
         /bin/bash 01_prepare_source_code.sh
         ln -sf /home/runner/work/build_openwrt/build_openwrt/openwrt /home/runner/work/_actions/ffuqiangg/amlogic-s9xxx-openwrt/main/openwrt
 
     - name: Prepare package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cp -r ../scripts/openwrt-23.05/. ./
+        cp -r ../scripts/openwrt-24.10/. ./
         /bin/bash 02_prepare_package.sh
 
     - name: Load custom configuration
       run: |
-        latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
-        kernel_version="$(cat openwrt/include/kernel-5.15 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")"
+        latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
+        kernel_version="$(cat openwrt/include/kernel-6.6 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")"
         sed -i "s/DATE/${{ env.build_date }}/;s/WRT_SOUR/OpenWrt/;s/RELEASES/${latest_release}/" ./openwrt/files/etc/banner
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
         echo "kernel_version=${kernel_version}" >> ${GITHUB_ENV}
@@ -78,7 +78,7 @@ jobs:
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cp -f ../config/openwrt-23.05/config.seed .config
+        cp -f ../config/openwrt-24.10/config.seed .config
         make defconfig
 
     - name: Download package
@@ -104,7 +104,7 @@ jobs:
       with:
         openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
         openwrt_board: s905d
-        kernel_repo: ffuqiangg/kernel_5.15.y
+        kernel_repo: ophub/kernel
         openwrt_kernel: ${{ env.kernel_version }}
         kernel_usage: stable
         auto_kernel: false

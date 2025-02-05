@@ -1,3 +1,15 @@
+From 523ec5d7928c348370e9de52adc6d14e5a13c63f Mon Sep 17 00:00:00 2001
+From: sbwml <admin@cooluc.com>
+Date: Wed, 4 Sep 2024 12:36:11 +0800
+Subject: [PATCH 4/6] luci-add-firewall: add custom nft rule support
+
+Signed-off-by: sbwml <admin@cooluc.com>
+---
+ .../htdocs/luci-static/resources/view/firewall/custom.js    | 6 +++---
+ .../root/usr/share/luci/menu.d/luci-app-firewall.json       | 3 ---
+ .../root/usr/share/rpcd/acl.d/luci-app-firewall.json        | 6 ++++--
+ 3 files changed, 7 insertions(+), 8 deletions(-)
+
 diff --git a/applications/luci-app-firewall/htdocs/luci-static/resources/view/firewall/custom.js b/applications/luci-app-firewall/htdocs/luci-static/resources/view/firewall/custom.js
 index 1997a72..b3183d6 100644
 --- a/applications/luci-app-firewall/htdocs/luci-static/resources/view/firewall/custom.js
@@ -65,3 +77,6 @@ index 17d1fba..7e06de7 100644
  			},
  			"ubus": {
  				"file": [ "write" ]
+-- 
+2.42.0
+
