@@ -92,4 +92,5 @@ autocmd filetype json set ts=2 sw=2 sts=2
 
 " User Interface
 hi TabLine cterm=bold ctermfg=0 ctermbg=NONE
-hi TabLineFill cterm=bold cterm=bold gui=bold
+hi TabLineFill term=bold cterm=bold gui=bold
+hi LineNr term=bold ctermfg=0
