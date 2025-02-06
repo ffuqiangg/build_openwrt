@@ -91,6 +91,6 @@ autocmd filetype yaml set ts=2 sw=2 sts=2
 autocmd filetype json set ts=2 sw=2 sts=2
 
 " User Interface
-hi TabLine cterm=bold ctermfg=0 ctermbg=NONE
+hi TabLine term=bold cterm=bold ctermfg=7 ctermbg=NONE
 hi TabLineFill term=bold cterm=bold gui=bold
-hi LineNr term=bold ctermfg=0
+hi TabLineSel term=reverse ctermfg=7 ctermbg=1 gui=reverse
