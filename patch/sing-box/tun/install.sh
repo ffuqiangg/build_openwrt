@@ -13,30 +13,30 @@ if [ $country_code = "CN" ]; then
     fi
 fi
 
-echo -e "\r\n${GREEN_COLOR}Download files ...${RES}\r\n"
+echo -e "\r\n${GREEN_COLOR}INFO${RES} Download files ...\r\n"
 
 # prepare
 download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/tun"
 [ -d /etc/sing-box ] && rm -rf /etc/sing-box && mkdir -p /etc/sing-box
 
 # download
-echo -e "${GREEN_COLOR}Download Sing-box init ...${RES}"
+echo -e "${GREEN_COLOR}INFO${RES} Download Sing-box init ..."
 curl --connect-timeout 30 -m 600 -kLo /etc/init.d/sing-box $mirror${download_dir}/sing-box.init
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}Error! download Sing-box init failed.${RES}"
+    echo -e "${RED_COLOR}ERROR${RES} download Sing-box init failed."
     exit 1
 fi
-echo -e "${GREEN_COLOR}Download sing-box config ...${RES}"
+echo -e "${GREEN_COLOR}INFO${RES} Download sing-box config ..."
 curl --connect-timeout 30 -m 600 -kLo /etc/config/sing-box $mirror${download_dir}/sing-box.conf
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}Error! download sing-box.json failed.${RES}"
+    echo -e "${RED_COLOR}ERROR${RES} download sing-box.json failed."
     exit 1
 fi
-echo -e "${GREEN_COLOR}Fix permissions ...${RES}\n"
+echo -e "${GREEN_COLOR}INFO${RES} Fix permissions ...\n"
 chmod +x /etc/init.d/sing-box
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}Error! fix permissions failed.${RES}"
+    echo -e "${RED_COLOR}ERROR${RES} fix permissions failed."
     exit 1
 fi
 
-echo -e "${GREEN_COLOR}Done!${RES}"
+echo -e "${GREEN_COLOR}INFO${RES} Done!"

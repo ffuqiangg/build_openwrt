@@ -15,7 +15,7 @@ start_service() {
     local conffile workdir remote url auto_restart restart_cron
     config_get conffile "main" "conffile"
     config_get workdir "main" "workdir" "/etc/sing-box"
-    config_get_bool remote "subscription" "remote" 1
+    config_get remote "subscription" "remote" 1
     config_get url "subscription" "url"
     config_get_bool auto_restart "subscription" "auto_restart"
     config_get restart_cron "subscription" "restart_cron" "0 5 * * *"
@@ -34,15 +34,23 @@ start_service() {
     experimental="{\"clash_api\":{\"external_controller\":\"0.0.0.0:$external_controller_port\",\"external_ui\":\"$external_ui\",\"secret\":\"$secret\",\"external_ui_download_url\":\"https://gh-proxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip\",\"external_ui_download_detour\":\"direct\",\"default_mode\":\"$default_mode\"},\"cache_file\":{\"enabled\":true,\"store_fakeip\":false}}"
     inbounds="[{\"type\":\"tproxy\",\"tag\":\"tproxy-in\",\"listen\":\"::\",\"listen_port\":$tproxy_port,\"sniff\":true,\"sniff_override_destination\":false},{\"type\":\"mixed\",\"listen\":\"::\",\"listen_port\":2080,\"sniff\":true}]"
 
-    local profile_file
-    if [ "$remote" = "1" ] && [ -n "$url" ]; then
-        if (curl -s -f -A sing-box --connect-timeout 15 --retry 3 -L -X GET -o $workdir/config.tmp $url); then
-            mv $workdir/config.tmp $workdir/subscription.json
+    local profile_file a
+    if [ "$remote" -gt "0" ] && [ -n "$url" ]; then
+        a=1
+        for i in $url; do
+            if (curl -s -f -A sing-box --connect-timeout 15 --retry 3 -L -X GET -o $workdir/config.tmp $i); then
+                mv $workdir/config.tmp $workdir/subscription$a.json
+            else
+                [ -f "$workdir/config.tmp" ] && rm -f $workdir/config.tmp
+            fi
+            let a++
+        done
+        if [ -f "$workdir/subscription$remote.json" ]; then
+            profile_file="$workdir/subscription$remote.json"
         else
-            [ -f "$workdir/config.tmp" ] && rm -f $workdir/config.tmp
+            return 0
         fi
-        profile_file="$workdir/subscription.json"
-    elif [ - f "$workdir/sing-box.json" ]; then
+    elif [ "$remote" = "0" ] && [ -f "$workdir/sing-box.json" ]; then
         profile_file="$workdir/sing-box.json"
     else
         return 0
@@ -78,7 +86,28 @@ start_service() {
     local lan_device lan_subnet
     lan_device=$(ip route show default | awk '/default/ {print $5}')
     lan_subnet=$(ip a | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')
-    nft -f $workdir/nftables.rules -D LAN_SUBNET="$lan_subnet" -D TPROXY_PORT="$tproxy_port"
+    nft -f $workdir/nftables/nftables.rules -D LAN_SUBNET="$lan_subnet" -D TPROXY_PORT="$tproxy_port"
+    nft -f $workdir/nftables/reserved_ip.nft
+
+    local pass_cn_ip
+    config_get_bool pass_cn_ip "proxy" "pass_cn_ip" 0
+    [ "$pass_cn_ip" = "1" ] && nft -f $workdir/nftables/geoip_cn.nft
+
+    local common_ports proxy_tcp_port proxy_udp_port
+    config_get_bool common_ports "proxy" "common_ports" 0
+    if [ "$common_ports" = "1" ]; then
+        proxy_tcp_port='21 22 80 110 143 194 443 465 853 993 995 8080 8443'
+        proxy_udp_port='123 443 8443'
+    else
+        proxy_tcp_port='0-65535'
+        proxy_udp_port='0-65535'
+    fi
+    for proxy_dport in $proxy_tcp_port; do
+        nft add element inet sing-box proxy_dport \{ "tcp" . "$proxy_dport" \}
+    done
+    for proxy_dport in $proxy_udp_port; do
+        nft add element inet sing-box proxy_dport \{ "udp" . "$proxy_dport" \}
+    done
 
     local bridge_nf_call_iptables; bridge_nf_call_iptables=$(sysctl -e -n net.bridge.bridge-nf-call-iptables)
     if [ "$bridge_nf_call_iptables" = "1" ]; then

@@ -13,41 +13,53 @@ if [ $country_code = "CN" ]; then
     fi
 fi
 
-echo -e "\r\n${GREEN_COLOR}Download files ...${RES}\r\n"
+echo -e "\r\n${GREEN_COLOR}INFO${RES} Download files ...\r\n"
 
 # prepare
 if [ -n "$(nft list tables 2>/dev/null)" ]; then
-    firewall="nftables"
+    firewall="nftables"; ff="nft"
 else
-    firewall="iptables"
+    firewall="iptables"; ff="txt"
 fi
 download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/$firewall"
-[ -d /etc/sing-box ] && rm -rf /etc/sing-box && mkdir -p /etc/sing-box
+[ -d /etc/sing-box ] && rm -rf /etc/sing-box && mkdir -p /etc/sing-box/$firewall
 
 # download
-echo -e "${GREEN_COLOR}Download Sing-box init ...${RES}"
+echo -e "${GREEN_COLOR}INFO${RES} Download Sing-box init ..."
 curl --connect-timeout 30 -m 600 -kLo /etc/init.d/sing-box $mirror${download_dir}/sing-box.init
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}Error! download Sing-box init failed.${RES}"
+    echo -e "${RED_COLOR}ERROR${RES} download Sing-box init failed."
     exit 1
 fi
-echo -e "${GREEN_COLOR}Download $firewall rules ...${RES}"
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/$firewall.rules $mirror${download_dir}/$firewall.rules
-if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}Error! download $firewall rules failed.${RES}"
-    exit 1
-fi
-echo -e "${GREEN_COLOR}Download sing-box config ...${RES}"
+echo -e "${GREEN_COLOR}INFO${RES} Download sing-box config ..."
 curl --connect-timeout 30 -m 600 -kLo /etc/config/sing-box $mirror${download_dir}/sing-box.conf
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}Error! download sing-box.json failed.${RES}"
+    echo -e "${RED_COLOR}ERROR${RES} download sing-box config failed."
     exit 1
 fi
-echo -e "${GREEN_COLOR}Fix permissions ...${RES}\n"
+echo -e "${GREEN_COLOR}INFO${RES} Download $firewall rules ..."
+curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/$firewall/$firewall.rules $mirror${download_dir}/$firewall.rules
+if [ $? -ne 0 ]; then
+    echo -e "${RED_COLOR}ERROR${RES} download $firewall rules failed."
+    exit 1
+fi
+echo -e "${GREEN_COLOR}INFO${RES} Download geoip_cn file ..."
+curl --connect-timeout 30 -m 600 -kLo /etc/config/$firewall/geoip_cn.$ff $mirror${download_dir}/geoip_cn.$ff
+if [ $? -ne 0 ]; then
+    echo -e "${RED_COLOR}ERROR${RES} download geoip_cn file failed."
+    exit 1
+fi
+echo -e "${GREEN_COLOR}INFO${RES} Download reserved_ip file ..."
+curl --connect-timeout 30 -m 600 -kLo /etc/config/$firewall/reserved_ip.$ff $mirror${download_dir}/reserved_ip.$ff
+if [ $? -ne 0 ]; then
+    echo -e "${RED_COLOR}ERROR${RES} download reserved_ip file failed."
+    exit 1
+fi
+echo -e "${GREEN_COLOR}INFO${RES} Fix permissions ...\n"
 chmod +x /etc/init.d/sing-box
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}Error! fix permissions failed.${RES}"
+    echo -e "${RED_COLOR}ERROR${RES} fix permissions failed."
     exit 1
 fi
 
-echo -e "${GREEN_COLOR}Done!${RES}"
+echo -e "${GREEN_COLOR}INFO${RES} Done."
