@@ -5,8 +5,6 @@
 # 开始克隆仓库，并行执行
 latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/.tar.gz//g')"
 clone_repo $openwrt_repo $latest_release openwrt &
-clone_repo $immortalwrt_luci_repo openwrt-24.10 immortalwrt_luci_24 &
-clone_repo $immortalwrt_pkg_repo openwrt-24.10 immortalwrt_pkg_24 &
 clone_repo $openwrt_repo openwrt-24.10 openwrt_snap &
 clone_repo $openwrt_repo master openwrt_ma &
 clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
