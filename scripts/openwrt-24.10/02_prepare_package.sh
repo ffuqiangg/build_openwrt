@@ -30,7 +30,7 @@ cp -rf ../patch/btf/* ./target/linux/generic/hack-6.6/
 
 ### 替换准备 ###
 cp -rf ../openwrt-apps ./package/new
-rm -rf package/new/{luci-app-frpc,luci-app-frps,imm_pkg/frp,openwrt_pkg/vlmcsd,openwrt_pkg/luci-app-vlmcsd}
+rm -rf package/new/{luci-app-frpc,luci-app-frps,imm_pkg/frp}
 rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsocks,shadowsocks-libev,zerotier,daed,v2raya}
 rm -rf feeds/luci/applications/{luci-app-zerotier,luci-app-v2raya,luci-app-dockerman}
 rm -rf feeds/packages/utils/coremark
@@ -62,10 +62,6 @@ popd
 sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 # ttyd
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
-# KMS 服务器
-cp -rf ../immortalwrt_luci_24/applications/luci-app-vlmcsd ./package/new/luci-app-vlmcsd
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-vlmcsd/Makefile
-cp -rf ../immortalwrt_pkg_24/net/vlmcsd ./package/new/vlmcsd
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
