@@ -49,7 +49,7 @@ config sing-box 'proxy'
 config sing-box 'subscription'
 	option remote '1'                  # 使用订阅还是本地配置，0 本地配置，1 订阅1，2 订阅2 ...
 	list url ''                        # 订阅链接 1
-	list url ''						   # 订阅链接 2
+	list url ''                        # 订阅链接 2
 	option auto_restart '1'            # 定时重启，0 关闭，1 开启
 	option restart_cron '0 5 * * *'    # 自动重启 cron，默认为每天早上 5 点
 ```
