@@ -3,12 +3,12 @@
 . ./scripts/functions.sh
 
 # Clone source code
-latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/.tar.gz//g')"
+latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/.tar.gz//g')"
 clone_repo $immortalwrt_repo ${latest_release} openwrt &
-clone_repo $immortalwrt_repo openwrt-23.05 openwrt_snap &
+clone_repo $immortalwrt_repo openwrt-24.10 openwrt_snap &
 clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 clone_repo $lede_pkg_repo master lede_pkg &
-clone_repo $node_prebuilt_repo packages-23.05 node &
+clone_repo $node_prebuilt_repo packages-24.10 node &
 clone_repo $openwrt_apps_repo main openwrt-apps &
 clone_repo $amlogic_repo main amlogic &
 # 等待所有后台任务完成

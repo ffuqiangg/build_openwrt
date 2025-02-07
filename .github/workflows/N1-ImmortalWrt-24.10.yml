@@ -1,10 +1,10 @@
-name: N1-ImmortalWrt-23.05
+name: N1-ImmortalWrt-24.10
 
 on:
   workflow_dispatch:
   repository_dispatch:
     types:
-      - N1-ImmortalWrt-23.05
+      - N1-ImmortalWrt-24.10
 
 env:
   TZ: Asia/Shanghai
@@ -58,19 +58,19 @@ jobs:
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
-        cp -r ./scripts/immortalwrt-23.05/. ./
+        cp -r ./scripts/immortalwrt-24.10/. ./
         /bin/bash 01_prepare_source_code.sh
         ln -sf /home/runner/work/build_openwrt/build_openwrt/openwrt /home/runner/work/_actions/ffuqiangg/amlogic-s9xxx-openwrt/main/openwrt
 
     - name: Prepare package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cp -r ../scripts/immortalwrt-23.05/. ./
+        cp -r ../scripts/immortalwrt-24.10/. ./
         /bin/bash 02_prepare_package.sh
 
     - name: Load custom configuration
       run: |
-        latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
+        latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
         kernel_version=$(cat openwrt/include/kernel-5.15 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")
         sed -i "s/DATE/${{ env.build_date }}/;s/WRT_SOUR/ImmortalWrt/;s/RELEASES/${latest_release}/" ./openwrt/files/etc/banner
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
@@ -79,7 +79,7 @@ jobs:
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cp ../config/immortalwrt-23.05/config.seed .config
+        cp ../config/immortalwrt-24.10/config.seed .config
         make defconfig
 
     - name: Download package
@@ -105,7 +105,7 @@ jobs:
       with:
         openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
         openwrt_board: s905d
-        kernel_repo: ffuqiangg/kernel_5.15.y
+        kernel_repo: ffuqiangg/kernel_6.6.y
         openwrt_kernel: ${{ env.kernel_version }}
         kernel_usage: stable
         auto_kernel: false

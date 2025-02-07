@@ -56,9 +56,6 @@ sed -i 's,nas,services,g' feeds/luci/applications/luci-app-hd-idle/root/usr/shar
 pushd feeds/luci/applications/luci-app-vsftpd
 move_2_services nas
 popd
-# Filebrowser
-sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.2," feeds/packages/utils/filebrowser/Makefile
-sed -i "s,PKG_HASH:=.*,PKG_HASH:=bfda9ea7c44d4cb93c47a007c98b84f853874e043049b44eff11ca00157d8426," feeds/packages/utils/filebrowser/Makefile
 # Rclone
 sed -i 's,\"nas\",\"services\",g;s,NAS,Services,g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Docker 容器
@@ -78,7 +75,7 @@ cp -rf ../openwrt-apps/OpenWrt-mihomo ./package/new/luci-app-mihomo
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
 #Vermagic
-latest_version="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/23.05/p' | sed -n 1p | sed 's/v//g' | sed 's/.tar.gz//g')"
+latest_version="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/v//g' | sed 's/.tar.gz//g')"
 wget https://downloads.immortalwrt.org/releases/${latest_version}/targets/armsr/armv8/packages/Packages.gz
 zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' > .vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
@@ -87,7 +84,7 @@ sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic
 mkdir -p files
 cp -rf ../files/init/* files/
 mkdir -p files/etc/uci-defaults
-cp -f ../patch/default-settings/immortalwrt-23.05/zzz-default-settings ./files/etc/uci-defaults/
+cp -f ../patch/default-settings/immortalwrt-24.10/zzz-default-settings ./files/etc/uci-defaults/
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
