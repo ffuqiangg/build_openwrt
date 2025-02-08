@@ -21,7 +21,7 @@ patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
 ### 替换准备 ###
-rm -rf feeds/packages/net/{wget,v2ray-geodata,mosdns,sing-box}
+rm -rf feeds/packages/net/{v2ray-geodata,mosdns,sing-box}
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p package/new
@@ -41,8 +41,8 @@ mkdir -p feeds/packages/utils/cgroupfs-mount/patches
 cp -rf ../patch/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
-# Wget
-cp -rf ../lede_pkg/net/wget ./feeds/packages/net/wget
+# sing-box
+cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./package/new/sing-box
 # Mosdns
 cp -rf ../openwrt-apps/luci-app-mosdns ./package/new/luci-app-mosdns
 cp -rf ../openwrt-apps/openwrt_helloworld/v2ray-geodata ./package/new/v2ray-geodata
