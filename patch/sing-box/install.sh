@@ -44,13 +44,13 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 echo -e "${GREEN_COLOR}INFO${RES} Download geoip_cn file ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/config/$firewall/geoip_cn.$ff $mirror${download_dir}/geoip_cn.$ff
+curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/$firewall/geoip_cn.$ff $mirror${download_dir}/geoip_cn.$ff
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} download geoip_cn file failed."
     exit 1
 fi
 echo -e "${GREEN_COLOR}INFO${RES} Download reserved_ip file ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/config/$firewall/reserved_ip.$ff $mirror${download_dir}/reserved_ip.$ff
+curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/$firewall/reserved_ip.$ff $mirror${download_dir}/reserved_ip.$ff
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} download reserved_ip file failed."
     exit 1
