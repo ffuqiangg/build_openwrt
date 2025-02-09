@@ -95,7 +95,7 @@ start_service() {
     reserved_ip=$(cat $workdir/iptables/reserved_ip.txt)
     lan_device=$(ip route show default | awk '/default/ {print $5}')
     lan_subnet=$(ip a | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')
-    /bin/sh $workdir/iptables.rules $lan_subnet $tproxy_port "$reserved_ip" $pass_cn_ip $ports
+    /bin/sh $workdir/iptables/iptables.rules $lan_subnet $tproxy_port "$reserved_ip" $pass_cn_ip $ports
 
     local bridge_nf_call_iptables; bridge_nf_call_iptables=$(sysctl -e -n net.bridge.bridge-nf-call-iptables)
     if [ "$bridge_nf_call_iptables" = "1" ]; then
