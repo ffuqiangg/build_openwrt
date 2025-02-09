@@ -99,8 +99,6 @@ jobs:
 
     - name: Organize files
       run: |
-        echo '
-        默认 IP：192.168.1.1  /  默认密码：password  /  使用说明：[README](https://github.com/ffuqiangg/build_openwrt/blob/main/doc/readme.md)' > release.md
         rm -rf ./artifact/
         mkdir -p ./artifact/
         mv openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img* ./artifact/
@@ -108,9 +106,12 @@ jobs:
         gzip -d *.gz && exit 0
         gzip --best *.img
         zip N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}-sfs.zip *n1*squashfs*
-        echo "prerelease_symbol=true" >> ${GITHUB_ENV}
         if [[ "${{ github.event_name }}" == 'repository_dispatch' ]]; then
           echo "prerelease_symbol=false" >> ${GITHUB_ENV}
+          sed -i '1,/cutline/d' ./doc/release.md
+        else
+          echo "prerelease_symbol=true" >> ${GITHUB_ENV}
+          sed -i '/cutline/,$d' ./doc/release.md
         fi
 
     - name: Upload firmware to release
@@ -123,7 +124,7 @@ jobs:
         replacesArtifacts: true
         prerelease: ${{ env.prerelease_symbol }}
         artifacts: ./artifact/*.zip
-        bodyFile: release.md
+        bodyFile: doc/release.md
 
     - name: Telegram notification
       if: github.event_name == 'repository_dispatch'
