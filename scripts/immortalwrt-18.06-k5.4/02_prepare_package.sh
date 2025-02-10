@@ -36,8 +36,8 @@ sed -i 's,\"nas\",\"services\",g' feeds/luci/applications/luci-app-hd-idle/luasr
 # Vsftpd
 sed -i 's,\"nas\",\"services\",g;s,NAS,Services,g' feeds/luci/applications/luci-app-vsftpd/luasrc/controller/vsftpd.lua
 # Filebrowser 文件浏览器
-sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.2," feeds/packages/utils/filebrowser/Makefile
-sed -i "s,PKG_MIRROR_HASH:=.*,PKG_MIRROR_HASH:=bfda9ea7c44d4cb93c47a007c98b84f853874e043049b44eff11ca00157d8426," feeds/packages/utils/filebrowser/Makefile
+sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.32\.0," feeds/packages/utils/filebrowser/Makefile
+sed -i "s,PKG_MIRROR_HASH:=.*,PKG_MIRROR_HASH:=61e9de6b2d396614f45be477e5bb5aad189e7bb1155a3f88800e02421bd6cc2b," feeds/packages/utils/filebrowser/Makefile
 sed -i 's,nas,services,g;s,NAS,Services,g' feeds/luci/applications/luci-app-filebrowser/luasrc/controller/filebrowser.lua
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-filebrowser/luasrc/view/filebrowser/filebrowser_status.htm
 # Rclone

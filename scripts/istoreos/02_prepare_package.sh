@@ -53,8 +53,8 @@ cp -rf ../immortalwrt_luci_21/applications/luci-app-filebrowser ./package/new/lu
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-filebrowser/Makefile
 cp -rf ../immortalwrt_pkg_21/utils/filebrowser ./package/new/filebrowser
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' package/new/filebrowser/Makefile
-sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.31\.2," package/new/filebrowser/Makefile
-sed -i "s,PKG_HASH:=.*,PKG_HASH:=bfda9ea7c44d4cb93c47a007c98b84f853874e043049b44eff11ca00157d8426," package/new/filebrowser/Makefile
+sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.32\.0," package/new/filebrowser/Makefile
+sed -i "s,PKG_HASH:=.*,PKG_HASH:=61e9de6b2d396614f45be477e5bb5aad189e7bb1155a3f88800e02421bd6cc2b," package/new/filebrowser/Makefile
 # FTP 服务器
 cp -rf ../immortalwrt_luci_21/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-vsftpd/Makefile
