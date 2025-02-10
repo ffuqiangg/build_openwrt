@@ -89,7 +89,7 @@ start_service() {
 
     local common_ports ports
     config_get_bool common_ports "proxy" "common_ports" 0
-    $ports="$common_ports 21,22,80,110,143,194,443,465,853,993,995,8080,8443 123,443,8443"
+    ports="$common_ports 21,22,80,110,143,194,443,465,853,993,995,8080,8443 123,443,8443"
 
     local lan_device lan_subnet reserved_ip
     reserved_ip=$(cat $workdir/iptables/reserved_ip.txt)
