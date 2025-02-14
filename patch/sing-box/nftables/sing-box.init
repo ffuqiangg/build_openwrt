@@ -8,9 +8,12 @@ PROG="/usr/bin/sing-box"
 start_service() {
     config_load sing-box
 
-    local enabled
+    local enabled output
     config_get_bool enabled "main" "enabled" 0
     [ "$enabled" = "1" ] || return 0
+
+    config_get output "log" "output"
+    rm -f $output
 
     local conffile workdir remote url auto_restart restart_cron
     config_get conffile "main" "conffile"
@@ -27,12 +30,52 @@ start_service() {
     config_get external_ui "experimental" "external_ui" "ui"
     config_get secret "experimental" "secret" "ffuqiangg"
     config_get default_mode "experimental" "default_mode" "rule"
+    config_get_bool store_fakeip "experimental" "store_fakeip" 0
     config_get tproxy_port "inbounds" "tproxy_port" "10105"
 
     local log experimental inbounds
-    log="{\"disabled\":false,\"level\":\"$level\",\"output\":\"$output\",\"timestamp\":true}"
-    experimental="{\"clash_api\":{\"external_controller\":\"0.0.0.0:$external_controller_port\",\"external_ui\":\"$external_ui\",\"secret\":\"$secret\",\"external_ui_download_url\":\"https://gh-proxy.com/https://github.com/MetaCubeX/metacubexd/archive/gh-pages.zip\",\"external_ui_download_detour\":\"direct\",\"default_mode\":\"$default_mode\"},\"cache_file\":{\"enabled\":true,\"store_fakeip\":false}}"
-    inbounds="[{\"type\":\"tproxy\",\"tag\":\"tproxy-in\",\"listen\":\"::\",\"listen_port\":$tproxy_port,\"sniff\":true,\"sniff_override_destination\":false},{\"type\":\"mixed\",\"listen\":\"::\",\"listen_port\":2080,\"sniff\":true}]"
+    if [ "$store_fakeip" = "0" ]; then store_fakeip='false'; else store_fakeip='true'; fi
+    log="{
+        \"disabled\":false,
+        \"level\":\"$level\",
+        \"output\":\"$output\",
+        \"timestamp\":true
+        }"
+    experimental="{
+        \"clash_api\":
+        {
+        \"external_controller\":\"0.0.0.0:$external_controller_port\",
+        \"external_ui\":\"$external_ui\",
+        \"secret\":\"$secret\",
+        \"external_ui_download_url\":\"https://gh-proxy.com/github.com/MetaCubeX/metacubexd/archive/gh-pages.zip\",
+        \"external_ui_download_detour\":\"direct\",
+        \"default_mode\":\"$default_mode\"
+        },
+        \"cache_file\":
+        {
+        \"enabled\":true,
+        \"store_fakeip\":$store_fakeip
+        }
+        }"
+    inbounds="[
+        {
+        \"type\":\"tproxy\",
+        \"tag\":\"tproxy-in\",
+        \"listen\":\"::\",
+        \"listen_port\":$tproxy_port,
+        \"sniff\":true,
+        \"sniff_override_destination\":false
+        },
+        {
+        \"type\":\"mixed\",
+        \"listen\":\"::\",
+        \"listen_port\":2080,
+        \"sniff\":true
+        }
+        ]"
+    log=$(echo $log | sed 's/ //g')
+    experimental=$(echo $experimental | sed 's/ //g')
+    inbounds=$(echo $inbounds | sed 's/ //g')
 
     local profile_file a
     if [ "$remote" -gt "0" ] && [ -n "$url" ]; then
@@ -50,21 +93,28 @@ start_service() {
         else
             return 0
         fi
-    elif [ "$remote" = "0" ] && [ -f "$workdir/sing-box.json" ]; then
+    elif [ "$remote" = "0" ] || [ "$remote" = "-1" ] && [ -f "$workdir/sing-box.json" ]; then
         profile_file="$workdir/sing-box.json"
     else
         return 0
     fi
 
-    jq --argjson log $log --argjson experimental $experimental --argjson inbounds $inbounds '.log=$log | .experimental=$experimental | .inbounds=$inbounds' $profile_file > $workdir/config.tmp
+    if [ "$remote" = "-1" ]; then
+        cp -f $profile_file $conffile
+    else
+        jq --argjson log $log \
+        --argjson experimental $experimental \
+        --argjson inbounds $inbounds \
+        '.log=$log | .experimental=$experimental | .inbounds=$inbounds' \
+        $profile_file \
+        > $conffile
+    fi
     
     local mixin mixfile
     config_get mixin "mix" "mixin" 0
     config_get mixfile "mix" "mixfile"
     if [ "$mixin" = "1" ] && [ -f "$mixfile" ]; then
-        jq -s add $workdir/config.tmp $mixfile > $conffile && rm -f $workdir/config.tmp
-    else
-        mv $workdir/config.tmp $conffile
+        jq -s add $conffile $mixfile > $workdir/config.tmp && mv $workdir/config.tmp $conffile
     fi
 
     procd_open_instance sing-box
@@ -85,7 +135,7 @@ start_service() {
 
     local lan_device lan_subnet
     lan_device=$(ip route show default | awk '/default/ {print $5}')
-    lan_subnet=$(ip a | grep inet | grep "$lan_device" | awk '{print $2}' | sed 's,[^.]*/,0/,')
+    lan_subnet=$(ip a | grep inet | awk "/$lan_device/ {print \$2}" | sed 's,[^.]*/,0/,')
     nft -f $workdir/nftables/nftables.rules -D LAN_SUBNET="$lan_subnet" -D TPROXY_PORT="$tproxy_port"
     nft -f $workdir/nftables/reserved_ip.nft
 
@@ -125,16 +175,11 @@ start_service() {
 stop_service() {
     config_load sing-box
 
-    local output workdir
-    config_get workdir "main" "workdir" "/etc/sing-box"
-    config_get output "log" "output"
-
-    rm -f $output
-
     ip rule del fwmark 1 table 100
     ip route del local 0.0.0.0/0 dev lo table 100
     nft delete table inet sing-box
 
+    local workdir; config_get workdir "main" "workdir" "/etc/sing-box"
     if [ -f "$workdir/br_netfilter.flag" ]; then
         rm -f $workdir/br_netfilter.flag
         sysctl -q -w net.bridge.bridge-nf-call-iptables=1
