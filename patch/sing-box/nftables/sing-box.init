@@ -12,7 +12,7 @@ start_service() {
     config_get_bool enabled "main" "enabled" 0
     [ "$enabled" = "1" ] || return 0
 
-    config_get output "log" "output"
+    config_get output "log" "output" "/var/log/sing-box.log"
     rm -f $output
 
     local conffile workdir remote url auto_restart restart_cron
@@ -23,9 +23,8 @@ start_service() {
     config_get_bool auto_restart "subscription" "auto_restart"
     config_get restart_cron "subscription" "restart_cron" "0 5 * * *"
 
-    local level output external_controller_port external_ui secret default_mode tproxy_port
+    local level external_controller_port external_ui secret default_mode store_fakeip tproxy_port
     config_get level "log" "level" "warn"
-    config_get output "log" "output" "/var/log/sing-box.log"
     config_get external_controller_port "experimental" "external_controller_port" "9900"
     config_get external_ui "experimental" "external_ui" "ui"
     config_get secret "experimental" "secret" "ffuqiangg"
@@ -36,43 +35,34 @@ start_service() {
     local log experimental inbounds
     if [ "$store_fakeip" = "0" ]; then store_fakeip='false'; else store_fakeip='true'; fi
     log="{
-        \"disabled\":false,
-        \"level\":\"$level\",
-        \"output\":\"$output\",
-        \"timestamp\":true
+          \"disabled\":false,
+          \"level\":\"$level\",
+          \"output\":\"$output\",
+          \"timestamp\":true
         }"
     experimental="{
-        \"clash_api\":
-        {
-        \"external_controller\":\"0.0.0.0:$external_controller_port\",
-        \"external_ui\":\"$external_ui\",
-        \"secret\":\"$secret\",
-        \"external_ui_download_url\":\"https://gh-proxy.com/github.com/MetaCubeX/metacubexd/archive/gh-pages.zip\",
-        \"external_ui_download_detour\":\"direct\",
-        \"default_mode\":\"$default_mode\"
-        },
-        \"cache_file\":
-        {
-        \"enabled\":true,
-        \"store_fakeip\":$store_fakeip
-        }
+        \"clash_api\":{
+          \"external_controller\":\"0.0.0.0:$external_controller_port\",
+          \"external_ui\":\"$external_ui\",
+          \"secret\":\"$secret\",
+          \"external_ui_download_url\":\"https://gh-proxy.com/github.com/MetaCubeX/metacubexd/archive/gh-pages.zip\",
+          \"external_ui_download_detour\":\"direct\",
+          \"default_mode\":\"$default_mode\"},
+        \"cache_file\":{
+          \"enabled\":true,
+          \"store_fakeip\":$store_fakeip}
         }"
-    inbounds="[
-        {
-        \"type\":\"tproxy\",
-        \"tag\":\"tproxy-in\",
-        \"listen\":\"::\",
-        \"listen_port\":$tproxy_port,
-        \"sniff\":true,
-        \"sniff_override_destination\":false
-        },
-        {
-        \"type\":\"mixed\",
-        \"listen\":\"::\",
-        \"listen_port\":2080,
-        \"sniff\":true
-        }
-        ]"
+    inbounds="[{
+          \"type\":\"tproxy\",
+          \"tag\":\"tproxy-in\",
+          \"listen\":\"::\",
+          \"listen_port\":$tproxy_port
+        },{
+          \"type\":\"mixed\",
+          \"tag\":\"mixed-in\",
+          \"listen\":\"::\",
+          \"listen_port\":2080
+        }]"
     log=$(echo $log | sed 's/ //g')
     experimental=$(echo $experimental | sed 's/ //g')
     inbounds=$(echo $inbounds | sed 's/ //g')
@@ -99,17 +89,45 @@ start_service() {
         return 0
     fi
 
+    local block_tag route_rules_dns route_rules
     if [ "$remote" = "-1" ]; then
         cp -f $profile_file $conffile
     else
-        jq --argjson log $log \
-        --argjson experimental $experimental \
-        --argjson inbounds $inbounds \
-        '.log=$log | .experimental=$experimental | .inbounds=$inbounds' \
-        $profile_file \
-        > $conffile
+        route_rules_dns='[{"action":"sniff"},{"protocol":"dns","action":"hijack-dns"}]'
+        if [ -n "$(jq '.route.rules[] | select(.action)' $profile_file)" ]; then
+            route_rules=$(cat $profile_file | \
+                jq -c \
+                --argjson route_rules_dns $route_rules_dns \
+                '.route.rules |
+                del(.[] | select(.action=="sniff" or .action=="hijack-dns" or .action=="resolve")) |
+                $route_rules_dns + .')
+            jq --argjson log $log \
+               --argjson experimental $experimental \
+               --argjson inbounds $inbounds \
+               --argjson route_rules $route_rules \
+               '.log=$log | .experimental=$experimental | .inbounds=$inbounds | .route.rules=$route_rules' \
+               $profile_file \
+               > $conffile
+        else
+            block_tag=$(jq -r '.outbounds[] | select(.type=="block") | .tag' $profile_file)
+            route_rules=$(cat $profile_file | \
+                jq -c \
+                --argjson route_rules_dns $route_rules_dns \
+                '.route.rules |
+                del(.[] | select(.protocol=="dns")) |
+                $route_rules_dns + .' | \
+                sed "s/\"outbound\":\"$block_tag\"/\"action\":\"reject\"/g")
+            jq --argjson log $log \
+               --argjson experimental $experimental \
+               --argjson inbounds $inbounds \
+               --argjson route_rules $route_rules \
+               '.log=$log | .experimental=$experimental | .inbounds=$inbounds | .route.rules=$route_rules' \
+               $profile_file | \
+               jq 'del(.outbounds[] | select(.type=="dns" or .type=="block"))' \
+               > $conffile
+        fi
     fi
-    
+
     local mixin mixfile
     config_get mixin "mix" "mixin" 0
     config_get mixfile "mix" "mixfile"
