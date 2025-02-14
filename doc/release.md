@@ -11,8 +11,8 @@
 |固件 \ 插件 |PassWall |OpenClash |V2rayA |HomeProxy |Mihomo |DAED |
 |:---: |:---: |:---: |:---: |:---: |:---: |:---: |
 |ImmortalWrt-18.06 |⭕ |⭕ |⭕ |❌ |❌ |❌ |
-|ImmortalWrt-23.05 |⭕ |❌ |⭕ |⭕ |⭕ |⭕ |
-|Openwrt-23.05 |⭕ |❌ |⭕ |⭕ |⭕ |⭕ |
+|ImmortalWrt-24.10 |⭕ |❌ |⭕ |⭕ |⭕ |⭕ |
+|Openwrt-24.10 |⭕ |❌ |⭕ |⭕ |⭕ |⭕ |
 |LEDE |⭕ |❌ |⭕ |❌ |⭕ |⭕ |
 |iStoreOS-22.03 |⭕ |⭕ |⭕ |❌ |❌ |❌ |
 
