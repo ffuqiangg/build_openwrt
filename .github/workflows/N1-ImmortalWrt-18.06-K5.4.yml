@@ -134,10 +134,10 @@ jobs:
         zip N1-ImmortalWrt-18.06-k5.4-${{ env.build_date }}.zip *.img.gz
         if [[ "${{ github.event_name }}" == 'repository_dispatch' ]]; then
           echo "prerelease_symbol=false" >> ${GITHUB_ENV}
-          sed -i '1,/cutline/d' ./doc/release.md
+          sed -i '1,/cutline/d' ../doc/release.md
         else
           echo "prerelease_symbol=true" >> ${GITHUB_ENV}
-          sed -i '/cutline/,$d' ./doc/release.md
+          sed -i '/cutline/,$d' ../doc/release.md
         fi
 
     - name: Upload firmware to release
@@ -150,7 +150,7 @@ jobs:
         replacesArtifacts: true
         prerelease: ${{ env.prerelease_symbol }}
         artifacts: ./artifact/*.zip
-        bodyFile: doc/release.md
+        bodyFile: ../doc/release.md
 
     - name: Telegram notification
       if: github.event_name == 'repository_dispatch'
