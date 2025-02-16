@@ -11,11 +11,12 @@ PROXY_UDP_PORT=$7
 iptables -t mangle -N singbox
 for i in $RESERVED_IP; do iptables -t mangle -A singbox -d $i -j RETURN; done
 [ "$PASS_CN_IP" = "1" ] && iptables -t mangle -A singbox -m set --match-set cn_ip dst -j RETURN
-iptables -t mangle -A singbox -d $LAN_SUBNET -p tcp -j RETURN
-iptables -t mangle -A singbox -d $LAN_SUBNET -p udp ! --dport 53 -j RETURN
 if [ "$COMMON_PORTS" = 1 ]; then
-    iptables -t mangle -A singbox -p tcp -m multiport ! --dport $PROXY_TCP_PORT -j RETURN
-    iptables -t mangle -A singbox -p udp -m multiport ! --dport $PROXY_UDP_PORT -j RETURN
+    iptables -t mangle -A singbox -d $LAN_SUBNET -p tcp -m multiport ! --dport $PROXY_TCP_PORT -j RETURN
+    iptables -t mangle -A singbox -d $LAN_SUBNET -p udp -m multiport ! --dport $PROXY_UDP_PORT -j RETURN
+else
+    iptables -t mangle -A singbox -d $LAN_SUBNET -p tcp -j RETURN
+    iptables -t mangle -A singbox -d $LAN_SUBNET -p udp ! --dport 53 -j RETURN
 fi
 iptables -t mangle -A singbox -j RETURN -m mark --mark 0xff
 iptables -t mangle -A singbox -p udp -j TPROXY --on-ip 127.0.0.1 --on-port $TPROXY_PORT --tproxy-mark 1
@@ -25,11 +26,12 @@ iptables -t mangle -A PREROUTING -j singbox
 iptables -t mangle -N singbox_local
 for i in $RESERVED_IP; do iptables -t mangle -A singbox_local -d $i -j RETURN; done
 [ "$PASS_CN_IP" = "1" ] && iptables -t mangle -A singbox_local -m set --match-set cn_ip dst -j RETURN
-iptables -t mangle -A singbox_local -d $LAN_SUBNET -p tcp -j RETURN
-iptables -t mangle -A singbox_local -d $LAN_SUBNET -p udp ! --dport 53 -j RETURN
 if [ "$COMMON_PORTS" = 1 ]; then
-    iptables -t mangle -A singbox_local -p tcp -m multiport ! --dport $PROXY_TCP_PORT -j RETURN
-    iptables -t mangle -A singbox_local -p udp -m multiport ! --dport $PROXY_UDP_PORT -j RETURN
+    iptables -t mangle -A singbox_local -d $LAN_SUBNET -p tcp -m multiport ! --dport $PROXY_TCP_PORT -j RETURN
+    iptables -t mangle -A singbox_local -d $LAN_SUBNET -p udp -m multiport ! --dport $PROXY_UDP_PORT -j RETURN
+else
+    iptables -t mangle -A singbox_local -d $LAN_SUBNET -p tcp -j RETURN
+    iptables -t mangle -A singbox_local -d $LAN_SUBNET -p udp ! --dport 53 -j RETURN
 fi
 iptables -t mangle -A singbox_local -j RETURN -m mark --mark 0xff
 iptables -t mangle -A singbox_local -p udp -j MARK --set-mark 1
