@@ -193,9 +193,9 @@ start_service() {
 stop_service() {
     config_load sing-box
 
-    ip rule del fwmark 1 table 100 2>/dev/null
-    ip route del local 0.0.0.0/0 dev lo table 100 2>/dev/null
-    nft delete table inet sing-box 2>/dev/null
+    ip rule del fwmark 1 table 100 > /dev/null
+    ip route del local 0.0.0.0/0 dev lo table 100 > /dev/null
+    nft delete table inet sing-box > /dev/null
 
     local workdir; config_get workdir "main" "workdir" "/etc/sing-box"
     if [ -f "$workdir/br_netfilter.flag" ]; then
