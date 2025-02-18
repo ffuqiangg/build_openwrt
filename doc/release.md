@@ -8,7 +8,7 @@
 
 ### 固件差异
 
-|固件 \ 插件 |PassWall |OpenClash |V2rayA |HomeProxy |Mihomo |DAED |
+|固件 \ 插件 |PassWall |OpenClash |V2rayA |HomeProxy |Nikki |DAED |
 |:---: |:---: |:---: |:---: |:---: |:---: |:---: |
 |ImmortalWrt-18.06 |⭕ |⭕ |⭕ |❌ |❌ |❌ |
 |ImmortalWrt-24.10 |⭕ |❌ |⭕ |⭕ |⭕ |⭕ |
