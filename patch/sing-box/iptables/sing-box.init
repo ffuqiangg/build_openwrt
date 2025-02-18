@@ -176,7 +176,7 @@ start_service() {
     fi
 
     if [ "$auto_restart" = "1" ]; then
-        sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null
+        sed -i '/sing-box/d' /etc/crontabs/root
         echo -e "$restart_cron /etc/init.d/sing-box restart" >> /etc/crontabs/root
         /etc/init.d/cron restart
     fi
@@ -185,8 +185,8 @@ start_service() {
 stop_service() {
     config_load sing-box
 
-    ip rule del fwmark 1 table 100
-    ip route del local 0.0.0.0/0 dev lo table 100
+    ip rule del fwmark 1 table 100 2>/dev/null
+    ip route del local 0.0.0.0/0 dev lo table 100 2>/dev/null
     iptables -t mangle -F
     for i in singbox singbox_local divert; do iptables -t mangle -X $i 2>/dev/null; done
     iptables -t mangle -F
@@ -199,6 +199,6 @@ stop_service() {
         sysctl -q -w net.bridge.bridge-nf-call-iptables=1
     fi
 
-    sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null
+    sed -i '/sing-box/d' /etc/crontabs/root
     /etc/init.d/cron restart
 }

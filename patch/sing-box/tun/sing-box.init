@@ -153,13 +153,13 @@ start_service() {
     procd_close_instance
 
     if [ "$auto_restart" = "1" ]; then
-        sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null
+        sed -i '/sing-box/d' /etc/crontabs/root
         echo -e "$restart_cron /etc/init.d/sing-box restart" >> /etc/crontabs/root
         /etc/init.d/cron restart
     fi
 }
 
 stop_service() {
-    sed -i '/sing-box/d' /etc/crontabs/root 2>/dev/null
+    sed -i '/sing-box/d' /etc/crontabs/root
     /etc/init.d/cron restart
 }
