@@ -69,8 +69,8 @@ sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/
 pushd feeds/luci/applications/luci-app-verysync
 move_2_services nas
 popd
-# Mihomo
-cp -rf ../openwrt-apps/OpenWrt-mihomo ./package/new/luci-app-mihomo
+# Nikki
+cp -rf ../openwrt-apps/OpenWrt-nikki ./package/new/luci-app-nikki
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
