@@ -155,12 +155,12 @@ start_service() {
     config_get_bool pass_cn_ip "proxy" "pass_cn_ip" 0
     [ "$pass_cn_ip" = "1" ] && ipset -! restore -f $workdir/iptables/geoip_cn.txt
 
-    local common_ports proxy_port
+    local common_ports proxy_ports
     config_get_bool common_ports "proxy" "common_ports" 0
     if [ "$common_ports" = "1" ]; then
-        proxy_port='21 22 53 80 110 123 143 194 443 465 853 993 995 8080 8443'
+        proxy_ports='21 22 53 80 110 123 143 194 443 465 853 993 995 8080 8443'
         ipset create common_ports bitmap:port range 0-65535
-        for i in $proxy_port; do ipset add common_ports $i; done
+        for i in $proxy_ports; do ipset add common_ports $i; done
     fi
 
     local lan_device lan_subnet reserved_ip
