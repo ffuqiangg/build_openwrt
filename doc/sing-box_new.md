@@ -90,7 +90,7 @@ config sing-box 'mix'
 ```
 - 模板功能通常配合订阅使用，用以对 dns route 等进行自定义。本地配置文件完全没必要使用这个功能直接修改原文件就好。
 - 模板功能会依照模板文件完整替换配置文件 `top-level` 的 objects 。且对配置文件的修改拥有最高权限（包括本地配置 -1 也会被修改），会覆盖服务脚本对配置文件的必要调整，一定要谨慎使用。
-- 服务默认只修改必要的部分以满足作为代理网关使用的需求，需要更多自定义就可以使用这个功能。范本 [mixin.json](https://gist.github.com/ffuqiangg/d9bfcb1b37e58e6450711cd8060b57c8)，更多请参考[官方配置文档](https://sing-box.sagernet.org/zh/configuration/)。
+- 服务默认只修改必要的部分以满足作为代理网关使用的需求，需要更多自定义就可以使用这个功能。范本 [mixin.json](https://gist.githubusercontent.com/ffuqiangg/c3f004f7a7baee46e658cc47152a9466/raw/mixin.json)，更多请参考[官方配置文档](https://sing-box.sagernet.org/zh/configuration/)。
 
 ### 极简配置
 
