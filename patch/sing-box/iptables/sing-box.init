@@ -185,13 +185,13 @@ start_service() {
 stop_service() {
     config_load sing-box
 
-    ip rule del fwmark 1 table 100 > /dev/null
-    ip route del local 0.0.0.0/0 dev lo table 100 > /dev/null
+    ip rule del fwmark 1 table 100 2>/dev/null
+    ip route del local 0.0.0.0/0 dev lo table 100 2>/dev/null
     iptables -t mangle -F
-    for i in singbox singbox_local divert; do iptables -t mangle -X $i > /dev/null; done
+    for i in singbox singbox_local divert; do iptables -t mangle -X $i 2>/dev/null; done
     iptables -t mangle -F
-    ipset destroy cn_ip > /dev/null
-    ipset destroy common_ports > /dev/null
+    ipset destroy cn_ip 2>/dev/null
+    ipset destroy common_ports 2>/dev/null
 
     local workdir; config_get workdir "main" "workdir" "/etc/sing-box"
     if [ -f "$workdir/br_netfilter.flag" ]; then
