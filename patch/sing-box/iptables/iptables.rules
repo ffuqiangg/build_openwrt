@@ -5,11 +5,16 @@ TPROXY_PORT=$2
 RESERVED_IP=$3
 PASS_CN_IP=$4
 COMMON_PORTS=$5
+PROXY_TCP_PORTS=$6
+PROXY_UDP_PORTS=$7
 
 iptables -t mangle -N singbox
 for i in $RESERVED_IP; do iptables -t mangle -A singbox -d $i -j RETURN; done
 [ "$PASS_CN_IP" = "1" ] && iptables -t mangle -A singbox -m set --match-set cn_ip dst -j RETURN
-[ "$COMMON_PORTS" = "1" ] && iptables -t mangle -A singbox -m set ! --match-set common_ports dst -j RETURN
+if [ "$COMMON_PORTS" = "1" ]; then
+    iptables -t mangle -A singbox -p tcp -m multiport ! --dport $PROXY_TCP_PORTS -j RETURN
+    iptables -t mangle -A singbox -p udp -m multiport ! --dport $PROXY_UDP_PORTS -j RETURN
+fi
 iptables -t mangle -A singbox -d $LAN_SUBNET -p tcp -j RETURN
 iptables -t mangle -A singbox -d $LAN_SUBNET -p udp ! --dport 53 -j RETURN
 iptables -t mangle -A singbox -j RETURN -m mark --mark 0xff
@@ -20,7 +25,10 @@ iptables -t mangle -A PREROUTING -j singbox
 iptables -t mangle -N singbox_local
 for i in $RESERVED_IP; do iptables -t mangle -A singbox_local -d $i -j RETURN; done
 [ "$PASS_CN_IP" = "1" ] && iptables -t mangle -A singbox_local -m set --match-set cn_ip dst -j RETURN
-[ "$COMMON_PORTS" = "1" ] && iptables -t mangle -A singbox_local -m set ! --match-set common_ports dst -j RETURN
+if [ "$COMMON_PORTS" = "1" ]; then
+    iptables -t mangle -A singbox_local -p tcp -m multiport ! --dport $PROXY_TCP_PORTS -j RETURN
+    iptables -t mangle -A singbox_local -p udp -m multiport ! --dport $PROXY_UDP_PORTS -j RETURN
+fi
 iptables -t mangle -A singbox_local -d $LAN_SUBNET -p tcp -j RETURN
 iptables -t mangle -A singbox_local -d $LAN_SUBNET -p udp ! --dport 53 -j RETURN
 iptables -t mangle -A singbox_local -j RETURN -m mark --mark 0xff
