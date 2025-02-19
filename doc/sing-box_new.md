@@ -64,7 +64,7 @@ config sing-box 'subscription'
 - 如果有更多订阅，配置中新建更多 list url 选项即可。
 - 使用订阅或本地配置 0 会按照 `4. 网关相关配置` 设置对配置文件做必要调整[^1]，本地配置 -1 则不会对配置文件做任何修改（确保 tproxy 监听端口与 `4. 网关相关配置` 中的 `tproxy_port` 设置一致）。
 
-[^1]: 服务会调整的部分包含完整的 .log .experimental 和 .inbounds ，以及 .route.rules 中与 inbounds 和 dns 相关的部分。
+[^1]: 服务会调整的部分包含完整的 `.log` `.experimental` 和 `.inbounds` ，以及 `.route.rules` 中与 inbounds 和 dns 相关的部分。
 
 4. **网关相关配置** `2025,02.14 更新添加缓存 fakeip 开关`
 ```config
