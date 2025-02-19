@@ -8,12 +8,8 @@ PROG="/usr/bin/sing-box"
 start_service() {
     config_load sing-box
 
-    local enabled output
-    config_get_bool enabled "main" "enabled" 0
+    local enabled; config_get_bool enabled "main" "enabled" 0
     [ "$enabled" = "1" ] || return 0
-
-    config_get output "log" "output" "/var/log/sing-box.log"
-    rm -f $output
 
     local conffile workdir remote url auto_restart restart_cron
     config_get conffile "main" "conffile"
@@ -187,6 +183,9 @@ start_service() {
 
 stop_service() {
     config_load sing-box
+
+    local output; config_get output "log" "output" "/var/log/sing-box.log"
+    rm -f $output
 
     ip rule del fwmark 1 table 100 2>/dev/null
     ip route del local 0.0.0.0/0 dev lo table 100 2>/dev/null

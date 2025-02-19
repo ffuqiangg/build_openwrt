@@ -8,12 +8,8 @@ PROG="/usr/bin/sing-box"
 start_service() {
     config_load sing-box
 
-    local enabled output
-    config_get_bool enabled "main" "enabled" 0
+    local enabled; config_get_bool enabled "main" "enabled" 0
     [ "$enabled" = "1" ] || return 0
-
-    config_get output "log" "output" "/var/log/sing-box.log"
-    rm -f $output
 
     local conffile workdir remote url auto_restart restart_cron
     config_get conffile "main" "conffile"
@@ -31,6 +27,28 @@ start_service() {
     config_get default_mode "experimental" "default_mode" "rule"
     config_get_bool store_fakeip "experimental" "store_fakeip" 0
     config_get mtu "inbounds" "mtu" "9000"
+
+    local profile_file a
+    if [ "$remote" -gt "0" ] && [ -n "$url" ]; then
+        a=1
+        for i in $url; do
+            if (curl -s -f -A sing-box --connect-timeout 15 --retry 3 -L -X GET -o $workdir/config.tmp $i); then
+                mv $workdir/config.tmp $workdir/subscription$a.json
+            else
+                [ -f "$workdir/config.tmp" ] && rm -f $workdir/config.tmp
+            fi
+            let a++
+        done
+        if [ -f "$workdir/subscription$remote.json" ]; then
+            profile_file="$workdir/subscription$remote.json"
+        else
+            return 0
+        fi
+    elif [ "$remote" = "0" ] || [ "$remote" = "-1" ] && [ -f "$workdir/sing-box.json" ]; then
+        profile_file="$workdir/sing-box.json"
+    else
+        return 0
+    fi
 
     local log experimental inbounds
     if [ "$store_fakeip" = "0" ]; then store_fakeip='false'; else store_fakeip='true'; fi
@@ -68,31 +86,6 @@ start_service() {
           \"listen_port\":2080,
           \"sniff\":true
         }]"
-    log=$(echo $log | sed 's/ //g')
-    experimental=$(echo $experimental | sed 's/ //g')
-    inbounds=$(echo $inbounds | sed 's/ //g')
-
-    local profile_file a
-    if [ "$remote" -gt "0" ] && [ -n "$url" ]; then
-        a=1
-        for i in $url; do
-            if (curl -s -f -A sing-box --connect-timeout 15 --retry 3 -L -X GET -o $workdir/config.tmp $i); then
-                mv $workdir/config.tmp $workdir/subscription$a.json
-            else
-                [ -f "$workdir/config.tmp" ] && rm -f $workdir/config.tmp
-            fi
-            let a++
-        done
-        if [ -f "$workdir/subscription$remote.json" ]; then
-            profile_file="$workdir/subscription$remote.json"
-        else
-            return 0
-        fi
-    elif [ "$remote" = "0" ] || [ "$remote" = "-1" ] && [ -f "$workdir/sing-box.json" ]; then
-        profile_file="$workdir/sing-box.json"
-    else
-        return 0
-    fi
 
     if [ "$remote" = "-1" ]; then
         cp -f $profile_file $conffile
@@ -100,31 +93,29 @@ start_service() {
         route_rules_dns='[{"action":"sniff"},{"protocol":"dns","action":"hijack-dns"}]'
         if [ -n "$(jq '.route.rules[] | select(.action)' $profile_file)" ]; then
             route_rules=$(cat $profile_file | \
-                jq -c \
-                --argjson route_rules_dns $route_rules_dns \
+                jq --argjson route_rules_dns $route_rules_dns \
                 '.route.rules |
                 del(.[] | select(.action=="sniff" or .action=="hijack-dns" or .action=="resolve")) |
                 $route_rules_dns + .')
-            jq --argjson log $log \
-               --argjson experimental $experimental \
-               --argjson inbounds $inbounds \
-               --argjson route_rules $route_rules \
+            jq --argjson log "$log" \
+               --argjson experimental "$experimental" \
+               --argjson inbounds "$inbounds" \
+               --argjson route_rules "$route_rules" \
                '.log=$log | .experimental=$experimental | .inbounds=$inbounds | .route.rules=$route_rules' \
                $profile_file \
                > $conffile
         else
             block_tag=$(jq -r '.outbounds[] | select(.type=="block") | .tag' $profile_file)
             route_rules=$(cat $profile_file | \
-                jq -c \
-                --argjson route_rules_dns $route_rules_dns \
+                jq --argjson route_rules_dns $route_rules_dns \
                 '.route.rules |
                 del(.[] | select(.protocol=="dns")) |
                 $route_rules_dns + .' | \
-                sed "s/\"outbound\":\"$block_tag\"/\"action\":\"reject\"/g")
-            jq --argjson log $log \
-               --argjson experimental $experimental \
-               --argjson inbounds $inbounds \
-               --argjson route_rules $route_rules \
+                sed "s/\"outbound\": \"$block_tag\"/\"action\": \"reject\"/g")
+            jq --argjson log "$log" \
+               --argjson experimental "$experimental" \
+               --argjson inbounds "$inbounds" \
+               --argjson route_rules "$route_rules" \
                '.log=$log | .experimental=$experimental | .inbounds=$inbounds | .route.rules=$route_rules' \
                $profile_file | \
                jq 'del(.outbounds[] | select(.type=="dns" or .type=="block"))' \
@@ -160,6 +151,11 @@ start_service() {
 }
 
 stop_service() {
+    config_load sing-box
+
+    local output; config_get output "log" "output" "/var/log/sing-box.log"
+    rm -f $output
+
     sed -i '/sing-box/d' /etc/crontabs/root
     /etc/init.d/cron restart
 }
