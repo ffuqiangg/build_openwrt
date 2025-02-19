@@ -63,9 +63,6 @@ start_service() {
           \"listen\":\"::\",
           \"listen_port\":2080
         }]"
-    log=$(echo $log | sed 's/ //g')
-    experimental=$(echo $experimental | sed 's/ //g')
-    inbounds=$(echo $inbounds | sed 's/ //g')
 
     local profile_file a
     if [ "$remote" -gt "0" ] && [ -n "$url" ]; then
@@ -96,31 +93,29 @@ start_service() {
         route_rules_dns='[{"action":"sniff"},{"protocol":"dns","action":"hijack-dns"}]'
         if [ -n "$(jq '.route.rules[] | select(.action)' $profile_file)" ]; then
             route_rules=$(cat $profile_file | \
-                jq -c \
-                --argjson route_rules_dns $route_rules_dns \
+                jq --argjson route_rules_dns $route_rules_dns \
                 '.route.rules |
                 del(.[] | select(.action=="sniff" or .action=="hijack-dns" or .action=="resolve")) |
                 $route_rules_dns + .')
-            jq --argjson log $log \
-               --argjson experimental $experimental \
-               --argjson inbounds $inbounds \
-               --argjson route_rules $route_rules \
+            jq --argjson log "$log" \
+               --argjson experimental "$experimental" \
+               --argjson inbounds "$inbounds" \
+               --argjson route_rules "$route_rules" \
                '.log=$log | .experimental=$experimental | .inbounds=$inbounds | .route.rules=$route_rules' \
                $profile_file \
                > $conffile
         else
             block_tag=$(jq -r '.outbounds[] | select(.type=="block") | .tag' $profile_file)
             route_rules=$(cat $profile_file | \
-                jq -c \
-                --argjson route_rules_dns $route_rules_dns \
+                jq --argjson route_rules_dns $route_rules_dns \
                 '.route.rules |
                 del(.[] | select(.protocol=="dns")) |
                 $route_rules_dns + .' | \
-                sed "s/\"outbound\":\"$block_tag\"/\"action\":\"reject\"/g")
-            jq --argjson log $log \
-               --argjson experimental $experimental \
-               --argjson inbounds $inbounds \
-               --argjson route_rules $route_rules \
+                sed "s/\"outbound\": \"$block_tag\"/\"action\": \"reject\"/g")
+            jq --argjson log "$log" \
+               --argjson experimental "$experimental" \
+               --argjson inbounds "$inbounds" \
+               --argjson route_rules "$route_rules" \
                '.log=$log | .experimental=$experimental | .inbounds=$inbounds | .route.rules=$route_rules' \
                $profile_file | \
                jq 'del(.outbounds[] | select(.type=="dns" or .type=="block"))' \
