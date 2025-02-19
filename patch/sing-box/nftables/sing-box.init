@@ -148,8 +148,7 @@ start_service() {
     nft -f $workdir/nftables/nftables.rules -D LAN_SUBNET="$lan_subnet" -D TPROXY_PORT="$tproxy_port"
     nft -f $workdir/nftables/reserved_ip.nft
 
-    local pass_cn_ip
-    config_get_bool pass_cn_ip "proxy" "pass_cn_ip" 0
+    local pass_cn_ip; config_get_bool pass_cn_ip "proxy" "pass_cn_ip" 0
     [ "$pass_cn_ip" = "1" ] && nft -f $workdir/nftables/geoip_cn.nft
 
     local common_ports proxy_tcp_port proxy_udp_port

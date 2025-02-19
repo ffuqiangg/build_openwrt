@@ -142,8 +142,7 @@ start_service() {
     ip rule add fwmark 1 table 100
     ip route add local 0.0.0.0/0 dev lo table 100
 
-    local pass_cn_ip
-    config_get_bool pass_cn_ip "proxy" "pass_cn_ip" 0
+    local pass_cn_ip; config_get_bool pass_cn_ip "proxy" "pass_cn_ip" 0
     [ "$pass_cn_ip" = "1" ] && ipset -! restore -f $workdir/iptables/geoip_cn.txt
 
     local common_ports proxy_ports
