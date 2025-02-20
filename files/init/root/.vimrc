@@ -15,6 +15,7 @@ set ttimeoutlen=100                  " set <esc> reponse time
 set path+=**                         " searches current directory recursively.
 
 filetype plugin on
+set modeline                         " for specify filetype
 
 syntax on                            " turn syntax highlighting on by defautl
 set mouse=a                          " turn mouse support on

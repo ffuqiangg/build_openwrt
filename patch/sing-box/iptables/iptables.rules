@@ -1,3 +1,4 @@
+# vim: set ft=sh:
 #!/bin/sh
 
 LAN_SUBNET=$1
@@ -42,5 +43,3 @@ iptables -t mangle -A divert -j ACCEPT
 iptables -t mangle -I PREROUTING -p tcp -m socket -j divert
 
 exit 0
-
-# vim:ft=sh
