@@ -21,12 +21,14 @@ start_service() {
 
     local level external_controller_port external_ui secret default_mode store_fakeip tproxy_port
     config_get level "log" "level" "warn"
+    config_get output "log" "output" "/var/log/sing-box.log"
     config_get external_controller_port "experimental" "external_controller_port" "9900"
     config_get external_ui "experimental" "external_ui" "ui"
     config_get secret "experimental" "secret" "ffuqiangg"
     config_get default_mode "experimental" "default_mode" "rule"
     config_get_bool store_fakeip "experimental" "store_fakeip" 0
     config_get tproxy_port "inbounds" "tproxy_port" "10105"
+    config_get mixed_port "inbounds" "mixed_port" "2080"
 
     local profile_file a
     if [ "$remote" -gt "0" ] && [ -n "$url" ]; then
@@ -79,7 +81,7 @@ start_service() {
           \"type\":\"mixed\",
           \"tag\":\"mixed-in\",
           \"listen\":\"::\",
-          \"listen_port\":2080
+          \"listen_port\":$mixed_port
         }]"
 
     local block_tag route_rules_dns route_rules
