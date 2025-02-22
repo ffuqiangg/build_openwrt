@@ -82,7 +82,7 @@ config sing-box 'experimental'
 
 config sing-box 'inbounds'
 	option tproxy_port '10105'              # tproxy 监听端口
-	option mixed_port '10105'               # mixed 代理端口
+	option mixed_port '2080'                # mixed 代理端口
 ```
 - 这部分配置的详细说明可以查看 sing-box [官方配置文档](https://sing-box.sagernet.org/zh/configuration/)的对应项目。
 - 本部分配置并不建议修改，如需修改端口选项要注意端口冲突，避免使用已被其它插件占用的端口。
