@@ -52,8 +52,9 @@ start_service() {
         return 0
     fi
 
-    local log experimental inbounds
+    local log experimental inbounds direct_tag
     if [ "$store_fakeip" = "0" ]; then store_fakeip='false'; else store_fakeip='true'; fi
+    direct_tag=$(jq -r '.outbounds[] | select(.type=="direct") | .tag' $profile_file)
     log="{
           \"disabled\":false,
           \"level\":\"$level\",
@@ -66,7 +67,7 @@ start_service() {
           \"external_ui\":\"$external_ui\",
           \"secret\":\"$secret\",
           \"external_ui_download_url\":\"https://gh-proxy.com/github.com/MetaCubeX/metacubexd/archive/gh-pages.zip\",
-          \"external_ui_download_detour\":\"direct\",
+          \"external_ui_download_detour\":\"$direct_tag\",
           \"default_mode\":\"$default_mode\"},
         \"cache_file\":{
           \"enabled\":true,
@@ -145,8 +146,8 @@ start_service() {
     ip route add local 0.0.0.0/0 dev lo table 100
 
     local lan_device lan_subnet
-    lan_device=$(ip route show default | awk '/default/ {print $5}')
-    lan_subnet=$(ip a | grep inet | awk "/$lan_device/ {print \$2}" | sed 's,[^.]*/,0/,')
+    lan_device=$(uci get network.lan.device)
+    lan_subnet=$(ip route | grep -Ev default | grep "$lan_device" | awk '{print $1}')
     nft -f $workdir/nftables/nftables.rules -D LAN_SUBNET="$lan_subnet" -D TPROXY_PORT="$tproxy_port"
     nft -f $workdir/nftables/reserved_ip.nft
 
@@ -157,7 +158,7 @@ start_service() {
     config_get_bool common_ports "proxy" "common_ports" 0
     if [ "$common_ports" = "1" ]; then
         proxy_tcp_port='21 22 80 110 143 194 443 465 853 993 995 8080 8443'
-        proxy_udp_port='123 443 8443'
+        proxy_udp_port='53 123 443 8443'
     else
         proxy_tcp_port='0-65535'
         proxy_udp_port='0-65535'

@@ -52,8 +52,9 @@ start_service() {
         return 0
     fi
 
-    local log experimental inbounds
+    local log experimental inbounds direct_tag
     if [ "$store_fakeip" = "0" ]; then store_fakeip='false'; else store_fakeip='true'; fi
+    direct_tag=$(jq -r '.outbounds[] | select(.type=="direct") | .tag' $profile_file)
     log="{
           \"disabled\":false,
           \"level\":\"$level\",
@@ -66,7 +67,7 @@ start_service() {
           \"external_ui\":\"$external_ui\",
           \"secret\":\"$secret\",
           \"external_ui_download_url\":\"https://gh-proxy.com/github.com/MetaCubeX/metacubexd/archive/gh-pages.zip\",
-          \"external_ui_download_detour\":\"direct\",
+          \"external_ui_download_detour\":\"$direct_tag\",
           \"default_mode\":\"$default_mode\"},
         \"cache_file\":{
           \"enabled\":true,
