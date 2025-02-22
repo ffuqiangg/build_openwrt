@@ -1,4 +1,4 @@
-`#!/usr/sbin/nft -f
+#!/usr/sbin/nft -f
 
 table inet sing-box {
     set cn_ip {
