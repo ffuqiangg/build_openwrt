@@ -136,8 +136,8 @@ jobs:
         allowUpdates: true
         replacesArtifacts: true
         prerelease: ${{ env.prerelease_symbol }}
-        artifacts: ./artifact/*.zip
-        bodyFile: ../doc/release.md
+        artifacts: "./artifact/*.zip"
+        bodyFile: "../doc/release.md"
 
     - name: telegram notification
       if: github.event_name == 'repository_dispatch'
