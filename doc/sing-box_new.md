@@ -8,6 +8,7 @@
 `2025.02.10` 修复 fw3 上仅代理常用端口错误。  
 `2025.02.14` 优化代码，新增新的本地文件运行方式和缓存 fakeip 开关。  
 `2025.02.14-A` 更新至 sing-box 1.11.x 版本，不再支持 sing-box 1.10.x ，可以通过 `PassWall` - `组件更新` 页面查看和更新 sing-box 版本。使用中有任何问题可到仓库提 Issues。
+`2025.02.22` 修复多网口设备获取子网地址错误及其它一些小错误，新增 mixed 代理端口设置。
 
 ### 安装命令
 
@@ -66,7 +67,7 @@ config sing-box 'subscription'
 
 [^1]: 服务会调整的部分包含完整的 `.log` `.experimental` 和 `.inbounds` ，以及 `.route.rules` 中与 inbounds 和 dns 相关的部分。
 
-4. **网关相关配置** `2025,02.14 更新添加缓存 fakeip 开关`
+4. **网关相关配置** `2025,02.22 更新添加 mixed 代理端口设置`
 ```config
 config sing-box 'log'
 	option level 'warn'                     # 日志等级
@@ -81,9 +82,11 @@ config sing-box 'experimental'
 
 config sing-box 'inbounds'
 	option tproxy_port '10105'              # tproxy 监听端口
+	option mixed_port '10105'               # mixed 代理端口
 ```
 - 这部分配置的详细说明可以查看 sing-box [官方配置文档](https://sing-box.sagernet.org/zh/configuration/)的对应项目。
 - 本部分配置并不建议修改，如需修改端口选项要注意端口冲突，避免使用已被其它插件占用的端口。
+- mixed 代理提供 socks4, socks4a, socks5 和 http 代理服务，用于不能设置网关的设备使用（注意 mixed 仅代理 tcp 流量）。
 
 5. **模板**
 ```config
