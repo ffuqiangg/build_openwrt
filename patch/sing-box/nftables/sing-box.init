@@ -158,7 +158,7 @@ start_service() {
     config_get_bool common_ports "proxy" "common_ports" 0
     if [ "$common_ports" = "1" ]; then
         proxy_tcp_port='21 22 80 110 143 194 443 465 853 993 995 8080 8443'
-        proxy_udp_port='123 443 8443'
+        proxy_udp_port='53 123 443 8443'
     else
         proxy_tcp_port='0-65535'
         proxy_udp_port='0-65535'
