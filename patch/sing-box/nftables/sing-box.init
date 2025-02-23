@@ -12,14 +12,14 @@ start_service() {
     [ "$enabled" = "1" ] || return 0
 
     local conffile workdir remote url auto_restart restart_cron
-    config_get conffile "main" "conffile"
+    config_get conffile "main" "conffile" "/etc/sing-box/config.json"
     config_get workdir "main" "workdir" "/etc/sing-box"
     config_get remote "subscription" "remote" 1
     config_get url "subscription" "url"
     config_get_bool auto_restart "subscription" "auto_restart"
     config_get restart_cron "subscription" "restart_cron" "0 5 * * *"
 
-    local level external_controller_port external_ui secret default_mode store_fakeip tproxy_port
+    local level output external_controller_port external_ui secret default_mode store_fakeip tproxy_port mixed_port
     config_get level "log" "level" "warn"
     config_get output "log" "output" "/var/log/sing-box.log"
     config_get external_controller_port "experimental" "external_controller_port" "9900"
@@ -53,7 +53,7 @@ start_service() {
     fi
 
     local log experimental inbounds direct_tag
-    if [ "$store_fakeip" = "0" ]; then store_fakeip='false'; else store_fakeip='true'; fi
+    if [ "$store_fakeip" = "1" ]; then store_fakeip='true'; else store_fakeip='false'; fi
     direct_tag=$(jq -r '.outbounds[] | select(.type=="direct") | .tag' $profile_file)
     log="{
           \"disabled\":false,
@@ -124,7 +124,7 @@ start_service() {
 
     local mixin mixfile
     config_get mixin "mix" "mixin" 0
-    config_get mixfile "mix" "mixfile"
+    config_get mixfile "mix" "mixfile" "/etc/sing-box/mixin.json"
     if [ "$mixin" = "1" ] && [ -f "$mixfile" ]; then
         jq -s add $conffile $mixfile > $workdir/config.tmp && mv $workdir/config.tmp $conffile
     fi
