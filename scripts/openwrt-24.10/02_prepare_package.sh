@@ -13,20 +13,12 @@ sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
 
 ### FIREWALL ###
-rm -rf ./package/network/config/firewall4
-cp -rf ../openwrt_ma/package/network/config/firewall4 ./package/network/config/firewall4
 # custom nft command
 patch -p1 < ../patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
 # patch LuCI 以支持自定义 nft 规则
 pushd feeds/luci
 patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
-
-### Kernel Hack 部分 ###
-# make olddefconfig
-wget -qO - https://github.com/openwrt/openwrt/commit/c21a3570.patch | patch -p1
-# btf
-cp -rf ../patch/btf/* ./target/linux/generic/hack-6.6/
 
 ### 替换准备 ###
 cp -rf ../openwrt-apps ./package/new
@@ -62,10 +54,6 @@ sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
-
-# 生成默认配置及缓存
-rm -rf .config
-sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-6.6
 
 #Vermagic
 latest_version="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/v//g' | sed 's/.tar.gz//g')"
