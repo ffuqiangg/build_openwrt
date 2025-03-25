@@ -82,19 +82,6 @@ CONFIG_PACKAGE_libustream-openssl=y
 # CONFIG_PACKAGE_libustream-wolfssl is not set
 CONFIG_PACKAGE_wget-ssl=y
 
-### WIRELESS ###
-CONFIG_PACKAGE_kmod-brcmfmac=y
-CONFIG_BRCMFMAC_SDIO=y
-# CONFIG_BRCMFMAC_USB is not set
-# CONFIG_BRCMFMAC_PCIE is not set
-CONFIG_PACKAGE_kmod-brcmutil=y
-CONFIG_PACKAGE_kmod-cfg80211=y
-CONFIG_PACKAGE_kmod-mac80211=y
-CONFIG_PACKAGE_hostapd-common=y
-CONFIG_PACKAGE_wpa-cli=y
-CONFIG_PACKAGE_wpad-basic=y
-CONFIG_PACKAGE_iw=y
-
 ### APPLICATION ###
 CONFIG_PACKAGE_luci-app-amlogic=y
 CONFIG_PACKAGE_luci-app-arpbind=y
