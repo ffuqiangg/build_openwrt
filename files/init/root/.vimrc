@@ -95,3 +95,5 @@ autocmd filetype json set ts=2 sw=2 sts=2
 hi TabLine term=bold cterm=bold ctermfg=7 ctermbg=NONE
 hi TabLineFill term=bold cterm=bold gui=bold
 hi TabLineSel term=reverse ctermfg=7 ctermbg=1 gui=reverse
+hi Pmenu cterm=bold ctermfg=0 ctermbg=0 guibg=DarkGrey
+hi PmenuSel ctermfg=0 ctermbg=5 guibg=Magenta
