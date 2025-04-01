@@ -101,11 +101,10 @@ config.experimental = {
     },
     cache_file: {
         enabled: true,
+        store_fakeip: (store_fakeip === '1'),
+        store_rdrc: (store_rdrc === '1')
     }
 };
-
-(store_fakeip === '1') ? config.experimental.cache_file.store_fakeip = true : null;
-(store_rdrc === '1') ? config.experimental.cache_file.store_rdrc = true : null;
 
 /* Inbounds */
 config.inbounds = [
