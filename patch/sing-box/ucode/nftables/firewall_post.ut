@@ -1,0 +1,110 @@
+#!/usr/bin/utpl
+
+{%-
+   'use strict';
+
+    import { readfile } from 'fs';
+    import { cursor } from 'uci';
+
+    const uci = cursor();
+
+    uci.load('sing-box');
+    const conffile = uci.get('sing-box', 'main', 'conffile') || '/etc/sing-box/config.json',
+          workdir = uci.get('sing-box', 'main', 'workdir') || '/etc/sing-box',
+          common_ports = uci.get('sing-box', 'proxy', 'common_ports') || '0',
+          pass_cn_ip = uci.get('sing-box', 'proxy', 'pass_cn_ip') || '0',
+          fuck_quic = uci.get('sing-box', 'proxy', 'fuck_quic') || '0',
+          tproxy_port = uci.get('sing-box', 'inbounds', 'tproxy_port') || '10105',
+          mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2080',
+          dns_port = uci.get('sing-box', 'inbounds', 'dns_port') || '2053';
+
+    const proxy_ports = '22,80,143,443,465,587,853,873,993,995,8080,8443,9418' + ',' + mixed_port;
+-%}
+
+table inet sing-box {
+    set reserved_ip {
+        type ipv4_addr
+        flags interval
+        auto-merge
+        elements = {
+            0.0.0.0/8,
+            10.0.0.0/8,
+            100.64.0.0/10,
+            127.0.0.0/8,
+            169.254.0.0/16,
+            172.16.0.0/12,
+            192.168.0.0/16,
+            224.0.0.0/4,
+            240.0.0.0/4
+        }
+    }
+
+    {% if (common_ports === '1'): %}
+    set proxy_dport {
+        type inet_service
+        flags interval
+        auto-merge
+        elements = { {{ join(', ', split(proxy_ports, ',')) }} }
+    }
+    {% endif /* common_ports */ %}
+
+    {% if (pass_cn_ip === '1'): %}
+    set china_ip4 {
+        type ipv4_addr
+        flags interval
+        auto-merge
+        elements = {
+            {% for (let k in split(trim(readfile(workdir + '/resources/china_ip4.txt')), /[\r\n]/)): %}
+            {{ k }},
+            {% endfor %}
+        }
+    }
+    {% endif /* pass_cn_ip */ %}
+
+    {# Router proxy -#}
+    chain mangle_output {
+        type route hook output priority mangle; policy accept;
+        fib daddr type { local, broadcast, anycast, multicast } counter return
+        ct direction reply counter return
+        ip daddr @reserved_ip counter return
+        {% if (pass_cn_ip === '1'): %}
+        ip daddr @china_ip4 counter return
+        {% endif /* pass_cn_ip */ %}
+        {% if (common_ports === '1'): %}
+        meta nfproto ipv4 meta l4proto { tcp, udp } th dport != @proxy_dport counter return
+        {% endif /* common_ports */ %}
+        meta nfproto ipv4 meta l4proto { tcp, udp } th dport 53 counter return
+        meta nfproto ipv4 meta l4proto { tcp, udp } meta mark set 1 counter
+    }
+
+    chain mangle_prerouting_router {
+        type filter hook prerouting priority mangle - 1; policy accept;
+        meta l4proto { tcp, udp } iifname lo meta mark 1 tproxy to :{{ tproxy_port }} counter accept
+    }
+
+    {# LAN proxy -#}
+    chain dstnat {
+        type nat hook prerouting priority dstnat + 1; policy accept;
+        meta nfproto ipv4 meta l4proto { tcp, udp } th dport 53 counter redirect to :{{ dns_port }}
+    }
+
+    chain mangle_prerouting_lan {
+        type filter hook prerouting priority mangle; policy accept;
+        fib daddr type { local, broadcast, anycast, multicast } counter return
+        ct direction reply counter return
+        ip daddr @reserved_ip counter return
+        {% if (pass_cn_ip === '1'): %}
+        ip daddr @china_ip4 counter return
+        {% endif /* pass_cn_ip */ %}
+        {% if (fuck_quic === '1'): %}
+        udp dport { 80, 443 } counter reject
+        {% endif /* fuck_quic */ %}
+        {% if (common_ports === '1'): %}
+        meta nfproto ipv4 meta l4proto { tcp, udp } th dport != @proxy_dport counter return
+        {% endif /* common_ports */ %}
+        meta nfproto ipv4 meta l4proto { tcp, udp } th dport 53 counter return
+        meta nfproto ipv4 meta l4proto { tcp, udp } meta mark set 1 tproxy ip to :{{ tproxy_port }} counter accept
+    }
+}
+
+# vim: set ft=uc:

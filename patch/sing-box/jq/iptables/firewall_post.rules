@@ -1,0 +1,61 @@
+#!/bin/sh
+
+# PREPARE #
+lan_addr=$(ip a | grep -w inet | grep brd | grep "`uci -q get network.lan.device`" | awk '{print $2}')
+workdir=$(uci -q get sing-box.main.workdir); workdir=${workdir:-"/etc/sing-box"}
+common_ports=$(uci -q get sing-box.proxy.common_ports); common_ports=${common_ports:-"0"}
+pass_cn_ip=$(uci -q get sing-box.proxy.pass_cn_ip); pass_cn_ip=${pass_cn_ip:-"0"}
+fuck_quic=$(uci -q get sing-box.proxy.fuck_quic); fuck_quic=${fuck_quic:-"0"}
+tproxy_port=$(uci -q get sing-box.inbounds.tproxy_port); tproxy_port=${tproxy_port:-"10105"}
+mixed_port=$(uci -q get sing-box.inbounds.mixed_port); mixed_port=${mixed_port:-"2080"}
+dns_port=$(uci -q get sing-box.inbounds.dns_port); dns_port=${dns_port:-"2053"}
+
+proxy_ports="22,80,143,443,465,587,853,873,993,995,8080,8443,9418,$mixed_port"
+reserved_ip='0.0.0.0/8 10.0.0.0/8 100.64.0.0/10 127.0.0.0/8 169.254.0.0/16
+    172.16.0.0/12 192.168.0.0/16 224.0.0.0/4 240.0.0.0/4 255.255.255.255/32'
+[ "$pass_cn_ip" = "1" ] && ipset -! restore -f $workdir/resources/china_ip4.txt
+
+# DNS #
+iptables -t nat -N sing_dns
+iptables -t nat -A sing_dns -d $lan_addr -p tcp --dport 53 -j REDIRECT --to-ports $dns_port
+iptables -t nat -A sing_dns -d $lan_addr -p udp --dport 53 -j REDIRECT --to-ports $dns_port
+iptables -t nat -I PREROUTING -j sing_dns
+
+# LAN PROXY #
+iptables -t mangle -N sing_lan
+for i in $reserved_ip; do iptables -t mangle -A sing_lan -d $i -j RETURN; done
+[ "$pass_cn_ip" = "1" ] && iptables -t mangle -A sing_lan -m set --match-set china_ip4 dst -j RETURN
+[ "$fuck_quic" = "1" ] && iptables -t mangle -A sing_lan -p udp -m multiport --dport 80,443 -j DROP
+if [ "$common_ports" = "1" ]; then
+    iptables -t mangle -A sing_lan -p tcp -m multiport ! --dport $proxy_ports -j RETURN
+    iptables -t mangle -A sing_lan -p udp -m multiport ! --dport $proxy_ports -j RETURN
+fi
+iptables -t mangle -A sing_lan -p tcp --dport 53 -j RETURN
+iptables -t mangle -A sing_lan -p udp --dport 53 -j RETURN
+iptables -t mangle -A sing_lan -j RETURN -m mark --mark 0xff
+iptables -t mangle -A sing_lan -p udp -j TPROXY --on-ip 127.0.0.1 --on-port $tproxy_port --tproxy-mark 1
+iptables -t mangle -A sing_lan -p tcp -j TPROXY --on-ip 127.0.0.1 --on-port $tproxy_port --tproxy-mark 1
+iptables -t mangle -A PREROUTING -j sing_lan
+
+# ROUTER PROXY #
+iptables -t mangle -N sing_router
+for i in $reserved_ip; do iptables -t mangle -A sing_router -d $i -j RETURN; done
+[ "$pass_cn_ip" = "1" ] && iptables -t mangle -A sing_router -m set --match-set china_ip4 dst -j RETURN
+if [ "$common_ports" = "1" ]; then
+    iptables -t mangle -A sing_router -p tcp -m multiport ! --dport $proxy_ports -j RETURN
+    iptables -t mangle -A sing_router -p udp -m multiport ! --dport $proxy_ports -j RETURN
+fi
+iptables -t mangle -A sing_router -p tcp --dport 53 -j RETURN
+iptables -t mangle -A sing_router -p udp --dport 53 -j RETURN
+iptables -t mangle -A sing_router -j RETURN -m mark --mark 0xff
+iptables -t mangle -A sing_router -p udp -j MARK --set-mark 1
+iptables -t mangle -A sing_router -p tcp -j MARK --set-mark 1
+iptables -t mangle -A OUTPUT -j sing_router
+
+# DIVERT #
+iptables -t mangle -N divert
+iptables -t mangle -A divert -j MARK --set-mark 1
+iptables -t mangle -A divert -j ACCEPT
+iptables -t mangle -I PREROUTING -p tcp -m socket -j divert
+
+# vim: set ft=sh:

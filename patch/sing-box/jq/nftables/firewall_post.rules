@@ -1,0 +1,72 @@
+#!/usr/sbin/nft -f
+
+table inet sing-box {
+    set reserved_ip {
+        type ipv4_addr
+        flags interval
+        auto-merge
+        elements = {
+            0.0.0.0/8,
+            10.0.0.0/8,
+            100.64.0.0/10,
+            127.0.0.0/8,
+            169.254.0.0/16,
+            172.16.0.0/12,
+            192.168.0.0/16,
+            224.0.0.0/4,
+            240.0.0.0/4,
+        }
+    }
+
+    set proxy_dport {
+        type inet_service
+        flags interval
+        auto-merge
+    }
+
+    set china_ip4 {
+        type ipv4_addr
+        flags interval
+    }
+
+    set quic_dport {
+        type inet_service
+        flags interval
+        auto-merge
+    }
+
+    # Router proxy #
+    chain mangle_output {
+        type route hook output priority mangle; policy accept;
+        fib daddr type { local, broadcast, anycast, multicast } counter return
+        ct direction reply counter return
+        ip daddr @reserved_ip counter return
+        ip daddr @china_ip4 counter return
+        meta nfproto ipv4 meta l4proto { tcp, udp } th dport != @proxy_dport counter return
+        meta nfproto ipv4 meta l4proto { tcp, udp } th dport 53 counter return
+        meta nfproto ipv4 meta l4proto { tcp, udp } meta mark set 1 counter
+    }
+
+    chain mangle_prerouting_router {
+        type filter hook prerouting priority mangle - 1; policy accept;
+        meta l4proto { tcp, udp } iifname lo meta mark 1 tproxy to :$tproxy_port counter accept
+    }
+
+    # LAN proxy #
+    chain dstnat {
+        type nat hook prerouting priority dstnat + 1; policy accept;
+        meta nfproto ipv4 meta l4proto { tcp, udp } th dport 53 counter redirect to :$dns_port
+    }
+
+    chain mangle_prerouting_lan {
+        type filter hook prerouting priority mangle; policy accept;
+        fib daddr type { local, broadcast, anycast, multicast } counter return
+        ct direction reply counter return
+        ip daddr @reserved_ip counter return
+        ip daddr @china_ip4 counter return
+        udp dport @quic_dport counter reject
+        meta nfproto ipv4 meta l4proto { tcp, udp } th dport != @proxy_dport counter return
+        meta nfproto ipv4 meta l4proto { tcp, udp } th dport 53 counter return
+        meta nfproto ipv4 meta l4proto { tcp, udp } meta mark set 1 tproxy ip to :$tproxy_port counter accept
+    }
+}

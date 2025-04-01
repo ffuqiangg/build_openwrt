@@ -1,7 +1,7 @@
 #!/usr/sbin/nft -f
 
 table inet sing-box {
-    set cn_ip {
+    set china_ip4 {
         type ipv4_addr
         flags interval
         elements = {
