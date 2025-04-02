@@ -67,7 +67,7 @@ start_service() {
     if [ "$bridge_nf_call_iptables" = "1" ]; then
         touch $workdir/br_netfilter.flag
         sysctl -q -w net.bridge.bridge-nf-call-iptables=0
-    file
+    fi
 
     if [ "$auto_restart" = "1" ]; then
         sed -i '/sing-box/d' /etc/crontabs/root
