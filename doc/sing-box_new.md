@@ -82,7 +82,7 @@ config sing-box 'log'
 
 config sing-box 'experimental'
 	option external_controller_port '9900'  # 后台页面端口
-	option external_ui 'ui'                 # 后台页面后缀目录
+	option external_ui 'ui'                 # 面板文件目录
 	option secret 'ffuqiangg'               # 后台页面登陆密钥
 	option ui_name 'metacubexd'             # Web 面板，可选值 metacubexd / zashboard / yacd
 	option default_mode 'rule'              # clash 默认模式
@@ -94,6 +94,7 @@ config sing-box 'inbounds'
 	option mixed_port '2080'                # mixed 代理端口
 	option dns_port '2053'                  # DNS 入站端口 (direct)
 ```
+- 按照默认设置面板登录地址为 `设备IP:9900/ui`，密钥 `ffuqiangg` 。
 - 服务会按照本部分设置对配置文件做必要调整[^1]。
 - 这部分配置的详细说明可以查看 sing-box [官方配置文档](https://sing-box.sagernet.org/zh/configuration/) 的对应条目。
 - 如需修改端口选项要注意端口冲突，避免使用已占用的端口。
@@ -114,7 +115,7 @@ config sing-box 'mix'
 
 ### 最小配置
 
-后台地址：IP:9900/ui | 密钥：ffuqiangg
+面板登录地址：`设备IP:9900/ui`，密钥：`ffuqiangg` 。
 
 1. **使用订阅** 修改如下选项
 ```config
