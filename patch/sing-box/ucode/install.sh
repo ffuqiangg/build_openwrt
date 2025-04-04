@@ -45,7 +45,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 echo -e "${GREEN_COLOR}INFO${RES} Download firewall rules ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/scripts/firewall_post.ut $mirror${download_dir}/f$firewall/firewall_post.ut
+curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/scripts/firewall_post.ut $mirror${download_dir}/$firewall/firewall_post.ut
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} download firewall rules failed."
     exit 1
