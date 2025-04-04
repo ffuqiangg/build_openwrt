@@ -5,6 +5,7 @@
 import { readfile, writefile } from 'fs';
 import { cursor } from 'uci';
 
+/* UCI config start */
 const uci = cursor();
 
 uci.load('sing-box');
@@ -26,7 +27,6 @@ const conffile = uci.get('sing-box', 'main', 'conffile') || '/etc/sing-box/confi
       mixin = uci.get('sing-box', 'mix', 'mixin') || '0',
       mixfile = uci.get('sing-box', 'mix', 'mixfile') || '/etc/sing-box/mixin.json';
 
-/* Config helper start */
 let ui_url;
 if (ui_name === 'metacubexd')
     ui_url = 'https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip';
@@ -43,14 +43,14 @@ else if (remote >= '1')
 
 const route_rules_action = map(json(trim(readfile(profile_file))).route.rules, (v) => (v).action);
 
-let outbounds_direct_tag, outbounds_block_tag;
+let outbounds_direct_tag, outbounds_block_tag, outbounds_dns_tag;
 for (let v in json(trim(readfile(profile_file))).outbounds) {
     if (v.type === 'direct')
         outbounds_direct_tag = v.tag;
-}
-for (let v in json(trim(readfile(profile_file))).outbounds) {
-    if (v.type === 'block')
+    else if (v.type === 'block')
         outbounds_block_tag = v.tag;
+    else if (v.type === 'dns')
+        outbounds_dns_tag = v.tag;
 }
 
 let dns_block_tag;
@@ -58,6 +58,34 @@ for (let v in json(trim(readfile(profile_file))).dns.servers) {
     if (v.address === 'rcode://refused')
         dns_block_tag = v.tag;
 }
+/* UCI config end */
+
+/* Config helper start */
+function removeBlankAttrs(res) {
+    let content;
+
+    if (type(res) === 'object') {
+        content = {};
+        map(keys(res), (k) => {
+            if (type(res[k]) in ['array', 'object'])
+                content[k] = removeBlankAttrs(res[k]);
+            else if (res[k] !== null && res[k] !== '')
+                content[k] = res[k];
+        });
+    } else if (type(res) === 'array') {
+        content = [];
+        map(res, (k, i) => {
+            if (type(k) in ['array', 'object'])
+                push(content, removeBlankAttrs(k));
+            else if (k !== null && k !== '')
+                push(content, k);
+        });
+    } else {
+        return res;
+    }
+
+    return content;
+};
 /* Config helper end */
 
 const config = {};
@@ -101,8 +129,8 @@ config.experimental = {
     },
     cache_file: {
         enabled: true,
-        store_fakeip: (store_fakeip === '1'),
-        store_rdrc: (store_rdrc === '1')
+        store_fakeip: (store_fakeip === '1') || null,
+        store_rdrc: (store_rdrc === '1') || null
     }
 };
 
@@ -151,17 +179,34 @@ config.route.rules = [
 
 if ('hijack-dns' in route_rules_action) {
     for (let v in json(trim(readfile(profile_file))).route.rules) {
-        if (!(v.action in ['sniff', 'hijack-dns', 'reslove']))
+        if (!(v.action in ['sniff', 'hijack-dns']))
             push(config.route.rules, v);
     }
 } else {
     for (let v in json(trim(readfile(profile_file))).route.rules) {
-        if (v.protocol !== 'dns') {
+        if (v.outbound !== outbounds_dns_tag) {
             if (v.outbound === outbounds_block_tag)
                 push(config.route.rules, json(replace(v, /"outbound": ".*"/, '\"action\": \"reject\"')));
             else
                 push(config.route.rules, v);
         }
+    }
+}
+
+config.route.rule_set = [];
+
+for (let k in json(trim(readfile(profile_file))).route.rule_set) {
+    if (k.download_detour !== outbounds_direct_tag && match(k.url, /[(github\.com)(githubusercontent\.com)]/)) {
+        push(config.route.rule_set, {
+            type: k.type,
+            tag: k.tag,
+            format: k.format,
+            url: 'https://gh-proxy.com/' + ltrim(k.url, 'https://'),
+            download_detour: outbounds_direct_tag,
+            update_interval: k.update_interval ? k.update_interval : null
+        });
+    } else {
+        push(config.route.rule_set, k);
     }
 }
 
@@ -172,4 +217,4 @@ if (mixin === '1' && readfile(mixfile)) {
 }
 
 /* Writefile */
-writefile(conffile, sprintf('%.2J\n', (config)));
+writefile(conffile, sprintf('%.2J\n', removeBlankAttrs(config)));
