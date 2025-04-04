@@ -127,7 +127,7 @@ config sing-box 'subscription'
 	option url '订阅地址'
 ```
 
-2. **使用本地配置文件** 将配置文件放到 /etc/sing-box 目录命令为 sing-box.json，并修改如下选项
+2. **使用本地配置文件** 将配置文件放到 /etc/sing-box 目录命名为 sing-box.json，并修改如下选项
 ```config
 config sing-box 'main'
 	option enabled '1'
