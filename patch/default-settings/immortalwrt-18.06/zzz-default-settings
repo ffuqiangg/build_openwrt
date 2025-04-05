@@ -42,6 +42,15 @@ opkg flag hold dnsmasq-full
 uci set dockerd.globals.auto_start='0'
 uci commit dockerd
 
+# docker 镜像站点
+if [ -f /etc/config/dockerd ]; then
+    uci del dockerd.globals.registry_mirrors
+    uci add_list dockerd.globals.registry_mirrors='https://dockerpull.com'
+    uci add_list dockerd.globals.registry_mirrors='https://dockerproxy.net'
+    uci add_list dockerd.globals.registry_mirrors='https://docker.m.daocloud.io'
+    uci commit dockerd
+fi
+
 # 禁用某些可能会自启动且用不上的依赖包服务
 /etc/init.d/haproxy disable 2>/dev/null
 /etc/init.d/haproxy stop
