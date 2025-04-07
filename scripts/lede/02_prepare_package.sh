@@ -79,6 +79,8 @@ cp -rf ../openwrt_pkg_ma/libs/ngtcp2 ./feeds/packages/libs/ngtcp2
 ln -sf ../../../feeds/packages/libs/ngtcp2 ./package/feeds/packages/ngtcp2
 # Nikki
 cp -rf ../openwrt-apps/OpenWrt-nikki ./package/new/nikki
+# Homeproxy
+cp -rf ../openwrt-apps/homeproxy ./package/new/homeproxy
 
 # 生成默认配置及缓存
 rm -rf .config
