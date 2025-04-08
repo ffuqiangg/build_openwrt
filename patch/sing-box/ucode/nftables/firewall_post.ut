@@ -15,10 +15,12 @@
           pass_cn_ip = uci.get('sing-box', 'proxy', 'pass_cn_ip') || '0',
           fuck_quic = uci.get('sing-box', 'proxy', 'fuck_quic') || '0',
           tproxy_port = uci.get('sing-box', 'inbounds', 'tproxy_port') || '10105',
-          mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2080',
-          dns_port = uci.get('sing-box', 'inbounds', 'dns_port') || '2053';
+          mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2080';
 
     const proxy_ports = '22,80,143,443,465,587,853,873,993,995,8080,8443,9418' + ',' + mixed_port;
+
+    const dns_hijacked = uci.get('dhcp', '@dnsmasq[0]', 'dns_redirect') || '0',
+          dns_port = uci.get('sing-box', 'inbounds', 'dns_port') || '2053';
 -%}
 
 table inet sing-box {
@@ -85,7 +87,9 @@ table inet sing-box {
     {# LAN proxy -#}
     chain dstnat {
         type nat hook prerouting priority dstnat + 1; policy accept;
+        {% if (dns_hijacked !== '1'): %}
         meta nfproto ipv4 meta l4proto { tcp, udp } th dport 53 counter redirect to :{{ dns_port }}
+        {% endif /* dns_hijacked */ %}
     }
 
     chain mangle_prerouting_lan {

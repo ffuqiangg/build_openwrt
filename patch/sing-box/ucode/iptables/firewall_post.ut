@@ -15,8 +15,8 @@
           pass_cn_ip = uci.get('sing-box', 'proxy', 'pass_cn_ip') || '0',
           fuck_quic = uci.get('sing-box', 'proxy', 'fuck_quic') || '0',
           tproxy_port = uci.get('sing-box', 'inbounds', 'tproxy_port') || '10105',
-          mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2080',
-          dns_port = uci.get('sing-box', 'inbounds', 'dns_port') || '2053';
+          mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2080';
+          
 
     const reserved_ip = [
         "0.0.0.0/8", "10.0.0.0/8", "100.64.0.0/10", "127.0.0.0/8", "169.254.0.0/16",
@@ -24,6 +24,9 @@
     ];
 
     const proxy_ports = '22,80,143,443,465,587,853,873,993,995,8080,8443,9418' + ',' + mixed_port;
+
+    const dns_hijacked = uci.get('dhcp', '@dnsmasq[0]', 'dns_redirect') || '0',
+          dns_port = uci.get('sing-box', 'inbounds', 'dns_port') || '2053';
 -%}
 
 {# IPSET #}
@@ -33,8 +36,10 @@
 
 {# DNS #}
 iptables -t nat -N sing_dns
+{% if (dns_hijacked !== '1'): %}
 iptables -t nat -A sing_dns -d {{ lan_addr }} -p tcp --dport 53 -j REDIRECT --to-ports {{ dns_port }}
 iptables -t nat -A sing_dns -d {{ lan_addr }} -p udp --dport 53 -j REDIRECT --to-ports {{ dns_port }}
+{% endif /* dns_hijacked */ %}
 iptables -t nat -I PREROUTING -j sing_dns
 
 {# ROUTER PROXY #}
