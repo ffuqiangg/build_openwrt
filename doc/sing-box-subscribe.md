@@ -57,7 +57,7 @@ docker run -d \
 
 2. **模板文件写法**
 
-自定义分流的写法可以参考我自用的一个模板 [enhanced.json](https://github.com/ffuqiangg/sing-box-subscribe/blob/main/config_template/enhanced.json) ，sing-box-subscribe 模板文件中除了 outbounds 部分外都是标准的 sing-box 配置文件写法。一个完整的分流应该包含以下部分：
+自定义分流的写法可以参考我自用的一个模板 [enhanced.json](https://github.com/ffuqiangg/sing-box-subscribe/blob/main/config_template/enhanced.json) ，sing-box-subscribe 模板文件中除了 outbounds 部分外都是标准的 sing-box 配置文件写法。以 Telegram 分流为例，一个完整的分流应该包含以下部分：
 
 ```json
 {
