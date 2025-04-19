@@ -81,7 +81,7 @@ docker run -d \
       "tag":"日本节点",
       "type":"urltest",  // urltest 表示该分组中的 节点/分组 自动选择延迟最低 
       "outbounds":[
-        "{all}"  // {all} 指代所有的节点，有 filter 即使用 filter[] 中定义的方式过滤节点
+        "{all}"  // {all} 指代所有的节点，有 filter 即使用其定义的方式过滤节点
       ],
       "filter":[
         {"action":"include","keywords":["JP"]}  // include 表示保留名称包含 keywords 关键字的节点，多个关键字可以用 | 分割
