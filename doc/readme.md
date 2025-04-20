@@ -14,7 +14,7 @@ EMMC 中，ImmortalWrt 和 OpenWrt 系统默认的系统分区为 720M，LEDE �
 1. ImmortalWrt 和 OpenWrt 系统，将命令中的 `NUM` 修改为你想要的大小，单位 MiB。
 
 ```bash
-sed -i '/^ROOT/s/720/NUM/g' /usr/sbin/openwrt-install-amlogic
+sed -i '/^ROOT/s/820/NUM/g' /usr/sbin/openwrt-install-amlogic
 ```
 
 2. LEDE 和 iStoreOS 系统，将命令中的 `NUM` 修改为你想要的大小，单位 MiB。
