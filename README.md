@@ -2,7 +2,7 @@
 
 ##
 
-本项目用于编译 `斐讯N1` 使用的 `OpenWrt` `ImmortalWrt` `LEDE` `iStoreOS` 固件。
+本项目用于编译 `斐讯 N1` 使用的 `OpenWrt` `ImmortalWrt` `LEDE` `iStoreOS` 固件。
 
 ### 说明
 
