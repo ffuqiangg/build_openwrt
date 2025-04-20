@@ -16,7 +16,7 @@
 |LEDE              |⭕       |❌       |⭕     |❌       |⭕    |⭕   |
 |iStoreOS-22.03    |⭕       |⭕       |⭕     |❌       |❌    |❌   |
 
-`ImmortalWrt-18.06 固件代码太老，其 PassWall 插件不含 sing-box 核心。`
+- ImmortalWrt-18.06 固件由于代码太老，不包含 sing-box 核心。
 
 ### sing-box
 

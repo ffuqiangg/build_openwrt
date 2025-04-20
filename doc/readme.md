@@ -9,7 +9,7 @@
 
 ### 1. 安装前准备
 
-EMMC 中，ImmortalWrt 和 OpenWrt 系统默认的系统分区为 720M，LEDE 和 iStoreOS 系统默认的 overlay 分区大小为 1G。在将系统写入 EMMC 前可以通过下面的命令调整大小，但修改后预留给 docker 的运行空间也会相应的变化 ( 系统/overlay 增大 > docker 空间缩小 )。如果不修改请忽略这部分内容。
+EMMC 中，ImmortalWrt 和 OpenWrt 系统默认的系统分区为 820M，LEDE 和 iStoreOS 系统默认的 overlay 分区大小为 1G。在将系统写入 EMMC 前可以通过下面的命令调整大小，但修改后预留给 docker 的运行空间也会相应的变化 ( 系统/overlay 增大 > docker 空间缩小 )。如果不修改请忽略这部分内容。
 
 1. ImmortalWrt 和 OpenWrt 系统，将命令中的 `NUM` 修改为你想要的大小，单位 MiB。
 
