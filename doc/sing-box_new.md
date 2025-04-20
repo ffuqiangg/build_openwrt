@@ -1,6 +1,6 @@
 ## sing-box 安装使用文档
 
-重新写了一个 sing-box 服务。使用 tproxy 代理，fw3、fw4 都可以使用，支持自动下载订阅，自动重启更新订阅，修复了老方法 docker bridge 网络的联网问题，一些配置参数可自定义，也支持使用 json 模板文件自动修改配置文件，仅支持 ipv4，不支持 ipv6 。
+重新写了一个 sing-box 服务。使用 redirect(tcp) + tproxy(udp) 代理，fw3、fw4 都可以使用，支持自动下载订阅，自动重启更新订阅，修复了老方法 docker bridge 网络的联网问题，一些配置参数可自定义，也支持使用 json 模板文件自动修改配置文件，仅支持 ipv4，不支持 ipv6 。
 
 本项目不具备订阅转换功能，如果机场没有提供 sing-box 订阅可以使用转换服务。仓库的另一篇 [文档](sing-box-subscribe.md) 中有使用 sing-box-subscribe 配合本项目使用的一些简单介绍。
 
@@ -14,7 +14,8 @@
 `2025.02.24` 新增 Web 面板选择，可选 MetaCubeXD，Zashboard，YACD 。  
 `2025.04.01` 使用脚本语言 ucode 重构了大部分代码，不再依赖 jq ，但需要固件具备 ucode 支持。更新调整常用端口具体配置，修复仅代理常用端口时 mixed 代理失效的问题，取消本地 -1 运行方式，新增屏蔽 quic 开关、缓存 rdrc 开关，优化了防火墙规则，使用独立 DNS 入站端口避免 sing-box 核心不能正确劫持 DNS 请求。jq 版本仍可正常安装使用，且同步本次更新，但后续不再维护。  
 `2025.04.04` 修复某些特定情况下无法正常下载 rule_set 规则集导致服务启动失败，自动为规则集 url 为 github.com 和 githubusercontent.com 的地址添加 github 代理并使用直连下载。  
-`2025.04.08` 优化 DNS 转发，`网络 -> DHCP/DNS -> DNS 重定向` 选项开启时使用 DNSMASQ 转发 DNS ，未开启或没有此项则使用防火墙转发 DNS 。
+`2025.04.08` 优化 DNS 转发，`网络 -> DHCP/DNS -> DNS 重定向` 选项开启时使用 DNSMASQ 转发 DNS ，未开启或没有此项则使用防火墙转发 DNS 。  
+`2025.04.20` 优化防火墙规则，代理方式调整为 redirect(tcp) + tproxy(udp) 。
 
 ### 安装命令
 
@@ -76,7 +77,7 @@ config sing-box 'subscription'
 - 使用订阅时服务启动会自动下载所有订阅，所以定时重启也能起到更新订阅的作用。
 - 如果有更多订阅，配置中新建更多 `list url` 项目即可。
 
-4. **网关相关配置** `2025,04.01 更新增加缓存 rdrc 开关、dns_port 入站端口设置`
+4. **网关相关配置** `2025,04.20 更新增加 redirect 监听端口设置`
 ```config
 config sing-box 'log'
 	option level 'warn'                     # 日志等级
@@ -95,6 +96,7 @@ config sing-box 'inbounds'
 	option tproxy_port '10105'              # tproxy 监听端口
 	option mixed_port '2080'                # mixed 代理端口
 	option dns_port '2053'                  # DNS 入站端口 (direct)
+	option redirect_port '2331'             # redirect 监听端口
 ```
 - 按照默认设置面板登录地址为 `设备IP:9900/ui`，密钥 `ffuqiangg` 。
 - 服务会按照本部分设置对配置文件做必要调整[^1]。

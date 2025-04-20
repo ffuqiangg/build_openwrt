@@ -1,8 +1,6 @@
-#!/usr/bin/utpl
+#!/usr/bin/utpl -S
 
 {%-
-   'use strict';
-
     import { readfile } from 'fs';
     import { cursor } from 'uci';
 
@@ -15,7 +13,8 @@
           pass_cn_ip = uci.get('sing-box', 'proxy', 'pass_cn_ip') || '0',
           fuck_quic = uci.get('sing-box', 'proxy', 'fuck_quic') || '0',
           tproxy_port = uci.get('sing-box', 'inbounds', 'tproxy_port') || '10105',
-          mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2080';
+          mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2080',
+          redirect_port = uci.get('sing-box', 'inbounds', 'redirect_port') || '2331';
           
 
     const reserved_ip = [
@@ -34,59 +33,61 @@
     ipset -! restore -f {{ workdir }}/resources/china_ip4.txt
 {% endif %}
 
-{# DNS #}
-iptables -t nat -N sing_dns
+{# DNS hijack & TCP redirect #}
+iptables -t nat -N sing_redirect
 {% if (dns_hijacked !== '1'): %}
-iptables -t nat -A sing_dns -d {{ lan_addr }} -p tcp --dport 53 -j REDIRECT --to-ports {{ dns_port }}
-iptables -t nat -A sing_dns -d {{ lan_addr }} -p udp --dport 53 -j REDIRECT --to-ports {{ dns_port }}
+iptables -t nat -A sing_redirect -d {{ lan_addr }} -p udp --dport 53 -j REDIRECT --to-ports {{ dns_port }}
 {% endif /* dns_hijacked */ %}
-iptables -t nat -I PREROUTING -j sing_dns
-
-{# ROUTER PROXY #}
-iptables -t mangle -N sing_router
 {% for (let x in reserved_ip): %}
-iptables -t mangle -A sing_router -d {{ x }} -j RETURN
+iptables -t nat -A sing_redirect -d {{ x }} -j RETURN
 {% endfor %}
 {% if (pass_cn_ip === '1'): %} 
-iptables -t mangle -A sing_router -m set --match-set china_ip4 dst -j RETURN
+iptables -t nat -A sing_redirect -m set --match-set china_ip4 dst -j RETURN
 {% endif /* pass_cn_ip */ %}
 {% if (common_ports === '1'): %}
-iptables -t mangle -A sing_router -p tcp -m multiport ! --dport {{ proxy_ports }} -j RETURN
-iptables -t mangle -A sing_router -p udp -m multiport ! --dport {{ proxy_ports }} -j RETURN
+iptables -t nat -A sing_redirect -p tcp -m multiport ! --dport {{ proxy_ports }} -j RETURN
 {% endif /* common_ports */ %}
-iptables -t mangle -A sing_router -p tcp --dport 53 -j RETURN
-iptables -t mangle -A sing_router -p udp --dport 53 -j RETURN
-iptables -t mangle -A sing_router -j RETURN -m mark --mark 0xff
-iptables -t mangle -A sing_router -p udp -j MARK --set-mark 1
-iptables -t mangle -A sing_router -p tcp -j MARK --set-mark 1
-iptables -t mangle -A OUTPUT -j sing_router
+iptables -t nat -A sing_redirect -p tcp --dport 53 -j RETURN
+iptables -t nat -A sing_redirect -p udp --dport 53 -j RETURN
+iptables -t nat -A sing_redirect -j RETURN -m mark --mark 101
+iptables -t nat -A sing_redirect -p tcp -j REDIRECT --to-ports {{ redirect_port }}
+iptables -t nat -A PREROUTING -j sing_redirect
+iptables -t nat -A OUTPUT -j sing_redirect
 
-{# LAN PROXY #}
-iptables -t mangle -N sing_lan
+{# UDP tproxy #}
+iptables -t mangle -N sing_tproxy
 {% for (let x in reserved_ip): %}
-iptables -t mangle -A sing_lan -d {{ x }} -j RETURN
+iptables -t mangle -A sing_tproxy -d {{ x }} -j RETURN
 {% endfor %}
 {% if (pass_cn_ip === '1'): %} 
-iptables -t mangle -A sing_lan -m set --match-set china_ip4 dst -j RETURN
-{% endif %}
+iptables -t mangle -A sing_tproxy -m set --match-set china_ip4 dst -j RETURN
+{% endif /* pass_cn_ip */ %}
 {% if (fuck_quic === '1'): %}
-iptables -t mangle -A sing_lan -p udp -m multiport --dport 80,443 -j DROP
-{% endif %}
+iptables -t mangle -A sing_tproxy -p udp -m multiport --dport 80,443 -j DROP
+{% endif /* fuck_quic */ %}
 {% if (common_ports === '1'): %}
-iptables -t mangle -A sing_lan -p tcp -m multiport ! --dport {{ proxy_ports }} -j RETURN
-iptables -t mangle -A sing_lan -p udp -m multiport ! --dport {{ proxy_ports }} -j RETURN
-{% endif %}
-iptables -t mangle -A sing_lan -p tcp --dport 53 -j RETURN
-iptables -t mangle -A sing_lan -p udp --dport 53 -j RETURN
-iptables -t mangle -A sing_lan -j RETURN -m mark --mark 0xff
-iptables -t mangle -A sing_lan -p tcp -j TPROXY --on-ip 127.0.0.1 --on-port {{ tproxy_port }} --tproxy-mark 1
-iptables -t mangle -A sing_lan -p udp -j TPROXY --on-ip 127.0.0.1 --on-port {{ tproxy_port }} --tproxy-mark 1
-iptables -t mangle -A PREROUTING -j sing_lan
+iptables -t mangle -A sing_tproxy -p udp -m multiport ! --dport {{ proxy_ports }} -j RETURN
+{% endif /* common_ports */ %}
+iptables -t mangle -A sing_tproxy -p tcp --dport 53 -j RETURN
+iptables -t mangle -A sing_tproxy -p udp --dport 53 -j RETURN
+iptables -t mangle -A sing_tproxy -j RETURN -m mark --mark 101
+iptables -t mangle -A sing_tproxy -p udp -j TPROXY --on-ip 127.0.0.1 --on-port {{ tproxy_port }} --tproxy-mark 1
+iptables -t mangle -A PREROUTING -p udp -j sing_tproxy
 
-{# DIVERT #}
-iptables -t mangle -N divert
-iptables -t mangle -A divert -j MARK --set-mark 1
-iptables -t mangle -A divert -j ACCEPT
-iptables -t mangle -I PREROUTING -p tcp -m socket -j divert
+iptables -t mangle -N sing_tproxy_output
+{% for (let x in reserved_ip): %}
+iptables -t mangle -A sing_tproxy_output -d {{ x }} -j RETURN
+{% endfor %}
+{% if (pass_cn_ip === '1'): %} 
+iptables -t mangle -A sing_tproxy_output -m set --match-set china_ip4 dst -j RETURN
+{% endif /* pass_cn_ip */ %}
+{% if (common_ports === '1'): %}
+iptables -t mangle -A sing_tproxy_output -p udp -m multiport ! --dport {{ proxy_ports }} -j RETURN
+{% endif /* common_ports */ %}
+iptables -t mangle -A sing_tproxy_output -p tcp --dport 53 -j RETURN
+iptables -t mangle -A sing_tproxy_output -p udp --dport 53 -j RETURN
+iptables -t mangle -A sing_tproxy_output -j RETURN -m mark --mark 101
+iptables -t mangle -A sing_tproxy_output -p udp -j MARK --set-mark 1
+iptables -t mangle -A OUTPUT -p udp -j sing_tproxy_output
 
 # vim: set ft=uc:

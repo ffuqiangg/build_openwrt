@@ -102,16 +102,20 @@ stop_service() {
     ip rule del fwmark 1 table 100 2>/dev/null
     ip route del local 0.0.0.0/0 dev lo table 100 2>/dev/null
 
-    iptables -t nat -D PREROUTING -j sing_dns 2>/dev/null
-    iptables -t mangle -D PREROUTING -j sing_lan 2>/dev/null
-    iptables -t mangle -D OUTPUT -j sing_router 2>/dev/null
-    iptables -t mangle -D PREROUTING -p tcp -m socket -j divert 2>/dev/null
-    iptables -t nat -F sing_dns 2>/dev/null
-    iptables -t nat -X sing_dns 2>/dev/null
-    for i in sing_lan sing_router divert; do
-        iptables -t mangle -F $i
-        iptables -t mangle -X $i
-    done 2>/dev/null
+    iptables -t nat -D PREROUTING -j sing_redirect 2>/dev/null
+    iptables -t nat -D OUTPUT -j sing_redirect 2>/dev/null
+    iptables -t mangle -D PREROUTING -p udp -j sing_tproxy 2>/dev/null
+    iptables -t mangle -D OUTPUT -p udp -j sing_tproxy_output 2>/dev/null
+
+    iptables -t nat -F sing_redirect 2>/dev/null
+    iptables -t nat -X sing_redirect 2>/dev/null
+    iptables -t mangle -F sing_redirect 2>/dev/null
+    iptables -t mangle -X sing_redirect 2>/dev/null
+    iptables -t mangle -F sing_tproxy 2>/dev/null
+    iptables -t mangle -X sing_tproxy 2>/dev/null
+    iptables -t mangle -F sing_tproxy_output 2>/dev/null
+    iptables -t mangle -X sing_tproxy_output 2>/dev/null
+
     ipset destroy china_ip4 2>/dev/null
 
     rm -rf $DNSMASQ_DIR/../dnsmasq-sing.conf $DNSMASQ_DIR

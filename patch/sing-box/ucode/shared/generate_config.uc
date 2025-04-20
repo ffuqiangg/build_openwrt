@@ -24,6 +24,7 @@ const conffile = uci.get('sing-box', 'main', 'conffile') || '/etc/sing-box/confi
       tproxy_port = uci.get('sing-box', 'inbounds', 'tproxy_port') || '10105',
       mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2080',
       dns_port = uci.get('sing-box', 'inbounds', 'dns_port') || '2053',
+      redirect_port = uci.get('sing-box', 'inbounds', 'redirect_port') || '2331',
       mixin = uci.get('sing-box', 'mix', 'mixin') || '0',
       mixfile = uci.get('sing-box', 'mix', 'mixfile') || '/etc/sing-box/mixin.json';
 
@@ -51,12 +52,6 @@ for (let v in json(trim(readfile(profile_file))).outbounds) {
         outbounds_block_tag = v.tag;
     else if (v.type === 'dns')
         outbounds_dns_tag = v.tag;
-}
-
-let dns_block_tag;
-for (let v in json(trim(readfile(profile_file))).dns.servers) {
-    if (v.address === 'rcode://refused')
-        dns_block_tag = v.tag;
 }
 /* UCI config end */
 
@@ -101,29 +96,13 @@ config.log = {
 /* DNS */
 config.dns = json(trim(readfile(profile_file))).dns;
 
-if (!('hijack-dns' in route_rules_action)) {
-    config.dns.servers = [];
-    for (let v in json(trim(readfile(profile_file))).dns.servers) {
-        if (v.tag !== dns_block_tag)
-            push(config.dns.servers, v);
-    }
-
-    config.dns.rules = [];
-    for (let v in json(trim(readfile(profile_file))).dns.rules) {
-        if (v.server === dns_block_tag)
-            push(config.dns.rules, json(replace(v, /"server": ".*"/, '\"action\": \"reject\"')));
-        else
-            push(config.dns.rules, v);
-    }
-}
-
 /* Experimental */
 config.experimental = {
     clash_api: {
         external_controller: '0.0.0.0:' + external_controller_port,
         external_ui: external_ui,
         secret: secret,
-        external_ui_download_url: 'https://gh-proxy.com/' + ui_url,
+        external_ui_download_url: 'https://gh-proxy.com/' + ltrim(ui_url, 'https://'),
         external_ui_download_detour: outbounds_direct_tag,
         default_mode: default_mode
     },
@@ -139,6 +118,7 @@ config.inbounds = [
     {
         type: 'tproxy',
         tag: 'tproxy-in',
+        network: 'udp',
         listen: '::',
         listen_port: int(tproxy_port)
     },
@@ -153,6 +133,12 @@ config.inbounds = [
         tag: 'dns-in',
         listen: '::',
         listen_port: int(dns_port)
+    },
+    {
+        type: 'redirect',
+        tag: 'redirect-in',
+        listen: '::',
+        listen_port: int(redirect_port)
     }
 ];
 
@@ -162,6 +148,11 @@ config.outbounds = [];
 for (let v in json(trim(readfile(profile_file))).outbounds) {
     if (!(v.type in ['dns', 'block']))
         push(config.outbounds, v);
+}
+
+for (let i = 0; i < length(config.outbounds); i++) {
+    if (!(config.outbounds[i].type in ['selector', 'urltest']))
+        config.outbounds[i].routing_mark = '101';
 }
 
 /* Route */

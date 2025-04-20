@@ -1,8 +1,6 @@
-#!/usr/bin/utpl
+#!/usr/bin/utpl -S
 
 {%-
-   'use strict';
-
     import { readfile } from 'fs';
     import { cursor } from 'uci';
 
@@ -15,7 +13,8 @@
           pass_cn_ip = uci.get('sing-box', 'proxy', 'pass_cn_ip') || '0',
           fuck_quic = uci.get('sing-box', 'proxy', 'fuck_quic') || '0',
           tproxy_port = uci.get('sing-box', 'inbounds', 'tproxy_port') || '10105',
-          mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2080';
+          mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2080',
+          redirect_port = uci.get('sing-box', 'inbounds', 'redirect_port') || '2331';
 
     const proxy_ports = '22,80,143,443,465,587,853,873,993,995,8080,8443,9418' + ',' + mixed_port;
 
@@ -63,39 +62,36 @@ table inet sing-box {
     }
     {% endif /* pass_cn_ip */ %}
 
-    {# Router proxy -#}
-    chain mangle_output {
-        type route hook output priority mangle; policy accept;
-        fib daddr type { local, broadcast, anycast, multicast } counter return
-        ct direction reply counter return
+    {# DNS hijack & TCP redirect #}
+    chain dstnat {
+        type nat hook prerouting priority dstnat; policy accept;
+        {% if (dns_hijacked !== '1'): %}
+        meta nfproto { ipv4, ipv6 } udp dport 53 counter redirect to :{{ dns_port }}
+        {% endif /* dns_hijacked */ %}
+        meta nfproto ipv4 meta l4proto tcp jump sing_redirect
+    }
+
+    chain sing_redirect {
+        meta mark 101 counter return
         ip daddr @reserved_ip counter return
         {% if (pass_cn_ip === '1'): %}
         ip daddr @china_ip4 counter return
         {% endif /* pass_cn_ip */ %}
         {% if (common_ports === '1'): %}
-        meta nfproto ipv4 meta l4proto { tcp, udp } th dport != @proxy_dport counter return
+        tcp dport != @proxy_dport counter return
         {% endif /* common_ports */ %}
-        meta nfproto ipv4 meta l4proto { tcp, udp } th dport 53 counter return
-        meta nfproto ipv4 meta l4proto { tcp, udp } meta mark set 1 counter
+        meta l4proto tcp counter redirect to :{{ redirect_port }}
     }
 
-    chain mangle_prerouting_router {
-        type filter hook prerouting priority mangle - 1; policy accept;
-        meta l4proto { tcp, udp } iifname lo meta mark 1 tproxy to :{{ tproxy_port }} counter accept
+    chain sing_output_redir {
+        type nat hook output priority filter -105; policy accept
+        meta nfproto ipv4 meta l4proto tcp jump sing_redirect
     }
 
-    {# LAN proxy -#}
-    chain dstnat {
-        type nat hook prerouting priority dstnat + 1; policy accept;
-        {% if (dns_hijacked !== '1'): %}
-        meta nfproto ipv4 meta l4proto { tcp, udp } th dport 53 counter redirect to :{{ dns_port }}
-        {% endif /* dns_hijacked */ %}
-    }
-
-    chain mangle_prerouting_lan {
-        type filter hook prerouting priority mangle; policy accept;
-        fib daddr type { local, broadcast, anycast, multicast } counter return
-        ct direction reply counter return
+    {# UDP tproxy #}
+    chain sing_mangle_prerouting {
+        iifname != lo udp dport 53 counter return
+        meta mark 101 counter return
         ip daddr @reserved_ip counter return
         {% if (pass_cn_ip === '1'): %}
         ip daddr @china_ip4 counter return
@@ -104,10 +100,31 @@ table inet sing-box {
         udp dport { 80, 443 } counter reject
         {% endif /* fuck_quic */ %}
         {% if (common_ports === '1'): %}
-        meta nfproto ipv4 meta l4proto { tcp, udp } th dport != @proxy_dport counter return
+        udp dport != @proxy_dport counter return
         {% endif /* common_ports */ %}
-        meta nfproto ipv4 meta l4proto { tcp, udp } th dport 53 counter return
-        meta nfproto ipv4 meta l4proto { tcp, udp } meta mark set 1 tproxy ip to :{{ tproxy_port }} counter accept
+        meta l4proto udp meta mark set 1 tproxy ip to 127.0.0.1:{{ tproxy_port }} counter accept
+    }
+
+    chain sing_mangle_output {
+        meta mark 101 counter return
+        ip daddr @reserved_ip counter return
+        {% if (pass_cn_ip === '1'): %}
+        ip daddr @china_ip4 counter return
+        {% endif /* pass_cn_ip */ %}
+        {% if (common_ports === '1'): %}
+        udp dport != @proxy_dport counter return
+        {% endif /* common_ports */ %}
+        meta l4proto udp meta mark set 101 counter accept
+    }
+
+    chain mangle_prerouting {
+        type filter hook prerouting priority mangle; policy accept;
+        meta nfproto ipv4 meta l4proto udp jump sing_mangle_prerouting
+    }
+
+    chain mangle_output {
+        type route hook output priority mangle; policy accept;
+        meta nfproto ipv4 meta l4proto udp jump sing_mangle_output
     }
 }
 

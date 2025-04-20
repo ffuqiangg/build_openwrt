@@ -99,6 +99,7 @@ stop_service() {
 
     ip rule del fwmark 1 table 100 2>/dev/null
     ip route del local 0.0.0.0/0 dev lo table 100 2>/dev/null
+
     nft delete table inet sing-box 2>/dev/null
 
     rm -rf $DNSMASQ_DIR/../dnsmasq-sing.conf $DNSMASQ_DIR
