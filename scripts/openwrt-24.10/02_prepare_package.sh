@@ -57,8 +57,8 @@ cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
 #Vermagic
 latest_version="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/v//g' | sed 's/.tar.gz//g')"
-wget https://downloads.openwrt.org/releases/${latest_version}/targets/armsr/armv8/packages/Packages.gz
-zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' > .vermagic
+wget https://downloads.openwrt.org/releases/${latest_version}/targets/armsr/armv8/profiles.json
+jq -r '.linux_kernel.vermagic' profiles.json > .vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
 ### 预配置一些插件 ###
