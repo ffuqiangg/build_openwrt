@@ -78,6 +78,7 @@ cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 latest_version="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/v//g' | sed 's/.tar.gz//g')"
 wget https://downloads.immortalwrt.org/releases/${latest_version}/targets/armsr/armv8/profiles.json
 jq -r '.linux_kernel.vermagic' profiles.json > .vermagic
+cat .vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
 # 预配置一些插件
