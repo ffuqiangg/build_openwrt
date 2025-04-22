@@ -11,6 +11,8 @@ sed -i 's/Os/O2/g' include/target.mk
 # 移除 SNAPSHOT 标签
 sed -i 's,-SNAPSHOT,,g' include/version.mk
 sed -i 's,-SNAPSHOT,,g' package/base-files/image-config.in
+sed -i '/CONFIG_BUILDBOT/d' include/feeds.mk
+sed -i 's/;)\s*\\/; \\/' include/feeds.mk
 
 ### FIREWALL ###
 # custom nft command

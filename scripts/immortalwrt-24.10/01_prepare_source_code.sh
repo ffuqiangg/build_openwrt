@@ -15,10 +15,10 @@ clone_repo $amlogic_repo main amlogic &
 wait
 
 # 进行一些处理
-# find openwrt/package/* -maxdepth 0 ! -name 'firmware' ! -name 'kernel' ! -name 'base-files' ! -name 'Makefile' -exec rm -rf {} +
-# rm -rf ./openwrt_snap/package/firmware ./openwrt_snap/package/kernel ./openwrt_snap/package/base-files ./openwrt_snap/package/Makefile
-# cp -rf ./openwrt_snap/package/* ./openwrt/package/
-# cp -rf ./openwrt_snap/feeds.conf.default ./openwrt/feeds.conf.default
+find openwrt/package/* -maxdepth 0 ! -name 'firmware' ! -name 'kernel' ! -name 'base-files' ! -name 'Makefile' -exec rm -rf {} +
+rm -rf ./openwrt_snap/package/firmware ./openwrt_snap/package/kernel ./openwrt_snap/package/base-files ./openwrt_snap/package/Makefile
+cp -rf ./openwrt_snap/package/* ./openwrt/package/
+cp -rf ./openwrt_snap/feeds.conf.default ./openwrt/feeds.conf.default
 
 # 设置默认密码为 password
 sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7:::/g' openwrt/package/base-files/files/etc/shadow
