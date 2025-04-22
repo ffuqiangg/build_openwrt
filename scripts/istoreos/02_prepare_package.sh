@@ -63,6 +63,11 @@ pushd package/new/luci-app-verysync
 move_2_services nas
 popd
 
+#Vermagic
+wget https://downloads.openwrt.org/releases/22.03.7/targets/armvirt/64/packages/Packages.gz
+zgrep -m 1 "Depends: kernel (=.*)$" Packages.gz | sed -e 's/.*-\(.*\))/\1/' > .vermagic
+sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
+
 # 预配置一些插件
 mkdir -p files
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
