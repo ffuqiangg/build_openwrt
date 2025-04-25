@@ -16,6 +16,7 @@
 - `2025.04.04` 修复某些特定情况下无法正常下载 rule_set 规则集导致服务启动失败：自动为规则集 url 为 github.com 和 githubusercontent.com 的地址添加 github 代理并使用直连下载。
 - `2025.04.08` 优化 DNS 转发，`网络 -> DHCP/DNS -> DNS 重定向` 选项开启时使用 DNSMASQ 转发 DNS ，未开启或没有此项则使用防火墙转发 DNS 。
 - `2025.04.20` 优化防火墙规则，代理方式调整为 redirect(tcp) + tproxy(udp) 。
+- `2025.04.25` 调整 mixed 代理默认监听端口。
 
 ### 安装命令
 
@@ -77,7 +78,7 @@ config sing-box 'subscription'
 - 使用订阅时服务启动会自动下载所有订阅，所以定时重启也能起到更新订阅的作用。
 - 如果有更多订阅，配置中新建更多 `list url` 项目即可。
 
-4. **网关相关配置** `2025,04.20 更新增加 redirect 监听端口设置`
+4. **网关相关配置** `2025,04.25 更新调整 mixed 默认监听端口`
 ```config
 config sing-box 'log'
 	option level 'warn'                     # 日志等级
@@ -94,7 +95,7 @@ config sing-box 'experimental'
 
 config sing-box 'inbounds'
 	option tproxy_port '10105'              # tproxy 监听端口
-	option mixed_port '2080'                # mixed 代理端口
+	option mixed_port '2881'                # mixed 代理端口
 	option dns_port '2053'                  # DNS 入站端口 (direct)
 	option redirect_port '2331'             # redirect 监听端口
 ```
