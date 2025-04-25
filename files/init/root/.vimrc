@@ -20,13 +20,13 @@ set modeline                         " for specify filetype
 syntax on                            " turn syntax highlighting on by defautl
 set mouse=a                          " turn mouse support on
 
-"set nowrap                          " line exceed screen don't wrap
+set nowrap                           " line exceed screen don't wrap
 "set breakindent                     " set indent in wrap
 "set breakindentopt=shift:1          " wrap line additional indent
 "set list                            " show nontext
 "set listchars=extends:>,precedes:<  " show at line left/right if wrap is off
 "set sidescroll=1                    " line exceed screen cursor smooth scrolling
-"set laststatus=2                    " always show statusline
+set laststatus=2                     " always show statusline
 "set numberwidth=5                   " line number width configure 
 "set cursorline                      " highlight current line
 set scrolloff=2                      " keep <n> lines when scrolling
@@ -92,8 +92,18 @@ autocmd filetype yaml set ts=2 sw=2 sts=2
 autocmd filetype json set ts=2 sw=2 sts=2
 
 " User Interface
-hi TabLine term=bold cterm=bold ctermfg=7 ctermbg=NONE
-hi TabLineFill term=bold cterm=bold gui=bold
-hi TabLineSel term=reverse ctermfg=7 ctermbg=1 gui=reverse
-hi Pmenu cterm=bold ctermfg=0 ctermbg=0 guibg=DarkGrey
-hi PmenuSel ctermfg=0 ctermbg=5 guibg=Magenta
+set t_Co=256
+set background=dark
+let g:jellybeans_use_term_italics=1
+let g:jellybeans_overrides = {
+\    'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
+\}
+if has('termguicolors') && &termguicolors
+    let g:jellybeans_overrides['background']['guibg'] = 'none'
+endif
+colorscheme jellybeans
+" hi TabLine term=bold cterm=bold ctermfg=7 ctermbg=NONE
+" hi TabLineFill term=bold cterm=bold gui=bold
+" hi TabLineSel term=reverse ctermfg=7 ctermbg=1 gui=reverse
+" hi Pmenu cterm=bold ctermfg=0 ctermbg=0 guibg=DarkGrey
+" hi PmenuSel ctermfg=0 ctermbg=5 guibg=Magenta
