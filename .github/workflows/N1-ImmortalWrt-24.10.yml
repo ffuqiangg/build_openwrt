@@ -68,7 +68,6 @@ jobs:
       run: |
         cp -r ../scripts/immortalwrt-24.10/. ./
         /bin/bash 02_prepare_package.sh
-        /bin/bash 03_remove_upx.sh
 
     - name: Load custom configuration
       run: |
