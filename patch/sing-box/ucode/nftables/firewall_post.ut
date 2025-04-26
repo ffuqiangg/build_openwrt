@@ -13,7 +13,7 @@
           pass_cn_ip = uci.get('sing-box', 'proxy', 'pass_cn_ip') || '0',
           fuck_quic = uci.get('sing-box', 'proxy', 'fuck_quic') || '0',
           tproxy_port = uci.get('sing-box', 'inbounds', 'tproxy_port') || '10105',
-          mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2080',
+          mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2881',
           redirect_port = uci.get('sing-box', 'inbounds', 'redirect_port') || '2331';
 
     const proxy_ports = '22,80,143,443,465,587,853,873,993,995,8080,8443,9418' + ',' + mixed_port;
