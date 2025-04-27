@@ -72,7 +72,7 @@ jobs:
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cp ../config/istoreos/. ./
+        cp -r ../config/istoreos/. ./
         cat kmod.config >> config.seed && mv config.seed .config
         make defconfig
 
