@@ -72,7 +72,8 @@ jobs:
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cp ../config/istoreos/config.seed .config
+        cp ../config/istoreos/. ./
+        cat kmod.config >> config.seed && mv config.seed .config
         make defconfig
 
     - name: Download package
