@@ -156,6 +156,6 @@ jobs:
         *${{ env.build_date }}* 固件编译完成
         https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.build_date }}
         "
-        if [[ "${firmware_num}" == 5 ]]; then
+        if [[ "${firmware_num}" == 7 ]]; then
           curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=true"
         fi
