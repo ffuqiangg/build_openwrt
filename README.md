@@ -12,7 +12,7 @@
 - 默认 IP：192.168.1.99， 默认密码：password 。
 - 插件：PassWall，v2rayA，Homeproxy，OpenClash，Nikki，DAED，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP 服务器，DockerMan，DocKer-Compose，UPNP，VerySync 。
 - 各固件包含的科学插件略有差别，具体区别见 release 说明。
-- ImmortalWrt-24.10，OpenWrt-24.10 固件经过特殊优化可避免安装 kmod 内核模块时出现 pkg_hash 错误。
+- ImmortalWrt-24.10，OpenWrt-24.10 固件经过特殊优化可避免安装 kmod 内核模块时出现 pkg_hash 错误。iStoreOS，LEDE 固件可以通过命令一键部署本地 kmod 源解决 kmod 安装问题（具体命令见各 release 说明）。
 - 固件对一些命令进行了简化，如 `ungz = tar -xvzf`，`777 = chmod -R 777`，`mkdirg X = mkdir -p X && cd X` 等，详情可查看仓库 [shinit](files/init/etc/shinit) 文件。
 - 在终端里输入命令起始部分再通过键盘 `↑ ↓` 可以匹配执行过的历史命令快速输入。
 - 固件刷机：具体方法请认真阅读 ⌈ [使用说明](doc/readme.md) ⌋ 。

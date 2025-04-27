@@ -34,4 +34,3 @@ fi
 opkg update
 
 exit 0
-
