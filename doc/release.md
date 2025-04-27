@@ -12,7 +12,7 @@
 - OpenWrt-24.10 及 ImmortalWrt-24.10 固件系统分区由 23.05 固件的 720M 调整为 820M 。
 - N1-*-sfs.zip 文件是 LEDE 或 iStoreOS 系统固件，对应的 packages.zip 文件是用于部署本地 kmod 源所用的压缩包。下面的命令能够一键部署本地 kmod 源。
 ```bash
-sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/files/distfeeds_deploy.sh)"
+sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/files/deploy_feeds.sh)"
 ```
 
 ### 固件差异
