@@ -92,16 +92,10 @@ autocmd filetype yaml set ts=2 sw=2 sts=2
 autocmd filetype json set ts=2 sw=2 sts=2
 
 " User Interface
-set t_Co=256
+set termguicolors
 set background=dark
-let g:jellybeans_use_term_italics=1
-let g:jellybeans_overrides = {
-\    'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
-\}
-if has('termguicolors') && &termguicolors
-    let g:jellybeans_overrides['background']['guibg'] = 'none'
-endif
-colorscheme jellybeans
+let g:onedark_terminal_italics=1
+colorscheme onedark
 " hi TabLine term=bold cterm=bold ctermfg=7 ctermbg=NONE
 " hi TabLineFill term=bold cterm=bold gui=bold
 " hi TabLineSel term=reverse ctermfg=7 ctermbg=1 gui=reverse
