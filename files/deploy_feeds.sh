@@ -26,9 +26,9 @@ cd /www && unzip packages.zip && rm -rf packages.zip
 
 # Modify distfeeds.conf
 if [ $(grep -c "LEDE" /etc/openwrt_release) -ne 0 ]; then
-    sed -i "/openwrt_core/c src\/gz openwrt_core file:\/\/\/www\/packages" /etc/opkg/distfeeds.conf
+    sed -i '/openwrt_core/c src\/gz openwrt_core file:\/\/\/www\/packages' /etc/opkg/distfeeds.conf
 elif [ $(grep -c "iStoreOS" /etc/openwrt_release) -ne 0 ]; then
-    echo "src/gz openwrt_core file:///www/packages" >> /etc/opkg/compatfeeds.conf
+    sed -i '$a src\/gz openwrt_core file:\/\/\/www\/packages' /etc/opkg/compatfeeds.conf
 fi
 
 opkg update
