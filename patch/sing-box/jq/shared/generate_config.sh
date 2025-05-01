@@ -20,7 +20,7 @@ if [ "$store_fakeip" = "1" ]; then store_fakeip='true'; else store_fakeip='false
 if [ "$store_rdrc" = "1" ]; then store_rdrc='true'; else store_rdrc='false'; fi
 
 [ "$ui_name" = "metacubexd" ] && ui_url='https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip'
-[ "$ui_name" = "zashboard" ] && ui_url='https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip'
+[ "$ui_name" = "zashboard" ] && ui_url='https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip'
 [ "$ui_name" = "yacd" ] && ui_url='https://github.com/MetaCubeX/Yacd-meta/archive/refs/heads/gh-pages.zip'
 
 if [ "$remote" = "0" ]; then

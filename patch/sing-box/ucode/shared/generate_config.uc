@@ -32,7 +32,7 @@ let ui_url;
 if (ui_name === 'metacubexd')
     ui_url = 'https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip';
 else if (ui_name === 'zashboard')
-    ui_url = 'https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip';
+    ui_url = 'https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip';
 else if (ui_name === 'yacd')
     ui_url = 'https://github.com/MetaCubeX/Yacd-meta/archive/refs/heads/gh-pages.zip';
 
