@@ -92,12 +92,7 @@ autocmd filetype yaml set ts=2 sw=2 sts=2
 autocmd filetype json set ts=2 sw=2 sts=2
 
 " User Interface
-set termguicolors
+set t_Co=256
 set background=dark
-let g:onedark_terminal_italics=1
-colorscheme onedark
-" hi TabLine term=bold cterm=bold ctermfg=7 ctermbg=NONE
-" hi TabLineFill term=bold cterm=bold gui=bold
-" hi TabLineSel term=reverse ctermfg=7 ctermbg=1 gui=reverse
-" hi Pmenu cterm=bold ctermfg=0 ctermbg=0 guibg=DarkGrey
-" hi PmenuSel ctermfg=0 ctermbg=5 guibg=Magenta
+hi TabLine term=underline cterm=NONE ctermfg=15 ctermbg=242 guibg=DarkGrey
+hi TabLineFill term=underline cterm=NONE ctermfg=15 ctermbg=242 guibg=DarkGrey
