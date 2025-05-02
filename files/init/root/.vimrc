@@ -96,3 +96,4 @@ set t_Co=256
 set background=dark
 hi TabLine term=underline cterm=NONE ctermfg=15 ctermbg=242 guibg=DarkGrey
 hi TabLineFill term=underline cterm=NONE ctermfg=15 ctermbg=242 guibg=DarkGrey
+hi LineNr term=underline ctermfg=242 guifg=DarkGrey
