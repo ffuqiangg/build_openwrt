@@ -17,6 +17,7 @@
 - `2025.04.08` 优化 DNS 转发，`网络 -> DHCP/DNS -> DNS 重定向` 选项开启时使用 DNSMASQ 转发 DNS ，未开启或没有此项则使用防火墙转发 DNS 。
 - `2025.04.20` 优化防火墙规则，代理方式调整为 redirect(tcp) + tproxy(udp) 。
 - `2025.04.25` 调整 mixed 代理默认监听端口。
+- `2025.05.04` 新增日志输出方式（ 面板 / 文件 ）选项。
 
 ### 安装命令
 
@@ -78,11 +79,12 @@ config sing-box 'subscription'
 - 使用订阅时服务启动会自动下载所有订阅，所以定时重启也能起到更新订阅的作用。
 - 如果有更多订阅，配置中新建更多 `list url` 项目即可。
 
-4. **网关相关配置** `2025,04.25 更新调整 mixed 默认监听端口`
+4. **网关相关配置** `2025,05.04 更新增加日志输出方式选项`
 ```config
 config sing-box 'log'
 	option level 'warn'                     # 日志等级
-	option output '/var/log/sing-box.log'   # 日志文件路径
+	option log_file '0'                     # 日志输出方式，0 输出到面板，1 输出到文件
+	option output '/var/log/sing-box.log'   # 日志文件路径（log_file 为 0 时此项无效）
 
 config sing-box 'experimental'
 	option external_controller_port '9900'  # 后台页面端口
