@@ -20,7 +20,6 @@ const conffile = uci.get('sing-box', 'main', 'conffile') || '/etc/sing-box/confi
       secret = uci.get('sing-box', 'experimental', 'secret') || 'ffuqiangg',
       ui_name = uci.get('sing-box', 'experimental', 'ui_name') || 'metacubexd',
       default_mode = uci.get('sing-box', 'experimental', 'default_mode') || 'rule',
-      store_fakeip = uci.get('sing-box', 'experimental', 'store_fakeip') || '0',
       store_rdrc = uci.get('sing-box', 'experimental', 'store_rdrc') || '0',
       tproxy_port = uci.get('sing-box', 'inbounds', 'tproxy_port') || '10105',
       mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2881',
@@ -109,7 +108,7 @@ config.experimental = {
     },
     cache_file: {
         enabled: true,
-        store_fakeip: (store_fakeip === '1') || null,
+        store_fakeip: (config.dns.fakeip.enabled === true) || null,
         store_rdrc: (store_rdrc === '1') || null
     }
 };

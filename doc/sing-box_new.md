@@ -18,6 +18,7 @@
 - `2025.04.20` 优化防火墙规则，代理方式调整为 redirect(tcp) + tproxy(udp) 。
 - `2025.04.25` 调整 mixed 代理默认监听端口。
 - `2025.05.04` 新增日志输出方式（ 面板 / 文件 ）选项。
+- `2025.05.05` 删除缓存 fakeip 设置，改为检测配置文件中 fakeip 启用自动开启。
 
 ### 安装命令
 
@@ -79,7 +80,7 @@ config sing-box 'subscription'
 - 使用订阅时服务启动会自动下载所有订阅，所以定时重启也能起到更新订阅的作用。
 - 如果有更多订阅，配置中新建更多 `list url` 项目即可。
 
-4. **网关相关配置** `2025,05.04 更新增加日志输出方式选项`
+4. **网关相关配置** `2025,05.04 更新删除缓存 fakeip 设置改为启用 fakeip 自动开启`
 ```config
 config sing-box 'log'
 	option level 'warn'                     # 日志等级
@@ -92,7 +93,6 @@ config sing-box 'experimental'
 	option secret 'ffuqiangg'               # 后台页面登陆密钥
 	option ui_name 'metacubexd'             # Web 面板，可选值 metacubexd / zashboard / yacd
 	option default_mode 'rule'              # clash 默认模式
-	option store_fakeip '0'                 # 缓存 fakeip，0 禁用，1 启用
 	option store_rdrc '0'                   # 缓存 rdrc，0 禁用，1 启用
 
 config sing-box 'inbounds'
