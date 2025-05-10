@@ -1,0 +1,61 @@
+{
+  "fuck_ads": {
+    "enabled": false,
+    "rule_set": {
+      "adguard-dns-filter": "https://testingcf.jsdelivr.net/gh/ffuqiangg/sing-box-adsruleset@main/rule/adguard-dns-filter.srs"
+    }
+  },
+  "dns": {
+    "mode": "normal",
+    "main_dns": "https://dns.google/dns-query",
+    "main_dns2": "https://dns.cloudflare.com/dns-query",
+    "china_dns": "h3://223.5.5.5/dns-query",
+    "china_dns2": "https://1.12.12.12/dns-query"
+  },
+  "area_group": {
+    "香港": {
+      "type": "urltest",
+      "filter": "🇭🇰|HK|hk|香港|HongKong"
+    },
+    "台湾": {
+      "type": "urltest",
+      "filter": "🇹🇼|TW|tw|台湾|Taiwan"
+    },
+    "日本": {
+      "type": "urltest",
+      "filter": "🇯🇵|JP|jp|日本|Japan"
+    },
+    "新加坡": {
+      "type": "urltest",
+      "filter": "🇸🇬|SG|sg|新加坡|Singapore"
+    },
+    "美国": {
+      "type": "urltest",
+      "filter": "🇺🇸|US|us|美国|United States"
+    },
+    "德国": {
+      "type": "urltest",
+      "filter": "🇩🇪|DE|de|德国|Germany"
+    }
+  },
+  "proxy_group": {
+    "Google": {
+      "geoip-google": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/google.srs",
+      "geosite-google": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.srs"
+    },
+    "Github": {
+      "geosite-github": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/github.srs"
+    },
+    "Telegram": {
+      "geoip-telegram": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/telegram.srs",
+      "geosite-telegram": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/telegram.srs"
+    },
+    "NETFLIX": {
+      "geoip-netflix": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/netflix.srs",
+      "geosite-netflix": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/netflix.srs"
+    },
+    "Spotify": {
+      "geosite-spotify": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/spotify.srs"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 ## sing-box 安装使用文档
 
-重新写了一个 sing-box 服务。使用 redirect(tcp) + tproxy(udp) 代理，fw3、fw4 都可以使用，支持自动下载订阅，自动重启更新订阅，修复了老方法 docker bridge 网络的联网问题，一些配置参数可自定义，也支持使用 json 模板文件自动修改配置文件，仅支持 ipv4，不支持 ipv6 。
+重新写了一个 sing-box 服务。使用 redirect(tcp) + tproxy(udp) 代理，fw3、fw4 都可以使用，支持自动下载订阅，自动重启更新订阅，修复了老方法 docker bridge 网络的联网问题，一些配置参数可自定义，支持动态调整 DNS 及路由分流规则，仅支持 ipv4，不支持 ipv6 。
 
 本项目不具备订阅转换功能，如果机场没有提供 sing-box 订阅可以使用转换服务。仓库的另一篇 [文档](sing-box-subscribe.md) 中有使用 sing-box-subscribe 配合本项目使用的一些简单介绍。
 
@@ -19,6 +19,7 @@
 - `2025.04.25` 调整 mixed 代理默认监听端口。
 - `2025.05.04` 新增日志输出方式（ 面板 / 文件 ）选项。
 - `2025.05.05` 删除缓存 fakeip 设置，改为检测到配置文件启用 fakeip 自动开启。
+- `2025.05.10` 原模板功升级为混入功能，可动态调整 DNS 和路由分流规则，还包含可手动开启的去广告功能。
 
 ### 安装命令
 
@@ -26,7 +27,7 @@ ucode 版本安装命令（推荐使用）
 ```bash
 sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/patch/sing-box/ucode/install.sh)"
 ```
-jq 版本安装命令（停止维护）
+jq 版本安装命令（2025.04.01 后停止维护）
 ```bash
 sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/patch/sing-box/jq/install.sh)"
 ```
@@ -58,7 +59,7 @@ config sing-box 'main'
 ```
 - conffile 为配置文件路径、workdir 为服务运行目录，不要修改否则运行会出错。
 
-2. **代理相关** `2025.04.01 更新增加屏蔽 quic 功能`
+2. **代理相关** `2025.04.01 更新 增加屏蔽 quic 功能`
 ```config
 config sing-box 'proxy'
 	option common_ports '0'            # 仅代理常用端口，0 否，1 是
@@ -67,7 +68,7 @@ config sing-box 'proxy'
 ```
 - 使用 p2p 下载可开启仅代理常用端口，避免 p2p 流量进入 sing-box 核心。
 
-3. **配置文件和订阅相关** `2025.04.01 更新取消本地 -1 运行方式`
+3. **配置文件和订阅相关** `2025.04.01 更新 取消本地 -1 运行方式`
 ```config
 config sing-box 'subscription'
 	option remote '1'                  # 使用订阅还是本地配置，0 本地配置文件，1 订阅1，2 订阅2 ...
@@ -80,7 +81,7 @@ config sing-box 'subscription'
 - 使用订阅时服务启动会自动下载所有订阅，所以定时重启也能起到更新订阅的作用。
 - 如果有更多订阅，配置中新建更多 `list url` 项目即可。
 
-4. **网关相关配置** `2025,05.04 更新删除缓存 fakeip 设置改为启用 fakeip 自动开启`
+4. **网关相关配置** `2025.05.04 更新 删除缓存 fakeip 设置改为检测到 fakeip 启用自动开启`
 ```config
 config sing-box 'log'
 	option level 'warn'                     # 日志等级
@@ -110,15 +111,14 @@ config sing-box 'inbounds'
 
 [^1]: 服务会调整的部分包含完整的 `.log` `.experimental` 和 `.inbounds` ，以及 `.route.rules` 中与 inbounds 和 dns 相关的部分。
 
-5. **模板**
+5. **混入** `2025.05.10 更新 模板功能升级为混入功能`
 ```config
 config sing-box 'mix'
-	option mixin '0'                            # 模板功能，0 不启用，1 启用
-	option mixfile '/etc/sing-box/mixin.json'   # 模板文件路径
+	option mixin '0'                            # 混入功能，0 不启用，1 启用
 ```
-- 模板功能通常配合订阅使用，用以对 dns route 等进行自定义。本地配置文件完全没必要使用这个功能直接修改配置文件就好。
-- 模板功能会依照模板文件完整替换配置文件 `top-level` 的 objects 。且对配置文件的修改拥有最高权限，会覆盖服务脚本对配置文件的必要调整，一定要谨慎使用。
-- 调整节点分组等涉及 `outbounds` 的部分，使用订阅转换服务会更加灵活。
+- 混入功能用于动态调整 DNS 和路由分流规则，包含可手动开启的去广告功能（默认关闭）。
+- 默认设置下 DNS 模式为 normal（共三种模式，详细情况见 [MIXIN 文档](mixin.md) DNS 部分说明。），自动创建香港、台湾、日本、新加坡、美国、德国地区的节点分组（如果没有该地区的节点则自动跳过），包含 Google，Github，Telegram，NETFLIX，Spotify 分流规则。
+- 如要调整 DNS、添加删除分流规则、开启去广告功能，请按照 [MIXIN 文档](mixin.md) 中的说明修改 `/etc/sing-box/resources/mixin.json` 文件。
 
 ### 最小配置
 
