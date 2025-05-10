@@ -57,7 +57,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 echo -e "${GREEN_COLOR}INFO${RES} Download mixin file ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/resources/mixin.json $mirror${download_dir}/share/mixin.json
+curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/resources/mixin.json $mirror${download_dir}/shared/mixin.json
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} download mixin file failed."
     exit 1
