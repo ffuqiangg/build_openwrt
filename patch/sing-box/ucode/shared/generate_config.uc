@@ -441,7 +441,7 @@ if (mixin === '1') {
         tag: 'geosite-cn',
         type: 'remote',
         format: 'binary',
-        url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs',
+        url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-cn.srs',
         download_detour: '直连'
     });
     push(config.route.rule_set, {
