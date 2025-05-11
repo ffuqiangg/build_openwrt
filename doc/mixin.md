@@ -5,12 +5,12 @@
   "fuck_ads": {
     "enabled": false,
     "rule_set": {
-      "adguard-dns-filter": "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/sing-box-adsruleset/main/rule/adguard-dns-filter.srs"
+      "adguard-dns-filter": "https://testingcf.jsdelivr.net/gh/ffuqiangg/sing-box-adsruleset@main/rule/adguard-dns-filter.srs"
     }
   }
 ```
 - `enabled` 功能开关，可选值：true 开启去广告，false 不使用去广告。
-- `rule_set` 中是去广告使用的规则集，`adguard-dns-filter` 为规则集名称，后面的值是规则集下载地址。
+- `rule_set` 去广告使用的规则集，`adguard-dns-filter` 为规则集名称，后面的值是规则集下载地址。
 - 如果要修改或增加新的规则集，取名时注意规则集名称不能重复，规则集下载地址必须是可以直连的地址。
 
 2. **DNS**
@@ -67,22 +67,22 @@
 ```json
   "proxy_group": {
     "Google": {
-      "geoip-google": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/google.srs",
-      "geosite-google": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/google.srs"
+      "geoip-google": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/google.srs",
+      "geosite-google": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.srs"
     },
     "Github": {
-      "geosite-github": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/github.srs"
+      "geosite-github": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/github.srs"
     },
     "Telegram": {
-      "geoip-telegram": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/telegram.srs",
-      "geosite-telegram": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/telegram.srs"
+      "geoip-telegram": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/telegram.srs",
+      "geosite-telegram": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/telegram.srs"
     },
     "NETFLIX": {
-      "geoip-netflix": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/netflix.srs",
-      "geosite-netflix": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/netflix.srs"
+      "geoip-netflix": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/netflix.srs",
+      "geosite-netflix": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/netflix.srs"
     },
     "Spotify": {
-      "geosite-spotify": "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geosite/spotify.srs"
+      "geosite-spotify": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/spotify.srs"
     }
   }
 ```
