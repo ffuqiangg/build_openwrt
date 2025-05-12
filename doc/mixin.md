@@ -12,6 +12,7 @@
 - `enabled` 功能开关，可选值：true 开启去广告，false 不使用去广告。
 - `rule_set` 去广告使用的规则集，`adguard-dns-filter` 为规则集名称，后面的值是规则集下载地址。
 - 如果要修改或增加新的规则集，取名时注意规则集名称不能重复，规则集下载地址必须是可以直连的地址。
+- 默认规则集由 [AdGuard-DNS-filter](https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt) 规则转换而来。
 
 2. **DNS**
 ```json
