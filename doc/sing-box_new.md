@@ -53,7 +53,7 @@ sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@mai
 1. **基本设置**
 ```config
 config sing-box 'main'
-	option enabled '0'           # 总开关，设为 1 服务才能运行
+	option enabled '0'                      # 总开关，设为 1 服务才能运行
 	option conffile '/etc/sing-box/config.json'
 	option workdir '/etc/sing-box'
 ```
@@ -62,20 +62,20 @@ config sing-box 'main'
 2. **代理相关** `2025.04.01 更新 增加屏蔽 quic 功能`
 ```config
 config sing-box 'proxy'
-	option common_ports '0'            # 仅代理常用端口，0 否，1 是
-	option pass_cn_ip '0'              # 跳过中国大陆 IP，0 否，1 是
-	option fuck_quic '0'               # 屏蔽 quic，0 否，1 是
+	option common_ports '0'                 # 仅代理常用端口，0 否，1 是
+	option pass_cn_ip '0'                   # 跳过中国大陆 IP，0 否，1 是
+	option fuck_quic '0'                    # 屏蔽 quic，0 否，1 是
 ```
 - 使用 p2p 下载可开启仅代理常用端口，避免 p2p 流量进入 sing-box 核心。
 
 3. **配置文件和订阅相关** `2025.04.01 更新 取消本地 -1 运行方式`
 ```config
 config sing-box 'subscription'
-	option remote '1'                  # 使用订阅还是本地配置，0 本地配置文件，1 订阅1，2 订阅2 ...
-	list url ''                        # 订阅链接 1
-	list url ''                        # 订阅链接 2
-	option auto_restart '1'            # 定时重启，0 关闭，1 开启
-	option restart_cron '0 5 * * *'    # 定时重启 cron，默认为每天早上 5 点
+	option remote '1'                       # 使用订阅还是本地配置，0 本地配置文件，1 订阅1，2 订阅2 ...
+	list url ''                             # 订阅链接 1
+	list url ''                             # 订阅链接 2
+	option auto_restart '1'                 # 定时重启，0 禁用，1 启用
+	option restart_cron '0 5 * * *'         # 定时重启 cron，默认为每天早上 5 点
 ```
 - 本地配置文件保存到 /etc/sing-box 目录命名为 sing-box.json 。
 - 使用订阅时服务启动会自动下载所有订阅，所以定时重启也能起到更新订阅的作用。
@@ -114,7 +114,7 @@ config sing-box 'inbounds'
 5. **混入** `2025.05.10 更新 模板功能升级为混入功能`
 ```config
 config sing-box 'mix'
-	option mixin '0'                            # 混入功能，0 不启用，1 启用
+	option mixin '0'                        # 混入功能，0 禁用，1 启用
 ```
 - 混入功能用于动态调整 DNS 和路由分流规则，包含可手动开启的去广告功能（默认关闭）。
 - 默认设置下 DNS 模式为 normal（共三种模式，详细情况见 [MIXIN 文档](mixin.md) DNS 部分说明。），自动创建香港、台湾、日本、新加坡、美国、德国地区的节点分组（如果没有该地区的节点则自动跳过），包含 Google，Github，Telegram，NETFLIX，Spotify 分流规则。
