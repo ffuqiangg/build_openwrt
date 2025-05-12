@@ -206,7 +206,8 @@ if (mixin === '1') {
                     rule_set: 'geoip-cn'
                 }
             ],
-            server: 'china-dns'
+            client_subnet: '114.114.114.114/24'
+            server: 'main-dns'
         });
     }
 
