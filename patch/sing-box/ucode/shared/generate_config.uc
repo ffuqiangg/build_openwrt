@@ -42,12 +42,11 @@ if (remote === '0')
     profile_file = workdir + '/sing-box.json';
 else if (remote >= '1')
     profile_file = workdir + '/subscription' + remote + '.json';
-const jsonfile = json(trim(readfile(profile_file)));
 
-const route_rules_action = map(jsonfile.route.rules, (v) => (v).action);
+const route_rules_action = map(json(trim(readfile(profile_file))).route.rules, (v) => (v).action);
 
 let outbounds_direct_tag, outbounds_block_tag, outbounds_dns_tag;
-for (let v in jsonfile.outbounds) {
+for (let v in json(trim(readfile(profile_file))).outbounds) {
     if (v.type === 'direct')
         outbounds_direct_tag = v.tag;
     else if (v.type === 'block')
@@ -206,7 +205,7 @@ if (mixin === '1') {
                     rule_set: 'geoip-cn'
                 }
             ],
-            client_subnet: '114.114.114.114/24'
+            client_subnet: '114.114.114.114/24',
             server: 'main-dns'
         });
     }
@@ -214,7 +213,7 @@ if (mixin === '1') {
     config.dns.strategy = 'ipv4_only';
     config.dns.final = 'main-dns';
 } else {
-    config.dns = jsonfile.dns;
+    config.dns = json(trim(readfile(profile_file))).dns;
 }
 
 /* Experimental */
@@ -280,7 +279,7 @@ if (mixin === '1') {
 
     /* nodes help */
     let nodes_list = [];
-    for (let v in jsonfile.outbounds) {
+    for (let v in json(trim(readfile(profile_file))).outbounds) {
         if (!(v.type in ['direct', 'dns', 'block', 'selector', 'urltest']))
             push(nodes_list, v.tag);
     }
@@ -339,14 +338,14 @@ if (mixin === '1') {
     });
 
     /* nodes */
-    for (let v in jsonfile.outbounds) {
+    for (let v in json(trim(readfile(profile_file))).outbounds) {
         if (!(v.type in ['direct', 'dns', 'block', 'selector', 'urltest']))
             push(config.outbounds, v);
     }
 } else {
     config.outbounds = [];
 
-    for (let v in jsonfile.outbounds) {
+    for (let v in json(trim(readfile(profile_file))).outbounds) {
         if (!(v.type in ['dns', 'block']))
             push(config.outbounds, v);
     }
@@ -462,7 +461,7 @@ if (mixin === '1') {
             download_detour: '直连'
         });
 } else {
-    config.route = jsonfile.route;
+    config.route = json(trim(readfile(profile_file))).route;
 
     config.route.rules = [
         {
@@ -475,12 +474,12 @@ if (mixin === '1') {
     ];
 
     if ('hijack-dns' in route_rules_action) {
-        for (let v in jsonfile.route.rules) {
+        for (let v in json(trim(readfile(profile_file))).route.rules) {
             if (!(v.action in ['sniff', 'hijack-dns']))
                 push(config.route.rules, v);
         }
     } else {
-        for (let v in jsonfile.route.rules) {
+        for (let v in json(trim(readfile(profile_file))).route.rules) {
             if (v.outbound !== outbounds_dns_tag) {
                 if (v.outbound === outbounds_block_tag)
                     push(config.route.rules, json(replace(v, /"outbound": ".*"/, '\"action\": \"reject\"')));
@@ -492,7 +491,7 @@ if (mixin === '1') {
 
     config.route.rule_set = [];
 
-    for (let k in jsonfile.route.rule_set) {
+    for (let k in json(trim(readfile(profile_file))).route.rule_set) {
         if (k.download_detour !== outbounds_direct_tag && match(k.url, /[(github\.com)(githubusercontent\.com)]/)) {
             push(config.route.rule_set, {
                 type: k.type,
