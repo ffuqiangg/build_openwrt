@@ -27,7 +27,7 @@ const conffile = uci.get('sing-box', 'main', 'conffile') || '/etc/sing-box/confi
       redirect_port = uci.get('sing-box', 'inbounds', 'redirect_port') || '2331',
       mixin = uci.get('sing-box', 'mix', 'mixin') || '0';
 
-const mixfile = json(trim(readfile(workdir + '/resources/mixin.json')));
+const mixfile = trim(readfile(workdir + '/resources/mixin.json'));
 
 let ui_url;
 if (ui_name === 'metacubexd')
@@ -114,14 +114,14 @@ if (mixin === '1') {
         servers: [
             {
                 tag: 'main-dns',
-                address: mixfile.dns.main_dns,
+                address: json(mixfile).dns.main_dns,
                 address_resolver: 'china-dns'
             },
             {
                 tag: 'china-dns',
-                address: mixfile.dns.china_dns,
+                address: json(mixfile).dns.china_dns,
                 detour: '直连'
-            },
+            }
         ],
         rules: [
             {
@@ -146,9 +146,9 @@ if (mixin === '1') {
         ]
     };
 
-    if (mixfile.fuck_ads.enabled === true)
+    if (json(mixfile).fuck_ads.enabled === true)
         push (config.dns.rules, {
-            rule_set: keys(mixfile.fuck_ads.rule_set),
+            rule_set: keys(json(mixfile).fuck_ads.rule_set),
             action: 'reject'
         });
 
@@ -157,18 +157,18 @@ if (mixin === '1') {
         server: 'china-dns'
     });
 
-    if (mixfile.dns.mode === 'fakeip') {
-        if (length(mixfile.dns.main_dns2) > 0)
+    if (json(mixfile).dns.mode === 'fakeip') {
+        if (length(json(mixfile).dns.main_dns2) > 0)
             push (config.dns.servers, {
                 tag: 'main-dns2',
-                address: mixfile.dns.main_dns2,
+                address: json(mixfile).dns.main_dns2,
                 address_resolver: 'china-dns'
             });
 
-        if (length(mixfile.dns.china_dns2) > 0)
+        if (length(json(mixfile).dns.china_dns2) > 0)
             push (config.dns.servers, {
                 tag: 'chian-dns2',
-                address: mixfile.dns.china_dns2,
+                address: json(mixfile).dns.china_dns2,
                 detour: '直连'
             });
 
@@ -189,11 +189,7 @@ if (mixin === '1') {
         config.dns.independent_cache = true;
     }
 
-    if (mixfile.dns.mode === 'enhanced') {
-        push(config.dns.rules, {
-            rule_set: 'geosite-noncn',
-            server: 'main-dns'
-        });
+    if (json(mixfile).dns.mode === 'enhanced') {
         push(config.dns.rules, {
             type: 'logical',
             mode: 'and',
@@ -206,8 +202,7 @@ if (mixin === '1') {
                     rule_set: 'geoip-cn'
                 }
             ],
-            client_subnet: '114.114.114.114/24',
-            server: 'main-dns'
+            server: 'china-dns'
         });
     }
 
@@ -286,9 +281,9 @@ if (mixin === '1') {
     }
 
     let nodes_area = [];
-    for (let v in keys(mixfile.area_group)) {
+    for (let v in keys(json(mixfile).area_group)) {
         map(nodes_list, (x) => {
-            for (let k in split(mixfile['area_group'][v]['filter'], '|')) {
+            for (let k in split(json(mixfile)['area_group'][v]['filter'], '|')) {
                 if (index(x, k) > -1)
                     push(nodes_area, v);
             }
@@ -315,7 +310,7 @@ if (mixin === '1') {
     for (let k in nodes_list)
         push(proxy_group_out, k);
 
-    for (let v in keys(mixfile.proxy_group)) {
+    for (let v in keys(json(mixfile).proxy_group)) {
         push(config.outbounds, {
             tag: v,
             type: 'selector',
@@ -327,8 +322,8 @@ if (mixin === '1') {
     for (let v in nodes_area) {
         push(config.outbounds, {
             tag: v,
-            type: mixfile['area_group'][v]['type'],
-            outbounds: nodesFilter(mixfile['area_group'][v]['filter'], config.outbounds[1].outbounds)
+            type: json(mixfile)['area_group'][v]['type'],
+            outbounds: nodesFilter(json(mixfile)['area_group'][v]['filter'], config.outbounds[1].outbounds)
         });
     }
 
@@ -394,36 +389,36 @@ if (mixin === '1') {
     };
 
     /* fuck_ads */
-    if (mixfile.fuck_ads.enabled === true) {
+    if (json(mixfile).fuck_ads.enabled === true) {
         push(config.route.rules, {
-            rule_set: keys(mixfile.fuck_ads.rule_set),
+            rule_set: keys(json(mixfile).fuck_ads.rule_set),
             action: 'reject'
         });
 
-        for (let k in keys(mixfile.fuck_ads.rule_set)) {
+        for (let k in keys(json(mixfile).fuck_ads.rule_set)) {
             push(config.route.rule_set, {
                 tag: k,
                 type: 'remote',
                 format: 'binary',
-                url: mixfile['fuck_ads']['rule_set'][k],
+                url: json(mixfile)['fuck_ads']['rule_set'][k],
                 download_detour: '直连'
             });
         }
     }
 
     /* proxy-group route */
-    for (let k in keys(mixfile.proxy_group)) {
+    for (let k in keys(json(mixfile).proxy_group)) {
         push(config.route.rules, {
-            rule_set: keys(mixfile['proxy_group'][k]),
+            rule_set: keys(json(mixfile)['proxy_group'][k]),
             outbound: k
         });
 
-        for (let v in keys(mixfile['proxy_group'][k])) {
+        for (let v in keys(json(mixfile)['proxy_group'][k])) {
             push(config.route.rule_set, {
                 tag: v,
                 type: 'remote',
                 format: 'binary',
-                url: mixfile['proxy_group'][k][v],
+                url: json(mixfile)['proxy_group'][k][v],
                 download_detour: '直连'
             });
         }
@@ -453,7 +448,7 @@ if (mixin === '1') {
         download_detour: '直连'
     });
 
-    if (mixfile.dns.mode === 'enhanced')
+    if (json(mixfile).dns.mode === 'enhanced')
         push(config.route.rule_set, {
             tag: 'geosite-noncn',
             type: 'remote',
