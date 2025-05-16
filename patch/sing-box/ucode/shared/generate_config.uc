@@ -323,7 +323,7 @@ if (mixin === '1') {
         push(config.outbounds, {
             tag: v,
             type: json(mixfile)['area_group'][v]['type'],
-            outbounds: nodesFilter(json(mixfile)['area_group'][v]['filter'], proxy_group_out)
+            outbounds: nodesFilter(json(mixfile)['area_group'][v]['filter'], nodes_list)
         });
     }
 
