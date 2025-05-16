@@ -323,7 +323,7 @@ if (mixin === '1') {
         push(config.outbounds, {
             tag: v,
             type: json(mixfile)['area_group'][v]['type'],
-            outbounds: nodesFilter(json(mixfile)['area_group'][v]['filter'], config.outbounds[1].outbounds)
+            outbounds: nodesFilter(json(mixfile)['area_group'][v]['filter'], proxy_group_out)
         });
     }
 
@@ -348,7 +348,7 @@ if (mixin === '1') {
 }
 
 for (let i = 0; i < length(config.outbounds); i++) {
-    if (!(config.outbounds[i].type in ['selector', 'urltest']))
+    if (!(config.outbounds[i].type in ['selector', 'urltest', 'block']))
         config.outbounds[i].routing_mark = '101';
 }
 
