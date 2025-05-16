@@ -142,20 +142,15 @@ if (mixin === '1') {
                     'xn--ngstr-lra8j.com'
                 ],
                 server: 'main-dns'
+            },
+            {
+                rule_set: 'geosite-cn',
+                server: 'china-dns'
             }
-        ]
+        ],
+        final: 'main-dns',
+        strategy: 'ipv4_only'
     };
-
-    if (json(mixfile).fuck_ads.enabled === true)
-        push (config.dns.rules, {
-            rule_set: keys(json(mixfile).fuck_ads.rule_set),
-            action: 'reject'
-        });
-
-    push(config.dns.rules, {
-        rule_set: 'geosite-cn',
-        server: 'china-dns'
-    });
 
     if (json(mixfile).dns.mode === 'fakeip') {
         if (length(json(mixfile).dns.main_dns2) > 0)
@@ -177,10 +172,10 @@ if (mixin === '1') {
             tag: 'fakeip'
         });
 
-        push (config.dns.rules, {
+        config.dns.rules[(length(config.dns.rules) - 1)] = {
             query_type: 'A',
             server: 'fakeip'
-        });
+        };
 
         config.dns.fakeip = {
             enabled: true,
@@ -205,9 +200,6 @@ if (mixin === '1') {
             server: 'china-dns'
         });
     }
-
-    config.dns.strategy = 'ipv4_only';
-    config.dns.final = 'main-dns';
 } else {
     config.dns = json(jsonfile).dns;
 }

@@ -17,7 +17,7 @@
 2. **DNS**
 ```json
   "dns": {
-    "mode": "enhanced",
+    "mode": "normal",
     "main_dns": "https://dns.cloudflare.com/dns-query",
     "main_dns2": "https://dns.google/dns-query",
     "china_dns": "h3://223.5.5.5/dns-query",
@@ -26,9 +26,9 @@
 ```
 - `mode` DNS 处理模式，可选值：normal，fakeip，enhanced 。
 - `normal` 模式流程：命中规则集 `geosite-cn` 使用 `china_dns` > 其余使用 `main_dns` 。
-- `fakeip` 模式流程：命中规则集 `geosite-cn` 使用 `china_dns` > 查询类型 `A` 进入 fakeip 进程 > 其余使用 `main_dns` 。
+- `fakeip` 模式流程：所有 A 类查询进入 fakeip 进程 > 其余使用 `main_dns` 。
 - `enhanced` 模式流程：命中规则集 `geosite-cn` 使用 `china_dns` > 命中规则集 `geosit-noncn` 使用 `main_dns` > 同时命中规则集 `geosite-noncn`(取反) 和 `geoip-cn` 使用 `china_dns` > 其余使用 `main_dns` 。
-- `*_dns2` 仅在模式为 fakeip 时生效，国内 DNS 必须使用 ip 形式的地址。
+- `*_dns2` 设置仅在模式为 fakeip 时生效，国内 DNS 必须使用 ip 形式的地址。
 
 3. **区域节点分组**
 ```json
