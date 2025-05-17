@@ -23,7 +23,7 @@
   }
 ```
 - `mode` DNS 处理模式，可选值：normal，fakeip。
-- `normal` 模式流程：命中规则集 `geosite-cn` 使用 `china_dns` > 命中规则集 `geosit-noncn` 使用 `main_dns` > 同时命中规则集 `geosite-noncn`(取反) 和 `geoip-cn` 使用 `china_dns` > 其余使用 `main_dns` 。
+- `normal` 模式流程：命中规则集 `geosite-cn` 使用 `china_dns` > 同时命中规则集 `geosite-noncn`(取反) 和 `geoip-cn` 使用 `china_dns` > 其余使用 `main_dns` 。
 - `fakeip` 模式流程：命中规则集 `geosite-cn` 使用 `china_dns` > A 类查询进入 fakeip 进程 > 其余使用 `main_dns` 。
 - `mian_dns` 为全球 DNS，`china_dns` 为国内 DNS ，国内 DNS 必须使用 ip 形式的地址。
 
