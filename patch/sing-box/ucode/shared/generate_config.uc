@@ -167,20 +167,6 @@ if (mixin === '1') {
     };
 
     if (json(mixfile).dns.mode === 'fakeip') {
-        if (length(json(mixfile).dns.main_dns2) > 0)
-            push (config.dns.servers, {
-                tag: 'main-dns2',
-                address: json(mixfile).dns.main_dns2,
-                address_resolver: 'china-dns'
-            });
-
-        if (length(json(mixfile).dns.china_dns2) > 0)
-            push (config.dns.servers, {
-                tag: 'chian-dns2',
-                address: json(mixfile).dns.china_dns2,
-                detour: '直连'
-            });
-
         push (config.dns.servers, {
             address: 'fakeip',
             tag: 'fakeip'
