@@ -146,6 +146,20 @@ if (mixin === '1') {
             {
                 rule_set: 'geosite-cn',
                 server: 'china-dns'
+            },
+            {
+                type: 'logical',
+                mode: 'and',
+                rules: [
+                    {
+                        rule_set: 'geosite-noncn',
+                        invert: true
+                    },
+                    {
+                        rule_set: 'geoip-cn'
+                    }
+                ],
+                server: 'china-dns'
             }
         ],
         final: 'main-dns',
@@ -182,23 +196,6 @@ if (mixin === '1') {
             inet4_range: '198.18.0.0/15'
         };
         config.dns.independent_cache = true;
-    }
-
-    if (json(mixfile).dns.mode === 'enhanced') {
-        push(config.dns.rules, {
-            type: 'logical',
-            mode: 'and',
-            rules: [
-                {
-                    rule_set: 'geosite-noncn',
-                    invert: true
-                },
-                {
-                    rule_set: 'geoip-cn'
-                }
-            ],
-            server: 'china-dns'
-        });
     }
 } else {
     config.dns = json(jsonfile).dns;
@@ -440,7 +437,7 @@ if (mixin === '1') {
         download_detour: '直连'
     });
 
-    if (json(mixfile).dns.mode === 'enhanced')
+    if (json(mixfile).dns.mode === 'normal')
         push(config.route.rule_set, {
             tag: 'geosite-noncn',
             type: 'remote',

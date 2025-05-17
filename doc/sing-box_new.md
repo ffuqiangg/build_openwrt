@@ -117,7 +117,7 @@ config sing-box 'mix'
 	option mixin '0'                        # 混入功能，0 禁用，1 启用
 ```
 - 混入功能用于动态调整 DNS 和路由分流规则，包含可手动开启的去广告功能（默认关闭）。
-- 默认设置下 DNS 模式为 normal（共三种模式，详细情况见 [MIXIN 文档](mixin.md) DNS 部分说明。），自动创建香港、台湾、日本、新加坡、美国、德国地区的节点分组（如果没有该地区的节点则自动跳过），包含 Google，Github，Telegram，NETFLIX，Spotify 分流规则。
+- 默认设置下 DNS 模式为 normal（两种模式，详细情况见 [MIXIN 文档](mixin.md) DNS 部分说明。），自动创建香港、台湾、日本、新加坡、美国、德国地区的节点分组（如果没有该地区的节点则自动跳过），包含 Google，Github，Telegram，NETFLIX，Spotify 分流规则。
 - 如要调整 DNS、添加删除分流规则、开启去广告功能，请按照 [MIXIN 文档](mixin.md) 中的说明修改 `/etc/sing-box/resources/mixin.json` 文件。
 
 ### 最小配置
