@@ -2,7 +2,7 @@
 
 'use strict';
 
-import { readfile, writefile } from 'fs';
+import { readfile, writefile, basename, access } from 'fs';
 import { cursor } from 'uci';
 
 /* UCI config start */
@@ -12,22 +12,31 @@ uci.load('sing-box');
 const conffile = uci.get('sing-box', 'main', 'conffile') || '/etc/sing-box/config.json',
       workdir = uci.get('sing-box', 'main', 'workdir') || '/etc/sing-box',
       remote = uci.get('sing-box', 'subscription', 'remote') || '1',
-      level = uci.get('sing-box', 'log', 'level') || 'warn',
-      log_file = uci.get('sing-box', 'log', 'log_file') || '0',
-      output = uci.get('sing-box', 'log', 'output') || '/var/log/sing-box.log',
-      external_controller_port  = uci.get('sing-box', 'experimental', 'external_controller_port') || '9900',
-      external_ui = uci.get('sing-box', 'experimental', 'external_ui') || 'ui',
-      secret = uci.get('sing-box', 'experimental', 'secret') || 'ffuqiangg',
-      ui_name = uci.get('sing-box', 'experimental', 'ui_name') || 'metacubexd',
-      default_mode = uci.get('sing-box', 'experimental', 'default_mode') || 'rule',
-      store_rdrc = uci.get('sing-box', 'experimental', 'store_rdrc') || '0',
-      tproxy_port = uci.get('sing-box', 'inbounds', 'tproxy_port') || '10105',
-      mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2881',
-      dns_port = uci.get('sing-box', 'inbounds', 'dns_port') || '2053',
-      redirect_port = uci.get('sing-box', 'inbounds', 'redirect_port') || '2331',
-      mixin = uci.get('sing-box', 'mix', 'mixin') || '0';
+      level = uci.get('sing-box', 'basic', 'level') || 'warn',
+      log_file = uci.get('sing-box', 'basic', 'log_file') || '0',
+      output = uci.get('sing-box', 'basic', 'output') || '/var/log/sing-box.log',
+      external_controller_port  = uci.get('sing-box', 'basic', 'external_controller_port') || '9900',
+      external_ui = uci.get('sing-box', 'basic', 'external_ui') || 'ui',
+      secret = uci.get('sing-box', 'basic', 'secret') || 'ffuqiangg',
+      ui_name = uci.get('sing-box', 'basic', 'ui_name') || 'metacubexd',
+      default_mode = uci.get('sing-box', 'basic', 'default_mode') || 'rule',
+      store_rdrc = uci.get('sing-box', 'basic', 'store_rdrc') || '0',
+      tproxy_port = uci.get('sing-box', 'basic', 'tproxy_port') || '10105',
+      mixed_port = uci.get('sing-box', 'basic', 'mixed_port') || '2881',
+      dns_port = uci.get('sing-box', 'basic', 'dns_port') || '2053',
+      redirect_port = uci.get('sing-box', 'basic', 'redirect_port') || '2331',
+      override = uci.get('sing-box', 'advanced', 'override') || '1',
+      main_dns_server = uci.get('sing-box', 'advanced', 'main_dns_server') || 'https://dns.cloudflare.com/dns-query',
+      china_dns_server = uci.get('sing-box', 'advanced', 'china_dns_server') || 'h3://223.5.5.5/dns-query',
+      filter_nodes = uci.get('sing-box', 'advanced', 'filter_nodes') || '0',
+      filter_keywords = uci.get('sing-box', 'advanced', 'filter_keywords') || '剩余流量,套餐到期,下次重置,官網,官网',
+      adblock = uci.get('sing-box', 'advanced', 'adblock') || '0',
+      ad_ruleset = uci.get('sing-box', 'advanced', 'ad_ruleset') || '',
+      group_nodes = uci.get('sing-box', 'advanced', 'group_nodes') || '0',
+      stream = uci.get('sing-box', 'advanced', 'stream') || '0',
+      stream_list = split(uci.get('sing-box', 'advanced', 'stream_list') || 'Google,Github,Telegram,OpenAI,Spotify', ',');
 
-const mixfile = trim(readfile(workdir + '/resources/mixin.json'));
+const streamfile = trim(readfile(workdir + '/resources/stream.json'));
 
 let ui_url;
 if (ui_name === 'metacubexd')
@@ -44,17 +53,50 @@ else if (remote >= '1')
     profile_file = workdir + '/subscription' + remote + '.json';
 const jsonfile = trim(readfile(profile_file));
 
-const route_rules_action = map(json(jsonfile).route.rules, (v) => (v).action);
-
-let outbounds_direct_tag, outbounds_block_tag, outbounds_dns_tag;
-for (let v in json(jsonfile).outbounds) {
+let outbounds_direct_tag;
+for (let v in json(jsonfile).outbounds)
     if (v.type === 'direct')
         outbounds_direct_tag = v.tag;
-    else if (v.type === 'block')
-        outbounds_block_tag = v.tag;
-    else if (v.type === 'dns')
-        outbounds_dns_tag = v.tag;
-}
+
+let nodes_list = [];
+for (let v in json(jsonfile).outbounds)
+    if (!(v.type in ['direct', 'dns', 'block', 'selector', 'urltest']))
+        push(nodes_list, v.tag);
+if (filter_nodes === '1')
+    for (let v in split(filter_keywords, ','))
+        nodes_list = filter(nodes_list, x => index(x, v) == -1);
+
+let nodes_area = [];
+for (let v in keys(json(streamfile).area_group))
+    map(nodes_list, (x) => {
+        for (let k in split(json(streamfile)['area_group'][v]['filter'], '|')) {
+            if (index(x, k) > -1)
+                push(nodes_area, v);
+        }
+    });
+nodes_area = uniq(nodes_area);
+
+let ad_rulelist = [];
+for (let i = 0; i < length(ad_ruleset); i++)
+    push(ad_rulelist, rtrim(basename(ltrim(ad_ruleset[i], 'https:/')), '.srs'));
+ad_rulelist = filter(ad_rulelist, length);
+
+let proxy_group_out = [];
+push(proxy_group_out, '节点选择');
+for (let k in nodes_area)
+    push(proxy_group_out, k);
+push(proxy_group_out, '其他');
+push(proxy_group_out, '直连');
+for (let k in nodes_list)
+    push(proxy_group_out, k);
+
+let custom_list, proxy_list, direct_list;
+if (access(workdir + '/resources/custom.txt'))
+    custom_list = trim(readfile(workdir + '/resources/custom.txt'));
+if (access(workdir + '/resources/proxy.txt'))
+    proxy_list = trim(readfile(workdir + '/resources/proxy.txt'));
+if (access(workdir + '/resources/direct.txt'))
+    direct_list = trim(readfile(workdir + '/resources/direct.txt'));
 /* UCI config end */
 
 /* Config helper start */
@@ -109,17 +151,17 @@ config.log = {
 };
 
 /* DNS */
-if (mixin === '1') {
+if (override === '1') {
     config.dns = {
         servers: [
             {
                 tag: 'main-dns',
-                address: json(mixfile).dns.main_dns,
+                address: main_dns_server,
                 address_resolver: 'china-dns'
             },
             {
                 tag: 'china-dns',
-                address: json(mixfile).dns.china_dns,
+                address: china_dns_server,
                 detour: '直连'
             }
         ],
@@ -163,26 +205,10 @@ if (mixin === '1') {
             }
         ],
         final: 'main-dns',
-        strategy: 'ipv4_only'
+        strategy: 'ipv4_only',
+        disable_cache: false,
+        disable_expire: true
     };
-
-    if (json(mixfile).dns.mode === 'fakeip') {
-        push (config.dns.servers, {
-            address: 'fakeip',
-            tag: 'fakeip'
-        });
-
-        config.dns.rules[(length(config.dns.rules) - 1)] = {
-            query_type: 'A',
-            server: 'fakeip'
-        };
-
-        config.dns.fakeip = {
-            enabled: true,
-            inet4_range: '198.18.0.0/15'
-        };
-        config.dns.independent_cache = true;
-    }
 } else {
     config.dns = json(jsonfile).dns;
 }
@@ -194,7 +220,7 @@ config.experimental = {
         external_ui: external_ui,
         secret: secret,
         external_ui_download_url: 'https://gh-proxy.com/' + ltrim(ui_url, 'https://'),
-        external_ui_download_detour: (mixin === '1') ? '直连' : outbounds_direct_tag,
+        external_ui_download_detour: (override === '1') ? '直连' : outbounds_direct_tag,
         default_mode: default_mode
     },
     cache_file: {
@@ -234,7 +260,7 @@ config.inbounds = [
 ];
 
 /* Outbounds */
-if (mixin === '1') {
+if (override === '1') {
     config.outbounds = [
         {
             tag: '节点选择',
@@ -248,57 +274,55 @@ if (mixin === '1') {
         }
     ];
 
-    /* nodes help */
-    let nodes_list = [];
-    for (let v in json(jsonfile).outbounds) {
-        if (!(v.type in ['direct', 'dns', 'block', 'selector', 'urltest']))
-            push(nodes_list, v.tag);
-    }
-
-    let nodes_area = [];
-    for (let v in keys(json(mixfile).area_group)) {
-        map(nodes_list, (x) => {
-            for (let k in split(json(mixfile)['area_group'][v]['filter'], '|')) {
-                if (index(x, k) > -1)
-                    push(nodes_area, v);
-            }
-        });
-    }
-    nodes_area = uniq(nodes_area);
-
     /* main-group */
     push(config.outbounds[0].outbounds, '自动选择');
-    for (let v in nodes_area)
-        push(config.outbounds[0].outbounds, v);
+    if (stream === '1' || group_nodes === '1' || custom_list) {
+        for (let v in nodes_area)
+            push(config.outbounds[0].outbounds, v);
+        push(config.outbounds[0].outbounds, '其他');
+    }
     push(config.outbounds[0].outbounds, '直连');
     for (let v in nodes_list) {
         push(config.outbounds[0].outbounds, v);
         push(config.outbounds[1].outbounds, v);
     }
 
-    /* proxy-group */
-    let proxy_group_out = [];
-    push(proxy_group_out, '节点选择');
-    for (let k in nodes_area)
-        push(proxy_group_out, k);
-    push(proxy_group_out, '直连');
-    for (let k in nodes_list)
-        push(proxy_group_out, k);
-
-    for (let v in keys(json(mixfile).proxy_group)) {
+    /* for myself */
+    if (custom_list)
         push(config.outbounds, {
-            tag: v,
+            tag: 'Custom',
             type: 'selector',
             outbounds: proxy_group_out
         });
-    }
+
+    /* proxy-group */
+    if (stream === '1')
+        for (let v in stream_list)
+            push(config.outbounds, {
+                tag: v,
+                type: 'selector',
+                outbounds: proxy_group_out
+            });
 
     /* area-group */
-    for (let v in nodes_area) {
+    if (stream === '1' || group_nodes === '1' || custom_list) {
+        let area_nodes = [];
+        for (let v in nodes_area) {
+            push(config.outbounds, {
+                tag: v,
+                type: json(streamfile)['area_group'][v]['type'],
+                outbounds: nodesFilter(json(streamfile)['area_group'][v]['filter'], nodes_list)
+            });
+
+            for (let k in nodesFilter(json(streamfile)['area_group'][v]['filter'], nodes_list)) {
+                push(area_nodes, k);
+            }
+        }
+
         push(config.outbounds, {
-            tag: v,
-            type: json(mixfile)['area_group'][v]['type'],
-            outbounds: nodesFilter(json(mixfile)['area_group'][v]['filter'], nodes_list)
+            tag: '其他',
+            type: 'urltest',
+            outbounds: filter(nodes_list, x => (!(x in area_nodes)))
         });
     }
 
@@ -309,26 +333,20 @@ if (mixin === '1') {
     });
 
     /* nodes */
-    for (let v in json(jsonfile).outbounds) {
-        if (!(v.type in ['direct', 'dns', 'block', 'selector', 'urltest']))
+    for (let v in json(jsonfile).outbounds)
+        if (v.tag in nodes_list)
             push(config.outbounds, v);
-    }
+
 } else {
     config.outbounds = [];
-
-    for (let v in json(jsonfile).outbounds) {
-        if (!(v.type in ['dns', 'block']))
-            push(config.outbounds, v);
-    }
 }
 
-for (let i = 0; i < length(config.outbounds); i++) {
-    if (!(config.outbounds[i].type in ['selector', 'urltest', 'block']))
+for (let i = 0; i < length(config.outbounds); i++)
+    if (!(config.outbounds[i].type in ['selector', 'urltest', 'block', 'dns']))
         config.outbounds[i].routing_mark = '101';
-}
 
 /* Route */
-if (mixin === '1') {
+if (override === '1') {
     config.route = {
         final: '节点选择',
         auto_detect_interface: true,
@@ -363,42 +381,90 @@ if (mixin === '1') {
         rule_set: []
     };
 
-    /* fuck_ads */
-    if (json(mixfile).fuck_ads.enabled === true) {
+    /* adblock */
+    if (adblock === '1') {
         push(config.route.rules, {
-            rule_set: keys(json(mixfile).fuck_ads.rule_set),
+            rule_set: ad_rulelist,
             action: 'reject'
         });
 
-        for (let k in keys(json(mixfile).fuck_ads.rule_set)) {
+        for (let i = 0; i < length(ad_rulelist); i++)
             push(config.route.rule_set, {
-                tag: k,
+                tag: ad_rulelist[i],
                 type: 'remote',
                 format: 'binary',
-                url: json(mixfile)['fuck_ads']['rule_set'][k],
+                url: ad_ruleset[i],
                 download_detour: '直连'
             });
-        }
+    }
+
+    /* for myself */
+    if (proxy_list) {
+        push(config.route.rules, {
+            rule_set: 'proxy-domain',
+            outbound: '节点选择'
+        });
+        push(config.route.rule_set, {
+            type: 'inline',
+            tag: 'proxy-domain',
+            rules: [
+                {
+                    domain_keyword: split(proxy_list, /[\r\n]/)
+                }
+            ]
+        });
+    }
+    if (direct_list) {
+        push(config.route.rules, {
+            rule_set: 'direct-domain',
+            outbound: '直连'
+        });
+        push(config.route.rule_set, {
+            type: 'inline',
+            tag: 'direct-domain',
+            rules: [
+                {
+                    domain_keyword: split(direct_list, /[\r\n]/)
+                }
+            ]
+        });
+    }
+    if (custom_list) {
+        push(config.route.rules, {
+            rule_set: 'custom-domain',
+            outbound: 'Custom'
+        });
+        push(config.route.rule_set, {
+            type: 'inline',
+            tag: 'custom-domain',
+            rules: [
+                {
+                    domain_keyword: split(custom_list, /[\r\n]/)
+                }
+            ]
+        });
     }
 
     /* proxy-group route */
-    for (let k in keys(json(mixfile).proxy_group)) {
-        push(config.route.rules, {
-            rule_set: keys(json(mixfile)['proxy_group'][k]),
-            outbound: k
-        });
-
-        for (let v in keys(json(mixfile)['proxy_group'][k])) {
-            push(config.route.rule_set, {
-                tag: v,
-                type: 'remote',
-                format: 'binary',
-                url: json(mixfile)['proxy_group'][k][v],
-                download_detour: '直连'
+    if (stream === '1') {
+        for (let k in stream_list) {
+            push(config.route.rules, {
+                rule_set: keys(json(streamfile)['proxy_group'][k]),
+                outbound: k
             });
+
+            for (let v in keys(json(streamfile)['proxy_group'][k]))
+                push(config.route.rule_set, {
+                    tag: v,
+                    type: 'remote',
+                    format: 'binary',
+                    url: json(streamfile)['proxy_group'][k][v],
+                    download_detour: '直连'
+                });
         }
     }
 
+    /* cn-direct */
     push(config.route.rules, {
         rule_set: [
             'geosite-cn',
@@ -407,7 +473,7 @@ if (mixin === '1') {
         outbound: '直连'
     });
 
-    /* route rule_set */
+    /* main rule_set */
     push(config.route.rule_set, {
         tag: 'geosite-cn',
         type: 'remote',
@@ -422,15 +488,13 @@ if (mixin === '1') {
         url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs',
         download_detour: '直连'
     });
-
-    if (json(mixfile).dns.mode === 'normal')
-        push(config.route.rule_set, {
-            tag: 'geosite-noncn',
-            type: 'remote',
-            format: 'binary',
-            url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs',
-            download_detour: '直连'
-        });
+    push(config.route.rule_set, {
+        tag: 'geosite-noncn',
+        type: 'remote',
+        format: 'binary',
+        url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs',
+        download_detour: '直连'
+    });
 } else {
     config.route = json(jsonfile).route;
 
@@ -444,38 +508,9 @@ if (mixin === '1') {
         }
     ];
 
-    if ('hijack-dns' in route_rules_action) {
-        for (let v in json(jsonfile).route.rules) {
-            if (!(v.action in ['sniff', 'hijack-dns']))
-                push(config.route.rules, v);
-        }
-    } else {
-        for (let v in json(jsonfile).route.rules) {
-            if (v.outbound !== outbounds_dns_tag) {
-                if (v.outbound === outbounds_block_tag)
-                    push(config.route.rules, json(replace(v, /"outbound": ".*"/, '\"action\": \"reject\"')));
-                else
-                    push(config.route.rules, v);
-            }
-        }
-    }
-
-    config.route.rule_set = [];
-
-    for (let k in json(jsonfile).route.rule_set) {
-        if (k.download_detour !== outbounds_direct_tag && match(k.url, /[(github\.com)(githubusercontent\.com)]/)) {
-            push(config.route.rule_set, {
-                type: k.type,
-                tag: k.tag,
-                format: k.format,
-                url: 'https://gh-proxy.com/' + ltrim(k.url, 'https://'),
-                download_detour: outbounds_direct_tag,
-                update_interval: k.update_interval ? k.update_interval : null
-            });
-        } else {
-            push(config.route.rule_set, k);
-        }
-    }
+    for (let v in json(jsonfile).route.rules)
+        if (!(v.action in ['sniff', 'hijack-dns']))
+            push(config.route.rules, v);
 }
 
 /* Writefile */
