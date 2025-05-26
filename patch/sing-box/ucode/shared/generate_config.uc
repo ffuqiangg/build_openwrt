@@ -338,7 +338,7 @@ if (override === '1') {
             push(config.outbounds, v);
 
 } else {
-    config.outbounds = [];
+    config.outbounds = json(jsonfile).outbounds;
 }
 
 for (let i = 0; i < length(config.outbounds); i++)
