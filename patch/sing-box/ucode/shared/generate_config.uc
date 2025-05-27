@@ -319,11 +319,12 @@ if (override === '1') {
             }
         }
 
-        push(config.outbounds, {
-            tag: '其他',
-            type: 'urltest',
-            outbounds: filter(nodes_list, x => (!(x in area_nodes)))
-        });
+        if (length(area_nodes) !== length(nodes_list))
+            push(config.outbounds, {
+                tag: '其他',
+                type: 'urltest',
+                outbounds: filter(nodes_list, x => (!(x in area_nodes)))
+            });
     }
 
     /* direct */
