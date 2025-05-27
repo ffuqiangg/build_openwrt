@@ -319,7 +319,7 @@ if (override === '1') {
             }
         }
 
-        if (length(area_nodes) !== length(nodes_list))
+        if (length(nodes_list) > length(area_nodes))
             push(config.outbounds, {
                 tag: '其他',
                 type: 'urltest',
