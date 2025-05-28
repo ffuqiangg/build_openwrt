@@ -208,7 +208,7 @@ if (override === '1') {
         final: 'main-dns',
         strategy: 'ipv4_only',
         disable_cache: false,
-        disable_expire: true
+        disable_expire: false
     };
 } else {
     config.dns = json(jsonfile).dns;
