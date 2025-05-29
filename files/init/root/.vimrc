@@ -47,6 +47,14 @@ set softtabstop=4                    " spaces number when insert <Tab>
 set shiftround                       " indent not to multiple of 'shiftwidth'
 set shiftwidth=4                     " number of spaces to use for (auto)indent
 
+set swapfile                         "enable swap file
+set directory=~/.vim/swap//          "set swp file directory.
+if !isdirectory(&directory)          " Create folder if not exists
+    silent! call mkdir(&directory, 'p')
+endif
+set updatecount=20                   "save swp file every amount of characters
+set updatetime=4000                  "save swap file every amount of ms
+
 nnoremap j gj
 nnoremap k gk
 nnoremap gj j
@@ -86,10 +94,6 @@ let g:netrw_banner=0
 "let g:netrw_browse_split=4
 nnoremap <silent> <leader>e :Ex<CR>
 "autocmd filetype netrw nnoremap <buffer> <C-l> <C-w>l
-
-" Specify file config
-autocmd filetype yaml set ts=2 sw=2 sts=2
-autocmd filetype json set ts=2 sw=2 sts=2
 
 " User Interface
 set t_Co=256
