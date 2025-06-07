@@ -301,18 +301,6 @@ if (override === '1') {
             outbounds: proxy_group_out
         });
 
-    /* adblock */
-    if (adblock ==='1')
-        push(config.outbounds, {
-            tag: 'Adblock',
-            type: 'selector',
-            outbounds: [
-                '屏蔽',
-                '直连',
-                '节点选择'
-            ]
-        });
-
     /* proxy-group */
     if (stream === '1')
         for (let v in stream_list)
@@ -350,13 +338,6 @@ if (override === '1') {
         tag: '直连',
         type: 'direct'
     });
-
-    /* block */
-    if (adblock === '1')
-        push(config.outbounds, {
-            tag: '屏蔽',
-            type: 'block'
-        });
 
     /* nodes */
     for (let v in json(jsonfile).outbounds)
@@ -414,7 +395,7 @@ if (override === '1') {
     if (adblock === '1') {
         push(config.route.rules, {
             rule_set: ad_rulelist,
-            outbound: 'Adblock'
+            action: 'reject'
         });
 
         for (let i = 0; i < length(ad_rulelist); i++)
