@@ -156,7 +156,7 @@ config sing-box 'advanced'
       "domain": [
         "www.fff.com"
       ]
-	}
+    }
   ]
 }
 
