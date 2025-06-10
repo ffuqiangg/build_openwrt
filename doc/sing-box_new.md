@@ -140,7 +140,7 @@ config sing-box 'advanced'
       ],
       "domain": [
         "www.ccc.com"
-	  ]
+      ]
     }
   ],
   "直连": [
