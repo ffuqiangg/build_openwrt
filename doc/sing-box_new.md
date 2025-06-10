@@ -21,6 +21,7 @@
 - **2025.05.05** 删除缓存 fakeip 设置，改为检测到配置文件启用 fakeip 自动开启。
 - **2025.05.10** 原模板功升级为混入功能，可动态调整 DNS 和路由分流规则，还包含可手动开启的去广告功能。
 - **2025.05.25** 调整了配置文件的默认处理逻辑，新版本默认会提取节点然后按 config 设置本地生成新的配置文件使用（默认生成不带去广告的大陆白名单模式配置）。如果不希望脚本对原始配置文件做过多调整可以禁用 `advanced -> override` ，此时除了必要的部分外不会对配置文件做其他修改。新版本重新整理了 config 设置文件并新增 DNS、去广告、节点过滤，节点区域分组，路由规则分流设置。
+- **2025.06.10** 调整自用功能，合并 custom, direct, proxy 文件并改用 json 格式。
 
 ### 安装命令
 
@@ -129,9 +130,33 @@ config sing-box 'advanced'
 - `stream_list` 可使用的分流规则包含 Google，Github，Telegram，OpenAI，DMM，HBO，NETFLIX，Spotify 。添加分流规则可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
 
 6. **私货** `自用功能，运行结果不符合预期概不负责`
+```json
+{
+  "Custom": [
+    {
+      "domain_keyword": [
+        "aaa.ccom",
+        "bbb.com"
+      ],
+      "domain": [
+        "www.ccc.com"
+	  ]
+    }
+  ],
+  "直连": [
+    {
+      "domain_suffix": [
+        "ddd.com",
+        "eee.com"
+      ]
+    }
+  ]
+}
+
+```
 - 仅在 `override` 开启时生效。
-- 在 `/etc/sing-box/resources` 目录新建 custom.txt 文件创建 Custom 分流分组。proxy.txt 文件强制代理（出口 <节点选择> 分组），direct.txt 文件强制直连。文件中域名或关键字每行一个，匹配规则 `domain_keyword`，空文件不会触发。
-- 使用 Custom 分流时会默认开启节点区域分组，即使 `group_nodes` 设为 0 。
+- 在 `/etc/sing-box/resources` 目录新建 custom.json 文件。其中 `Custom`, `出站` 等为出站分组 / 节点（如果分组不存在则自动创建），其值为一组无头规则。语法参考 [无头规则](https://sing-box.sagernet.org/zh/configuration/rule-set/headless-rule/) 。
+- 当 `/etc/sing-box/resources/custom.json` 文件存在时自动启用节点区域分组，即使 `group_nodes` 设为 0 。
 
 ### 最小配置
 

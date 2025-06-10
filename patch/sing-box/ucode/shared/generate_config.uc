@@ -69,10 +69,9 @@ if (filter_nodes === '1')
 let nodes_area = [];
 for (let v in keys(json(streamfile).area_group))
     map(nodes_list, (x) => {
-        for (let k in split(json(streamfile)['area_group'][v]['filter'], '|')) {
+        for (let k in split(json(streamfile)['area_group'][v]['filter'], '|'))
             if (index(x, k) > -1)
                 push(nodes_area, v);
-        }
     });
 nodes_area = uniq(nodes_area);
 
@@ -90,13 +89,10 @@ push(proxy_group_out, '直连');
 for (let k in nodes_list)
     push(proxy_group_out, k);
 
-let custom_list, proxy_list, direct_list;
-if (access(workdir + '/resources/custom.txt'))
-    custom_list = trim(readfile(workdir + '/resources/custom.txt'));
-if (access(workdir + '/resources/proxy.txt'))
-    proxy_list = trim(readfile(workdir + '/resources/proxy.txt'));
-if (access(workdir + '/resources/direct.txt'))
-    direct_list = trim(readfile(workdir + '/resources/direct.txt'));
+let custom_file;
+if (access(workdir + '/resources/custom.json'))
+    custom_file = trim(readfile(workdir + '/resources/custom.json'));
+const outbounds_list = split(join(',', nodes_list) + join(',', nodes_area) + join(',', stream_list) + '节点选择,自动选择,直连', ',');
 /* UCI config end */
 
 /* Config helper start */
@@ -276,7 +272,7 @@ if (override === '1') {
 
     /* main-group */
     push(config.outbounds[0].outbounds, '自动选择');
-    if (stream === '1' || group_nodes === '1' || custom_list) {
+    if (stream === '1' || group_nodes === '1' || custom_file) {
         for (let v in nodes_area)
             push(config.outbounds[0].outbounds, v);
         push(config.outbounds[0].outbounds, '其他');
@@ -288,12 +284,14 @@ if (override === '1') {
     }
 
     /* for myself */
-    if (custom_list)
-        push(config.outbounds, {
-            tag: 'Custom',
-            type: 'selector',
-            outbounds: proxy_group_out
-        });
+    if (custom_file) {
+        for (let v in filter(keys(json(custom_file)), x => (!(x in outbounds_list))))
+            push(config.outbounds, {
+                tag: v,
+                type: 'selector',
+                outbounds: proxy_group_out
+            });
+    }
 
     /* proxy-group */
     if (stream === '1')
@@ -400,50 +398,18 @@ if (override === '1') {
     }
 
     /* for myself */
-    if (proxy_list) {
-        push(config.route.rules, {
-            rule_set: 'proxy-domain',
-            outbound: '节点选择'
-        });
-        push(config.route.rule_set, {
-            type: 'inline',
-            tag: 'proxy-domain',
-            rules: [
-                {
-                    domain_keyword: split(proxy_list, /[\r\n]/)
-                }
-            ]
-        });
-    }
-    if (direct_list) {
-        push(config.route.rules, {
-            rule_set: 'direct-domain',
-            outbound: '直连'
-        });
-        push(config.route.rule_set, {
-            type: 'inline',
-            tag: 'direct-domain',
-            rules: [
-                {
-                    domain_keyword: split(direct_list, /[\r\n]/)
-                }
-            ]
-        });
-    }
-    if (custom_list) {
-        push(config.route.rules, {
-            rule_set: 'custom-domain',
-            outbound: 'Custom'
-        });
-        push(config.route.rule_set, {
-            type: 'inline',
-            tag: 'custom-domain',
-            rules: [
-                {
-                    domain_keyword: split(custom_list, /[\r\n]/)
-                }
-            ]
-        });
+    if (custom_file) {
+        for (let k in keys(json(custom_file))) {
+            push(config.route.rules, {
+                rule_set: k,
+                outbound: k
+            });
+            push(config.route.rule_set, {
+                tag: k,
+                type: 'inline',
+                rules: json(custom_file)[k]
+            });
+        }
     }
 
     /* proxy-group route */
