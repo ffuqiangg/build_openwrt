@@ -150,12 +150,19 @@ config sing-box 'advanced'
         "eee.com"
       ]
     }
+  ],
+  "节点选择": [
+    {
+      "domain": [
+        "www.fff.com"
+      ]
+	}
   ]
 }
 
 ```
 - 仅在 `override` 开启时生效。
-- 在 `/etc/sing-box/resources` 目录新建 custom.json 文件。其中 `Custom`, `出站` 等为出站分组 / 节点（如果分组不存在则自动创建），其值为一组无头规则。语法参考 [无头规则](https://sing-box.sagernet.org/zh/configuration/rule-set/headless-rule/) 。
+- 在 `/etc/sing-box/resources` 目录新建 custom.json 文件。其中 `Custom`, `直连`, `节点选择` 等为出站分组 / 节点（如果分组不存在则自动创建），其值为一组无头规则。语法参考 [无头规则](https://sing-box.sagernet.org/zh/configuration/rule-set/headless-rule/) 。
 - 当 `/etc/sing-box/resources/custom.json` 文件存在时自动启用节点区域分组，即使 `group_nodes` 设为 0 。
 
 ### 最小配置
