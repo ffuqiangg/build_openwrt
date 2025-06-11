@@ -117,8 +117,8 @@ config sing-box 'advanced'
 	list ad_ruleset 'https://testingcf.jsdelivr.net/gh/ffuqiangg/sing-box-adsruleset@main/rule/adguard-dns-filter.srs'
 	list ad_ruleset ''
 	option filter_nodes '0'                                          # 过滤节点，0 禁用，1 启用
-	option filter_keywords '剩余流量,套餐到期,下次重置,官網,官网'       # 过滤关键字，多个关键字用英文逗号分割
-	option group_nodes '0'                                           # 节点按区域分组，0 禁用，1 启用
+	option filter_keywords '流量,套餐,重置,官網,官网,群组'           # 过滤关键字，多个关键字用英文逗号分割
+	option group_nodes '0'                                             # 节点按区域分组，0 禁用，1 启用
 	option stream '0'                                                # 路由分流规则，0 禁用，1 启用
 	option stream_list 'Google,Github,Telegram,OpenAI,Spotify'       # 启用的分流规则，英文逗号分割
 ```
