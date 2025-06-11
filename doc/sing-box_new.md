@@ -2,7 +2,7 @@
 
 重新写了一个 sing-box 服务。使用 redirect(tcp) + tproxy(udp) 代理，fw3、fw4 都可以使用，支持自动下载订阅，自动重启更新订阅，修复了老方法 docker bridge 网络的联网问题，一些配置参数可自定义，支持调整 DNS 及路由分流规则等，仅支持 ipv4，不支持 ipv6 。
 
-本项目不具备订阅转换功能，如果机场没有提供 sing-box 订阅可以使用转换服务。仓库的另一篇 [文档](sing-box-subscribe.md) 中有使用 sing-box-subscribe 配合本项目使用的一些简单介绍。
+本项目不具备订阅转换功能，如果机场没有提供 sing-box 订阅可以使用转换服务。仓库的 [另一篇文档](sing-box-subscribe.md) 中有使用 sing-box-subscribe 配合本项目使用的一些简单介绍。
 
 **更新记录**  
 - **2025.02.06** 更新支持多订阅，并新增跳过中国大陆 IP 和仅代理常用端口功能。
