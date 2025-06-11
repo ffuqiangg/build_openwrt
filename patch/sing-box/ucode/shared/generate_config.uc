@@ -284,14 +284,13 @@ if (override === '1') {
     }
 
     /* for myself */
-    if (custom_file) {
+    if (custom_file)
         for (let v in filter(keys(json(custom_file)), x => (!(x in outbounds_list))))
             push(config.outbounds, {
                 tag: v,
                 type: 'selector',
                 outbounds: proxy_group_out
             });
-    }
 
     /* proxy-group */
     if (stream === '1')
