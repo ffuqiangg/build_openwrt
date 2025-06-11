@@ -401,11 +401,11 @@ if (override === '1') {
     if (custom_file) {
         for (let k in keys(json(custom_file))) {
             push(config.route.rules, {
-                rule_set: k,
+                rule_set: k + '-ruleset',
                 outbound: k
             });
             push(config.route.rule_set, {
-                tag: k,
+                tag: k + '-ruleset',
                 type: 'inline',
                 rules: json(custom_file)[k]
             });
