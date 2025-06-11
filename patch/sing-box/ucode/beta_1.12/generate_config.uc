@@ -33,10 +33,10 @@ const conffile = uci.get('sing-box', 'main', 'conffile') || '/etc/sing-box/confi
       adblock = uci.get('sing-box', 'advanced', 'adblock') || '0',
       ad_ruleset = uci.get('sing-box', 'advanced', 'ad_ruleset') || '',
       filter_nodes = uci.get('sing-box', 'advanced', 'filter_nodes') || '0',
-      filter_keywords = uci.get('sing-box', 'advanced', 'filter_keywords') || '剩余流量,套餐到期,下次重置,官網,官网,群组',
+      filter_keywords = uci.get('sing-box', 'advanced', 'filter_keywords') || '流量,套餐,重置,官網,官网,群组',
       group_nodes = uci.get('sing-box', 'advanced', 'group_nodes') || '0',
       stream = uci.get('sing-box', 'advanced', 'stream') || '0',
-      stream_list = split(uci.get('sing-box', 'advanced', 'stream_list') || 'Google,Github,Telegram,OpenAI,Spotify', ',');
+      stream_list = uci.get('sing-box', 'advanced', 'stream_list') || 'Google,Github,Telegram,OpenAI,Spotify';
 
 const streamfile = trim(readfile(workdir + '/resources/stream.json'));
 
@@ -94,7 +94,7 @@ for (let k in nodes_list)
 let custom_file;
 if (access(workdir + '/resources/custom.json'))
     custom_file = trim(readfile(workdir + '/resources/custom.json'));
-const outbounds_list = split(join(',', nodes_list) + ',' + join(',', nodes_area) + ',' + join(',', stream_list) + ',节点选择,自动选择,直连', ',');
+const outbounds_list = split(join(',', nodes_list) + ',' + join(',', nodes_area) + ',' + stream_list + ',节点选择,自动选择,直连', ',');
 /* UCI config end */
 
 /* Config helper start */
@@ -300,7 +300,7 @@ if (override === '1') {
 
     /* proxy-group */
     if (stream === '1')
-        for (let v in stream_list)
+        for (let v in split(stream_list, ','))
             push(config.outbounds, {
                 tag: v,
                 type: 'selector',
@@ -422,7 +422,7 @@ if (override === '1') {
 
     /* proxy-group route */
     if (stream === '1') {
-        for (let k in stream_list) {
+        for (let k in split(stream_list, ',')) {
             push(config.route.rules, {
                 rule_set: keys(json(streamfile)['proxy_group'][k]),
                 outbound: k
