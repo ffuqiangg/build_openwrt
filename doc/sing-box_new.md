@@ -22,6 +22,7 @@
 - **2025.05.10** 原模板功升级为混入功能，可动态调整 DNS 和路由分流规则，还包含可手动开启的去广告功能。
 - **2025.05.25** 调整了配置文件的默认处理逻辑，新版本默认会提取节点然后按 config 设置本地生成新的配置文件使用（默认生成不带去广告的大陆白名单模式配置）。如果不希望脚本对原始配置文件做过多调整可以禁用 `advanced -> override` ，此时除了必要的部分外不会对配置文件做其他修改。新版本重新整理了 config 设置文件并新增 DNS、去广告、节点过滤，节点区域分组，路由规则分流设置。
 - **2025.06.10** 调整自用功能，合并 custom, direct, proxy 文件并改用 json 格式。
+- **2025.06.12** 调整节点分组策略，使用分流或 cutom.json 时不在强制开启节点分组。完全交由 `group_nodes` 开关控制。
 
 ### 安装命令
 
@@ -106,7 +107,7 @@ config sing-box 'basic'
 - mixed 代理提供 socks4, socks4a, socks5 和 http 代理服务（注意 mixed 仅代理 tcp 流量）。
 - 更新或替换面板方法：删除 `/etc/sing-box/ui` 目录，然后重启 sing-box 服务。
 
-5. **高级设置** `2025.05.25 更新 整合混入功能作为高级设置并默认开启`
+5. **高级设置** `2025.06.12 更新 调整节点分组策略`
 ```config
 config sing-box 'advanced'
 	option override '1'                                              # 覆写，0 禁用，1 启用
@@ -122,17 +123,16 @@ config sing-box 'advanced'
 	option stream '0'                                                # 路由分流规则，0 禁用，1 启用
 	option stream_list 'Google,Github,Telegram,OpenAI,Spotify'       # 启用的分流规则，英文逗号分割
 ```
-- `override` 是高级设置的总开关，默认情况下会生成不带去广告的大陆白名单模式配置文件。禁用 `override` 时所有高级设置都不会生效，除了 `基础设置` 涉及的部分外不会对配置文件做其他修改。禁用 `override` 时请确保配置文件符合当前 sing-box 版本的要求。
+- `override` 覆写是高级设置的总开关，默认情况下会生成不带去广告的大陆白名单模式配置文件。
+- 禁用 `override` 时所有高级设置均不会生效，除了 `基础设置` 涉及的部分外不会对配置文件做其他修改。禁用 `override` 时请确保配置文件符合当前 sing-box 版本的要求。
 - 去广告功能可以同时使用多个规则集，自行添加更多的 `list ad_ruleset` 条目即可，规则集要求使用 srs 格式且地址可直连。多个规则集注意文件名不能相同。
 - `filter_nodes` 过滤的节点会从配置文件中完全去除，而不仅仅是不出现在分组中。
 - `gourp_nodes` 可用的分组区域包含香港、台湾、日本、韩国、新加坡、美国、德国。订阅中没有的节点区域会自动跳过不会生成空分组。添加区域可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
-- `stream` 分流规则开启时，会默认开启节点区域分组，即使 `group_nodes` 设为 0 。
-- `stream_list` 可使用的分流规则包含 Google，Github，Telegram，OpenAI，DMM，HBO，NETFLIX，Spotify 。添加分流规则可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
+- `stream_list` 脚本预置的可使用分流规则有 Google，Github，Telegram，OpenAI，DMM，HBO，NETFLIX，Spotify 。添加分流规则可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
 
 6. **私货** `自用功能，运行结果不符合预期概不负责`
-- 仅在 `override` 开启时生效。
+- 仅在 `override` 开启时生效。用于自定义域名分流和强制域名直连 / 代理。
 - 在 `/etc/sing-box/resources` 目录新建 custom.json 文件。其 `TOP` 对象键为出站分组 / 节点（如果分组不存在则自动创建），值为一组无头规则。示例文件 [custom.json](https://gist.github.com/ffuqiangg/00a6acb48a1fb9f60a424e606e7a930a) ，语法参考 [无头规则](https://sing-box.sagernet.org/zh/configuration/rule-set/headless-rule/) 。
-- 当 `/etc/sing-box/resources/custom.json` 文件存在时自动启用节点区域分组，即使 `group_nodes` 设为 0 。
 
 ### 最小配置
 

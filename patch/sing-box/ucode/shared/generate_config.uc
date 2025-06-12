@@ -82,9 +82,11 @@ ad_rulelist = filter(ad_rulelist, length);
 
 let proxy_group_out = [];
 push(proxy_group_out, '节点选择');
-for (let k in nodes_area)
-    push(proxy_group_out, k);
-push(proxy_group_out, '其他');
+if (group_nodes === '1') {
+    for (let k in nodes_area)
+        push(proxy_group_out, k);
+    push(proxy_group_out, '其他');
+}
 push(proxy_group_out, '直连');
 for (let k in nodes_list)
     push(proxy_group_out, k);
@@ -272,7 +274,7 @@ if (override === '1') {
 
     /* main-group */
     push(config.outbounds[0].outbounds, '自动选择');
-    if (stream === '1' || group_nodes === '1' || custom_file) {
+    if (group_nodes === '1') {
         for (let v in nodes_area)
             push(config.outbounds[0].outbounds, v);
         push(config.outbounds[0].outbounds, '其他');
@@ -302,7 +304,7 @@ if (override === '1') {
             });
 
     /* area-group */
-    if (stream === '1' || group_nodes === '1' || custom_file) {
+    if (group_nodes === '1') {
         let area_nodes = [];
         for (let v in nodes_area) {
             push(config.outbounds, {
