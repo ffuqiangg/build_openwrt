@@ -302,7 +302,7 @@ if (override === '1') {
             });
 
     /* area-group */
-    if (stream === '1' || group_nodes === '1' || custom_list) {
+    if (stream === '1' || group_nodes === '1' || custom_file) {
         let area_nodes = [];
         for (let v in nodes_area) {
             push(config.outbounds, {
