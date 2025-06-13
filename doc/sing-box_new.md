@@ -62,16 +62,7 @@ config sing-box 'main'
 ```
 - conffile 为配置文件路径、workdir 为服务运行目录，不要修改否则运行会出错。
 
-2. **代理相关** `2025.04.01 更新 增加屏蔽 quic 功能`
-```config
-config sing-box 'proxy'
-	option common_ports '0'                     # 仅代理常用端口，0 否，1 是
-	option pass_cn_ip '0'                       # 跳过中国大陆 IP，0 否，1 是
-	option fuck_quic '0'                        # 屏蔽 quic，0 否，1 是
-```
-- 使用 p2p 下载可开启仅代理常用端口，避免 p2p 流量进入 sing-box 核心。
-
-3. **配置文件和订阅相关** `2025.04.01 更新 取消本地 -1 运行方式`
+2. **配置文件和订阅相关** `2025.04.01 更新 取消本地 -1 运行方式`
 ```config
 config sing-box 'subscription'
 	option remote '1'                           # 使用订阅还是本地配置，0 本地配置文件，1 订阅1，2 订阅2 ...
@@ -83,6 +74,15 @@ config sing-box 'subscription'
 - 本地配置文件保存到 /etc/sing-box 目录命名为 sing-box.json 。
 - 使用订阅时服务启动会自动下载所有订阅，所以定时重启也能起到更新订阅的作用。
 - 如果有更多订阅，配置中新建更多 `list url` 项目即可。
+
+3. **代理相关** `2025.04.01 更新 增加屏蔽 quic 功能`
+```config
+config sing-box 'proxy'
+	option common_ports '0'                     # 仅代理常用端口，0 否，1 是
+	option pass_cn_ip '0'                       # 跳过中国大陆 IP，0 否，1 是
+	option fuck_quic '0'                        # 屏蔽 quic，0 否，1 是
+```
+- 使用 p2p 下载可开启仅代理常用端口，避免 p2p 流量进入 sing-box 核心。
 
 4. **基础配置** `2025.05.25 更新 整理合并设置条目，调整默认面板`
 ```config
