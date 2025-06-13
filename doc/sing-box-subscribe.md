@@ -22,7 +22,7 @@ docker run
 docker run -d \
   --name subscribe \
   -p 5050:5000 \
-  -- restart always \
+  --restart always \
   ffuqiangg/sing-box-subscribe
 ```
 
@@ -51,7 +51,7 @@ docker run -d \
   --name subscribe \
   -v 模板文件目录:/sing-box-subscribe/config_template \
   -p 5050:5000 \
-  -- restart always \
+  --restart always \
   ffuqiangg/sing-box-subscribe
 ```
 
