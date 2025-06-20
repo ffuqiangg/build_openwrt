@@ -66,7 +66,7 @@ popd
 # 预配置一些插件
 mkdir -p files
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
-cp -rf ../files/{init/*,cpufreq/*} files/
+cp -rf ../files/{init/*,cpufreq/*,feeds/*} files/
 mkdir -p files/etc/uci-defaults
 cp -f ../patch/default-settings/istoreos/zzz-default-settings ./files/etc/uci-defaults/
 mkdir -p files/etc/openclash/core
