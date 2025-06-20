@@ -1,5 +1,5 @@
 #!/bin/sh
-build_date=$(awk 'NR==2 {print $NF}' /etc/banner)
+build_date=$(awk -F '[][]' 'NR==2 {print $(NF-1)}' /etc/banner)
 download_url="https://github.com/ffuqiangg/build_openwrt/releases/download/${build_date}/"
 if [ $(grep -c "LEDE" /etc/openwrt_release) -ne 0 ]; then
     openwrt_revision=$(cat /etc/openwrt_release | grep -oE "R[0-9\.]+")
