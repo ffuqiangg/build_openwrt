@@ -3,8 +3,7 @@
 . ./scripts/functions.sh
 
 # Clone source code
-latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/.tar.gz//g')"
-clone_repo $immortalwrt_repo ${latest_release} openwrt &
+clone_repo $immortalwrt_repo ${1} openwrt &
 # clone_repo $immortalwrt_repo openwrt-24.10 openwrt_snap &
 clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 clone_repo $lede_pkg_repo master lede_pkg &

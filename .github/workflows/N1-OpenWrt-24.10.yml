@@ -60,23 +60,20 @@ jobs:
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
+        latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
+        kernel_version="$(cat openwrt/include/kernel-6.6 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")"
         cp -r ./scripts/openwrt-24.10/. ./
-        /bin/bash 01_prepare_source_code.sh
+        /bin/bash 01_prepare_source_code.sh "v${latest_release}"
+        sed -i "s/DATE/${{ env.build_date }}/;s/WRT_SOUR/OpenWrt/;s/RELEASES/${latest_release}/" ./openwrt/files/etc/banner
         ln -sf /home/runner/work/build_openwrt/build_openwrt/openwrt /home/runner/work/_actions/ffuqiangg/amlogic-s9xxx-openwrt/main/openwrt
+        echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
+        echo "kernel_version=${kernel_version}" >> ${GITHUB_ENV}
 
     - name: Prepare package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp -r ../scripts/openwrt-24.10/. ./
-        /bin/bash 02_prepare_package.sh
-
-    - name: Load custom configuration
-      run: |
-        latest_release="$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
-        kernel_version="$(cat openwrt/include/kernel-6.6 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")"
-        sed -i "s/DATE/${{ env.build_date }}/;s/WRT_SOUR/OpenWrt/;s/RELEASES/${latest_release}/" ./openwrt/files/etc/banner
-        echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
-        echo "kernel_version=${kernel_version}" >> ${GITHUB_ENV}
+        /bin/bash 02_prepare_package.sh ${{ env.latest_release }}
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
