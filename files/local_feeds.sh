@@ -1,8 +1,8 @@
 #!/bin/sh
-build_date=$(cat /etc/banner | grep -oE "[0-9]{4}\.[0-9]{2}\.[0-9]{2}")
+build_date=$(grep -oE "[0-9]{4}\.[0-9]{2}\.[0-9]{2}" /etc/banner)
 download_url="https://github.com/ffuqiangg/build_openwrt/releases/download/${build_date}/"
 if [ $(grep -c "LEDE" /etc/openwrt_release) -ne 0 ]; then
-    openwrt_revision=$(cat /etc/openwrt_release | grep -oE "R[0-9\.]+")
+    openwrt_revision=$(grep 'DISTRIB_REVISION=' /etc/openwrt_release | sed -E "s/.*'(.+)'.*/\1/")
     download_file="N1-LEDE-$openwrt_revision-$build_date-packages.zip"
 elif [ $(grep -c "iStoreOS" /etc/openwrt_release) -ne 0 ]; then
     download_file="N1-iStoreOS-$build_date-packages.zip"
