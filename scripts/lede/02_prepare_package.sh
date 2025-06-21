@@ -87,7 +87,7 @@ sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/con
 
 # 预配置一些插件
 mkdir -p files
-cp -rf ../files/{init/*,cpufreq/*,feeds/*} files/
+cp -rf ../files/{init/*,cpufreq/*} files/
 mkdir -p files/etc/uci-defaults
 cp -f ../patch/default-settings/lede/zzz-default-settings ./files/etc/uci-defaults/
 
