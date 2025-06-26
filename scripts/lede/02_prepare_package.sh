@@ -83,7 +83,6 @@ cp -rf ../openwrt-apps/OpenWrt-nikki ./package/new/nikki
 # 生成默认配置及缓存
 rm -rf .config
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd && sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
-sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-5.15
 
 # 预配置一些插件
 mkdir -p files
