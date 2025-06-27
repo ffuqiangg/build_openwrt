@@ -78,7 +78,9 @@ jobs:
     - name: Download package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        make download -j50
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
 
     - name: Compile the firmware
       working-directory: ${{ github.workspace }}/openwrt
