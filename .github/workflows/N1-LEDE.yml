@@ -81,24 +81,14 @@ jobs:
     - name: Download package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        make download -j50
+        make download -j8
+        find dl -size -1024c -exec ls -l {} \;
+        find dl -size -1024c -exec rm -f {} \;
 
     - name: Compile the firmware
       working-directory: ${{ github.workspace }}/openwrt
-      id: compileopenwrt
-      continue-on-error: true
       run: |
-         make -j$(($(nproc) + 1)) package/network/utils/nftables/refresh V=s
-         IGNORE_ERRORS=1 make -j$(($(nproc) + 1))
-         echo $?
-
-    - name: If Error
-      working-directory: ${{ github.workspace }}/openwrt
-      if: steps.compileopenwrt.outcome == 'failure'
-      run: |
-        cat ./.config
-        echo '================================================================'
-        make -j1 V=s
+        make -j$(nproc) || make -j1 || make -j1 V=s
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
