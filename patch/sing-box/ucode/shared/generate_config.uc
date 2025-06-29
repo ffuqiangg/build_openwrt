@@ -5,6 +5,45 @@
 import { readfile, writefile, basename, access } from 'fs';
 import { cursor } from 'uci';
 
+function removeBlankAttrs(res) {
+    let content;
+
+    if (type(res) === 'object') {
+        content = {};
+        map(keys(res), (k) => {
+            if (type(res[k]) in ['array', 'object'])
+                content[k] = removeBlankAttrs(res[k]);
+            else if (res[k] !== null && res[k] !== '')
+                content[k] = res[k];
+        });
+    } else if (type(res) === 'array') {
+        content = [];
+        map(res, (k, i) => {
+            if (type(k) in ['array', 'object'])
+                push(content, removeBlankAttrs(k));
+            else if (k !== null && k !== '')
+                push(content, k);
+        });
+    } else {
+        return res;
+    }
+
+    return content;
+};
+
+function nodesFilter(key, list) {
+    let content = [];
+
+    map(list, (x) => {
+        for (let k in split(key, '|')) {
+            if (index(x, k) > -1)
+                push(content, x);
+        }
+    });
+
+    return uniq(content);
+};
+
 /* UCI config start */
 const uci = cursor();
 
@@ -75,68 +114,33 @@ for (let v in keys(json(streamfile).area_group))
     });
 nodes_area = uniq(nodes_area);
 
-let ad_rulelist = [];
-for (let i = 0; i < length(ad_ruleset); i++)
-    push(ad_rulelist, rtrim(basename(ltrim(ad_ruleset[i], 'https:/')), '.srs'));
-ad_rulelist = filter(ad_rulelist, length);
+let area_nodes = [];
+for (let v in nodes_area)
+    for (let k in nodesFilter(json(streamfile)['area_group'][v]['filter'], nodes_list))
+        push(area_nodes, k);
 
 let proxy_group_out = [];
 push(proxy_group_out, '节点选择');
 if (group_nodes === '1') {
     for (let k in nodes_area)
         push(proxy_group_out, k);
-    push(proxy_group_out, '其他');
+    if (length(nodes_list) > length(area_nodes))
+        push(proxy_group_out, '其他');
 }
 push(proxy_group_out, '直连');
 for (let k in nodes_list)
     push(proxy_group_out, k);
+
+let ad_rulelist = [];
+for (let i = 0; i < length(ad_ruleset); i++)
+    push(ad_rulelist, rtrim(basename(ltrim(ad_ruleset[i], 'https:/')), '.srs'));
+ad_rulelist = filter(ad_rulelist, length);
 
 let custom_file;
 if (access(workdir + '/resources/custom.json'))
     custom_file = trim(readfile(workdir + '/resources/custom.json'));
 const outbounds_list = split(join(',', nodes_list) + ',' + join(',', nodes_area) + ',' + stream_list + ',节点选择,自动选择,直连', ',');
 /* UCI config end */
-
-/* Config helper start */
-function removeBlankAttrs(res) {
-    let content;
-
-    if (type(res) === 'object') {
-        content = {};
-        map(keys(res), (k) => {
-            if (type(res[k]) in ['array', 'object'])
-                content[k] = removeBlankAttrs(res[k]);
-            else if (res[k] !== null && res[k] !== '')
-                content[k] = res[k];
-        });
-    } else if (type(res) === 'array') {
-        content = [];
-        map(res, (k, i) => {
-            if (type(k) in ['array', 'object'])
-                push(content, removeBlankAttrs(k));
-            else if (k !== null && k !== '')
-                push(content, k);
-        });
-    } else {
-        return res;
-    }
-
-    return content;
-};
-
-function nodesFilter(key, list) {
-    let content = [];
-
-    map(list, (x) => {
-        for (let k in split(key, '|')) {
-            if (index(x, k) > -1)
-                push(content, x);
-        }
-    });
-
-    return uniq(content);
-};
-/* Config helper end */
 
 const config = {};
 
@@ -277,7 +281,8 @@ if (override === '1') {
     if (group_nodes === '1') {
         for (let v in nodes_area)
             push(config.outbounds[0].outbounds, v);
-        push(config.outbounds[0].outbounds, '其他');
+        if (length(nodes_list) > length(area_nodes))
+            push(config.outbounds[0].outbounds, '其他');
     }
     push(config.outbounds[0].outbounds, '直连');
     for (let v in nodes_list) {
@@ -305,17 +310,12 @@ if (override === '1') {
 
     /* area-group */
     if (group_nodes === '1') {
-        let area_nodes = [];
         for (let v in nodes_area) {
             push(config.outbounds, {
                 tag: v,
                 type: json(streamfile)['area_group'][v]['type'],
                 outbounds: nodesFilter(json(streamfile)['area_group'][v]['filter'], nodes_list)
             });
-
-            for (let k in nodesFilter(json(streamfile)['area_group'][v]['filter'], nodes_list)) {
-                push(area_nodes, k);
-            }
         }
 
         if (length(nodes_list) > length(area_nodes))
