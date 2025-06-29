@@ -71,7 +71,7 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp -r ../scripts/openwrt-24.10/. ./
-        /bin/bash 02_prepare_package.sh ${{ env.latest_release }}
+        /bin/bash 02_prepare_package.sh "${{ env.latest_release }}"
         sed -i "s/DATE/${{ env.build_date }}/;s/WRT_SOUR/OpenWrt/;s/RELEASES/${{ env.latest_release }}/" ./files/etc/banner
 
     - name: Make config

@@ -105,8 +105,6 @@ jobs:
         mv openwrt/bin/targets/amlogic/meson/*sysupgrade.img* ./artifact/
         mv openwrt/bin/targets/amlogic/meson/packages ./artifact/
         cd ./artifact/
-        gzip -d *.gz && exit 0
-        gzip --best *.img
         zip N1-iStoreOS-${{ env.build_date }}-sfs.zip *n1*squashfs*
         zip -r N1-iStoreOS-${{ env.build_date }}-packages.zip packages/
 

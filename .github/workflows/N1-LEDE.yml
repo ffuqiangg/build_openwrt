@@ -110,8 +110,6 @@ jobs:
         mv openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img* ./artifact/
         mv openwrt/bin/targets/amlogic/mesongx/packages ./artifact/
         cd ./artifact/
-        gzip -d *.gz && exit 0
-        gzip --best *.img
         zip N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}-sfs.zip *n1*squashfs*
         zip -r N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}-packages.zip packages/
 
