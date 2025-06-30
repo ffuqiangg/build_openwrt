@@ -71,7 +71,7 @@ jobs:
       run: |
         cp -r ../scripts/immortalwrt-24.10/. ./
         /bin/bash 02_prepare_package.sh "${{ env.latest_release }}"
-        sed -i "s/DATE/${{ env.build_date }}/;s/WRT_SOUR/ImmortalWrt/;s/RELEASES/${{ env.latest_release }}/" ./files/etc/banner
+        echo -e "\n ImmortalWrt ${{ env.latest_release }} ${{ env.build_date }}\n" > ./files/etc/banner
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
