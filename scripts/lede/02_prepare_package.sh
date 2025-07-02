@@ -3,8 +3,6 @@
 . ../scripts/functions.sh
 
 ### 基础部分 ###
-# 使用 O2 级别的优化
-sed -i 's/Os/O2/g' include/target.mk
 # 更新 Feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
@@ -20,7 +18,6 @@ patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
 ### 额外的 LuCI 应用和依赖 ###
-mkdir -p package/new
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
@@ -77,8 +74,6 @@ cp -rf ../openwrt_pkg_ma/libs/nghttp3 ./feeds/packages/libs/nghttp3
 ln -sf ../../../feeds/packages/libs/nghttp3 ./package/feeds/packages/nghttp3
 cp -rf ../openwrt_pkg_ma/libs/ngtcp2 ./feeds/packages/libs/ngtcp2
 ln -sf ../../../feeds/packages/libs/ngtcp2 ./package/feeds/packages/ngtcp2
-# Nikki
-cp -rf ../openwrt-apps/OpenWrt-nikki ./package/new/nikki
 
 # 生成默认配置及缓存
 rm -rf .config
