@@ -55,13 +55,6 @@ cp -rf ../immortalwrt_pkg_21/net/vsftpd ./package/new/vsftpd
 pushd package/new/luci-app-vsftpd
 move_2_services nas
 popd
-# verysync
-cp -rf ../immortalwrt_luci_21/applications/luci-app-verysync ./package/new/luci-app-verysync
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-verysync/Makefile
-cp -rf ../immortalwrt_pkg_21/net/verysync ./package/new/verysync
-pushd package/new/luci-app-verysync
-move_2_services nas
-popd
 
 # 预配置一些插件
 mkdir -p files

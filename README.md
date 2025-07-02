@@ -10,7 +10,7 @@
 - ImmortalWrt-18.06，ImmortalWrt-24.10，OpenWrt-24.10 固件采用 [Flippy](https://github.com/unifreq) 大佬的方案由 Armbian 内核打包制作，LEDE 及 iStoreOS 为原生编译。
 - 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)，下载前往 [Releases](https://github.com/ffuqiangg/build_openwrt/releases) 。
 - 默认 IP：192.168.1.99， 默认密码：password 。
-- 插件：PassWall，v2rayA，Homeproxy，OpenClash，Nikki，DAED，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP 服务器，DockerMan，DocKer-Compose，UPNP，VerySync 。
+- 插件：PassWall，v2rayA，Homeproxy，OpenClash，Nikki，DAED，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP 服务器，DockerMan，DocKer-Compose，UPNP 。
 - 各固件包含的科学插件略有差别，具体区别见 release 说明。
 - ImmortalWrt-24.10，OpenWrt-24.10 固件经过特殊优化可避免安装 kmod 内核模块时出现 pkg_hash 错误。iStoreOS，LEDE 固件可以通过命令一键部署本地 kmod 源解决 kmod 安装问题（具体命令见各 release 说明）。
 - 固件对一些命令进行了简化，如 `ungz = tar -xvzf`，`777 = chmod -R 777`，`mkdirg X = mkdir -p X && cd X` 等，详情可查看仓库 [shinit](files/init/etc/shinit) 文件。

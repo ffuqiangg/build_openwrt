@@ -63,10 +63,6 @@ sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-d
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
-# Verysync
-pushd package/feeds/luci/luci-app-verysync
-move_2_services nas
-popd
 # Curl
 rm -rf ./feeds/packages/net/curl
 cp -rf ../openwrt_pkg_ma/net/curl ./feeds/packages/net/curl

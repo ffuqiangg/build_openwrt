@@ -65,10 +65,6 @@ docker_2_services
 popd
 # Nlbw 带宽监控
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
-# Verysync
-pushd feeds/luci/applications/luci-app-verysync
-move_2_services nas
-popd
 # Nikki
 cp -rf ../openwrt-apps/OpenWrt-nikki ./package/new/luci-app-nikki
 # 晶晨宝盒

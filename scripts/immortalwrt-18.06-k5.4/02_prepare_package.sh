@@ -57,10 +57,6 @@ sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/vi
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 # V2raya
 clone_repo https://github.com/zxlhhyccc/luci-app-v2raya.git 18.06 package/new/luci-app-v2raya
-# Verysync
-pushd feeds/luci/applications/luci-app-verysync
-move_2_services nas
-popd
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
