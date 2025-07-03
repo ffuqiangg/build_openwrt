@@ -22,7 +22,7 @@ sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@mai
 |ImmortalWrt-18.06 |⭕       |⭕        |⭕     |❌        |❌    |❌   |
 |ImmortalWrt-24.10 |⭕       |❌        |⭕     |⭕        |⭕    |⭕   |
 |Openwrt-24.10     |⭕       |❌        |⭕     |⭕        |⭕    |⭕   |
-|LEDE              |⭕       |❌        |⭕     |❌        |⭕    |⭕   |
+|LEDE              |⭕       |❌        |⭕     |⭕        |⭕    |⭕   |
 |iStoreOS-22.03    |⭕       |⭕        |⭕     |❌        |❌    |❌   |
 
 ### sing-box
