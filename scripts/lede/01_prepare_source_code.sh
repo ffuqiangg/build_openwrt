@@ -14,6 +14,6 @@ wait
 # 修改默认 IP ( 192.168.1.1 改为 192.168.1.99 )
 sed -i 's/192.168.1.1/192.168.1.99/g' openwrt/package/base-files/luci2/bin/config_generate
 # 调整 LUCI feeds
-sed -i 's/openwrt-23.05/openwrt-24.10/g' openwrt/feeds.conf.default
+sed -i '/^src-git luci/s/;.*$/;openwrt-24.10/' openwrt/feeds.conf.default
 
 exit 0
