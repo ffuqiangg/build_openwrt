@@ -65,13 +65,6 @@ sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-d
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
-# Curl
-rm -rf ./feeds/packages/net/curl
-cp -rf ../openwrt_pkg_ma/net/curl ./feeds/packages/net/curl
-cp -rf ../openwrt_pkg_ma/libs/nghttp3 ./feeds/packages/libs/nghttp3
-ln -sf ../../../feeds/packages/libs/nghttp3 ./package/feeds/packages/nghttp3
-cp -rf ../openwrt_pkg_ma/libs/ngtcp2 ./feeds/packages/libs/ngtcp2
-ln -sf ../../../feeds/packages/libs/ngtcp2 ./package/feeds/packages/ngtcp2
 
 # 生成默认配置及缓存
 rm -rf .config
