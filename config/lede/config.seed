@@ -234,7 +234,6 @@ CONFIG_PACKAGE_kmod-fs-cramfs=m
 CONFIG_PACKAGE_kmod-fs-exfat=m
 CONFIG_PACKAGE_kmod-fs-exportfs=m
 CONFIG_PACKAGE_kmod-fs-ext4=m
-CONFIG_PACKAGE_kmod-fs-f2fs=m
 CONFIG_PACKAGE_kmod-fs-fscache=m
 CONFIG_PACKAGE_kmod-fs-hfs=m
 CONFIG_PACKAGE_kmod-fs-hfsplus=m
