@@ -77,7 +77,6 @@ jobs:
       run: |
         cp -r ../scripts/immortalwrt-18.06-k5.4/. ./
         /bin/bash 02_prepare_package.sh
-        mkdir -p files/etc
         echo -e "\n ImmortalWrt 18.06-K5.4 ${{ env.build_date }}\n" > ./files/etc/banner
 
     - name: Make config

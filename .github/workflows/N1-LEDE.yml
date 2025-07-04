@@ -69,6 +69,7 @@ jobs:
         # /bin/bash 02_prepare_package.sh
         ./scripts/feeds update -a
         ./scripts/feeds install -a
+        mkdir -p files/etc
         echo -e "\n LEDE ${{ env.distrib_revision }} ${{ env.build_date }}\n" > ./files/etc/banner
 
     - name: Make config
