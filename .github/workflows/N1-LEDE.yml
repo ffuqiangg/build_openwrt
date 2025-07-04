@@ -65,14 +65,16 @@ jobs:
     - name: Prepare package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cp -r ../scripts/lede/. ./
-        /bin/bash 02_prepare_package.sh
+        # cp -r ../scripts/lede/. ./
+        # /bin/bash 02_prepare_package.sh
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
         echo -e "\n LEDE ${{ env.distrib_revision }} ${{ env.build_date }}\n" > ./files/etc/banner
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cp ../config/lede/config.seed .config
+        cp ../config/lede/config.test .config
         make defconfig
 
     - name: Download package
