@@ -41,7 +41,6 @@ uci commit dockerd
 # docker 镜像站点
 if [ -f /etc/config/dockerd ]; then
     uci del dockerd.globals.registry_mirrors
-    uci add_list dockerd.globals.registry_mirrors='https://dockerpull.com'
     uci add_list dockerd.globals.registry_mirrors='https://dockerproxy.net'
     uci add_list dockerd.globals.registry_mirrors='https://docker.m.daocloud.io'
     uci commit dockerd
