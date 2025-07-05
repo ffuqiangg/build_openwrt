@@ -65,7 +65,7 @@ jobs:
       run: |
         cp -r ../scripts/istoreos/. ./
         /bin/bash 02_prepare_package.sh
-        echo -e "\n iStoreOS 22.03.7 ${{ env.build_date }}\n" > ./files/etc/banner
+        echo -e "\n iStoreOS-22.03.7 ${{ env.build_date }}\n" > ./files/etc/banner
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
