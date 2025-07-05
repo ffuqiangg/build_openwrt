@@ -58,18 +58,15 @@ jobs:
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
         cp -r ./scripts/lede/. ./
-        /bin/bash 01_prepare_source_code.sh
+        ./01_prepare_source_code.sh
         distrib_revision=$(grep 'DISTRIB_REVISION=' openwrt/package/lean/default-settings/files/zzz-default-settings | sed -E "s/.*'(.+)'.*/\1/")
         echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
 
     - name: Prepare package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        # cp -r ../scripts/lede/. ./
-        # /bin/bash 02_prepare_package.sh
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
-        mkdir -p files/etc
+        cp -r ../scripts/lede/. ./
+        ./02_prepare_package.sh
         echo -e "\n LEDE ${{ env.distrib_revision }} ${{ env.build_date }}\n" > ./files/etc/banner
 
     - name: Make config

@@ -25,18 +25,18 @@ patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 # 预编译 node
-rm -rf feeds/packages/lang/node
-cp -rf ../node feeds/packages/lang/node
+# rm -rf feeds/packages/lang/node
+# cp -rf ../node feeds/packages/lang/node
 # 添加翻译
 echo '
 msgid "Custom rules allow you to execute arbitrary nft commands which are not otherwise covered by the firewall framework. The rules are executed after each firewall restart, right after the default ruleset has been loaded."
 msgstr "自定义规则允许您执行不属于防火墙框架的任意 nft 命令。每次重启防火墙时，这些命令在默认的规则运行后立即执行。"' >> ./package/lean/default-settings/po/zh-cn/default.po
 # Passwall
-rm -rf ./feeds/luci/applications/luci-app-passwall
-cp -rf ../openwrt-apps/openwrt_helloworld/luci-app-passwall feeds/luci/applications/luci-app-passwall
+# rm -rf ./feeds/luci/applications/luci-app-passwall
+# cp -rf ../openwrt-apps/openwrt_helloworld/luci-app-passwall feeds/luci/applications/luci-app-passwall
 # 替换 sing-box
-rm -rf ./feeds/packages/net/sing-box
-cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./feeds/packages/net/sing-box
+# rm -rf ./feeds/packages/net/sing-box
+# cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./feeds/packages/net/sing-box
 # Vsftpd
 pushd feeds/luci/applications/luci-app-vsftpd
 move_2_services nas
@@ -59,8 +59,8 @@ sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/
 # 终端 TTYD
 sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # Docker 容器
-rm -rf ./feeds/luci/applications/luci-app-dockerman
-cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
+# rm -rf ./feeds/luci/applications/luci-app-dockerman
+# cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
