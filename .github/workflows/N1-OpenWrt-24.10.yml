@@ -80,6 +80,12 @@ jobs:
         cp -f ../config/openwrt-24.10/config.seed .config
         make defconfig
 
+    - name: Cache
+      uses: HiGarfield/cachewrtbuild@main
+      with:
+        mixkey: OpenWrt-${{ env.latest_release }}-${{ env.build_date }}
+        prefix: ${{ github.workspace }}/openwrt
+
     - name: Download package
       working-directory: ${{ github.workspace }}/openwrt
       run: |

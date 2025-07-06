@@ -73,6 +73,12 @@ jobs:
         cp ../config/istoreos/config.seed .config
         make defconfig
 
+    - name: Cache
+      uses: HiGarfield/cachewrtbuild@main
+      with:
+        mixkey: iStoreOS-22.03.7-${{ env.build_date }}
+        prefix: ${{ github.workspace }}/openwrt
+
     - name: Download package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
