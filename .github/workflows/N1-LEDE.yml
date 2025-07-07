@@ -78,7 +78,7 @@ jobs:
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
-        mixkey: LEDE-${{ env.distrib_revision }}-${{ env.build_date }}
+        mixkey: LEDE
         prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package

@@ -83,7 +83,7 @@ jobs:
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
-        mixkey: OpenWrt-${{ env.latest_release }}-${{ env.build_date }}
+        mixkey: OpenWrt
         prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
