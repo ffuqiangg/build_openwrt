@@ -58,13 +58,13 @@ jobs:
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
         cp -r ./scripts/istoreos/. ./
-        /bin/bash 01_prepare_source_code.sh
+        ./01_prepare_source_code.sh
 
     - name: Prepare package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp -r ../scripts/istoreos/. ./
-        /bin/bash 02_prepare_package.sh
+        ./02_prepare_package.sh
         echo -e "\n iStoreOS-22.03.7 ${{ env.build_date }}\n" > ./files/etc/banner
 
     - name: Make config
