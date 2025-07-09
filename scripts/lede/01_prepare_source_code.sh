@@ -15,6 +15,7 @@ sed -i 's/192.168.1.1/192.168.1.99/g' openwrt/package/base-files/luci2/bin/confi
 # 调整 LUCI feeds
 sed -i '/^src-git luci/s/;.*$/;openwrt-24.10/' openwrt/feeds.conf.default
 # 默认禁用 WIFI
+sed -i '/wireless/d' openwrt/package/lean/default-settings/files/zzz-default-settings
 sed -Ei "s/(disabled=)0/\11/" openwrt/package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
 exit 0
