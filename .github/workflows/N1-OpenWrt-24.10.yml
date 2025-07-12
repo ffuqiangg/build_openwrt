@@ -131,7 +131,7 @@ jobs:
         cp ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz ./artifact/
         cd ./artifact/
         zip N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}.zip *.img.gz
-        rm -rf /home/runner/work/build_openwrt/build_openwrt/amlogic 
+        rm -rf /home/runner/work/build_openwrt/build_openwrt/amlogic
 
     - name: Upload firmware to release
       uses: ncipollo/release-action@main
