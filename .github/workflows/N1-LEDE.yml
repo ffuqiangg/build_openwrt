@@ -128,15 +128,6 @@ jobs:
         artifacts: ./artifact/*.zip
         bodyFile: ./doc/release.md
 
-    - name: Clear space
-      run: |
-        echo "Clear space"
-        sudo rm -rf ./artifact
-        sudo rm -rf ./openwrt/dl
-        sudo rm -rf ./openwrt/tmp
-        sudo rm -rf ./openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img*
-        sudo rm -rf ./openwrt/bin/targets/amlogic/mesongx/packages
-
     - name: Telegram notification
       if: github.event_name == 'repository_dispatch'
       run: |
