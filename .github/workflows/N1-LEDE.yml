@@ -133,7 +133,6 @@ jobs:
         echo "Clear space"
         sudo rm -rf ./artifact
         sudo rm -rf ./openwrt/dl
-        sudo rm -rf ./openwrt/staging_dir
         sudo rm -rf ./openwrt/tmp
         sudo rm -rf ./openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img*
         sudo rm -rf ./openwrt/bin/targets/amlogic/mesongx/packages
