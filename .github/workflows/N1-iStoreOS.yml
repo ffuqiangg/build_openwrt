@@ -126,16 +126,15 @@ jobs:
         artifacts: ./artifact/*.zip
         bodyFile: ./doc/release.md
 
-    - name: Clear cache
+    - name: Clear space
       run: |
-        echo "Clear cache"
-        sudo rm -rf /home/runner/.cache
-        sudo rm -rf /home/runner/work/build_openwrt/openwrt/dl
-        sudo rm -rf /home/runner/work/build_openwrt/openwrt/staging_dir
-        sudo rm -rf /home/runner/work/build_openwrt/openwrt/tmp
-        sudo rm -rf /home/runner/work/build_openwrt/openwrt/artifact
-        sudo rm -rf /home/runner/work/build_openwrt/openwrt/bin/targets/amlogic/meson/*sysupgrade.img*
-        sudo rm -rf /home/runner/work/build_openwrt/openwrt/bin/targets/amlogic/meson/packages
+        echo "Clear space"
+        sudo rm -rf /home/runner/work/build_openwrt/build_openwrt/openwrt/dl
+        sudo rm -rf /home/runner/work/build_openwrt/build_openwrt/openwrt/staging_dir
+        sudo rm -rf /home/runner/work/build_openwrt/build_openwrt/openwrt/tmp
+        sudo rm -rf /home/runner/work/build_openwrt/build_openwrt/openwrt/artifact
+        sudo rm -rf /home/runner/work/build_openwrt/build_openwrt/openwrt/bin/targets/amlogic/meson/*sysupgrade.img*
+        sudo rm -rf /home/runner/work/build_openwrt/build_openwrt/openwrt/bin/targets/amlogic/meson/packages
 
     - name: Telegram notification
       if: github.event_name == 'repository_dispatch'
