@@ -131,12 +131,12 @@ jobs:
     - name: Clear space
       run: |
         echo "Clear space"
-        sudo rm -rf /home/runner/work/build_openwrt/build_openwrt/openwrt/dl
-        sudo rm -rf /home/runner/work/build_openwrt/build_openwrt/openwrt/staging_dir
-        sudo rm -rf /home/runner/work/build_openwrt/build_openwrt/openwrt/tmp
-        sudo rm -rf /home/runner/work/build_openwrt/build_openwrt/openwrt/artifact
-        sudo rm -rf /home/runner/work/build_openwrt/build_openwrt/openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img*
-        sudo rm -rf /home/runner/work/build_openwrt/build_openwrt/openwrt/bin/targets/amlogic/mesongx/packages
+        sudo rm -rf ./artifact
+        sudo rm -rf ./openwrt/dl
+        sudo rm -rf ./openwrt/staging_dir
+        sudo rm -rf ./openwrt/tmp
+        sudo rm -rf ./openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img*
+        sudo rm -rf ./openwrt/bin/targets/amlogic/mesongx/packages
 
     - name: Telegram notification
       if: github.event_name == 'repository_dispatch'
