@@ -31,11 +31,7 @@ start_service() {
         a=1
         for i in $url; do
             curl -fsL -A sing-box --connect-timeout 15 --retry 3 -X GET -o $workdir/config.tmp $i
-            if [ $? -eq 0 ]; then
-                mv $workdir/config.tmp $workdir/subscription$a.json
-            else
-                [ -f "$workdir/config.tmp" ] && rm -f $workdir/config.tmp
-            fi
+            [ -f $workdir/config.tmp ] && mv $workdir/config.tmp $workdir/subscription$a.json
             let a++
         done
         if [ -f "$workdir/subscription$remote.json" ]; then
