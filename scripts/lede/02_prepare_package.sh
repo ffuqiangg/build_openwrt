@@ -76,6 +76,10 @@ mkdir -p files
 cp -rf ../files/{init/*,cpufreq/*} files/
 mkdir -p files/etc/uci-defaults
 cp -f ../patch/default-settings/lede/zzz-default-settings ./files/etc/uci-defaults/
+mkdir -p files/usr/bin
+wget https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz
+tar -xvf linux-arm64-filebrowser.tar.gz -C files/usr/bin/ filebrowser
+rm -f linux-arm64-filebrowser.tar.gz
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f

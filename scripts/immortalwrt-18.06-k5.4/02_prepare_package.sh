@@ -68,6 +68,10 @@ cp -f ../patch/default-settings/immortalwrt-18.06/zzz-default-settings ./files/e
 mkdir -p files/etc/openclash/core
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
 chmod +x files/etc/openclash/core/clash*
+mkdir -p files/usr/bin
+wget https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz
+tar -xvf linux-arm64-filebrowser.tar.gz -C files/usr/bin/ filebrowser
+rm -f linux-arm64-filebrowser.tar.gz
 
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
