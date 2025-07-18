@@ -66,9 +66,9 @@ mkdir -p files
 cp -rf ../files/init/* files/
 mkdir -p files/etc/uci-defaults
 cp -f ../patch/default-settings/openwrt-24.10/zzz-default-settings ./files/etc/uci-defaults/
-mkdir -p files/usr/bin
+mkdir -p files/usr/sbin
 wget https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz
-tar -xvf linux-arm64-filebrowser.tar.gz -C files/usr/bin/ filebrowser
+tar -xvf linux-arm64-filebrowser.tar.gz -C files/usr/sbin/ filebrowser
 rm -f linux-arm64-filebrowser.tar.gz
 
 find ./ -name *.orig | xargs rm -f
