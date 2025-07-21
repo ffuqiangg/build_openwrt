@@ -17,7 +17,7 @@ rm -rf feeds/luci/applications/{luci-app-v2raya,luci-app-dockerman,luci-app-frps
 rm -rf feeds/packages/utils/coremark
 mkdir -p ./package/new
 cp -rf ../openwrt-apps/{openwrt_helloworld,luci-app-v2raya,luci-app-arpbind,addition-trans-zh,luci-app-cpulimit,OpenClash,luci-app-frps,luci-app-frpc,luci-app-mosdns} ./package/new/
-cp -rf ../openwrt-apps/openwrt_pkgs/{luci-app-diskman,luci-app-autoreboot,luci-app-cpufreq,coremark,luci-app-filebrowser-go,filebrowser} ./package/new/
+cp -rf ../openwrt-apps/openwrt_pkgs/{luci-app-diskman,luci-app-autoreboot,coremark,luci-app-filebrowser-go,filebrowser} ./package/new/
 cp -rf ../openwrt-apps/imm_pkg/{v2raya,frp,cpulimit} ./package/new/
 
 ### 获取额外的 LuCI 应用和依赖 ###
@@ -48,6 +48,9 @@ sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/
 sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # Curl
 patch -p1 < ../patch/curl/downgrade_curl_8.6.0_to_8.5.0.patch
+# Cpufreq
+cp -rf ../immortalwrt_luci_21/applications/luci-app-cpufreq package/new/luci-app-cpufreq
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-cpufreq/Makefile
 # FTP 服务器
 cp -rf ../immortalwrt_luci_21/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-vsftpd/Makefile
