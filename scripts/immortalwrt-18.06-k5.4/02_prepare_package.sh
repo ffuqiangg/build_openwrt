@@ -71,8 +71,10 @@ chmod +x files/etc/openclash/core/clash*
 mkdir -p files/usr/bin
 wget -q https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz
 tar -xf linux-arm64-filebrowser.tar.gz -C files/usr/bin/ filebrowser
-rm -f linux-arm64-filebrowser.tar.gz
+chmod +x files/usr/bin/filebrowser
 
+# 清理临时文件
+rm -f linux-arm64-filebrowser.tar.gz
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
 
