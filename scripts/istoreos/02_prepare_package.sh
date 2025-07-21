@@ -67,8 +67,8 @@ mkdir -p files/etc/openclash/core
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
 chmod +x files/etc/openclash/core/clash*
 mkdir -p files/usr/sbin
-wget https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz
-tar -xvf linux-arm64-filebrowser.tar.gz -C files/usr/sbin/ filebrowser
+wget -q https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz
+tar -xf linux-arm64-filebrowser.tar.gz -C files/usr/sbin/ filebrowser
 rm -f linux-arm64-filebrowser.tar.gz
 
 find ./ -name *.orig | xargs rm -f
