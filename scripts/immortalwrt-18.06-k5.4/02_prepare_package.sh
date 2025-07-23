@@ -74,7 +74,7 @@ tar -xf linux-arm64-filebrowser.tar.gz -C files/usr/bin/ filebrowser
 chmod +x files/usr/bin/filebrowser
 
 # 清理临时文件
-rm -f linux-arm64-filebrowser.tar.gz
+rm -f linux-arm64-filebrowser.tar.gz clash-linux-arm64.tar.gz
 find ./ -name *.orig | xargs rm -f
 find ./ -name *.rej | xargs rm -f
 
