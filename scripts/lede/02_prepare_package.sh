@@ -25,15 +25,15 @@ patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 # 预编译 node
-rm -rf feeds/packages/lang/node
-cp -rf ../node feeds/packages/lang/node
+rm -rf ./feeds/packages/lang/node
+cp -rf ../node ./feeds/packages/lang/node
 # 添加翻译
 echo '
 msgid "Custom rules allow you to execute arbitrary nft commands which are not otherwise covered by the firewall framework. The rules are executed after each firewall restart, right after the default ruleset has been loaded."
 msgstr "自定义规则允许您执行不属于防火墙框架的任意 nft 命令。每次重启防火墙时，这些命令在默认的规则运行后立即执行。"' >> ./package/lean/default-settings/po/zh-cn/default.po
 # Passwall
 rm -rf ./feeds/luci/applications/luci-app-passwall
-cp -rf ../openwrt-apps/openwrt_helloworld/luci-app-passwall feeds/luci/applications/luci-app-passwall
+cp -rf ../openwrt-apps/openwrt_helloworld/luci-app-passwall ./feeds/luci/applications/luci-app-passwall
 # 替换 sing-box
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./feeds/packages/net/sing-box
@@ -68,15 +68,15 @@ popd
 
 # 生成默认配置及缓存
 rm -rf .config
-sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd
-sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
+sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/etc/passwd
+sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/usr/libexec/login.sh
 
 # 预配置一些插件
-mkdir -p files
-cp -rf ../files/{init/*,cpufreq/*} files/
-mkdir -p files/etc/uci-defaults
+mkdir -p ./files
+cp -rf ../files/{init/*,cpufreq/*} ./files/
+mkdir -p ./files/etc/uci-defaults
 cp -f ../patch/default-settings/lede/zzz-default-settings ./files/etc/uci-defaults/
-mkdir -p files/usr/bin
+mkdir -p ./files/usr/bin
 wget -q https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz | tar xOvz filebrowser > files/usr/bin/filebrowser
 chmod +x files/usr/bin/filebrowser
 

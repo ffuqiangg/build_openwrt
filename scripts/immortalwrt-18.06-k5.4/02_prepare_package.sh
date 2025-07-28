@@ -10,9 +10,9 @@ sed -i 's/Os/O2/g' include/target.mk
 ./scripts/feeds install -a
 
 ### 额外的 LuCI 应用和依赖 ###
-mkdir -p package/new
+mkdir -p ./package/new
 # 调整 default settings
-rm -f package/emortal/default-settings/files/openwrt_banner
+rm -f ./package/emortal/default-settings/files/openwrt_banner
 sed -i '/settings\/install/{n;N;N;d}' package/emortal/default-settings/Makefile
 # MosDNS
 cp -rf ../mosdns/luci-app-mosdns ./package/new/luci-app-mosdns
@@ -48,7 +48,7 @@ pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
 popd
 # OpenClash
-rm -rf feeds/luci/applications/luci-app-openclash
+rm -rf ./feeds/luci/applications/luci-app-openclash
 cp -rf ../openclash/luci-app-openclash ./feeds/luci/applications/luci-app-openclash
 # nlbw
 sed -i 's|admin\",|& \"network\",|g;s,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
@@ -61,14 +61,14 @@ clone_repo https://github.com/zxlhhyccc/luci-app-v2raya.git 18.06 package/new/lu
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
 # 预配置一些插件
-mkdir -p files
-cp -rf ../files/init/* files/
-mkdir -p files/etc/uci-defaults
+mkdir -p ./files
+cp -rf ../files/init/* ./files/
+mkdir -p ./files/etc/uci-defaults
 cp -f ../patch/default-settings/immortalwrt-18.06/zzz-default-settings ./files/etc/uci-defaults/
-mkdir -p files/etc/openclash/core
+mkdir -p ./files/etc/openclash/core
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
 chmod +x files/etc/openclash/core/clash*
-mkdir -p files/usr/bin
+mkdir -p ./files/usr/bin
 wget -q https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz | tar xOvz filebrowser > files/usr/bin/filebrowser
 chmod +x files/usr/bin/filebrowser
 

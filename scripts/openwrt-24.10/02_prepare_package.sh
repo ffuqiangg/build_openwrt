@@ -22,10 +22,10 @@ popd
 
 ### 替换准备 ###
 cp -rf ../openwrt-apps ./package/new
-rm -rf package/new/{luci-app-frpc,luci-app-frps,imm_pkg/frp}
-rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsocks,shadowsocks-libev,zerotier,daed,v2raya}
-rm -rf feeds/luci/applications/{luci-app-zerotier,luci-app-v2raya,luci-app-dockerman}
-rm -rf feeds/packages/utils/coremark
+rm -rf ./package/new/{luci-app-frpc,luci-app-frps,imm_pkg/frp}
+rm -rf ./feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsocks,shadowsocks-libev,zerotier,daed,v2raya}
+rm -rf ./feeds/luci/applications/{luci-app-zerotier,luci-app-v2raya,luci-app-dockerman}
+rm -rf ./feeds/packages/utils/coremark
 
 ### 获取额外的 LuCI 应用和依赖 ###
 # 预编译 node
@@ -38,7 +38,7 @@ cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 pushd feeds/packages
 patch -p1 < ../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
 popd
-mkdir -p feeds/packages/utils/cgroupfs-mount/patches
+mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
 cp -rf ../patch/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
@@ -62,11 +62,11 @@ cat .vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
 ### 预配置一些插件 ###
-mkdir -p files
-cp -rf ../files/init/* files/
-mkdir -p files/etc/uci-defaults
+mkdir -p ./files
+cp -rf ../files/init/* ./files/
+mkdir -p ./files/etc/uci-defaults
 cp -f ../patch/default-settings/openwrt-24.10/zzz-default-settings ./files/etc/uci-defaults/
-mkdir -p files/usr/sbin
+mkdir -p ./files/usr/sbin
 wget -q https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz | tar xOvz filebrowser > files/usr/sbin/filebrowser
 chmod +x files/usr/sbin/filebrowser
 

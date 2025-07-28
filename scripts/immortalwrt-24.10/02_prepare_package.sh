@@ -21,10 +21,10 @@ patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
 ### 替换准备 ###
-rm -rf feeds/packages/net/{v2ray-geodata,mosdns,sing-box}
+rm -rf ./feeds/packages/net/{v2ray-geodata,mosdns,sing-box}
 
 ### 额外的 LuCI 应用和依赖 ###
-mkdir -p package/new
+mkdir -p ./package/new
 # 添加翻译
 cp -rf ../openwrt-apps/addition-trans-zh ./package/new/addition-trans-zh
 # 预编译 node
@@ -37,7 +37,7 @@ cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 pushd feeds/packages
 patch -p1 < ../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
 popd
-mkdir -p feeds/packages/utils/cgroupfs-mount/patches
+mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
 cp -rf ../patch/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
@@ -77,11 +77,11 @@ cat .vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
 # 预配置一些插件
-mkdir -p files
-cp -rf ../files/init/* files/
-mkdir -p files/etc/uci-defaults
+mkdir -p ./files
+cp -rf ../files/init/* ./files/
+mkdir -p ./files/etc/uci-defaults
 cp -f ../patch/default-settings/immortalwrt-24.10/zzz-default-settings ./files/etc/uci-defaults/
-mkdir -p files/usr/bin
+mkdir -p ./files/usr/bin
 wget -q https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz | tar xOvz filebrowser > files/usr/bin/filebrowser
 chmod +x files/usr/bin/filebrowser
 

@@ -12,9 +12,9 @@ sed -i 's/Os/O2/g' include/target.mk
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
 ### 替换源码 ###
-rm -rf feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,shadowsocks-libev,v2raya,frp,vsftpd}
-rm -rf feeds/luci/applications/{luci-app-v2raya,luci-app-dockerman,luci-app-frps,luci-app-frpc}
-rm -rf feeds/packages/utils/coremark
+rm -rf ./feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,shadowsocks-libev,v2raya,frp,vsftpd}
+rm -rf ./feeds/luci/applications/{luci-app-v2raya,luci-app-dockerman,luci-app-frps,luci-app-frpc}
+rm -rf ./feeds/packages/utils/coremark
 mkdir -p ./package/new
 cp -rf ../openwrt-apps/{openwrt_helloworld,luci-app-v2raya,luci-app-arpbind,addition-trans-zh,luci-app-cpulimit,OpenClash,luci-app-frps,luci-app-frpc,luci-app-mosdns} ./package/new/
 cp -rf ../openwrt-apps/openwrt_pkgs/{luci-app-diskman,luci-app-autoreboot,coremark,luci-app-filebrowser-go,filebrowser} ./package/new/
@@ -32,12 +32,12 @@ rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # 预编译 node
 rm -rf feeds/packages/lang/node
-cp -rf ../node feeds/packages/lang/node
+cp -rf ../node ./feeds/packages/lang/node
 # Autocore
 clone_repo https://github.com/sbwml/autocore-arm.git openwrt-22.03 package/new/autocore-arm
 sed -i 's/?/ARMv8 Processor/' package/new/autocore-arm/files/generic/cpuinfo
 # Docker 容器
-cp -rf ../dockerman/applications/luci-app-dockerman feeds/luci/applications/luci-app-dockerman
+cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd package/feeds/luci/luci-app-dockerman
 docker_2_services
@@ -60,16 +60,16 @@ move_2_services nas
 popd
 
 # 预配置一些插件
-mkdir -p files
-sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/etc/passwd
-sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/usr/libexec/login.sh
+mkdir -p ./files
+sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/etc/passwd
+sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/usr/libexec/login.sh
 cp -rf ../files/{init/*,cpufreq/*} files/
-mkdir -p files/etc/uci-defaults
+mkdir -p ./files/etc/uci-defaults
 cp -f ../patch/default-settings/istoreos/zzz-default-settings ./files/etc/uci-defaults/
-mkdir -p files/etc/openclash/core
+mkdir -p ./files/etc/openclash/core
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
 chmod +x files/etc/openclash/core/clash*
-mkdir -p files/usr/sbin
+mkdir -p ./files/usr/sbin
 wget -q https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz | tar xOvz filebrowser > files/usr/sbin/filebrowser
 chmod +x files/usr/sbin/filebrowser
 
