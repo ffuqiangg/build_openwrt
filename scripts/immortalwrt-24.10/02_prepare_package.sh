@@ -82,7 +82,7 @@ cp -rf ../files/init/* ./files/
 mkdir -p ./files/etc/uci-defaults
 cp -f ../patch/default-settings/immortalwrt-24.10/zzz-default-settings ./files/etc/uci-defaults/
 mkdir -p ./files/usr/bin
-wget -q https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz | tar xOvz filebrowser > files/usr/bin/filebrowser
+wget -qO- https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz | tar xOvz filebrowser > files/usr/bin/filebrowser
 chmod +x files/usr/bin/filebrowser
 
 # 清理临时文件
