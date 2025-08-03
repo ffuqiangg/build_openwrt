@@ -69,9 +69,6 @@ cp -f ../patch/default-settings/istoreos/zzz-default-settings ./files/etc/uci-de
 mkdir -p ./files/etc/openclash/core
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
 chmod +x files/etc/openclash/core/clash*
-mkdir -p ./files/usr/sbin
-wget -qO- https://github.com/filebrowser/filebrowser/releases/latest/download/linux-arm64-filebrowser.tar.gz | tar xOvz filebrowser > files/usr/sbin/filebrowser
-chmod +x files/usr/sbin/filebrowser
 
 # 清理临时文件
 find ./ -name *.orig | xargs rm -f
