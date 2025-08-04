@@ -118,6 +118,36 @@ CONFIG_DOCKER_STO_BTRFS=y
 CONFIG_DOCKER_STO_EXT4=y
 
 ### KERNEL MODULES ###
+# Block Devices
+CONFIG_PACKAGE_kmod-aoe=m
+CONFIG_PACKAGE_kmod-ata-ahci=m
+CONFIG_PACKAGE_kmod-ata-artop=m
+CONFIG_PACKAGE_kmod-ata-core=m
+CONFIG_PACKAGE_kmod-ata-nvidia-sata=m
+CONFIG_PACKAGE_kmod-ata-pdc202xx-old=m
+CONFIG_PACKAGE_kmod-ata-piix=m
+CONFIG_PACKAGE_kmod-ata-sil=m
+CONFIG_PACKAGE_kmod-ata-sil24=m
+CONFIG_PACKAGE_kmod-ata-via-sata=m
+CONFIG_PACKAGE_kmod-block2mtd=m
+CONFIG_PACKAGE_kmod-dax=m
+CONFIG_PACKAGE_kmod-dm=m
+CONFIG_PACKAGE_kmod-dm-raid=m
+CONFIG_PACKAGE_kmod-iosched-bfq=m
+CONFIG_PACKAGE_kmod-iscsi-initiator=m
+CONFIG_PACKAGE_kmod-loop=m
+CONFIG_PACKAGE_kmod-md-mod=m
+CONFIG_PACKAGE_kmod-md-linear=m
+CONFIG_PACKAGE_kmod-md-multipath=m
+CONFIG_PACKAGE_kmod-md-raid0=m
+CONFIG_PACKAGE_kmod-md-raid1=m
+CONFIG_PACKAGE_kmod-md-raid10=m
+CONFIG_PACKAGE_kmod-md-raid456=m
+CONFIG_PACKAGE_kmod-nbd=m
+CONFIG_PACKAGE_kmod-nvme=m
+CONFIG_PACKAGE_kmod-scsi-cdrom=m
+CONFIG_PACKAGE_kmod-scsi-generic=m
+CONFIG_PACKAGE_kmod-scsi-tape=m
 # Network Support
 CONFIG_PACKAGE_kmod-9pnet=m
 CONFIG_PACKAGE_kmod-9pvirtio=m
