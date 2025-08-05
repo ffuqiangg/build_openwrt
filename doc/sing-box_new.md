@@ -23,6 +23,7 @@
 - **2025.05.25** 调整了配置文件的默认处理逻辑，新版本默认会提取节点然后按 config 设置本地生成新的配置文件使用（默认生成不带去广告的大陆白名单模式配置）。如果不希望脚本对原始配置文件做过多调整可以禁用 `advanced -> override` ，此时除了必要的部分外不会对配置文件做其他修改。新版本重新整理了 config 设置文件并新增 DNS、去广告、节点过滤，节点区域分组，路由规则分流设置。
 - **2025.06.10** 调整自用功能，合并 custom, direct, proxy 文件并改用 json 格式。
 - **2025.06.12** 调整节点分组策略，使用分流或 cutom.json 时不再强制开启节点分组。完全交由 `group_nodes` 开关控制。
+- **2025.08.05** 更新至 sing-box 1.12.x 版本。
 
 ### 安装命令
 
@@ -111,12 +112,13 @@ config sing-box 'basic'
 ```config
 config sing-box 'advanced'
 	option override '1'                                              # 覆写，0 禁用，1 启用
-	option main_dns_server 'https://dns.cloudflare.com/dns-query'    # 国外 DNS
-	option china_dns_server 'h3://223.5.5.5/dns-query'               # 国内 DNS ，必须使用 IP 形式
+	option main_dns_type 'https'                                     # 国外 DNS 类型
+	option main_dns_server 'dns.google'                              # 国外 DNS 服务地址
+	option china_dns_type 'h3'                                       # 国内 DNS 类型
+	option china_dns_server '223.5.5.5'                              # 国内 DNS 服务地址，必须使用 IP 形式
 	option adblock '0'                                               # 去广告，0 禁用，1 启用
-	# ▼ 去广告规则集，必须使用 srs 格式且地址可直连
 	list ad_ruleset 'https://testingcf.jsdelivr.net/gh/ffuqiangg/sing-box-adsruleset@main/rule/adguard-dns-filter.srs'
-	list ad_ruleset ''
+	list ad_ruleset ''                                               # 去广告规则集，必须使用 srs 格式且地址可直连
 	option filter_nodes '0'                                          # 过滤节点，0 禁用，1 启用
 	option filter_keywords '流量,套餐,重置,官網,官网,群组'             # 过滤关键字，多个关键字用英文逗号分割
 	option group_nodes '0'                                           # 节点按区域分组，0 禁用，1 启用
