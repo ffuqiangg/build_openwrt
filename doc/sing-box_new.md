@@ -29,11 +29,11 @@
 
 ucode 版本安装命令（推荐使用）
 ```bash
-sh -c "$(curl -ksS https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/ucode/install.sh)"
+sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/patch/sing-box/ucode/install.sh)"
 ```
 jq 版本安装命令（2025.04.01 后停止维护）
 ```bash
-sh -c "$(curl -ksS https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/jq/install.sh)"
+sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/patch/sing-box/jq/install.sh)"
 ```
 
 - 注意本命令安装时会清空 /etc/sing-box 目录并初始化 /etc/config/sing-box 文件，如有需要请提前备份数据。
