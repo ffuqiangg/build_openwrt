@@ -77,7 +77,7 @@ jobs:
       run: |
         cp -r ../scripts/immortalwrt-18.06-k5.4/. ./
         ./02_prepare_package.sh
-        echo -e "\n \033[34mImmortalWrt-18.06/K5.4\033[0m ${{ env.build_date }}\n" > ./files/etc/banner
+        echo -e "\n \033[34mImmortalWrt-18.06/K5.4\033[0m [\033[33m${{ env.build_date }}\033[0m]\n" > ./files/etc/banner
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
