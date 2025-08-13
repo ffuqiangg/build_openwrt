@@ -65,6 +65,7 @@ docker_2_services
 popd
 # Nlbw 带宽监控
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
+sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
 # Nikki
 cp -rf ../openwrt-apps/OpenWrt-nikki ./package/new/luci-app-nikki
 # 晶晨宝盒
