@@ -3,9 +3,9 @@ build_date=$(grep -oE "[0-9]{4}\.[0-9]{2}\.[0-9]{2}" /etc/banner)
 download_url="https://github.com/ffuqiangg/build_openwrt/releases/download/${build_date}/"
 if [ $(grep -c "LEDE" /etc/openwrt_release) -ne 0 ]; then
     openwrt_revision=$(grep 'DISTRIB_REVISION=' /etc/openwrt_release | sed -E "s/.*'(.+)'.*/\1/")
-    download_file="N1-LEDE-$openwrt_revision-$build_date-packages.zip"
+    download_file="N1-LEDE-${openwrt_revision}-${build_date}-packages.zip"
 elif [ $(grep -c "iStoreOS" /etc/openwrt_release) -ne 0 ]; then
-    download_file="N1-iStoreOS-$build_date-packages.zip"
+    download_file="N1-iStoreOS-${build_date}-packages.zip"
 fi
 
 # GitHub mirror
@@ -19,7 +19,7 @@ if [ $country_code = "CN" ]; then
 fi
 
 # download
-curl --connect-timeout 30 -m 600 -kLo /www/packages.zip ${mirror}${download_url}$download_file
+curl --connect-timeout 30 -m 600 -kLo /www/packages.zip ${mirror}${download_url}${download_file}
 
 # Unzip file
 cd /www && unzip packages.zip && rm -rf packages.zip

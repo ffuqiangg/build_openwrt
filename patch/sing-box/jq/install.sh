@@ -16,42 +16,38 @@ fi
 echo -e "\r\n${GREEN_COLOR}INFO${RES} Download files ...\r\n"
 
 # prepare
-if [ -n "$(nft list tables 2>/dev/null)" ]; then
-    firewall="nftables"
-else
-    firewall="iptables"
-fi
+if [ -n "$(nft list tables 2>/dev/null)" ]; then firewall="nftables"; else firewall="iptables"; fi
 download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/jq"
 [ -d /etc/sing-box ] && rm -rf /etc/sing-box
 mkdir -p /etc/sing-box/scripts /etc/sing-box/resources
 
 # download
 echo -e "${GREEN_COLOR}INFO${RES} Download Sing-box init ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/init.d/sing-box $mirror${download_dir}/$firewall/sing-box.init
+curl --connect-timeout 30 -m 600 -kLo /etc/init.d/sing-box ${mirror}${download_dir}/${firewall}/sing-box.init
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} download Sing-box init failed."
     exit 1
 fi
 echo -e "${GREEN_COLOR}INFO${RES} Download sing-box config ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/config/sing-box $mirror${download_dir}/shared/sing-box.conf
+curl --connect-timeout 30 -m 600 -kLo /etc/config/sing-box ${mirror}${download_dir}/shared/sing-box.conf
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} download sing-box config failed."
     exit 1
 fi
 echo -e "${GREEN_COLOR}INFO${RES} Download firewall rules ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/scripts/firewall_post.rules $mirror${download_dir}/$firewall/firewall_post.rules
+curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/scripts/firewall_post.rules ${mirror}${download_dir}/${firewall}/firewall_post.rules
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} download firewall rules failed."
     exit 1
 fi
 echo -e "${GREEN_COLOR}INFO${RES} Download generate config file ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/scripts/generate_config.sh $mirror${download_dir}/shared/generate_config.sh
+curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/scripts/generate_config.sh ${mirror}${download_dir}/shared/generate_config.sh
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} download generate config file failed."
     exit 1
 fi
 echo -e "${GREEN_COLOR}INFO${RES} Download china_ip4 file ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/resources/china_ip4.txt $mirror${download_dir}/$firewall/china_ip4.txt
+curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/resources/china_ip4.txt ${mirror}${download_dir}/${firewall}/china_ip4.txt
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} download china_ip4 file failed."
     exit 1
