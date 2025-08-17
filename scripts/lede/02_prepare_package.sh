@@ -37,7 +37,7 @@ cp -rf ../openwrt-apps/openwrt_helloworld/luci-app-passwall ./feeds/luci/applica
 # 替换 sing-box
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./feeds/packages/net/sing-box
-# Vsftpd
+# FTP 服务器
 pushd feeds/luci/applications/luci-app-vsftpd
 move_2_services nas
 popd

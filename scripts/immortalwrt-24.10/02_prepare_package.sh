@@ -50,9 +50,9 @@ cp -rf ../openwrt-apps/openwrt_helloworld/v2ray-geodata ./package/new/v2ray-geod
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 # Cpufreq
 sed -i 's,system,services,g' feeds/luci/applications/luci-app-cpufreq/root/usr/share/luci/menu.d/luci-app-cpufreq.json
-# HD-idle
+# 硬盘休眠
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
-# Vsftpd
+# FTP 服务器
 pushd feeds/luci/applications/luci-app-vsftpd
 move_2_services nas
 popd
@@ -71,7 +71,7 @@ cp -rf ../openwrt-apps/OpenWrt-nikki ./package/new/luci-app-nikki
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
-#Vermagic
+# Vermagic
 wget https://downloads.immortalwrt.org/releases/${1}/targets/armsr/armv8/profiles.json
 jq -r '.linux_kernel.vermagic' profiles.json > .vermagic
 cat .vermagic

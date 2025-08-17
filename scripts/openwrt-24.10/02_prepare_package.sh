@@ -48,15 +48,15 @@ sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-d
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
-# nlbw
+# Nlbw 带宽监控
 sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
-# ttyd
+# 终端 TTYD
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
-#Vermagic
+# Vermagic
 wget https://downloads.openwrt.org/releases/${1}/targets/armsr/armv8/profiles.json
 jq -r '.linux_kernel.vermagic' profiles.json > .vermagic
 cat .vermagic
