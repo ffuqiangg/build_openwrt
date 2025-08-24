@@ -67,6 +67,7 @@ pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
 # Momo
+mkdir -p ./package/new
 cp -rf ../momo ./package/new/luci-app-momo
 
 # 生成默认配置及缓存
