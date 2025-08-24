@@ -66,6 +66,8 @@ sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-d
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
+# Momo
+cp -rf ../momo ./package/new/luci-app-momo
 
 # 生成默认配置及缓存
 rm -rf .config

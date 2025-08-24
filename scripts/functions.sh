@@ -21,6 +21,7 @@ mosdns_repo="https://github.com/sbwml/luci-app-mosdns.git"
 openclash_repo="https://github.com/vernesong/OpenClash.git"
 node_prebuilt_repo="https://github.com/sbwml/feeds_packages_lang_node-prebuilt"
 nikki_repo="https://github.com/nikkinikki-org/OpenWrt-nikki.git"
+momo_repo="https://github.com/nikkinikki-org/OpenWrt-momo.git"
 v2ray_geodata_repo="https://github.com/sbwml/v2ray-geodata"
 amlogic_repo="https://github.com/ophub/luci-app-amlogic.git"
 
