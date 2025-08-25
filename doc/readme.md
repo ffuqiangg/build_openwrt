@@ -12,13 +12,11 @@
 EMMC 中，ImmortalWrt 和 OpenWrt 系统默认的系统分区为 820M，LEDE 和 iStoreOS 系统默认的 overlay 分区大小为 1G。在将系统写入 EMMC 前可以通过下面的命令调整大小，但修改后预留给 docker 的运行空间也会相应的变化 ( 系统/overlay 增大 > docker 空间缩小 )。如果不修改请忽略这部分内容。
 
 1. ImmortalWrt 和 OpenWrt 系统，将命令中的 `NUM` 修改为你想要的大小，单位 MiB。
-
 ```bash
 sed -i '/^ROOT/s/820/NUM/g' /usr/sbin/openwrt-install-amlogic
 ```
 
 2. LEDE 和 iStoreOS 系统，将命令中的 `NUM` 修改为你想要的大小，单位 MiB。
-
 ```bash
 sed -i "s/1788/$((764 + NUM))/g" /usr/sbin/install-to-emmc.sh
 ```
@@ -30,18 +28,14 @@ sed -i "s/1788/$((764 + NUM))/g" /usr/sbin/install-to-emmc.sh
 1. 安装系统：  
 第一种方法登录 LuCI 页面，在 `系统` - `晶晨宝盒` - `安装 OpenWrt` 页面选择好设备型号，点击 `安装` 按钮，等到页面提示安装完成。  
 第二种方法连接 ssh，输入命令
-
 ```bash
 echo -e "101\n1\n" | openwrt-install-amlogic
 ```
 `如果使用的 ImmortalWrt-18.06 系统需要将命令中的 101 替换为 11`
 
-
-
 2. 更新系统：  
 第一种方法登录 LuCI 页面，在 `系统` - `晶晨宝盒` - `手动上传更新` 页面，点击 `选择文件` - `上传` 按钮将固件上传到设备，上传成功后页面下方会出现 `升级 OpenWrt 固件` 按钮，点击即可。  
 第二种方法将升级用的固件文件传输到 N1 的 `/mnt/mmcblk2p4` 目录，接着输入命令
-
 ```bash
 openwrt-update-amlogic
 ```
@@ -58,7 +52,6 @@ openwrt-update-amlogic
 这类原生固件在安装好之后还需要挂载 overlay 和 docker 分区。iStoreOS 固件默认已挂载好 overlay 分区，可跳过该步骤。
 
 1. 安装系统：连接 ssh，输入命令 
-
 ```bash
 echo -e "y\n" | install-to-emmc.sh
 ```

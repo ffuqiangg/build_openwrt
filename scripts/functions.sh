@@ -25,7 +25,7 @@ momo_repo="https://github.com/nikkinikki-org/OpenWrt-momo.git"
 v2ray_geodata_repo="https://github.com/sbwml/v2ray-geodata"
 amlogic_repo="https://github.com/ophub/luci-app-amlogic.git"
 
-clone_repo () 
+clone_repo ()
 {
     repo_url=$1
     branch_name=$2
@@ -33,27 +33,27 @@ clone_repo ()
     git clone -b $branch_name --depth 1 $repo_url $target_dir
 }
 
-move_2_services () 
+move_2_services ()
 {
     local resource_file="$({ find | grep "\.lua\|\.htm\|\.json"; } 2>"/dev/null")"
-    for a in ${resource_file}; do
-        [ -n "$(grep "\"$1\"" "$a")" ] && sed -i "s,\"$1\",\"services\",g" "$a"
-        [ -n "$(grep "\"${1^^}\"" "$a")" ] && sed -i "s,\"${1^^}\",\"Services\",g" "$a"
-        [ -n "$(grep "\"${1^}\"" "$a")" ] && sed -i "s,\"${1^}\",\"Services\",g" "$a"
-        [ -n "$(grep "\[\[$1\]\]" "$a")" ] && sed -i "s,\[\[$1\]\],\[\[services\]\],g" "$a"
-        [ -n "$(grep "admin/$1" "$a")" ] && sed -i "s,admin/$1,admin/services,g" "$a"
+    for a in $resource_file; do
+        [ -n "$(grep "\"$1\"" $a)" ] && sed -i "s,\"$1\",\"services\",g" $a
+        [ -n "$(grep "\"${1^^}\"" $a)" ] && sed -i "s,\"${1^^}\",\"Services\",g" $a
+        [ -n "$(grep "\"${1^}\"" $a)" ] && sed -i "s,\"${1^}\",\"Services\",g" $a
+        [ -n "$(grep "\[\[$1\]\]" $a)" ] && sed -i "s,\[\[$1\]\],\[\[services\]\],g" $a
+        [ -n "$(grep "admin/$1" $a)" ] && sed -i "s,admin/$1,admin/services,g" $a
     done
 }
 
-docker_2_services () 
+docker_2_services ()
 {
     local resource_file="$({ find | grep "\.lua\|\.htm"; } 2>"/dev/null")"
     local dockerman_lua="$({ find | grep "dockerman\.lua"; } 2>"/dev/null")"
-    for a in ${resource_file}; do
-        [ -n "$(grep 'admin\",' "$a")" ] && sed -i "s|admin\",|& \"services\",|g" "$a"
-        [ -n "$(grep 'config\")' "$a")" ] && sed -i "s,config\"),overview\"),g" "$a"
-        [ -n "$(grep 'admin/' "$a")" ] && sed -i "s,admin/,&services/,g" "$a"
-        [ -n "$(grep 'admin\\/' "$a")" ] && sed -i "s,admin\\\/,&services\\\/,g" "$a"
+    for a in $resource_file; do
+        [ -n "$(grep 'admin\",' $a)" ] && sed -i "s|admin\",|& \"services\",|g" $a
+        [ -n "$(grep 'config\")' $a)" ] && sed -i "s,config\"),overview\"),g" $a
+        [ -n "$(grep 'admin/' $a)" ] && sed -i "s,admin/,&services/,g" $a
+        [ -n "$(grep 'admin\\/' $a)" ] && sed -i "s,admin\\\/,&services\\\/,g" $a
     done
-    sed -i 's,Docker,&Man,' ${dockerman_lua}
+    sed -i 's,Docker,&Man,' $dockerman_lua
 }

@@ -154,7 +154,7 @@ config sing-box 'subscription'
 config sing-box 'main'
 	option enabled '1'
 
-	config sing-box 'subscription'
+config sing-box 'subscription'
 	option remote '0'
 ```
 
