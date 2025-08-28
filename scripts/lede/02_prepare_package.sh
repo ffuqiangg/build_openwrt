@@ -20,6 +20,7 @@ patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
 ### 额外的 LuCI 应用和依赖 ###
+mkdir -p ./package/new
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
@@ -67,7 +68,6 @@ pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
 # Momo
-mkdir -p ./package/new
 cp -rf ../momo ./package/new/luci-app-momo
 
 # 生成默认配置及缓存
