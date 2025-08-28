@@ -218,7 +218,7 @@ if (override === '1') {
 /* Experimental */
 let dns_types = [];
 for (let i = 0; i < length(config.dns.servers); i++)
-    push(dns_types, config.dns.servers[i],type);
+    push(dns_types, config.dns.servers[i].type);
 dns_types = uniq(dns_types);
 
 config.experimental = {
