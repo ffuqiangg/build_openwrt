@@ -76,9 +76,8 @@ sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/etc/passwd
 sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/usr/libexec/login.sh
 
 # 预配置一些插件
-mkdir -p ./files
-cp -rf ../files/{init/*,cpufreq/*} ./files/
 mkdir -p ./files/etc/uci-defaults
+cp -rf ../files/{init/*,cpufreq/*} ./files/
 cp -f ../patch/default-settings/lede/zzz-default-settings ./files/etc/uci-defaults/
 
 # 清理临时文件
