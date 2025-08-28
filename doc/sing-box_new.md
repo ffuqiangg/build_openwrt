@@ -104,7 +104,7 @@ config sing-box 'basic'
 ```
 - 按照默认设置面板登录地址为 `设备IP:9900/ui`，密钥 `ffuqiangg` 。
 - 这部分配置的详细说明可以查看 [sing-box 官方配置文档](https://sing-box.sagernet.org/zh/configuration/) 的对应条目。
-- 如需修改端口配置要注意端口冲突，避免端口冲突。
+- 如需修改端口配置要注意端口冲突，避免使用已占用的端口。
 - mixed 代理用于提供 socks4, socks4a, socks5 和 http 代理服务（注意 mixed 仅代理 tcp 流量）。
 - 更新或替换面板方法：删除 `/etc/sing-box/ui` 目录，然后重启 sing-box 服务。
 
