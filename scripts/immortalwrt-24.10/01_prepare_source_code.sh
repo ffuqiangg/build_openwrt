@@ -5,7 +5,6 @@
 # Clone source code
 clone_repo $immortalwrt_repo ${1} openwrt &
 clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
-clone_repo $lede_pkg_repo master lede_pkg &
 clone_repo $node_prebuilt_repo packages-24.10 node &
 clone_repo $openwrt_apps_repo main openwrt-apps &
 clone_repo $amlogic_repo main amlogic &

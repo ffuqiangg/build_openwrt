@@ -25,6 +25,7 @@ rm -rf ./feeds/packages/net/{v2ray-geodata,mosdns,sing-box}
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
+cp -rf ../openwrt-apps/{OpenWrt-nikki,OpenWrt-momo} ./package/new/
 # 添加翻译
 cp -rf ../openwrt-apps/addition-trans-zh ./package/new/addition-trans-zh
 # 预编译 node
@@ -66,21 +67,17 @@ popd
 # Nlbw 带宽监控
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
-# Nikki
-cp -rf ../openwrt-apps/OpenWrt-nikki ./package/new/luci-app-nikki
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
 # Vermagic
-wget https://downloads.immortalwrt.org/releases/${1}/targets/armsr/armv8/profiles.json
-jq -r '.linux_kernel.vermagic' profiles.json > .vermagic
+curl -fsSL https://downloads.immortalwrt.org/releases/${1}/targets/armsr/armv8/profiles.json | jq -r '.linux_kernel.vermagic' > .vermagic
 cat .vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
 # 预配置一些插件
-mkdir -p ./files
-cp -rf ../files/init/* ./files/
 mkdir -p ./files/etc/uci-defaults
+cp -rf ../files/init/* ./files/
 cp -f ../patch/default-settings/immortalwrt-24.10/zzz-default-settings ./files/etc/uci-defaults/
 
 # 清理临时文件

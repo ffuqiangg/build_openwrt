@@ -57,15 +57,13 @@ sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luc
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
 # Vermagic
-wget https://downloads.openwrt.org/releases/${1}/targets/armsr/armv8/profiles.json
-jq -r '.linux_kernel.vermagic' profiles.json > .vermagic
+curl -fsSL https://downloads.openwrt.org/releases/${1}/targets/armsr/armv8/profiles.json | jq -r '.linux_kernel.vermagic' > .vermagic
 cat .vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
 ### 预配置一些插件 ###
-mkdir -p ./files
-cp -rf ../files/init/* ./files/
 mkdir -p ./files/etc/uci-defaults
+cp -rf ../files/init/* ./files/
 cp -f ../patch/default-settings/openwrt-24.10/zzz-default-settings ./files/etc/uci-defaults/
 
 # 清理临时文件
