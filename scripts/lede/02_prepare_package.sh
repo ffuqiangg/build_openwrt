@@ -21,6 +21,8 @@ popd
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
+cp -rf ../openwrt-apps/{OpenWrt-nikki,OpenWrt-momo} ./package/new/
+cp -rf ../openwrt-apps/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/new/
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
@@ -53,6 +55,10 @@ cn.ntp.org.cn
 ntp.ntsc.ac.cn' >> feeds/luci/applications/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 # Cpufreq
 sed -i 's,\"system\",\"services\",g' feeds/luci/applications/luci-app-cpufreq/root/usr/share/luci/menu.d/luci-app-cpufreq.json
+# Samba4
+sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
+# 硬盘休眠
+sed -i 's,nas,services,g' feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
 # Rclone
 sed -i 's,\"NAS\",\"Services\",g;s,\"nas\",\"services\",g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Nlbw 带宽监控
@@ -67,8 +73,6 @@ sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-d
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
-# Momo
-cp -rf ../momo ./package/new/luci-app-momo
 
 # 生成默认配置及缓存
 rm -rf .config
