@@ -353,9 +353,7 @@ for (let i = 0; i < length(config.outbounds); i++)
 /* Route */
 if (override === '1') {
     config.route = {
-        default_domain_resolver: {
-            server: 'china-dns'
-        },
+        default_domain_resolver: 'china-dns',
         final: '节点选择',
         auto_detect_interface: true,
         rules: [
