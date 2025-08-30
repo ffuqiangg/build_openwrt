@@ -85,12 +85,6 @@ jobs:
         cp ../config/immortalwrt-18.06-k5.4/config.seed .config
         make defconfig
 
-    - name: Cache
-      uses: HiGarfield/cachewrtbuild@main
-      with:
-        mixkey: ImmortalWrt18
-        prefix: ${{ github.workspace }}/openwrt
-
     - name: Download package
       working-directory: ${{ github.workspace }}/openwrt
       run: |

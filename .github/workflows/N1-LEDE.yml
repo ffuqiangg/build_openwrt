@@ -75,12 +75,6 @@ jobs:
         cp ../config/lede/config.seed .config
         make defconfig
 
-    - name: Cache
-      uses: HiGarfield/cachewrtbuild@main
-      with:
-        mixkey: LEDE
-        prefix: ${{ github.workspace }}/openwrt
-
     - name: Download package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
