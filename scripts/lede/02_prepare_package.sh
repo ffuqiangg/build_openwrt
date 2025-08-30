@@ -21,10 +21,8 @@ popd
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
-cp -rf ../openwrt-apps/{OpenWrt-nikki,OpenWrt-momo,luci-app-vsftpd} ./package/new/
-cp -rf ../openwrt-apps/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go,vlmcsd,luci-app-vlmcsd} ./package/new/
-rm -rf ./feeds/luci/applications/{luci-app-vsftpd,luci-app-vlmcsd}
-rm -rf ./feeds/packages/net/{vsftpd,vlmcsd}
+cp -rf ../openwrt-apps/{OpenWrt-nikki,OpenWrt-momo} ./package/new/
+cp -rf ../openwrt-apps/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go,vlmcsd} ./package/new/
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
@@ -43,9 +41,14 @@ cp -rf ../openwrt-apps/openwrt_helloworld/luci-app-passwall ./feeds/luci/applica
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./feeds/packages/net/sing-box
 # FTP 服务器
+rm -rf ./feeds/luci/applications/luci-app-vsftpd
+cp -rf ../openwrt-apps/luci-app-vsftpd ./feeds/luci/applications/luci-app-vsftpd
 # pushd feeds/luci/applications/luci-app-vsftpd
 # move_2_services nas
 # popd
+# KMS 服务器
+rm -rf ./feeds/luci/applications/luci-app-vlmcsd
+cp -rf ../openwrt-apps/openwrt_pkgs/luci-app-vlmcsd ./feeds/luci/applications/luci-app-vlmcsd
 # Mosdns 白名单
 echo 'account.synology.com
 ddns.synology.com
