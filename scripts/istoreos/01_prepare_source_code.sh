@@ -14,7 +14,7 @@ clone_repo $openwrt_apps_repo main openwrt-apps &
 wait
 
 # 修改默认 IP 为 192.168.1.99
-sed -i 's/ '\''dhcp'\''//' openwrt/target/linux/amlogic/base-files/etc/board.d/02_network
+sed -i "s/\s'dhcp'//" openwrt/target/linux/amlogic/base-files/etc/board.d/02_network
 sed -i 's/192.168.100.1/192.168.1.99/g' openwrt/package/istoreos-files/Makefile
 # 修改默认主题为 bootstrap
 sed -i -e '/luci-theme-argon/d;75,83d' openwrt/package/istoreos-files/Makefile
