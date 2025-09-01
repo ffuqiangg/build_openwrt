@@ -28,20 +28,20 @@ ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/root/etc/mosdns/rule/whitelist.tx
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
 # Samba4
-sed -i 's,\"nas\",\"services\",g' feeds/luci/applications/luci-app-samba4/luasrc/controller/samba4.lua
+sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/luasrc/controller/samba4.lua
 # Cpufreq
-sed -i 's,\"system\",\"services\",g' feeds/luci/applications/luci-app-cpufreq/luasrc/controller/cpufreq.lua
+sed -i 's,system,services,g' feeds/luci/applications/luci-app-cpufreq/luasrc/controller/cpufreq.lua
 # 硬盘休眠
-sed -i 's,\"nas\",\"services\",g' feeds/luci/applications/luci-app-hd-idle/luasrc/controller/hd_idle.lua
+sed -i 's,nas,services,g' feeds/luci/applications/luci-app-hd-idle/luasrc/controller/hd_idle.lua
 # FTP 服务器
-sed -i 's,\"nas\",\"services\",g;s,NAS,Services,g' feeds/luci/applications/luci-app-vsftpd/luasrc/controller/vsftpd.lua
+sed -i 's,nas,services,g;s,NAS,Services,g' feeds/luci/applications/luci-app-vsftpd/luasrc/controller/vsftpd.lua
 # Filebrowser 文件浏览器
 sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.32\.0," feeds/packages/utils/filebrowser/Makefile
 sed -i "s,PKG_MIRROR_HASH:=.*,PKG_MIRROR_HASH:=61e9de6b2d396614f45be477e5bb5aad189e7bb1155a3f88800e02421bd6cc2b," feeds/packages/utils/filebrowser/Makefile
 sed -i 's,nas,services,g;s,NAS,Services,g' feeds/luci/applications/luci-app-filebrowser/luasrc/controller/filebrowser.lua
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-filebrowser/luasrc/view/filebrowser/filebrowser_status.htm
 # Rclone
-sed -i 's,\"nas\",\"services\",g;s,NAS,Services,g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
+sed -i 's,nas,services,g;s,NAS,Services,g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Docker 容器
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd package/feeds/luci/luci-app-dockerman

@@ -64,7 +64,7 @@ popd
 sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/etc/passwd
 sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/usr/libexec/login.sh
 mkdir -p ./files/etc/uci-defaults ./files/etc/openclash/core
-cp -rf ../files/{init/*,cpufreq/*} files/
+cp -rf ../files/{init/*,cpufreq/*} ./files/
 cp -f ../patch/default-settings/istoreos/zzz-default-settings ./files/etc/uci-defaults/
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
 chmod +x files/etc/openclash/core/clash*
