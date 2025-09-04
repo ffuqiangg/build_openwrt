@@ -12,7 +12,7 @@ sed -i 's/Os/O2/g' include/target.mk
 sed -i '/CONFIG_BUILDBOT/d' include/feeds.mk
 sed -i 's/;)\s*\\/; \\/' include/feeds.mk
 # 修复 Rust CI 下载限制
-sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' feeds/packages/lang/rust/Makefile
+sed -i '/--set=llvm.download-ci-llvm/s/true/false/' feeds/packages/lang/rust/Makefile
 
 ### FIREWALL ###
 # custom nft command
