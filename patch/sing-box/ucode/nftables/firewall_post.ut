@@ -7,8 +7,7 @@
     const uci = cursor();
 
     uci.load('sing-box');
-    const conffile = uci.get('sing-box', 'main', 'conffile') || '/etc/sing-box/config.json',
-          workdir = uci.get('sing-box', 'main', 'workdir') || '/etc/sing-box',
+    const workdir = uci.get('sing-box', 'main', 'workdir') || '/etc/sing-box',
           common_ports = uci.get('sing-box', 'proxy', 'common_ports') || '0',
           pass_cn_ip = uci.get('sing-box', 'proxy', 'pass_cn_ip') || '0',
           fuck_quic = uci.get('sing-box', 'proxy', 'fuck_quic') || '0',

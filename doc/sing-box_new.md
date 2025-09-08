@@ -24,6 +24,7 @@
 - **2025.06.10** 调整自用功能，合并 custom, direct, proxy 文件并改用 json 格式。
 - **2025.06.12** 调整节点分组策略，使用分流或 cutom.json 时不再强制开启节点分组。完全交由 `group_nodes` 开关控制。
 - **2025.08.05** 更新至 sing-box 1.12.x 版本。
+- **2025.09.08** 整理运行目录。
 
 ### 安装命令
 
@@ -58,10 +59,9 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/p
 ```config
 config sing-box 'main'
 	option enabled '0'                          # 总开关，设为 1 服务才能运行
-	option conffile '/etc/sing-box/config.json'
 	option workdir '/etc/sing-box'
 ```
-- conffile 为配置文件路径、workdir 为服务运行目录，不要修改否则运行可能会出错。
+- workdir 为服务运行目录，不建议修改否则运行可能会出错。
 
 2. **配置文件和订阅相关** `2025.04.01 更新 取消本地 -1 运行方式`
 ```config
@@ -72,7 +72,7 @@ config sing-box 'subscription'
 	option auto_restart '1'                     # 定时重启，0 禁用，1 启用
 	option restart_cron '0 5 * * *'             # 定时重启 cron，默认为每天早上 5 点
 ```
-- 本地配置文件保存到 /etc/sing-box 目录命名为 sing-box.json 。
+- 本地配置文件保存到 /etc/sing-box/profiles 目录命名为 sing-box.json 。
 - 使用订阅时服务启动会自动下载所有订阅，所以定时重启也能起到更新订阅的作用。
 - 如果有更多订阅，配置中新建更多 `list url` 项目即可。
 
@@ -106,7 +106,7 @@ config sing-box 'basic'
 - 这部分配置的详细说明可以查看 [sing-box 官方配置文档](https://sing-box.sagernet.org/zh/configuration/) 的对应条目。
 - 如需修改端口配置要注意端口冲突，避免使用已占用的端口。
 - mixed 代理用于提供 socks4, socks4a, socks5 和 http 代理服务（注意 mixed 仅代理 tcp 流量）。
-- 更新或替换面板方法：删除 `/etc/sing-box/ui` 目录，然后重启 sing-box 服务。
+- 更新或替换面板方法：删除 `/etc/sing-box/run/ui` 目录，然后重启 sing-box 服务。
 
 5. **高级设置** `2025.06.12 更新 调整节点分组策略`
 ```config
@@ -149,7 +149,7 @@ config sing-box 'subscription'
 	option url '订阅地址'
 ```
 
-2. **使用本地配置文件** 将配置文件放到 /etc/sing-box 目录命名为 sing-box.json，并修改如下选项
+2. **使用本地配置文件** 将配置文件放到 /etc/sing-box/profiles 目录命名为 sing-box.json，并修改如下选项
 ```config
 config sing-box 'main'
 	option enabled '1'

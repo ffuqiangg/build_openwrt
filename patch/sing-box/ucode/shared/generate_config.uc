@@ -48,8 +48,7 @@ function nodesFilter(key, list) {
 const uci = cursor();
 
 uci.load('sing-box');
-const conffile = uci.get('sing-box', 'main', 'conffile') || '/etc/sing-box/config.json',
-      workdir = uci.get('sing-box', 'main', 'workdir') || '/etc/sing-box',
+const workdir = uci.get('sing-box', 'main', 'workdir') || '/etc/sing-box',
       remote = uci.get('sing-box', 'subscription', 'remote') || '1',
       level = uci.get('sing-box', 'basic', 'level') || 'warn',
       log_file = uci.get('sing-box', 'basic', 'log_file') || '0',
@@ -89,9 +88,9 @@ else if (ui_name === 'yacd')
 
 let profile_file;
 if (remote === '0')
-    profile_file = workdir + '/sing-box.json';
+    profile_file = workdir + '/profiles/sing-box.json';
 else if (remote >= '1')
-    profile_file = workdir + '/subscription' + remote + '.json';
+    profile_file = workdir + '/profiles/subscription' + remote + '.json';
 const jsonfile = trim(readfile(profile_file));
 
 let outbounds_direct_tag;
@@ -341,7 +340,6 @@ if (override === '1') {
     for (let v in json(jsonfile).outbounds)
         if (v.tag in nodes_list)
             push(config.outbounds, v);
-
 } else {
     config.outbounds = json(jsonfile).outbounds;
 }
@@ -488,4 +486,4 @@ if (override === '1') {
 }
 
 /* Writefile */
-writefile(conffile, sprintf('%.2J\n', removeBlankAttrs(config)));
+writefile(workdir + '/run/config.json', sprintf('%.2J\n', removeBlankAttrs(config)));

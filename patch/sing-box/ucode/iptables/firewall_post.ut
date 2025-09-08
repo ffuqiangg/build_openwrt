@@ -7,15 +7,13 @@
     const uci = cursor();
 
     uci.load('sing-box');
-    const conffile = uci.get('sing-box', 'main', 'conffile') || '/etc/sing-box/config.json',
-          workdir = uci.get('sing-box', 'main', 'workdir') || '/etc/sing-box',
+    const workdir = uci.get('sing-box', 'main', 'workdir') || '/etc/sing-box',
           common_ports = uci.get('sing-box', 'proxy', 'common_ports') || '0',
           pass_cn_ip = uci.get('sing-box', 'proxy', 'pass_cn_ip') || '0',
           fuck_quic = uci.get('sing-box', 'proxy', 'fuck_quic') || '0',
           tproxy_port = uci.get('sing-box', 'inbounds', 'tproxy_port') || '10105',
           mixed_port = uci.get('sing-box', 'inbounds', 'mixed_port') || '2881',
           redirect_port = uci.get('sing-box', 'inbounds', 'redirect_port') || '2331';
-          
 
     const reserved_ip = [
         "0.0.0.0/8", "10.0.0.0/8", "100.64.0.0/10", "127.0.0.0/8", "169.254.0.0/16",
@@ -30,7 +28,7 @@
 
 {# IPSET #}
 {% if (pass_cn_ip === '1'): %} 
-    ipset -! restore -f {{ workdir }}/resources/china_ip4.txt
+ipset -! restore -f {{ workdir }}/resources/china_ip4.txt
 {% endif %}
 
 {# DNS hijack & TCP redirect #}
