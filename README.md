@@ -31,13 +31,7 @@
 ##
 
 <p align="center">
-  <a href="https://t.me/ffuqiangg">
-    <img src="https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white">
-  </a>
-  <a href="mailto:ffuqiangg@gmail.com">
-    <img src="https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white">
-  </a>
-  <a href="https://hub.docker.com/u/ffuqiangg">
-    <img src="https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white">
-  </a>
+<a href="https://t.me/ffuqiangg"><img src="https://img.shields.io/badge/-Telegram-413f42?style=flat&logo=telegram&logoColor=white"></a>
+<a href="mailto:ffuqiangg@gmail.com"><img src="https://img.shields.io/badge/-Gmail-red?style=flat&logo=gmail&logoColor=white"></a>
+<a href="https://hub.docker.com/u/ffuqiangg"><img src="https://img.shields.io/badge/-Docker-informational?style=flat&logo=docker&logoColor=white"></a>
 <p>
