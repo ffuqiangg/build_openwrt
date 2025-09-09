@@ -83,7 +83,7 @@ table inet sing-box {
     }
 
     chain sing_output_redir {
-        type nat hook output priority filter -105; policy accept
+        type nat hook output priority filter -105; policy accept;
         meta nfproto ipv4 meta l4proto tcp jump sing_redirect
     }
 
