@@ -21,7 +21,7 @@ jobs:
         echo -e "💻 Server running on Ubuntu: [ Release: $(cat /etc/os-release | grep VERSION_CODENAME | cut -d '=' -f2) / Host: $(arch) ] \n"
         echo -e "🧮 Server CPU configuration information: \n$(cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c) \n"
         echo -e "💾 Server memory usage: \n$(free -h) \n"
-        echo -e "🗃️ Server space usag: \n$(df -hT ${GITHUB_WORKSPACE}) \n"
+        echo -e "🗃️ Server space usag: \n$(df -hT ${{ github.workspace }}) \n"
 
     - name: Maximize build space
       uses: easimon/maximize-build-space@master

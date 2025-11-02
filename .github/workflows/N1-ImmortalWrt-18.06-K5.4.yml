@@ -21,7 +21,7 @@ jobs:
         echo -e "💻 Server running on Ubuntu: [ Release: $(cat /etc/os-release | grep VERSION_CODENAME | cut -d '=' -f2) / Host: `arch` ] \n"
         echo -e "🧮 Server CPU configuration information: \n$(cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c) \n"
         echo -e "💾 Server memory usage: \n$(free -h) \n"
-        echo -e "🗃️ Server space usag: \n$(df -hT ${GITHUB_WORKSPACE}) \n"
+        echo -e "🗃️ Server space usag: \n$(df -hT ${{ github.workspace }}) \n"
 
     - name: Checkout
       uses: actions/checkout@v4
@@ -56,20 +56,31 @@ jobs:
         sudo pvcreate /dev/loop7
         sudo vgcreate github /dev/loop6 /dev/loop7
         sudo lvcreate -n runner -l 100%FREE github
-        sudo mkfs.xfs /dev/github/runner
+        sudo mkfs.xfs -f -i sparse=0 -b size=4096 /dev/github/runner
         sudo mkdir -p /builder
         sudo mount /dev/github/runner /builder
-        sudo chown -R runner.runner /builder
+        sudo chown -R runner:runner /builder
+        # Prepare cached directory
+        echo "Preparing cached directory..."
+        sudo cp -af /home/runner/actions-runner/cached /builder/cached
+        rm -rf /home/runner/actions-runner/cached
+        sudo ln -sf /builder/cached /home/runner/actions-runner/cached
+        echo "_diag directory content:"
+        ls -lh /home/runner/actions-runner/cached/_diag/ 2>/dev/null
+        echo "Verifying the symbolic link..."
+        ls -ld /home/runner/actions-runner/cached
+        df -Th /home/runner/actions-runner/cached
+        echo "Server disk layout:"
         df -Th
 
     - name: Prepare source code
       working-directory: /builder
       run: |
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
-        cp -r ${GITHUB_WORKSPACE}/. ./
+        cp -r ${{ github.workspace }}/. ./
         cp -r ./scripts/immortalwrt-18.06-k5.4/. ./
         ./01_prepare_source_code.sh
-        ln -sf /builder/openwrt ${GITHUB_WORKSPACE}/openwrt
+        ln -sf /builder/openwrt ${{ github.workspace }}/openwrt
         ln -sf /builder/openwrt /home/runner/work/_actions/ffuqiangg/openwrt_packit/master/openwrt
 
     - name: Prepare package
