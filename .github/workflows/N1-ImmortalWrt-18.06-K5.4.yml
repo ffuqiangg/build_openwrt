@@ -130,6 +130,7 @@ jobs:
         ENABLE_WIFI_K510: 0
         DISTRIB_REVISION: '18.06 k5.4'
         DISTRIB_DESCRIPTION: ImmortalWrt
+        OPENWRT_IP: 192.168.1.99
         BUILD_DATE: ${{ env.build_date }}
 
     - name: Organize files
