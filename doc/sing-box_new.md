@@ -121,7 +121,7 @@ config sing-box 'advanced'
 	list ad_ruleset ''                                               # 去广告规则集，必须使用 srs 格式且地址可直连
 	option filter_nodes '0'                                          # 过滤节点，0 禁用，1 启用
 	option filter_keywords '流量,套餐,重置,官網,官网,群组'             # 过滤关键字，多个关键字用英文逗号分割
-	option group_nodes '0'                                           # 节点按区域分组，0 禁用，1 启用
+	option group_nodes '0'                                           # 节点按地区分组，0 禁用，1 启用
 	option stream '0'                                                # 路由分流规则，0 禁用，1 启用
 	option stream_list 'Google,Github,Telegram,OpenAI,Spotify'       # 启用的分流规则，英文逗号分割
 ```
@@ -129,7 +129,7 @@ config sing-box 'advanced'
 - 禁用 `override` 时所有高级设置均不会生效，除了 `基础设置` 涉及的部分外不会对配置文件做其他修改。禁用 `override` 时请确保配置文件符合当前 sing-box 版本的要求。
 - 去广告功能可以同时使用多个规则集，自行添加更多的 `list ad_ruleset` 条目即可，规则集要求使用 srs 格式且地址可直连。多个规则集注意文件名不能相同。
 - `filter_nodes` 过滤的节点会从配置文件中完全删除，而不仅仅是不出现在分组中。
-- `gourp_nodes` 可用的分组区域包含香港、台湾、日本、韩国、新加坡、美国、德国。订阅中没有的节点区域会自动跳过不会生成空分组。添加区域可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
+- `gourp_nodes` 可用的分组地区包含香港、台湾、日本、韩国、新加坡、美国、德国。订阅中没有的节点地区会自动跳过不会生成空分组。添加地区可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
 - `stream_list` 脚本预置的可使用分流规则有 Google，Github，Telegram，OpenAI，DMM，HBO，NETFLIX，Spotify 。添加分流规则可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
 
 6. **私货** `自用功能，运行结果不符合预期概不负责`
