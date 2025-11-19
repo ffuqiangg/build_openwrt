@@ -1,7 +1,7 @@
 diff --git a/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh b/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
 index 299684c1..03182b12 100755
---- a/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
-+++ b/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
+--- a/target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh
++++ b/target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh
 @@ -27,7 +27,8 @@ function part_disk() {
  		mktable msdos \
  		mkpart primary 68MiB 132MiB \
