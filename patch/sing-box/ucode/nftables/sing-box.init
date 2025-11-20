@@ -31,7 +31,7 @@ start_service() {
         for i in $url; do
             curl -fsL -A sing-box -m 120 --connect-timeout 15 --retry 3 -X GET -D /var/run/sing-box_subscription$a.header -o $workdir/profiles/config.tmp $i
             [ -f "$workdir/profiles/config.tmp" ] && mv $workdir/profiles/config.tmp $workdir/profiles/subscription$a.json
-            let a++
+            ((a++))
         done
         [ ! -f "$workdir/profiles/subscription$remote.json" ] && return 0
     elif [ "$remote" = "0" ] && [ ! -f "$workdir/profiles/sing-box.json" ]; then
