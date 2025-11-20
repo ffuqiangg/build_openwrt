@@ -7,7 +7,7 @@ on:
       - N1-LEDE
 
 env:
-  TZ: Asia/Shanghai
+  TZ: Etc/UTC
 
 jobs:
   build:
