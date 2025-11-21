@@ -1,18 +1,18 @@
 diff --git a/target/linux/amlogic/meson/base-files/usr/sbin/install-to-emmc.sh b/target/linux/amlogic/meson/base-files/usr/sbin/install-to-emmc.sh
-index 3b90978..83e9b99 100755
+index 5b4c14d..710ab49 100755
 --- a/target/linux/amlogic/meson/base-files/usr/sbin/install-to-emmc.sh
 +++ b/target/linux/amlogic/meson/base-files/usr/sbin/install-to-emmc.sh
-@@ -34,7 +34,8 @@ function part_disk() {
+@@ -56,7 +56,8 @@ function part_disk() {
  		mktable msdos \
- 		mkpart primary 68MiB 132MiB \
- 		mkpart primary 132MiB 388MiB \
--		mkpart primary 764MiB 2812MiB
-+		mkpart primary 764MiB 1788MiB \
-+		mkpart primary 1788MiB 100%
+ 		mkpart primary 117MiB 181MiB \
+ 		mkpart primary 181MiB 580MiB \
+-		mkpart primary 800MiB 2848MiB
++		mkpart primary 800MiB 1824MiB \
++		mkpart primary 1824MiB 100%
  }
  
  function get_bootdisk() {
-@@ -136,9 +137,13 @@ function main() {
+@@ -160,9 +161,13 @@ function main() {
  			dd if=/dev/$partdev of=/dev/$partdevto bs=1M conv=notrunc
  		done
  		# mark RESET overlay partition
