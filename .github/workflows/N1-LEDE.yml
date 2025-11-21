@@ -91,7 +91,7 @@ jobs:
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        cp ../config/lede/config.seed .config
+        cp ../config/lede/config.test .config
         make defconfig
 
     - name: Download package
