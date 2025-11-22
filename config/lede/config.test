@@ -49,16 +49,6 @@ CONFIG_PACKAGE_ddns-scripts_aliyun=y
 ### FIREWALL ###
 # CONFIG_PACKAGE_firewall is not set
 CONFIG_PACKAGE_firewall4=y
-CONFIG_PACKAGE_kmod-nft-offload=y
-CONFIG_PACKAGE_kmod-nft-fullcone=y
-CONFIG_PACKAGE_iptables=y
-CONFIG_IPTABLES_NFTABLES=y
-CONFIG_PACKAGE_iptables-nft=y
-CONFIG_PACKAGE_iptables-mod-conntrack-extra=y
-CONFIG_PACKAGE_iptables-mod-iprange=y
-CONFIG_PACKAGE_iptables-mod-nat-extra=y
-CONFIG_PACKAGE_iptables-mod-socket=y
-CONFIG_PACKAGE_iptables-mod-tproxy=y
 
 ### TURBOACC ###
 # CONFIG_PACKAGE_luci-app-turboacc is not set
