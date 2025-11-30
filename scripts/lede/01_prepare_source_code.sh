@@ -11,11 +11,11 @@ clone_repo $openwrt_apps_repo main openwrt-apps &
 wait
 
 # 修改默认 IP 为 192.168.1.99
-sed -i 's/192.168.1.1/192.168.1.99/g' openwrt/package/base-files/luci/bin/config_generate
+sed -i "/lan) ipad=\${ipaddr:-/s/\${ipaddr:-\"[^\"]*\"}/\${ipaddr:-\"192.168.1.99\"}/" package/base-files/*/bin/config_generate
 # 默认禁用 WIFI
 sed -i '/wireless/d' openwrt/package/lean/default-settings/files/zzz-default-settings
 sed -Ei "s/(disabled=)0/\11/" openwrt/package/kernel/mac80211/files/lib/wifi/mac80211.sh
 # 调整内核版本为 5.15
-#sed -i 's/KERNEL_PATCHVER:=.*/KERNEL_PATCHVER:=5.15/' openwrt/target/linux/amlogic/Makefile
+sed -i 's/KERNEL_PATCHVER:=.*/KERNEL_PATCHVER:=5.15/' openwrt/target/linux/amlogic/Makefile
 
 exit 0
