@@ -21,7 +21,8 @@ popd
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
-cp -rf ../openwrt-apps/OpenWrt-momo ./package/new/
+rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
+cp -rf ../openwrt-apps/{OpenWrt-momo,luci-app-daed} ./package/new/
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
