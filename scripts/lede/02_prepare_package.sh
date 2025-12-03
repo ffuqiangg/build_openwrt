@@ -28,8 +28,8 @@ patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
 # 预编译 node
-#rm -rf ./feeds/packages/lang/node
-#cp -rf ../node ./feeds/packages/lang/node
+rm -rf ./feeds/packages/lang/node
+cp -rf ../node ./feeds/packages/lang/node
 # 添加翻译
 echo '
 msgid "Custom rules allow you to execute arbitrary nft commands which are not otherwise covered by the firewall framework. The rules are executed after each firewall restart, right after the default ruleset has been loaded."
