@@ -351,9 +351,13 @@ for (let i = 0; i < length(config.outbounds); i++)
 /* Route */
 if (override === '1') {
     config.route = {
-        default_domain_resolver: 'china-dns',
         final: '节点选择',
         auto_detect_interface: true,
+        default_domain_resolver: {
+            action: 'route',
+            server: 'china-dns',
+            strategy: 'ipv4_only'
+        },
         rules: [
             {
                 action: 'sniff'
@@ -436,11 +440,25 @@ if (override === '1') {
         }
     }
 
-    /* cn-direct */
+    /* final */
     push(config.route.rules, {
         rule_set: [
             'geosite-cn',
             'geoip-cn'
+        ],
+        outbound: '直连'
+    });
+    push(config.route.rules, {
+        type: 'logical',
+        mode: 'and',
+        rule_set: [
+            {
+                rule_set: 'geosite-noncn',
+                invert: true
+            },
+            {
+                rule_set: 'geoip-cn'
+            }
         ],
         outbound: '直连'
     });
