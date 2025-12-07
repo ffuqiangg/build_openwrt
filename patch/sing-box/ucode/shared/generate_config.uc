@@ -224,9 +224,9 @@ config.experimental = {
     clash_api: {
         external_controller: '0.0.0.0:' + external_controller_port,
         external_ui: external_ui,
-        secret: secret,
         external_ui_download_url: 'https://gh-proxy.com/' + ltrim(ui_url, 'https://'),
         external_ui_download_detour: (override === '1') ? '直连' : outbounds_direct_tag,
+        secret: secret,
         default_mode: default_mode
     },
     cache_file: {
@@ -353,11 +353,7 @@ if (override === '1') {
     config.route = {
         final: '节点选择',
         auto_detect_interface: true,
-        default_domain_resolver: {
-            action: 'route',
-            server: 'china-dns',
-            strategy: 'ipv4_only'
-        },
+        default_domain_resolver: 'china-dns',
         rules: [
             {
                 action: 'sniff'
@@ -451,7 +447,7 @@ if (override === '1') {
     push(config.route.rules, {
         type: 'logical',
         mode: 'and',
-        rule_set: [
+        rules: [
             {
                 rule_set: 'geosite-noncn',
                 invert: true
