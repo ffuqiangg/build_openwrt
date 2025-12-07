@@ -70,7 +70,7 @@ docker_2_services
 popd
 # Daed
 sed -i 's/PKG_VERSION=.*/PKG_VERSION=1.21.1/g' feeds/packages/net/daed/Makefile
-sed -i 's/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=51d5bbe9c7ddf8b9376612d21ddfe3689a7e7d9cee4c1de5f64a48fb16dee389/g' feeds/packages/net/daed/Makefile
+sed -i 's/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=ffba0f8b5e9411ad0da10349dfaab2336922d47cd5effd81163ce4415b4d84d7/g' feeds/packages/net/daed/Makefile
 
 # 生成默认配置及缓存
 rm -rf .config
