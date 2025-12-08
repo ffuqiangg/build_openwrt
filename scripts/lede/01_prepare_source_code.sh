@@ -7,6 +7,8 @@ clone_repo $lede_repo master openwrt &
 clone_repo $dockerman_repo master dockerman &
 clone_repo $node_prebuilt_repo packages-23.05 node &
 clone_repo $openwrt_apps_repo main openwrt-apps &
+clone_repo $immortalwrt_pkg_repo master imm_pkg &
+clone_repo $immortalwrt_luci_repo master imm_luci &
 # 等待所有后台任务完成
 wait
 
