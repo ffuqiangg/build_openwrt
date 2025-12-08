@@ -353,7 +353,11 @@ if (override === '1') {
     config.route = {
         final: '节点选择',
         auto_detect_interface: true,
-        default_domain_resolver: 'china-dns',
+        default_domain_resolver: {
+            action: 'route',
+            server: 'china-dns',
+            strategy: 'ipv4_only'
+        },
         rules: [
             {
                 action: 'sniff'
