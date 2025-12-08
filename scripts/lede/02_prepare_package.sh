@@ -21,11 +21,7 @@ popd
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
-rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
 cp -rf ../openwrt-apps/OpenWrt-momo ./package/new/
-cp -rf ../imm_pkg/libcron ./package/new/
-cp -rf ../imm_pkg/net/daed ./package/new/
-cp -rf ../imm_luci/applications/luci-app-daed ./package/new/
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
@@ -72,6 +68,11 @@ sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-d
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
+# Daed
+rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
+cp -rf ../imm_pkg/libcron ./package/new/
+cp -rf ../imm_pkg/net/daed ./package/new/
+cp -rf ../imm_luci/applications/luci-app-daed ./package/new/
 
 # 生成默认配置及缓存
 rm -rf .config
