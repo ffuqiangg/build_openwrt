@@ -29,8 +29,10 @@ start_service() {
     if [ "$remote" -gt "0" ] && [ -n "$url" ]; then
         a=1
         for i in $url; do
-            curl -fsL -A sing-box -m 120 --connect-timeout 15 --retry 3 -X GET -D /var/run/sing-box_subscription$a.header -o $workdir/profiles/config.tmp $i
-            [ -f "$workdir/profiles/config.tmp" ] && mv $workdir/profiles/config.tmp $workdir/profiles/subscription$a.json
+            if [ "$update_all" = "1" ] || [ "$remote" = "$a" ]; then
+                curl -fsL -A sing-box -m 120 --connect-timeout 15 --retry 3 -X GET -D /var/run/sing-box_subscription$a.header -o $workdir/profiles/config.tmp $i
+                [ -f "$workdir/profiles/config.tmp" ] && mv $workdir/profiles/config.tmp $workdir/profiles/subscription$a.json
+            fi
             let a++
         done
         [ ! -f "$workdir/profiles/subscription$remote.json" ] && return 0
