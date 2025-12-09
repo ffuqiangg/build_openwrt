@@ -70,7 +70,7 @@ docker_2_services
 popd
 # Daed
 rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
-cp -rf ../imm_pkg/libcron ./package/new/
+cp -rf ../imm_pkg/libs/libcron ./package/new/
 cp -rf ../imm_pkg/net/daed ./package/new/
 cp -rf ../imm_luci/applications/luci-app-daed ./package/new/
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' package/new/luci-app-daed/Makefile
