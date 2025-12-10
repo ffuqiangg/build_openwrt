@@ -1,7 +1,7 @@
 diff --git a/target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh b/target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh
 index 299684c1..e2958f76 100755
---- a/target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh
-+++ b/target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh
+--- a/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
++++ b/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
 @@ -25,9 +25,10 @@ function part_disk() {
  	dd if=/dev/zero of="/dev/$to" bs=512 count=1 conv=notrunc 2>/dev/null
  	parted --script "/dev/$to" \
