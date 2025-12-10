@@ -23,9 +23,8 @@ popd
 mkdir -p ./package/new
 cp -rf ../openwrt-apps/OpenWrt-momo ./package/new/
 # 调整刷机脚本
-mkdir -p ./target/linux/amlogic/mesongx/base-files/usr/sbin
-mv ./target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh ./target/linux/amlogic/mesongx/base-files/usr/sbin/
-rm -rf ./target/linux/amlogic/mesongx/base-files/root
+mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
+mv ./target/linux/amlogic/mesongx/base-files/root ./target/linux/amlogic/mesongx/base-files/usr/sbin
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
 sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
