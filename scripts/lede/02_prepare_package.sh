@@ -76,7 +76,6 @@ cp -rf ../imm_pkg/libs/libcron ./package/new/
 cp -rf ../imm_pkg/net/daed ./package/new/
 cp -rf ../imm_luci/applications/luci-app-daed ./package/new/
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' package/new/daed/Makefile
-sed -i '/Download\/daed-web/{n;n;n;n;s/HASH:=.*/HASH:=dda39dda5c2f641f2122f31b160823f4e7e36a2b77df937b449e1ca4e9b243ad/}' package/new/daed/Makefile
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-daed/Makefile
 
 # 生成默认配置及缓存
