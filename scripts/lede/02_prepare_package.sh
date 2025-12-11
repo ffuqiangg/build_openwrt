@@ -78,12 +78,9 @@ cp -rf ../imm_luci/applications/luci-app-daed ./package/new/
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' package/new/daed/Makefile
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-daed/Makefile
 
-# 生成默认配置及缓存
-rm -rf .config
+# 预配置一些插件
 sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/etc/passwd
 sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/usr/libexec/login.sh
-
-# 预配置一些插件
 mkdir -p ./files/etc/uci-defaults
 cp -rf ../files/{init/*,cpufreq/*} ./files/
 cp -f ../patch/default-settings/lede/zzz-default-settings ./files/etc/uci-defaults/
