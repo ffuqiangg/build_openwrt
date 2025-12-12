@@ -35,6 +35,14 @@ cp -rf ../node ./feeds/packages/lang/node
 echo '
 msgid "Custom rules allow you to execute arbitrary nft commands which are not otherwise covered by the firewall framework. The rules are executed after each firewall restart, right after the default ruleset has been loaded."
 msgstr "自定义规则允许您执行不属于防火墙框架的任意 nft 命令。每次重启防火墙时，这些命令在默认的规则运行后立即执行。"' >> ./package/lean/default-settings/po/zh-cn/default.po
+# mount cgroupv2
+pushd feeds/packages
+patch -p1 < ../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
+popd
+mkdir -p feeds/packages/utils/cgroupfs-mount/patches
+cp -rf ../patch/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # Passwall
 rm -rf ./feeds/luci/applications/luci-app-passwall
 cp -rf ../openwrt-apps/openwrt_helloworld/luci-app-passwall ./feeds/luci/applications/luci-app-passwall
