@@ -4,12 +4,12 @@
 
 ### 基础部分 ###
 # 使用 O2 级别的优化
-sed -i 's/Os/O2/g' include/target.mk
+#sed -i 's/Os/O2/g' include/target.mk
 # 更新 Feeds
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 # 默认开启 Irqbalance
-sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
+#sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
 ### FIREWALL ###
 # custom nft command
@@ -70,7 +70,7 @@ sed -i 's,NAS,Services,g;s,nas,services,g' feeds/luci/applications/luci-app-rclo
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
 # 终端 TTYD
-sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+#sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # Docker 容器
 #rm -rf ./feeds/luci/applications/luci-app-dockerman
 #cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
@@ -81,10 +81,8 @@ popd
 # Daed
 rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
 cp -rf ../imm_pkg/libs/libcron ./package/new/
-cp -rf ../imm_pkg/net/daed ./package/new/
-cp -rf ../imm_luci/applications/luci-app-daed ./package/new/
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' package/new/daed/Makefile
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-daed/Makefile
+cp -rf ../imm_pkg/net/daed ./feeds/packages/net/daed
+cp -rf ../imm_luci/applications/luci-app-daed ./feeds/luci/applications/luci-app-daed
 
 # 预配置一些插件
 sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/etc/passwd
