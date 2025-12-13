@@ -35,7 +35,7 @@ jobs:
         remove-codeql: 'true'
 
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     - name: Init build dependencies
       env:
