@@ -33,6 +33,14 @@ cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # 预编译 node
 rm -rf feeds/packages/lang/node
 cp -rf ../node ./feeds/packages/lang/node
+# mount cgroupv2
+pushd feeds/packages
+patch -p1 < ../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
+popd
+mkdir -p feeds/packages/utils/cgroupfs-mount/patches
+cp -rf ../patch/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # Autocore
 clone_repo https://github.com/sbwml/autocore-arm.git openwrt-22.03 package/new/autocore-arm
 sed -i 's/?/ARMv8 Processor/' package/new/autocore-arm/files/generic/cpuinfo
