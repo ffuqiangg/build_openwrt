@@ -73,7 +73,7 @@ jobs:
       run: |
         cp -r ../scripts/openwrt-24.10/. ./
         ./02_prepare_package.sh "${{ env.latest_release }}"
-        echo -e "\n \033[34mOpenWrt\033[0m ${{ env.latest_release }} | ${{ env.build_date }}\n" > ./files/etc/banner
+        echo -e "\n\033[34mOpenWrt\033[0m ${{ env.latest_release }} | ${{ env.build_date }}\n" > ./files/etc/banner
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
