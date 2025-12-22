@@ -161,13 +161,14 @@ if (override === '1') {
                 tag: 'main-dns',
                 type: main_dns_type,
                 server: main_dns_server,
-                domain_resolver: 'china-dns',
+                domain_resolver: (!(iptoarr(main_dns_server))) ? 'china-dns' : null,
                 detour: '节点选择'
             },
             {
                 tag: 'china-dns',
                 type: china_dns_type,
-                server: china_dns_server
+                server: china_dns_server,
+                domain_resolver: (!(iptoarr(china_dns_server))) ? 'default-dns' : null
             }
         ],
         rules: [
@@ -210,6 +211,13 @@ if (override === '1') {
         disable_cache: false,
         disable_expire: false
     };
+
+    if (!(iptoarr(china_dns_server)))
+        push(config.dns.servers, {
+            tag: 'default-dns',
+            type: 'udp',
+            server: '223.5.5.5'
+        });
 } else {
     config.dns = json(jsonfile).dns;
 }

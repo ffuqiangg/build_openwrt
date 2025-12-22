@@ -26,6 +26,7 @@
 - **2025.08.05** 更新至 sing-box 1.12.x 版本。
 - **2025.09.08** 整理运行目录。
 - **2025.12.08** 使用多个订阅时，添加支持仅更新当前使用订阅。
+- **2025.12.22** 移除国内 DNS 必须使用 IP 的限制。
 
 ### 安装命令
 
@@ -110,14 +111,14 @@ config sing-box 'basic'
 - mixed 代理用于提供 socks4, socks4a, socks5 和 http 代理服务（注意 mixed 仅代理 tcp 流量）。
 - 更新或替换面板方法：删除 `/etc/sing-box/run/ui` 目录，然后重启 sing-box 服务。
 
-5. **高级设置** `2025.06.12 更新 调整节点分组策略`
+5. **高级设置** `2025.12.22 移除国内 DNS 必须使用 IP 的限制`
 ```config
 config sing-box 'advanced'
 	option override '1'                                              # 覆写，0 禁用，1 启用
 	option main_dns_type 'https'                                     # 国外 DNS 类型
 	option main_dns_server 'dns.google'                              # 国外 DNS 服务地址
 	option china_dns_type 'h3'                                       # 国内 DNS 类型
-	option china_dns_server '223.5.5.5'                              # 国内 DNS 服务地址，必须使用 IP 形式
+	option china_dns_server '223.5.5.5'                              # 国内 DNS 服务地址
 	option adblock '0'                                               # 去广告，0 禁用，1 启用
 	list ad_ruleset 'https://testingcf.jsdelivr.net/gh/ffuqiangg/sing-box-adsruleset@main/rule/adguard-dns-filter.srs'
 	list ad_ruleset ''                                               # 去广告规则集，必须使用 srs 格式且地址可直连
