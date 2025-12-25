@@ -75,9 +75,9 @@ config sing-box 'subscription'
 	option auto_restart '1'                     # 定时重启，0 禁用，1 启用
 	option restart_cron '0 5 * * *'             # 定时重启 cron，默认为每天早上 5 点
 ```
-- 本地配置文件保存到 /etc/sing-box/profiles 目录命名为 sing-box.json 。
+- 本地配置文件保存到 `/etc/sing-box/profiles` 目录命名为 sing-box.json 。
 - 使用订阅时服务启动会自动下载配置文件，所以定时重启也能起到定时更新订阅的作用。
-- 如果有更多订阅，配置中新建更多 `list url` 项目即可。`update_all' 开启时则每次启动更新全部订阅，否则仅更新当前使用的订阅。
+- 如果有更多订阅，配置中新建更多 `list url` 项目即可。`update_all` 开启时则每次启动更新全部订阅，否则仅更新当前使用的订阅。
 
 3. **代理相关** `2025.04.01 更新 增加屏蔽 quic 功能`
 ```config
