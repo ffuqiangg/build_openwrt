@@ -362,7 +362,6 @@ if (override === '1') {
         final: '节点选择',
         auto_detect_interface: true,
         default_domain_resolver: {
-            action: 'route',
             server: 'china-dns',
             strategy: 'ipv4_only'
         },
