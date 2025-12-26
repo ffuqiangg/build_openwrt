@@ -77,6 +77,7 @@ jobs:
       working-directory: /builder
       run: |
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
+        echo "banner_date=$(date +%Y-%m-%d)" >> ${GITHUB_ENV}
         cp -r ${{ github.workspace }}/. ./
         cp -r ./scripts/immortalwrt-18.06-k5.4/. ./
         ./01_prepare_source_code.sh
@@ -88,7 +89,7 @@ jobs:
       run: |
         cp -r ../scripts/immortalwrt-18.06-k5.4/. ./
         ./02_prepare_package.sh
-        echo -e "\n\033[34mImmortalWrt\033[0m 18.06-K5.4 | ${{ env.build_date }}\n" > ./files/etc/banner
+        echo -e "\n\033[34mImmortalWrt\033[0m | 18.06-K5.4 --${{ env.banner_date }}--\n" > ./files/etc/banner
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt

@@ -57,6 +57,7 @@ jobs:
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
+        echo "banner_date=$(date +%Y-%m-%d)" >> ${GITHUB_ENV}
         cp -r ./scripts/istoreos/. ./
         ./01_prepare_source_code.sh
 
@@ -65,7 +66,7 @@ jobs:
       run: |
         cp -r ../scripts/istoreos/. ./
         ./02_prepare_package.sh
-        echo -e "\n\033[34miStoreOS\033[0m 22.03.7 | ${{ env.build_date }}\n" > ./files/etc/banner
+        echo -e "\n\033[34miStoreOS\033[0m | 22.03.7 --${{ env.banner_date }}--\n" > ./files/etc/banner
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
