@@ -140,6 +140,7 @@ ad_rulelist = filter(ad_rulelist, length);
 let custom_file;
 if (access(workdir + '/resources/custom.json'))
     custom_file = trim(readfile(workdir + '/resources/custom.json'));
+
 const outbounds_list = split(join(',', nodes_list) + ',' + join(',', nodes_area) + ',' + stream_list + ',节点选择,自动选择,直连', ',');
 /* UCI config end */
 
