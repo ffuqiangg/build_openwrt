@@ -66,7 +66,7 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp -r ../scripts/lede/. ./
-        ./02_prepare_package.sh
+        ./02_prepare_package.sh "${{ env.build_date }}"
         echo -e "\n\033[34mLEDE\033[0m ${{ env.distrib_revision }} ${{ env.banner_date }}\n" > ./files/etc/banner
 
     - name: Make config

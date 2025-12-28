@@ -65,7 +65,7 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp -r ../scripts/istoreos/. ./
-        ./02_prepare_package.sh
+        ./02_prepare_package.sh "${{ env.build_date }}"
         echo -e "\n\033[34miStoreOS\033[0m 22.03.7 ${{ env.banner_date }}\n" > ./files/etc/banner
 
     - name: Make config

@@ -27,7 +27,13 @@ mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
 mv ./target/linux/amlogic/mesongx/base-files/root ./target/linux/amlogic/mesongx/base-files/usr/sbin
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
-sed -i '/services/d' package/lean/default-settings/files/zzz-default-settings
+sed -i -e '/services/d' -e '/exit/d' package/lean/default-settings/files/zzz-default-settings
+cat <<-EOF >> package/lean/default-settings/files/zzz-default-settings
+sed -i '/BUILD_DATE/d' /etc/openwrt_release
+echo "BUILD_DATE='$1'" >> /etc/openwrt_release
+
+exit 0
+EOF
 # 预编译 node
 rm -rf ./feeds/packages/lang/node
 cp -rf ../node ./feeds/packages/lang/node

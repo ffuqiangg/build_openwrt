@@ -1,11 +1,14 @@
 #!/bin/sh
-build_date=$(grep -oE "[0-9]{4}\.[0-9]{2}\.[0-9]{2}" /etc/banner)
-download_url="https://github.com/ffuqiangg/build_openwrt/releases/download/${build_date}/"
-if [ $(grep -c "LEDE" /etc/openwrt_release) -ne 0 ]; then
-    openwrt_revision=$(grep 'DISTRIB_REVISION=' /etc/openwrt_release | sed -E "s/.*'(.+)'.*/\1/")
-    download_file="N1-LEDE-${openwrt_revision}-${build_date}-packages.zip"
-elif [ $(grep -c "iStoreOS" /etc/openwrt_release) -ne 0 ]; then
-    download_file="N1-iStoreOS-${build_date}-packages.zip"
+
+. /etc/openwrt_release
+
+[ ! -n "$BUILD_DATE" ] && BUILD_DATE=$(grep -oE "[0-9]{4}\.[0-9]{2}\.[0-9]{2}" /etc/banner)
+download_url="https://github.com/ffuqiangg/build_openwrt/releases/download/${BUILD_DATE}/"
+
+if [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'LEDE') -ne 0 ]; then
+    download_file="N1-LEDE-${DISTRIB_REVISION}-${BUILD_DATE}-packages.zip"
+elif [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'iStoreOS') -ne 0 ]; then
+    download_file="N1-iStoreOS-${BUILD_DATE}-packages.zip"
 fi
 
 # GitHub mirror
@@ -18,16 +21,18 @@ if [ $country_code = "CN" ]; then
     fi
 fi
 
-# download
+# Prepare packages
 curl --connect-timeout 30 -m 600 -kLo /www/packages.zip ${mirror}${download_url}${download_file}
-
-# Unzip file
-cd /www && unzip packages.zip && rm -rf packages.zip
+if [ $? -ne 0 ]; then
+    echo '[ error ] Packages download failed.'
+    exit 1
+fi
+cd /www && unzip -q packages.zip && rm -rf packages.zip
 
 # Modify distfeeds.conf
-if [ $(grep -c "LEDE" /etc/openwrt_release) -ne 0 ]; then
+if [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'LEDE') -ne 0  ]; then
     sed -i '/openwrt_core/c src\/gz openwrt_core file:\/\/\/www\/packages' /etc/opkg/distfeeds.conf
-elif [ $(grep -c "iStoreOS" /etc/openwrt_release) -ne 0 ]; then
+elif [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'iStoreOS') -ne 0 ]; then
     sed -i '$a src\/gz openwrt_core file:\/\/\/www\/packages' /etc/opkg/compatfeeds.conf
 fi
 

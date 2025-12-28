@@ -27,6 +27,13 @@ patch -p1 < ../patch/custom_install/istoreos/custom_target_amlogic_scripts.patch
 sed -i '/dockerd.globals.data_root/d' package/istoreos-files/files/etc/uci-defaults/09_istoreos
 sed -i 'N;/\n.*commit dockerd/!P;D' package/istoreos-files/files/etc/uci-defaults/09_istoreos 
 sed -i '/commit dockerd/{N;d;}' package/istoreos-files/files/etc/uci-defaults/09_istoreos
+sed -i '/exit/d' package/istoreos-files/files/etc/uci-defaults/09_istoreos
+cat <<-EOF >> package/istoreos-files/files/etc/uci-defaults/09_istoreos
+sed -i '/BUILD_DATE/d' /etc/openwrt_release
+echo "BUILD_DATE='$1'" >> /etc/openwrt_release
+
+exit 0
+EOF
 # Golang
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
