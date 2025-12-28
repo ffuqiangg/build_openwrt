@@ -23,9 +23,9 @@ popd
 mkdir -p ./package/new
 cp -rf ../openwrt-apps/OpenWrt-momo ./package/new/
 # 调整刷机脚本
+patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
 mv ./target/linux/amlogic/mesongx/base-files/root ./target/linux/amlogic/mesongx/base-files/usr/sbin
-patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 # 调整 default settings
 sed -i -e '/services/d' -e '/exit/d' package/lean/default-settings/files/zzz-default-settings
 cat <<-EOF >> package/lean/default-settings/files/zzz-default-settings
