@@ -1,5 +1,5 @@
 diff --git a/target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh b/target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh
-index 299684c1..e2958f76 100755
+index 299684c1..7e309dd7 100755
 --- a/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
 +++ b/target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
 @@ -25,9 +25,10 @@ function part_disk() {
@@ -16,7 +16,16 @@ index 299684c1..e2958f76 100755
  }
  
  function get_bootdisk() {
-@@ -129,9 +130,13 @@ function main() {
+@@ -113,6 +114,8 @@ function main() {
+ 		echo "part /dev/$to"
+ 		part_disk "$to" || return 1
+ 		partprobe "/dev/$to"
++		sleep 2
++		umount_dist "$to" || return 1
+ 		if export_partdevice partdev 1; then
+ 			# umount /boot
+ 			echo "try umount /boot"
+@@ -129,9 +132,13 @@ function main() {
  			dd if=/dev/$partdev of=/dev/$partdevto bs=1M conv=notrunc
  		done
  		# mark RESET overlay partition
