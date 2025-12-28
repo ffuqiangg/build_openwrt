@@ -40,9 +40,10 @@ uci commit upnpd
 
 # OpenClash
 [ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geosite.dat /etc/openclash/GeoSite.dat
-[ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geoip.dat /etc/openclash/GeoIP.dat
+[ -f /usr/share/v2ray/geoip.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geoip.dat /etc/openclash/GeoIP.dat
 
 # V2rayA
+[ ! -d /usr/share/xray ] && mkdir -p /usr/share/xray
 [ -f /usr/share/v2ray/geoip.dat ] && ln -sf /usr/share/v2ray/geoip.dat /usr/share/xray/geoip.dat
 [ -f /usr/share/v2ray/geosite.dat ] && ln -sf /usr/share/v2ray/geosite.dat /usr/share/xray/geosite.dat
 
