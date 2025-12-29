@@ -56,10 +56,7 @@ sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/htdocs/luci-st
 # 终端 TTYD
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # Daed
-rm -rf ./package/new/luci-app-daed/daed
-cp -rf ../imm_pkg/net/daed ./package/new/luci-app-daed/daed
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' package/new/luci-app-daed/daed/Makefile
-sed -i 's,293acce7c5013e180698bc5af899ead4e9feba9a30e39a00d59554a376a9f64d,dda39dda5c2f641f2122f31b160823f4e7e36a2b77df937b449e1ca4e9b243ad,g' package/new/luci-app-daed/daed/Makefile
+sed -i 's/,runtimefreegc.*//' package/new/luci-app-daed/daed/Makefile
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
