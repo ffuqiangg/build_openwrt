@@ -34,8 +34,8 @@ rm -rf ./feeds/packages/utils/coremark
 rm -rf ./feeds/packages/lang/node
 cp -rf ../node ./feeds/packages/lang/node
 # 更换 golang 版本
-#rm -rf ./feeds/packages/lang/golang
-#cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
+rm -rf ./feeds/packages/lang/golang
+cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # mount cgroupv2
 pushd feeds/packages
 patch -p1 < ../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
@@ -55,6 +55,10 @@ sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share
 sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
 # 终端 TTYD
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+# Daed
+rm -rf ./package/new/luci-app-daed/daed
+cp -rf ../imm_pkg/net/daed ./package/new/luci-app-daed/daed
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' package/new/luci-app-daed/daed/Makefile
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
