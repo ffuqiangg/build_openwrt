@@ -18,7 +18,7 @@ sed -i '/^ROOT/s/820/NUM/g' /usr/sbin/openwrt-install-amlogic
 
 2. LEDE 和 iStoreOS 系统，将命令中的 `NUM` 修改为你想要的大小，单位 MiB。
 ```bash
-sed -i "s/1788/$((764 + NUM))/g" /usr/sbin/install-to-emmc.sh
+sed -i "s/1824/$((800 + NUM))/g" /usr/sbin/install-to-emmc.sh
 ```
 
 ### 2. ImmortalWrt、OpenWrt 固件的安装使用
