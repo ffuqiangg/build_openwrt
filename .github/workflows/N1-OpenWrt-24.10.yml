@@ -67,7 +67,7 @@ jobs:
         mkdir -p /home/runner/work/build_openwrt/build_openwrt/amlogic
         ln -sf /home/runner/work/build_openwrt/build_openwrt/amlogic /home/runner/work/_actions/ffuqiangg/amlogic-s9xxx-openwrt/main/openwrt
         echo "latest_release=${latest_release}" >> ${GITHUB_ENV}
-        echo "kernel_version=$(cat openwrt/include/kernel-6.6 | grep -oE "[1-9]\.[1-9][0-9]*\.[1-9][0-9]*")" >> ${GITHUB_ENV}
+        echo "kernel_version=$(sed -n '2p' openwrt/include/kernel-6.6 | awk -F '[ -]' '{print $2}')" >> ${GITHUB_ENV}
 
     - name: Prepare package
       working-directory: ${{ github.workspace }}/openwrt
