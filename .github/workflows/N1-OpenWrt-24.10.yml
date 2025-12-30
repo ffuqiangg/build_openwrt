@@ -45,7 +45,7 @@ jobs:
         sudo /bin/bash -c "$(curl -sL https://git.io/vokNn)"
         sudo -E apt-fast -y -qq install asciidoc bash bcc bin86 binutils bison bzip2 clang file flex g++ g++-multilib gawk gcc-multilib \
           gettext git gzip help2man intltool libbpf-dev libboost-dev libelf-dev libncurses-dev libssl-dev libthread-queue-any-perl \
-          libusb-dev libxml-parser-perl linux-tools-generic llvm make patch perl-modules pkg-config python3-dev python3-pip python3-pyelftools \
+          libusb-dev libxml-parser-perl linux-tools-generic llvm llvm-dev make patch perl-modules pkg-config python3-dev python3-pip python3-pyelftools \
           python3-setuptools rsync sharutils swig time unzip util-linux wget xsltproc zlib1g-dev zip zstd
         sudo -E apt-fast -y -qq install dos2unix dwarves jq npm quilt
         sudo -E npm install -g pnpm
