@@ -21,7 +21,9 @@ popd
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
-cp -rf ../openwrt-apps/OpenWrt-momo ./package/new/
+rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
+cp -rf ../openwrt-apps/{OpenWrt-momo,luci-app-daed} ./package/new/
+cp -rf ../openwrt-apps/imm_pkg/libcron ./package/new/
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
@@ -85,10 +87,7 @@ pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
 # Daed
-rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
-cp -rf ../imm_pkg/libs/libcron ./package/new/
-cp -rf ../imm_pkg/net/daed ./feeds/packages/net/daed
-cp -rf ../imm_luci/applications/luci-app-daed ./feeds/luci/applications/luci-app-daed
+sed -i 's/,runtimefreegc.*//' package/new/luci-app-daed/daed/Makefile
 
 # 预配置一些插件
 sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/etc/passwd
