@@ -55,7 +55,10 @@ cp -rf ../openwrt_helloworld/luci-app-passwall ./feeds/luci/applications/luci-ap
 # 替换 sing-box
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../immortalwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
-# Mosdns 白名单
+# MosDNS
+rm -rf ./feeds/luci/applications/luci-app-mosdns ./feeds/packages/net/mosdns ./feeds/packages/utils/v2dat
+cp -rf ../mosdns ./package/new/luci-app-mosdns
+cp -rf ../mosdns_geodata ./package/new/v2ray-geodata
 echo 'account.synology.com
 ddns.synology.com
 checkip.synology.com
@@ -63,7 +66,7 @@ checkip.dyndns.org
 checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
-ntp.ntsc.ac.cn' >> feeds/luci/applications/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
+ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 # Cpufreq
 #sed -i 's,system,services,g' feeds/luci/applications/luci-app-cpufreq/root/usr/share/luci/menu.d/luci-app-cpufreq.json
 # Rclone
