@@ -74,12 +74,15 @@ jobs:
       run: |
         cp -r ../scripts/openwrt-24.10/. ./
         ./02_prepare_package.sh "${{ env.latest_release }}"
+        ../scripts/03_move_to_services.sh
         echo -e "\n\033[34mOpenWrt\033[0m ${{ env.latest_release }} ${{ env.banner_date }}\n" > ./files/etc/banner
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp -f ../config/openwrt-24.10/config.seed .config
+        ../scripts/05_fix_permissions.sh
+        echo '==============================================='
         make defconfig
 
     - name: Download package

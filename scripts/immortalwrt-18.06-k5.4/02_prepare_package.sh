@@ -15,8 +15,9 @@ mkdir -p ./package/new
 rm -f ./package/emortal/default-settings/files/openwrt_banner
 sed -i '/settings\/install/{n;N;N;d}' package/emortal/default-settings/Makefile
 # MosDNS
+rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns/luci-app-mosdns ./package/new/luci-app-mosdns
-# Mosdns 白名单
+cp -rf ../mosdns_geodata ./package/new/v2ray-geodata
 echo 'account.synology.com
 ddns.synology.com
 checkip.synology.com
@@ -25,8 +26,6 @@ checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
-rm -rf ./feeds/packages/net/v2ray-geodata
-cp -rf ../v2ray_geodata ./feeds/packages/net/v2ray-geodata
 # Samba4
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/luasrc/controller/samba4.lua
 # Cpufreq
@@ -56,7 +55,7 @@ sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/mo
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
 # V2raya
-clone_repo https://github.com/zxlhhyccc/luci-app-v2raya.git 18.06 package/new/luci-app-v2raya
+cp -rf ../v2raya ./package/new/luci-app-v2raya
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 

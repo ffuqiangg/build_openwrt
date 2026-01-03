@@ -8,7 +8,8 @@ clone_repo $mosdns_repo v4 mosdns &
 clone_repo $dockerman_repo master dockerman &
 clone_repo $openclash_repo master openclash &
 clone_repo $amlogic_repo main amlogic &
-clone_repo $v2ray_geodata_repo master v2ray_geodata &
+clone_repo $mosdns_geodata_repo master mosdns_geodata &
+clone_repo $v2raya_repo 18.06 v2raya &
 # 等待所有后台任务完成
 wait
 

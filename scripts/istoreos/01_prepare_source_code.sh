@@ -7,17 +7,29 @@ clone_repo $istoreos_repo istoreos-22.03 openwrt &
 clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
 clone_repo $immortalwrt_luci_repo openwrt-21.02 immortalwrt_luci_21 &
 clone_repo $immortalwrt_pkg_repo openwrt-21.02 immortalwrt_pkg_21 &
+clone_repo $immortalwrt_luci_repo master immortalwrt_luci_ma &
+clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg_ma &
+clone_repo $lede_luci_repo master lede_luci_ma &
 clone_repo $node_prebuilt_repo packages-22.03 node &
 clone_repo $dockerman_repo master dockerman &
-clone_repo $openwrt_apps_repo main openwrt-apps &
+clone_repo $sbwml_pkgs_repo main sbwml_pkgs &
+clone_repo $v2raya_repo master v2raya &
+clone_repo $openclash_repo master OpenClash &
+clone_repo $mosdns_repo v5 mosdns &
+clone_repo $mosdns_geodata_repo mater mosdns_geodata &
+clone_repo $helloworld_repo v5 openwrt_helloworld &
+clone_repo $autocore_arm_repo openwrt-22.03 autocore &
 # 等待所有后台任务完成
 wait
+
+# 整理源码
+rm -rf ./openwrt_helloworld/{luci-app-nikki,nikki,luci-app-homeproxy,luci-app-openclash,luci-app-daed,daed,v2ray-geodata}
 
 # 修改默认 IP 为 192.168.1.99
 sed -i "s/\s'dhcp'//" openwrt/target/linux/amlogic/base-files/etc/board.d/02_network
 sed -i 's/192.168.100.1/192.168.1.99/g' openwrt/package/istoreos-files/Makefile
 # 修改默认主题为 bootstrap
 sed -i -e '/luci-theme-argon/d;75,83d' openwrt/package/istoreos-files/Makefile
-rm openwrt/package/istoreos-files/files/etc/uci-defaults/99_theme
+rm ./openwrt/package/istoreos-files/files/etc/uci-defaults/99_theme
 
 exit 0

@@ -66,12 +66,15 @@ jobs:
       run: |
         cp -r ../scripts/istoreos/. ./
         ./02_prepare_package.sh "${{ env.build_date }}"
+        ../scripts/03_move_to_services.sh
         echo -e "\n\033[34miStoreOS\033[0m 22.03.7 ${{ env.banner_date }}\n" > ./files/etc/banner
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp ../config/istoreos/config.seed .config
+        ../scripts/05_fix_permissions.sh
+        echo '==============================================='
         make defconfig
 
     - name: Download package

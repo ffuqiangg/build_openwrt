@@ -4,9 +4,13 @@
 
 # 开始克隆仓库，并行执行
 clone_repo $lede_repo master openwrt &
-clone_repo $dockerman_repo master dockerman &
+clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg_ma &
 clone_repo $node_prebuilt_repo packages-24.10 node &
-clone_repo $openwrt_apps_repo main openwrt-apps &
+clone_repo $dockerman_repo master dockerman &
+clone_repo $momo_repo main OpenWrt-momo &
+clone_repo $nikki_repo main OpenWrt-nikki &
+clone_repo $daed_repo master luci-app-daed &
+clone_repo $helloworld_repo v5 openwrt_helloworld &
 # 等待所有后台任务完成
 wait
 

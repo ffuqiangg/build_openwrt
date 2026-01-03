@@ -67,12 +67,15 @@ jobs:
       run: |
         cp -r ../scripts/lede/. ./
         ./02_prepare_package.sh "${{ env.build_date }}"
+        ../scripts/03_move_to_services.sh
         echo -e "\n\033[34mLEDE\033[0m ${{ env.distrib_revision }} ${{ env.banner_date }}\n" > ./files/etc/banner
 
     - name: Make config
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp ../config/lede/config.seed .config
+        ../scripts/05_fix_permissions.sh
+        echo '==============================================='
         make defconfig
 
     - name: Download package

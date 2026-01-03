@@ -22,14 +22,12 @@ pushd feeds/luci
 patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
-### 替换准备 ###
-cp -rf ../openwrt-apps ./package/new
-rm -rf ./package/new/{luci-app-frpc,luci-app-frps,imm_pkg/frp}
-rm -rf ./feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsocks,shadowsocks-libev,zerotier,daed,v2raya}
-rm -rf ./feeds/luci/applications/{luci-app-zerotier,luci-app-v2raya,luci-app-dockerman}
-rm -rf ./feeds/packages/utils/coremark
-
 ### 获取额外的 LuCI 应用和依赖 ###
+mkdir -p ./package/new
+rm -rf ./feeds/packages/net/{xray-core,v2ray-core,v2ray-geodata,sing-box,microsocks}
+cp -rf ../openwrt_helloworld ./package/new/
+# 一些补充翻译
+cp -rf ../patch/addition-trans-zh ./package/new/
 # 预编译 node
 rm -rf ./feeds/packages/lang/node
 cp -rf ../node ./feeds/packages/lang/node
@@ -44,19 +42,72 @@ mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
 cp -rf ../patch/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+# CPUlimit 占用限制
+cp -rf ../immortalwrt_luci_ma/applications/luci-app-cpulimit ./package/new/luci-app-cpulimit
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-cpulimit/Makefile
+cp -rf ../immortalwrt_pkg_ma/utils/cpulimit ./package/new/cpulimit
+# IP/MAC 绑定
+cp -rf ../immortalwrt_luci_ma/applications/luci-app-arpbind ./package/new/luci-app-arpbind
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-arpbind/Makefile
+# DDNS scripts aliyun
+cp -rf ../sbwml_pkgs/ddns-scripts-aliyun ./package/new/
+# Coremark
+rm -rf ./feeds/packages/utils/coremark
+cp -rf ../sbwml_pkgs/coremark ./feeds/packages/utils/coremark
+# Autocore
+cp -rf ../autocore ./package/new/autocore
+sed -i 's/$(uname -m)/ARMv8 Processor/' package/new/autocore/files/generic/cpuinfo
+# MosDNS
+rm -rf ./package/new/openwrt_helloworld/v2ray-geodata
+cp -rf ../mosdns ./package/new/luci-app-mosdns
+cp -rf ../mosdns_geodata ./package/new/v2ray-geodata
+echo 'account.synology.com
+ddns.synology.com
+checkip.synology.com
+checkip.dyndns.org
+checkipv6.synology.com
+ntp.aliyun.com
+cn.ntp.org.cn
+ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
+# v2rayA
+rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
+cp -rf ../immortalwrt_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
+cp -rf ../immortalwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
+# Zerotier
+rm -rf ./feeds/luci/applications/luci-app-zerotier ./feeds/packages/net/zerotier
+cp -rf ../immortalwrt_luci_ma/applications/luci-app-zerotier ./feeds/luci/applications/luci-app-zerotier
+cp -rf ../immortalwrt_pkg_ma/net/zerotier ./feeds/packages/net/zerotier
 # Docker 容器
+rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
+# Filebrowser 文件管理器
+cp -rf ../sbwml_pkgs/filebrowser ./package/new/filebrowser
+cp -rf ../sbwml_pkgs/luci-app-filebrowser-go ./package/new/luci-app-filebrowser-go
+# KMS 服务器
+cp -rf ../sbwml_pkgs/{luci-app-vlmcsd,vlmcsd} ./package/new/
+# FTP 服务器
+rm -rf ./feeds/packages/net/vsftpd
+cp -rf ../sbwml_pkgs/luci-app-vsftpd ./package/new/luci-app-vsftpd
+cp -rf ../immortalwrt_pkg_ma/net/vsftpd ./feeds/packages/net/vsftpd
 # Nlbw 带宽监控
 sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
 # 终端 TTYD
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+# HomeProxy
+rm -rf ./package/new/openwrt_helloworld/luci-app-homeproxy
+cp -rf ../homeproxy ./package/new/luci-app-homeproxy
+# OpenWrt-momo
+cp -rf ../OpenWrt-momo ./package/new/luci-app-momo
 # Daed
+rm -rf ./package/new/openwrt_helloworld/{luci-app-daed,daed}
+cp -rf ../luci-app-daed ./package/new/
 sed -i 's/,runtimefreegc.*//' package/new/luci-app-daed/daed/Makefile
+cp -rf ../immortalwrt_pkg_ma/libs/libcron ./package/new/
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 

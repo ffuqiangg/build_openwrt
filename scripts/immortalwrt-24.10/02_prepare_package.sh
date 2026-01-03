@@ -22,14 +22,11 @@ pushd feeds/luci
 patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
-### 替换准备 ###
-rm -rf ./feeds/packages/net/{v2ray-geodata,mosdns,sing-box}
-
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
-cp -rf ../openwrt-apps/{OpenWrt-nikki,OpenWrt-momo} ./package/new/
-# 添加翻译
-cp -rf ../openwrt-apps/addition-trans-zh ./package/new/addition-trans-zh
+cp -rf ../{OpenWrt-nikki,OpenWrt-momo} ./package/new/
+# 一些补充翻译
+cp -rf ../patch/addition-trans-zh ./package/new/
 # 预编译 node
 rm -rf ./feeds/packages/lang/node
 cp -rf ../node ./feeds/packages/lang/node
@@ -45,18 +42,24 @@ cp -rf ../patch/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cg
 cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # sing-box
-cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./package/new/sing-box
+rm -rf ./feeds/packages/net/sing-box
+cp -rf ../immortalwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
 # Mosdns
-cp -rf ../openwrt-apps/luci-app-mosdns ./package/new/luci-app-mosdns
-cp -rf ../openwrt-apps/openwrt_helloworld/v2ray-geodata ./package/new/v2ray-geodata
+rm -rf ./feeds/packages/net/{v2ray-geodata,mosdns}
+cp -rf ../mosdns ./package/new/luci-app-mosdns
+cp -rf ../mosdns_geodata ./package/new/v2ray-geodata
+echo 'account.synology.com
+ddns.synology.com
+checkip.synology.com
+checkip.dyndns.org
+checkipv6.synology.com
+ntp.aliyun.com
+cn.ntp.org.cn
+ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 # Samba4
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 # 硬盘休眠
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
-# FTP 服务器
-pushd feeds/luci/applications/luci-app-vsftpd
-move_2_services nas
-popd
 # Rclone
 sed -i 's,nas,services,g;s,NAS,Services,g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Docker 容器

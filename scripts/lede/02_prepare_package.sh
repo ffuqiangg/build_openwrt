@@ -21,9 +21,7 @@ popd
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
-rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
-cp -rf ../openwrt-apps/{OpenWrt-momo,luci-app-daed} ./package/new/
-cp -rf ../openwrt-apps/imm_pkg/libcron ./package/new/
+cp -rf ../OpenWrt-momo ./package/new/
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
@@ -53,14 +51,10 @@ cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/ut
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # Passwall
 rm -rf ./feeds/luci/applications/luci-app-passwall
-cp -rf ../openwrt-apps/openwrt_helloworld/luci-app-passwall ./feeds/luci/applications/luci-app-passwall
+cp -rf ../openwrt_helloworld/luci-app-passwall ./feeds/luci/applications/luci-app-passwall
 # 替换 sing-box
 rm -rf ./feeds/packages/net/sing-box
-cp -rf ../openwrt-apps/openwrt_helloworld/sing-box ./feeds/packages/net/sing-box
-# FTP 服务器
-pushd feeds/luci/applications/luci-app-vsftpd
-move_2_services nas
-popd
+cp -rf ../immortalwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
 # Mosdns 白名单
 echo 'account.synology.com
 ddns.synology.com
@@ -86,8 +80,14 @@ sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-d
 pushd feeds/luci/applications/luci-app-dockerman
 docker_2_services
 popd
+# Nikki
+rm -rf ./feeds/luci/applications/luci-app-nikki ./feeds/packages/net/nikki
+cp -rf ../OpenWrt-nikki ./package/new/
 # Daed
+rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
+cp -rf ../luci-app-daed ./package/new/
 sed -i 's/,runtimefreegc.*//' package/new/luci-app-daed/daed/Makefile
+cp -rf ../immortalwrt_pkg_ma/libs/libcron ./package/new/
 
 # 预配置一些插件
 sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/etc/passwd
