@@ -60,8 +60,7 @@ cp -rf ../immortalwrt_pkg_ma/utils/cpulimit ./package/new/cpulimit
 # Frpc
 rm -rf ./feeds/luci/applications/{luci-app-frps,luci-app-frpc}
 rm -rf ./feeds/packages/net/frp
-cp -rf ../lede_luci_ma/applications/luci-app-frps ./feeds/luci/applications/luci-app-frps
-cp -rf ../lede_luci_ma/applications/luci-app-frpc ./feeds/luci/applications/luci-app-frpc
+cp -rf ../lede_luci_ma/applications/{luci-app-frps,luci-app-frpc} ./feeds/luci/applications/
 cp -rf ../immortalwrt_pkg_ma/net/frp ./feeds/packages/net/frp
 # MosDNS
 rm -rf ./feeds/packages/net/v2ray-geodata
