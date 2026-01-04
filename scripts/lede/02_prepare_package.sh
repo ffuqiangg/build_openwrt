@@ -20,8 +20,9 @@ patch -p1 < ../../../patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
 ### 额外的 LuCI 应用和依赖 ###
+rm -rf ./feeds/luci/applications/luci-app-nikki ./feeds/packages/net/nikki
 mkdir -p ./package/new
-cp -rf ../OpenWrt-momo ./package/new/
+cp -rf ../{OpenWrt-momo,OpenWrt-nikki} ./package/new/
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
@@ -84,9 +85,6 @@ sed -i '/auto_start/d' package/new/luci-app-dockerman/root/etc/uci-defaults/luci
 pushd package/new/luci-app-dockerman
 docker_2_services
 popd
-# Nikki
-rm -rf ./feeds/luci/applications/luci-app-nikki ./feeds/packages/net/nikki
-cp -rf ../OpenWrt-nikki ./package/new/
 # Daed
 rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
 cp -rf ../luci-app-daed ./package/new/

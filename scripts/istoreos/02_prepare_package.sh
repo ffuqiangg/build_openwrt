@@ -16,6 +16,7 @@ rm -rf ./feeds/packages/net/{xray-core,v2ray-core,shadowsocks-libev}
 rm -rf ./feeds/packages/utils/coremark
 mkdir -p ./package/new
 cp -rf ../{openwrt_helloworld,OpenClash} ./package/new/
+rm -rf ./package/new/openwrt_helloworld/{luci-app-nikki,nikki,luci-app-homeproxy,luci-app-openclash,luci-app-daed,daed,v2ray-geodata}
 cp -rf ../sbwml_pkgs/{luci-app-diskman,luci-app-autoreboot,coremark,luci-app-filebrowser-go,filebrowser} ./package/new/
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/istoreos/custom_target_amlogic_scripts.patch

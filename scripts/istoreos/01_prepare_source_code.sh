@@ -22,9 +22,6 @@ clone_repo $autocore_arm_repo openwrt-22.03 autocore &
 # 等待所有后台任务完成
 wait
 
-# 整理源码
-rm -rf ./openwrt_helloworld/{luci-app-nikki,nikki,luci-app-homeproxy,luci-app-openclash,luci-app-daed,daed,v2ray-geodata}
-
 # 修改默认 IP 为 192.168.1.99
 sed -i "s/\s'dhcp'//" openwrt/target/linux/amlogic/base-files/etc/board.d/02_network
 sed -i 's/192.168.100.1/192.168.1.99/g' openwrt/package/istoreos-files/Makefile
