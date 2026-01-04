@@ -85,6 +85,9 @@ sed -i '/auto_start/d' package/new/luci-app-dockerman/root/etc/uci-defaults/luci
 pushd package/new/luci-app-dockerman
 docker_2_services
 popd
+# Filebrowser 文件管理器
+rm -rf ./feeds/luci/applications/luci-app-filebrowser ./feeds/packages/utils/filebrowser
+cp -rf ../sbwml_pkg/{luciapp-filebrowser-go,filebrowser} ./package/new/
 # Daed
 rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
 cp -rf ../luci-app-daed ./package/new/

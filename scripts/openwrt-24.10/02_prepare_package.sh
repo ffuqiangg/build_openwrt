@@ -87,8 +87,7 @@ pushd package/new/luci-app-dockerman
 docker_2_services
 popd
 # Filebrowser 文件管理器
-cp -rf ../sbwml_pkgs/filebrowser ./package/new/filebrowser
-cp -rf ../sbwml_pkgs/luci-app-filebrowser-go ./package/new/luci-app-filebrowser-go
+cp -rf ../sbwml_pkgs/{luci-app-filebrowser-go,filebrowser} ./package/new/
 # KMS 服务器
 cp -rf ../sbwml_pkgs/{luci-app-vlmcsd,vlmcsd} ./package/new/
 # FTP 服务器
