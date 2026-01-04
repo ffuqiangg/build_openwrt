@@ -79,9 +79,9 @@ cp -rf ../immortalwrt_luci_ma/applications/luci-app-zerotier ./feeds/luci/applic
 cp -rf ../immortalwrt_pkg_ma/net/zerotier ./feeds/packages/net/zerotier
 # Docker 容器
 rm -rf ./feeds/luci/applications/luci-app-dockerman
-cp -rf ../dockerman/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
-sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
-pushd feeds/luci/applications/luci-app-dockerman
+cp -rf ../dockerman/applications/luci-app-dockerman ./package/new/luci-app-dockerman
+sed -i '/auto_start/d' package/new/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
+pushd package/new/luci-app-dockerman
 docker_2_services
 popd
 # Filebrowser 文件管理器
