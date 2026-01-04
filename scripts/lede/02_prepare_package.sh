@@ -27,7 +27,7 @@ patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
 mv ./target/linux/amlogic/mesongx/base-files/root ./target/linux/amlogic/mesongx/base-files/usr/sbin
 # 调整 default settings
-sed -i -e '/services/d' -e '/exit/d' package/lean/default-settings/files/zzz-default-settings
+sed -i '/services/d;/exit/d' package/lean/default-settings/files/zzz-default-settings
 cat <<-EOF >> package/lean/default-settings/files/zzz-default-settings
 sed -i '/BUILD_DATE/d' /etc/openwrt_release
 echo "BUILD_DATE='$1'" >> /etc/openwrt_release
@@ -51,7 +51,8 @@ cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/ut
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # Passwall
 rm -rf ./feeds/luci/applications/luci-app-passwall
-cp -rf ../openwrt_helloworld/luci-app-passwall ./feeds/luci/applications/luci-app-passwall
+cp -rf ../openwrt_helloworld/luci-app-passwall ./package/new/luci-app-passwall
+sed -i '/#dde2ff/d;/#2c323c/d' package/new/luci-app-passwall/luasrc/view/passwall/global/status.htm
 # 替换 sing-box
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../immortalwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box

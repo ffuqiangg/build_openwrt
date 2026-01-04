@@ -69,6 +69,8 @@ checkipv6.synology.com
 ntp.aliyun.com
 cn.ntp.org.cn
 ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
+# Passwall
+sed -i '/#dde2ff/d;/#2c323c/d' package/new/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
 # v2rayA
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ../immortalwrt_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
