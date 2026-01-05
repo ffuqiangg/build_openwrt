@@ -55,6 +55,7 @@ rm -rf ./feeds/luci/applications/luci-app-passwall
 rm -rf ./feeds/packages/net/{xray-core,chinadns-ng,dns2socks,microsocks,tcping,geoview}
 cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 cp -rf ../passwall_pkg ./package/new/passwall-packages
+rm -rf ./package/new/passwall-packages/sing-box
 # 替换 sing-box
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../immortalwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
