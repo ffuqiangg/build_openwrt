@@ -19,7 +19,7 @@ echo -e "\r\n${GREEN_COLOR}INFO${RES} Download files ...\r\n"
 if [ -n "$(nft list tables 2>/dev/null)" ]; then firewall="nftables"; else firewall="iptables"; fi
 download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/ucode"
 [ -d /etc/sing-box ] && rm -rf /etc/sing-box
-mkdir -p /etc/sing-box/scripts /etc/sing-box/resources /etc/sing-box/run /etc/sing-box/profiles
+for dir in scripts resources run profiles; do mkdir -p /etc/sing-box/${dir}; done
 
 # download
 echo -e "${GREEN_COLOR}INFO${RES} Download Sing-box init ..."
