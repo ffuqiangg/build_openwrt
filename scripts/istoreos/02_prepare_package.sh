@@ -12,11 +12,9 @@ sed -i 's/Os/O2/g' include/target.mk
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
 ### 获取额外的 LuCI 应用和依赖 ###
-rm -rf ./feeds/packages/net/{xray-core,v2ray-core,shadowsocks-libev}
 rm -rf ./feeds/packages/utils/coremark
 mkdir -p ./package/new
-cp -rf ../{openwrt_helloworld,OpenClash} ./package/new/
-rm -rf ./package/new/openwrt_helloworld/{luci-app-nikki,nikki,luci-app-homeproxy,luci-app-openclash,luci-app-daed,daed,v2ray-geodata}
+cp -rf ../OpenClash ./package/new/luci-app-openclash
 cp -rf ../sbwml_pkgs/{luci-app-diskman,luci-app-autoreboot,coremark,luci-app-filebrowser-go,filebrowser} ./package/new/
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/istoreos/custom_target_amlogic_scripts.patch
@@ -62,6 +60,9 @@ rm -rf ./feeds/luci/applications/{luci-app-frps,luci-app-frpc}
 rm -rf ./feeds/packages/net/frp
 cp -rf ../lede_luci_ma/applications/{luci-app-frps,luci-app-frpc} ./feeds/luci/applications/
 cp -rf ../immortalwrt_pkg_ma/net/frp ./feeds/packages/net/frp
+# 替换 sing-box
+cp -rf ../immortalwrt_pkg_ma/net/sing-box ./package/new/sing-box
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' package/new/sing-box/Makefile
 # MosDNS
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/new/luci-app-mosdns
@@ -81,13 +82,16 @@ sed -i '/auto_start/d' package/new/luci-app-dockerman/root/etc/uci-defaults/luci
 pushd package/new/luci-app-dockerman
 docker_2_services
 popd
+# Passwall
+rm -rf feeds/packages/net/{xray-core,shadowsocks-libev}
+cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
+cp -rf ../passwall_pkg ./package/new/passwall-packages
+rm -rf ./package/new/passwall-packages/{v2ray-geodata,sing-box}
 # V2raya
 rm -rf ./feeds/luci/applications/luci-app-v2raya
 rm -rf ./feeds/packages/net/v2raya
 cp -rf ../v2raya ./package/new/luci-app-v2raya
 cp -rf ../immortalwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
-# Passwall
-sed -i '/#dde2ff/d;/#2c323c/d' package/new/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
 # Nlbw 带宽监控
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
