@@ -38,7 +38,7 @@ EOF
 # 预编译 node
 rm -rf ./feeds/packages/lang/node
 cp -rf ../node ./feeds/packages/lang/node
-# 添加翻译
+# 一些补充翻译
 echo '
 msgid "Custom rules allow you to execute arbitrary nft commands which are not otherwise covered by the firewall framework. The rules are executed after each firewall restart, right after the default ruleset has been loaded."
 msgstr "自定义规则允许您执行不属于防火墙框架的任意 nft 命令。每次重启防火墙时，这些命令在默认的规则运行后立即执行。"' >> ./package/lean/default-settings/po/zh-cn/default.po
@@ -52,13 +52,15 @@ cp -rf ../patch/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/ut
 cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 # Passwall
 rm -rf ./feeds/luci/applications/luci-app-passwall
-cp -rf ../openwrt_helloworld/luci-app-passwall ./package/new/luci-app-passwall
-sed -i '/#dde2ff/d;/#2c323c/d' package/new/luci-app-passwall/luasrc/view/passwall/global/status.htm
+rm -rf ./feeds/packages/net/{xray-core,chinadns-ng,dns2socks,microsocks,tcping,geoview}
+cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
+cp -rf ../passwall_pkg ./package/new/passwall-packages
 # 替换 sing-box
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../immortalwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
 # MosDNS
-rm -rf ./feeds/luci/applications/luci-app-mosdns ./feeds/packages/net/mosdns ./feeds/packages/utils/v2dat
+rm -rf ./feeds/luci/applications/luci-app-mosdns ./feeds/packages/utils/v2dat
+rm -rf  ./feeds/packages/net/{mosdns,v2ray-geodata}
 cp -rf ../mosdns ./package/new/luci-app-mosdns
 cp -rf ../mosdns_geodata ./package/new/v2ray-geodata
 echo 'account.synology.com
@@ -87,7 +89,7 @@ docker_2_services
 popd
 # Filebrowser 文件管理器
 rm -rf ./feeds/luci/applications/luci-app-filebrowser ./feeds/packages/utils/filebrowser
-cp -rf ../sbwml_pkg/{luciapp-filebrowser-go,filebrowser} ./package/new/
+cp -rf ../sbwml_pkg/{luci-app-filebrowser-go,filebrowser} ./package/new/
 # Daed
 rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
 cp -rf ../luci-app-daed ./package/new/

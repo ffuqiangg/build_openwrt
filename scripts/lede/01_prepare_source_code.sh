@@ -10,9 +10,11 @@ clone_repo $dockerman_repo master dockerman &
 clone_repo $momo_repo main OpenWrt-momo &
 clone_repo $nikki_repo main OpenWrt-nikki &
 clone_repo $daed_repo master luci-app-daed &
-clone_repo $helloworld_repo v5 openwrt_helloworld &
+clone_repo $passwall_luci_repo main passwall_luci &
+clone_repo $passwall_pkg_repo main passwall_pkg &
 clone_repo $mosdns_repo v5 mosdns &
 clone_repo $mosdns_geodata_repo master mosdns_geodata &
+clone_repo $sbwml_pkgs_repo main sbwml_pkg &
 # 等待所有后台任务完成
 wait
 
