@@ -86,8 +86,9 @@ popd
 rm -rf feeds/packages/net/{xray-core,shadowsocks-libev}
 cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
 cp -rf ../passwall_pkg ./package/new/passwall-packages
-rm -rf ./package/new/passwall-packages/{v2ray-geodata,sing-box}
+rm -rf ./package/new/passwall-packages/{v2ray-geodata,sing-box,shadow-tls/*}
 wget https://raw.githubusercontent.com/sbwml/openwrt_helloworld/v5/shadowsocks-rust/Makefile -O package/new/passwall-packages/shadowsocks-rust/Makefile
+wget https://raw.githubusercontent.com/sbwml/openwrt_helloworld/v5/shadow-tls/Makefile -O package/new/passwall-packages/shadow-tls/Makefile
 # V2raya
 rm -rf ./feeds/luci/applications/luci-app-v2raya
 rm -rf ./feeds/packages/net/v2raya
