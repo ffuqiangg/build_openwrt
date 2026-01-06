@@ -40,7 +40,7 @@ clone_repo ()
     git clone --single-branch -b $branch_name --depth 1 $repo_url $target_dir
 }
 
-move_2_services ()
+move_to_services ()
 {
     local resource_file="$({ find | grep "\.lua\|\.htm\|\.json"; } 2>"/dev/null")"
     for a in $resource_file; do
@@ -52,7 +52,7 @@ move_2_services ()
     done
 }
 
-docker_2_services ()
+docker_to_services ()
 {
     local resource_file="$({ find | grep "\.lua\|\.htm"; } 2>"/dev/null")"
     local dockerman_lua="$({ find | grep "dockerman\.lua"; } 2>"/dev/null")"

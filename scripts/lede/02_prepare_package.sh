@@ -86,7 +86,7 @@ rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./package/new/luci-app-dockerman
 sed -i '/auto_start/d' package/new/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd package/new/luci-app-dockerman
-docker_2_services
+docker_to_services
 popd
 # Filebrowser 文件管理器
 rm -rf ./feeds/luci/applications/luci-app-filebrowser ./feeds/packages/utils/filebrowser

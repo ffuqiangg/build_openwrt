@@ -65,7 +65,7 @@ sed -i 's,nas,services,g;s,NAS,Services,g' feeds/luci/applications/luci-app-rclo
 # Docker 容器
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/luci/applications/luci-app-dockerman
-docker_2_services
+docker_to_services
 popd
 # Nlbw 带宽监控
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
