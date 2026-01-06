@@ -18,7 +18,7 @@ sed -i '/settings\/install/{n;N;N;d}' package/emortal/default-settings/Makefile
 rm -rf ./feeds/packages/net/v2ray-geodata
 sed -i 's,PKG_VERSION:=.*,PKG_VERSION:=5\.3\.3,' feeds/packages/net/mosdns/Makefile
 sed -i 's,PKG_HASH:=.*,PKG_HASH:=1d7eeaa735cb48ed2d436797d7f2a82541699f74647cd293ee411a72cdc65f5f,' feeds/packages/net/mosdns/Makefile
-cp -rf ../mosdns{dat,luci-app-mosdns,v2ray-geodata} ./package/new/
+cp -rf ../mosdns/{dat,luci-app-mosdns,v2ray-geodata} ./package/new/
 # Samba4
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/luasrc/controller/samba4.lua
 # Cpufreq
