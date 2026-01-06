@@ -15,9 +15,11 @@ clone_repo $mosdns_geodata_repo master mosdns_geodata &
 clone_repo $daed_repo master luci-app-daed &
 clone_repo $autocore_arm_repo openwrt-24.10 autocore &
 clone_repo $sbwml_pkgs_repo main sbwml_pkgs &
-clone_repo $helloworld_repo v5 openwrt_helloworld &
+clone_repo $passwall_pkg_repo main passwall_pkg &
+clone_repo $passwall_luci_repo main passwall_luci &
 clone_repo $homeproxy_repo master homeproxy &
 clone_repo $momo_repo main OpenWrt-momo &
+clone_repo $nikki_repo main OpenWrt-nikki &
 clone_repo $amlogic_repo main amlogic &
 # 等待所有后台任务完成
 wait
