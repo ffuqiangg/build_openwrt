@@ -15,17 +15,8 @@ mkdir -p ./package/new
 rm -f ./package/emortal/default-settings/files/openwrt_banner
 sed -i '/settings\/install/{n;N;N;d}' package/emortal/default-settings/Makefile
 # MosDNS
-rm -rf ./feeds/packages/net/v2ray-geodata
-cp -rf ../mosdns/luci-app-mosdns ./package/new/luci-app-mosdns
-cp -rf ../mosdns_geodata ./package/new/v2ray-geodata
-echo 'account.synology.com
-ddns.synology.com
-checkip.synology.com
-checkip.dyndns.org
-checkipv6.synology.com
-ntp.aliyun.com
-cn.ntp.org.cn
-ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
+rm -rf ./feeds/packages/net/{mosdns,v2ray-geodata}
+cp -rf ../mosdns ./package/new/luci-app-mosdns
 # Samba4
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/luasrc/controller/samba4.lua
 # Cpufreq
