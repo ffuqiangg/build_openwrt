@@ -59,8 +59,7 @@ ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/r
 # Samba4
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 # v2rayA
-rm -rf ./feeds/luci/applications/luci-app-v2raya
-rm -rf ./feeds/packages/net/v2raya
+rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ../immortalwrt_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
 cp -rf ../immortalwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 # 硬盘休眠

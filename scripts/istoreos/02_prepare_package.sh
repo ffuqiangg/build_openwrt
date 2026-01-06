@@ -56,8 +56,7 @@ cp -rf ../immortalwrt_luci_ma/applications/luci-app-cpulimit ./package/new/luci-
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-cpulimit/Makefile
 cp -rf ../immortalwrt_pkg_ma/utils/cpulimit ./package/new/cpulimit
 # Frpc
-rm -rf ./feeds/luci/applications/{luci-app-frps,luci-app-frpc}
-rm -rf ./feeds/packages/net/frp
+rm -rf ./feeds/luci/applications/{luci-app-frps,luci-app-frpc} ./feeds/packages/net/frp
 cp -rf ../lede_luci_ma/applications/{luci-app-frps,luci-app-frpc} ./feeds/luci/applications/
 cp -rf ../immortalwrt_pkg_ma/net/frp ./feeds/packages/net/frp
 # 替换 sing-box
@@ -90,8 +89,7 @@ rm -rf ./package/new/passwall-packages/{v2ray-geodata,sing-box,shadow-tls/*}
 wget https://raw.githubusercontent.com/sbwml/openwrt_helloworld/v5/shadowsocks-rust/Makefile -O package/new/passwall-packages/shadowsocks-rust/Makefile
 wget https://raw.githubusercontent.com/sbwml/openwrt_helloworld/v5/shadow-tls/Makefile -O package/new/passwall-packages/shadow-tls/Makefile
 # V2raya
-rm -rf ./feeds/luci/applications/luci-app-v2raya
-rm -rf ./feeds/packages/net/v2raya
+rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ../immortalwrt_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
 cp -rf ../immortalwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 # Nlbw 带宽监控
@@ -100,7 +98,8 @@ sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/htdocs/lu
 # 终端 TTYD
 sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # Curl
-patch -p1 < ../patch/curl/downgrade_curl_8.6.0_to_8.5.0.patch
+rm -rf ./feeds/packages/net/curl
+cp -rf ../immortalwrt_pkg_ma/net/curl ./feeds/packages/net/curl
 # Cpufreq
 cp -rf ../immortalwrt_luci_21/applications/luci-app-cpufreq package/new/luci-app-cpufreq
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-cpufreq/Makefile
