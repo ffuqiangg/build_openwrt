@@ -7,9 +7,8 @@ clone_repo $immortalwrt_repo ${1} openwrt &
 clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg_ma &
 clone_repo $immortalwrt_luci_repo master immortalwrt_luci_ma &
 clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
-clone_repo $node_prebuilt_repo packages-24.10 node &
 clone_repo $sbwml_mosdns_repo v5 mosdns &
-clone_repo $mosdns_geodata_repo master mosdns_geodata &
+clone_repo $v2ray_geodata_repo master v2ray_geodata &
 clone_repo $amlogic_repo main amlogic &
 clone_repo $nikki_repo main OpenWrt-nikki &
 clone_repo $momo_repo main OpenWrt-momo &

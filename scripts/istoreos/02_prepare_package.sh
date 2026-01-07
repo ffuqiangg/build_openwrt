@@ -35,8 +35,8 @@ cp -rf ../patch/addition-trans-zh ./package/new/
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # 预编译 node
-rm -rf feeds/packages/lang/node
-cp -rf ../node ./feeds/packages/lang/node
+rm -rf feeds/packages/lang/node/*
+wget https://raw.githubusercontent.com/sbwml/feeds_packages_lang_node-prebuilt/packages-22.03/Makefile -O feeds/packages/lang/node/Makefile
 # mount cgroupv2
 pushd feeds/packages
 patch -p1 < ../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
@@ -65,7 +65,7 @@ sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' package/new/sing-box/Makefile
 # MosDNS
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns ./package/new/luci-app-mosdns
-cp -rf ../mosdns_geodata ./package/new/v2ray-geodata
+cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
 echo 'account.synology.com
 ddns.synology.com
 checkip.synology.com

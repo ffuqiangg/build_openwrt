@@ -5,7 +5,6 @@
 # 开始克隆仓库，并行执行
 clone_repo $lede_repo master openwrt &
 clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg_ma &
-clone_repo $node_prebuilt_repo packages-24.10 node &
 clone_repo $dockerman_repo master dockerman &
 clone_repo $momo_repo main OpenWrt-momo &
 clone_repo $nikki_repo main OpenWrt-nikki &
@@ -13,7 +12,7 @@ clone_repo $daed_repo master luci-app-daed &
 clone_repo $passwall_luci_repo main passwall_luci &
 clone_repo $passwall_pkg_repo main passwall_pkg &
 clone_repo $sbwml_mosdns_repo v5 mosdns &
-clone_repo $mosdns_geodata_repo master mosdns_geodata &
+clone_repo $v2ray_geodata_repo master v2ray_geodata &
 clone_repo $sbwml_pkgs_repo main sbwml_pkg &
 # 等待所有后台任务完成
 wait

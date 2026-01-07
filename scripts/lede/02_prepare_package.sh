@@ -36,8 +36,8 @@ echo "BUILD_DATE='$1'" >> /etc/openwrt_release
 exit 0
 EOF
 # 预编译 node
-rm -rf ./feeds/packages/lang/node
-cp -rf ../node ./feeds/packages/lang/node
+rm -rf ./feeds/packages/lang/node/*
+wget https://raw.githubusercontent.com/sbwml/feeds_packages_lang_node-prebuilt/packages-24.10/Makefile -O feeds/packages/lang/node/Makefile
 # 一些补充翻译
 echo '
 msgid "Custom rules allow you to execute arbitrary nft commands which are not otherwise covered by the firewall framework. The rules are executed after each firewall restart, right after the default ruleset has been loaded."
@@ -63,7 +63,7 @@ cp -rf ../immortalwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
 rm -rf ./feeds/luci/applications/luci-app-mosdns ./feeds/packages/utils/v2dat
 rm -rf  ./feeds/packages/net/{mosdns,v2ray-geodata}
 cp -rf ../mosdns ./package/new/luci-app-mosdns
-cp -rf ../mosdns_geodata ./package/new/v2ray-geodata
+cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
 echo 'account.synology.com
 ddns.synology.com
 checkip.synology.com

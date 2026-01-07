@@ -28,8 +28,8 @@ cp -rf ../{OpenWrt-nikki,OpenWrt-momo} ./package/new/
 # 一些补充翻译
 cp -rf ../patch/addition-trans-zh ./package/new/
 # 预编译 node
-rm -rf ./feeds/packages/lang/node
-cp -rf ../node ./feeds/packages/lang/node
+rm -rf ./feeds/packages/lang/node/*
+wget https://raw.githubusercontent.com/sbwml/feeds_packages_lang_node-prebuilt/packages-24.10/Makefile -O feeds/packages/lang/node/Makefile
 # 更换 golang 版本
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
@@ -47,7 +47,7 @@ cp -rf ../immortalwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
 # Mosdns
 rm -rf ./feeds/packages/net/{v2ray-geodata,mosdns}
 cp -rf ../mosdns ./package/new/luci-app-mosdns
-cp -rf ../mosdns_geodata ./package/new/v2ray-geodata
+cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
 echo 'account.synology.com
 ddns.synology.com
 checkip.synology.com
