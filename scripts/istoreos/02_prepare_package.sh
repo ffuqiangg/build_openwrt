@@ -100,6 +100,7 @@ sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/shar
 # Curl
 rm -rf ./feeds/packages/net/curl
 cp -rf ../immortalwrt_pkg_ma/net/curl ./feeds/packages/net/curl
+cp -rf ../immortalwrt_pkg_ma/libs/{nghttp3,ngtcp2} ./package/new/
 # Cpufreq
 cp -rf ../immortalwrt_luci_21/applications/luci-app-cpufreq package/new/luci-app-cpufreq
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-cpufreq/Makefile
