@@ -15,10 +15,17 @@ mkdir -p ./package/new
 rm -f ./package/emortal/default-settings/files/openwrt_banner
 sed -i '/settings\/install/{n;N;N;d}' package/emortal/default-settings/Makefile
 # MosDNS
-rm -rf ./feeds/packages/net/v2ray-geodata
-sed -i 's,PKG_VERSION:=.*,PKG_VERSION:=5\.3\.3,' feeds/packages/net/mosdns/Makefile
-sed -i 's,PKG_HASH:=.*,PKG_HASH:=1d7eeaa735cb48ed2d436797d7f2a82541699f74647cd293ee411a72cdc65f5f,' feeds/packages/net/mosdns/Makefile
-cp -rf ../mosdns/{dat,luci-app-mosdns,v2ray-geodata} ./package/new/
+rm -rf ./feeds/packages/net/{mosdns,v2ray-geodata}
+cp -rf ../mosdns ./package/new/luci-app-mosdns
+cp -rf ../mosdns_geodata ./package/new/v2ray-geodata
+echo 'account.synology.com
+ddns.synology.com
+checkip.synology.com
+checkip.dyndns.org
+checkipv6.synology.com
+ntp.aliyun.com
+cn.ntp.org.cn
+ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 # Samba4
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/luasrc/controller/samba4.lua
 # Cpufreq
