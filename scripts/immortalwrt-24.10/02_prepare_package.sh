@@ -62,6 +62,11 @@ sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/root/usr/share
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ../immortalwrt_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
 cp -rf ../immortalwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
+# Daed
+rm -rf ./feeds/luci/applications/luci-app-daed ./feeds/packages/{net/daed,libs/libcron}
+cp -rf ../luci-app-daed ./package/new/
+sed -i 's/,runtimefreegc.*//' package/new/luci-app-daed/daed/Makefile
+cp -rf ../immortalwrt_pkg_ma/libs/libcron ./feeds/packages/libs/libcron
 # 硬盘休眠
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
 # Rclone
