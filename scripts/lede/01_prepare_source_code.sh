@@ -3,17 +3,17 @@
 . ./scripts/functions.sh
 
 # 开始克隆仓库，并行执行
-clone_repo $lede_repo master openwrt &
-clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg_ma &
-clone_repo $dockerman_repo master dockerman &
-clone_repo $momo_repo main OpenWrt-momo &
-clone_repo $nikki_repo main OpenWrt-nikki &
-clone_repo $daed_repo master luci-app-daed &
-clone_repo $passwall_luci_repo main passwall_luci &
-clone_repo $passwall_pkg_repo main passwall_pkg &
-clone_repo $sbwml_mosdns_repo v5 mosdns &
-clone_repo $v2ray_geodata_repo master v2ray_geodata &
-clone_repo $sbwml_pkgs_repo main sbwml_pkg &
+git clone --depth 1 $lede_repo openwrt &
+git clone --depth 1 $immortalwrt_pkg_repo immortalwrt_pkg_ma &
+git clone --depth 1 $dockerman_repo dockerman &
+git clone --depth 1 $momo_repo OpenWrt-momo &
+git clone --depth 1 $nikki_repo OpenWrt-nikki &
+git clone --depth 1 $daed_repo luci-app-daed &
+git clone --depth 1 $passwall_luci_repo passwall_luci &
+git clone --depth 1 $passwall_pkg_repo passwall_pkg &
+git clone -b v5 --depth 1 $sbwml_mosdns_repo mosdns &
+git clone --depth 1 $v2ray_geodata_repo v2ray_geodata &
+git clone --depth 1 $sbwml_pkgs_repo sbwml_pkg &
 # 等待所有后台任务完成
 wait
 

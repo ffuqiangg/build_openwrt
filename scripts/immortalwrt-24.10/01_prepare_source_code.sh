@@ -3,15 +3,15 @@
 . ./scripts/functions.sh
 
 # Clone source code
-clone_repo $immortalwrt_repo ${1} openwrt &
-clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg_ma &
-clone_repo $immortalwrt_luci_repo master immortalwrt_luci_ma &
-clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
-clone_repo $sbwml_mosdns_repo v5 mosdns &
-clone_repo $v2ray_geodata_repo master v2ray_geodata &
-clone_repo $amlogic_repo main amlogic &
-clone_repo $nikki_repo main OpenWrt-nikki &
-clone_repo $momo_repo main OpenWrt-momo &
+git clone -b ${1} --depth 1 $immortalwrt_repo openwrt &
+git clone --depth 1 $immortalwrt_pkg_repo immortalwrt_pkg_ma &
+git clone --depth 1 $immortalwrt_luci_repo immortalwrt_luci_ma &
+git clone --depth 1 $openwrt_pkg_repo openwrt_pkg_ma &
+git clone -b v5 --depth 1 $sbwml_mosdns_repo mosdns &
+git clone --depth 1 $v2ray_geodata_repo v2ray_geodata &
+git clone --depth 1 $amlogic_repo amlogic &
+git clone --depth 1 $nikki_repo OpenWrt-nikki &
+git clone --depth 1 $momo_repo OpenWrt-momo &
 # 等待所有后台任务完成
 wait
 

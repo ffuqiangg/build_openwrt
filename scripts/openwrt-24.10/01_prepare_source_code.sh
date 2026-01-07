@@ -3,23 +3,23 @@
 . ./scripts/functions.sh
 
 # 开始克隆仓库，并行执行
-clone_repo $openwrt_repo ${1} openwrt &
-clone_repo $openwrt_pkg_repo master openwrt_pkg_ma &
-clone_repo $immortalwrt_luci_repo master immortalwrt_luci_ma &
-clone_repo $immortalwrt_pkg_repo master immortalwrt_pkg_ma &
-clone_repo $dockerman_repo master dockerman &
-clone_repo $docker_lib_repo master docker_lib &
-clone_repo $sbwml_mosdns_repo v5 mosdns &
-clone_repo $v2ray_geodata_repo master v2ray_geodata &
-clone_repo $daed_repo master luci-app-daed &
-clone_repo $autocore_arm_repo openwrt-24.10 autocore &
-clone_repo $sbwml_pkgs_repo main sbwml_pkgs &
-clone_repo $passwall_pkg_repo main passwall_pkg &
-clone_repo $passwall_luci_repo main passwall_luci &
-clone_repo $homeproxy_repo master homeproxy &
-clone_repo $momo_repo main OpenWrt-momo &
-clone_repo $nikki_repo main OpenWrt-nikki &
-clone_repo $amlogic_repo main amlogic &
+git clone -b ${1} --depth 1 $openwrt_repo openwrt &
+git clone --depth 1 $openwrt_pkg_repo openwrt_pkg_ma &
+git clone --depth 1 $immortalwrt_luci_repo immortalwrt_luci_ma &
+git clone --depth 1 $immortalwrt_pkg_repo immortalwrt_pkg_ma &
+git clone --depth 1 $dockerman_repo dockerman &
+git clone --depth 1 $docker_lib_repo docker_lib &
+git clone -b v5 --depth 1 $sbwml_mosdns_repo mosdns &
+git clone --depth 1 $v2ray_geodata_repo v2ray_geodata &
+git clone --depth 1 $daed_repo luci-app-daed &
+git clone -b openwrt-24.10 --depth 1 $autocore_arm_repo autocore &
+git clone --depth 1 $sbwml_pkgs_repo sbwml_pkgs &
+git clone --depth 1 $passwall_pkg_repo passwall_pkg &
+git clone --depth 1 $passwall_luci_repo passwall_luci &
+git clone --depth 1 $homeproxy_repo homeproxy &
+git clone --depth 1 $momo_repo OpenWrt-momo &
+git clone --depth 1 $nikki_repo OpenWrt-nikki &
+git clone --depth 1 $amlogic_repo amlogic &
 # 等待所有后台任务完成
 wait
 

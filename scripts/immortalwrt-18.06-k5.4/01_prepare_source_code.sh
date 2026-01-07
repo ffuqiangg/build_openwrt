@@ -3,14 +3,14 @@
 . ./scripts/functions.sh
 
 # 开始克隆仓库，并行执行
-clone_repo $immortalwrt_repo openwrt-18.06-k5.4 openwrt &
-clone_repo $mosdns_repo v4 mosdns &
-clone_repo $dockerman_repo master dockerman &
-clone_repo $openclash_repo master openclash &
-clone_repo $amlogic_repo main amlogic &
-clone_repo $sbwml_mosdns_repo v4 mosdns &
-clone_repo $mosdns_geodata_repo master mosdns_geodata &
-clone_repo $v2raya_repo 18.06 v2raya &
+git clone -b openwrt-18.06-k5.4 --depth 1 $immortalwrt_repo openwrt &
+git clone -b v4 --depth 1 $mosdns_repo mosdns &
+git clone --depth 1 $dockerman_repo dockerman &
+git clone --depth 1 $openclash_repo openclash &
+git clone --depth 1 $amlogic_repo amlogic &
+git clone -b v4 --depth 1 $sbwml_mosdns_repo mosdns &
+git clone --depth 1 $mosdns_geodata_repo mosdns_geodata &
+git clone -b 18.06 --depth 1 $v2raya_repo v2raya &
 # 等待所有后台任务完成
 wait
 

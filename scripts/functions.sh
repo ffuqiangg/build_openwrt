@@ -30,14 +30,6 @@ v2raya_repo="https://github.com/zxlhhyccc/luci-app-v2raya"
 autocore_arm_repo="https://github.com/sbwml/autocore-arm"
 homeproxy_repo="https://github.com/immortalwrt/homeproxy"
 
-clone_repo ()
-{
-    repo_url=$1
-    branch_name=$2
-    target_dir=$3
-    git clone --single-branch -b $branch_name --depth 1 $repo_url $target_dir
-}
-
 move_to_services ()
 {
     local resource_file="$({ find | grep "\.lua\|\.htm\|\.json"; } 2>"/dev/null")"
