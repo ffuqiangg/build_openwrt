@@ -92,8 +92,7 @@ jobs:
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
-        ccache: true
-        mixkey: ImmortalWrt-24.10-
+        mixkey: ImmortalWrt-24.10
         prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package

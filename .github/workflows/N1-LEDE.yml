@@ -86,8 +86,7 @@ jobs:
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
-        ccache: true
-        mixkey: LEDE-
+        mixkey: LEDE
         prefix: ${{ github.workspace }}/openwrt
 
     - name: Compile the firmware

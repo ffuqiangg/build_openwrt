@@ -108,8 +108,7 @@ jobs:
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
-        ccache: true
-        mixkey: ImmortalWrt-18.06-K5.4-
+        mixkey: ImmortalWrt-18.06-K5.4
         prefix: ${{ github.workspace }}/openwrt
 
     - name: Compile the firmware

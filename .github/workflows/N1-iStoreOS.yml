@@ -80,8 +80,7 @@ jobs:
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
-        ccache: true
-        mixkey: iStoreOS-22.03-
+        mixkey: iStoreOS-22.03
         prefix: ${{ github.workspace }}/openwrt
 
     - name: Download package
