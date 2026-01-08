@@ -89,17 +89,32 @@ jobs:
         echo '==============================================='
         make defconfig
 
+    - name: Cache
+      uses: HiGarfield/cachewrtbuild@main
+      with:
+        ccache: true
+        mixkey: ImmortalWrt-24.10-
+        prefix: ${{ github.workspace }}/openwrt
+
     - name: Download package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        make download -j8
-        find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
+        make download -j50
 
     - name: Compile the firmware
       working-directory: ${{ github.workspace }}/openwrt
+      id: compileopenwrt
+      continue-on-error: true
       run: |
-        make -j$(nproc) || make -j1 || make -j1 V=s
+        IGNORE_ERRORS=1 make -j$(($(nproc) + 1))
+        echo $?
+
+    - name: If error
+      if: steps.compileopenwrt.outcome == 'failure'
+      run: |
+        cat ./.config
+        echo '================================================='
+        make -j1 V=s
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main

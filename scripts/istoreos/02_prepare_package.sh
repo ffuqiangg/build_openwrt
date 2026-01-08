@@ -35,8 +35,8 @@ cp -rf ../patch/addition-trans-zh ./package/new/
 rm -rf ./feeds/packages/lang/golang
 cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 # 预编译 node
-#rm -rf feeds/packages/lang/node/*
-#wget https://raw.githubusercontent.com/sbwml/feeds_packages_lang_node-prebuilt/packages-22.03/Makefile -O feeds/packages/lang/node/Makefile
+rm -rf feeds/packages/lang/node/*
+wget https://raw.githubusercontent.com/sbwml/feeds_packages_lang_node-prebuilt/packages-22.03/Makefile -O feeds/packages/lang/node/Makefile
 # mount cgroupv2
 pushd feeds/packages
 patch -p1 < ../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
