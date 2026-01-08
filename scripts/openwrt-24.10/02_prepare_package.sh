@@ -90,6 +90,8 @@ sed -i '/auto_start/d' package/new/luci-app-dockerman/root/etc/uci-defaults/luci
 pushd package/new/luci-app-dockerman
 docker_to_services
 popd
+rm -rf  ./feeds/luci/collections/luci-lib-docker
+cp -rf ../docker_lib/collections/luci-lib-docker ./feeds/luci/collections/luci-lib-docker
 # Filebrowser 文件管理器
 cp -rf ../sbwml_pkgs/{luci-app-filebrowser-go,filebrowser} ./package/new/
 # KMS 服务器
