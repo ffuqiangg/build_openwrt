@@ -106,6 +106,7 @@ jobs:
 
     - name: If error
       if: steps.compileopenwrt.outcome == 'failure'
+      working-directory: ${{ github.workspace }}/openwrt
       run: |
         cat ./.config
         echo '================================================='
