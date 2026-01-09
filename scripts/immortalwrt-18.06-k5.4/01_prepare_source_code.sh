@@ -9,7 +9,7 @@ git clone --depth 1 $dockerman_repo dockerman &
 git clone --depth 1 $openclash_repo openclash &
 git clone --depth 1 $amlogic_repo amlogic &
 git clone -b v4 --depth 1 $sbwml_mosdns_repo mosdns &
-git clone --depth 1 $mosdns_geodata_repo mosdns_geodata &
+git clone --depth 1 $v2ray_geodata_repo v2ray_geodata &
 git clone -b 18.06 --depth 1 $v2raya_repo v2raya &
 # 等待所有后台任务完成
 wait

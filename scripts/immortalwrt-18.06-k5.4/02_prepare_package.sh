@@ -17,7 +17,7 @@ sed -i '/settings\/install/{n;N;N;d}' package/emortal/default-settings/Makefile
 # MosDNS
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns/luci-app-mosdns ./package/new/luci-app-mosdns
-cp -rf ../mosdns_geodata ./package/new/v2ray-geodata
+cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
 echo 'account.synology.com
 ddns.synology.com
 checkip.synology.com
