@@ -8,7 +8,6 @@ git clone --depth 1 $openwrt_pkg_repo openwrt_pkg_ma &
 git clone --depth 1 $immortalwrt_luci_repo immortalwrt_luci_ma &
 git clone --depth 1 $immortalwrt_pkg_repo immortalwrt_pkg_ma &
 git clone --depth 1 $dockerman_repo dockerman &
-git clone --depth 1 $docker_lib_repo docker_lib &
 git clone --depth 1 $v2ray_geodata_repo v2ray_geodata &
 git clone -b openwrt-24.10 --depth 1 $autocore_arm_repo autocore &
 git clone --depth 1 $sbwml_pkgs_repo sbwml_pkgs &
