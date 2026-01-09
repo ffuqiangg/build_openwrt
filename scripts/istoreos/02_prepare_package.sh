@@ -64,14 +64,6 @@ sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' package/new/sing-box/Makefile
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../openwrt-add/luci-app-mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
-echo 'account.synology.com
-ddns.synology.com
-checkip.synology.com
-checkip.dyndns.org
-checkipv6.synology.com
-ntp.aliyun.com
-cn.ntp.org.cn
-ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 # Docker 容器
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./package/new/luci-app-dockerman

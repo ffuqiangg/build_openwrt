@@ -62,14 +62,6 @@ cp -rf ../openwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
 rm -rf ./feeds/packages/new/v2ray-geodata
 cp -rf ../openwrt-add/luci-app-mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
-echo 'account.synology.com
-ddns.synology.com
-checkip.synology.com
-checkip.dyndns.org
-checkipv6.synology.com
-ntp.aliyun.com
-cn.ntp.org.cn
-ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 # Passwall
 rm -rf ./feeds/packages/net/{xray-core,microsocks}
 cp -rf ../openwrt-add/openwrt_helloworld ./package/new/

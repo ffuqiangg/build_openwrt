@@ -45,16 +45,8 @@ rm -rf ./feeds/packages/net/sing-box
 cp -rf ../immortalwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
 # Mosdns
 rm -rf ./feeds/packages/net/{v2ray-geodata,mosdns}
-cp -rf ../mosdns ./package/new/luci-app-mosdns
+cp -rf ../openwrt-add/luci-app-mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
-echo 'account.synology.com
-ddns.synology.com
-checkip.synology.com
-checkip.dyndns.org
-checkipv6.synology.com
-ntp.aliyun.com
-cn.ntp.org.cn
-ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 # Samba4
 sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 # v2rayA

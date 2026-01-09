@@ -56,14 +56,6 @@ rm -rf ./feeds/luci/applications/luci-app-mosdns ./feeds/packages/utils/v2dat
 rm -rf  ./feeds/packages/net/{mosdns,v2ray-geodata}
 cp -rf ../openwrt-add/luci-app-mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
-echo 'account.synology.com
-ddns.synology.com
-checkip.synology.com
-checkip.dyndns.org
-checkipv6.synology.com
-ntp.aliyun.com
-cn.ntp.org.cn
-ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 # Passwall
 rm -rf ./feeds/luci/applications/luci-app-passwall
 rm -rf ./feeds/packages/net/{chinadns-ng,dns2socks,dns2tcp,geoview,hysteria,microsocks,pdnsd-alt,tcping,trojan,xray-core}
