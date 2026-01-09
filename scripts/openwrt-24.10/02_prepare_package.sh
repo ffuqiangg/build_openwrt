@@ -60,7 +60,7 @@ rm -rf ./feeds/packages/net/sing-box
 cp -rf ../openwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box 
 # MosDNS
 rm -rf ./feeds/packages/new/v2ray-geodata
-cp -rf ../mosdns ./package/new/luci-app-mosdns
+cp -rf ../openwrt-add/luci-app-mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
 echo 'account.synology.com
 ddns.synology.com
@@ -72,9 +72,8 @@ cn.ntp.org.cn
 ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/rule/whitelist.txt
 # Passwall
 rm -rf ./feeds/packages/net/{xray-core,microsocks}
-cp -rf ../passwall_luci ./package/new/luci-app-passwall
-cp -rf ../passwall_pkg ./package/new/passwall-packages
-rm -rf ./package/new/passwall-packages/{sing-box,v2ray-geodata}
+cp -rf ../openwrt-add/openwrt_helloworld ./package/new/
+rm -rf ./package/new/openwrt_helloworld/v2ray-geodata
 # v2rayA
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ../immortalwrt_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
@@ -106,13 +105,13 @@ sed -i 's,services,network,g' package/feeds/luci/luci-app-nlbwmon/htdocs/luci-st
 # 终端 TTYD
 sed -i 's,services,system,g' package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 # HomeProxy
-cp -rf ../homeproxy ./package/new/luci-app-homeproxy
+cp -rf ../openwrt-add/homeproxy ./package/new/luci-app-homeproxy
 # OpenWrt-nikki
-cp -rf ../OpenWrt-nikki ./package/new/luci-app-nikki
+cp -rf ../openwrt-add/OpenWrt-mihomo ./package/new/luci-app-nikki
 # OpenWrt-momo
 cp -rf ../OpenWrt-momo ./package/new/luci-app-momo
 # Daed
-cp -rf ../luci-app-daed ./package/new/
+cp -rf ../openwrt-add/luci-app-daed ./package/new/
 sed -i 's/,runtimefreegc.*//' package/new/luci-app-daed/daed/Makefile
 cp -rf ../immortalwrt_pkg_ma/libs/libcron ./package/new/
 # 晶晨宝盒

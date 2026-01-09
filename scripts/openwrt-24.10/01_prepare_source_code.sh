@@ -9,16 +9,11 @@ git clone --depth 1 $immortalwrt_luci_repo immortalwrt_luci_ma &
 git clone --depth 1 $immortalwrt_pkg_repo immortalwrt_pkg_ma &
 git clone --depth 1 $dockerman_repo dockerman &
 git clone --depth 1 $docker_lib_repo docker_lib &
-git clone -b v5 --depth 1 $sbwml_mosdns_repo mosdns &
 git clone --depth 1 $v2ray_geodata_repo v2ray_geodata &
-git clone --depth 1 $daed_repo luci-app-daed &
 git clone -b openwrt-24.10 --depth 1 $autocore_arm_repo autocore &
 git clone --depth 1 $sbwml_pkgs_repo sbwml_pkgs &
-git clone --depth 1 $passwall_pkg_repo passwall_pkg &
-git clone --depth 1 $passwall_luci_repo passwall_luci &
-git clone --depth 1 $homeproxy_repo homeproxy &
+git clone --depth 1 $openwrt_add_repo openwrt-add &
 git clone --depth 1 $momo_repo OpenWrt-momo &
-git clone --depth 1 $nikki_repo OpenWrt-nikki &
 git clone --depth 1 $amlogic_repo amlogic &
 # 等待所有后台任务完成
 wait
