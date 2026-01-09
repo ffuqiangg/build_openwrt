@@ -74,6 +74,7 @@ ntp.ntsc.ac.cn' >> package/new/luci-app-mosdns/luci-app-mosdns/root/etc/mosdns/r
 rm -rf ./feeds/packages/net/{xray-core,microsocks}
 cp -rf ../openwrt-add/openwrt_helloworld ./package/new/
 rm -rf ./package/new/openwrt_helloworld/v2ray-geodata
+sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' package/new/openwrt_helloworld/luci-app-passwall/Makefile
 # v2rayA
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ../immortalwrt_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya

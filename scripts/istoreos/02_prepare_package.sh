@@ -12,10 +12,8 @@ sed -i 's/Os/O2/g' include/target.mk
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
 ### 获取额外的 LuCI 应用和依赖 ###
-rm -rf ./feeds/packages/utils/coremark
 mkdir -p ./package/new
-cp -rf ../OpenClash ./package/new/luci-app-openclash
-cp -rf ../sbwml_pkgs/{luci-app-diskman,luci-app-autoreboot,coremark,luci-app-filebrowser-go,filebrowser} ./package/new/
+cp -rf ../sbwml_pkgs/{luci-app-diskman,luci-app-autoreboot} ./package/new/
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/istoreos/custom_target_amlogic_scripts.patch
 # 调整 default settings
@@ -64,7 +62,7 @@ cp -rf ../immortalwrt_pkg_ma/net/sing-box ./package/new/sing-box
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' package/new/sing-box/Makefile
 # MosDNS
 rm -rf ./feeds/packages/net/v2ray-geodata
-cp -rf ../mosdns ./package/new/luci-app-mosdns
+cp -rf ../openwrt-add/luci-app-mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
 echo 'account.synology.com
 ddns.synology.com
@@ -82,21 +80,24 @@ pushd package/new/luci-app-dockerman
 docker_to_services
 popd
 # Passwall
-rm -rf feeds/packages/net/{xray-core,shadowsocks-libev}
-cp -rf ../passwall_luci/luci-app-passwall ./package/new/luci-app-passwall
-cp -rf ../passwall_pkg ./package/new/passwall-packages
-rm -rf ./package/new/passwall-packages/{v2ray-geodata,sing-box,shadow-tls/*}
-wget https://raw.githubusercontent.com/sbwml/openwrt_helloworld/v5/shadowsocks-rust/Makefile -O package/new/passwall-packages/shadowsocks-rust/Makefile
-wget https://raw.githubusercontent.com/sbwml/openwrt_helloworld/v5/shadow-tls/Makefile -O package/new/passwall-packages/shadow-tls/Makefile
+rm -rf feeds/packages/net/{shadowsocks-libev,v2ray-core,xray-core}
+cp -rf ../openwrt-add/openwrt_helloworld ./package/new/
+rm -rf ./package/new/openwrt-add/openwrt_helloworld/v2ray-geodata
+sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' package/new/openwrt_helloworld/luci-app-passwall/Makefile
 # V2raya
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ../immortalwrt_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
 cp -rf ../immortalwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
+# OpenClash
+cp -rf ../openwrt-add/OpenClash ./package/new/luci-app-openclash
 # Nlbw 带宽监控
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
 # 终端 TTYD
 sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+# Coremark
+rm -rf ./feeds/packages/utils/coremark
+cp -rf ../sbwml_pkgs/coremark ./package/new/
 # Curl
 rm -rf ./feeds/packages/net/curl
 cp -rf ../immortalwrt_pkg_ma/net/curl ./feeds/packages/net/curl
@@ -104,6 +105,8 @@ cp -rf ../immortalwrt_pkg_ma/libs/{nghttp3,ngtcp2} ./package/new/
 # Cpufreq
 cp -rf ../immortalwrt_luci_21/applications/luci-app-cpufreq package/new/luci-app-cpufreq
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/new/luci-app-cpufreq/Makefile
+# Filebrowser 文件管理器
+cp -rf ../sbwml_pkgs/{luci-app-filebrowser-go,filebrowser} ./package/new/
 # FTP 服务器
 rm -rf ./feeds/packages/net/vsftpd
 cp -rf ../immortalwrt_luci_21/applications/luci-app-vsftpd ./package/new/luci-app-vsftpd

@@ -13,10 +13,7 @@ git clone --depth 1 $lede_luci_repo lede_luci_ma &
 git clone --depth 1 $dockerman_repo dockerman &
 git clone --depth 1 $sbwml_pkgs_repo sbwml_pkgs &
 git clone --depth 1 $v2raya_repo v2raya &
-git clone --depth 1 $openclash_repo OpenClash &
-git clone --depth 1 $passwall_luci_repo passwall_luci &
-git clone --depth 1 $passwall_pkg_repo passwall_pkg &
-git clone -b v5 --depth 1 $sbwml_mosdns_repo mosdns &
+git clone --depth 1 $openwrt_add_repo openwrt-add &
 git clone --depth 1 $v2ray_geodata_repo v2ray_geodata &
 git clone -b openwrt-22.03 --depth 1 $autocore_arm_repo autocore &
 # 等待所有后台任务完成

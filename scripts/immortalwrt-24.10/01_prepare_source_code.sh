@@ -10,9 +10,8 @@ git clone --depth 1 $openwrt_pkg_repo openwrt_pkg_ma &
 git clone -b v5 --depth 1 $sbwml_mosdns_repo mosdns &
 git clone --depth 1 $v2ray_geodata_repo v2ray_geodata &
 git clone --depth 1 $amlogic_repo amlogic &
-git clone --depth 1 $nikki_repo OpenWrt-nikki &
+git clone --depth 1 $openwrt_add_repo openwrt-add &
 git clone --depth 1 $momo_repo OpenWrt-momo &
-git clone --depth 1 $daed_repo luci-app-daed &
 # 等待所有后台任务完成
 wait
 

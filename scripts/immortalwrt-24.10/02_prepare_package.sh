@@ -24,7 +24,6 @@ popd
 
 ### 额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
-cp -rf ../{OpenWrt-nikki,OpenWrt-momo} ./package/new/
 # 一些补充翻译
 cp -rf ../patch/addition-trans-zh ./package/new/
 # 预编译 node
@@ -62,9 +61,20 @@ sed -i 's,nas,services,g' feeds/luci/applications/luci-app-samba4/root/usr/share
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ../immortalwrt_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
 cp -rf ../immortalwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
+# Passwall
+rm -rf ./feeds/luci/applications/luci-app-passwall
+rm -rf ./feeds/packages/lang/lua-neturl
+rm -rf ./feeds/packages/net/{chinadns-ng,dns2socks,dns2tcp,hysteria,ipt2socks,microsocks,redsocks2,shadow-tls,shadowsocks-rust,simple-obfs,tcping,trojan,trojan-plus,tuic-client,v2ray-core,v2ray-plugin,xray-core,xray-plugin}
+cp -rf ../openwrt-add/openwrt_helloworld ./package/new/
+rm -rf ./package/new/openwrt_helloworld/v2ray-geodata
+sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' package/new/openwrt_helloworld/luci-app-passwall/Makefile
+# OpenWrt-nikki
+cp -rr ../openwrt-add/OpenWrt-mihomo ./package/new/luci-app-nikki
+# OpenWrt-momo
+cp -rf ../OpenWrt-momo ./package/new/luci-app-momo
 # Daed
 rm -rf ./feeds/luci/applications/luci-app-daed ./feeds/packages/{net/daed,libs/libcron}
-cp -rf ../luci-app-daed ./package/new/
+cp -rf ../openwrt-add/luci-app-daed ./package/new/
 sed -i 's/,runtimefreegc.*//' package/new/luci-app-daed/daed/Makefile
 cp -rf ../immortalwrt_pkg_ma/libs/libcron ./feeds/packages/libs/libcron
 # 硬盘休眠
