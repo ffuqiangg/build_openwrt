@@ -57,7 +57,7 @@ cp -rf ../autocore ./package/new/autocore
 sed -i 's/$(uname -m)/ARMv8 Processor/' package/new/autocore/files/generic/cpuinfo
 # 替换 sing-box
 rm -rf ./feeds/packages/net/sing-box
-cp -rf ../openwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box 
+cp -rf ../immortalwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box 
 # MosDNS
 rm -rf ./feeds/packages/new/v2ray-geodata
 cp -rf ../openwrt-add/luci-app-mosdns ./package/new/luci-app-mosdns

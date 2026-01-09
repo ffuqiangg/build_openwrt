@@ -51,6 +51,10 @@ cp -rf ../patch/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-system
 # 替换 sing-box
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ../immortalwrt_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
+# v2rayA
+rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
+cp -rf ../immortalwrt_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
+cp -rf ../immortalwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 # MosDNS
 rm -rf ./feeds/luci/applications/luci-app-mosdns ./feeds/packages/utils/v2dat
 rm -rf  ./feeds/packages/net/{mosdns,v2ray-geodata}

@@ -77,7 +77,7 @@ cp -rf ../openwrt-add/openwrt_helloworld ./package/new/
 rm -rf ./package/new/openwrt-add/openwrt_helloworld/v2ray-geodata
 sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' package/new/openwrt_helloworld/luci-app-passwall/Makefile
 sed -i 's, +libopenssl-legacy,,g' package/new/openwrt_helloworld/shadowsocksr-libev/Makefile
-# V2raya
+# v2rayA
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ../immortalwrt_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
 cp -rf ../immortalwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
