@@ -78,16 +78,16 @@ jobs:
         echo '==============================================='
         make defconfig
 
-    - name: Download package
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        make download -j50
-
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
         mixkey: LEDE
         prefix: ${{ github.workspace }}/openwrt
+
+    - name: Download package
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        make download -j50
 
     - name: Compile the firmware
       working-directory: ${{ github.workspace }}/openwrt

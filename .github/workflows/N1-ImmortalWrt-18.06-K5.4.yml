@@ -100,16 +100,16 @@ jobs:
         echo '==============================================='
         make defconfig
 
-    - name: Download package
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        make download -j50
-
     - name: Cache
       uses: HiGarfield/cachewrtbuild@main
       with:
         mixkey: ImmortalWrt-18.06-K5.4
         prefix: ${{ github.workspace }}/openwrt
+
+    - name: Download package
+      working-directory: ${{ github.workspace }}/openwrt
+      run: |
+        make download -j50
 
     - name: Compile the firmware
       working-directory: ${{ github.workspace }}/openwrt
