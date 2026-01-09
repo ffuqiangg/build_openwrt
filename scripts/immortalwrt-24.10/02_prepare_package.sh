@@ -74,6 +74,8 @@ sed -i 's,nas,services,g' feeds/luci/applications/luci-app-hd-idle/root/usr/shar
 # Rclone
 sed -i 's,nas,services,g;s,NAS,Services,g' feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 # Docker 容器
+rm -rf ./feeds/luci/applications/luci-app-dockerman
+cp -rf ../immortalwrt_luci_ma/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
 sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/luci/applications/luci-app-dockerman
 docker_to_services
