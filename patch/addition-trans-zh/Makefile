@@ -21,7 +21,7 @@ define Package/addition-trans-zh
   CATEGORY:=LuCI
   TITLE:=LuCI support for Default Settings
   PKGARCH:=all
-  DEPENDS:=+luci-base +@LUCI_LANG_zh_Hans
+  DEPENDS:=+luci-base +zoneinfo-asia +@LUCI_LANG_zh_Hans
 endef
 
 define Package/addition-trans-zh/description
