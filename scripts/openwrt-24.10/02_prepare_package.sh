@@ -79,6 +79,7 @@ cp -rf ../immortalwrt_pkg_ma/net/zerotier ./feeds/packages/net/zerotier
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./package/new/luci-app-dockerman
 sed -i '/auto_start/d' package/new/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
+sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' feeds/packages/utils/dockerd/files/dockerd.init
 pushd package/new/luci-app-dockerman
 docker_to_services
 popd

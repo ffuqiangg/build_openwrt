@@ -71,6 +71,7 @@ sed -i '/auto_start/d' package/new/luci-app-dockerman/root/etc/uci-defaults/luci
 pushd package/new/luci-app-dockerman
 docker_to_services
 popd
+sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' feeds/packages/utils/dockerd/files/dockerd.init
 # Passwall
 rm -rf feeds/packages/net/{shadowsocks-libev,v2ray-core,xray-core}
 cp -rf ../openwrt-add/openwrt_helloworld ./package/new/

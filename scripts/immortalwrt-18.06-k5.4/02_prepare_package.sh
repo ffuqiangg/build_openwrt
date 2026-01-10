@@ -46,6 +46,7 @@ sed -i '/auto_start/d' feeds/luci/applications/luci-app-dockerman/root/etc/uci-d
 pushd package/feeds/luci/luci-app-dockerman
 docker_to_services
 popd
+sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' feeds/packages/utils/dockerd/files/dockerd.init
 # OpenClash
 rm -rf ./feeds/luci/applications/luci-app-openclash
 cp -rf ../openclash/luci-app-openclash ./feeds/luci/applications/luci-app-openclash
