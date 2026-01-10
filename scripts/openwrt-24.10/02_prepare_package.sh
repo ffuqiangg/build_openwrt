@@ -81,7 +81,7 @@ cp -rf ../dockerman/applications/luci-app-dockerman ./package/new/luci-app-docke
 sed -i '/auto_start/d' package/new/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' feeds/packages/utils/dockerd/files/dockerd.init
 pushd package/new/luci-app-dockerman
-docker_to_services
+docker_2_services
 popd
 # Filebrowser 文件管理器
 cp -rf ../sbwml_pkgs/{luci-app-filebrowser-go,filebrowser} ./package/new/

@@ -78,7 +78,7 @@ jobs:
       run: |
         cp -r ../scripts/immortalwrt-24.10/. ./
         ./02_prepare_package.sh "${{ env.latest_release }}"
-        ../scripts/03_move_to_services.sh
+        ../scripts/03_move_2_services.sh
         echo -e "\n\033[34mImmortalWrt\033[0m ${{ env.latest_release }} ${{ env.banner_date }}\n" > ./files/etc/banner
 
     - name: Make config

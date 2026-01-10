@@ -31,7 +31,7 @@ v2raya_repo="https://github.com/zxlhhyccc/luci-app-v2raya"
 autocore_arm_repo="https://github.com/sbwml/autocore-arm"
 homeproxy_repo="https://github.com/immortalwrt/homeproxy"
 
-move_to_services ()
+move_2_services ()
 {
     local resource_file="$({ find | grep "\.lua\|\.htm\|\.json"; } 2>"/dev/null")"
     for a in $resource_file; do
@@ -43,7 +43,7 @@ move_to_services ()
     done
 }
 
-docker_to_services ()
+docker_2_services ()
 {
     local resource_file="$({ find | grep "\.lua\|\.htm"; } 2>"/dev/null")"
     local dockerman_lua="$({ find | grep "dockerman\.lua"; } 2>"/dev/null")"

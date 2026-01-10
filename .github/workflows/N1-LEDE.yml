@@ -67,7 +67,7 @@ jobs:
       run: |
         cp -r ../scripts/lede/. ./
         ./02_prepare_package.sh "${{ env.build_date }}"
-        ../scripts/03_move_to_services.sh
+        ../scripts/03_move_2_services.sh
         echo -e "\n\033[34mLEDE\033[0m ${{ env.distrib_revision }} ${{ env.banner_date }}\n" > ./files/etc/banner
 
     - name: Make config

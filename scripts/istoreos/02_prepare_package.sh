@@ -69,7 +69,7 @@ rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ../dockerman/applications/luci-app-dockerman ./package/new/luci-app-dockerman
 sed -i '/auto_start/d' package/new/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd package/new/luci-app-dockerman
-docker_to_services
+docker_2_services
 popd
 sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' feeds/packages/utils/dockerd/files/dockerd.init
 # Passwall
