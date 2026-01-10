@@ -10,6 +10,8 @@ sed -i 's/Os/O2/g' include/target.mk
 ./scripts/feeds install -a
 # 默认开启 Irqbalance
 #sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
+# 修复 Rust CI 下载限制
+sed -i '/--set=llvm.download-ci-llvm/s/true/false/' feeds/packages/lang/rust/Makefile
 
 ### FIREWALL ###
 # custom nft command
