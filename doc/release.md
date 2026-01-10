@@ -8,6 +8,7 @@
 ```bash
 sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/files/local_feeds.sh)"
 ```
+- docker 限制只有在 dockerman 配置页面开启 `自动启动` 时才能启动。
 
 |插件差异 |PassWall |OpenClash |V2rayA |HomeProxy |Nikki |Momo |DAED |
 |:--- |:---: |:---: |:---: |:---: |:---: |:---: |:---: |
