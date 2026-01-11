@@ -1,4 +1,4 @@
-- **测试固件随时删除，谨慎下载使用**
+- **此固件仅作测试使用，可能存在各种不确定的 bug ，请谨慎下载。**
 - 默认 IP：192.168.1.99 | 默认密码：password
 ===cutline===
 - 默认 IP：192.168.1.99 | 默认密码：password
@@ -8,7 +8,7 @@
 ```bash
 sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/files/local_feeds.sh)"
 ```
-- docker 限制只有在 dockerman 配置页面开启 `自动启动` 时才能启动。
+- 增加 docker 启动限制，只有在 dockerman 配置页面开启 `自动启动` 时才能启动。
 
 |插件差异 |PassWall |OpenClash |V2rayA |HomeProxy |Nikki |Momo |DAED |
 |:--- |:---: |:---: |:---: |:---: |:---: |:---: |:---: |
