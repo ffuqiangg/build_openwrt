@@ -68,6 +68,7 @@ rm -rf ./feeds/packages/net/{chinadns-ng,dns2socks,dns2tcp,geoview,hysteria,micr
 cp -rf ../openwrt-add/openwrt_helloworld ./package/new/
 rm -rf ./package/new/openwrt_helloworld/v2ray-geodata
 sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' package/new/openwrt_helloworld/luci-app-passwall/Makefile
+sed -i '/#dde2ff/d;/#2c323c/d' package/new/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
 # OpenWrt-nikki
 rm -rf ./feeds/luci/applications/luci-app-nikki ./feeds/packages/net/nikki
 cp -rf ../openwrt-add/OpenWrt-mihomo ./package/new/luci-app-nikki
