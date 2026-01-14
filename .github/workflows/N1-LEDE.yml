@@ -55,12 +55,18 @@ jobs:
     - name: Prepare source code
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
-        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
-        echo "banner_date=$(date +%Y-%m-%d)" >> ${GITHUB_ENV}
+
+        build_date=$(date +%Y.%m.%d)
+        banner_date=$(date +%Y-%m-%d)
+
         cp -r ./scripts/lede/. ./
         ./01_prepare_source_code.sh
+
+        cat <<EOF | tee -a $GITHUB_ENV
+        build_date=${build_date}
+        banner_date=${banner_date}
         distrib_revision=$(grep 'DISTRIB_REVISION=' openwrt/package/lean/default-settings/files/zzz-default-settings | sed -E "s/.*'(.+)'.*/\1/")
-        echo "distrib_revision=${distrib_revision}" >> ${GITHUB_ENV}
+        EOF
 
     - name: Prepare package
       working-directory: ${{ github.workspace }}/openwrt

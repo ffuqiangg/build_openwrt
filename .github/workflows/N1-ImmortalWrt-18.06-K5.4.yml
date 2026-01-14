@@ -76,8 +76,13 @@ jobs:
     - name: Prepare source code
       working-directory: /builder
       run: |
-        echo "build_date=$(date +%Y.%m.%d)" >> ${GITHUB_ENV}
-        echo "banner_date=$(date +%Y-%m-%d)" >> ${GITHUB_ENV}
+        sudo chown -R runner:runner /home/runner/work/build_openwrt
+
+        cat <<EOF | tee -a $GITHUB_ENV
+        build_date=$(date +%Y.%m.%d)
+        banner_date=$(date +%Y-%m-%d)
+        EOF
+
         cp -r ${{ github.workspace }}/. ./
         cp -r ./scripts/immortalwrt-18.06-k5.4/. ./
         ./01_prepare_source_code.sh
