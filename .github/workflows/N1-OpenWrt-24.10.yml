@@ -59,22 +59,14 @@ jobs:
     - name: Prepare source code
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
-
+        cat <<EOF | tee -a $GITHUB_ENV
         build_date=$(date +%Y.%m.%d)
         banner_date=$(date +%Y-%m-%d)
-        latest_release=$(curl -s https://github.com/openwrt/openwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')
-
+        EOF
         cp -r ./scripts/openwrt-24.10/. ./
-        ./01_prepare_source_code.sh "v${latest_release}"
+        ./01_prepare_source_code.sh
         mkdir -p /home/runner/work/build_openwrt/build_openwrt/amlogic
         ln -sf /home/runner/work/build_openwrt/build_openwrt/amlogic /home/runner/work/_actions/ffuqiangg/amlogic-s9xxx-openwrt/main/openwrt
-
-        cat <<EOF | tee -a $GITHUB_ENV
-        build_date=${build_date}
-        banner_date=${banner_date}
-        latest_release=${latest_release}
-        kernel_version=$(sed -n '/LINUX_KERNEL_HASH/p' openwrt/include/kernel-6.6 | awk -F '[ -]' '{print $2}')
-        EOF
 
     - name: Prepare package
       working-directory: ${{ github.workspace }}/openwrt

@@ -21,4 +21,6 @@ sed -Ei "s/(disabled=)0/\11/" openwrt/package/kernel/mac80211/files/lib/wifi/mac
 # 调整内核版本为 5.15
 sed -i 's/KERNEL_PATCHVER:=.*/KERNEL_PATCHVER:=5.15/' openwrt/target/linux/amlogic/Makefile
 
+echo "distrib_revision=$(grep 'DISTRIB_REVISION=' openwrt/package/lean/default-settings/files/zzz-default-settings | sed -E "s/.*'(.+)'.*/\1/")" | tee -a $GITHUB_ENV
+
 exit 0
