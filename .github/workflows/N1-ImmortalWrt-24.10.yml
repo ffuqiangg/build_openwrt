@@ -63,10 +63,6 @@ jobs:
     - name: Prepare source code
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
-        cat <<EOF | tee -a $GITHUB_ENV
-        build_date=$(date +%Y.%m.%d)
-        banner_date=$(date +%Y-%m-%d)
-        EOF
         cp -r ./scripts/immortalwrt-24.10/. ./
         ./01_prepare_source_code.sh
         mkdir -p /home/runner/work/build_openwrt/build_openwrt/amlogic
@@ -112,7 +108,7 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cat ./.config
-        echo '================================================='
+        echo '==============================================='
         make -j1 V=s
 
     - name: Upload firmware directory

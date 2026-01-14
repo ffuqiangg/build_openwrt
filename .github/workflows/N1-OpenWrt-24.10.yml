@@ -22,7 +22,7 @@ jobs:
         echo -e "🧮 Server CPU configuration information: \n$(cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c) \n"
         echo -e "💾 Server memory usage: \n$(free -h) \n"
         echo -e "🗃️ Server space usag: \n$(df -hT ${{ github.workspace }}) \n"
-      
+
     - name: Maximize build space
       uses: easimon/maximize-build-space@master
       with:
@@ -59,10 +59,6 @@ jobs:
     - name: Prepare source code
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
-        cat <<EOF | tee -a $GITHUB_ENV
-        build_date=$(date +%Y.%m.%d)
-        banner_date=$(date +%Y-%m-%d)
-        EOF
         cp -r ./scripts/openwrt-24.10/. ./
         ./01_prepare_source_code.sh
         mkdir -p /home/runner/work/build_openwrt/build_openwrt/amlogic
@@ -81,7 +77,7 @@ jobs:
       run: |
         cp -f ../config/openwrt-24.10/config.seed .config
         ../scripts/05_fix_permissions.sh
-        echo '=============================================='
+        echo '==============================================='
         make defconfig
 
     - name: Cache
@@ -108,7 +104,7 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cat ./.config
-        echo '================================================='
+        echo '==============================================='
         make -j1 V=s
 
     - name: Upload firmware directory

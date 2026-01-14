@@ -59,7 +59,7 @@ cp -rf ../immortalwrt_luci_ma/applications/luci-app-v2raya ./feeds/luci/applicat
 cp -rf ../immortalwrt_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 # MosDNS
 rm -rf ./feeds/luci/applications/luci-app-mosdns ./feeds/packages/utils/v2dat
-rm -rf  ./feeds/packages/net/{mosdns,v2ray-geodata}
+rm -rf ./feeds/packages/net/{mosdns,v2ray-geodata}
 cp -rf ../openwrt-add/luci-app-mosdns ./package/new/luci-app-mosdns
 cp -rf ../v2ray_geodata ./package/new/v2ray-geodata
 # Passwall

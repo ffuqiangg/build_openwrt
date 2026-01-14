@@ -2,8 +2,11 @@
 
 . ./scripts/functions.sh
 
+build_date=$(date +%Y.%m.%d)
+
 # 开始克隆仓库，并行执行
 git clone --depth 1 $lede_repo openwrt &
+git clone --depth 1 $immortalwrt_luci_repo immortalwrt_luci_ma &
 git clone --depth 1 $immortalwrt_pkg_repo immortalwrt_pkg_ma &
 git clone --depth 1 $dockerman_repo dockerman &
 git clone --depth 1 $momo_repo OpenWrt-momo &
@@ -21,6 +24,10 @@ sed -Ei "s/(disabled=)0/\11/" openwrt/package/kernel/mac80211/files/lib/wifi/mac
 # 调整内核版本为 5.15
 sed -i 's/KERNEL_PATCHVER:=.*/KERNEL_PATCHVER:=5.15/' openwrt/target/linux/amlogic/Makefile
 
-echo "distrib_revision=$(grep 'DISTRIB_REVISION=' openwrt/package/lean/default-settings/files/zzz-default-settings | sed -E "s/.*'(.+)'.*/\1/")" | tee -a $GITHUB_ENV
+cat <<EOF | tee -a $GITHUB_ENV
+build_date=$build_date
+banner_date=${build_date//./-}
+distrib_revision=$(grep 'DISTRIB_REVISION=' openwrt/package/lean/default-settings/files/zzz-default-settings | sed -E "s/.*'(.+)'.*/\1/")
+EOF
 
 exit 0

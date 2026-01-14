@@ -77,12 +77,6 @@ jobs:
       working-directory: /builder
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
-
-        cat <<EOF | tee -a $GITHUB_ENV
-        build_date=$(date +%Y.%m.%d)
-        banner_date=$(date +%Y-%m-%d)
-        EOF
-
         cp -r ${{ github.workspace }}/. ./
         cp -r ./scripts/immortalwrt-18.06-k5.4/. ./
         ./01_prepare_source_code.sh
@@ -129,9 +123,9 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cat ./.config
-        echo '================================================='
+        echo '==============================================='
         make -j1 V=s
-  
+
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
       with:
