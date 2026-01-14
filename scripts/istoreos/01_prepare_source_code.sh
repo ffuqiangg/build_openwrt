@@ -2,7 +2,7 @@
 
 . ./scripts/functions.sh
 
-build_date=$(date +%Y.%m.%d)
+echo "build_date=$(date +%Y.%m.%d)" | tee -a $GITHUB_ENV
 
 # 开始克隆仓库，并行执行
 git clone -b istoreos-22.03 --depth 1 $istoreos_repo openwrt &
@@ -27,10 +27,5 @@ sed -i 's/192.168.100.1/192.168.1.99/g' openwrt/package/istoreos-files/Makefile
 # 修改默认主题为 bootstrap
 sed -i -e '/luci-theme-argon/d;75,83d' openwrt/package/istoreos-files/Makefile
 rm ./openwrt/package/istoreos-files/files/etc/uci-defaults/99_theme
-
-cat <<EOF | tee -a $GITHUB_ENV
-build_date=$build_date
-banner_date=${build_date//./-}
-EOF
 
 exit 0

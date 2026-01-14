@@ -116,6 +116,7 @@ cp -rf ../files/{init/*,cpufreq/*} ./files/
 cp -f ../patch/default-settings/istoreos/zzz-default-settings ./files/etc/uci-defaults/
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
 chmod +x files/etc/openclash/core/clash*
+echo -e "\n\033[34miStoreOS\033[0m 22.03.7 ${1//./-}\n" > ./files/etc/banner
 
 # 清理临时文件
 find ./ -name *.orig | xargs rm -f

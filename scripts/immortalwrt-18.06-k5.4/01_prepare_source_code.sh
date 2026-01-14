@@ -2,7 +2,7 @@
 
 . ./scripts/functions.sh
 
-build_date=$(date +%Y.%m.%d)
+echo "build_date=$(date +%Y.%m.%d)" | tee -a $GITHUB_ENV
 
 # 开始克隆仓库，并行执行
 git clone -b openwrt-18.06-k5.4 --depth 1 $immortalwrt_repo openwrt &
@@ -18,10 +18,5 @@ wait
 
 # 修改默认 IP 为 192.168.1.99
 #sed -i 's/192.168.1.1/192.168.1.99/g' openwrt/package/base-files/files/bin/config_generate
-
-cat <<EOF | tee -a $GITHUB_ENV
-build_date=$build_date
-banner_date=${build_date//./-}
-EOF
 
 exit 0

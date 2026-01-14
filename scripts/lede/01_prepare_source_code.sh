@@ -26,7 +26,6 @@ sed -i 's/KERNEL_PATCHVER:=.*/KERNEL_PATCHVER:=5.15/' openwrt/target/linux/amlog
 
 cat <<EOF | tee -a $GITHUB_ENV
 build_date=$build_date
-banner_date=${build_date//./-}
 distrib_revision=$(grep 'DISTRIB_REVISION=' openwrt/package/lean/default-settings/files/zzz-default-settings | sed -E "s/.*'(.+)'.*/\1/")
 EOF
 

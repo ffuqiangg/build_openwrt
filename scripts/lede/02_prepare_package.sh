@@ -69,7 +69,6 @@ cp -rf ../openwrt-add/openwrt_helloworld ./package/new/
 rm -rf ./package/new/openwrt_helloworld/v2ray-geodata
 sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' package/new/openwrt_helloworld/luci-app-passwall/Makefile
 sed -i '/#dde2ff/d;/#2c323c/d' package/new/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
-sed -i 's,^PKG_HASH:=.*,PKG_HASH:=skip,g' package/new/openwrt_helloworld/xray-core/Makefile
 # OpenWrt-nikki
 rm -rf ./feeds/luci/applications/luci-app-nikki ./feeds/packages/net/nikki
 cp -rf ../openwrt-add/OpenWrt-mihomo ./package/new/luci-app-nikki
@@ -107,6 +106,7 @@ sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/usr/libexec/login.sh
 mkdir -p ./files/etc/uci-defaults
 cp -rf ../files/{init/*,cpufreq/*} ./files/
 cp -f ../patch/default-settings/lede/zzz-default-settings ./files/etc/uci-defaults/
+echo -e "\n\033[34mLEDE\033[0m ${2} ${1//./-}\n" > ./files/etc/banner
 
 # 清理临时文件
 find ./ -name *.orig | xargs rm -f

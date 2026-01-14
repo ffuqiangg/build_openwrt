@@ -27,7 +27,6 @@ sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7
 
 cat <<EOF | tee -a $GITHUB_ENV
 build_date=$build_date
-banner_date=${build_date//./-}
 latest_release=$latest_release
 kernel_version=$(sed -n '/LINUX_KERNEL_HASH/p' openwrt/include/kernel-6.6 | awk -F '[ -]' '{print $2}')
 EOF
