@@ -132,10 +132,10 @@ jobs:
     - name: Organize files
       run: |
         if [[ "${{ github.event_name }}" == 'repository_dispatch' ]]; then
-          echo "prerelease_symbol=false" >> ${GITHUB_ENV}
+          echo "prerelease_symbol=false" >> $GITHUB_ENV
           sed -i '1,/cutline/d' ./doc/release.md
         else
-          echo "prerelease_symbol=true" >> ${GITHUB_ENV}
+          echo "prerelease_symbol=true" >> $GITHUB_ENV
           sed -i '/cutline/,$d' ./doc/release.md
         fi
         rm -rf ./artifact/
