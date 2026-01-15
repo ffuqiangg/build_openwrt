@@ -72,7 +72,7 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp -r ../scripts/immortalwrt-24.10/. ./
-        ./02_prepare_package.sh ${{ env.latest_release }} ${{ env.build_date }}
+        ./02_prepare_package.sh "${{ env.latest_release }}" "${{ env.build_date }}"
         ../scripts/03_move_2_services.sh
 
     - name: Make config

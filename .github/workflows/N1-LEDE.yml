@@ -62,7 +62,7 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp -r ../scripts/lede/. ./
-        ./02_prepare_package.sh ${{ env.build_date }} ${{ env.distrib_revision }}
+        ./02_prepare_package.sh "${{ env.build_date }}" "${{ env.distrib_revision }}"
         ../scripts/03_move_2_services.sh
 
     - name: Make config
