@@ -92,7 +92,7 @@ jobs:
     - name: Download package
       working-directory: ${{ github.workspace }}/openwrt
       run: |
-        make download -j50
+        make download -j$(($(nproc) + 1))
 
     - name: Compile the firmware
       working-directory: ${{ github.workspace }}/openwrt
