@@ -25,7 +25,8 @@ wait
 sed -i "s/\s'dhcp'//" openwrt/target/linux/amlogic/base-files/etc/board.d/02_network
 sed -i 's/192.168.100.1/192.168.1.99/g' openwrt/package/istoreos-files/Makefile
 # 修改默认主题为 bootstrap
-sed -i -e '/luci-theme-argon/d;75,83d' openwrt/package/istoreos-files/Makefile
+sed -i 'N;/\n.*shortcut icon/!P;D' openwrt/package/istoreos-files/Makefile
+sed -i '/shortcut icon/,/luci-argon-config/d' openwrt/package/istoreos-files/Makefile
 rm ./openwrt/package/istoreos-files/files/etc/uci-defaults/99_theme
 
 exit 0
