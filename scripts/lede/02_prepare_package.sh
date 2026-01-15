@@ -35,6 +35,7 @@ echo "BUILD_DATE='$1'" >> /etc/openwrt_release
 
 exit 0
 EOF
+sed -i 's,^PKG_MIRROR_HASH:=,PKG_MIRROR_HASH:=skip,g' package/libs/ustream-ssl/Makefile
 # 预编译 node
 rm -rf ./feeds/packages/lang/node/*
 wget https://raw.githubusercontent.com/sbwml/feeds_packages_lang_node-prebuilt/packages-24.10/Makefile -O feeds/packages/lang/node/Makefile
