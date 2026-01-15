@@ -6,9 +6,6 @@ on:
     types:
       - N1-ImmortalWrt-18.06-K5.4
 
-env:
-  TZ: Asia/Shanghai
-
 jobs:
   build:
     runs-on: ubuntu-22.04

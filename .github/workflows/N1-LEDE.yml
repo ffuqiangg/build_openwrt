@@ -6,9 +6,6 @@ on:
     types:
       - N1-LEDE
 
-env:
-  TZ: Etc/UTC
-
 jobs:
   build:
     runs-on: ubuntu-22.04
