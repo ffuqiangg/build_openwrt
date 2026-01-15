@@ -69,8 +69,8 @@ jobs:
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cp ../config/lede/config.seed .config
-        ../scripts/05_fix_permissions.sh
-        echo '==============================================='
+        #../scripts/05_fix_permissions.sh
+        #echo '==============================================='
         make defconfig
 
     - name: Cache

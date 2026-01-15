@@ -89,7 +89,7 @@ sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/htdocs/lu
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
 # Vermagic
-curl -fsSL https://downloads.immortalwrt.org/releases/${1}/targets/armsr/armv8/profiles.json | jq -r '.linux_kernel.vermagic' > .vermagic
+curl -fsSL https://immortalwrt.kyarucloud.moe/releases/${1}/targets/armsr/armv8/profiles.json | jq -r '.linux_kernel.vermagic' > .vermagic
 cat .vermagic
 sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
 
