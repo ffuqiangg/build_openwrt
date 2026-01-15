@@ -53,15 +53,14 @@ cp -rf ../openclash/luci-app-openclash ./feeds/luci/applications/luci-app-opencl
 # Nlbw 带宽监控
 sed -i 's|admin\",|& \"network\",|g;s,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
 sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
-sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/backup.htm
-sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/display.htm
+sed -i 's,admin/,&network/,g' feeds/luci/applications/luci-app-nlbwmon/luasrc/view/nlbw/{backup.htm,display.htm}
 # V2raya
 cp -rf ../v2raya ./package/new/luci-app-v2raya
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
 # 预配置一些插件
-mkdir -p ./files/etc/uci-defaults ./files/etc/openclash/core
+mkdir -p ./files/etc/{uci-defaults,openclash/core}
 cp -rf ../files/init/* ./files/
 cp -f ../patch/default-settings/immortalwrt-18.06/zzz-default-settings ./files/etc/uci-defaults/
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta

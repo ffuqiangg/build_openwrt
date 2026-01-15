@@ -26,7 +26,7 @@ mkdir -p ./package/new
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
-mv ./target/linux/amlogic/mesongx/base-files/root ./target/linux/amlogic/mesongx/base-files/usr/sbin
+cp -rf ./target/linux/amlogic/mesongx/base-files/root ./target/linux/amlogic/mesongx/base-files/usr/sbin
 # 调整 default settings
 sed -i '/services/d;/exit/d' package/lean/default-settings/files/zzz-default-settings
 cat <<-EOF >> package/lean/default-settings/files/zzz-default-settings
@@ -101,8 +101,7 @@ sed -i 's/,runtimefreegc.*//' package/new/luci-app-daed/daed/Makefile
 cp -rf ../immortalwrt_pkg_ma/libs/libcron ./package/new/
 
 # 预配置一些插件
-sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/etc/passwd
-sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/usr/libexec/login.sh
+sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/{etc/passwd,usr/libexec/login.sh}
 mkdir -p ./files/etc/uci-defaults
 cp -rf ../files/{init/*,cpufreq/*} ./files/
 cp -f ../patch/default-settings/lede/zzz-default-settings ./files/etc/uci-defaults/
