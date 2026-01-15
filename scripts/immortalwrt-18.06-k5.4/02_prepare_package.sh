@@ -13,7 +13,7 @@ sed -i 's/Os/O2/g' include/target.mk
 mkdir -p ./package/new
 # 调整 default settings
 rm -f ./package/emortal/default-settings/files/openwrt_banner
-sed -i '/settings\/install/{n;N;N;d}' package/emortal/default-settings/Makefile
+sed -i '/etc$/{N;N;d}' package/emortal/default-settings/Makefile
 # MosDNS
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ../mosdns/luci-app-mosdns ./package/new/luci-app-mosdns
