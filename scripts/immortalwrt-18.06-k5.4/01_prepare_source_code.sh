@@ -2,7 +2,7 @@
 
 . ./scripts/functions.sh
 
-echo "build_date=$(date +%Y.%m.%d)" | tee -a $GITHUB_ENV
+echo "build_date=$(date +%Y.%m.%d)" >> $GITHUB_ENV
 
 # 开始克隆仓库，并行执行
 git clone -b openwrt-18.06-k5.4 --depth 1 $immortalwrt_repo openwrt &
