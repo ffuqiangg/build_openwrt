@@ -6,8 +6,6 @@ echo "build_date=$(date +%Y.%m.%d)" >> $GITHUB_ENV
 
 # 开始克隆仓库，并行执行
 git clone -b openwrt-18.06-k5.4 --depth 1 $immortalwrt_repo openwrt &
-git clone -b v4 --depth 1 $mosdns_repo mosdns &
-git clone --depth 1 $dockerman_repo dockerman &
 git clone --depth 1 $openclash_repo openclash &
 git clone --depth 1 $amlogic_repo amlogic &
 git clone -b v4 --depth 1 $sbwml_mosdns_repo mosdns &
