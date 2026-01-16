@@ -26,7 +26,7 @@ mkdir -p ./package/new
 # 调整刷机脚本
 patch -p1 < ../patch/custom_install/lede/custom_target_amlogic_scripts.patch
 mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
-cp -rf ./target/linux/amlogic/mesongx/base-files/root ./target/linux/amlogic/mesongx/base-files/usr/sbin
+mv -f ./target/linux/amlogic/mesongx/base-files/root ./target/linux/amlogic/mesongx/base-files/usr/sbin
 # 调整 default settings
 sed -i '/services/d;/exit/d' package/lean/default-settings/files/zzz-default-settings
 cat <<-EOF >> package/lean/default-settings/files/zzz-default-settings
