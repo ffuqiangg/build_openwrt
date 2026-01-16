@@ -90,6 +90,8 @@ sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/root/usr/
 sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
 # 终端 TTYD
 sed -i 's,services,system,g' feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+# iStore
+sed -i 's|"admin",|& "services",|g' feeds/store/luci/luci-app-store/luasrc/controller/store.lua
 # Coremark
 rm -rf ./feeds/packages/utils/coremark
 cp -rf ../sbwml_pkgs/coremark ./package/new/
