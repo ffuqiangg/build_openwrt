@@ -63,7 +63,7 @@ jobs:
         cp -r ./scripts/immortalwrt-24.10/. ./
         ./01_prepare_source_code.sh
         mkdir -p /home/runner/work/build_openwrt/build_openwrt/amlogic
-        ln -sf /home/runner/work/build_openwrt/build_openwrt/openwrt /home/runner/work/_actions/ffuqiangg/amlogic-s9xxx-openwrt/main/openwrt
+        ln -sf /home/runner/work/build_openwrt/build_openwrt/amlogic /home/runner/work/_actions/ffuqiangg/amlogic-s9xxx-openwrt/main/openwrt
 
     - name: Prepare package
       working-directory: ${{ github.workspace }}/openwrt
