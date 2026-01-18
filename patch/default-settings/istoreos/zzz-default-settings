@@ -31,7 +31,8 @@ uci commit uhttpd
 /etc/init.d/uhttpd restart
 
 # 默认开启 Packet Steering
-uci set network.globals.packet_steering='1'
+uci set network.globals.packet_steering='2'
+uci set network.globals.steering_flows='128'
 uci commit network
 
 # 通用即插即用

@@ -12,7 +12,8 @@ uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
 uci commit passwall
 
 # 默认开启 Packet Steering
-uci set network.globals.packet_steering='1'
+uci set network.globals.packet_steering='2'
+uci set network.globals.steering_flows='128'
 uci commit network
 
 # 通用即插即用

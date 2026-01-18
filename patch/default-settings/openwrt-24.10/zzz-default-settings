@@ -33,7 +33,7 @@ sed -i 's,downloads.openwrt.org,mirror.sjtu.edu.cn/openwrt,g' /etc/opkg/distfeed
 sed -i 's,mirrors.pku.edu.cn/openwrt,mirror.sjtu.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
 
 #默认开启 Packet Steering
-uci set network.globals.packet_steering=$(( $(uname -r | grep -q "^5\.15"; echo $?) ? 2 : 1 ))
+uci set network.globals.packet_steering='2'
 uci set network.globals.steering_flows='128'
 uci commit network
 
