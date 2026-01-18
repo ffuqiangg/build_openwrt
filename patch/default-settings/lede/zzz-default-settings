@@ -35,9 +35,6 @@ opkg flag hold dnsmasq-full
 uci set dockerd.globals.auto_start='0'
 uci commit dockerd
 
-# fstab
-sed -i "/overlay/{n;s/enabled '0'/enabled '1'/;}" /etc/config/fstab && uci commit fstab
-
 # docker 镜像站点
 if [ -f /etc/config/dockerd ]; then
     uci del dockerd.globals.registry_mirrors

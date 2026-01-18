@@ -51,11 +51,9 @@ jobs:
           python3-docutils python3-pip python3-ply python3-pyelftools python3-requests python3-setuptools qemu-utils quilt re2c rsync scons sharutils \
           squashfs-tools subversion swig tar texinfo uglifyjs unzip upx-ucl vim wget xmlto xsltproc xxd xz-utils yasm zip zlib1g-dev zstd
         sudo -E systemctl daemon-reload
-        #sudo -E apt-get -y full-upgrade
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
-        sudo rm -rf ~/{.cargo,.dotnet,.rustup}
-        df -h
+        df -Th
 
     - name: Prepare source code
       run: |
