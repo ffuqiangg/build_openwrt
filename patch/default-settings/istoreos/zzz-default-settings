@@ -13,6 +13,13 @@ uci commit system
 uci set dropbear.@dropbear[0].Interface='lan'
 uci commit dropbear
 
+# uhttpd 设置
+uci set uhttpd.main.rfc1918_filter=0
+uci set uhttpd.main.redirect_https=0
+uci set uhttpd.main.http_keepalive=0
+uci commit uhttpd
+/etc/init.d/uhttpd restart
+
 # PASSWALL
 [ -f '/usr/share/v2ray/geoip.dat' ] && uci set passwall.@global_rules[0].v2ray_location_asset='/usr/share/v2ray/'
 uci set passwall.@global_subscribe[0].ss_aead_type='shadowsocks-rust'
@@ -22,13 +29,6 @@ uci commit passwall
 
 # Feeds 更换镜像源
 sed -i 's,downloads.openwrt.org,mirrors.tuna.tsinghua.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
-
-# uhttpd 设置
-uci set uhttpd.main.rfc1918_filter=0
-uci set uhttpd.main.redirect_https=0
-uci set uhttpd.main.http_keepalive=0
-uci commit uhttpd
-/etc/init.d/uhttpd restart
 
 # 默认开启 Packet Steering
 uci set network.globals.packet_steering='2'
