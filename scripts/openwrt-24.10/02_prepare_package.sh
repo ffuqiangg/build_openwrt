@@ -31,7 +31,7 @@ rm -rf ./feeds/packages/lang/node/*
 wget https://raw.githubusercontent.com/sbwml/feeds_packages_lang_node-prebuilt/packages-24.10/Makefile -O feeds/packages/lang/node/Makefile
 # 更换 golang 版本
 rm -rf ./feeds/packages/lang/golang
-cp -rf ../openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
+git clone --depth 1 https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/lang/golang
 # mount cgroupv2
 pushd feeds/packages
 patch -p1 < ../../../patch/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
@@ -105,7 +105,6 @@ cp -rf ../openwrt-add/OpenWrt-mihomo ./package/new/luci-app-nikki
 cp -rf ../OpenWrt-momo ./package/new/luci-app-momo
 # Daed
 cp -rf ../openwrt-add/luci-app-daed ./package/new/
-sed -i 's/,runtimefreegc.*//' package/new/luci-app-daed/daed/Makefile
 cp -rf ../immortalwrt_pkg_ma/libs/libcron ./package/new/
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic

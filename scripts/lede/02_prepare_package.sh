@@ -38,6 +38,9 @@ EOF
 # 预编译 node
 rm -rf ./feeds/packages/lang/node/*
 wget https://raw.githubusercontent.com/sbwml/feeds_packages_lang_node-prebuilt/packages-24.10/Makefile -O feeds/packages/lang/node/Makefile
+# 更换 golang 版本
+rm -rf ./feeds/packages/lang/golang
+git clone --depth 1 https://github.com/sbwml/packages_lang_golang -b 26.x feeds/packages/lang/golang
 # 一些补充翻译
 echo '
 msgid "Custom rules allow you to execute arbitrary nft commands which are not otherwise covered by the firewall framework. The rules are executed after each firewall restart, right after the default ruleset has been loaded."
@@ -97,7 +100,6 @@ cp -rf ../sbwml_pkg/{luci-app-filebrowser-go,filebrowser} ./package/new/
 # Daed
 rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
 cp -rf ../openwrt-add/luci-app-daed ./package/new/
-sed -i 's/,runtimefreegc.*//' package/new/luci-app-daed/daed/Makefile
 cp -rf ../immortalwrt_pkg_ma/libs/libcron ./package/new/
 
 # 预配置一些插件
