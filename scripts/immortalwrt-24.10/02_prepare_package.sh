@@ -87,6 +87,10 @@ sed -i 's,services,network,g' feeds/luci/applications/luci-app-nlbwmon/htdocs/lu
 # 晶晨宝盒
 cp -rf ../amlogic/luci-app-amlogic ./package/new/luci-app-amlogic
 
+# 生成默认配置及缓存
+rm -rf .config
+sed -i 's,CONFIG_WERROR=y,# CONFIG_WERROR is not set,g' target/linux/generic/config-6.6
+
 # Vermagic
 curl -fsSL https://immortalwrt.kyarucloud.moe/releases/${1}/targets/armsr/armv8/profiles.json | jq -r '.linux_kernel.vermagic' > .vermagic
 cat .vermagic
