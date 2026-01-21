@@ -65,7 +65,7 @@ cp -rf ../files/init/* ./files/
 cp -f ../patch/default-settings/immortalwrt-18.06/zzz-default-settings ./files/etc/uci-defaults/
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > files/etc/openclash/core/clash_meta
 chmod +x files/etc/openclash/core/clash*
-echo -e "\n\033[34mImmortalWrt\033[0m 18.06-K5.4 ${1//./-}\n" > ./files/etc/banner
+echo -e "\n\033[34mImmortalWrt\033[0m 18.06-K5.4 | ${1//./-}\n" > ./files/etc/banner
 
 # 清理临时文件
 find ./ -name *.orig | xargs rm -f

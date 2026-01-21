@@ -33,11 +33,6 @@ CONFIG_PACKAGE_ucode-mod-fs=y
 CONFIG_PACKAGE_ucode-mod-uci=y
 CONFIG_PACKAGE_wget-ssl=y
 
-### LUCI ###
-CONFIG_PACKAGE_uhttpd=y
-CONFIG_PACKAGE_uhttpd-mod-ubus=y
-CONFIG_PACKAGE_luci-compat=y
-
 ### DDNS ###
 CONFIG_PACKAGE_luci-app-ddns=y
 CONFIG_PACKAGE_ddns-scripts=y

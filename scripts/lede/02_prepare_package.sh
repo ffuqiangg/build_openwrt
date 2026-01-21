@@ -107,7 +107,7 @@ sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/{etc/passwd,usr/libexec/
 mkdir -p ./files/etc/uci-defaults
 cp -rf ../files/{init/*,cpufreq/*} ./files/
 cp -f ../patch/default-settings/lede/zzz-default-settings ./files/etc/uci-defaults/
-echo -e "\n\033[34mLEDE\033[0m ${2} ${1//./-}\n" > ./files/etc/banner
+echo -e "\n\033[34mLEDE\033[0m ${2} | ${1//./-}\n" > ./files/etc/banner
 
 # 清理临时文件
 find ./ -name *.orig | xargs rm -f
