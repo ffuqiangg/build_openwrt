@@ -122,6 +122,7 @@ sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic
 mkdir -p ./files/etc/uci-defaults
 cp -rf ../files/init/* ./files/
 cp -f ../patch/default-settings/openwrt-24.10/zzz-default-settings ./files/etc/uci-defaults/
+echo -e "\n[ -f /etc/shinit ] && . /etc/shinit" >> ./package/base-files/files/etc/profile
 echo -e "\n\033[34mOpenWrt\033[0m ${1} | ${2//./-}\n" > ./files/etc/banner
 
 # 清理临时文件

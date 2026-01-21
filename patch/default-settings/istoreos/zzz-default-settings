@@ -31,7 +31,7 @@ uci commit passwall
 sed -i 's,downloads.openwrt.org,mirrors.tuna.tsinghua.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
 
 # 默认开启 Packet Steering
-uci set network.globals.packet_steering='2'
+uci set network.globals.packet_steering='1'
 uci set network.globals.steering_flows='128'
 uci commit network
 

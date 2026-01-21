@@ -104,6 +104,7 @@ cp -rf ../immortalwrt_pkg_ma/libs/libcron ./package/new/
 
 # 预配置一些插件
 sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/{etc/passwd,usr/libexec/login.sh}
+echo -e "\n[ -f /etc/shinit ] && . /etc/shinit" >> ./package/base-files/files/etc/profile
 mkdir -p ./files/etc/uci-defaults
 cp -rf ../files/{init/*,cpufreq/*} ./files/
 cp -f ../patch/default-settings/lede/zzz-default-settings ./files/etc/uci-defaults/
