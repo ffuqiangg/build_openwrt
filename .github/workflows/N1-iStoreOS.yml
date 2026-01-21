@@ -53,6 +53,10 @@ jobs:
         sudo -E apt-get -qq clean
         df -Th
 
+    - name: Generate platform variables
+      run: |
+        echo "build_date=$(date +%Y.%m.%d)" >> $GITHUB_ENV
+
     - name: Prepare source code
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt

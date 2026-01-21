@@ -65,6 +65,10 @@ jobs:
         sudo chown -R runner:runner /builder
         df -Th
 
+    - name: Generate platform variables
+      run: |
+        echo build_date=$(date +%Y.%m.%d) >> $GITHUB_ENV
+
     - name: Prepare source code
       working-directory: /builder
       run: |

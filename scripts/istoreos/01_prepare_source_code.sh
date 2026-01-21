@@ -2,8 +2,6 @@
 
 . ./scripts/functions.sh
 
-echo "build_date=$(date +%Y.%m.%d)" >> $GITHUB_ENV
-
 # 开始克隆仓库，并行执行
 git clone -b istoreos-22.03 --depth 1 $istoreos_repo openwrt &
 git clone --depth 1 $openwrt_pkg_repo openwrt_pkg_ma &

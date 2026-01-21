@@ -55,11 +55,23 @@ jobs:
         sudo -E apt-get clean
         df -Th
 
+    - name: Generate platform variables
+      run: |
+        build_date=$(date +%Y.%m.%d)
+        latest_release=$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')
+        kernel_version=$(curl -fsSL https://raw.githubusercontent.com/immortalwrt/immortalwrt/v${latest_release}/include/kernel-6.6 | sed -n '/LINUX_KERNEL_HASH/p' | awk -F '[ -]' '{print $2}')
+
+        cat <<EOF | tee -a $GITHUB_ENV
+        build_date=$build_date
+        latest_release=$latest_release
+        kernel_version=$kernel_version
+        EOF
+
     - name: Prepare source code
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
         cp -r ./scripts/immortalwrt-24.10/. ./
-        ./01_prepare_source_code.sh
+        ./01_prepare_source_code.sh "v${{ env.latest_release }}"
         mkdir -p /home/runner/work/build_openwrt/build_openwrt/amlogic
         ln -sf /home/runner/work/build_openwrt/build_openwrt/amlogic /home/runner/work/_actions/ffuqiangg/amlogic-s9xxx-openwrt/main/openwrt
 

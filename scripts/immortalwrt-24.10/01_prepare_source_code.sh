@@ -2,11 +2,8 @@
 
 . ./scripts/functions.sh
 
-build_date=$(date +%Y.%m.%d)
-latest_release="$(curl -s https://github.com/immortalwrt/immortalwrt/tags | grep -Eo "v[0-9\.]+-*r*c*[0-9]*.tar.gz" | sed -n '/24.10/p' | sed -n 1p | sed 's/.tar.gz//g' | sed 's/v//g')"
-
 # Clone source code
-git clone -b v$latest_release --depth 1 $immortalwrt_repo openwrt &
+git clone -b $1 --depth 1 $immortalwrt_repo openwrt &
 git clone --depth 1 $immortalwrt_pkg_repo immortalwrt_pkg_ma &
 git clone --depth 1 $immortalwrt_luci_repo immortalwrt_luci_ma &
 git clone --depth 1 $openwrt_pkg_repo openwrt_pkg_ma &

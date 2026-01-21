@@ -52,6 +52,16 @@ jobs:
         sudo -E apt-get -qq clean
         df -Th
 
+    - name: Generate platform variables
+      run: |
+        echo build_date=$(date +%Y.%m.%d)
+        echo distrib_revision=$(curl -fsSL https://raw.githubusercontent.com/coolsnowwolf/lede/master/package/lean/default-settings/files/zzz-default-settings | grep 'DISTRIB_REVISION=' | sed -E "s/.*'(.+)'.*/\1/")
+
+        cat <<EOF | tee -a $GITHUB_ENV
+        build_date=$build_date
+        distrib_revision=$distrib_revision
+        EOF
+
     - name: Prepare source code
       run: |
         sudo chown -R runner:runner /home/runner/work/build_openwrt
