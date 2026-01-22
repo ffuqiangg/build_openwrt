@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    if: github.event.repository.owner.id == github.event.sender.id
+    if: ${{ github.event.repository.owner.id == github.event.sender.id }}
 
     steps:
     - name: Show system
@@ -110,7 +110,7 @@ jobs:
         echo $?
 
     - name: If error
-      if: steps.compileopenwrt.outcome == 'failure'
+      if: ${{ steps.compileopenwrt.outcome == 'failure' }}
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cat ./.config

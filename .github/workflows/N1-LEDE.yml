@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    if: github.event.repository.owner.id == github.event.sender.id
+    if: ${{ github.event.repository.owner.id == github.event.sender.id }}
 
     steps:
     - name: Show system
@@ -103,7 +103,7 @@ jobs:
         echo $?
 
     - name: If error
-      if: steps.compileopenwrt.outcome == 'failure'
+      if: ${{ steps.compileopenwrt.outcome == 'failure' }}
       working-directory: ${{ github.workspace }}/openwrt
       run: |
         cat ./.config
@@ -146,7 +146,7 @@ jobs:
         bodyFile: ./doc/release.md
 
     - name: Telegram notification
-      if: github.event_name == 'repository_dispatch'
+      if: ${{ github.event_name == 'repository_dispatch' }}
       run: |
         firmware_num="$(curl -fsSL https://github.com/ffuqiangg/build_openwrt/releases/expanded_assets/${{ env.build_date }} | grep -oE "N1-.*.zip" | sort -u | wc -l)"
         MSG="
