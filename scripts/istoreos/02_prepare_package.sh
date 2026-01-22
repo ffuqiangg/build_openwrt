@@ -11,6 +11,9 @@ sed -i 's/Os/O2/g' include/target.mk
 # 默认开启 Irqbalance
 sed -i "s/enabled '0'/enabled '1'/g" feeds/packages/utils/irqbalance/files/irqbalance.config
 
+# 修复页面跳转问题
+wget https://raw.githubusercontent.com/jjm2473/luci/12c7169/modules/luci-mod-network/htdocs/luci-static/resources/view/network/interfaces.js -O feeds/luci/modules/luci-mod-network/htdocs/luci-static/resources/view/network/interfaces.js
+
 ### 获取额外的 LuCI 应用和依赖 ###
 mkdir -p ./package/new
 cp -rf ../sbwml_pkgs/{luci-app-diskman,luci-app-autoreboot} ./package/new/
