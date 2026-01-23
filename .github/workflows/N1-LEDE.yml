@@ -54,8 +54,8 @@ jobs:
 
     - name: Generate platform variables
       run: |
-        echo build_date=$(date +%Y.%m.%d)
-        echo distrib_revision=$(curl -fsSL https://raw.githubusercontent.com/coolsnowwolf/lede/master/package/lean/default-settings/files/zzz-default-settings | grep 'DISTRIB_REVISION=' | sed -E "s/.*'(.+)'.*/\1/")
+        build_date=$(date +%Y.%m.%d)
+        distrib_revision=$(curl -fsSL https://raw.githubusercontent.com/coolsnowwolf/lede/master/package/lean/default-settings/files/zzz-default-settings | grep 'DISTRIB_REVISION=' | sed -E "s/.*'(.+)'.*/\1/")
 
         cat <<EOF | tee -a $GITHUB_ENV
         build_date=$build_date
