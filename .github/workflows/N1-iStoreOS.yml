@@ -126,6 +126,7 @@ jobs:
         mv openwrt/bin/targets/amlogic/meson/packages ./artifact/
         cd ./artifact/
         zip N1-iStoreOS-${{ env.build_date }}-sfs.zip *n1*squashfs*
+        zip N1-iStoreOS-${{ env.build_date }}-ext4.zip *n1*ext4*
         zip -r N1-iStoreOS-${{ env.build_date }}-packages.zip packages/
 
     - name: Upload firmware to release

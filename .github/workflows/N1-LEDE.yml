@@ -131,6 +131,7 @@ jobs:
         mv openwrt/bin/targets/amlogic/mesongx/packages ./artifact/
         cd ./artifact/
         zip N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}-sfs.zip *n1*squashfs*
+        zip N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}-ext4.zip *n1*ext4*
         zip -r N1-LEDE-${{ env.distrib_revision }}-${{ env.build_date }}-packages.zip packages/
 
     - name: Upload firmware to release
