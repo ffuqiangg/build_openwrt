@@ -1,6 +1,9 @@
 #!/bin/bash
+#
+# 此脚本将 NAS VPN 菜单插件移动到服务菜单
+#
 
-lua_file="$({ find | grep "\.lua\|\.htm\|\.json"; } 2>"/dev/null")"
+lua_file="$({ find | grep "\.lua|\.htm|\.json"; } 2>"/dev/null")"
 for a in ${lua_file}
 do
     [ -n "$(grep '"vpn"' "$a")" ] && sed -i 's,"vpn","services",g' "$a"
