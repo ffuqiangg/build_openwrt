@@ -172,7 +172,7 @@ cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-
 sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
 pushd package/add//luci-app-dockerman
-dm
+bash ${ffdir}/prepare/docker.sh
 popd
 
 p "Filebrowser 文件管理器"
@@ -186,7 +186,7 @@ cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./package/add/libcron
 
 p "复制自定义文件目录"
 cp -rf ${ffdir}/files/init ./files
-mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/scripts/lede/zzz-default-settings ./files/etc/uci-defaults/
+mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/prepare/lede/zzz-default-settings ./files/etc/uci-defaults/
 echo -e "\n\033[34mLEDE\033[0m ${distrib_revision} | ${build_date//./-}\n" > ./files/etc/banner
 
 

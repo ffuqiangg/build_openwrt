@@ -94,19 +94,6 @@ p "浅克隆: $2 (branch: $1) $3"
 git clone -q --filter=blob:none --single-branch -b "$1" "$2" "$3"
 EOF
 
-# --- 6. 定义 dm ( 处理 DockerMan 菜单 ) ---
-cat <<'EOF' > $bin_host/dm
-#!/bin/bash
-resource_file="$({ find | grep "\.lua|\.htm"; } 2>"/dev/null")"
-dockerman_lua="$({ find | grep "dockerman\.lua"; } 2>"/dev/null")"
-  for a in $resource_file; do
-    [ -n "$(grep 'admin\",' $a)" ] && sed -i "s|admin\",|& \"services\",|g" $a
-    [ -n "$(grep 'config\")' $a)" ] && sed -i "s,config\"),overview\"),g" $a
-    [ -n "$(grep 'admin/' $a)" ] && sed -i "s,admin/,&services/,g" $a
-    [ -n "$(grep 'admin\\/' $a)" ] && sed -i "s,admin\\\/,&services\\\/,g" $a
-  done
-sed -i 's,Docker,&Man,' $dockerman_lua
-EOF
 
 chmod +x $bin_host/*
 echo "$bin_host" >> $GITHUB_PATH
@@ -148,8 +135,6 @@ dr "chmod 777 ${workdir}/ci_env"
 dr '. set_env workdir "${workdir}"'
 dr '. set_env workdir_host "${workdir_host}"'
 dr '. set_env ffdir "${ffdir}"'
-dr '. set_env build_date "${build_date}"'
-dr '. set_env distrib_revision "${distrib_revision}"'
 
 
 p "安装依赖"

@@ -48,23 +48,22 @@ jobs:
       uses: actions/checkout@v6
 
     - name: 准备容器 ( init.sh )
-      run: bash scripts/init.sh
+      run: bash prepare/init.sh
 
     - name: 准备环境 ( prepare.sh )
-      run: d "cd ${ffdir} && bash scripts/lede/prepare.sh"
+      run: d "cd ${ffdir} && bash prepare/lede/prepare.sh"
 
     - name: 准备编译
       run: |
         d '
           cd ${wrtdir}
           p "展开配置"
-          cp ${ffdir}/scripts/lede/config.seed .config
+          cp ${ffdir}/prepare/lede/config.seed .config
           make defconfig
 
           p "压缩编译目录"
           cd ${workdir}
           cp -r ${ffdir} ${wrtdir}/
-          rm -rf ${wrtdir}/.ccache || true
           tar -cf - $(basename ${wrtdir})/ | zstd -19 -T0 > wrt_end.tar.zst
           rm -rf ${wrtdir}/$(basename ${ffdir})
         '

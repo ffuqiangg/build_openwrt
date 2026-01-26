@@ -143,7 +143,7 @@ cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-dockerman ./feeds/luci/appl
 sed -i '/auto_start/d' ./feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
 pushd ./feeds/luci/applications/luci-app-dockerman
-dm
+bash ${ffdir}/prepare/docker.sh
 popd
 
 p "晶晨宝盒"
@@ -170,7 +170,7 @@ rm -f profiles.json
 
 p "复制自定义文件目录"
 cp -rf ${ffdir}/files/init ./files
-mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/scripts/immortalwrt-24.10/zzz-default-settings ./files/etc/uci-defaults/
+mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/prepare/imm24/zzz-default-settings ./files/etc/uci-defaults/
 echo -e "\n\033[34mImmortalWrt\033[0m ${latest_release} | ${build_date//./-}\n" > ./files/etc/banner
 
 
