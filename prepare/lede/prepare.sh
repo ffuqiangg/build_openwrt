@@ -37,6 +37,7 @@ p "下载其它仓库"
 . set_env "otherdir" "${ffdir}/other"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
+clone openwrt-24.10 ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_24 &
 clone master ${dockerman_repo} ${otherdir}/dockerman &
 clone main ${momo_repo} ${otherdir}/openwrt-momo &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
@@ -111,6 +112,9 @@ EOF
 p "预编译 node"
 rm -rf ./feeds/packages/lang/node/*
 wget https://raw.githubusercontent.com/sbwml/feeds_packages_lang_node-prebuilt/packages-24.10/Makefile -O ./feeds/packages/lang/node/Makefile
+p "替换 perl"
+rm -rf ./feeds/packages/lang/perl
+cp -rf ${otherdir}/imm_pkg_24/lang/perl ./feeds/packages/lang/perl
 p "更换 golang 版本"
 rm -rf ./feeds/packages/lang/golang
 git clone --depth 1 https://github.com/sbwml/packages_lang_golang -b 26.x ./feeds/packages/lang/golang
