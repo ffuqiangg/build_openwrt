@@ -203,7 +203,7 @@ rm -f profiles.json
 
 
 p "复制自定义文件目录"
-cp -rf ${ffdir}/files/init ./files
+cp -rf ${ffdir}/files ./files
 mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/prepare/imm24/zzz-default-settings ./files/etc/uci-defaults/
 echo -e "\n\033[34mOpenWrt\033[0m ${latest_release} | ${build_date//./-}\n" > ./files/etc/banner
 
