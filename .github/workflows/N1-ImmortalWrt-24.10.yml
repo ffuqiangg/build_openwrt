@@ -48,14 +48,14 @@ jobs:
       uses: actions/checkout@v6
 
     - name: 准备容器 ( init.sh )
-      run: bash prepare/init.sh
+      run: bash scripts/init.sh
 
     - name: 准备环境 ( prepare.sh )
       run: |
         d '
           cd ${ffdir} && bash scripts/immortalwrt-24.10/prepare.sh
           p "处理菜单"
-          cd ${wrtdir} && bash ${ffdir}/prepare/menu.sh
+          cd ${wrtdir} && bash ${ffdir}/scripts/menu.sh
         '
 
     - name: 准备编译
