@@ -1,4 +1,4 @@
-name: Build-All
+name: build-all
 
 on:
   workflow_dispatch:
@@ -9,32 +9,32 @@ jobs:
     if: ${{ github.event.repository.owner.id == github.event.sender.id }}
 
     steps:
-    - name: ImmortalWrt 18.06 K5.4
+    - name: ImmortalWrt 18.06
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-ImmortalWrt-18.06-K5.4
+        event-type: imm18-build
 
-    - name: ImmortalWrt 24.10
+    - name: ImmortalWrt 24
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-ImmortalWrt-24.10
+        event-type: imm24-build
 
     - name: LEDE
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-LEDE
+        event-type: lede-build
 
-    - name: OpenWrt 24.10
+    - name: OpenWrt 24
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-OpenWrt-24.10
+        event-type: op24-build
 
-    - name: IStoreOS
+    - name: iStoreOS
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-iStoreOS
+        event-type: isos-build
