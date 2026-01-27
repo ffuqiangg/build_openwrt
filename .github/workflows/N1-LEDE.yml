@@ -47,7 +47,7 @@ jobs:
       uses: actions/checkout@v6
 
     - name: 准备容器 ( init.sh )
-      run: bash scripts/init.sh
+      run: bash scripts/init.sh "ubuntu"
 
     - name: 准备环境 ( prepare.sh )
       run: |
@@ -124,13 +124,13 @@ jobs:
     - if: env.build_success == 'true'
       name: 整理文件
       run: |
-        d '
-          p "将原始固件移动到工作目录"
-          rm -rf ./artifact/
-          mkdir -p ./artifact/
-          mv ${wrtdir}/bin/targets/amlogic/mesongx/*sysupgrade.img* ./artifact/
-          mv ${wrtdir}/bin/targets/amlogic/mesongx/packages ./artifact/
+        p "将原始固件移动到工作目录"
+        rm -rf ./artifact/
+        mkdir -p ./artifact/
+        mv ${{ env.workdir_host }}/openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img* ./artifact/
+        mv ${{ env.workdir_host }}/openwrt/bin/targets/amlogic/mesongx/packages ./artifact/
 
+        d '
           p "重新打包固件"
           cd ./artifact/
           7z a -tzip N1-LEDE-${distrib_revison}-${build_date}-sfs.zip *n1*squashfs*
@@ -142,11 +142,28 @@ jobs:
         df -h
 
     - if: env.build_success == 'true'
-      name: 上传固件
+      name: 上传固件 ( sfs )
       uses: actions/upload-artifact@main
       with:
-        name: lede_firmware
-        path: "${{ env.workdir_host }}/artifact/*.zip"
+        name: lede_sfs.zip
+        path: "${{ env.workdir_host }}/artifact/*.sfs.zip"
+        compression-level: 0
+
+    - if: env.build_success == 'true'
+      name: 上传固件 ( ext4 )
+      uses: actions/upload-artifact@main
+      with:
+        name: lede_ext4.zip
+        path: "${{ env.workdir_host }}/artifact/*.ext4.zip"
+        compression-level: 0
+
+    - if: env.build_success == 'true'
+      name: 上传 packages
+      uses: actions/upload-artifact@main
+      with:
+        name: lede_packages.zip
+        path: "${{ env.workdir_host }}/artifact/*.packages.zip"
+        compression-level: 0
 
     - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
       name: Upload firmware to release

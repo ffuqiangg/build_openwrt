@@ -139,12 +139,12 @@ jobs:
     - if: env.build_success == 'true'
       name: 整理文件
       run: |
-        d '
-          p "将原始固件移动到工作目录"
-          rm -rf ./artifact/
-          mkdir -p ./artifact/
-          cp ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz ./artifact/
+        p "将原始固件移动到工作目录"
+        rm -rf ./artifact/
+        mkdir -p ./artifact/
+        cp ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz ./artifact/
 
+        d '
           p "重新打包固件"
           cd ./artifact/
           7z a -tzip N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}.zip *.img.gz

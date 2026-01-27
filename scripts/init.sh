@@ -115,17 +115,21 @@ sudo mkdir ${workdir_host} && sudo chown -R runner:runner ${workdir_host}
 # tail -f /dev/null: 保持容器运行
 GH_ENV_DIR=$(dirname "$GITHUB_ENV")
 GH_PATH_DIR=$(dirname "$GITHUB_PATH")
-docker pull cachyos/cachyos-v3
-docker run -d --name cachyos \
-  -v ${workdir_host}:${workdir} \
-  -v "$bin_host:/usr/local/bin_host" \
-  -e PATH="/usr/local/bin_host:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
-  -e workdir="${workdir}" \
-  -e workdir_host="${workdir_host}" \
-  -e ffdir="${ffdir}" \
-  -e BASH_ENV="${workdir}/ci_env" \
-  -w ${workdir} \
-  cachyos/cachyos-v3 tail -f /dev/null
+if [ "$1" == 'ubuntu' ]; then
+    docker pull ubuntu:22.04
+else
+    docker pull cachyos/cachyos-v3
+    docker run -d --name cachyos \
+        -v ${workdir_host}:${workdir} \
+        -v "$bin_host:/usr/local/bin_host" \
+        -e PATH="/usr/local/bin_host:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+        -e workdir="${workdir}" \
+        -e workdir_host="${workdir_host}" \
+        -e ffdir="${ffdir}" \
+        -e BASH_ENV="${workdir}/ci_env" \
+        -w ${workdir} \
+        cachyos/cachyos-v3 tail -f /dev/null
+fi
 
 p "初始化容器环境文件"
 # 先创建文件并授权，这样容器内的 set_env 才能写入
@@ -138,16 +142,20 @@ dr '. set_env ffdir "${ffdir}"'
 
 
 p "安装依赖"
-dr pacman -Syu --noconfirm
-dr pacman -S --needed --noconfirm base-devel asciidoc autoconf automake binutils bison \
-  bzip2 ccache llvm clang cmake cpio curl dtc eclipse-ecj fastjar flex gawk gettext \
-  gcc-multilib git gnutls gperf haveged help2man intltool lib32-gcc-libs lib32-glibc \
-  libelf glib2 gmp libtool libmpc mpfr ncurses python python-pip python-ply \
-  python-docutils python-pyelftools qemu-img re2c rsync scons squashfs-tools \
-  subversion swig texinfo uglify-js upx unzip wget xmlto xxd zstd 7zip \
-  paru sudo shadow jq ninja python-setuptools python-pyelftools bc libxslt openssl time \
-  util-linux which perl-extutils-makemaker fuse2 less tree
-# 不要添加zlib，会冲突
+if [ "$1" == 'ubuntu' ]; then
+    dr apt-get -qq update
+else
+    dr pacman -Syu --noconfirm
+    dr pacman -S --needed --noconfirm base-devel asciidoc autoconf automake binutils bison \
+        bzip2 ccache llvm clang cmake cpio curl dtc eclipse-ecj fastjar flex gawk gettext \
+        gcc-multilib git gnutls gperf haveged help2man intltool lib32-gcc-libs lib32-glibc \
+        libelf glib2 gmp libtool libmpc mpfr ncurses python python-pip python-ply \
+        python-docutils python-pyelftools qemu-img re2c rsync scons squashfs-tools \
+        subversion swig texinfo uglify-js upx unzip wget xmlto xxd zstd 7zip \
+        paru sudo shadow jq ninja python-setuptools python-pyelftools bc libxslt openssl time \
+        util-linux which perl-extutils-makemaker fuse2 less tree
+        # 不要添加zlib，会冲突
+fi
 
 
 p "确保用户一致并配置 sudo"
