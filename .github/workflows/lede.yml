@@ -88,7 +88,7 @@ jobs:
           p "开始下载"
           make download -j$(($(nproc) + 1))
           p "开始编译"
-          make -j$(($(nproc) + 1))
+          CFLAGS="$CFLAGS -Wno-error=incompatible-pointer-types" make -j$(($(nproc) + 1))
           if [ $? -ne 0 ]; then
             p "！！编译失败！！开启单线程"
             make -j1 V=s
