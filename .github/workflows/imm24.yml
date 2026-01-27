@@ -142,7 +142,7 @@ jobs:
 
           p "重新打包固件"
           cd ./artifact/
-          7z -a -tzip N1-ImmortalWrt-${{ env.latest_release }}-${{ env.build_date }}.zip *.img.gz
+          7z a -tzip N1-ImmortalWrt-${{ env.latest_release }}-${{ env.build_date }}.zip *.img.gz
         '
 
         p "打印剩余空间"
