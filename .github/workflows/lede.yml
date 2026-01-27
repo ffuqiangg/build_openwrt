@@ -143,3 +143,29 @@ jobs:
       with:
         name: lede_firmware
         path: "${{ env.workdir_host }}/artifact/*.zip"
+
+    - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
+      name: Upload firmware to release
+      uses: ncipollo/release-action@main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag: ${{ env.build_date }}
+        allowUpdates: true
+        replacesArtifacts: true
+        artifacts: ./artifact/*.zip
+        bodyFile: ./doc/release.md
+
+    - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
+      name: Telegram notification
+      run: |
+        firmware_num=$(curl -fsSL https://github.com/ffuqiangg/build_openwrt/releases/expanded_assets/${{ env.build_date }} | \
+          grep -oE "N1-.*.zip" | sort -u | wc -l)
+        MSG="
+        *${{ env.build_date }}* 固件编译完成
+        https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.build_date }}
+        "
+        if [ "${firmware_num}" == '7' ]; then
+          curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=false"
+        fi
