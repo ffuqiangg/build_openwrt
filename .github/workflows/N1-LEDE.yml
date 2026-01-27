@@ -1,10 +1,10 @@
-name: lede-build
+name: N1-LEDE
 
 on:
   workflow_dispatch:
   repository_dispatch:
     types:
-      - lede-build
+      - N1-LEDE
 
 defaults:
   run:
@@ -51,7 +51,12 @@ jobs:
       run: bash prepare/init.sh
 
     - name: 准备环境 ( prepare.sh )
-      run: d "cd ${ffdir} && bash prepare/lede/prepare.sh"
+      run: |
+        d '
+          cd ${ffdir} && bash prepare/lede/prepare.sh
+          p "处理菜单"
+          cd ${wrtdir} && bash ${ffdir}/prepare/menu.sh
+        '
 
     - name: 准备编译
       run: |
@@ -88,7 +93,7 @@ jobs:
           p "开始下载"
           make download -j$(($(nproc) + 1))
           p "开始编译"
-          CFLAGS="$CFLAGS -Wno-error=incompatible-pointer-types" make -j$(($(nproc) + 1))
+          make -j$(($(nproc) + 1))
           if [ $? -ne 0 ]; then
             p "！！编译失败！！开启单线程"
             make -j1 V=s

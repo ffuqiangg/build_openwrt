@@ -1,10 +1,10 @@
-name: imm24-build
+name: N1-ImmortalWrt-24.10
 
 on:
   workflow_dispatch:
   repository_dispatch:
     types:
-      - imm24-build
+      - N1-ImmortalWrt-24.10
 
 defaults:
   run:
@@ -51,7 +51,12 @@ jobs:
       run: bash prepare/init.sh
 
     - name: 准备环境 ( prepare.sh )
-      run: d "cd ${ffdir} && bash prepare/imm24/prepare.sh"
+      run: |
+        d '
+          cd ${ffdir} && bash prepare/imm24/prepare.sh
+          p "处理菜单"
+          cd ${wrtdir} && bash ${ffdir}/prepare/menu.sh
+        '
 
     - name: 准备编译
       run: |

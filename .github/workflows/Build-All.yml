@@ -1,4 +1,4 @@
-name: build-all
+name: Build-All
 
 on:
   workflow_dispatch:
@@ -13,28 +13,28 @@ jobs:
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: imm18-build
+        event-type: N1-ImmortalWrt-18.06-K5.4
 
     - name: ImmortalWrt 24
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: imm24-build
+        event-type: N1-ImmortalWrt-24.10
 
     - name: LEDE
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: lede-build
+        event-type: N1-LEDE
 
     - name: OpenWrt 24
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: op24-build
+        event-type: N1-OpenWrt-24.10
 
     - name: iStoreOS
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: isos-build
+        event-type: N1-iStoreOS
