@@ -53,7 +53,7 @@ jobs:
     - name: 准备环境 ( prepare.sh )
       run: |
         d '
-          cd ${ffdir} && bash prepare/imm24/prepare.sh
+          cd ${ffdir} && bash scripts/immortalwrt-24.10/prepare.sh
           p "处理菜单"
           cd ${wrtdir} && bash ${ffdir}/prepare/menu.sh
         '
@@ -63,7 +63,7 @@ jobs:
         d '
           cd ${wrtdir}
           p "展开配置"
-          cp ${ffdir}/prepare/imm24/config.seed .config
+          cp ${ffdir}/scripts/immortalwrt-24.10/config.seed .config
           make defconfig
 
           p "压缩编译目录"
@@ -83,7 +83,7 @@ jobs:
     - name: 缓存
       uses: HiGarfield/cachewrtbuild@main
       with:
-        mixkey: imm24
+        mixkey: immortalwrt-24.10
         prefix: ${{ env.workdir_host }}/openwrt
 
     - name: 开始编译 immortalwrt
@@ -103,7 +103,7 @@ jobs:
           fi
 
           p "打包日志"
-          tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_imm24.tar.zst"
+          tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_immortalwrt-24.10.tar.zst"
 
           if [ "${build_success}" == "true" ]; then
             p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
@@ -118,8 +118,8 @@ jobs:
     - name: 上传日志文件
       uses: actions/upload-artifact@main
       with:
-        name: logs_imm24.tar.zst
-        path: "${{ env.workdir_host }}/logs_imm24.tar.zst"
+        name: logs_immortalwrt-24.10.tar.zst
+        path: "${{ env.workdir_host }}/logs_immortalwrt-24.10.tar.zst"
         compression-level: 0
 
     - name: 打包固件

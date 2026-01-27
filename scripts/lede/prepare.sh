@@ -195,7 +195,7 @@ popd
 
 p "复制自定义文件目录"
 cp -rf ${ffdir}/files ./files
-mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/prepare/lede/zzz-default-settings ./files/etc/uci-defaults/
+mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/scripts/lede/zzz-default-settings ./files/etc/uci-defaults/
 echo -e "\n\033[34mLEDE\033[0m ${distrib_revision} | ${build_date//./-}\n" > ./files/etc/banner
 
 

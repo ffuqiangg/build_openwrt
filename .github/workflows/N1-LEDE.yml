@@ -53,9 +53,9 @@ jobs:
     - name: 准备环境 ( prepare.sh )
       run: |
         d '
-          cd ${ffdir} && bash prepare/lede/prepare.sh
+          cd ${ffdir} && bash scripts/lede/prepare.sh
           p "处理菜单"
-          cd ${wrtdir} && bash ${ffdir}/prepare/menu.sh
+          cd ${wrtdir} && bash ${ffdir}/scripts/menu.sh
         '
 
     - name: 准备编译
@@ -63,7 +63,7 @@ jobs:
         d '
           cd ${wrtdir}
           p "展开配置"
-          cp ${ffdir}/prepare/lede/config.seed .config
+          cp ${ffdir}/scripts/lede/config.seed .config
           make defconfig
 
           p "压缩编译目录"

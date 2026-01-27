@@ -86,11 +86,11 @@ popd
 
 
 p "预编译 node"
-rm -rf ./feeds/packages/lang/node/*
-wget https://raw.githubusercontent.com/sbwml/feeds_packages_lang_node-prebuilt/packages-24.10/Makefile -O ./feeds/packages/lang/node/Makefile
+rm -rf ./feeds/packages/lang/node
+clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
 p "更换 golang 版本"
 rm -rf ./feeds/packages/lang/golang
-git clone --depth 1 https://github.com/sbwml/packages_lang_golang -b 26.x ./feeds/packages/lang/golang
+clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
 
 p "一些补充翻译"
 cp -rf ${ffdir}/patch/trans-zh ./package/add/
@@ -142,7 +142,7 @@ cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-dockerman ./feeds/luci/appl
 sed -i '/auto_start/d' ./feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
 pushd ./feeds/luci/applications/luci-app-dockerman
-bash ${ffdir}/prepare/docker.sh
+bash ${ffdir}/scripts/docker.sh
 popd
 
 p "晶晨宝盒"
@@ -160,7 +160,7 @@ sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/
 
 p "处理菜单"
 pushd ./feeds/luci
-bash ${ffdir}/prepare/menu.sh
+bash ${ffdir}/scripts/menu.sh
 popd
 
 
@@ -174,7 +174,7 @@ rm -f profiles.json
 
 p "复制自定义文件目录"
 cp -rf ${ffdir}/files ./files
-mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/prepare/imm24/zzz-default-settings ./files/etc/uci-defaults/
+mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/scripts/immortalwrt-24.10/zzz-default-settings ./files/etc/uci-defaults/
 echo -e "\n\033[34mImmortalWrt\033[0m ${latest_release} | ${build_date//./-}\n" > ./files/etc/banner
 
 
