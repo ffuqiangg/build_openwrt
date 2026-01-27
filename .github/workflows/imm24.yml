@@ -91,7 +91,6 @@ jobs:
           make -j$(($(nproc) + 1))
           if [ $? -ne 0 ]; then
             p "！！编译失败！！开启单线程"
-            . set_env build_success "false"
             make -j1 V=s
           else
             p "编译成功"
@@ -101,7 +100,11 @@ jobs:
           p "打包日志"
           tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_imm24.tar.zst"
 
-          [ "${build_success}" == "false" ] && exit 1
+          if [ "${build_success}" == "true" ]; then
+            p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+          else
+            exit 1
+          fi
         '
 
         p "打印剩余空间"
