@@ -92,11 +92,11 @@ popd
 
 
 p "预编译 node"
-rm -rf ./feeds/packages/lang/node/*
-wget https://raw.githubusercontent.com/sbwml/feeds_packages_lang_node-prebuilt/packages-24.10/Makefile -O ./feeds/packages/lang/node/Makefile
+rm -rf ./feeds/packages/lang/node
+clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
 p "更换 golang 版本"
 rm -rf ./feeds/packages/lang/golang
-git clone --depth 1 https://github.com/sbwml/packages_lang_golang -b 26.x ./feeds/packages/lang/golang
+clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
 
 p "一些补充翻译"
 cp -rf ${ffdir}/patch/trans-zh ./package/add/
