@@ -38,7 +38,7 @@ clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone master ${lede_luci_repo} ${otherdir}/lede_luci_ma &
 clone master ${dockerman_repo} ${otherdir}/dockerman &
-clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkg &
+clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkgs &
 clone master ${v2raya_repo} ${otherdir}/v2raya &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
@@ -136,7 +136,7 @@ sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makef
 p "CPU 限制"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-cpulimit ./package/add/luci-app-cpulimit
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-cpulimit/Makefile
-cp -rf ../imm_pkg_ma/utils/cpulimit ./package/add/cpulimit
+cp -rf ${otherdir}/imm_pkg_ma/utils/cpulimit ./package/add/cpulimit
 
 p "替换 sing-box"
 cp -rf ${otherdir}/imm_pkg_ma/net/sing-box ./package/add/sing-box
