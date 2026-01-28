@@ -52,6 +52,9 @@ p "更新 Feeds"
 ./scripts/feeds install -a
 
 
+p "卸载无法编译的包"
+./scripts/feeds uninstall prometheus-node-exporter-lua
+
 p "应用自定义修改"
 mkdir -p ./package/add
 p "使用 O2 级别的优化"
