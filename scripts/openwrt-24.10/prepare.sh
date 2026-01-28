@@ -143,8 +143,8 @@ p "Passwall"
 rm -rf ./feeds/packages/net/{xray-core,microsocks}
 cp -rf ${otherdir}/openwrt-add/openwrt_helloworld ./package/add/
 rm -rf ./package/add/openwrt_helloworld/v2ray-geodata
-sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' package/add/openwrt_helloworld/luci-app-passwall/Makefile
-sed -i '/#dde2ff/d;/#2c323c/d' package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
+sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openwrt_helloworld/luci-app-passwall/Makefile
+sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
 
 p "OpenWrt-nikki"
 cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
@@ -153,15 +153,15 @@ cp -rf ${otherdir}/openwrt-momo ./package/add/luci-app-momo
 
 p "Daed"
 cp -rf ${otherdir}/openwrt-add/luci-app-daed ./package/add/
-cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./feeds/packages/libs/libcron
+cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./package/add/
 p "HomeProxy"
 cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
 
 p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-app-dockerman
-sed -i '/auto_start/d' package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
-sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' feeds/packages/utils/dockerd/files/dockerd.init
+sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
+sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
 pushd package/add/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd

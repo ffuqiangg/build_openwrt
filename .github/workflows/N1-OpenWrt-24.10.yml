@@ -103,7 +103,7 @@ jobs:
           fi
 
           p "打包日志"
-          tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_imm24.tar.zst"
+          tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_openwrt-24.10.tar.zst"
 
           if [ "${build_success}" == "true" ]; then
             p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"

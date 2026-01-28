@@ -37,7 +37,6 @@ p "下载其它仓库"
 . set_env "otherdir" "${ffdir}/other"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
-clone openwrt-24.10 ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_24 &
 clone master ${dockerman_repo} ${otherdir}/dockerman &
 clone main ${momo_repo} ${otherdir}/openwrt-momo &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
@@ -53,11 +52,11 @@ p "默认禁用 WIFI"
     sed -Ei "s/(disabled=)0/\11/" ${wrtdir}/package/kernel/mac80211/files/lib/wifi/mac80211.sh
 p "调整内核版本为 5.15"
     sed -i 's/KERNEL_PATCHVER:=.*/KERNEL_PATCHVER:=5.15/' ${wrtdir}/target/linux/amlogic/Makefile
-# p "针对 N1 的编译优化"
-#     sed -i '/aarch64)/{n;s/CPU_TYPE.*/CPU_TYPE = cortex-a53/;}' ${wrtdir}/include/target.mk 
-#     sed -i '/CPU_TYPE = cortex-a53/a\    CPU_CFLAGS = -O2 -pipe -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt' ${wrtdir}/include/target.mk
-#     sed -i '/CPU_TYPE = cortex-a53/{n;n;s/CPU_CFLAGS_generic.*/CPU_CFLAGS_generic = -mcpu=cortex-a53+crypto+crc/;}' ${wrtdir}/include/target.mk
-#     sed -i '/CPU_TYPE = cortex-a53/{n;n;n;s/$/+crypto+crc/;}' ${wrtdir}/include/target.mk
+p "针对 N1 的编译优化"
+    sed -i '/aarch64)/{n;s/CPU_TYPE.*/CPU_TYPE = cortex-a53/;}' ${wrtdir}/include/target.mk 
+    sed -i '/CPU_TYPE = cortex-a53/a\    CPU_CFLAGS = -O2 -pipe -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt' ${wrtdir}/include/target.mk
+    sed -i '/CPU_TYPE = cortex-a53/{n;n;s/CPU_CFLAGS_generic.*/CPU_CFLAGS_generic = -mcpu=cortex-a53+crypto+crc/;}' ${wrtdir}/include/target.mk
+    sed -i '/CPU_TYPE = cortex-a53/{n;n;n;s/$/+crypto+crc/;}' ${wrtdir}/include/target.mk
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
@@ -66,9 +65,6 @@ p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 p "进入编译目录 ${wrtdir}"
 cd ${wrtdir}
 
-# 这里一定要用绝对路径；将包含自定义订阅源的行移动到标准订阅源上方，即可覆盖标准订阅源
-# sed -i "1isrc-link add ${wrtdir}/package/add" feeds.conf.default 
-    
 
 p "更新 Feeds"
 ./scripts/feeds update -a
@@ -80,7 +76,7 @@ mkdir -p ./package/add
 # p "使用 O2 级别的优化"
 # sed -i 's/Os/O2/g' ./include/target.mk
 p "启用 bash"
-sed -i 's,/bin/ash,/bin/bash,' package/base-files/files/{etc/passwd,usr/libexec/login.sh}
+sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/{etc/passwd,usr/libexec/login.sh}
 p "确保加载 /etc/shinit"
 echo -e "\n[ -f /etc/shinit ] && . /etc/shinit" >> ./package/base-files/files/etc/profile
 p "修复 Rust CI 下载限制"
@@ -112,9 +108,6 @@ EOF
 p "预编译 node"
 rm -rf ./feeds/packages/lang/node
 clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
-p "替换 perl"
-rm -rf ./feeds/packages/lang/perl
-cp -rf ${otherdir}/imm_pkg_24/lang/perl ./feeds/packages/lang/perl
 p "更换 golang 版本"
 rm -rf ./feeds/packages/lang/golang
 clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang

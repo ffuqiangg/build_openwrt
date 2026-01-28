@@ -128,8 +128,8 @@ jobs:
         cd ${{ env.workdir_host }}
         rm -rf ./artifact/
         mkdir -p ./artifact/
-        mv ${ env.workdir_host }}/openwrt/bin/targets/amlogic/meson/*sysupgrade.img* ./artifact/
-        mv ${ env.workdir_host }}/openwrt/bin/targets/amlogic/meson/packages ./artifact/
+        mv openwrt/bin/targets/amlogic/meson/*sysupgrade.img* ./artifact/
+        mv openwrt/bin/targets/amlogic/meson/packages ./artifact/
 
         d '
           p "重新打包固件"
@@ -147,7 +147,7 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: istoreos_sfs.zip
-        path: "${{ env.workdir_host }}/artifact/*.sfs.zip"
+        path: "${{ env.workdir_host }}/artifact/*sfs.zip"
         compression-level: 0
 
     - if: env.build_success == 'true'
@@ -155,7 +155,7 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: istoreos_ext4.zip
-        path: "${{ env.workdir_host }}/artifact/*.ext4.zip"
+        path: "${{ env.workdir_host }}/artifact/*ext4.zip"
         compression-level: 0
 
     - if: env.build_success == 'true'
@@ -163,7 +163,7 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: istoreos_packages.zip
-        path: "${{ env.workdir_host }}/artifact/*.packages.zip"
+        path: "${{ env.workdir_host }}/artifact/*packages.zip"
         compression-level: 0
 
     - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'

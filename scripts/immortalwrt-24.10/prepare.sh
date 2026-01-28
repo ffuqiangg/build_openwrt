@@ -145,9 +145,6 @@ pushd ./feeds/luci/applications/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
 
-p "晶晨宝盒"
-cp -rf ${otherdir}/amlogic/luci-app-amlogic ./package/add/
-
 p "Samba4"
 sed -i 's,nas,services,g' ./feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
 p "硬盘休眠"
@@ -157,6 +154,9 @@ sed -i 's,nas,services,g;s,NAS,Services,g' ./feeds/luci/applications/luci-app-rc
 p "Nlbw 带宽监控"
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
+
+p "晶晨宝盒"
+cp -rf ${otherdir}/amlogic/luci-app-amlogic ./package/add/
 
 
 p "Vermagic 内核兼容模块"
