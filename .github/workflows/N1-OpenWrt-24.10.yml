@@ -140,13 +140,14 @@ jobs:
       name: 整理文件
       run: |
         p "将原始固件移动到工作目录"
+        cd ${{ env.workdir_host }}
         rm -rf ./artifact/
         mkdir -p ./artifact/
         cp ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz ./artifact/
 
         d '
           p "重新打包固件"
-          cd ./artifact/
+          cd ${workdir}/artifact/
           7z a -tzip N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}.zip *.img.gz
         '
 
@@ -186,3 +187,4 @@ jobs:
           curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
             -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=false"
         fi
+

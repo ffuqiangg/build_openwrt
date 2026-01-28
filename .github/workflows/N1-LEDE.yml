@@ -125,6 +125,7 @@ jobs:
       name: 整理文件
       run: |
         p "将原始固件移动到工作目录"
+        cd ${{ env.workdir_host }}
         rm -rf ./artifact/
         mkdir -p ./artifact/
         mv ${{ env.workdir_host }}/openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img* ./artifact/
@@ -132,7 +133,7 @@ jobs:
 
         d '
           p "重新打包固件"
-          cd ./artifact/
+          cd ${workdir}/artifact/
           7z a -tzip N1-LEDE-${distrib_revison}-${build_date}-sfs.zip *n1*squashfs*
           7z a -tzip N1-LEDE-${distrib_revison}-${build_date}-ext4.zip *n1*ext4*
           7z a -r -tzip N1-LEDE-${distrib_revison}-${build_date}-packages.zip packages/
