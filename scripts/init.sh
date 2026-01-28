@@ -117,6 +117,16 @@ GH_ENV_DIR=$(dirname "$GITHUB_ENV")
 GH_PATH_DIR=$(dirname "$GITHUB_PATH")
 if [ "$1" == 'ubuntu' ]; then
     docker pull ubuntu:22.04
+    docker run -d --name ubuntu \
+        -v ${workdir_host}:${workdir} \
+        -v "$bin_host:/usr/local/bin_host" \
+        -e PATH="/usr/local/bin_host:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+        -e workdir="${workdir}" \
+        -e workdir_host="${workdir_host}" \
+        -e ffdir="${ffdir}" \
+        -e BASH_ENV="${workdir}/ci_env" \
+        -w ${workdir} \
+        ubuntu:22.04 tail -f /dev/null
 else
     docker pull cachyos/cachyos-v3
     docker run -d --name cachyos \
@@ -144,6 +154,11 @@ dr '. set_env ffdir "${ffdir}"'
 p "安装依赖"
 if [ "$1" == 'ubuntu' ]; then
     dr apt-get -qq update
+    apt-get -qq install ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache clang cmake cpio curl \
+        device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib g++-multilib git gnutls-dev gperf haveged help2man intltool lib32gcc-s1 \
+        libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev libreadline-dev libssl-dev \
+        libtool libyaml-dev libz-dev lld llvm llvm-dev lrzsz mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python3 python3-pip python3-ply python3-docutils \
+        python3-pyelftools qemu-utils re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd
 else
     dr pacman -Syu --noconfirm
     dr pacman -S --needed --noconfirm base-devel asciidoc autoconf automake binutils bison \
