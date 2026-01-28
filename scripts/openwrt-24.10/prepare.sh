@@ -163,7 +163,7 @@ cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-
 sed -i '/auto_start/d' package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' feeds/packages/utils/dockerd/files/dockerd.init
 pushd package/add/luci-app-dockerman
-bash ${ffdir}/prepare/docker.sh
+bash ${ffdir}/scripts/docker.sh
 popd
 
 p "Zerotier"
@@ -187,11 +187,6 @@ sed -i 's,services,system,g' ./package/feeds/luci/luci-app-ttyd/root/usr/share/l
 
 p "晶晨宝盒"
 cp -rf ${otherdir}/amlogic/luci-app-amlogic ./package/add/
-
-p "处理菜单"
-pushd ./feeds/luci
-bash ${ffdir}/prepare/menu.sh
-popd
 
 
 p "Vermagic 内核兼容模块"

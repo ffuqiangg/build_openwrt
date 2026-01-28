@@ -158,11 +158,6 @@ p "Nlbw 带宽监控"
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
 
-p "处理菜单"
-pushd ./feeds/luci
-bash ${ffdir}/scripts/menu.sh
-popd
-
 
 p "Vermagic 内核兼容模块"
 wget https://downloads.immortalwrt.org/releases/${latest_release}/targets/armsr/armv8/profiles.json

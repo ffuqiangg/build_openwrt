@@ -176,7 +176,7 @@ cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-
 sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
 pushd package/add/luci-app-dockerman
-bash ${ffdir}/prepare/docker.sh
+bash ${ffdir}/scripts/docker.sh
 popd
 
 p "Filebrowser 文件管理器"
@@ -186,11 +186,6 @@ p "Daed"
 rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
 cp -rf ${otherdir}/openwrt-add/luci-app-daed ./package/add/luci-app-daed
 cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./package/add/libcron
-
-p "处理菜单"
-pushd ./feeds/luci
-bash ${ffdir}/prepare/menu.sh
-popd
 
 
 p "复制自定义文件目录"
