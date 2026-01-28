@@ -155,6 +155,9 @@ dr '. set_env ffdir "${ffdir}"'
 
 p "安装依赖"
 if [ "$1" == 'ubuntu' ]; then
+    echo "tzdata tzdata/Areas string Asia" | debconf-set-selections
+    echo "tzdata tzdata/Zones/Asia string Shanghai" | debconf-set-selections
+    export DEBIAN_FRONTEND=noninteractive
     dr apt-get -y -qq update
     dr apt-get -y -qq install ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
         bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib \
