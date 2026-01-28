@@ -165,7 +165,7 @@ if [ "$1" == 'ubuntu' ]; then
         re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd sudo
 
     p "确保用户一致并配置 sudo"
-    dr "mkdir -p /etc/sudoers.d
+    dr "mkdir -p /etc/sudoers.d;"
     dr "groupadd -g 1001 runner || true;"
     dr "useradd -u 1001 -g 1001 -m -s /bin/bash runner;"
     dr "echo 'runner ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/runner;"
