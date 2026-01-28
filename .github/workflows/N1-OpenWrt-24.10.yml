@@ -48,7 +48,7 @@ jobs:
       uses: actions/checkout@v6
 
     - name: 准备容器 ( init.sh )
-      run: bash scripts/init.sh
+      run: bash scripts/init.sh "cachyos"
 
     - name: 准备环境 ( prepare.sh )
       run: |

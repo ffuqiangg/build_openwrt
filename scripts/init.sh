@@ -94,6 +94,7 @@ p "浅克隆: $2 (branch: $1) $3"
 git clone -q --filter=blob:none --single-branch -b "$1" "$2" "$3"
 EOF
 
+sed -i "s/buildos/$1/g" $bin_host/{dr,d}
 
 chmod +x $bin_host/*
 echo "$bin_host" >> $GITHUB_PATH
@@ -105,7 +106,7 @@ df -h
 
 
 
-p "准备 BuildOS"
+p "准备 ${1^^}"
 . set_env "workdir" "/ci"  # 必须使用 . set_env ，否则变量不会在当前 shell 生效
 . set_env "workdir_host" "/mnt${workdir}"
 . set_env "ffdir" "${workdir}/ffos"
@@ -117,7 +118,7 @@ GH_ENV_DIR=$(dirname "$GITHUB_ENV")
 GH_PATH_DIR=$(dirname "$GITHUB_PATH")
 if [ "$1" == 'ubuntu' ]; then
     docker pull ubuntu:22.04
-    docker run -d --name buildos \
+    docker run -d --name ubuntu \
         -v ${workdir_host}:${workdir} \
         -v "$bin_host:/usr/local/bin_host" \
         -e PATH="/usr/local/bin_host:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
@@ -127,9 +128,9 @@ if [ "$1" == 'ubuntu' ]; then
         -e BASH_ENV="${workdir}/ci_env" \
         -w ${workdir} \
         ubuntu:22.04 tail -f /dev/null
-else
+elif [ "$1" == 'cachyos' ]; then
     docker pull cachyos/cachyos-v3
-    docker run -d --name buildos \
+    docker run -d --name cachyos \
         -v ${workdir_host}:${workdir} \
         -v "$bin_host:/usr/local/bin_host" \
         -e PATH="/usr/local/bin_host:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
@@ -172,7 +173,7 @@ if [ "$1" == 'ubuntu' ]; then
     dr "echo 'runner ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/runner;"
     dr "chmod 0440 /etc/sudoers.d/runner;"
     dr "chown -R runner:runner /home/runner"
-else
+elif [ "$1" == 'cachyos' ]; then
     dr pacman -Syu --noconfirm
     dr pacman -S --needed --noconfirm base-devel asciidoc autoconf automake binutils bison \
         bzip2 ccache llvm clang cmake cpio curl dtc eclipse-ecj fastjar flex gawk gettext \
