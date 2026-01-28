@@ -31,7 +31,7 @@ popd
 
 
 p "下载其它仓库"
-. set_env "otherdir" "${ffdir}/other"
+. set_env "otherdir" "${workdir}/other"
 clone openwrt-21.02 ${immortalwrt_luci_repo} ${otherdir}/imm_luci_21 &
 clone openwrt-21.02 ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_21 &
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
@@ -74,6 +74,9 @@ p "更新 Feeds"
 ./scripts/feeds install -a
 
 
+p "卸载无法编译的包"
+./scripts/feeds uninstall dns2socks-rust glib2 luci-app-baidupcs-web ntfs3-mount
+
 p "应用自定义修改"
 mkdir -p ./package/add
 # p "使用 O2 级别的优化"
@@ -84,8 +87,6 @@ p "默认开启 Irqbalance"
 sed -i "s/enabled '0'/enabled '1'/g" ./feeds/packages/utils/irqbalance/files/irqbalance.config
 p "确保加载 /etc/shinit"
 echo -e "\n[ -f /etc/shinit ] && . /etc/shinit" >> ./package/base-files/files/etc/profile
-p "修复 Rust CI 下载限制"
-sed -i '/--set=llvm.download-ci-llvm/s/true/false/' ./feeds/packages/lang/rust/Makefile
 
 
 p "修复页面跳转问题"

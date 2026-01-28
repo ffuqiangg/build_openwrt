@@ -34,7 +34,7 @@ distrib_revision=$(grep 'DISTRIB_REVISION=' ${wrtdir}/package/lean/default-setti
 . set_env "distrib_revision" "${distrib_revision}"
 
 p "下载其它仓库"
-. set_env "otherdir" "${ffdir}/other"
+. set_env "otherdir" "${workdir}/other"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone master ${dockerman_repo} ${otherdir}/dockerman &

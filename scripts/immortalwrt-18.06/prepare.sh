@@ -31,7 +31,7 @@ popd
 
 
 p "下载其它仓库"
-. set_env "otherdir" "${ffdir}/other"
+. set_env "otherdir" "${workdir}/other"
 clone master ${openclash_repo} ${otherdir}/openclash &
 clone main ${amlogic_repo} ${otherdir}/amlogic &
 clone v4 ${sbwml_mosdns_repo} ${otherdir}/mosdns &
