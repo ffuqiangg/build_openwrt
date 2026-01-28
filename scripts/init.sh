@@ -1,3 +1,5 @@
+#!/bin/bash
+
 sudo timedatectl set-timezone 'Asia/Shanghai'
 
 echo "创建快捷命令"
@@ -170,6 +172,7 @@ else
         paru sudo shadow jq ninja python-setuptools python-pyelftools bc libxslt openssl time \
         util-linux which perl-extutils-makemaker fuse2 less tree
         # 不要添加zlib，会冲突
+    d paru --noconfirm -S ack antlr3
 fi
 
 
@@ -215,8 +218,6 @@ d '
   . set_env "autocore_arm_repo" "https://github.com/sbwml/autocore-arm"
   . set_env "homeproxy_repo" "https://github.com/immortalwrt/homeproxy"
 '
-
-d paru --noconfirm -S ack antlr3
 
 p "复制仓库到容器内 ${ffdir}"
 cp -r $GITHUB_WORKSPACE ${workdir_host}/ffos
