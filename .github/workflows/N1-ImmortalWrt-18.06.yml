@@ -1,10 +1,10 @@
-name: N1-ImmortalWrt-18.06-K5.4
+name: N1-ImmortalWrt-18.06
 
 on:
   workflow_dispatch:
   repository_dispatch:
     types:
-      - N1-ImmortalWrt-18.06-K5.4
+      - N1-ImmortalWrt-18.06
 
 jobs:
   build:
