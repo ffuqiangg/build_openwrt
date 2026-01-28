@@ -111,6 +111,10 @@ jobs:
           fi
         '
 
+        if [ "${{ build_success }}" == "true" ]; then
+          p "移动待打包文件"
+          mv ${{ env.workdir_host }}/openwrt/bin/targets/*/*/*rootfs.tar.gz /home/runner/work/build_openwrt/build_openwrt/
+        fi
         p "打印剩余空间"
         df -h
 
@@ -125,7 +129,7 @@ jobs:
       uses: ffuqiangg/openwrt_packit@master
       env:
         SCRIPT_REPO_URL: ffuqiangg/openwrt_packit
-        OPENWRT_ARMVIRT: ${{ env.workdir_host }}/openwrt/bin/targets/*/*/*rootfs.tar.gz
+        OPENWRT_ARMVIRT: "*rootfs.tar.gz"
         PACKAGE_SOC: s905d
         KERNEL_REPO_URL: ffuqiangg/amlogic-s9xxx-armbian
         KERNEL_VERSION_NAME: 5.4.100
