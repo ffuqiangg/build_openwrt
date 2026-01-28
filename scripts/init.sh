@@ -87,8 +87,8 @@ EOF
 cat <<'EOF' > $bin_host/clone
 #!/bin/bash
 if [ $# -lt 2 ]; then
-  echo "用法: clone <branch> <repo_url> <target_dir>" >&2
-  return 1
+    echo "用法: clone <branch> <repo_url> <target_dir>" >&2
+    return 1
 fi
 p "浅克隆: $2 (branch: $1) $3"
 git clone -q --filter=blob:none --single-branch -b "$1" "$2" "$3"
@@ -154,13 +154,16 @@ dr '. set_env ffdir "${ffdir}"'
 p "安装依赖"
 if [ "$1" == 'ubuntu' ]; then
     dr apt-get -y -qq update
-    dr DEBIAN_FRONTEND=noninteractive apt-get -y -qq install ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \
-        bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib \
-        g++-multilib git gnutls-dev gperf haveged help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev \
-        libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev libreadline-dev libssl-dev \
+    dr DEBIAN_FRONTEND=noninteractive \
+        apt-get -y -qq install ack antlr3 asciidoc autoconf automake autopoint binutils \
+        bison build-essential bzip2 ccache clang cmake cpio curl device-tree-compiler \
+        ecj fastjar flex gawk gettext gcc-multilib g++-multilib git gnutls-dev gperf haveged \
+        help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev \
+        libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev libreadline-dev libssl-dev \
         libtool libyaml-dev libz-dev lld llvm llvm-dev lrzsz mkisofs msmtp nano ninja-build p7zip p7zip-full \
         patch pkgconf python3 python3-pip python3-ply python3-docutils python3-pyelftools qemu-utils \
-        re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd sudo
+        re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget \
+        xmlto xxd zlib1g-dev zstd sudo
 
     p "确保用户一致并配置 sudo"
     dr "mkdir -p /etc/sudoers.d;"
