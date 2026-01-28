@@ -49,8 +49,8 @@ EOF
 # --- 3. 定义 d (Runner 身份执行 + 自动同步变量) ---
 cat <<'EOF' > $bin_host/d
 #!/bin/bash
-p "runner@cachyos: $*"
-docker exec -u runner -e BASH_ENV=${workdir}/ci_env cachyos bash -c "$*"
+p "runner@buildos: $*"
+docker exec -u runner -e BASH_ENV=${workdir}/ci_env buildos bash -c "$*"
 EXIT_CODE=$?
 
 # === 自动化同步逻辑开始 ===
@@ -70,8 +70,8 @@ EOF
 # --- 4. 定义 dr (Root 身份执行 + 自动同步变量) ---
 cat <<'EOF' > $bin_host/dr
 #!/bin/bash
-p "root@cachyos: $*"
-docker exec -u root -e BASH_ENV=${workdir}/ci_env cachyos bash -c "$*"
+p "root@buildos: $*"
+docker exec -u root -e BASH_ENV=${workdir}/ci_env buildos bash -c "$*"
 EXIT_CODE=$?
 
 # === 自动化同步逻辑开始 ===
@@ -107,7 +107,7 @@ df -h
 
 
 
-p "准备 CachyOS"
+p "准备 BuildOS"
 . set_env "workdir" "/ci"  # 必须使用 . set_env ，否则变量不会在当前 shell 生效
 . set_env "workdir_host" "/mnt${workdir}"
 . set_env "ffdir" "${workdir}/ffos"
@@ -119,7 +119,7 @@ GH_ENV_DIR=$(dirname "$GITHUB_ENV")
 GH_PATH_DIR=$(dirname "$GITHUB_PATH")
 if [ "$1" == 'ubuntu' ]; then
     docker pull ubuntu:22.04
-    docker run -d --name ubuntu \
+    docker run -d --name buildos \
         -v ${workdir_host}:${workdir} \
         -v "$bin_host:/usr/local/bin_host" \
         -e PATH="/usr/local/bin_host:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
@@ -131,7 +131,7 @@ if [ "$1" == 'ubuntu' ]; then
         ubuntu:22.04 tail -f /dev/null
 else
     docker pull cachyos/cachyos-v3
-    docker run -d --name cachyos \
+    docker run -d --name buildos \
         -v ${workdir_host}:${workdir} \
         -v "$bin_host:/usr/local/bin_host" \
         -e PATH="/usr/local/bin_host:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
