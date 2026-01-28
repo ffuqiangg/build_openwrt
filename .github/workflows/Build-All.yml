@@ -13,7 +13,7 @@ jobs:
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-ImmortalWrt-18.06-K5.4
+        event-type: N1-ImmortalWrt-18.06
 
     - name: ImmortalWrt 24
       uses: peter-evans/repository-dispatch@v2
