@@ -163,6 +163,13 @@ if [ "$1" == 'ubuntu' ]; then
         libtool libyaml-dev libz-dev lld llvm llvm-dev lrzsz mkisofs msmtp nano ninja-build p7zip p7zip-full \
         patch pkgconf python3 python3-pip python3-ply python3-docutils python3-pyelftools qemu-utils \
         re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd
+
+    p "确保用户一致并配置 sudo"
+    dr "groupadd -g 1001 runner || true;"
+    dr "useradd -u 1001 -g 1001 -m -s /bin/bash runner;"
+    dr "echo 'runner ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/runner;"
+    dr "chmod 0440 /etc/sudoers.d/runner;"
+    dr "chown -R runner:runner /home/runner"
 else
     dr pacman -Syu --noconfirm
     dr pacman -S --needed --noconfirm base-devel asciidoc autoconf automake binutils bison \
@@ -175,15 +182,16 @@ else
         util-linux which perl-extutils-makemaker fuse2 less tree
         # 不要添加zlib，会冲突
     dr paru --noconfirm -S ack antlr3
+
+    p "确保用户一致并配置 sudo"
+    dr "groupadd -g $(id -g runner) runner || true;"
+    dr "useradd -u $(id -u runner) -g $(id -g runner) -m -s /bin/bash runner;"
+    dr "echo 'runner ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/runner;"
+    dr "chmod 0440 /etc/sudoers.d/runner;"
+    dr "chown -R runner:runner /home/runner"
 fi
 
 
-p "确保用户一致并配置 sudo"
-dr "groupadd -g $(id -g runner) runner || true;"
-dr "useradd -u $(id -u runner) -g $(id -g runner) -m -s /bin/bash runner;"
-dr "echo 'runner ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/runner;"
-dr "chmod 0440 /etc/sudoers.d/runner;"
-dr "chown -R runner:runner /home/runner"
 
 p "d 命令已可用"
 
