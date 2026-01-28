@@ -177,7 +177,7 @@ else
         paru sudo shadow jq ninja python-setuptools python-pyelftools bc libxslt openssl time \
         util-linux which perl-extutils-makemaker fuse2 less tree
         # 不要添加zlib，会冲突
-    d paru --noconfirm -S ack antlr3
+    dr paru --noconfirm -S ack antlr3
 fi
 
 
