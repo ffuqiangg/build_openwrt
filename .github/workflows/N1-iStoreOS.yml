@@ -69,15 +69,15 @@ jobs:
           p "压缩编译目录"
           cd ${workdir}
           cp -r ${ffdir} ${wrtdir}/
-          tar -cf - $(basename ${wrtdir})/ | zstd -19 -T0 > istoreos_end.tar.zst
+          tar -cf - $(basename ${wrtdir})/ | zstd -19 -T0 > wrt_end.tar.zst
           rm -rf ${wrtdir}/$(basename ${ffdir})
         '
 
     - name: 上传编译目录
       uses: actions/upload-artifact@main
       with:
-        name: istoreos_end.tar.zst
-        path: "${{ env.workdir_host }}/istoreos_end.tar.zst"
+        name: wrt_end.tar.zst
+        path: "${{ env.workdir_host }}/wrt_end.tar.zst"
         compression-level: 0
 
     - name: 缓存
@@ -189,5 +189,5 @@ jobs:
         msg="${msg}${new}"
         if [ "${firmware_num}" == '9' ]; then
           curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
-            -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${msg}&parse_mode=MarkDown&disable_web_page_preview=true"
+            -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${msg}&parse_mode=MarkDown&disable_web_page_preview=false"
         fi
