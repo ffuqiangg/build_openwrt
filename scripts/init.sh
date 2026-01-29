@@ -117,30 +117,22 @@ sudo mkdir ${workdir_host} && sudo chown -R runner:runner ${workdir_host}
 GH_ENV_DIR=$(dirname "$GITHUB_ENV")
 GH_PATH_DIR=$(dirname "$GITHUB_PATH")
 if [ "${build_os}" == 'ubuntu' ]; then
-    docker pull ubuntu:22.04
-    docker run -d --name ubuntu \
-        -v ${workdir_host}:${workdir} \
-        -v "$bin_host:/usr/local/bin_host" \
-        -e PATH="/usr/local/bin_host:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
-        -e workdir="${workdir}" \
-        -e workdir_host="${workdir_host}" \
-        -e ffdir="${ffdir}" \
-        -e BASH_ENV="${workdir}/ci_env" \
-        -w ${workdir} \
-        ubuntu:22.04 tail -f /dev/null
+    docker_image='ubuntu:22.04'
 elif [ "${build_os}" == 'cachyos' ]; then
-    docker pull cachyos/cachyos-v3
-    docker run -d --name cachyos \
-        -v ${workdir_host}:${workdir} \
-        -v "$bin_host:/usr/local/bin_host" \
-        -e PATH="/usr/local/bin_host:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
-        -e workdir="${workdir}" \
-        -e workdir_host="${workdir_host}" \
-        -e ffdir="${ffdir}" \
-        -e BASH_ENV="${workdir}/ci_env" \
-        -w ${workdir} \
-        cachyos/cachyos-v3 tail -f /dev/null
+    docker_image='cachyos/cachyos-v3'
 fi
+docker pull ${docker_image}
+docker run -d --name ${build_os} \
+    -v ${workdir_host}:${workdir} \
+    -v "$bin_host:/usr/local/bin_host" \
+    -e PATH="/usr/local/bin_host:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+    -e workdir="${workdir}" \
+    -e workdir_host="${workdir_host}" \
+    -e ffdir="${ffdir}" \
+    -e BASH_ENV="${workdir}/ci_env" \
+    -w ${workdir} \
+    ${docker_image} tail -f /dev/null
+
 
 p "初始化容器环境文件"
 # 先创建文件并授权，这样容器内的 set_env 才能写入
