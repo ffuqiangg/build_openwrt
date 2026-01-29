@@ -105,11 +105,7 @@ jobs:
           p "打包日志"
           tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_istoreos.tar.zst"
 
-          if [ "${build_success}" == "true" ]; then
-            p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-          else
-            exit 1
-          fi
+          [ "${build_success}" == "true" ] || exit 1
         '
 
         p "打印剩余空间"
