@@ -68,6 +68,12 @@ jobs:
           rm -rf ${wrtdir}/$(basename ${ffdir})
         '
 
+    - name: 上传 .config
+      uses: actions/upload-artifact@main
+      with:
+        name: immortalwrt_config
+        path: "${{ env.workdir_host }}/openwrt/.config"
+
     - name: 上传编译目录
       uses: actions/upload-artifact@main
       with:
