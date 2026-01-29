@@ -113,16 +113,15 @@ p "准备 ${build_os^^}"
 
 sudo mkdir ${workdir_host} && sudo chown -R runner:runner ${workdir_host}
 
-# tail -f /dev/null: 保持容器运行
-GH_ENV_DIR=$(dirname "$GITHUB_ENV")
-GH_PATH_DIR=$(dirname "$GITHUB_PATH")
-
 if [ "${build_os}" == 'ubuntu' ]; then
     docker_image='ubuntu:22.04'
 elif [ "${build_os}" == 'cachyos' ]; then
     docker_image='cachyos/cachyos-v3'
 fi
 
+# tail -f /dev/null: 保持容器运行
+GH_ENV_DIR=$(dirname "$GITHUB_ENV")
+GH_PATH_DIR=$(dirname "$GITHUB_PATH")
 docker pull ${docker_image}
 docker run -d --name ${build_os} \
     -v ${workdir_host}:${workdir} \
