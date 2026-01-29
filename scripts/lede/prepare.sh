@@ -50,13 +50,10 @@ p "修改默认 IP ( 192.168.1.99 )"
 p "默认禁用 WIFI"
     sed -i '/wireless/d' ${wrtdir}/package/lean/default-settings/files/zzz-default-settings
     sed -Ei "s/(disabled=)0/\11/" ${wrtdir}/package/kernel/mac80211/files/lib/wifi/mac80211.sh
-p "调整内核版本为 5.15"
-    sed -i 's/KERNEL_PATCHVER:=.*/KERNEL_PATCHVER:=5.15/' ${wrtdir}/target/linux/amlogic/Makefile
+# p "调整内核版本为 5.15"
+#     sed -i 's/KERNEL_PATCHVER:=.*/KERNEL_PATCHVER:=5.15/' ${wrtdir}/target/linux/amlogic/Makefile
 p "针对 N1 的编译优化"
-    sed -i '/aarch64)/{n;s/CPU_TYPE.*/CPU_TYPE = cortex-a53/;}' ${wrtdir}/include/target.mk 
-    sed -i '/CPU_TYPE = cortex-a53/a\    CPU_CFLAGS = -O2 -pipe -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt' ${wrtdir}/include/target.mk
-    sed -i '/CPU_TYPE = cortex-a53/{n;n;s/CPU_CFLAGS_generic.*/CPU_CFLAGS_generic = -mcpu=cortex-a53+crypto+crc/;}' ${wrtdir}/include/target.mk
-    sed -i '/CPU_TYPE = cortex-a53/{n;n;n;s/$/+crypto+crc/;}' ${wrtdir}/include/target.mk
+    sed -i 's/-mcpu=cortex-a53/&+crypto+crc/' ${wrtdir}/include/target.mk
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
@@ -73,8 +70,8 @@ p "更新 Feeds"
 
 p "应用自定义修改"
 mkdir -p ./package/add
-# p "使用 O2 级别的优化"
-# sed -i 's/Os/O2/g' ./include/target.mk
+p "使用 O2 级别的优化"
+sed -i 's/Os/O2/g' ./include/target.mk
 p "启用 bash"
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/{etc/passwd,usr/libexec/login.sh}
 p "确保加载 /etc/shinit"
