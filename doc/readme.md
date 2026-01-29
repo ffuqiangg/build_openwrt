@@ -47,9 +47,9 @@ openwrt-update-amlogic
 > - 系统可单独升级内核但不建议。尤其是 ImmortalWrt-23.05 和 OpenWrt-23.05 固件，其经过特殊优化解决了安装内核模块报错的问题，单独升级内核可能使其失效。
 > - 使用过程中 docker 容器中的目录如需映射到 EMMC 务必映射到 `/mnt/mmcblk2p4` 目录。
 
-### 3. LEDE、iStoreOS 固件的安装使用
+### 3. LEDE、iStoreOS ( sfs ) 固件的安装使用
 
-这类原生固件在安装好之后还需要挂载 overlay 和 docker 分区。iStoreOS 固件默认已挂载好 overlay 分区，可跳过该步骤。
+sfs 格式固件在安装好之后还需要挂载 overlay 和 docker 分区。iStoreOS 固件默认已挂载好 overlay 分区，可跳过该步骤。
 
 1. 安装系统：连接 ssh，输入命令 
 ```bash

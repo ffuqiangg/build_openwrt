@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# 本脚本用于将 dockerman 从一级菜单移动到服务菜单中
+# 本脚本用于将 dockerman 从一级菜单移动到 服务 菜单中
 #
 
 resource_file="$({ find | grep "\.lua|\.htm"; } 2>"/dev/null")"
