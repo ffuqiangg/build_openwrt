@@ -56,7 +56,7 @@ p "修改默认主题为 bootstrap"
     sed -i '/config\/argon/,+6d' ${wrtdir}/package/istoreos-files/files/etc/uci-defaults/09_istoreos
     rm -f ${wrtdir}/package/istoreos-files/files/etc/uci-defaults/99_theme
 p "针对 N1 的编译优化"
-    sed -i 's/-mcpu=cortex-a53/&+crypto+crc/' ${wrtdir}/include/target.mk
+    sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
@@ -76,8 +76,6 @@ p "卸载无法编译的包"
 
 p "应用自定义修改"
 mkdir -p ./package/add
-p "使用 O2 级别的优化"
-sed -i 's/Os/O2/g' ./include/target.mk
 p "启用 bash"
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/{etc/passwd,usr/libexec/login.sh}
 p "默认开启 Irqbalance"
