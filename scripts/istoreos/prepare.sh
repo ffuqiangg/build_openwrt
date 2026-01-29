@@ -75,7 +75,7 @@ p "更新 Feeds"
 
 
 p "卸载无法编译的包"
-./scripts/feeds uninstall dns2socks-rust glib2 luci-app-baidupcs-web ntfs3-mount
+./scripts/feeds uninstall dns2socks-rust luci-app-baidupcs-web ntfs3-mount
 
 p "应用自定义修改"
 mkdir -p ./package/add
