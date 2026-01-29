@@ -51,17 +51,15 @@ jobs:
       run: bash scripts/init.sh
 
     - name: 准备环境 ( prepare.sh )
-      run: |
-        d '
-          cd ${ffdir} && bash scripts/istoreos/prepare.sh
-          p "处理菜单"
-          cd ${wrtdir}/feeds/luci && bash ${ffdir}/scripts/menu.sh
-          cd ${wrtdir}/package && bash ${ffdir}/scripts/menu.sh
-        '
+      run: d "cd ${ffdir} && bash scripts/istoreos/prepare.sh"
 
     - name: 准备编译
       run: |
         d '
+          p "处理菜单"
+          cd ${wrtdir}/feeds/luci && bash ${ffdir}/scripts/menu.sh
+          cd ${wrtdir}/package && bash ${ffdir}/scripts/menu.sh
+
           cd ${wrtdir}
           p "展开配置"
           cp ${ffdir}/scripts/istoreos/config.seed .config
