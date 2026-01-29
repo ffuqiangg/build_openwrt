@@ -97,7 +97,7 @@ mv -f ./target/linux/amlogic/mesongx/base-files/root ./target/linux/amlogic/meso
 
 p "调整 default-settings"
 sed -i '/services/d;/exit/d' ./package/lean/default-settings/files/zzz-default-settings
-cat <<'EOF' >> package/lean/default-settings/files/zzz-default-settings
+cat <<-EOF >> package/lean/default-settings/files/zzz-default-settings
 sed -i '/BUILD_DATE/d' /etc/openwrt_release
 echo "BUILD_DATE='${build_date}'" >> /etc/openwrt_release
 
