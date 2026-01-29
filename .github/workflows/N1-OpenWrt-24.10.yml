@@ -87,7 +87,7 @@ jobs:
         mixkey: openwrt-24.10
         prefix: ${{ env.workdir_host }}/openwrt
 
-    - name: 开始编译 openwrt
+    - name: 开始编译 OpenWrt
       run: |
         d '
           cd ${wrtdir}

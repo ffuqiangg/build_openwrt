@@ -68,12 +68,6 @@ jobs:
           rm -rf ${wrtdir}/$(basename ${ffdir})
         '
 
-    - name: 上传 .config
-      uses: actions/upload-artifact@main
-      with:
-        name: immortalwrt_config
-        path: "${{ env.workdir_host }}/openwrt/.config"
-
     - name: 上传编译目录
       uses: actions/upload-artifact@main
       with:
@@ -81,13 +75,19 @@ jobs:
         path: "${{ env.workdir_host }}/wrt_end.tar.zst"
         compression-level: 0
 
+    - name: 上传 .config
+      uses: actions/upload-artifact@main
+      with:
+        name: immortalwrt_config
+        path: "${{ env.workdir_host }}/openwrt/.config"
+
     - name: 缓存
       uses: HiGarfield/cachewrtbuild@main
       with:
         mixkey: immortalwrt-24.10
         prefix: ${{ env.workdir_host }}/openwrt
 
-    - name: 开始编译 immortalwrt
+    - name: 开始编译 ImmortalWrt
       run: |
         d '
           cd ${wrtdir}

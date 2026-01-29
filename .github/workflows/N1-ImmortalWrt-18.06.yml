@@ -87,7 +87,7 @@ jobs:
         mixkey: immortalwrt-18.06
         prefix: ${{ env.workdir_host }}/openwrt
 
-    - name: 开始编译 immortalwrt
+    - name: 开始编译 ImmortalWrt
       run: |
         d '
           cd ${wrtdir}
