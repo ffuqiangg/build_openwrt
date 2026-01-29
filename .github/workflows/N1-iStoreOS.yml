@@ -143,7 +143,7 @@ jobs:
       name: 上传固件 ( sfs )
       uses: actions/upload-artifact@main
       with:
-        name: istoreos_sfs.zip
+        name: istoreos_sfs
         path: "${{ env.workdir_host }}/artifact/*sfs.zip"
         compression-level: 0
 
@@ -151,7 +151,7 @@ jobs:
       name: 上传固件 ( ext4 )
       uses: actions/upload-artifact@main
       with:
-        name: istoreos_ext4.zip
+        name: istoreos_ext4
         path: "${{ env.workdir_host }}/artifact/*ext4.zip"
         compression-level: 0
 
@@ -159,7 +159,7 @@ jobs:
       name: 上传 packages
       uses: actions/upload-artifact@main
       with:
-        name: istoreos_packages.zip
+        name: istoreos_packages
         path: "${{ env.workdir_host }}/artifact/*packages.zip"
         compression-level: 0
 

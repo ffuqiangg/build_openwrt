@@ -155,7 +155,7 @@ jobs:
       name: 上传固件
       uses: actions/upload-artifact@main
       with:
-        name: openwrt_firmware.zip
+        name: openwrt_firmware
         path: "${{ env.workdir_host }}/artifact/*.zip"
         compression-level: 0
 
