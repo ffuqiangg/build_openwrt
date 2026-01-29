@@ -116,11 +116,13 @@ sudo mkdir ${workdir_host} && sudo chown -R runner:runner ${workdir_host}
 # tail -f /dev/null: 保持容器运行
 GH_ENV_DIR=$(dirname "$GITHUB_ENV")
 GH_PATH_DIR=$(dirname "$GITHUB_PATH")
+
 if [ "${build_os}" == 'ubuntu' ]; then
     docker_image='ubuntu:22.04'
 elif [ "${build_os}" == 'cachyos' ]; then
     docker_image='cachyos/cachyos-v3'
 fi
+
 docker pull ${docker_image}
 docker run -d --name ${build_os} \
     -v ${workdir_host}:${workdir} \
@@ -176,7 +178,6 @@ elif [ "${build_os}" == 'cachyos' ]; then
         paru sudo shadow jq ninja python-setuptools python-pyelftools bc libxslt openssl time \
         util-linux which perl-extutils-makemaker fuse2 less tree
         # 不要添加zlib，会冲突
-    dr paru --noconfirm -S ack antlr3
 
     p "确保用户一致并配置 sudo"
     dr "groupadd -g $(id -g runner) runner || true;"
@@ -223,6 +224,8 @@ d '
     . set_env "autocore_arm_repo" "https://github.com/sbwml/autocore-arm"
     . set_env "homeproxy_repo" "https://github.com/immortalwrt/homeproxy"
 '
+
+[ "${build_os}" == 'cachyos' ] && d paru --noconfirm -S ack antlr3
 
 p "复制仓库到容器内 ${ffdir}"
 cp -r $GITHUB_WORKSPACE ${workdir_host}/ffos
