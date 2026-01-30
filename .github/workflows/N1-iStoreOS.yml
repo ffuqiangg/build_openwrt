@@ -127,6 +127,7 @@ jobs:
           p "重新打包固件"
           cd ${workdir}/artifact/
           7z a -tzip N1-iStoreOS-22.03.7-${build_date}-sfs.zip *n1*squashfs*
+          7z a -tzip N1-iStoreOS-22.03.7-${build_date}-ext4.zip *n1*ext4*
           7z a -r -tzip N1-iStoreOS-22.03.7-${build_date}-packages.zip packages/
         '
 
@@ -139,6 +140,14 @@ jobs:
       with:
         name: istoreos_sfs
         path: "${{ env.workdir_host }}/artifact/*sfs.zip"
+        compression-level: 0
+
+    - if: env.build_success == 'true'
+      name: 上传固件 ( ext4 )
+      uses: actions/upload-artifact@main
+      with:
+        name: istoreos_ext4
+        path: "${{ env.workdir_host }}/artifact/*ext4.zip"
         compression-level: 0
 
     - if: env.build_success == 'true'
@@ -173,7 +182,7 @@ jobs:
         "
         new="$(sed -n '/更新信息/,$p' ./doc/release.md | sed 's/.*更新信息/\*更新信息\*/' | sed '2d')"
         msg="${msg}${new}"
-        if [ "${zip9}" == '7' ]; then
+        if [ "${zip9}" == '9' ]; then
           curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
             -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${msg}&parse_mode=MarkDown&disable_web_page_preview=false"
         fi
