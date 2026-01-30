@@ -90,7 +90,7 @@ wget https://raw.githubusercontent.com/jjm2473/luci/12c7169/modules/luci-mod-net
 
 
 p "调整刷机脚本"
-patch -p1 < ${ffdir}/patch/install/istoreos/custom_target_amlogic_scripts.patch
+patch -p1 < ${ffdir}/scripts/istoreos/custom_target_amlogic_scripts.patch
 p "调整 default-settings"
 sed -i '/dockerd.globals.data_root/d' ./package/istoreos-files/files/etc/uci-defaults/09_istoreos
 sed -i 'N;/\n.*commit dockerd/!P;D' ./package/istoreos-files/files/etc/uci-defaults/09_istoreos 
@@ -199,7 +199,7 @@ sed -i 's|"admin",|& "services",|g' ./feeds/store/luci/luci-app-store/luasrc/con
 
 
 p "复制自定义文件目录"
-cp -rf ${ffdir}/files ./files
+cp -rf ${ffdir}/patch/files ./files
 mkdir -p ./files/etc/{uci-defaults,openclash/core}
 cp -f ${ffdir}/scripts/istoreos/zzz-default-settings ./files/etc/uci-defaults/
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > ./files/etc/openclash/core/clash_meta

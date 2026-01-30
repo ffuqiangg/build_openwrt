@@ -86,7 +86,7 @@ popd
 
 
 p "调整刷机脚本"
-patch -p1 < ${ffdir}/patch/install/lede/custom_target_amlogic_scripts.patch
+patch -p1 < ${ffdir}/scripts/lede/custom_target_amlogic_scripts.patch
 mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
 mv -f ./target/linux/amlogic/mesongx/base-files/root ./target/linux/amlogic/mesongx/base-files/usr/sbin
 
@@ -177,7 +177,7 @@ cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./package/add/libcron
 
 
 p "复制自定义文件目录"
-cp -rf ${ffdir}/files ./files
+cp -rf ${ffdir}/patch/files ./files
 mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/scripts/lede/zzz-default-settings ./files/etc/uci-defaults/
 echo -e "\n\033[34mLEDE\033[0m ${distrib_revision} | ${build_date//./-}\n" > ./files/etc/banner
 

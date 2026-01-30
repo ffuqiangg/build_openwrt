@@ -119,7 +119,7 @@ cp -rf ${otherdir}/amlogic/luci-app-amlogic ./package/add/luci-app-amlogic
 
 
 p "复制自定义文件目录"
-cp -rf ${ffdir}/files ./files
+cp -rf ${ffdir}/patch/files ./files
 mkdir -p ./files/etc/{uci-defaults,openclash/core}
 cp -f ${ffdir}/scripts/immortalwrt-18.06/zzz-default-settings ./files/etc/uci-defaults/
 wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > ./files/etc/openclash/core/clash_meta
