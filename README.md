@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/img/phicomm-n1.jpg" alt="logo" width="768" align="center">
+<img src="https://github.com/user-attachments/assets/6efc6401-c9f7-46e5-91a7-2c956fe3261c" alt="logo" width="768" align="center">
 
 ##
 
