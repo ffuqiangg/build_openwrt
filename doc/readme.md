@@ -29,7 +29,7 @@ sed -i "s/1824/$((800 + NUM))/g" /usr/sbin/install-to-emmc.sh
 第一种方法登录 LuCI 页面，在 `系统` - `晶晨宝盒` - `安装 OpenWrt` 页面选择好设备型号，点击 `安装` 按钮，等到页面提示安装完成。  
 第二种方法连接 ssh，输入命令
 ```bash
-echo -e "101\n1\n" | openwrt-install-amlogic
+echo -e "101\n2\n" | openwrt-install-amlogic
 ```
 `如果使用的 ImmortalWrt-18.06 系统需要将命令中的 101 替换为 11`
 
@@ -47,7 +47,7 @@ openwrt-update-amlogic
 > - 系统可单独升级内核但不建议。尤其是 ImmortalWrt-23.05 和 OpenWrt-23.05 固件，其经过特殊优化解决了安装内核模块报错的问题，单独升级内核可能使其失效。
 > - 使用过程中 docker 容器中的目录如需映射到 EMMC 务必映射到 `/mnt/mmcblk2p4` 目录。
 
-### 3. LEDE、iStoreOS ( sfs ) 固件的安装使用
+### 3. LEDE、iStoreOS 固件的安装使用
 
 sfs 格式固件在安装好之后还需要挂载 overlay 和 docker 分区。iStoreOS 固件默认已挂载好 overlay 分区，可跳过该步骤。
 

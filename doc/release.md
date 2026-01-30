@@ -24,4 +24,3 @@ sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@mai
 - 增加 docker 启动限制，只有在 dockerman 配置页面开启 `自动启动` 时才能启动。
 - 优化 uhttpd，提升 LuCI 页面响应及加载速度。
 - iStoreOS 固件中的 iStore 插件 LuCI 页面修改为二级菜单移动至 `服务` 下。
-- iStoreOS 和 LEDE 新增 ext4 格式固件。
