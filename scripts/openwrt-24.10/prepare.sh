@@ -33,9 +33,9 @@ popd
 
 p "获取内核版本"
 current_version=$(sed -n 's/^KERNEL_PATCHVER:=//p' ${wrtdir}/target/linux/armsr/Makefile)
-kernel_version=$(sed -n '/LINUX_KERNEL_HASH/p' ${wrtdir}/include/kernel-${current_version} | awk -F '[ -]' '{print $2}')
+kernel_version=$(sed -n "s/^LINUX_VERSION-${current_version} = //p" ${wrtdir}/include/kernel-${current_version})
 . set_env "current_version" "${current_version}"
-. set_env "kernel_version" "${kernel_version}"
+. set_env "kernel_version" "${current_version}${kernel_version}"
 
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
@@ -67,9 +67,6 @@ p "更新 Feeds"
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
-
-p "卸载无法编译的包"
-./scripts/feeds uninstall exim onionshare-cli python-zope-event python-zope-interface python-gevent python-twisted || true
 
 p "应用自定义修改"
 mkdir -p ./package/add

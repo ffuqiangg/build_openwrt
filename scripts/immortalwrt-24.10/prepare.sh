@@ -33,9 +33,9 @@ popd
 
 p "获取内核版本"
 current_version=$(sed -n 's/^KERNEL_PATCHVER:=//p' ${wrtdir}/target/linux/armsr/Makefile)
-kernel_version=$(sed -n '/LINUX_KERNEL_HASH/p' ${wrtdir}/include/kernel-${current_version} | awk -F '[ -]' '{print $2}')
+kernel_version=$(sed -n "s/^LINUX_VERSION-${current_version} = //p" ${wrtdir}/include/kernel-${current_version})
 . set_env "current_version" "${current_version}"
-. set_env "kernel_version" "${kernel_version}"
+. set_env "kernel_version" "${current_version}${kernel_version}"
 
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"

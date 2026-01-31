@@ -9,6 +9,7 @@ for a in $resource_file; do
     [ -n "$(grep '"admin",' $a)" ] && sed -i "s|\"admin\",|& \"services\",|g" $a
     [ -n "$(grep 'admin/' $a)" ] && sed -i "s,admin/,&services/,g" $a
     [ -n "$(grep 'admin\\/' $a)" ] && sed -i "s,admin\\\/,&services\\\/,g" $a
+    [ -n "$(grep '"config")' $a)" ] && sed -i "s,\"config\"),\"overview\"),g" $a
 done
 
 sed -i 's,Docker,&Man,' $dockerman_lua
