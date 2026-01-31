@@ -8,7 +8,7 @@ download_url="https://github.com/ffuqiangg/build_openwrt/releases/download/${BUI
 if [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'LEDE') -ne 0 ]; then
     download_file="N1-LEDE-${DISTRIB_REVISION}-${BUILD_DATE}-packages.zip"
 elif [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'iStoreOS') -ne 0 ]; then
-    download_file="N1-iStoreOS-${BUILD_DATE}-packages.zip"
+    download_file="N1-iStoreOS-22.03.7-${BUILD_DATE}-packages.zip"
 fi
 
 # GitHub mirror
@@ -27,7 +27,9 @@ if [ $? -ne 0 ]; then
     echo '[ error ] Packages download failed.'
     exit 1
 fi
-cd /www && unzip -q packages.zip && rm -rf packages.zip
+pushd /www
+    unzip -q packages.zip && rm -rf packages.zip
+popd
 
 # Modify distfeeds.conf
 if [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'LEDE') -ne 0  ]; then
