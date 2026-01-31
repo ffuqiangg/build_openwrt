@@ -172,7 +172,6 @@ jobs:
         msg="
         *${{ env.build_date }}* 固件编译完成
         https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.build_date }}
-
         "
         new="$(sed -n '/更新信息/,$p' ./doc/release.md | sed 's/.*更新信息/\*更新信息\*/' | sed '2d')"
         msg="${msg}${new}"
