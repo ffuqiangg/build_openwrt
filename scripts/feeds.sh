@@ -28,7 +28,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 pushd /www
-    unzip -q packages.zip && rm -rf packages.zip
+unzip -q packages.zip && rm -rf packages.zip
 popd
 
 # Modify distfeeds.conf
