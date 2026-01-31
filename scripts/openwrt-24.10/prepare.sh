@@ -55,6 +55,8 @@ p "设置默认密码 ( password )"
     sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7:::/g' ${wrtdir}/package/base-files/files/etc/shadow
 # p "修改 IP ( 192.168.1.99 )"
 #     sed -i 's/192.168.1.1/192.168.1.99/g' ${wrtdir}/package/base-files/files/bin/config_generate
+p "编译优化"
+    sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
@@ -70,8 +72,6 @@ p "更新 Feeds"
 
 p "应用自定义修改"
 mkdir -p ./package/add
-p "使用 O2 级别的优化"
-sed -i 's/Os/O2/g' ./include/target.mk
 p "vermagic"
 sed -i '/CONFIG_BUILDBOT/d' ./include/feeds.mk
 sed -i 's/;)\s*\\/; \\/' ./include/feeds.mk

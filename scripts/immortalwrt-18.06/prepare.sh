@@ -57,7 +57,7 @@ p "卸载无法编译的包"
 
 p "应用自定义修改"
 mkdir -p ./package/add
-p "使用 O2 级别的优化"
+p "编译优化"
 sed -i 's/Os/O2/g' ./include/target.mk
 p "确保加载 /etc/shinit"
 echo -e "\n[ -f /etc/shinit ] && . /etc/shinit" >> ./package/base-files/files/etc/profile
