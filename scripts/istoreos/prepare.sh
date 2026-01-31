@@ -98,7 +98,7 @@ sed -i '/commit dockerd/{N;d;}' ./package/istoreos-files/files/etc/uci-defaults/
 sed -i '/exit/d' ./package/istoreos-files/files/etc/uci-defaults/09_istoreos
 cat <<-EOF >> package/istoreos-files/files/etc/uci-defaults/09_istoreos
 sed -i '/BUILD_DATE/d' /etc/openwrt_release
-echo "BUILD_DATE='$1'" >> /etc/openwrt_release
+echo "BUILD_DATE='${build_date}'" >> /etc/openwrt_release
 
 exit 0
 EOF
