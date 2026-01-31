@@ -46,10 +46,10 @@ clone openwrt-22.03 ${autocore_arm_repo} ${otherdir}/autocore &
 wait && sync
 
 p "一些调整"
-p "修改默认 IP ( 192.168.1.99 )"
+p "修改 IP ( 192.168.1.99 )"
     sed -i "s/\s'dhcp'//" ${wrtdir}/target/linux/amlogic/base-files/etc/board.d/02_network
     sed -i 's/192.168.100.1/192.168.1.99/g' ${wrtdir}/package/istoreos-files/Makefile
-p "修改默认主题为 bootstrap"
+p "修改主题 ( bootstrap )"
     sed -i '/luci-theme-argon/d' ${wrtdir}/package/istoreos-files/Makefile
     sed -i 'N;/\n.*shortcut icon/!P;D' ${wrtdir}/package/istoreos-files/Makefile
     sed -i '/shortcut icon/,/luci-argon-config/d' ${wrtdir}/package/istoreos-files/Makefile

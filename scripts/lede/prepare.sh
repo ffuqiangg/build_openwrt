@@ -45,12 +45,12 @@ clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkg &
 wait && sync
 
 p "一些调整"
-p "修改默认 IP ( 192.168.1.99 )"
+p "修改 IP ( 192.168.1.99 )"
     sed -i "/lan) ipad=\${ipaddr:-/s/\${ipaddr:-\"[^\"]*\"}/\${ipaddr:-\"192.168.1.99\"}/" ${wrtdir}/package/base-files/*/bin/config_generate
-p "默认禁用 WIFI"
+p "禁用 WIFI"
     sed -i '/wireless/d' ${wrtdir}/package/lean/default-settings/files/zzz-default-settings
     sed -Ei "s/(disabled=)0/\11/" ${wrtdir}/package/kernel/mac80211/files/lib/wifi/mac80211.sh
-p "调整内核版本为 5.15"
+p "调整内核版本 ( 5.15 )"
     sed -i 's/KERNEL_PATCHVER:=.*/KERNEL_PATCHVER:=5.15/' ${wrtdir}/target/linux/amlogic/Makefile
 p "针对 N1 的编译优化"
     sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
