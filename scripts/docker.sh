@@ -6,12 +6,11 @@ resource_file=$(find . -type f -name "*.lua" -o -name "*.htm")
 dockerman_lua=$(find . -type f -name "dockerman.lua")
 
 for a in $resource_file; do
-    [ -n "$(grep '"admin",' $a)" ] && sed -i "s|\"admin\",|& \"services\",|g" $a
-    [ -n "$(grep 'admin/' $a)" ] && sed -i "s,admin/,&services/,g" $a
-    [ -n "$(grep 'admin\\/' $a)" ] && sed -i "s,admin\\\/,&services\\\/,g" $a
-    [ -n "$(grep '"config")' $a)" ] && sed -i "s,\"config\"),\"overview\"),g" $a
+    [ -n "$(grep '"admin",' $a)" ] && sed -i 's|"admin",|& "services",|g' $a
+    [ -n "$(grep 'admin/' $a)" ] && sed -i 's,admin/,&services/,g' $a
+    [ -n "$(grep 'admin\\/' $a)" ] && sed -i 's,admin\\\/,&services\\\/,g' $a
 done
 
-sed -i 's,Docker,&Man,' $dockerman_lua
+sed -i -e 's,Docker,&Man,' -e 's,"config"),"overview"),g' $dockerman_lua
 
 exit 0
