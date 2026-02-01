@@ -17,6 +17,7 @@ jobs:
     env:
       DEBIAN_FRONTEND: noninteractive
       build_os: "cachyos"
+      build_success: ""
 
     steps:
     - if: github.event.repository.owner.id == github.event.sender.id
