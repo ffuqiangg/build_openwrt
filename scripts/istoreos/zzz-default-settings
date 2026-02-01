@@ -36,7 +36,7 @@ uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
 uci commit passwall
 
 # Feeds 更换镜像源
-sed -i 's,downloads.openwrt.org,mirrors.tuna.tsinghua.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
+sed -i 's,downloads.openwrt.org,mirrors.ustc.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
 
 # 默认开启 Packet Steering
 uci set network.globals.packet_steering='1'
