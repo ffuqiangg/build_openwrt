@@ -24,7 +24,7 @@ index 299684c1..03182b12 100755
 +			echo "mark /dev/$partdevto as RESET"
 +			echo "RESET000" | dd of="/dev/$partdevto" bs=512 count=1 conv=sync,fsync
 +			if grep -qs "/dev/$partdevto" /proc/mounts; then umount -f /dev/$partdevto; fi
-+			mkfs.ext4 -F /dev/$partdevto >/dev/null
++			mkfs.btrfs -f -m single /dev/$partdevto >/dev/null
 +		done
  		echo "All Done!"
  	else
