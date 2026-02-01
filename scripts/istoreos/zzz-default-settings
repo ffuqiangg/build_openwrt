@@ -13,6 +13,15 @@ uci commit system
 uci set dropbear.@dropbear[0].Interface='lan'
 uci commit dropbear
 
+#nginx 设置
+sed -i 's,deny all,allow all,g' /etc/nginx/restrict_locally
+uci delete nginx._redirect2ssl.return
+uci delete nginx._redirect2ssl.include
+uci add_list nginx._redirect2ssl.include='restrict_locally'
+uci add_list nginx._redirect2ssl.include='conf.d/*.locations'
+uci commit nginx
+/etc/init.d/nginx restart
+
 # Cpufreq 设置
 uci batch << EOI
 set cpufreq.cpufreq.governor0='schedutil'
