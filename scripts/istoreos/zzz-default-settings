@@ -13,13 +13,6 @@ uci commit system
 uci set dropbear.@dropbear[0].Interface='lan'
 uci commit dropbear
 
-# uhttpd 设置
-uci set uhttpd.main.rfc1918_filter=0
-uci set uhttpd.main.redirect_https=0
-uci set uhttpd.main.http_keepalive=0
-uci commit uhttpd
-/etc/init.d/uhttpd restart
-
 # Cpufreq 设置
 uci batch << EOI
 set cpufreq.cpufreq.governor0='schedutil'
