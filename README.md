@@ -18,7 +18,7 @@
 - 固件刷机：具体方法请认真阅读 ⌈ [使用说明](doc/readme.md) ⌋ 。
 
 > [!IMPORTANT]
-> iStoreOS 固件相对于其官方固件仅保留插件商店，可以看作包含 iStore 插件商店的原版 OpenWrt-22.03 固件。  
+> iStoreOS 固件相对于其官方固件仅保留插件商店，可以看作包含 iStore 插件商店的原版 OpenWrt-22.03 固件。
 
 ### 感谢
 
