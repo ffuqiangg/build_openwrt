@@ -61,8 +61,11 @@ jobs:
           cd ${wrtdir}
           cp ${ffdir}/scripts/immortalwrt-24.10/config.seed .config
           make defconfig
+        '
 
-          p "压缩编译目录"
+    - name: 压缩编译目录
+      run: |
+        d '
           cd ${workdir}
           cp -r ${ffdir} ${wrtdir}/
           tar -cf - $(basename ${wrtdir})/ | zstd -19 -T0 > wrt_end.tar.zst
