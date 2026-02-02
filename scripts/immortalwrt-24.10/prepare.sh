@@ -134,8 +134,6 @@ p "MosDNS"
 rm -rf ./feeds/packages/net/{v2ray-geodata,mosdns}
 cp -rf ${otherdir}/openwrt-add/luci-app-mosdns ./package/add/luci-app-mosdns
 cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
-p "DDNS scripts aliyun"
-cp -rf ${otherdir}/sbwml_pkgs/ddns-scripts-aliyun ./package/add/
 
 p "Passwall"
 rm -rf ./feeds/luci/applications/luci-app-passwall
