@@ -131,6 +131,14 @@ jobs:
         build_date: ${{ env.build_date }}
 
     - if: env.build_success == 'true'
+      name: 上传固件
+      uses: actions/upload-artifact@main
+      with:
+        name: openwrt_firmware
+        path: "${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz"
+        compression-level: 0
+
+    - if: egithub.event_name == 'repository_dispatch' && env.build_success == 'true'
       name: 整理文件
       run: |
         p "将原始固件移动到工作目录"
@@ -147,14 +155,6 @@ jobs:
 
         p "打印剩余空间"
         df -h
-
-    - if: env.build_success == 'true'
-      name: 上传固件
-      uses: actions/upload-artifact@main
-      with:
-        name: openwrt_firmware
-        path: "${{ env.workdir_host }}/artifact/*.zip"
-        compression-level: 0
 
     - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
       name: 发布 release
