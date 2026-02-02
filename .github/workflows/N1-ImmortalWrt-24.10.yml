@@ -57,21 +57,12 @@ jobs:
           cd ${wrtdir}/feeds/luci && bash ${ffdir}/scripts/menu.sh
           cd ${wrtdir}/package/add && bash ${ffdir}/scripts/menu.sh
 
-          cd ${wrtdir}
           p "展开配置"
+          cd ${wrtdir}
           cp ${ffdir}/scripts/immortalwrt-24.10/config.seed .config
           make defconfig
-        '
 
-    - name: 缓存
-      uses: HiGarfield/cachewrtbuild@main
-      with:
-        mixkey: immortalwrt-24.10
-        prefix: ${{ env.workdir_host }}/openwrt
-
-    - name: 压缩编译目录
-      run: |
-        d '
+          p "压缩编译目录"
           cd ${workdir}
           cp -r ${ffdir} ${wrtdir}/
           tar -cf - $(basename ${wrtdir})/ | zstd -19 -T0 > wrt_end.tar.zst
@@ -84,6 +75,12 @@ jobs:
         name: wrt_end.tar.zst
         path: "${{ env.workdir_host }}/wrt_end.tar.zst"
         compression-level: 0
+
+    - name: 缓存
+      uses: HiGarfield/cachewrtbuild@main
+      with:
+        mixkey: immortalwrt-24.10
+        prefix: ${{ env.workdir_host }}/openwrt
 
     - name: 开始编译 ImmortalWrt
       run: |
