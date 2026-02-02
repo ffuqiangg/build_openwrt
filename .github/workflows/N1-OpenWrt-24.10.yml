@@ -138,7 +138,7 @@ jobs:
         path: "${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz"
         compression-level: 0
 
-    - if: egithub.event_name == 'repository_dispatch' && env.build_success == 'true'
+    - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
       name: 整理文件
       run: |
         p "将原始固件移动到工作目录"
