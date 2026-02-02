@@ -7,8 +7,8 @@ index 299684c1..03182b12 100755
  		mkpart primary 68MiB 132MiB \
  		mkpart primary 132MiB 388MiB \
 -		mkpart primary 764MiB 2812MiB
-+		mkpart primary 764MiB 1788MiB \
-+		mkpart primary 1788MiB 100%
++		mkpart primary 800MiB 1824MiB \
++		mkpart primary 1824MiB 100%
  }
  
  function get_bootdisk() {
