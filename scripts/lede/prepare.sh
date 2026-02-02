@@ -97,8 +97,6 @@ sed -i '$a cgi-timeout = 600' ./feeds/packages/net/uwsgi/files-luci-support/luci
 sed -i 's/threads = 1/threads = 2/g' ./feeds/packages/net/uwsgi/files-luci-support/luci-webui.ini
 sed -i 's/processes = 3/processes = 4/g' ./feeds/packages/net/uwsgi/files-luci-support/luci-webui.ini
 sed -i 's/cheaper = 1/cheaper = 2/g' ./feeds/packages/net/uwsgi/files-luci-support/luci-webui.ini
-p "firmware-utils"
-wget https://github.com/immortalwrt/immortalwrt/raw/refs/heads/master/tools/firmware-utils/Makefile -O ./tools/firmware-utils/Makefile
 
 
 p "LuCI 自定义 nft 规则页面"
