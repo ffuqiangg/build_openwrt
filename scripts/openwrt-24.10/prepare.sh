@@ -65,7 +65,7 @@ p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 p "进入编译目录 ${wrtdir}"
 cd ${wrtdir}
 
-p "切换 girhub 源"
+p "切换 github 源"
 sed -e 's,git.openwrt.org/feed/packages,github.com/openwrt/packages,g' \
     -e 's,git.openwrt.org/project/luci,github.com/openwrt/luci,g' \
     -e 's,git.openwrt.org/feed/routing,github.com/openwrt/routing,g' \
