@@ -66,8 +66,8 @@ p "进入编译目录 ${wrtdir}"
 cd ${wrtdir}
 
 p "更新 Feeds"
-./scripts/feeds update -a
-./scripts/feeds install -a
+./scripts/feeds update -f -a
+./scripts/feeds install -f -a
 
 
 p "卸载无法编译的包"
