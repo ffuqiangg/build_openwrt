@@ -95,6 +95,48 @@ sed -i 's/threads = 1/threads = 2/g' ./feeds/packages/net/uwsgi/files-luci-suppo
 sed -i 's/processes = 3/processes = 4/g' ./feeds/packages/net/uwsgi/files-luci-support/luci-webui.ini
 sed -i 's/cheaper = 1/cheaper = 2/g' ./feeds/packages/net/uwsgi/files-luci-support/luci-webui.ini
 
+p "配置优化"
+echo "
+# 调优部分
+
+# 确保缓冲区足够用，7.5MB的udp和6MB的tcp对于路由器足够大了
+net.core.rmem_max = 7500000
+net.core.wmem_max = 7500000
+net.ipv4.tcp_rmem = 4096 131072 6291456
+net.ipv4.tcp_wmem = 4096 16384 6291456
+
+# 开启 TCP 连接复用 (主要用于出站连接，对作为客户端时有效)
+net.ipv4.tcp_tw_reuse = 1
+
+# 开启 TCP Fast Open
+# 1: 仅作为客户端开启
+# 2: 仅作为服务端开启
+# 3: 两端都开启
+# 应该设置为1, 3在国内会导致海外包被丢弃
+net.ipv4.tcp_fastopen = 1
+
+# 开启 MPTCP，默认不打开
+# net.mptcp.mptcp_enabled = 1
+
+# 关闭 MTU 探测，国内开启会有反效果
+net.ipv4.tcp_mtu_probing = 0
+
+# 默认是 1 (1/2 是数据, 1/2 是元数据)。
+# 改为 -2 (3/4 是数据, 1/4 是元数据)。
+# 在不增加 total 内存消耗的情况下，TCP 窗口变大 50%
+net.ipv4.tcp_adv_win_scale = -2
+
+# Cloudflare 设为 6MB (6291456)。
+# tcp_rmem max 只有 6MB，这里设为 5MB 即可。
+# 逻辑：当接收队列中的数据小于这个值时，如果不幸发生内存满，允许尝试整理(collapse)以挽救数据。
+# 超过这个值，直接丢包，避免 CPU 飙升导致的高延迟。
+net.ipv4.tcp_collapse_max_bytes = 5242880
+
+# 系统级别最大打开文件数
+fs.file-max = 65535
+
+" >> ./package/base-files/files/etc/sysctl.d/10-default.conf
+
 
 p "LuCI 自定义 nft 规则页面"
 patch -p1 < ${ffdir}/patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
