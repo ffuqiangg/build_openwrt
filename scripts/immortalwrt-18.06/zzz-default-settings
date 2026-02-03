@@ -4,12 +4,14 @@
 uci set dropbear.@dropbear[0].Interface='lan'
 uci commit dropbear
 
-#uhttpd 设置
-uci set uhttpd.main.rfc1918_filter=0
-uci set uhttpd.main.redirect_https=0
-uci set uhttpd.main.http_keepalive=0
-uci commit uhttpd
-/etc/init.d/uhttpd restart
+#nginx 设置
+sed -i 's,deny all,allow all,g' /etc/nginx/restrict_locally
+uci delete nginx._redirect2ssl.return
+uci delete nginx._redirect2ssl.include
+uci add_list nginx._redirect2ssl.include='restrict_locally'
+uci add_list nginx._redirect2ssl.include='conf.d/*.locations'
+uci commit nginx
+/etc/init.d/nginx restart
 
 # PASSWALL
 [ -f '/usr/share/v2ray/geoip.dat' ] && uci set passwall.@global_rules[0].v2ray_location_asset='/usr/share/v2ray/'
