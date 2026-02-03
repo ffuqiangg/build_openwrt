@@ -16,10 +16,10 @@ uci commit nginx
 # Cpufreq 设置
 uci batch << EOI
 set amlogic.armcpu.governor0='schedutil'
-set amlogic.armcpu.minfreq0='500000'
+set amlogic.armcpu.minfreq0='1000000'
 set amlogic.armcpu.maxfreq0='1512000'
 EOI
-uci commit amlogic
+uci commit cpufreq
 
 # PASSWALL
 [ -f '/usr/share/v2ray/geoip.dat' ] && uci set passwall.@global_rules[0].v2ray_location_asset='/usr/share/v2ray/'

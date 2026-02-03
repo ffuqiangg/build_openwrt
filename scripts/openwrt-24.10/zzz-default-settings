@@ -33,7 +33,7 @@ uci commit nginx
 # Cpufreq 设置
 uci batch << EOI
 set amlogic.armcpu.governor0='schedutil'
-set amlogic.armcpu.minfreq0='500000'
+set amlogic.armcpu.minfreq0='1000000'
 set amlogic.armcpu.maxfreq0='1512000'
 EOI
 uci commit amlogic

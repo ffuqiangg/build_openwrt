@@ -25,7 +25,7 @@ uci commit nginx
 # Cpufreq 设置
 uci batch << EOI
 set cpufreq.cpufreq.governor0='schedutil'
-set cpufreq.cpufreq.minfreq0='500000'
+set cpufreq.cpufreq.minfreq0='1000000'
 set cpufreq.cpufreq.maxfreq0='1512000'
 EOI
 uci commit cpufreq
