@@ -75,7 +75,7 @@ jobs:
     - name: 上传编译目录
       uses: actions/upload-artifact@main
       with:
-        name: wrt_end.tar.zst
+        name: wrt_end
         path: "${{ env.workdir_host }}/wrt_end.tar.zst"
         compression-level: 0
 
@@ -113,7 +113,7 @@ jobs:
     - name: 上传日志文件
       uses: actions/upload-artifact@main
       with:
-        name: logs_lede.tar.zst
+        name: logs
         path: "${{ env.workdir_host }}/logs_lede.tar.zst"
         compression-level: 0
 
@@ -121,7 +121,7 @@ jobs:
       name: 上传固件 ( sfs )
       uses: actions/upload-artifact@main
       with:
-        name: lede_sfs
+        name: firmware
         path: "${{ env.workdir_host }}/openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img*"
         compression-level: 0
 
@@ -129,7 +129,7 @@ jobs:
       name: 上传 packages
       uses: actions/upload-artifact@main
       with:
-        name: lede_packages
+        name: packages
         path: "${{ env.workdir_host }}/openwrt/bin/targets/amlogic/mesongx/packages"
 
     - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
@@ -173,7 +173,7 @@ jobs:
         *${{ env.build_date }}* 固件编译完成
         https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.build_date }}
         "
-        new="$(sed -n '/更新信息/,$p' ./doc/release.md | sed 's/.*更新信息/\*更新信息\*/' | sed '2d')"
+        new="$(sed -n '/更新内容/,$p' ./doc/release.md | sed 's/.*更新内容.*/\*更新内容\*/' | sed '2d')"
         msg="${msg}${new}"
         if [ "${zip9}" == '7' ]; then
           curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \

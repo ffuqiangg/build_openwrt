@@ -16,10 +16,10 @@ uci commit nginx
 # Cpufreq 设置
 uci batch << EOI
 set amlogic.armcpu.governor0='schedutil'
-set amlogic.armcpu.minfreq0='1000000'
+set amlogic.armcpu.minfreq0='500000'
 set amlogic.armcpu.maxfreq0='1512000'
 EOI
-uci commit cpufreq
+uci commit amlogic
 
 # PASSWALL
 [ -f '/usr/share/v2ray/geoip.dat' ] && uci set passwall.@global_rules[0].v2ray_location_asset='/usr/share/v2ray/'
@@ -76,6 +76,8 @@ fi
 /etc/init.d/kcptun stop
 /etc/init.d/ttyd disable 2>/dev/null
 /etc/init.d/ttyd stop
+/etc/init.d/uhttpd disable 2>/dev/null
+/etc/init.d/uhttpd stop
 
 # 清除 LuCI 残留缓存
 rm -rf /tmp/luci-modulecache
