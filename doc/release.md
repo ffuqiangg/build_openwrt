@@ -22,5 +22,5 @@ sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@mai
 ### 更新信息
 
 - 增加 docker 启动限制，只有在 dockerman 配置页面开启 `自动启动` 时才能启动。
-- 除 ImmortalWrt-18.06 之外的其它固件全部用 nginx 替换 uhttpd 。
+- 所有固件全部用 nginx 替换 uhttpd 。
 - iStoreOS 固件中的 iStore 插件 LuCI 菜单移动至 `服务` 下。
