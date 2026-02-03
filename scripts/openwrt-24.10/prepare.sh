@@ -65,6 +65,13 @@ p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 p "进入编译目录 ${wrtdir}"
 cd ${wrtdir}
 
+p "切换 girhub 源"
+sed -e 's,git.openwrt.org/feed/packages,github.com/openwrt/packages,g' \
+    -e 's,git.openwrt.org/project/luci,github.com/openwrt/luci,g' \
+    -e 's,git.openwrt.org/feed/routing,github.com/openwrt/routing,g' \
+    -e 's,git.openwrt.org/feed/telephony,github.com/openwrt/telephony,g' \
+    -i.bak ./feeds.conf.default
+
 p "更新 Feeds"
 ./scripts/feeds update -f -a
 ./scripts/feeds install -f -a
