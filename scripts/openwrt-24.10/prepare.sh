@@ -192,6 +192,8 @@ cp -rf ${otherdir}/sbwml_pkgs/coremark ./feeds/packages/utils/coremark
 p "Autocore"
 cp -rf ${otherdir}/autocore ./package/add/autocore
 sed -i 's/$(uname -m)/ARMv8 Processor/' ./package/add/autocore/files/generic/cpuinfo
+p "Diskman"
+cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/luci-app-diskman ./package/add/luci-app-diskman
 
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box
