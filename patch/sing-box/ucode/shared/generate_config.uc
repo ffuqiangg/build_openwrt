@@ -169,7 +169,8 @@ if (override === '1') {
                 tag: 'china-dns',
                 type: china_dns_type,
                 server: china_dns_server,
-                domain_resolver: (!(iptoarr(china_dns_server))) ? 'default-dns' : null
+                domain_resolver: (!(iptoarr(china_dns_server))) ? 'default-dns' : null,
+                detour: '直连'
             }
         ],
         rules: [
@@ -217,7 +218,8 @@ if (override === '1') {
         push(config.dns.servers, {
             tag: 'default-dns',
             type: 'udp',
-            server: '223.5.5.5'
+            server: '223.5.5.5',
+            detour: '直连'
         });
 } else {
     config.dns = json(jsonfile).dns;
