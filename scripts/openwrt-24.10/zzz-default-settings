@@ -40,9 +40,9 @@ uci commit amlogic
 
 # 启用 KMS 服务器
 uci batch << EOI
-vlmcsd.config.enabled='1'
-vlmcsd.config.autoactivate='1'
-vlmcsd.config.firewall='1'
+set vlmcsd.config.enabled='1'
+set vlmcsd.config.autoactivate='1'
+set vlmcsd.config.firewall='1'
 EOI
 uci commit vlmcsd
 
