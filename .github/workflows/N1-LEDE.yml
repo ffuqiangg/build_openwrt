@@ -131,6 +131,7 @@ jobs:
       with:
         name: packages
         path: "${{ env.workdir_host }}/openwrt/bin/targets/amlogic/mesongx/packages"
+        compression-level: 9
 
     - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
       name: 整理文件
