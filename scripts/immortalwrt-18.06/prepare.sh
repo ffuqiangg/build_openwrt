@@ -159,16 +159,8 @@ sed -i 's,nas,services,g;s,NAS,Services,g' ./feeds/luci/applications/luci-app-fi
 sed -i 's,nas,services,g' ./feeds/luci/applications/luci-app-filebrowser/luasrc/view/filebrowser/filebrowser_status.htm
 
 
-p "Samba4"
-sed -i 's,nas,services,g' ./feeds/luci/applications/luci-app-samba4/luasrc/controller/samba4.lua
 p "Cpufreq"
 sed -i 's,system,services,g' ./feeds/luci/applications/luci-app-cpufreq/luasrc/controller/cpufreq.lua
-p "硬盘休眠"
-sed -i 's,nas,services,g' ./feeds/luci/applications/luci-app-hd-idle/luasrc/controller/hd_idle.lua
-p "FTP 服务器"
-sed -i 's,nas,services,g;s,NAS,Services,g' ./feeds/luci/applications/luci-app-vsftpd/luasrc/controller/vsftpd.lua
-p "Rclone"
-sed -i 's,nas,services,g;s,NAS,Services,g' ./feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 p "Nlbw 带宽监控"
 sed -i 's|admin\",|& \"network\",|g;s,admin/,&network/,g' ./feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
 sed -i 's,admin/,&network/,g' ./feeds/luci/applications/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua

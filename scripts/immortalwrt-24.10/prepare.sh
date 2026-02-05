@@ -205,12 +205,6 @@ pushd ./feeds/luci/applications/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
 
-p "Samba4"
-sed -i 's,nas,services,g' ./feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
-p "硬盘休眠"
-sed -i 's,nas,services,g' ./feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
-p "Rclone"
-sed -i 's,nas,services,g;s,NAS,Services,g' ./feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 p "Nlbw 带宽监控"
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js

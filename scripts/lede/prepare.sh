@@ -213,8 +213,6 @@ cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
 p "OpenWrt-momo"
 cp -rf ${otherdir}/openwrt-momo ./package/add/luci-app-momo
 
-p "Rclone"
-sed -i 's,NAS,Services,g;s,nas,services,g' ./feeds/luci/applications/luci-app-rclone/luasrc/controller/rclone.lua
 p "Nlbw 带宽监控"
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
