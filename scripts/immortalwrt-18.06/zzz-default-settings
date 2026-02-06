@@ -80,8 +80,6 @@ fi
 /etc/init.d/kcptun stop
 /etc/init.d/ttyd disable 2>/dev/null
 /etc/init.d/ttyd stop
-/etc/init.d/uhttpd disable 2>/dev/null
-/etc/init.d/uhttpd stop
 
 # 清除 LuCI 残留缓存
 rm -rf /tmp/luci-modulecache
