@@ -86,6 +86,8 @@ fi
 /etc/init.d/ttyd stop
 /etc/init.d/sing-box disable 2>/dev/null
 /etc/init.d/sing-box stop
+/etc/init.d/uhttpd disable 2>/dev/null
+/etc/init.d/uhttpd stop
 
 # 清除 LuCI 残留缓存
 rm -rf /tmp/luci-modulecache
