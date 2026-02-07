@@ -23,4 +23,4 @@ sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@mai
 
 - 增加 docker 启动限制，只有在 dockerman 配置页面开启 `自动启动` 时才能启动。
 - iStoreOS 固件中的 iStore 插件 LuCI 菜单移动至 `服务` 下。
-- 所有固件全部用 nginx 替换 uhttpd ，以及其它一些优化。
+- 所有固件全部使用 nginx 替换 uhttpd ，以及其它一些优化。
