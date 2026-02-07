@@ -32,14 +32,14 @@ jobs:
     - name: 准备可用空间
       uses: AdityaGarg8/remove-unwanted-software@v5
       with:
-        remove-dotnet: "true"
-        remove-android: "true"
-        remove-haskell: "true"
-        remove-codeql: "true"
-        remove-docker-images: "true"
-        remove-large-packages: "true"
-        remove-cached-tools: "true"
-        remove-swapfile: "true"
+        remove-dotnet: true
+        remove-android: true
+        remove-haskell: true
+        remove-codeql: true
+        remove-docker-images: true
+        remove-large-packages: true
+        remove-cached-tools: true
+        remove-swapfile: true
 
     - name: 检出代码
       uses: actions/checkout@v6
@@ -63,18 +63,27 @@ jobs:
           make defconfig
         '
 
+    - name: 压缩编译目录
+      run: |
+        d '
+          cd ${workdir}
+          cp -r ${ffdir} ${wrtdir}/
+          tar -cf - $(basename ${wrtdir})/ | zstd -19 -T0 > wrt_end.tar.zst
+          rm -rf ${wrtdir}/$(basename ${ffdir})
+        '
+
     - name: 上传编译目录
       uses: actions/upload-artifact@main
       with:
         name: wrt_end
-        path: "${{ env.workdir_host }}/openwrt"
-        compression-level: 9
+        path: ${{ env.workdir_host }}/wrt_end.tar.zst
+        compression-level: 0
 
     - name: 缓存
       uses: HiGarfield/cachewrtbuild@main
       with:
         mixkey: istoreos
-        prefix: "${{ env.workdir_host }}/openwrt"
+        prefix: ${{ env.workdir_host }}/openwrt
 
     - name: 开始编译 iStoreOS
       run: |
@@ -92,6 +101,9 @@ jobs:
             . set_env build_success "true"
           fi
 
+          p "打包日志"
+          tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_istoreos.tar.zst"
+
           [ "${build_success}" == "true" ] || exit 1
         '
 
@@ -102,15 +114,15 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: logs
-        path: "${{ env.workdir_host }}/openwrt/logs"
-        compression-level: 9
+        path: ${{ env.workdir_host }}/logs_istoreos.tar.zst
+        compression-level: 0
 
     - if: env.build_success == 'true'
       name: 上传固件 ( sfs )
       uses: actions/upload-artifact@main
       with:
         name: firmware
-        path: "${{ env.workdir_host }}/openwrt/bin/targets/amlogic/meson/*sysupgrade.img*"
+        path: ${{ env.workdir_host }}/openwrt/bin/targets/amlogic/meson/*sysupgrade.img*
         compression-level: 0
 
     - if: env.build_success == 'true'
@@ -118,7 +130,7 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: packages
-        path: "${{ env.workdir_host }}/openwrt/bin/targets/amlogic/meson/packages"
+        path: ${{ env.workdir_host }}/openwrt/bin/targets/amlogic/meson/packages
         compression-level: 9
 
     - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
