@@ -155,12 +155,8 @@ popd
 p "Filebrowser 文件浏览器"
 sed -i "s,PKG_VERSION:=.*,PKG_VERSION:=2\.32\.0," ./feeds/packages/utils/filebrowser/Makefile
 sed -i "s,PKG_MIRROR_HASH:=.*,PKG_MIRROR_HASH:=61e9de6b2d396614f45be477e5bb5aad189e7bb1155a3f88800e02421bd6cc2b," ./feeds/packages/utils/filebrowser/Makefile
-sed -i 's,nas,services,g;s,NAS,Services,g' ./feeds/luci/applications/luci-app-filebrowser/luasrc/controller/filebrowser.lua
-sed -i 's,nas,services,g' ./feeds/luci/applications/luci-app-filebrowser/luasrc/view/filebrowser/filebrowser_status.htm
 
 
-p "Cpufreq"
-sed -i 's,system,services,g' ./feeds/luci/applications/luci-app-cpufreq/luasrc/controller/cpufreq.lua
 p "Nlbw 带宽监控"
 sed -i 's|admin\",|& \"network\",|g;s,admin/,&network/,g' ./feeds/luci/applications/luci-app-nlbwmon/luasrc/controller/nlbw.lua
 sed -i 's,admin/,&network/,g' ./feeds/luci/applications/luci-app-nlbwmon/luasrc/model/cbi/nlbw/config.lua
