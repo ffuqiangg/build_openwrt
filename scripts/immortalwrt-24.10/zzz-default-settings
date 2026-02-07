@@ -33,13 +33,6 @@ uci commit vlmcsd
 uci set mosdns.config.log_level='error'
 uci commit mosdns
 
-# PASSWALL
-[ -f '/usr/share/v2ray/geoip.dat' ] && uci set passwall.@global_rules[0].v2ray_location_asset='/usr/share/v2ray/'
-uci set passwall.@global_subscribe[0].ss_aead_type='shadowsocks-rust'
-uci set passwall.@global_delay[0].start_delay='5'
-uci set passwall.@global_forwarding[0].tcp_redir_ports='1:65535'
-uci commit passwall
-
 # 默认开启 Packet Steering
 uci set network.globals.packet_steering='2'
 uci set network.globals.steering_flows='128'
