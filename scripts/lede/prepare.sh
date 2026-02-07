@@ -53,7 +53,7 @@ p "禁用 WIFI"
 p "调整内核版本 ( 5.15 )"
     sed -Ei "s/(KERNEL_PATCHVER:=).*/\15.15/" ${wrtdir}/target/linux/amlogic/Makefile
     wget https://github.com/coolsnowwolf/lede/raw/a8788c3/target/linux/generic/backport-5.15/601-v5.18-page_pool-Add-recycle-stats.patch \
-            -O ${wrtdir}/target/linux/generic/backport-5.15/601-v5.18-page_pool-Add-recycle-stats.patch
+        -O ${wrtdir}/target/linux/generic/backport-5.15/601-v5.18-page_pool-Add-recycle-stats.patch
     wget https://github.com/coolsnowwolf/lede/raw/de89956/include/kernel-5.15 -O ${wrtdir}/include/kernel-5.15
 p "针对 N1 的编译优化"
     sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
