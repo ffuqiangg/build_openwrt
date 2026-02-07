@@ -208,7 +208,7 @@ cp -rf ${otherdir}/openwrt-add/OpenClash ./package/add/luci-app-openclash
 p "Passwall"
 rm -rf feeds/packages/net/{shadowsocks-libev,v2ray-core,xray-core}
 cp -rf ${otherdir}/openwrt-add/openwrt_helloworld ./package/add/
-rm -rf ./package/add/openwrt-add/openwrt_helloworld/v2ray-geodata
+rm -rf ./package/add/openwrt_helloworld/{v2ray-geodata,dns2socks-rust}
 sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openwrt_helloworld/luci-app-passwall/Makefile
 sed -i 's, +libopenssl-legacy,,g' ./package/add/openwrt_helloworld/shadowsocksr-libev/Makefile
 sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
