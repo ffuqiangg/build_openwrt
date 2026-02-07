@@ -73,7 +73,7 @@ p "更新 Feeds"
 
 
 p "卸载无法编译的包"
-./scripts/feeds uninstall luci-app-baidupcs-web dns2socks-rust || true
+./scripts/feeds uninstall luci-app-baidupcs-web || true
 
 p "应用自定义修改"
 mkdir -p ./package/add
