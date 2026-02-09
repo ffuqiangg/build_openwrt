@@ -221,7 +221,7 @@ sed -i 's,services,system,g' ./feeds/luci/applications/luci-app-ttyd/root/usr/sh
 
 p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
-cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-dockerman ./package/add/luci-app-dockerman
+cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
 sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
 
 p "Filebrowser 文件管理器"
