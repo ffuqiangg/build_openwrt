@@ -37,6 +37,7 @@ clone openwrt-21.02 ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_21 &
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone master ${lede_luci_repo} ${otherdir}/lede_luci_ma &
+clone master ${dockerman_repo} ${otherdir}/dockerman &
 clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkgs &
 clone master ${v2raya_repo} ${otherdir}/v2raya &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
@@ -223,8 +224,12 @@ cp -rf ${otherdir}/imm_pkg_ma/net/frp ./feeds/packages/net/frp
 
 p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
-cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
+cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-app-dockerman
+sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
+pushd package/add/luci-app-dockerman
+bash ${ffdir}/scripts/docker.sh
+popd
 
 p "Coremark"
 rm -rf ./feeds/packages/utils/coremark
