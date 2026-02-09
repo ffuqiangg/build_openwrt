@@ -31,7 +31,6 @@ sed -i "s/1824/$((800 + NUM))/g" /usr/sbin/install-to-emmc.sh
 ```bash
 echo -e "101\n2\n" | openwrt-install-amlogic
 ```
-`如果使用的 ImmortalWrt-18.06 系统需要将命令中的 101 替换为 11`
 
 2. 更新系统：  
 第一种方法登录 LuCI 页面，在 `系统` - `晶晨宝盒` - `手动上传更新` 页面，点击 `选择文件` - `上传` 按钮将固件上传到设备，上传成功后页面下方会出现 `升级 OpenWrt 固件` 按钮，点击即可。  

@@ -1,10 +1,10 @@
-name: N1-OpenWrt-24.10
+name: N1-ImmortalWrt
 
 on:
   workflow_dispatch:
   repository_dispatch:
     types:
-      - N1-OpenWrt-24.10
+      - N1-ImmortalWrt
 
 defaults:
   run:
@@ -48,7 +48,7 @@ jobs:
       run: bash scripts/init.sh
 
     - name: 准备源码 ( prepare.sh )
-      run: d "cd ${ffdir} && bash scripts/openwrt-24.10/prepare.sh"
+      run: d "cd ${ffdir} && bash scripts/immortalwrt/prepare.sh"
 
     - name: 准备编译
       run: |
@@ -59,7 +59,7 @@ jobs:
 
           p "展开配置"
           cd ${wrtdir}
-          cp ${ffdir}/scripts/openwrt-24.10/config.seed .config
+          cp ${ffdir}/scripts/immortalwrt/config.seed .config
           make defconfig
         '
 
@@ -82,10 +82,10 @@ jobs:
     - name: 缓存
       uses: HiGarfield/cachewrtbuild@main
       with:
-        mixkey: openwrt-24.10
+        mixkey: immortalwrt
         prefix: ${{ env.workdir_host }}/openwrt
 
-    - name: 开始编译 OpenWrt
+    - name: 开始编译 ImmortalWrt
       run: |
         d '
           cd ${wrtdir}
@@ -102,7 +102,7 @@ jobs:
           fi
 
           p "打包日志"
-          tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_openwrt-24.10.tar.zst"
+          tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_immortalwrt.tar.zst"
 
           [ "${build_success}" == "true" ] || exit 1
         '
@@ -114,7 +114,7 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: logs
-        path: ${{ env.workdir_host }}/logs_openwrt-24.10.tar.zst
+        path: ${{ env.workdir_host }}/logs_immortalwrt.tar.zst
         compression-level: 0
 
     - name: 打包固件
@@ -150,7 +150,7 @@ jobs:
         d '
           p "重新打包固件"
           cd ${workdir}/artifact/
-          7z a -tzip N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}.zip *.img.gz
+          7z a -tzip N1-ImmortalWrt-${{ env.latest_release }}-${{ env.build_date }}.zip *.img.gz
         '
 
         p "打印剩余空间"

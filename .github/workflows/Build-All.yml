@@ -9,17 +9,11 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
-    - name: ImmortalWrt 18.06
+    - name: ImmortalWrt
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-ImmortalWrt-18.06
-
-    - name: ImmortalWrt 24.10
-      uses: peter-evans/repository-dispatch@v2
-      with:
-        token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-ImmortalWrt-24.10
+        event-type: N1-ImmortalWrt
 
     - name: LEDE
       uses: peter-evans/repository-dispatch@v2
@@ -27,11 +21,11 @@ jobs:
         token: ${{ secrets.GH_TOKEN }}
         event-type: N1-LEDE
 
-    - name: OpenWrt 24.10
+    - name: OpenWrt
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-OpenWrt-24.10
+        event-type: N1-OpenWrt
 
     - name: iStoreOS
       uses: peter-evans/repository-dispatch@v2

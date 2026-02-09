@@ -9,13 +9,10 @@ sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@mai
 
 |插件差异          |PassWall |OpenClash |V2rayA |HomeProxy |Nikki | Momo | DAED |
 |:---              |  :---:  |  :---:   | :---: |  :---:   |:---: |:---: |:---: |
-|ImmortalWrt-18.06 |   ✅    |    ✅    |   ✅  |    ❌    |  ❌  |  ❌  |  ❌  |
 |ImmortalWrt-24.10 |   ✅    |    ❌    |   ✅  |    ✅    |  ✅  |  ✅  |  ✅  |
 |Openwrt-24.10     |   ✅    |    ❌    |   ✅  |    ✅    |  ✅  |  ✅  |  ✅  |
 |LEDE              |   ✅    |    ❌    |   ✅  |    ✅    |  ✅  |  ✅  |  ✅  |
 |iStoreOS-22.03    |   ✅    |    ✅    |   ✅  |    ❌    |  ❌  |  ❌  |  ❌  |
-
-`注：ImmortalWrt-18.06 固件不包含 sing-box 核心。`
 
 ##
 
