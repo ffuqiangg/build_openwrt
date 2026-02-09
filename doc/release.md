@@ -7,12 +7,12 @@
 sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/scripts/feeds.sh)"
 ```
 
-|插件差异          |PassWall |OpenClash |V2rayA |HomeProxy |Nikki | Momo | DAED |
-|:---              |  :---:  |  :---:   | :---: |  :---:   |:---: |:---: |:---: |
-|ImmortalWrt-24.10 |   ✅    |    ❌    |   ✅  |    ✅    |  ✅  |  ✅  |  ✅  |
-|Openwrt-24.10     |   ✅    |    ❌    |   ✅  |    ✅    |  ✅  |  ✅  |  ✅  |
-|LEDE              |   ✅    |    ❌    |   ✅  |    ✅    |  ✅  |  ✅  |  ✅  |
-|iStoreOS-22.03    |   ✅    |    ✅    |   ✅  |    ❌    |  ❌  |  ❌  |  ❌  |
+|插件差异     |PassWall |OpenClash |V2rayA |HomeProxy |Nikki | Momo | DAED |
+|:---         |  :---:  |  :---:   | :---: |  :---:   |:---: |:---: |:---: |
+|ImmortalWrt  |   ✅    |    ❌    |   ✅  |    ✅    |  ✅  |  ✅  |  ✅  |
+|Openwrt      |   ✅    |    ❌    |   ✅  |    ✅    |  ✅  |  ✅  |  ✅  |
+|LEDE         |   ✅    |    ❌    |   ✅  |    ✅    |  ✅  |  ✅  |  ✅  |
+|iStoreOS     |   ✅    |    ✅    |   ✅  |    ❌    |  ❌  |  ❌  |  ❌  |
 
 ##
 
@@ -21,3 +21,4 @@ sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@mai
 - 增加 docker 启动限制，只有在 dockerman 配置页面开启 `自动启动` 时才能启动。
 - iStoreOS 固件中的 iStore 插件 LuCI 菜单移动至 `服务` 下。
 - 所有固件全部使用 nginx 替换 uhttpd ，以及其它一些优化。
+- 不再编译 ImmortalWrt-18.06 ( 代码早已不再维护，每次编译除了 OpenClash 没有任何变化 )。
