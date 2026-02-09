@@ -199,11 +199,7 @@ cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./feeds/packages/libs/libcron
 p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
-sed -i '/auto_start/d' ./feeds/luci/applications/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
-pushd ./feeds/luci/applications/luci-app-dockerman
-bash ${ffdir}/scripts/docker.sh
-popd
 
 p "Nlbw 带宽监控"
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json

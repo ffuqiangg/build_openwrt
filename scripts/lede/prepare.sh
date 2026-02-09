@@ -37,7 +37,6 @@ p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
-clone master ${dockerman_repo} ${otherdir}/dockerman &
 clone main ${momo_repo} ${otherdir}/openwrt-momo &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
@@ -222,12 +221,8 @@ sed -i 's,services,system,g' ./feeds/luci/applications/luci-app-ttyd/root/usr/sh
 
 p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
-cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-app-dockerman
-sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
+cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-dockerman ./package/add/luci-app-dockerman
 sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
-pushd package/add/luci-app-dockerman
-bash ${ffdir}/scripts/docker.sh
-popd
 
 p "Filebrowser 文件管理器"
 rm -rf ./feeds/luci/applications/luci-app-filebrowser ./feeds/packages/utils/filebrowser
