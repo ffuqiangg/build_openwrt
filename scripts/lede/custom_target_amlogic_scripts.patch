@@ -1,0 +1,31 @@
+diff --git a/target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh b/target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh
+index 299684c1..03182b12 100755
+--- a/target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh
++++ b/target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh
+@@ -27,7 +27,8 @@ function part_disk() {
+ 		mktable msdos \
+ 		mkpart primary 68MiB 132MiB \
+ 		mkpart primary 132MiB 388MiB \
+-		mkpart primary 764MiB 2812MiB
++		mkpart primary 800MiB 1824MiB \
++		mkpart primary 1824MiB 100%
+ }
+ 
+ function get_bootdisk() {
+@@ -129,9 +130,13 @@ function main() {
+ 			dd if=/dev/$partdev of=/dev/$partdevto bs=1M conv=notrunc
+ 		done
+ 		# mark RESET overlay partition
+-		partdevto=${to}p3
+-		echo "mark /dev/$partdevto as RESET"
+-		echo "RESET000" | dd of="/dev/$partdevto" bs=512 count=1 conv=sync,fsync
++		for part in 3 4; do
++			partdevto=${to}p$part
++			echo "mark /dev/$partdevto as RESET"
++			echo "RESET000" | dd of="/dev/$partdevto" bs=512 count=1 conv=sync,fsync
++			if grep -qs "/dev/$partdevto" /proc/mounts; then umount -f /dev/$partdevto; fi
++			mkfs.ext4 -F /dev/$partdevto >/dev/null
++		done
+ 		echo "All Done!"
+ 	else
+ 		echo "Bye!"

@@ -1,6 +1,6 @@
 # Phicomm N1
 
-本仓库编译的 N1 固件大致上分为 LEDE，iStoreOS 的直接编译和 ImmortalWrt，OpenWrt 的 Armbian 内核打包两种类型，在刷机和初始化配置上会有些不同。每个固件由于代码差异所以包含的插件也会有一定的区别，详细情况见 Releases 备注。
+本仓库编译的 N1 固件大致上分为 LEDE，iStoreOS 的直接编译和 ImmortalWrt，OpenWrt 的 Armbian 内核打包两种类型，在刷机和初始化配置上会有些不同。每个固件由于代码差异所以包含的插件也会有一定的区别，详细情况见 Releases 说明。
 
 ## 使用说明
 
@@ -29,7 +29,7 @@ sed -i "s/1824/$((800 + NUM))/g" /usr/sbin/install-to-emmc.sh
 第一种方法登录 LuCI 页面，在 `系统` - `晶晨宝盒` - `安装 OpenWrt` 页面选择好设备型号，点击 `安装` 按钮，等到页面提示安装完成。  
 第二种方法连接 ssh，输入命令
 ```bash
-echo -e "101\n1\n" | openwrt-install-amlogic
+echo -e "101\n2\n" | openwrt-install-amlogic
 ```
 `如果使用的 ImmortalWrt-18.06 系统需要将命令中的 101 替换为 11`
 
@@ -44,12 +44,12 @@ openwrt-update-amlogic
 > - **一定不要改动系统挂载点，一定不要改动系统挂载点，一定不要改动系统挂载点。**
 > - 更新系统两种方法都须先将固件文件解压为 `.img.gz` 格式再上传，否则系统无法识别。
 > - 如果使用 `晶晨宝盒` - `在线下载更新` 功能更新固件会变为 [breakings](https://github.com/breakings/OpenWrt) 或 [ophub](https://github.com/ophub/amlogic-s9xxx-openwrt) 仓库的固件。
-> - 系统可单独升级内核但不建议。尤其是 ImmortalWrt-23.05 和 OpenWrt-23.05 固件，其经过特殊优化解决了安装内核模块报错的问题，单独升级内核可能使其失效。
+> - 系统可单独升级内核但不建议。尤其是最新版本的 ImmortalWrt 和 OpenWrt 固件，其经过特殊优化解决了安装内核模块报错的问题，单独升级内核可能使其失效。
 > - 使用过程中 docker 容器中的目录如需映射到 EMMC 务必映射到 `/mnt/mmcblk2p4` 目录。
 
 ### 3. LEDE、iStoreOS 固件的安装使用
 
-这类原生固件在安装好之后还需要挂载 overlay 和 docker 分区。iStoreOS 固件默认已挂载好 overlay 分区，可跳过该步骤。
+LEDE 和 iStoreOS 固件采用 squashfs 格式，在安装好之后还需要挂载 overlay 和 docker 分区。iStoreOS 固件默认已挂载好 overlay 分区，可跳过该步骤。
 
 1. 安装系统：连接 ssh，输入命令 
 ```bash
@@ -63,6 +63,6 @@ echo -e "y\n" | install-to-emmc.sh
 4. 更新系统：进入 `系统` - `备份与升级` 页面，在 `刷写新的固件` 部分按提示操作即可。
 
 > [!IMPORTANT]
-> - **overlay 及 docker 分区的挂载操作建议在修改系统设置前执行。如果修改系统后再修改挂载点，须先把原来分区的文件全部复制到目标分区，操作相对复杂。**
+> - **overlay 及 docker 分区的挂载操作建议在修改系统设置前执行。如果修改后再挂载，操作相对复杂且存在挂载失败的可能。**
 > - 更新系统需要先将固件文件解压为 `.img.gz` 格式再上传，否则系统无法识别。
 > - 使用过程中 docker 容器中的目录如需映射到 EMMC 务必映射到 `/opt` 目录。

@@ -5,8 +5,8 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
-    if: ${{ github.event.repository.owner.id == github.event.sender.id }}
+    runs-on: ubuntu-24.04
+    if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
     - name: ImmortalWrt 18.06
@@ -33,7 +33,7 @@ jobs:
         token: ${{ secrets.GH_TOKEN }}
         event-type: N1-OpenWrt-24.10
 
-    - name: IStoreOS
+    - name: iStoreOS
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}

@@ -1,0 +1,94 @@
+#!/bin/sh
+
+# 时区设置
+uci set system.@system[0].timezone=CST-8
+uci set system.@system[0].zonename=Asia/Shanghai
+uci del system.ntp.server
+uci add_list system.ntp.server='ntp.aliyun.com'
+uci add_list system.ntp.server='cn.ntp.org.cn'
+uci add_list system.ntp.server='ntp.ntsc.ac.cn'
+uci commit system
+
+# Dropbear
+uci set dropbear.@dropbear[0].Interface='lan'
+uci commit dropbear
+
+# nginx 设置
+sed -i 's,deny all,allow all,g' /etc/nginx/restrict_locally
+uci delete nginx._redirect2ssl.return
+uci delete nginx._redirect2ssl.include
+uci add_list nginx._redirect2ssl.include='restrict_locally'
+uci add_list nginx._redirect2ssl.include='conf.d/*.locations'
+uci commit nginx
+/etc/init.d/nginx restart
+
+# Cpufreq 设置
+uci batch << EOI
+set cpufreq.cpufreq.governor0='schedutil'
+set cpufreq.cpufreq.minfreq0='500000'
+set cpufreq.cpufreq.maxfreq0='1512000'
+EOI
+uci commit cpufreq
+
+# MosDNS
+uci set mosdns.config.log_level='error'
+uci commit mosdns
+
+# Feeds 更换镜像源
+sed -i 's,downloads.openwrt.org,mirrors.ustc.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
+
+# 默认开启 Packet Steering
+uci set network.globals.packet_steering='1'
+uci set network.globals.steering_flows='128'
+uci commit network
+
+# 通用即插即用
+uci set upnpd.config.enabled='1'
+uci commit upnpd
+
+# OpenClash
+[ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geosite.dat /etc/openclash/GeoSite.dat
+[ -f /usr/share/v2ray/geoip.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geoip.dat /etc/openclash/GeoIP.dat
+
+# V2rayA
+[ ! -d /usr/share/xray ] && mkdir -p /usr/share/xray
+[ -f /usr/share/v2ray/geoip.dat ] && ln -sf /usr/share/v2ray/geoip.dat /usr/share/xray/geoip.dat
+[ -f /usr/share/v2ray/geosite.dat ] && ln -sf /usr/share/v2ray/geosite.dat /usr/share/xray/geosite.dat
+
+# rpcd
+[ $(uci -q get rpcd.@rpcd[0].timeout) -lt 60 ] && uci set rpcd.@rpcd[0].timeout=60 && uci commit rpcd
+
+# Flag packages (禁止更新)
+opkg flag hold luci-app-firewall
+opkg flag hold firewall
+opkg flag hold dnsmasq-full
+
+# 禁用Docker自动启动
+uci set dockerd.globals.auto_start='0'
+uci commit dockerd
+
+# docker 镜像站点
+if [ -f /etc/config/dockerd ]; then
+    uci del dockerd.globals.registry_mirrors
+    uci add_list dockerd.globals.registry_mirrors='https://dockerproxy.net'
+    uci add_list dockerd.globals.registry_mirrors='https://docker.m.daocloud.io'
+    uci commit dockerd
+fi
+
+# 禁用某些可能会自启动且用不上的依赖包服务
+/etc/init.d/haproxy disable 2>/dev/null
+/etc/init.d/haproxy stop
+/etc/init.d/kcptun disable 2>/dev/null
+/etc/init.d/kcptun stop
+/etc/init.d/sing-box disable 2>/dev/null
+/etc/init.d/sing-box stop
+/etc/init.d/ttyd disable 2>/dev/null
+/etc/init.d/ttyd stop
+/etc/init.d/dockerd disable 2>/dev/null
+/etc/init.d/dockerd stop
+
+# 清除 LuCI 残留缓存
+rm -rf /tmp/luci-modulecache
+rm -f /tmp/luci-indexcache
+
+exit 0

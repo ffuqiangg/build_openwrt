@@ -6,132 +6,122 @@ on:
     types:
       - N1-ImmortalWrt-18.06
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build:
-    runs-on: ubuntu-22.04
-    if: ${{ github.event.repository.owner.id == github.event.sender.id }}
+    runs-on: "ubuntu-24.04"
+
+    env:
+      DEBIAN_FRONTEND: noninteractive
+      build_os: "ubuntu"
+      build_success: ""
 
     steps:
-    - name: Show system
+    - if: github.event.repository.owner.id == github.event.sender.id
+      name: 显示系统信息
       run: |
         echo -e "💬 Server information \n"
-        echo -e "💻 Server running on Ubuntu: [ Release: $(cat /etc/os-release | grep VERSION_CODENAME | cut -d '=' -f2) / Host: `arch` ] \n"
+        echo -e "💻 Server running on Ubuntu: [ Release: $(cat /etc/os-release | grep VERSION_CODENAME | cut -d '=' -f2) / Host: $(arch) ] \n"
         echo -e "🧮 Server CPU configuration information: \n$(cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c) \n"
         echo -e "💾 Server memory usage: \n$(free -h) \n"
         echo -e "🗃️ Server space usag: \n$(df -hT ${{ github.workspace }}) \n"
 
-    - name: Checkout
+    - name: 准备可用空间
+      uses: AdityaGarg8/remove-unwanted-software@v5
+      with:
+        remove-dotnet: true
+        remove-android: true
+        remove-haskell: true
+        remove-codeql: true
+        remove-docker-images: true
+        remove-large-packages: true
+        remove-cached-tools: true
+        remove-swapfile: true
+
+    - name: 检出代码
       uses: actions/checkout@v6
 
-    - name: Initialization environment
-      env:
-        DEBIAN_FRONTEND: noninteractive
+    - name: 准备容器 ( init.sh )
+      run: bash scripts/init.sh
+
+    - name: 准备源码 ( prepare.sh )
+      run: d "cd ${ffdir} && bash scripts/immortalwrt-18.06/prepare.sh"
+
+    - name: 准备编译
       run: |
-        #docker rmi -f $(docker images -q) 2>/dev/null || true
-        [[ -n "${AGENT_TOOLSDIRECTORY}" ]] && sudo rm -rf "${AGENT_TOOLSDIRECTORY}"
-        sudo rm -rf /usr/share/dotnet /usr/local/lib/android 2>/dev/null
-        sudo swapoff -a
-        sudo rm -f /swapfile /mnt/swapfile
-        sudo -E apt-get -qq update
-        sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
-        sudo -E apt-get -qq install ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential bzip2 ccache clang cmake cpio \
-          curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib g++-multilib git gnutls-dev gperf haveged help2man intltool lib32gcc-s1 \
-          libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev libreadline-dev \
-          libssl-dev libtool libyaml-dev libz-dev lld llvm lrzsz mkisofs msmtp nano ninja-build p7zip p7zip-full patch pkgconf python3 python3-pip \
-          python3-ply python3-docutils python3-pyelftools qemu-utils re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs \
-          upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd
-        sudo -E systemctl daemon-reload
-        sudo -E apt-get -qq autoremove --purge
-        sudo -E apt-get -qq clean
-        sudo sed -i '/NVM_DIR/d;/skel/d' /root/{.bashrc,.profile}
-        sudo rm -rf ~/{.cargo,.dotnet,.rustup}
-        df -Th
+        d '
+          p "处理菜单"
+          cd ${wrtdir}/feeds/luci && bash ${ffdir}/scripts/menu.sh
+          cd ${wrtdir}/package/add && bash ${ffdir}/scripts/menu.sh
 
-    - name: Create simulated physical disk
+          p "展开配置"
+          cd ${wrtdir}
+          cp ${ffdir}/scripts/immortalwrt-18.06/config.seed .config
+          make defconfig
+        '
+
+    - name: 压缩编译目录
       run: |
-        mnt_size=$(expr $(df -h /mnt | tail -1 | awk '{print $4}' | sed 's/[[:alpha:]]//g' | sed 's/\..*//') - 1)
-        root_size=$(expr $(df -h / | tail -1 | awk '{print $4}' | sed 's/[[:alpha:]]//g' | sed 's/\..*//') - 4)
-        sudo truncate -s "${mnt_size}"G /mnt/mnt.img
-        sudo truncate -s "${root_size}"G /root.img
-        sudo losetup /dev/loop6 /mnt/mnt.img
-        sudo losetup /dev/loop7 /root.img
-        sudo pvcreate /dev/loop6
-        sudo pvcreate /dev/loop7
-        sudo vgcreate github /dev/loop6 /dev/loop7
-        sudo lvcreate -n runner -l 100%FREE github
-        sudo mkfs.xfs -f -i sparse=0 -b size=4096 /dev/github/runner
-        sudo mkdir -p /builder
-        sudo mount /dev/github/runner /builder
-        sudo chown -R runner:runner /builder
-        df -Th
+        d '
+          cd ${workdir}
+          cp -r ${ffdir} ${wrtdir}/
+          tar -cf - $(basename ${wrtdir})/ | zstd -19 -T0 > wrt_end.tar.zst
+          rm -rf ${wrtdir}/$(basename ${ffdir})
+        '
 
-    - name: Generate platform variables
-      run: |
-        echo build_date=$(date +%Y.%m.%d) >> $GITHUB_ENV
-
-    - name: Prepare source code
-      working-directory: /builder
-      run: |
-        sudo chown -R runner:runner /home/runner/work/build_openwrt
-        cp -r ${{ github.workspace }}/. ./
-        cp -r ./scripts/immortalwrt-18.06-k5.4/. ./
-        ./01_prepare_source_code.sh
-        ln -sf /builder/openwrt ${{ github.workspace }}/openwrt
-        ln -sf /builder/openwrt /home/runner/work/_actions/ffuqiangg/openwrt_packit/master/openwrt
-
-    - name: Prepare package
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        cp -r ../scripts/immortalwrt-18.06-k5.4/. ./
-        ./02_prepare_package.sh "${{ env.build_date }}"
-        ../scripts/03_move_2_services.sh
-
-    - name: Make config
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        cp ../config/immortalwrt-18.06-k5.4/config.seed .config
-        #../scripts/05_fix_permissions.sh
-        #echo '==============================================='
-        make defconfig
-
-    - name: Cache
-      uses: HiGarfield/cachewrtbuild@main
-      with:
-        mixkey: ImmortalWrt-18.06-K5.4
-        prefix: ${{ github.workspace }}/openwrt
-
-    - name: Download package
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        make download -j$(($(nproc) + 1))
-
-    - name: Compile the firmware
-      working-directory: ${{ github.workspace }}/openwrt
-      id: compileopenwrt
-      continue-on-error: true
-      run: |
-        IGNORE_ERRORS=1 make -j$(($(nproc) + 1))
-        echo $?
-
-    - name: If error
-      if: ${{ steps.compileopenwrt.outcome == 'failure' }}
-      working-directory: ${{ github.workspace }}/openwrt
-      run: |
-        cat ./.config
-        echo '==============================================='
-        make -j1 V=s
-
-    - name: Upload firmware directory
+    - name: 上传编译目录
       uses: actions/upload-artifact@main
       with:
-        name: OpenWrt_rootfs_${{ env.build_date }}
-        path: openwrt/bin
+        name: wrt_end
+        path: ${{ env.workdir_host }}/wrt_end.tar.zst
+        compression-level: 0
 
-    - name: Packit firmware
+    - name: 缓存
+      uses: HiGarfield/cachewrtbuild@main
+      with:
+        mixkey: immortalwrt-18.06
+        prefix: ${{ env.workdir_host }}/openwrt
+
+    - name: 开始编译 ImmortalWrt
+      run: |
+        d '
+          cd ${wrtdir}
+          p "开始下载"
+          make download -j$(($(nproc) + 1))
+          p "开始编译"
+          make -j$(($(nproc) + 1))
+          if [ $? -ne 0 ]; then
+            p "！！编译失败！！开启单线程"
+            make -j1 V=s
+          else
+            p "编译成功"
+            . set_env build_success "true"
+          fi
+
+          p "打包日志"
+          tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_immortalwrt-18.06.tar.zst"
+
+          [ "${build_success}" == "true" ] || exit 1
+        '
+
+        p "打印剩余空间"
+        df -h
+
+    - name: 上传日志文件
+      uses: actions/upload-artifact@main
+      with:
+        name: logs
+        path: ${{ env.workdir_host }}/logs_immortalwrt-18.06.tar.zst
+        compression-level: 0
+
+    - name: 打包固件
       uses: ffuqiangg/openwrt_packit@master
       env:
         SCRIPT_REPO_URL: ffuqiangg/openwrt_packit
-        OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*rootfs.tar.gz
+        OPENWRT_ARMVIRT: ${{ env.workdir_host }}/openwrt/bin/targets/*/*/*rootfs.tar.gz
         PACKAGE_SOC: s905d
         KERNEL_REPO_URL: ffuqiangg/amlogic-s9xxx-armbian
         KERNEL_VERSION_NAME: 5.4.100
@@ -146,22 +136,34 @@ jobs:
         OPENWRT_IP: 192.168.1.99
         BUILD_DATE: ${{ env.build_date }}
 
-    - name: Organize files
+    - if: env.build_success == 'true'
+      name: 上传固件
+      uses: actions/upload-artifact@main
+      with:
+        name: firmware
+        path: ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz
+        compression-level: 0
+
+    - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
+      name: 整理文件
       run: |
-        if [[ "${{ github.event_name }}" == 'repository_dispatch' ]]; then
-          echo "prerelease=false" >> $GITHUB_ENV
-          sed -i '1,/cutline/d' ./doc/release.md
-        else
-          echo "prerelease=true" >> $GITHUB_ENV
-          sed -i '/cutline/,$d' ./doc/release.md
-        fi
+        p "将原始固件移动到工作目录"
+        cd ${{ env.workdir_host }}
         rm -rf ./artifact/
         mkdir -p ./artifact/
         cp ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz ./artifact/
-        cd ./artifact/
-        zip N1-ImmortalWrt-18.06-k5.4-${{ env.build_date }}.zip *.img.gz
 
-    - name: Upload firmware to release
+        d '
+          p "重新打包固件"
+          cd ${workdir}/artifact/
+          7z a -tzip N1-ImmortalWrt-18.06-${{ env.build_date }}.zip *.img.gz
+        '
+
+        p "打印剩余空间"
+        df -h
+
+    - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
+      name: 发布 release
       uses: ncipollo/release-action@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -169,18 +171,27 @@ jobs:
         tag: ${{ env.build_date }}
         allowUpdates: true
         replacesArtifacts: true
-        prerelease: ${{ env.prerelease }}
         artifacts: ./artifact/*.zip
         bodyFile: ./doc/release.md
 
-    - name: Telegram notification
-      if: ${{ github.event_name == 'repository_dispatch' }}
+    - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
+      name: TG 通知
       run: |
-        firmware_num="$(curl -fsSL https://github.com/ffuqiangg/build_openwrt/releases/expanded_assets/${{ env.build_date }} | grep -oE "N1-.*.zip" | sort -u | wc -l)"
-        MSG="
-        *${{ env.build_date }}* 固件编译完成
+        files=$(curl -fsSL https://github.com/ffuqiangg/build_openwrt/releases/expanded_assets/${{ env.build_date }} | \
+          grep -oE "N1-.*\.zip" | sort -u | wc -l)
+        date="
+        ${{ env.build_date }} 固件已发布
+        ￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
+        📖 更新内容 NEW
+        "
+        url="
+
+        📍 固件下载地址
         https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.build_date }}
         "
-        if [[ "${firmware_num}" == 7 ]]; then
-          curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${MSG}&parse_mode=MarkDown&disable_web_page_preview=false"
+        new="$(sed -n '/更新内容/,$p' ./doc/release.md | sed '1,2d' | sed 's/^-/・/g')"
+        msg="${date}${new}${url}"
+        if [ "${files}" == '7' ]; then
+          curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${msg}&parse_mode=MarkDown&disable_web_page_preview=false"
         fi
