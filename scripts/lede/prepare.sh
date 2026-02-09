@@ -40,6 +40,7 @@ clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone main ${momo_repo} ${otherdir}/openwrt-momo &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
+clone master ${daed_repo} ${otherdir}/daed &
 clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkg &
 wait && sync
 
@@ -229,8 +230,7 @@ rm -rf ./feeds/luci/applications/luci-app-filebrowser ./feeds/packages/utils/fil
 cp -rf ${otherdir}/sbwml_pkg/{luci-app-filebrowser-go,filebrowser} ./package/add/
 p "Daed"
 rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
-cp -rf ${otherdir}/openwrt-add/luci-app-daed ./package/add/luci-app-daed
-cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./package/add/libcron
+cp -rf ${otherdir}/daed ./package/add/luci-app-daed
 
 
 p "复制自定义文件目录"
