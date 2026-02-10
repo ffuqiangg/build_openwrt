@@ -21,4 +21,4 @@ sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@mai
 - 增加 docker 启动限制，只有在 dockerman 配置页面开启 `自动启动` 时才能启动。
 - iStoreOS 固件中的 iStore 插件 LuCI 菜单移动至 `服务` 下。
 - 所有固件全部使用 nginx 替换 uhttpd ，以及其它一些优化。
-- 不再编译 ImmortalWrt-18.06 ，一定要用的话下载之前的版本自己找 ipk 更新一下 OpenClash 是一样的。
+- 由于每次发的新版其实没啥变化，所以不再编译 ImmortalWrt-18.06 。（需要的话直接下载旧版）
