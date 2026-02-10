@@ -40,7 +40,6 @@ clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone main ${momo_repo} ${otherdir}/openwrt-momo &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
-clone master ${daed_repo} ${otherdir}/daed &
 clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkg &
 wait && sync
 

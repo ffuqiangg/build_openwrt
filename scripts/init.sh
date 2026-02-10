@@ -219,7 +219,6 @@ d '
     . set_env "helloworld_repo" "https://github.com/sbwml/openwrt_helloworld"
     . set_env "openwrt_add_repo" "https://github.com/QiuSimons/OpenWrt-Add"
     . set_env "sbwml_pkgs_repo" "https://github.com/sbwml/openwrt_pkgs"
-    . set_env "v2raya_repo" "https://github.com/zxlhhyccc/luci-app-v2raya"
     . set_env "autocore_arm_repo" "https://github.com/sbwml/autocore-arm"
     . set_env "homeproxy_repo" "https://github.com/immortalwrt/homeproxy"
 '
