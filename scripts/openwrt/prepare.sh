@@ -176,10 +176,6 @@ cp -rf ${ffdir}/patch/cgroupfs/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cg
 cp -rf ${ffdir}/patch/cgroupfs/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ${ffdir}/patch/cgroupfs/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 
-p "CPUlimit 占用限制"
-cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-cpulimit ./package/add/luci-app-cpulimit
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-cpulimit/Makefile
-cp -rf ${otherdir}/imm_pkg_ma/utils/cpulimit ./package/add/cpulimit
 p "IP/MAC 绑定"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-app-arpbind
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makefile
@@ -191,8 +187,6 @@ cp -rf ${otherdir}/sbwml_pkgs/coremark ./feeds/packages/utils/coremark
 p "Autocore"
 cp -rf ${otherdir}/autocore ./package/add/autocore
 sed -i 's/$(uname -m)/ARMv8 Processor/' ./package/add/autocore/files/generic/cpuinfo
-p "Diskman"
-cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/luci-app-diskman ./package/add/luci-app-diskman
 
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box

@@ -190,10 +190,6 @@ sed -i 's/?/ARMv8 Processor/' ./package/add/autocore-arm/files/generic/cpuinfo
 p "IP/MAC 绑定"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-app-arpbind
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makefile
-p "CPU 限制"
-cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-cpulimit ./package/add/luci-app-cpulimit
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-cpulimit/Makefile
-cp -rf ${otherdir}/imm_pkg_ma/utils/cpulimit ./package/add/cpulimit
 
 p "替换 sing-box"
 cp -rf ${otherdir}/imm_pkg_ma/net/sing-box ./package/add/sing-box
