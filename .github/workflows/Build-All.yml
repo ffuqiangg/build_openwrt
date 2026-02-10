@@ -13,22 +13,22 @@ jobs:
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-ImmortalWrt
+        event-type: ImmortalWrt
 
     - name: LEDE
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-LEDE
+        event-type: LEDE
 
     - name: OpenWrt
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-OpenWrt
+        event-type: OpenWrt
 
     - name: iStoreOS
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.GH_TOKEN }}
-        event-type: N1-iStoreOS
+        event-type: iStoreOS

@@ -1,10 +1,10 @@
-name: N1-OpenWrt
+name: LEDE
 
 on:
   workflow_dispatch:
   repository_dispatch:
     types:
-      - N1-OpenWrt
+      - LEDE
 
 defaults:
   run:
@@ -16,7 +16,7 @@ jobs:
 
     env:
       DEBIAN_FRONTEND: noninteractive
-      build_os: "cachyos"
+      build_os: "ubuntu"
       build_success: ""
 
     steps:
@@ -48,7 +48,7 @@ jobs:
       run: bash scripts/init.sh
 
     - name: 准备源码 ( prepare.sh )
-      run: d "cd ${ffdir} && bash scripts/openwrt/prepare.sh"
+      run: d "cd ${ffdir} && bash scripts/lede/prepare.sh"
 
     - name: 准备编译
       run: |
@@ -59,7 +59,7 @@ jobs:
 
           p "展开配置"
           cd ${wrtdir}
-          cp ${ffdir}/scripts/openwrt/config.seed .config
+          cp ${ffdir}/scripts/lede/config.seed .config
           make defconfig
         '
 
@@ -82,10 +82,10 @@ jobs:
     - name: 缓存
       uses: HiGarfield/cachewrtbuild@main
       with:
-        mixkey: openwrt
+        mixkey: lede
         prefix: ${{ env.workdir_host }}/openwrt
 
-    - name: 开始编译 OpenWrt
+    - name: 开始编译 LEDE
       run: |
         d '
           cd ${wrtdir}
@@ -102,7 +102,7 @@ jobs:
           fi
 
           p "打包日志"
-          tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_openwrt.tar.zst"
+          tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_lede.tar.zst"
 
           [ "${build_success}" == "true" ] || exit 1
         '
@@ -114,29 +114,24 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: logs
-        path: ${{ env.workdir_host }}/logs_openwrt.tar.zst
+        path: ${{ env.workdir_host }}/logs_lede.tar.zst
         compression-level: 0
 
-    - name: 打包固件
-      uses: ffuqiangg/amlogic-s9xxx-openwrt@main
-      with:
-        openwrt_path: ${{ env.workdir_host }}/openwrt/bin/targets/*/*/*rootfs.tar.gz
-        openwrt_board: s905d
-        kernel_repo: ffuqiangg/kernel_${{ env.current_version }}.y
-        openwrt_kernel: ${{ env.kernel_version }}
-        kernel_usage: stable
-        auto_kernel: false
-        openwrt_size: 820
-        openwrt_ip: 192.168.1.99
-        build_date: ${{ env.build_date }}
-
     - if: env.build_success == 'true'
-      name: 上传固件
+      name: 上传固件 ( sfs )
       uses: actions/upload-artifact@main
       with:
         name: firmware
-        path: ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz
+        path: ${{ env.workdir_host }}/openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img*
         compression-level: 0
+
+    - if: env.build_success == 'true'
+      name: 上传 packages
+      uses: actions/upload-artifact@main
+      with:
+        name: packages
+        path: ${{ env.workdir_host }}/openwrt/bin/targets/amlogic/mesongx/packages
+        compression-level: 9
 
     - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
       name: 整理文件
@@ -145,12 +140,14 @@ jobs:
         cd ${{ env.workdir_host }}
         rm -rf ./artifact/
         mkdir -p ./artifact/
-        cp ${{ env.PACKAGED_OUTPUTPATH }}/*.img.gz ./artifact/
+        mv openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img* ./artifact/
+        mv openwrt/bin/targets/amlogic/mesongx/packages ./artifact/
 
         d '
           p "重新打包固件"
           cd ${workdir}/artifact/
-          7z a -tzip N1-OpenWrt-${{ env.latest_release }}-${{ env.build_date }}.zip *.img.gz
+          7z a -tzip N1-LEDE-${distrib_revison}-${build_date}-sfs.zip *n1*squashfs*
+          7z a -r -tzip N1-LEDE-${distrib_revison}-${build_date}-packages.zip packages/
         '
 
         p "打印剩余空间"

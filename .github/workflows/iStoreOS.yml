@@ -1,10 +1,10 @@
-name: N1-LEDE
+name: iStoreOS
 
 on:
   workflow_dispatch:
   repository_dispatch:
     types:
-      - N1-LEDE
+      - iStoreOS
 
 defaults:
   run:
@@ -48,7 +48,7 @@ jobs:
       run: bash scripts/init.sh
 
     - name: 准备源码 ( prepare.sh )
-      run: d "cd ${ffdir} && bash scripts/lede/prepare.sh"
+      run: d "cd ${ffdir} && bash scripts/istoreos/prepare.sh"
 
     - name: 准备编译
       run: |
@@ -59,7 +59,7 @@ jobs:
 
           p "展开配置"
           cd ${wrtdir}
-          cp ${ffdir}/scripts/lede/config.seed .config
+          cp ${ffdir}/scripts/istoreos/config.seed .config
           make defconfig
         '
 
@@ -82,10 +82,10 @@ jobs:
     - name: 缓存
       uses: HiGarfield/cachewrtbuild@main
       with:
-        mixkey: lede
+        mixkey: istoreos
         prefix: ${{ env.workdir_host }}/openwrt
 
-    - name: 开始编译 LEDE
+    - name: 开始编译 iStoreOS
       run: |
         d '
           cd ${wrtdir}
@@ -102,7 +102,7 @@ jobs:
           fi
 
           p "打包日志"
-          tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_lede.tar.zst"
+          tar -cf - logs/ | zstd -19 -T0 > "${workdir}/logs_istoreos.tar.zst"
 
           [ "${build_success}" == "true" ] || exit 1
         '
@@ -114,7 +114,7 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: logs
-        path: ${{ env.workdir_host }}/logs_lede.tar.zst
+        path: ${{ env.workdir_host }}/logs_istoreos.tar.zst
         compression-level: 0
 
     - if: env.build_success == 'true'
@@ -122,7 +122,7 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: firmware
-        path: ${{ env.workdir_host }}/openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img*
+        path: ${{ env.workdir_host }}/openwrt/bin/targets/amlogic/meson/*sysupgrade.img*
         compression-level: 0
 
     - if: env.build_success == 'true'
@@ -130,7 +130,7 @@ jobs:
       uses: actions/upload-artifact@main
       with:
         name: packages
-        path: ${{ env.workdir_host }}/openwrt/bin/targets/amlogic/mesongx/packages
+        path: ${{ env.workdir_host }}/openwrt/bin/targets/amlogic/meson/packages
         compression-level: 9
 
     - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
@@ -140,14 +140,14 @@ jobs:
         cd ${{ env.workdir_host }}
         rm -rf ./artifact/
         mkdir -p ./artifact/
-        mv openwrt/bin/targets/amlogic/mesongx/*sysupgrade.img* ./artifact/
-        mv openwrt/bin/targets/amlogic/mesongx/packages ./artifact/
+        mv openwrt/bin/targets/amlogic/meson/*sysupgrade.img* ./artifact/
+        mv openwrt/bin/targets/amlogic/meson/packages ./artifact/
 
         d '
           p "重新打包固件"
           cd ${workdir}/artifact/
-          7z a -tzip N1-LEDE-${distrib_revison}-${build_date}-sfs.zip *n1*squashfs*
-          7z a -r -tzip N1-LEDE-${distrib_revison}-${build_date}-packages.zip packages/
+          7z a -tzip N1-iStoreOS-22.03.7-${build_date}-sfs.zip *n1*squashfs*
+          7z a -r -tzip N1-iStoreOS-22.03.7-${build_date}-packages.zip packages/
         '
 
         p "打印剩余空间"
