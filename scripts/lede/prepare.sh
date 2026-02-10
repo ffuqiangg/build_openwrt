@@ -230,7 +230,8 @@ rm -rf ./feeds/luci/applications/luci-app-filebrowser ./feeds/packages/utils/fil
 cp -rf ${otherdir}/sbwml_pkg/{luci-app-filebrowser-go,filebrowser} ./package/add/
 p "Daed"
 rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
-cp -rf ${otherdir}/daed ./package/add/luci-app-daed
+cp -rf ${otherdir}/applications/luci-app-daed ./feeds/luci/applications/luci-app-daed
+cp -rf ${otherdir}/net/daed ./feeds/packages/net/daed
 
 
 p "复制自定义文件目录"
