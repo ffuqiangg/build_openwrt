@@ -224,7 +224,7 @@ rm -f profiles.json
 
 p "复制自定义文件目录"
 cp -rf ${ffdir}/patch/files ./files
-mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/scripts/immortalwrt-24.10/zzz-default-settings ./files/etc/uci-defaults/
+mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/scripts/immortalwrt/zzz-default-settings ./files/etc/uci-defaults/
 echo -e "\n\033[34mImmortalWrt\033[0m ${latest_release} | ${build_date//./-}\n" > ./files/etc/banner
 
 
