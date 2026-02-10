@@ -40,7 +40,7 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/p
 ```
 
 - 注意本命令安装时会重置 /etc/sing-box 目录及 /etc/config/sing-box 文件，如有需要请提前备份数据。
-- 本仓库最新固件除 ImmortalWrt-18.06 不含 sing-box 核心之外都可使用 ucode 版本，其它固件自行检查安装依赖项 ucode , ucode-mod-uci , ucode-mod-fs 。
+- 本仓库最新固件都可使用 ucode 版本，其它固件自行检查安装依赖项 ucode , ucode-mod-uci , ucode-mod-fs 。
 - 日志文件时间戳如果出现时区错误，可通过安装 zoneinfo-asia (重启系统生效) 解决，本仓库最新固件已默认编译。
 
 ### 使用基础
