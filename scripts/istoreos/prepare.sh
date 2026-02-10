@@ -39,7 +39,6 @@ clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone master ${lede_luci_repo} ${otherdir}/lede_luci_ma &
 clone master ${dockerman_repo} ${otherdir}/dockerman &
 clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkgs &
-clone master ${v2raya_repo} ${otherdir}/v2raya &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone openwrt-22.03 ${autocore_arm_repo} ${otherdir}/autocore &
