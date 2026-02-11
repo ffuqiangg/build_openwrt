@@ -162,7 +162,7 @@ jobs:
         tag: ${{ env.build_date }}
         allowUpdates: true
         replacesArtifacts: true
-        artifacts: ./artifact/*.zip
+        artifacts: ${{ env.workdir_host }}/artifact/*.zip
         bodyFile: ./doc/release.md
 
     - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
