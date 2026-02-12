@@ -224,8 +224,10 @@ p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-app-dockerman
 sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
-sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
-pushd ./package/add/luci-app-dockerman
+pushd feeds/packages
+wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
+popd
+pushd package/add/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
 
