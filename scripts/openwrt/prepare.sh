@@ -18,7 +18,7 @@ sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 p "获取基础变量"
 build_date=$(date +%Y.%m.%d)
-latest_release=$(curl -s https://github.com/openwrt/openwrt/tags | grep -Po "v[0-9\.]+-*r*c*[0-9]*(?=\.tar\.gz)" | sed -n '/24.10/p' | sed -n 1p | sed 's/v//g')
+latest_release=$(curl -s https://github.com/openwrt/openwrt/tags | grep -Po "v[0-9\.]+-*r*c*[0-9]*(?=\.tar\.gz)" | sed -n '/25.12/p' | sed -n 1p | sed 's/v//g')
 . set_env "build_date" "${build_date}"
 . set_env "latest_release" "${latest_release}"
 
@@ -33,7 +33,7 @@ popd
 
 p "获取内核版本"
 current_version=$(sed -n 's/^KERNEL_PATCHVER:=//p' ${wrtdir}/target/linux/armsr/Makefile)
-kernel_version=$(sed -n "s/^LINUX_VERSION-${current_version} = //p" ${wrtdir}/include/kernel-${current_version})
+kernel_version=$(sed -n "s/^LINUX_VERSION-${current_version} = //p" ${wrtdir}/target/linux/generic/kernel-${current_version})
 . set_env "current_version" "${current_version}"
 . set_env "kernel_version" "${current_version}${kernel_version}"
 
@@ -42,7 +42,7 @@ p "下载其它仓库"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
-clone openwrt-24.10 ${autocore_arm_repo} ${otherdir}/autocore &
+clone openwrt-25.12 ${autocore_arm_repo} ${otherdir}/autocore &
 clone master ${dockerman_repo} ${otherdir}/dockerman &
 clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkgs &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
