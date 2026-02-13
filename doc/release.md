@@ -1,3 +1,5 @@
+<img src="https://img.shields.io/github/downloads/ffuqiangg/build_openwrt/BUILD_DATE/total?logo=github&color=orange" alt="downloads" align="right">
+
 ### 基础信息
 
 - 默认 IP：192.168.1.99 | 默认密码：password

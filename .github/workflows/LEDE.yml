@@ -136,6 +136,8 @@ jobs:
     - if: github.event_name == 'repository_dispatch' && env.build_success == 'true'
       name: 整理文件
       run: |
+        sed -i "s/BUILD_DATE/${{ env.build_date }}/" ./doc/release.md
+
         p "将原始固件移动到工作目录"
         cd ${{ env.workdir_host }}
         rm -rf ./artifact/
