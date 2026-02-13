@@ -78,7 +78,7 @@ p "更新 Feeds"
 
 
 p "卸载无法编译的包"
-./scripts/feeds uninstall exim onionshare-cli python-zope-event python-zope-interface python-gevent python-twisted || true
+./scripts/feeds uninstall onionshare-cli luci-app-advanced-reboot || true
 
 p "应用自定义修改"
 mkdir -p ./package/add
