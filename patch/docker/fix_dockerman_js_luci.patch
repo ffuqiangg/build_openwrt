@@ -1,0 +1,20 @@
+--- a/feeds/luci/applications/luci-app-dockerman/htdocs/luci-statis/resource/dockerman/common.js	2026-02-13 13:57:48.857634554 +0800
++++ b/feeds/luci/applications/luci-app-dockerman/htdocs/luci-static/resource/dockerman/common.js	2026-02-13 14:13:34.556397928 +0800
+@@ -742,7 +742,7 @@
+ 	ensureRegistryScheme(address, hostFallback) {
+ 		const addr = String(address || '').trim() || hostFallback;
+ 		if (!addr) return null;
+-		return /^https?:\/\//i.test(addr) ? addr : `https://${addr}`;
++		return (new RegExp('^https?://', 'i')).test(addr) ? addr : `https://${addr}`;
+ 	},
+ 
+ 	/**
+@@ -773,7 +773,7 @@
+ 		if (!tag) return null;
+ 
+ 		let ref = String(tag).trim();
+-		ref = ref.replace(/^[a-z]+:\/\//i, '');
++		ref = ref.replace(new RegExp('^[a-z]+://', 'i'), '');
+ 
+ 		const slashIdx = ref.indexOf('/');
+ 		const candidate = slashIdx === -1 ? ref : ref.slice(0, slashIdx);
