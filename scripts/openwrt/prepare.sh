@@ -176,8 +176,6 @@ cp -rf ${ffdir}/patch/cgroupfs/902-mount-sys-fs-cgroup-systemd-for-docker-system
 p "IP/MAC 绑定"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-app-arpbind
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makefile
-p "DDNS scripts aliyun"
-cp -rf ${otherdir}/sbwml_pkgs/ddns-scripts-aliyun ./package/add/
 p "Coremark"
 rm -rf ./feeds/packages/utils/coremark
 cp -rf ${otherdir}/sbwml_pkgs/coremark ./feeds/packages/utils/coremark
