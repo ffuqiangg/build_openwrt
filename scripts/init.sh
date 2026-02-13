@@ -157,7 +157,7 @@ if [ "${build_os}" == 'ubuntu' ]; then
         libtool libyaml-dev libz-dev lld llvm llvm-dev lrzsz mkisofs msmtp nano ninja-build p7zip p7zip-full \
         patch pkgconf python3 python3-pip python3-ply python3-docutils python3-pyelftools qemu-utils \
         re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget \
-        xmlto xxd zlib1g-dev zstd sudo
+        xmlto xxd zlib1g-dev zstd sudo jq
 
     p "确保用户一致并配置 sudo"
     dr "mkdir -p /etc/sudoers.d;"
