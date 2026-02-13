@@ -216,7 +216,7 @@ cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
 
 p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
-cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-dockerman ./package/add/luci-app-dockerman
+cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
 patch -p1 ${ffdir}/patch/docker/fix_dockerman_js_luci.oatch
 
 p "Zerotier"
