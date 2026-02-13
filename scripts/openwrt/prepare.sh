@@ -78,6 +78,8 @@ p "更新 Feeds"
 
 p "卸载无法编译的包"
 ./scripts/feeds uninstall onionshare-cli luci-app-advanced-reboot || true
+p "修复 zabbix 依赖，仅针对当前版本"
+wget https://github.com/openwrt/packages/raw/refs/heads/master/admin/zabbix/Makefile -O ./feeds/packages/admin/zabbix/Makefile
 
 p "应用自定义修改"
 mkdir -p ./package/add
