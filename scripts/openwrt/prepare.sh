@@ -169,9 +169,6 @@ p "一些补充翻译"
 cp -rf ${ffdir}/patch/trans-zh ./package/add/
 
 p "mount cgroupv2"
-pushd feeds/packages
-patch -p1 < ${ffdir}/patch/cgroupfs/0001-fix-cgroupfs-mount.patch
-popd
 mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
 cp -rf ${ffdir}/patch/cgroupfs/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 cp -rf ${ffdir}/patch/cgroupfs/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
@@ -224,9 +221,7 @@ p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-app-dockerman
 sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
-pushd feeds/packages
-wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
-popd
+sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
 pushd package/add/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
