@@ -56,6 +56,8 @@ p "设置默认密码 ( password )"
 #     sed -i 's/192.168.1.1/192.168.1.99/g' ${wrtdir}/package/base-files/files/bin/config_generate
 p "编译优化"
     sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
+p "取消 attendedsysupgrade"
+    sed -i '/attendedsysupgrade/d' ${wrtdir}/feeds/luci/collections/luci-nginx/Makefile
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
@@ -153,7 +155,7 @@ fs.file-max = 65535
 p "LuCI 自定义 nft 规则页面"
 patch -p1 < ${ffdir}/patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
 pushd feeds/luci
-patch -p1 <${ffdir}/patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
+patch -p1 < ${ffdir}/patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
 
@@ -219,7 +221,7 @@ cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
 p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
-patch -p1 ${ffdir}/patch/docker/fix_dockerman_js_luci.oatch
+patch -p1 < ${ffdir}/patch/docker/fix_dockerman_js_luci.patch
 
 p "Zerotier"
 rm -rf ./feeds/luci/applications/luci-app-zerotier ./feeds/packages/net/zerotier

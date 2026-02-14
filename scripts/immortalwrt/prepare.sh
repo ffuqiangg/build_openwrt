@@ -140,7 +140,7 @@ fs.file-max = 65535
 p "LuCI 自定义 nft 规则页面"
 patch -p1 < ${ffdir}/patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
 pushd feeds/luci
-patch -p1 <${ffdir}/patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
+patch -p1 < ${ffdir}/patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
 popd
 
 
