@@ -1,5 +1,5 @@
---- a/feeds/luci/applications/luci-app-dockerman/htdocs/luci-statis/resource/dockerman/common.js	2026-02-13 13:57:48.857634554 +0800
-+++ b/feeds/luci/applications/luci-app-dockerman/htdocs/luci-static/resource/dockerman/common.js	2026-02-13 14:13:34.556397928 +0800
+--- a/feeds/luci/applications/luci-app-dockerman/htdocs/luci-statis/resources/dockerman/common.js	2026-02-13 13:57:48.857634554 +0800
++++ b/feeds/luci/applications/luci-app-dockerman/htdocs/luci-static/resources/dockerman/common.js	2026-02-13 14:13:34.556397928 +0800
 @@ -742,7 +742,7 @@
  	ensureRegistryScheme(address, hostFallback) {
  		const addr = String(address || '').trim() || hostFallback;

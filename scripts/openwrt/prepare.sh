@@ -56,8 +56,6 @@ p "设置默认密码 ( password )"
 #     sed -i 's/192.168.1.1/192.168.1.99/g' ${wrtdir}/package/base-files/files/bin/config_generate
 p "编译优化"
     sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
-p "取消 attendedsysupgrade"
-    sed -i '/attendedsysupgrade/d' ${wrtdir}/feeds/luci/collections/luci-nginx/Makefile
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
@@ -82,6 +80,8 @@ p "卸载无法编译的包"
 ./scripts/feeds uninstall onionshare-cli luci-app-advanced-reboot || true
 p "修复 zabbix 依赖，仅针对当前版本"
 wget https://github.com/openwrt/packages/raw/refs/heads/master/admin/zabbix/Makefile -O ./feeds/packages/admin/zabbix/Makefile
+p "取消 attendedsysupgrade"
+    sed -i '/attendedsysupgrade/d' ${wrtdir}/feeds/luci/collections/luci-nginx/Makefile
 
 p "应用自定义修改"
 mkdir -p ./package/add
