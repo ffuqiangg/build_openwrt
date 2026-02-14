@@ -44,6 +44,7 @@ clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone openwrt-25.12 ${autocore_arm_repo} ${otherdir}/autocore &
 clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkgs &
+clone master ${dockerman_repo} ${otherdir}/dockerman &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone main ${momo_repo} ${otherdir}/openwrt-momo &
 clone main ${amlogic_repo} ${otherdir}/amlogic &
@@ -56,6 +57,8 @@ p "设置默认密码 ( password )"
 #     sed -i 's/192.168.1.1/192.168.1.99/g' ${wrtdir}/package/base-files/files/bin/config_generate
 p "编译优化"
     sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
+p "删除 apk 提示"
+    rm -f ${wrtdir}/package/base-files/files/etc/profile.d/apk-cheatsheet.sh
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
@@ -220,8 +223,12 @@ cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
 
 p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
-cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-dockerman ./feeds/luci/applications/luci-app-dockerman
-patch -p1 < ${ffdir}/patch/docker/fix_dockerman_js_luci.patch
+cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-app-dockerman
+sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
+sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
+pushd package/add/luci-app-dockerman
+bash ${ffdir}/scripts/docker.sh
+popd
 
 p "Zerotier"
 rm -rf ./feeds/luci/applications/luci-app-zerotier ./feeds/packages/net/zerotier
