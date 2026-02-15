@@ -43,14 +43,14 @@ start_service() {
             echo "[ sing-box ] Exit."
             return
         fi
-    elif [ "$remote" = 0 ] && [ ! -e "$workdir/profiles/sing-box.json" ]; then
+    elif [ "$remote" = 0 ] && [ ! -f "$workdir/profiles/sing-box.json" ]; then
         echo "[ sing-box ] File is not found."
         echo "[ sing-box ] Exit."
         return
     fi
 
     ucode -S $workdir/scripts/generate_config.uc
-    if [ -e "$workdir/run/config.json" ]; then
+    if [ -f "$workdir/run/config.json" ]; then
         echo "[ sing-box ] Generate configuration successful."
     else
         echo "[ sing-box ] Fail to generate configuration."
