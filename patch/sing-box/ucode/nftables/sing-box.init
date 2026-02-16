@@ -53,7 +53,7 @@ start_service() {
     if [ -f "$workdir/run/config.json" ]; then
         echo "[ sing-box ] Generate configuration successful."
     else
-        echo "[ sing-box ] Fail to generate configuration."
+        echo "[ sing-box ] Generate configuration failed."
     fi
 
     local dns_port
@@ -71,6 +71,8 @@ EOF
 
     procd_open_instance sing-box
     procd_set_param command $PROG run -c "$workdir/run/config.json" -D "$workdir/run"
+
+    uname -r | grep -Eq "^6\.6" && procd_set_param env "QUIC_GO_DISABLE_GSO"="true"
 
     procd_set_param user root
     procd_set_param file "$workdir/run/config.json"
