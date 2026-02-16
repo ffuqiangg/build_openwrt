@@ -146,8 +146,8 @@ jobs:
         d '
           p "重新打包固件"
           cd ${workdir}/artifact/
-          7z a -tzip N1-LEDE-${distrib_revison}-${build_date}-sfs.zip *n1*squashfs*
-          7z a -r -tzip N1-LEDE-${distrib_revison}-${build_date}-packages.zip packages/
+          7z a -tzip N1-LEDE-${distrib_revision}-${build_date}-sfs.zip *n1*squashfs*
+          7z a -r -tzip N1-LEDE-${distrib_revision}-${build_date}-packages.zip packages/
         '
 
         p "打印剩余空间"
