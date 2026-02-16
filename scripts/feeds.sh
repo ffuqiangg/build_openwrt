@@ -27,9 +27,7 @@ if [ $? -ne 0 ]; then
     echo '[ error ] Packages download failed.'
     exit 1
 fi
-pushd /www
-unzip -q packages.zip && rm -rf packages.zip
-popd
+cd /www && unzip -q packages.zip && rm -rf packages.zip
 
 # Modify distfeeds.conf
 if [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'LEDE') -ne 0  ]; then

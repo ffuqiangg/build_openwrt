@@ -35,7 +35,7 @@ uci set mosdns.config.log_level='error'
 uci commit mosdns
 
 # Feeds 更换镜像源
-sed -i 's,downloads.openwrt.org,mirrors.ustc.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
+sed -i 's,downloads.openwrt.org,mirror.sjtu.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
 
 # 默认开启 Packet Steering
 uci set network.globals.packet_steering='1'
