@@ -27,12 +27,13 @@ if [ $? -ne 0 ]; then
     echo '[ error ] Packages download failed.'
     exit 1
 fi
-cd /www && unzip -q packages.zip && rm -rf packages.zip
+rm -rf /www/packages && unzip -q -d /www/ /www/packages.zip && rm -rf /www/packages.zip
 
 # Modify distfeeds.conf
 if [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'LEDE') -ne 0  ]; then
     sed -i '/openwrt_core/c src\/gz openwrt_core file:\/\/\/www\/packages' /etc/opkg/distfeeds.conf
 elif [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'iStoreOS') -ne 0 ]; then
+    sed -i '/www\/packages/d' /etc/opkg/compatfeeds.conf && \
     sed -i '$a src\/gz openwrt_core file:\/\/\/www\/packages' /etc/opkg/compatfeeds.conf
 fi
 
