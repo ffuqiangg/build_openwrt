@@ -38,7 +38,9 @@ start_service() {
     if [ "$remote" -gt 0 ] && [ -n "$url" ]; then
         echo "[ sing-box ] Start update subscription."
         update_subscription
-        if [ ! -f "$workdir/profiles/subscription$remote.json" ]; then
+        if [ -f "$workdir/profiles/subscription$remote.json" ]; then
+            echo "[ sing-box ] Use the previous subscription file."
+        else
             echo "[ sing-box ] Subscription $remote is not found."
             echo "[ sing-box ] Exit."
             return
