@@ -24,7 +24,7 @@ build_date=$(date +%Y.%m.%d)
 p "克隆 istoreos 到 ${workdir}/openwrt"
 . set_env "wrtdir" "${workdir}/openwrt"
 umask 0022
-clone istoreos-22.03 ${istoreos_repo} ${wrtdir}
+clone istoreos-24.10 ${istoreos_repo} ${wrtdir}
 pushd ${wrtdir}
 git config core.filemode false # 忽略权限变更
 popd
@@ -32,16 +32,14 @@ popd
 
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
-clone openwrt-21.02 ${immortalwrt_luci_repo} ${otherdir}/imm_luci_21 &
-clone openwrt-21.02 ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_21 &
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
-clone master ${lede_luci_repo} ${otherdir}/lede_luci_ma &
 clone master ${dockerman_repo} ${otherdir}/dockerman &
 clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkgs &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
+clone main ${momo_repo} ${otherdir}/openwrt-momo &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
-clone openwrt-22.03 ${autocore_arm_repo} ${otherdir}/autocore &
+clone openwrt-24.10 ${autocore_arm_repo} ${otherdir}/autocore &
 wait && sync
 
 p "一些调整"
@@ -144,11 +142,6 @@ fs.file-max = 65535
 " >> ./package/base-files/files/etc/sysctl.d/10-default.conf
 
 
-p "修复页面跳转问题"
-wget https://raw.githubusercontent.com/jjm2473/luci/12c7169/modules/luci-mod-network/htdocs/luci-static/resources/view/network/interfaces.js \
-    -O feeds/luci/modules/luci-mod-network/htdocs/luci-static/resources/view/network/interfaces.js
-
-
 p "调整刷机脚本"
 patch -p1 < ${ffdir}/scripts/istoreos/custom_target_amlogic_scripts.patch
 p "调整 default-settings"
@@ -166,7 +159,7 @@ EOF
 
 p "预编译 node"
 rm -rf ./feeds/packages/lang/node
-clone packages-22.03 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
+clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
 p "更换 golang 版本"
 rm -rf ./feeds/packages/lang/golang
 clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
@@ -191,14 +184,12 @@ cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makefile
 
 p "替换 sing-box"
-cp -rf ${otherdir}/imm_pkg_ma/net/sing-box ./package/add/sing-box
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' ./package/add/sing-box/Makefile
+rm -rf ./feeds/packages/net/sing-box
+cp -rf ${otherdir}/imm_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
 cp -rf ${otherdir}/imm_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
-p "OpenClash"
-cp -rf ${otherdir}/openwrt-add/OpenClash ./package/add/luci-app-openclash
 
 p "Passwall"
 rm -rf feeds/packages/net/{shadowsocks-libev,v2ray-core,xray-core}
@@ -208,20 +199,29 @@ sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openw
 sed -i 's, +libopenssl-legacy,,g' ./package/add/openwrt_helloworld/shadowsocksr-libev/Makefile
 sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
 
+p "OpenWrt-nikki"
+cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
+p "OpenWrt-momo"
+cp -rf ${otherdir}/openwrt-momo ./package/add/luci-app-momo
+
+p "Daed"
+cp -rf ${otherdir}/openwrt-add/luci-app-daed ./package/add/
+cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./package/add/
+p "HomeProxy"
+cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
+
 p "MosDNS"
 rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ${otherdir}/openwrt-add/luci-app-mosdns ./package/add/luci-app-mosdns
 cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
-p "Frpc"
-rm -rf ./feeds/luci/applications/{luci-app-frps,luci-app-frpc} ./feeds/packages/net/frp
-cp -rf ${otherdir}/lede_luci_ma/applications/{luci-app-frps,luci-app-frpc} ./feeds/luci/applications/
-cp -rf ${otherdir}/imm_pkg_ma/net/frp ./feeds/packages/net/frp
 
 p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
 cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-app-dockerman
 sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
-sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
+pushd feeds/packages
+wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
+popd
 pushd package/add/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
@@ -232,18 +232,21 @@ cp -rf ${otherdir}/sbwml_pkgs/coremark ./package/add/
 p "Curl"
 rm -rf ./feeds/packages/net/curl
 cp -rf ${otherdir}/imm_pkg_ma/net/curl ./feeds/packages/net/curl
-cp -rf ${otherdir}/imm_pkg_ma/libs/{nghttp3,ngtcp2} ./package/add/
+p "DDNS scripts aliyun"
+cp -rf ${otherdir}/sbwml_pkgs/ddns-scripts-aliyun ./package/add/
 
 p "Cpufreq"
-cp -rf ${otherdir}/imm_luci_21/applications/luci-app-cpufreq ./package/add/luci-app-cpufreq
+cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-cpufreq ./package/add/luci-app-cpufreq
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/add/luci-app-cpufreq/Makefile
 p "Filebrowser 文件管理器"
 cp -rf ${otherdir}/sbwml_pkgs/{luci-app-filebrowser-go,filebrowser} ./package/add/
+p "KMS 服务器"
+cp -rf ${otherdir}/sbwml_pkgs/{luci-app-vlmcsd,vlmcsd} ./package/add/
 p "FTP 服务器"
 rm -rf ./feeds/packages/net/vsftpd
-cp -rf ${otherdir}/imm_luci_21/applications/luci-app-vsftpd ./package/add/luci-app-vsftpd
+cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-vsftpd ./package/add/luci-app-vsftpd
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-vsftpd/Makefile
-cp -rf ${otherdir}/imm_pkg_21/net/vsftpd ./feeds/packages/net/vsftpd
+cp -rf ${otherdir}/imm_pkg_ma/net/vsftpd ./feeds/packages/net/vsftpd
 
 p "Nlbw 带宽监控"
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
@@ -256,11 +259,9 @@ sed -i 's|"admin",|& "services",|g' ./feeds/store/luci/luci-app-store/luasrc/con
 
 p "复制自定义文件目录"
 cp -rf ${ffdir}/patch/files ./files
-mkdir -p ./files/etc/{uci-defaults,openclash/core}
+mkdir -p ./files/etc/uci-defaults
 cp -f ${ffdir}/scripts/istoreos/zzz-default-settings ./files/etc/uci-defaults/
-wget -qO- https://github.com/vernesong/OpenClash/raw/core/master/meta/clash-linux-arm64.tar.gz | tar xOvz > ./files/etc/openclash/core/clash_meta
-chmod +x ./files/etc/openclash/core/clash*
-echo -e "\n\033[34miStoreOS\033[0m 22.03.7 | ${build_date//./-}\n" > ./files/etc/banner
+echo -e "\n\033[34miStoreOS\033[0m 24.10.5 | ${build_date//./-}\n" > ./files/etc/banner
 
 
 p "清理临时文件"
