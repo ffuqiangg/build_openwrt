@@ -32,6 +32,7 @@ popd
 
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
+clone master ${immortalwrt_repo} ${otherdir}/immortalwrt &
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone master ${dockerman_repo} ${otherdir}/dockerman &
@@ -70,7 +71,7 @@ p "更新 Feeds"
 
 
 p "卸载无法编译的包"
-./scripts/feeds uninstall luci-app-baidupcs-web || true
+./scripts/feeds uninstall exim onionshare-cli python-zope-event python-zope-interface python-gevent python-twisted || true
 
 p "应用自定义修改"
 mkdir -p ./package/add
@@ -238,6 +239,7 @@ cp -rf ${otherdir}/sbwml_pkgs/ddns-scripts-aliyun ./package/add/
 p "Cpufreq"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-cpufreq ./package/add/luci-app-cpufreq
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' package/add/luci-app-cpufreq/Makefile
+cp -rf ${otherdir}/immortalwrt/package/emortal/cpufreq ./package/add/cpufreq
 p "Filebrowser 文件管理器"
 cp -rf ${otherdir}/sbwml_pkgs/{luci-app-filebrowser-go,filebrowser} ./package/add/
 p "KMS 服务器"
