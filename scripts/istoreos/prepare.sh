@@ -46,8 +46,6 @@ clone openwrt-24.10 ${autocore_arm_repo} ${otherdir}/autocore &
 wait && sync
 
 p "一些调整"
-p "设置默认密码 ( password )"
-    sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7:::/g' ${wrtdir}/package/base-files/files/etc/shadow
 p "修改 IP ( 192.168.1.99 )"
     sed -i "s/\s'dhcp'//" ${wrtdir}/target/linux/amlogic/base-files/etc/board.d/02_network
     sed -i 's/192.168.100.1/192.168.1.99/g' ${wrtdir}/package/istoreos-files/Makefile
