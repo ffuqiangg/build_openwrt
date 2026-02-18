@@ -11,7 +11,7 @@ set nowrap novb noeb nu!
 set hls is ic scs ai! si et sr
 
 let mapleader="\<Space>"
-nmap <leader>e :E<br>
+nmap <leader>e :E<cr>
 nmap <leader>bd :bd<cr> 
 nmap <leader>wc <c-w>c
 nmap <leader>th <c-w>t<c-w>h
