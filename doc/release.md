@@ -9,13 +9,6 @@
 sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/scripts/feeds.sh)"
 ```
 
-|插件差异     |PassWall |OpenClash |V2rayA |HomeProxy |Nikki | Momo | DAED |
-|:---         |  :---:  |  :---:   | :---: |  :---:   |:---: |:---: |:---: |
-|ImmortalWrt  |   ✅    |    ❌    |   ✅  |    ✅    |  ✅  |  ✅  |  ✅  |
-|Openwrt      |   ✅    |    ❌    |   ✅  |    ✅    |  ✅  |  ✅  |  ✅  |
-|LEDE         |   ✅    |    ❌    |   ✅  |    ✅    |  ✅  |  ✅  |  ✅  |
-|iStoreOS     |   ✅    |    ✅    |   ✅  |    ❌    |  ❌  |  ❌  |  ❌  |
-
 ##
 
 ### 更新内容
