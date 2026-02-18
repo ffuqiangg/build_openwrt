@@ -148,8 +148,8 @@ jobs:
         d '
           p "重新打包固件"
           cd ${workdir}/artifact/
-          7z a -tzip N1-iStoreOS-22.03.7-${build_date}-sfs.zip *n1*squashfs*
-          7z a -r -tzip N1-iStoreOS-22.03.7-${build_date}-packages.zip packages/
+          7z a -tzip N1-iStoreOS-${latest_release}-${build_date}-sfs.zip *n1*squashfs*
+          7z a -r -tzip N1-iStoreOS-${latest_release}-${build_date}-packages.zip packages/
         '
 
         p "打印剩余空间"

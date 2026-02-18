@@ -1,3 +1,5 @@
+syntax off
+
 set nocompatible
 set bs=2 tw=0 so=2 ls=2
 set ts=4 sts=4 sw=4
@@ -9,25 +11,25 @@ set nowrap novb noeb nu!
 set hls is ic scs ai! si et sr
 
 let mapleader="\<Space>"
-nmap <silent> <Leader>bd :bd<CR> 
-nmap <Leader>wc <C-W>c
-nmap <leader>th <C-W>t<C-W>H
-nmap <leader>tk <C-W>t<C-W>K
-nmap <leader>q :nohl<CR>
-nnoremap <silent> <leader>e :Ex<CR>
-map <C-J> <C-W>j<C-W>_
-map <C-K> <C-W>k<C-W>_
+nmap <leader>e :E<br>
+nmap <leader>bd :bd<cr> 
+nmap <leader>wc <c-w>c
+nmap <leader>th <c-w>t<c-w>h
+nmap <leader>tk <c-w>t<c-w>k
+nmap <leader>q :nohl<cr>
+map <c-j> <c-w>j<c-w>_
+map <c-k> <c-w>k<c-w>_
 nmap <c-h> <c-w>h<c-w><bar>
 nmap <c-l> <c-w>l<c-w><bar>
-nmap <S-H> gT
-nmap <S-L> gt
-map <C-t><C-t> :tabnew<CR>
-map <C-t><C-w> :tabclose<CR>
-imap <C-J> <C-O>o
-imap <C-K> <C-O>O
-cnoremap <C-A> <Home>
-cnoremap <C-E> <End>
-cnoremap <C-K> <C-U>
+nmap <s-h> gT
+nmap <s-l> gt
+map <c-t><c-t> :tabnew<cr>
+map <c-t><c-w> :tabclose<cr>
+imap <c-j> <c-o>o
+imap <c-k> <c-o>O
+cnoremap <c-a> <home>
+cnoremap <c-e> <end>
+cnoremap <c-k> <c-u>
 vnoremap < <gv
 vnoremap > >gv
 

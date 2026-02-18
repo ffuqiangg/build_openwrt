@@ -29,6 +29,8 @@ pushd ${wrtdir}
 git config core.filemode false # 忽略权限变更
 popd
 
+latest_release=$(grep "VERSION_NUMBER:=" ${wrtdir}/include/version.mk | tail -n 1 | sed 's/.*,//;s/)//')
+. set_env "latest_release" "${latest_release}"
 
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
@@ -44,6 +46,8 @@ clone openwrt-24.10 ${autocore_arm_repo} ${otherdir}/autocore &
 wait && sync
 
 p "一些调整"
+p "设置默认密码 ( password )"
+    sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7:::/g' ${wrtdir}/package/base-files/files/etc/shadow
 p "修改 IP ( 192.168.1.99 )"
     sed -i "s/\s'dhcp'//" ${wrtdir}/target/linux/amlogic/base-files/etc/board.d/02_network
     sed -i 's/192.168.100.1/192.168.1.99/g' ${wrtdir}/package/istoreos-files/Makefile
@@ -263,7 +267,7 @@ p "复制自定义文件目录"
 cp -rf ${ffdir}/patch/files ./files
 mkdir -p ./files/etc/uci-defaults
 cp -f ${ffdir}/scripts/istoreos/zzz-default-settings ./files/etc/uci-defaults/
-echo -e "\n\033[34miStoreOS\033[0m 24.10.5 | ${build_date//./-}\n" > ./files/etc/banner
+echo -e "\n\033[34miStoreOS\033[0m ${latest_release} | ${build_date//./-}\n" > ./files/etc/banner
 
 
 p "清理临时文件"
