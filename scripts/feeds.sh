@@ -8,7 +8,7 @@ download_url="https://github.com/ffuqiangg/build_openwrt/releases/download/${BUI
 if [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'LEDE') -ne 0 ]; then
     download_file="N1-LEDE-${DISTRIB_REVISION}-${BUILD_DATE}-packages.zip"
 elif [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'iStoreOS') -ne 0 ]; then
-    download_file="N1-iStoreOS-22.03.7-${BUILD_DATE}-packages.zip"
+    download_file="N1-iStoreOS-${DISTRIB_RELEASE}-${BUILD_DATE}-packages.zip"
 fi
 
 # GitHub mirror
