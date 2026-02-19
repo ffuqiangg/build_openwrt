@@ -7,7 +7,7 @@ set noswf nobk noudf nolz
 set fillchars=vert:│
 set ttimeoutlen=100
 set path+=**
-set nowrap novb noeb nu!
+set nowrap novb noeb
 set hls is ic scs ai! si et sr
 
 let mapleader="\<Space>"
@@ -32,5 +32,10 @@ cnoremap <c-e> <end>
 cnoremap <c-k> <c-u>
 vnoremap < <gv
 vnoremap > >gv
+imap n <down>
+imap p <up>
+imap b <left>
+imap f <right>
 
 let g:netrw_banner=0
+set statusline=\ %n\:%Y\ \ %<%t\ %h%w%m%r\ %30.(-%P-\ \(%l,%c%V%\))
