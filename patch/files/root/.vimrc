@@ -16,7 +16,7 @@ nmap <leader>bd :bd<cr>
 nmap <leader>wc <c-w>c
 nmap <leader>th <c-w>t<c-w>h
 nmap <leader>tk <c-w>t<c-w>k
-nmap <leader>q :nohl<cr>
+nmap <esc> :nohl<cr>
 map <c-j> <c-w>j<c-w>_
 map <c-k> <c-w>k<c-w>_
 nmap <c-h> <c-w>h<c-w><bar>
@@ -38,4 +38,4 @@ imap b <left>
 imap f <right>
 
 let g:netrw_banner=0
-set statusline=\ %n\ %-20.48(%t\ %h%w%m%r%)\ -%P-\ \(%l,%c%V\)\ 
+set statusline=\ %n\ %-20.48(%t\ %h%w%m%r%)\ -%P-\ \(%l,%c%V\)\ %LL\ 
