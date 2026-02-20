@@ -126,5 +126,3 @@ table inet sing-box {
         meta nfproto ipv4 meta l4proto udp jump sing_mangle_output
     }
 }
-
-# vim: set ft=uc:

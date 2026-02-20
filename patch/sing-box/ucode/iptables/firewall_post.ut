@@ -87,5 +87,3 @@ iptables -t mangle -A sing_tproxy_output -p udp --dport 53 -j RETURN
 iptables -t mangle -A sing_tproxy_output -j RETURN -m mark --mark 101
 iptables -t mangle -A sing_tproxy_output -p udp -j MARK --set-mark 1
 iptables -t mangle -A OUTPUT -p udp -j sing_tproxy_output
-
-# vim: set ft=uc:
