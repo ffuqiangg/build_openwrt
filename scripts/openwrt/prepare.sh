@@ -45,6 +45,7 @@ clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone openwrt-25.12 ${autocore_arm_repo} ${otherdir}/autocore &
 clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkgs &
 clone master ${dockerman_repo} ${otherdir}/dockerman &
+clone master ${docker_lib_repo} ${otherdir}/docker_lib &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone main ${momo_repo} ${otherdir}/openwrt-momo &
 clone main ${amlogic_repo} ${otherdir}/amlogic &
@@ -229,6 +230,7 @@ sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0"
 pushd package/add/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
+cp -rf ${otherdir}/docker_lib/collections/luci-lib-docker ./package/add/
 
 p "Zerotier"
 rm -rf ./feeds/luci/applications/luci-app-zerotier ./feeds/packages/net/zerotier
