@@ -235,8 +235,9 @@ cp -rf ${otherdir}/sbwml_pkgs/coremark ./package/add/
 p "Curl"
 rm -rf ./feeds/packages/net/curl
 cp -rf ${otherdir}/imm_pkg_ma/net/curl ./feeds/packages/net/curl
-p "DDNS scripts aliyun"
-cp -rf ${ffdir}/patch/ddns-scripts-aliyun ./package/add/
+p "DDNS"
+rm -rf ./feeds/packages/net/ddns-scripts
+cp -rf ${otherdir}/imm_pkg_ma/net/ddns-scripts ./feeds/packages/net/ddns-scripts
 
 p "Cpufreq"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-cpufreq ./package/add/luci-app-cpufreq
