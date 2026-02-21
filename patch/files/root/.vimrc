@@ -19,7 +19,6 @@ au BufRead,BufNewFile *.log set ft=conf
 
 let mapleader="\<Space>"
 nmap <leader>e :E<cr>
-nmap <leader>bd :bd<cr> 
 nmap <leader>wc <c-w>c
 nmap <leader>th <c-w>t<c-w>h
 nmap <leader>tk <c-w>t<c-w>k
@@ -30,8 +29,6 @@ nmap <c-h> <c-w>h<c-w><bar>
 nmap <c-l> <c-w>l<c-w><bar>
 nmap <s-h> gT
 nmap <s-l> gt
-map <c-t><c-t> :tabnew<cr>
-map <c-t><c-w> :tabclose<cr>
 imap <c-j> <c-o>o
 imap <c-k> <c-o>O
 cnoremap <c-a> <home>
