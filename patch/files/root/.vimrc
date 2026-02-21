@@ -41,4 +41,4 @@ imap b <left>
 imap f <right>
 
 let g:netrw_banner=0
-set statusline=\ %n\ %-20.40(%t\ %h%w%m%r%)%10.(-%P-%)\ \(%l,%c%V\)\ %LL\ 
+set statusline=\ %y\ %-20.40(%t\ %h%w%m%r%)%10.(-%P-%)\ \(%l,%c%V\)\ %LL\ 
