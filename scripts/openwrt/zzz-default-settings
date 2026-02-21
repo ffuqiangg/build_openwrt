@@ -17,6 +17,9 @@ uci add_list system.ntp.server='cn.ntp.org.cn'
 uci add_list system.ntp.server='ntp.ntsc.ac.cn'
 uci commit system
 
+# 调整 Emmc 分区大小
+sed -i '/^ROOT/s/2048/1024/g' /usr/sbin/openwrt-install-amlogic
+
 # 默认密码 ( password )
 sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
 sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
