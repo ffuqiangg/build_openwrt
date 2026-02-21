@@ -12,6 +12,7 @@ set hls is ic scs ai! si et sr
 
 au FileType yaml,json set ts=2 sts=2 sw=2
 au BufRead,BufNewFile *.ut set ft=uc
+au BufRead,BufNewFile /etc/init.d/* set ft=sh
 au BufRead,BufNewFile /etc/config/* set ft=conf
 au BufRead,BufNewFile *.log set ft=conf
 
