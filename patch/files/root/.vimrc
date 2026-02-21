@@ -12,6 +12,8 @@ set hls is ic scs ai! si et sr
 
 au FileType yaml,json set ts=2 sts=2 sw=2
 au BufRead,BufNewFile *.ut set ft=uc
+au BufRead,BufNewFile /etc/config/* set ft=conf
+au BufRead,BufNewFile *.log set ft=conf
 
 let mapleader="\<Space>"
 nmap <leader>e :E<cr>
@@ -41,4 +43,4 @@ imap b <left>
 imap f <right>
 
 let g:netrw_banner=0
-set statusline=\ %y\ %-20.40(%t\ %h%w%m%r%)%10.(-%P-%)\ \(%l,%c%V\)\ %LL\ 
+set statusline=%y\ %-20.40(%t\ %h%w%m%r%)%10.(-%P-%)\ \(%l,%c%V\)\ %LL
