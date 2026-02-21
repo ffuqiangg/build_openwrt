@@ -5,7 +5,7 @@ sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999
 sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
 
 # 调整 Emmc 分区大小
-sed -i '/^ROOT/s/2048/1024/g' /usr/sbin/openwrt-install-amlogic
+sed -e 's,^ROOT1=.*,ROOT1="1024",' -e 's,^ROOT2=.*,ROOT2="1024",' -i /usr/sbin/openwrt-install-amlogic
 
 # Dropbear
 uci set dropbear.@dropbear[0].Interface='lan'
