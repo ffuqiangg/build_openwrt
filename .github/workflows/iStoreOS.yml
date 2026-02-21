@@ -16,7 +16,7 @@ jobs:
 
     env:
       DEBIAN_FRONTEND: noninteractive
-      build_os: "cachyos"
+      build_os: "ubuntu"
       build_success: ""
 
     steps:
