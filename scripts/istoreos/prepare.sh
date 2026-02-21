@@ -236,7 +236,7 @@ p "Curl"
 rm -rf ./feeds/packages/net/curl
 cp -rf ${otherdir}/imm_pkg_ma/net/curl ./feeds/packages/net/curl
 p "DDNS scripts aliyun"
-cp -rf ${otherdir}/sbwml_pkgs/ddns-scripts-aliyun ./package/add/
+cp -rf ${ffdir}/patch/ddns-scripts-aliyun ./package/add/
 
 p "Cpufreq"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-cpufreq ./package/add/luci-app-cpufreq
