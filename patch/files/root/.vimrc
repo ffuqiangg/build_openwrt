@@ -43,4 +43,4 @@ imap f <right>
 
 let g:netrw_banner=0
 hi TabLineFill cterm=underline
-set statusline=%y\ %-20.40(%t\ %h%w%m%r%)%10.(-%P-%)\ \(%l,%c%V\)\ %LL
+set statusline=%y\ %-18.40(%<%t\ %h%w%m%r%)%9.(-%P-%)\ \(%l,%c%V\)\ %LL
