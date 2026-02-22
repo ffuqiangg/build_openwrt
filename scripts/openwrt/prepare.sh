@@ -219,16 +219,16 @@ cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./package/add/
 p "HomeProxy"
 cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
 
-p "Docker 容器"
-rm -rf ./feeds/luci/applications/luci-app-dockerman
-cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-app-dockerman
-sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
-sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
-pushd package/add/luci-app-dockerman
-bash ${ffdir}/scripts/docker.sh
-popd
-cp -rf ${otherdir}/docker_lib/collections/luci-lib-docker ./package/add/
-sed -i '/PKG_VERSION/s/v//' ./package/add/{luci-app-dockerman/Makefile,luci-lib-docker/Makefile}
+# p "Docker 容器"
+# rm -rf ./feeds/luci/applications/luci-app-dockerman
+# cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-app-dockerman
+# sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
+# sed -i '/^start_service/a\\t[ "$(uci -q get dockerd.globals.auto_start)" -eq "0" ] && return 1\n' ./feeds/packages/utils/dockerd/files/dockerd.init
+# pushd package/add/luci-app-dockerman
+# bash ${ffdir}/scripts/docker.sh
+# popd
+# cp -rf ${otherdir}/docker_lib/collections/luci-lib-docker ./package/add/
+# sed -i '/PKG_VERSION/s/v//' ./package/add/{luci-app-dockerman/Makefile,luci-lib-docker/Makefile}
 
 p "Zerotier"
 rm -rf ./feeds/luci/applications/luci-app-zerotier ./feeds/packages/net/zerotier
