@@ -18,7 +18,6 @@ au BufRead,BufNewFile /etc/config/* set ft=conf
 au BufRead,BufNewFile *.log set ft=conf
 
 let mapleader="\<Space>"
-nmap <leader>e :E<cr>
 nmap <leader>th <c-w>t<c-w>h
 nmap <leader>tk <c-w>t<c-w>k
 nmap <esc> :nohl<cr>
