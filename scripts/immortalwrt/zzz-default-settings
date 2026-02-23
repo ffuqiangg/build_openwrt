@@ -40,6 +40,14 @@ uci commit vlmcsd
 uci set mosdns.config.log_level='error'
 uci commit mosdns
 
+# Nikki
+uci batch << EOI
+set nikki.mixin.geosite_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat'
+set nikki.mixin.geoip_mmdb_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb'
+set nikki.mixin.geoip_dat_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat'
+set nikki.mixin.geoip_asn_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb'
+EOI
+
 # 默认开启 Packet Steering
 uci set network.globals.packet_steering='2'
 uci set network.globals.steering_flows='128'
