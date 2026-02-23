@@ -47,6 +47,7 @@ set nikki.mixin.geoip_mmdb_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/me
 set nikki.mixin.geoip_dat_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat'
 set nikki.mixin.geoip_asn_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb'
 EOI
+uci commit nikki
 
 # 默认开启 Packet Steering
 uci set network.globals.packet_steering='2'

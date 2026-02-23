@@ -45,6 +45,7 @@ set nikki.mixin.geoip_mmdb_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/me
 set nikki.mixin.geoip_dat_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat'
 set nikki.mixin.geoip_asn_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb'
 EOI
+uci commit nikki
 
 # Feeds 更换镜像源
 sed -i 's,downloads.openwrt.org,mirror.sjtu.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
