@@ -11,7 +11,6 @@ sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@mai
 
 ### 更新内容
 
-- 增加 docker 启动限制，只有在 dockerman 配置页面开启 `自动启动` 时才能启动。
-- iStoreOS 固件中的 iStore 插件 LuCI 菜单移动至 `服务` 下。
-- 所有固件全部使用 nginx 替换 uhttpd ，以及其它一些优化。
-- 由于每次发的新版其实没啥变化，所以不再编译 ImmortalWrt-18.06 。（需要的话直接下载旧版）
+- OpenWrt 和 ImmortalWrt 固件启用 apk 包管理，使用方法阅读官方 ⌈ [opkg 到 apk 对照速查表](https://openwrt.org/zh/docs/guide-user/additional-software/opkg-to-apk-cheatsheet) ⌋
+- iStoreOS 固件却换到 istoreos-24.10 分区，使用 fw4 ，插件与其它固件保持一致。（ OpenClash 没有了 ）
+- iStoreOS 和 LEDE 固件升级到 6.6 内核，如果使用 hy2 节点注意在 Nikki/Momo 插件中开启 `禁用 quic-go 的通用分段卸载` 开关。 sing-box 裸核脚本和 Homeproxy 插件脚本会自动处理无须理会。
