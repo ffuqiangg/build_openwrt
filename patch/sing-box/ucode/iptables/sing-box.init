@@ -3,7 +3,7 @@
 START=99
 USE_PROCD=1
 
-PROG="$(which sing-box)"
+PROG="/usr/bin/sing-box"
 
 DNSMASQ_UCI_CONFIG=$(uci -q show "dhcp.@dnsmasq[0]" | awk 'NR==1 {split($0, conf, /[.=]/); print conf[2]}')
 if [ -f "/tmp/etc/dnsmasq.conf.$DNSMASQ_UCI_CONFIG" ]; then
