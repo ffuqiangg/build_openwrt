@@ -26,6 +26,10 @@ map <c-j> <c-w>j<c-w>_
 map <c-k> <c-w>k<c-w>_
 nmap <c-h> <c-w>h<c-w><bar>
 nmap <c-l> <c-w>l<c-w><bar>
+nnoremap k gk
+nnoremap gk k
+nnoremap j gj
+nnoremap gj j
 nmap <s-h> gT
 nmap <s-l> gt
 imap <c-j> <c-o>o
