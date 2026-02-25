@@ -65,7 +65,6 @@ dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
-  fake-ip-filter-mode: blacklist
   fake-ip-filter:
     - rule-set:fakeip-filter
     - rule-set:private_domain
