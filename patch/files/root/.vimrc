@@ -45,5 +45,6 @@ imap f <right>
 
 let g:netrw_banner=0
 hi TabLineFill cterm=underline ctermbg=242
-hi PmenuSel ctermfg=15 ctermbg=242
+hi Pmenu ctermfg=145 ctermbg=237
+hi PmenuSel ctermfg=236 ctermbg=39
 set statusline=%y\ %-18.40(%<%t\ %h%w%m%r%)%9.(-%P-%)\ \(%l,%c%V\)\ %LL
