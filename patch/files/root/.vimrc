@@ -21,7 +21,6 @@ au BufRead,BufNewFile *.log set ft=conf
 let mapleader="\<Space>"
 nmap <leader>th <c-w>t<c-w>h
 nmap <leader>tk <c-w>t<c-w>k
-nmap <leader>q :nohl<cr>
 nmap <c-j> <c-w>j<c-w>_
 nmap <c-k> <c-w>k<c-w>_
 nmap <c-h> <c-w>h<c-w><bar>
