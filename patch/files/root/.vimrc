@@ -8,7 +8,7 @@ set noswf nobk noudf nolz
 set fillchars=vert:│
 set ttimeoutlen=100
 set path+=**
-set nowrap novb noeb
+set nowrap novb noeb sc
 set hls is ic scs ai si et sr
 
 au FileType yaml,json set ts=2 sts=2 sw=2
