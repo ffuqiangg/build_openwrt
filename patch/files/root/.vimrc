@@ -9,7 +9,7 @@ set fillchars=vert:│
 set ttimeoutlen=100
 set path+=**
 set nowrap novb noeb
-set hls is ic scs ai! si et sr
+set hls is ic scs ai si et sr
 
 au FileType yaml,json set ts=2 sts=2 sw=2
 au FileType conf set noet
@@ -21,9 +21,9 @@ au BufRead,BufNewFile *.log set ft=conf
 let mapleader="\<Space>"
 nmap <leader>th <c-w>t<c-w>h
 nmap <leader>tk <c-w>t<c-w>k
-nmap <esc> :nohl<cr>
-map <c-j> <c-w>j<c-w>_
-map <c-k> <c-w>k<c-w>_
+nmap <leader>q :nohl<cr>
+nmap <c-j> <c-w>j<c-w>_
+nmap <c-k> <c-w>k<c-w>_
 nmap <c-h> <c-w>h<c-w><bar>
 nmap <c-l> <c-w>l<c-w><bar>
 nnoremap k gk
