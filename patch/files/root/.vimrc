@@ -43,9 +43,12 @@ imap p <up>
 imap b <left>
 imap f <right>
 
-hi TabLineFill cterm=underline ctermbg=242
+hi TabLine ctermbg=239
+hi TabLineFill cterm=underline ctermbg=239
 hi Pmenu ctermfg=145 ctermbg=237
 hi PmenuSel ctermfg=236 ctermbg=39
 hi MatchParen cterm=underline ctermfg=39 ctermbg=none
-hi VertSplit cterm=none ctermbg=none
+hi VertSplit cterm=none ctermbg=none ctermfg=239
+hi StatusLine cterm=none ctermfg=15 ctermbg=239
+hi StatusLineNC cterm=none ctermfg=15 ctermbg=239
 "set statusline=%y\ %-18.40(%<%t\ %h%w%m%r%)%9.(-%P-%)\ \(%l,%c%V\)\ %LL
