@@ -42,7 +42,6 @@ imap p <up>
 imap b <left>
 imap f <right>
 
-let g:netrw_banner=0
 hi TabLineFill cterm=underline ctermbg=242
 hi Pmenu ctermfg=145 ctermbg=237
 hi PmenuSel ctermfg=236 ctermbg=39
