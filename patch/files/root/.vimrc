@@ -22,10 +22,10 @@ au BufRead,BufNewFile *.log set ft=conf
 let mapleader="\<Space>"
 nmap <leader>th <c-w>t<c-w>h
 nmap <leader>tk <c-w>t<c-w>k
-nmap <c-j> <c-w>j<c-w>_
-nmap <c-k> <c-w>k<c-w>_
-nmap <c-h> <c-w>h<c-w><bar>
-nmap <c-l> <c-w>l<c-w><bar>
+nmap <c-j> <c-w>j
+nmap <c-k> <c-w>k
+nmap <c-h> <c-w>h
+nmap <c-l> <c-w>l
 nnoremap k gk
 nnoremap gk k
 nnoremap j gj
@@ -43,12 +43,12 @@ imap p <up>
 imap b <left>
 imap f <right>
 
-hi TabLine cterm=none ctermfg=244 ctermbg=none
-hi TabLineSel cterm=underline ctermfg=109 ctermbg=none
+hi TabLine cterm=none ctermfg=59 ctermbg=none
+hi TabLineSel cterm=none ctermfg=251 ctermbg=none
 hi TabLineFill cterm=none ctermbg=none
 hi Pmenu ctermfg=145 ctermbg=237
 hi PmenuSel ctermfg=236 ctermbg=39
 hi MatchParen cterm=underline ctermfg=39 ctermbg=none
 hi VertSplit cterm=none ctermbg=none ctermfg=239
 hi StatusLine cterm=none ctermfg=15 ctermbg=239
-hi StatusLineNC cterm=none ctermfg=15 ctermbg=239
+hi StatusLineNC cterm=none ctermfg=245 ctermbg=239
