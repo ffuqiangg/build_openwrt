@@ -19,9 +19,6 @@ au BufRead,BufNewFile /etc/init.d/* set ft=sh
 au BufRead,BufNewFile /etc/config/* set ft=conf
 au BufRead,BufNewFile *.log set ft=conf
 
-let mapleader="\<Space>"
-nmap <leader>th <c-w>t<c-w>h
-nmap <leader>tk <c-w>t<c-w>k
 nmap <c-j> <c-w>j
 nmap <c-k> <c-w>k
 nmap <c-h> <c-w>h
