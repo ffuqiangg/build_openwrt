@@ -43,7 +43,8 @@ imap p <up>
 imap b <left>
 imap f <right>
 
-hi TabLine cterm=none ctermfg=59 ctermbg=none
+hi TabLine cterm=none ctermfg=244 ctermbg=none
+hi TabLineSel cterm=underline ctermfg=109 ctermbg=none
 hi TabLineFill cterm=none ctermbg=none
 hi Pmenu ctermfg=145 ctermbg=237
 hi PmenuSel ctermfg=236 ctermbg=39
