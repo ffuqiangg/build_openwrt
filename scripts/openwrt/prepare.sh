@@ -154,9 +154,10 @@ fs.file-max = 65535
 
 
 p "LuCI 自定义 nft 规则页面"
-patch -p1 < ${ffdir}/patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
+wget -qO - https://github.com/QiuSimons/YAOF/raw/25.12/PATCH/pkgs/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch | patch -p1
+wget -q https://github.com/QiuSimons/YAOF/raw/25.12/PATCH/pkgs/firewall/firewall4_patches/999-01-firewall4-add-fullcone-support.patch -P ./package/network/config/firewall4/patches/
 pushd feeds/luci
-patch -p1 < ${ffdir}/patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
+wget -qO - https://github.com/QiuSimons/YAOF/raw/25.12/PATCH/pkgs/firewall/luci/0004-luci-add-firewall-add-custom-nft-rule-support.patch | patch -p1
 popd
 
 
@@ -174,9 +175,9 @@ cp -rf ${ffdir}/patch/trans-zh ./package/add/
 
 p "mount cgroupv2"
 mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
-cp -rf ${ffdir}/patch/cgroupfs/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
-cp -rf ${ffdir}/patch/cgroupfs/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
-cp -rf ${ffdir}/patch/cgroupfs/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+wget -q https://github.com/QiuSimons/YAOF/raw/25.12/PATCH/pkgs/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch -P ./feeds/packages/utils/cgroupfs-mount/patches/
+wget -q https://github.com/QiuSimons/YAOF/raw/25.12/PATCH/pkgs/cgroupfs-mount/901-fix-cgroupfs-umount.patch -P ./feeds/packages/utils/cgroupfs-mount/patches/
+wget -q https://github.com/QiuSimons/YAOF/raw/25.12/PATCH/pkgs/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch -P ./feeds/packages/utils/cgroupfs-mount/patches/
 
 p "IP/MAC 绑定"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-app-arpbind
