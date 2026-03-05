@@ -217,8 +217,8 @@ cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
 p "OpenWrt-momo"
 cp -rf ${otherdir}/openwrt-momo ./package/add/luci-app-momo
 
-p "Daed"
-cp -rf ${otherdir}/openwrt-add/luci-app-daed ./package/add/
+p "Dae"
+cp -rf ${otherdir}/openwrt-add/luci-app-dae ./package/add/
 cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./package/add/
 p "HomeProxy"
 cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
@@ -255,6 +255,8 @@ sed -i 's,services,system,g' ./package/feeds/luci/luci-app-ttyd/root/usr/share/l
 
 p "晶晨宝盒"
 cp -rf ${otherdir}/amlogic/luci-app-amlogic ./package/add/
+p "aurora theme"
+cp -rf ${otherdir}/openwrt-add/luci-theme-aurora ./package/add/
 
 
 p "Vermagic 内核兼容模块"
