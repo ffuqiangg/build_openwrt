@@ -39,7 +39,7 @@ kernel_version=$(sed -n "s/^LINUX_VERSION-${current_version} = //p" ${wrtdir}/ta
 
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
-clone master ${openwrt_pkg_repo} ${other}/openwrt_pkg_ma}
+clone master ${openwrt_pkg_repo} ${otherdir}/openwrt_pkg_ma &
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
