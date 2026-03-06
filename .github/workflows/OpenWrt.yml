@@ -122,10 +122,10 @@ jobs:
       with:
         openwrt_path: ${{ env.workdir_host }}/openwrt/bin/targets/*/*/*rootfs.tar.gz
         openwrt_board: s905d
-        kernel_repo: ophub/kernel
+        kernel_repo: ffuqiangg/kernel_6.12.y
         openwrt_kernel: ${{ env.kernel_version }}
         kernel_usage: stable
-        auto_kernel: false
+        auto_kernel: true
         openwrt_size: 820
         openwrt_ip: 192.168.1.99
         build_date: ${{ env.build_date }}
