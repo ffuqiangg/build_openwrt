@@ -255,8 +255,6 @@ sed -i 's,services,system,g' ./package/feeds/luci/luci-app-ttyd/root/usr/share/l
 
 p "晶晨宝盒"
 cp -rf ${otherdir}/amlogic/luci-app-amlogic ./package/add/
-p "aurora theme"
-cp -rf ${otherdir}/openwrt-add/luci-theme-aurora ./package/add/
 
 
 p "Vermagic 内核兼容模块"
