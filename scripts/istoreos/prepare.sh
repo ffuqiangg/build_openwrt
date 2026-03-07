@@ -174,6 +174,9 @@ clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt 
 p "更换 golang 版本"
 rm -rf ./feeds/packages/lang/golang
 clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
+p "rust"
+wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
+sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
 
 p "一些补充翻译"
 cp -rf ${ffdir}/patch/trans-zh ./package/add/
