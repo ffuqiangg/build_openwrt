@@ -50,11 +50,6 @@ p "修改 IP ( 192.168.1.99 )"
 p "禁用 WIFI"
     sed -i '/wireless/d' ${wrtdir}/package/lean/default-settings/files/zzz-default-settings
     sed -Ei "s/(disabled=)0/\11/" ${wrtdir}/package/kernel/mac80211/files/lib/wifi/mac80211.sh
-# p "调整内核版本 ( 5.15 )"
-#     sed -Ei "s/(KERNEL_PATCHVER:=).*/\15.15/" ${wrtdir}/target/linux/amlogic/Makefile
-#     wget https://github.com/coolsnowwolf/lede/raw/a8788c3/target/linux/generic/backport-5.15/601-v5.18-page_pool-Add-recycle-stats.patch \
-#         -O ${wrtdir}/target/linux/generic/backport-5.15/601-v5.18-page_pool-Add-recycle-stats.patch
-#     wget https://github.com/coolsnowwolf/lede/raw/de89956/include/kernel-5.15 -O ${wrtdir}/include/kernel-5.15
 p "针对 N1 的编译优化"
     sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
     sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
@@ -140,14 +135,6 @@ fs.file-max = 65535
 " >> ./package/base-files/files/etc/sysctl.d/10-default.conf
 
 
-# p "LuCI 自定义 nft 规则页面"
-# wget -qO - https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch | patch -p1
-# wget -q https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/firewall4_patches/999-01-firewall4-add-fullcone-support.patch -P ./package/network/config/firewall4/patches/
-# pushd feeds/luci
-# wget -qO - https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/luci/0004-luci-add-firewall-add-custom-nft-rule-support.patch | patch -p1
-# popd
-
-
 p "调整刷机脚本"
 patch -p1 < ${ffdir}/scripts/lede/custom_target_amlogic_scripts.patch
 mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
@@ -166,19 +153,9 @@ EOF
 p "预编译 node"
 rm -rf ./feeds/packages/lang/node
 clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
-# p "更换 golang 版本"
-# rm -rf ./feeds/packages/lang/golang
-# cp -rf ${otherdir}/openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
-# clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
 p "rust"
 wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
 sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
-
-p "一些补充翻译"
-echo '
-msgid "Custom rules allow you to execute arbitrary nft commands which are not otherwise covered by the firewall framework. The rules are executed after each firewall restart, right after the default ruleset has been loaded."
-msgstr "自定义规则允许您执行不属于防火墙框架的任意 nft 命令。每次重启防火墙时，这些命令在默认的规则运行后立即执行。"
-' >> ./package/lean/default-settings/po/zh-cn/default.po
 
 p "mount cgroupv2"
 pushd feeds/packages

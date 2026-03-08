@@ -34,6 +34,7 @@ latest_release=$(grep "VERSION_NUMBER:=" ${wrtdir}/include/version.mk | tail -n 
 
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
+clone master ${openwrt_pkg_repi} ${otherdir}/openwrt_pkg_ma &
 clone master ${immortalwrt_repo} ${otherdir}/immortalwrt &
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
@@ -145,14 +146,6 @@ fs.file-max = 65535
 " >> ./package/base-files/files/etc/sysctl.d/10-default.conf
 
 
-p "LuCI 自定义 nft 规则页面"
-wget -qO - https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch | patch -p1
-wget -q https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/firewall4_patches/999-01-firewall4-add-fullcone-support.patch -P ./package/network/config/firewall4/patches/
-pushd feeds/luci
-wget -qO - https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/luci/0004-luci-add-firewall-add-custom-nft-rule-support.patch | patch -p1
-popd
-
-
 p "调整刷机脚本"
 patch -p1 < ${ffdir}/scripts/istoreos/custom_target_amlogic_scripts.patch
 p "调整 default-settings"
@@ -173,13 +166,10 @@ rm -rf ./feeds/packages/lang/node
 clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
 p "更换 golang 版本"
 rm -rf ./feeds/packages/lang/golang
-clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
+cp -rf ${otherdir}/openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 p "rust"
 wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
 sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
-
-p "一些补充翻译"
-cp -rf ${ffdir}/patch/trans-zh ./package/add/
 
 p "mount cgroupv2"
 pushd feeds/packages

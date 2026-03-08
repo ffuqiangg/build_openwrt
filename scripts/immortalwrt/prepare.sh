@@ -137,14 +137,6 @@ fs.file-max = 65535
 " >> ./package/base-files/files/etc/sysctl.d/10-default.conf
 
 
-p "LuCI 自定义 nft 规则页面"
-wget -qO - https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch | patch -p1
-wget -q https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/firewall4_patches/999-01-firewall4-add-fullcone-support.patch -P ./package/network/config/firewall4/patches/
-pushd feeds/luci
-wget -qO - https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/luci/0004-luci-add-firewall-add-custom-nft-rule-support.patch | patch -p1
-popd
-
-
 p "预编译 node"
 rm -rf ./feeds/packages/lang/node
 clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
@@ -154,9 +146,6 @@ cp -rf ${otherdir}/openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
 p "rust"
 wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
 sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
-
-p "一些补充翻译"
-cp -rf ${ffdir}/patch/trans-zh ./package/add/
 
 p "mount cgroupv2"
 pushd feeds/packages
