@@ -140,12 +140,12 @@ fs.file-max = 65535
 " >> ./package/base-files/files/etc/sysctl.d/10-default.conf
 
 
-p "LuCI 自定义 nft 规则页面"
-wget -qO - https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch | patch -p1
-wget -q https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/firewall4_patches/999-01-firewall4-add-fullcone-support.patch -P ./package/network/config/firewall4/patches/
-pushd feeds/luci
-wget -qO - https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/luci/0004-luci-add-firewall-add-custom-nft-rule-support.patch | patch -p1
-popd
+# p "LuCI 自定义 nft 规则页面"
+# wget -qO - https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch | patch -p1
+# wget -q https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/firewall4_patches/999-01-firewall4-add-fullcone-support.patch -P ./package/network/config/firewall4/patches/
+# pushd feeds/luci
+# wget -qO - https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/firewall/luci/0004-luci-add-firewall-add-custom-nft-rule-support.patch | patch -p1
+# popd
 
 
 p "调整刷机脚本"
