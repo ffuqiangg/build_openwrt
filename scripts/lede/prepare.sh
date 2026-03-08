@@ -212,8 +212,8 @@ popd
 p "Filebrowser 文件管理器"
 rm -rf ./feeds/luci/applications/luci-app-filebrowser ./feeds/packages/utils/filebrowser
 cp -rf ${otherdir}/sbwml_pkg/{luci-app-filebrowser-go,filebrowser} ./package/add/
-p "Daed"
-rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
+p "Dae"
+rm -rf ./feeds/packages/net/dae ./feeds/luci/applications/luci-app-dae
 cp -rf ${otherdir}/openwrt-add/luci-app-dae ./package/add/
 
 
