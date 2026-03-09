@@ -221,6 +221,7 @@ d '
     . set_env "sbwml_pkgs_repo" "https://github.com/sbwml/openwrt_pkgs"
     . set_env "autocore_arm_repo" "https://github.com/sbwml/autocore-arm"
     . set_env "homeproxy_repo" "https://github.com/immortalwrt/homeproxy"
+    . set_env "yaof_repo" "https://github.com/QiuSimons/YAOF"
 '
 
 [ "${build_os}" == 'cachyos' ] && d paru --noconfirm -S ack antlr3

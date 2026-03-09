@@ -32,6 +32,9 @@ popd
 p "获取 distrib_revision"
 distrib_revision=$(grep 'DISTRIB_REVISION=' ${wrtdir}/package/lean/default-settings/files/zzz-default-settings | sed -E "s/.*'(.+)'.*/\1/")
 . set_env "distrib_revision" "${distrib_revision}"
+p "获取内核版本"
+current_version=$(sed -n 's/^KERNEL_PATCHVER:=//p' ${wrtdir}/target/linux/amlogic/Makefile)
+. set_env "current_version" "${current_version}"
 
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
@@ -42,6 +45,7 @@ clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone master ${dockerman_repo} ${otherdir}/dockerman &
 clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkg &
+clone 24.10 ${yaof_repo} ${otherdir}/yaof &
 wait && sync
 
 p "一些调整"
@@ -157,14 +161,16 @@ p "rust"
 wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
 sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
 
+p "btf"
+cp -rf ${otherdir}/yaof/PATCH/kernel/btf/* ./target/linux/generic/hack-${current_version}/
 p "mount cgroupv2"
 pushd feeds/packages
-wget -qO - https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/cgroupfs-mount/0001-fix-cgroupfs-mount.patch |patch -p1
+patch -p1 < ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
 popd
 mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
-wget -q https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch -P ./feeds/packages/utils/cgroupfs-mount/patches/
-wget -q https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/cgroupfs-mount/901-fix-cgroupfs-umount.patch -P ./feeds/packages/utils/cgroupfs-mount/patches/
-wget -q https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch -P ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box
@@ -214,7 +220,9 @@ rm -rf ./feeds/luci/applications/luci-app-filebrowser ./feeds/packages/utils/fil
 cp -rf ${otherdir}/sbwml_pkg/{luci-app-filebrowser-go,filebrowser} ./package/add/
 p "Dae"
 rm -rf ./feeds/packages/net/dae ./feeds/luci/applications/luci-app-dae
-cp -rf ${otherdir}/openwrt-add/luci-app-dae ./package/add/
+cp -rf ${otherdir}/openwrt-add/{luci-app-dae,openwrt-einat-ebpf} ./package/add/
+sed -i 's/+@KERNEL_DEBUG_INFO_BTF/+vmlinux-btf/' ./package/add/openwrt-einat-ebpf/Makefile
+clone master https://github.com/QiuSimons/vmlinux-btf ./package/add/vmlinux-btf
 
 
 p "复制自定义文件目录"
