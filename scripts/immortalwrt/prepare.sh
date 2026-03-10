@@ -47,6 +47,7 @@ clone main ${amlogic_repo} ${otherdir}/amlogic &
 clone master ${dockerman_repo} ${otherdir}/dockerman &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone main ${momo_repo} ${otherdir}/openwrt-momo &
+clone 24.10 ${yaof_repo} ${otherdir}/yaof &
 wait && sync
 
 p "一些调整"
@@ -147,14 +148,16 @@ p "rust"
 wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
 sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
 
+p "btf"
+cp -rf ${otherdir}/yaof/PATCH/kernel/btf/* ./target/linux/generic/hack-${current_version}/
 p "mount cgroupv2"
 pushd feeds/packages
-wget -qO - https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/cgroupfs-mount/0001-fix-cgroupfs-mount.patch |patch -p1
+patch -p1 < ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
 popd
 mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
-wget -q https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch -P ./feeds/packages/utils/cgroupfs-mount/patches/
-wget -q https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/cgroupfs-mount/901-fix-cgroupfs-umount.patch -P ./feeds/packages/utils/cgroupfs-mount/patches/
-wget -q https://github.com/QiuSimons/YAOF/raw/24.10/PATCH/pkgs/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch -P ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box
@@ -183,10 +186,11 @@ cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
 p "OpenWrt-momo"
 cp -rf ${otherdir}/openwrt-momo ./package/add/luci-app-momo
 
-p "Daed"
-rm -rf ./feeds/luci/applications/luci-app-daed ./feeds/packages/{net/daed,libs/libcron}
-cp -rf ${otherdir}/openwrt-add/luci-app-daed ./package/add/
-cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./feeds/packages/libs/libcron
+p "Dae"
+rm -rf ./feeds/packages/net/dae ./feeds/luci/applications/luci-app-dae
+cp -rf ${otherdir}/openwrt-add/{luci-app-dae,openwrt-einat-ebpf} ./package/add/
+sed -i 's/+@KERNEL_DEBUG_INFO_BTF/+vmlinux-btf/' ./package/add/openwrt-einat-ebpf/Makefile
+clone master https://github.com/QiuSimons/vmlinux-btf ./package/add/vmlinux-btf
 
 p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
