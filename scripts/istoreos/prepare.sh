@@ -37,7 +37,7 @@ current_version=$(sed -n 's/^KERNEL_PATCHVER:=//p' ${wrtdir}/target/linux/amlogi
 
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
-clone master ${openwrt_pkg_repi} ${otherdir}/openwrt_pkg_ma &
+clone master ${openwrt_pkg_repo} ${otherdir}/openwrt_pkg_ma &
 clone master ${immortalwrt_repo} ${otherdir}/immortalwrt &
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
