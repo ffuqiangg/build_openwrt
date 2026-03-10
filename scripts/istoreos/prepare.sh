@@ -31,13 +31,9 @@ popd
 
 latest_release=$(grep "VERSION_NUMBER:=" ${wrtdir}/include/version.mk | tail -n 1 | sed 's/.*,//;s/)//')
 . set_env "latest_release" "${latest_release}"
-p "获取内核版本"
-current_version=$(sed -n 's/^KERNEL_PATCHVER:=//p' ${wrtdir}/target/linux/amlogic/Makefile)
-. set_env "current_version" "${current_version}"
 
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
-clone master ${openwrt_pkg_repo} ${otherdir}/openwrt_pkg_ma &
 clone master ${immortalwrt_repo} ${otherdir}/immortalwrt &
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
@@ -170,13 +166,11 @@ rm -rf ./feeds/packages/lang/node
 clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
 p "更换 golang 版本"
 rm -rf ./feeds/packages/lang/golang
-cp -rf ${otherdir}/openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
+clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
 p "rust"
 wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
 sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
 
-p "btf"
-cp -rf ${otherdir}/yaof/PATCH/kernel/btf/* ./target/linux/generic/hack-${current_version}/
 p "mount cgroupv2"
 pushd feeds/packages
 patch -p1 < ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
