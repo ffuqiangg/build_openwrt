@@ -50,6 +50,7 @@ clone master ${docker_lib_repo} ${otherdir}/docker_lib &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone main ${momo_repo} ${otherdir}/openwrt-momo &
 clone main ${amlogic_repo} ${otherdir}/amlogic &
+clone 25.12 ${yaof_repo} ${otherdir}/yaof &
 wait && sync
 
 p "一些调整"
@@ -160,16 +161,17 @@ clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt 
 p "更换 golang 版本"
 rm -rf ./feeds/packages/lang/golang
 cp -rf ${otherdir}/openwrt_pkg_ma/lang/golang ./feeds/packages/lang/golang
-# clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
 p "rust"
 wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
 sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
 
+p "btf"
+cp -rf ${otherdir}/yaof/PATCH/kernel/btf/* ./target/linux/generic/hack-${current_version}/
 p "mount cgroupv2"
 mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
-wget -q https://github.com/QiuSimons/YAOF/raw/25.12/PATCH/pkgs/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch -P ./feeds/packages/utils/cgroupfs-mount/patches/
-wget -q https://github.com/QiuSimons/YAOF/raw/25.12/PATCH/pkgs/cgroupfs-mount/901-fix-cgroupfs-umount.patch -P ./feeds/packages/utils/cgroupfs-mount/patches/
-wget -q https://github.com/QiuSimons/YAOF/raw/25.12/PATCH/pkgs/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch -P ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
 
 p "IP/MAC 绑定"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-app-arpbind
@@ -207,8 +209,10 @@ p "OpenWrt-momo"
 cp -rf ${otherdir}/openwrt-momo ./package/add/luci-app-momo
 
 p "Dae"
-cp -rf ${otherdir}/openwrt-add/luci-app-dae ./package/add/
-cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./package/add/
+rm -rf ./feeds/packages/net/dae ./feeds/luci/applications/luci-app-dae
+cp -rf ${otherdir}/openwrt-add/{luci-app-dae,openwrt-einat-ebpf} ./package/add/
+sed -i 's/+@KERNEL_DEBUG_INFO_BTF/+vmlinux-btf/' ./package/add/openwrt-einat-ebpf/Makefile
+clone master https://github.com/QiuSimons/vmlinux-btf ./package/add/vmlinux-btf
 p "HomeProxy"
 cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
 
