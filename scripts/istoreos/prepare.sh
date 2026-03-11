@@ -208,11 +208,6 @@ cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
 p "OpenWrt-momo"
 cp -rf ${otherdir}/openwrt-momo ./package/add/luci-app-momo
 
-p "Dae"
-rm -rf ./feeds/packages/net/dae ./feeds/luci/applications/luci-app-dae
-cp -rf ${otherdir}/openwrt-add/{luci-app-dae,openwrt-einat-ebpf} ./package/add/
-sed -i 's/+@KERNEL_DEBUG_INFO_BTF/+vmlinux-btf/' ./package/add/openwrt-einat-ebpf/Makefile
-clone master https://github.com/QiuSimons/vmlinux-btf ./package/add/vmlinux-btf
 p "HomeProxy"
 cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
 
@@ -238,9 +233,6 @@ cp -rf ${otherdir}/sbwml_pkgs/coremark ./package/add/
 p "Curl"
 rm -rf ./feeds/packages/net/curl
 cp -rf ${otherdir}/imm_pkg_ma/net/curl ./feeds/packages/net/curl
-p "DDNS"
-rm -rf ./feeds/packages/net/ddns-scripts
-cp -rf ${otherdir}/imm_pkg_ma/net/ddns-scripts ./feeds/packages/net/ddns-scripts
 
 p "Cpufreq"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-cpufreq ./package/add/luci-app-cpufreq

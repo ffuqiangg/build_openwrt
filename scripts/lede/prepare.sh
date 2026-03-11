@@ -161,8 +161,6 @@ p "rust"
 wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
 sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
 
-p "btf"
-cp -rf ${otherdir}/yaof/PATCH/kernel/btf/* ./target/linux/generic/hack-${current_version}/
 p "mount cgroupv2"
 pushd feeds/packages
 patch -p1 < ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
@@ -218,11 +216,6 @@ popd
 p "Filebrowser 文件管理器"
 rm -rf ./feeds/luci/applications/luci-app-filebrowser ./feeds/packages/utils/filebrowser
 cp -rf ${otherdir}/sbwml_pkg/{luci-app-filebrowser-go,filebrowser} ./package/add/
-p "Dae"
-rm -rf ./feeds/packages/net/dae ./feeds/luci/applications/luci-app-dae
-cp -rf ${otherdir}/openwrt-add/{luci-app-dae,openwrt-einat-ebpf} ./package/add/
-sed -i 's/+@KERNEL_DEBUG_INFO_BTF/+vmlinux-btf/' ./package/add/openwrt-einat-ebpf/Makefile
-clone master https://github.com/QiuSimons/vmlinux-btf ./package/add/vmlinux-btf
 
 
 p "复制自定义文件目录"

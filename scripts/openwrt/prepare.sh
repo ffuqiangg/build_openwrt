@@ -165,8 +165,6 @@ p "rust"
 wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
 sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
 
-p "btf"
-cp -rf ${otherdir}/yaof/PATCH/kernel/btf/* ./target/linux/generic/hack-${current_version}/
 p "mount cgroupv2"
 mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
 cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
@@ -208,11 +206,6 @@ cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
 p "OpenWrt-momo"
 cp -rf ${otherdir}/openwrt-momo ./package/add/luci-app-momo
 
-p "Dae"
-rm -rf ./feeds/packages/net/dae ./feeds/luci/applications/luci-app-dae
-cp -rf ${otherdir}/openwrt-add/{luci-app-dae,openwrt-einat-ebpf} ./package/add/
-sed -i 's/+@KERNEL_DEBUG_INFO_BTF/+vmlinux-btf/' ./package/add/openwrt-einat-ebpf/Makefile
-clone master https://github.com/QiuSimons/vmlinux-btf ./package/add/vmlinux-btf
 p "HomeProxy"
 cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
 
