@@ -2,7 +2,7 @@ syntax off
 filetype indent on
 
 set nocompatible
-set bs=2 tw=0 so=2 ls=1
+set bs=2 tw=0 so=2 ls=2
 set ts=4 sts=4 sw=4
 set noswf nobk noudf nolz tf
 set fillchars=vert:│
@@ -40,12 +40,10 @@ imap p <up>
 imap b <left>
 imap f <right>
 
-hi TabLine cterm=none ctermfg=59 ctermbg=none
-hi TabLineSel cterm=underline ctermfg=39 ctermbg=none
-hi TabLineFill cterm=none ctermbg=none
+hi TabLine cterm=none ctermfg=15 ctermbg=242
+hi TabLineFill cterm=none ctermbg=242
 hi Pmenu ctermfg=145 ctermbg=237
 hi PmenuSel ctermfg=236 ctermbg=39
 hi MatchParen cterm=underline ctermfg=39 ctermbg=none
-hi VertSplit cterm=none ctermbg=none ctermfg=239
-hi StatusLine cterm=none ctermfg=15 ctermbg=239
-hi StatusLineNC cterm=none ctermfg=245 ctermbg=239
+hi VertSplit cterm=none ctermbg=none ctermfg=15
+hi StatusLineNC cterm=none ctermfg=15 ctermbg=242
