@@ -12,8 +12,6 @@ else
     DNSMASQ_DIR="/tmp/dnsmasq.d/dnsmasq-sing.d"
 fi
 
-extra_command 'update_subscription'
-
 start_service() {
     config_load sing-box
 
