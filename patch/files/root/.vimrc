@@ -42,8 +42,8 @@ imap f <right>
 
 hi TabLine cterm=none ctermfg=15 ctermbg=242
 hi TabLineFill cterm=none ctermbg=242
-hi Pmenu ctermfg=145 ctermbg=237
-hi PmenuSel ctermfg=236 ctermbg=39
+hi Pmenu ctermfg=188 ctermbg=242
+hi PmenuSel ctermfg=0 ctermbg=15
 hi MatchParen cterm=underline ctermfg=39 ctermbg=none
 hi VertSplit cterm=none ctermbg=none ctermfg=15
 hi StatusLineNC cterm=none ctermfg=15 ctermbg=242
