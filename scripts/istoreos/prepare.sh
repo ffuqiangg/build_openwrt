@@ -220,7 +220,9 @@ cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-
 sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/packages
 wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
+wget -qO- https://github.com/openwrt/packages/pull/20054.patch | patch -p1
 popd
+sed -i '/sysctl.d/d' feeds/packages/utils/dockerd/Makefile
 pushd package/add/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
