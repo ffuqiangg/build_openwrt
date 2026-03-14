@@ -22,7 +22,7 @@
 ### 感谢
 
 - 本项目源自于 [P3TERX](https://p3terx.com) 的 [Actions-OpenWrt](https://github.com/P3TERX/Actions-OpenWrt) 项目。
-- 固件打包方案来自 [Flippy](https://github.com/unifreq) 的 [openwrt_packit](https://github.com/unifreq/openwrt_packit) 以及 [Ophub](https://github.com/ophub) 的 [amlogic-s9xxx-openwrt](https://github.com/ophub/amlogic-s9xxx-openwrt) 项目。
+- 固件打包方案来自 [Ophub](https://github.com/ophub) 的 [amlogic-s9xxx-openwrt](https://github.com/ophub/amlogic-s9xxx-openwrt) 项目。
 - 本项目使用的一部分补丁取自 [YAOF](https://github.com/QiuSimons/YAOF) 项目，使用 docker 编译的代码来自 [LynnOS](https://github.com/NuoFang6/LynnOS) 项目。
 - 感谢 [OpenWrt](https://github.com/openwrt/openwrt) , [Immortalwrt](https://github.com/immortalwrt/immortalwrt) , [LEDE](https://github.com/coolsnowwolf/lede) , [IStoreOS](https://github.com/istoreos/istoreos) 等项目以及所有插件作者对开源路由所作的贡献。
 
