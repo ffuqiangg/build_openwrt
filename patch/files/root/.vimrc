@@ -23,6 +23,9 @@ nmap <c-j> <c-w>j
 nmap <c-k> <c-w>k
 nmap <c-h> <c-w>h
 nmap <c-l> <c-w>l
+nmap j <c-w>_
+nmap h <c-w><bar>
+nmap k <c-w>=
 nnoremap k gk
 nnoremap gk k
 nnoremap j gj
