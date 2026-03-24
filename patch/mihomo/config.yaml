@@ -7,6 +7,7 @@ proxy-providers:
     health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
     override:
       additional-prefix: "[provider1] "
+
   provider2:
     url: ""
     type: http
@@ -93,84 +94,101 @@ dns:
     - https://dns.alidns.com/dns-query
 
 proxy-groups:
+
   - name: 默认
     type: select
     proxies: [自动选择,直连,香港,台湾,日本,新加坡,美国,其它地区,全部节点]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/png/Sub-Store.png"
+
   - name: Google
     type: select
     proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Google.svg"
+
   - name: Telegram
     type: select
     proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Telegram.svg"
+
   - name: Twitter
     type: select
     proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Twitter.svg"
+
   - name: YouTube
     type: select
     proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/YouTube.svg"
+
   - name: NETFLIX
     type: select
     proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/NETFLIX.svg"
+
   - name: Spotify
     type: select
     proxies:  [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Spotify.svg"
+
   - name: Github
     type: select
     proxies:  [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Github.svg"
+
   - name: 其他
     type: select
     proxies:  [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Graph.svg"
 
+  #分隔,下面是地区分组
   - name: 香港
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)港|hk|hongkong|hong kong"
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Hongkong.svg"
+
   - name: 台湾
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)台|tw|taiwan"
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Taiwan.svg"
+
   - name: 日本
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)日|jp|japan"
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Japan.svg"
+
   - name: 美国
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)美|us|unitedstates|united states"
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/USA.svg"
+
   - name: 新加坡
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)(新|sg|singapore)"
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Singapore.svg"
+
   - name: 其它地区
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/UN.svg"
+
   - name: 全部节点
     type: select
     include-all: true
     exclude-type: direct
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/DirectUP.svg"
+
   - name: 自动选择
     type: url-test
     include-all: true
@@ -180,6 +198,7 @@ proxy-groups:
 
 rules:
   - AND,((RULE-SET,youtube_domain),(NETWORK,UDP),(DST-PORT,443)),REJECT
+
   - RULE-SET,direct_domain,直连
   - RULE-SET,private_ip,直连,no-resolve
   - RULE-SET,github_domain,Github
@@ -191,6 +210,7 @@ rules:
   - RULE-SET,spotify_domain,Spotify
   - RULE-SET,cn_domain,直连
   - RULE-SET,geolocation-!cn,其他
+
   - RULE-SET,google_ip,Google
   - RULE-SET,netflix_ip,NETFLIX
   - RULE-SET,telegram_ip,Telegram
