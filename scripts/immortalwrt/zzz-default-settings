@@ -1,5 +1,17 @@
 #!/bin/sh
 
+# 默认密码 ( password )
+sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
+sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
+
+# ZRam
+uci set system.@system[0].zram_comp_algo='lz4'
+uci set system.@system[0].zram_size_mb=500
+uci commit system
+
+# 调整 Emmc 分区大小
+sed -e 's,^ROOT1=.*,ROOT1="1024",' -e 's,^ROOT2=.*,ROOT2="1024",' -i /usr/sbin/openwrt-install-amlogic
+
 # Dropbear
 uci set dropbear.@dropbear[0].Interface='lan'
 uci commit dropbear
@@ -33,6 +45,15 @@ uci commit vlmcsd
 uci set mosdns.config.log_level='error'
 uci commit mosdns
 
+# Nikki
+uci batch << EOI
+set nikki.mixin.geosite_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat'
+set nikki.mixin.geoip_mmdb_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb'
+set nikki.mixin.geoip_dat_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat'
+set nikki.mixin.geoip_asn_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb'
+EOI
+uci commit nikki
+
 # 默认开启 Packet Steering
 uci set network.globals.packet_steering='2'
 uci set network.globals.steering_flows='128'
@@ -41,6 +62,10 @@ uci commit network
 # 通用即插即用
 uci set upnpd.config.enabled='1'
 uci commit upnpd
+
+#bandix
+uci set bandix.general.log_level='error'
+uci commit bandix
 
 # V2rayA
 [ ! -d /usr/share/xray ] && mkdir -p /usr/share/xray

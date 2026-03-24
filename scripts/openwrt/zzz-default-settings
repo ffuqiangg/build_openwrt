@@ -8,14 +8,23 @@ uci commit luci
 uci set fstab.@global[0].anon_mount=1
 uci commit fstab
 
-# 时区设置
+# 时区 & ZRam
 uci set system.@system[0].timezone=CST-8
 uci set system.@system[0].zonename=Asia/Shanghai
+uci set system.@system[0].zram_comp_algo='lz4'
+uci set system.@system[0].zram_size_mb=500
 uci del system.ntp.server
 uci add_list system.ntp.server='ntp.aliyun.com'
 uci add_list system.ntp.server='cn.ntp.org.cn'
 uci add_list system.ntp.server='ntp.ntsc.ac.cn'
 uci commit system
+
+# 调整 Emmc 分区大小
+sed -e 's,^ROOT1=.*,ROOT1="1024",' -e 's,^ROOT2=.*,ROOT2="1024",' -i /usr/sbin/openwrt-install-amlogic
+
+# 默认密码 ( password )
+sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
+sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
 
 # Dropbear
 uci set dropbear.@dropbear[0].Interface='lan'
@@ -50,9 +59,17 @@ uci commit vlmcsd
 uci set mosdns.config.log_level='error'
 uci commit mosdns
 
+# Nikki
+uci batch << EOI
+set nikki.mixin.geosite_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat'
+set nikki.mixin.geoip_mmdb_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb'
+set nikki.mixin.geoip_dat_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat'
+set nikki.mixin.geoip_asn_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb'
+EOI
+uci commit nikki
+
 # Feeds 更换镜像源
-sed -i 's,downloads.openwrt.org,mirror.sjtu.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
-sed -i 's,mirrors.pku.edu.cn/openwrt,mirror.sjtu.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
+sed -i 's,downloads.openwrt.org,mirror.sjtu.edu.cn/openwrt,g' /etc/apk/repositories.d/distfeeds.list
 
 # 默认开启 Packet Steering
 uci set network.globals.packet_steering='2'
@@ -62,6 +79,10 @@ uci commit network
 # 通用即插即用
 uci set upnpd.config.enabled='1'
 uci commit upnpd
+
+#bandix
+uci set bandix.general.log_level='error'
+uci commit bandix
 
 # V2rayA
 [ ! -d /usr/share/xray ] && mkdir -p /usr/share/xray

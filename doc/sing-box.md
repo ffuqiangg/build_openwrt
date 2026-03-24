@@ -27,6 +27,7 @@
 - **2025.09.08** 整理运行目录。
 - **2025.12.08** 使用多个订阅时，添加支持仅更新当前使用订阅。
 - **2025.12.22** 移除国内 DNS 必须使用 IP 的限制。
+- **2026.04.04** 移除全局屏蔽 QUIC 选项。开启高级设置 `override` 开关时，会默认屏蔽 YouTube 的 QUIC 流量。
 
 ### 安装命令
 
@@ -45,13 +46,13 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/p
 
 ### 使用基础
 
-- `/etc/init.d/sing-box enable` 启用服务 = 开机自启
-- `/etc/init.d/sing-box disable` 禁用服务 = 关闭开机自启
-- `/etc/init.d/sing-box start` 启动服务
-- `/etc/init.d/sing-box stop` 停止服务
-- `/etc/init.d/sing-box restart` 重启服务
-
-以上命令分别对应 `启动项` 页面 `sing-box` 一行的 `已禁用`，`已启用`，`启动`，`停止`，`重启` 按钮。
+| 作用 | 终端命令 | 启动项按钮 |
+| :--- | :--- | :--- |
+| 启用服务（开机自启） | `/etc/init.d/sing-box enable` | <kbd>已禁用</kbd> |
+| 禁用服务（关闭自启） | `/etc/init.d/sing-box disable` | <kbd>启用</kbd> |
+| 启动服务 | `/etc/init.d/sing-box start` | <kbd>启动</kbd> |
+| 停止服务 | `/etc/init.d/sing-box stop` | <kbd>停止</kbd> |
+| 重启服务 | `/etc/init.d/sing-box restart` | <kbd>重启</kbd> |
 
 ### 配置服务
 
@@ -61,9 +62,12 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/p
 ```config
 config sing-box 'main'
 	option enabled '0'                          # 总开关，设为 1 服务才能运行
-	option workdir '/etc/sing-box'
+	option workdir '/etc/sing-box'              # 运行目录
+	option common_ports '0'                     # 仅代理常用端口，0 否，1 是
+	option pass_cn_ip '0'                       # 跳过中国大陆 IP，0 否，1 是
 ```
 - workdir 为服务运行目录，不建议修改否则运行可能会出错。
+- 使用 p2p 下载可开启 `common_ports`，避免 p2p 流量进入 sing-box 核心。
 
 2. **配置文件和订阅相关** `2025.12.08 更新 支持仅更新当前订阅`
 ```config
@@ -79,16 +83,7 @@ config sing-box 'subscription'
 - 使用订阅时服务启动会自动下载配置文件，所以定时重启也能起到定时更新订阅的作用。
 - 如果有更多订阅，配置中新建更多 `list url` 项目即可。`update_all` 开启时则每次启动更新全部订阅，否则仅更新当前使用的订阅。
 
-3. **代理相关** `2025.04.01 更新 增加屏蔽 quic 功能`
-```config
-config sing-box 'proxy'
-	option common_ports '0'                     # 仅代理常用端口，0 否，1 是
-	option pass_cn_ip '0'                       # 跳过中国大陆 IP，0 否，1 是
-	option fuck_quic '0'                        # 屏蔽 quic，0 否，1 是
-```
-- 使用 p2p 下载可开启 `common_ports`，避免 p2p 流量进入 sing-box 核心。
-
-4. **基础配置** `2025.05.25 更新 整理合并设置条目，调整默认面板`
+3. **基础配置** `2025.05.25 更新 整理合并设置条目，调整默认面板`
 ```config
 config sing-box 'basic'
 	option level 'warn'                         # 日志等级
@@ -111,7 +106,7 @@ config sing-box 'basic'
 - mixed 代理用于提供 socks4, socks4a, socks5 和 http 代理服务（注意 mixed 仅代理 tcp 流量）。
 - 更新或替换面板方法：删除 `/etc/sing-box/run/ui` 目录，然后重启 sing-box 服务。
 
-5. **高级设置** `2025.12.22 移除国内 DNS 必须使用 IP 的限制`
+4. **高级设置** `2025.12.22 移除国内 DNS 必须使用 IP 的限制`
 ```config
 config sing-box 'advanced'
 	option override '1'                                              # 覆写，0 禁用，1 启用
@@ -133,10 +128,10 @@ config sing-box 'advanced'
 - 去广告功能可以同时使用多个规则集，自行添加更多的 `list ad_ruleset` 条目即可，规则集要求使用 srs 格式且地址可直连。多个规则集注意文件名不能相同。
 - `filter_nodes` 过滤的节点会从配置文件中完全删除，而不仅仅是不出现在分组中。
 - `gourp_nodes` 可用的分组地区包含香港、台湾、日本、韩国、新加坡、美国、德国。订阅中没有的节点地区会自动跳过不会生成空分组。添加地区可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
-- `stream_list` 脚本预置的可使用分流规则有 Google，Gemini，Github，Telegram，OpenAI，DMM，HBO，NETFLIX，Spotify，Instagram 。添加分流规则可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
+- `stream_list` 脚本预置的可使用分流规则有 Google，Gemini，YouTube，Github，Telegram，OpenAI，DMM，HBO，NETFLIX，Spotify，Instagram 。添加分流规则可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
 - `stream_list` 的设置中，当两个分流规则集存在包含关系时要尤其注意先后顺序。例如 Google 规则集中包含有 Gemini 规则集，所以要同时使用这两个规则集时须将 Gemini 放在 Google 前面，如果 Google 放在前面则优先命中会造成 Gemini 分流失效。
 
-6. **私货** `自用功能，运行结果不符合预期概不负责`
+5. **私货** `自用功能，运行结果不符合预期概不负责`
 - 仅在 `override` 开启时生效。用于自定义域名分流和强制域名直连 / 代理。
 - 在 `/etc/sing-box/resources` 目录新建 custom.json 文件。其 `top` 对象键为出站分组 / 节点（如果分组不存在则自动创建），值为一组无头规则。示例文件 [custom.json](https://gist.github.com/ffuqiangg/00a6acb48a1fb9f60a424e606e7a930a) ，语法参考 [sing-box 无头规则](https://sing-box.sagernet.org/zh/configuration/rule-set/headless-rule/) 。
 

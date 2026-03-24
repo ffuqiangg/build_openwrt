@@ -32,6 +32,9 @@ popd
 p "获取 distrib_revision"
 distrib_revision=$(grep 'DISTRIB_REVISION=' ${wrtdir}/package/lean/default-settings/files/zzz-default-settings | sed -E "s/.*'(.+)'.*/\1/")
 . set_env "distrib_revision" "${distrib_revision}"
+p "获取内核版本"
+current_version=$(sed -n 's/^KERNEL_PATCHVER:=//p' ${wrtdir}/target/linux/amlogic/Makefile)
+. set_env "current_version" "${current_version}"
 
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
@@ -42,6 +45,7 @@ clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone master ${dockerman_repo} ${otherdir}/dockerman &
 clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkg &
+clone 24.10 ${yaof_repo} ${otherdir}/yaof &
 wait && sync
 
 p "一些调整"
@@ -50,11 +54,6 @@ p "修改 IP ( 192.168.1.99 )"
 p "禁用 WIFI"
     sed -i '/wireless/d' ${wrtdir}/package/lean/default-settings/files/zzz-default-settings
     sed -Ei "s/(disabled=)0/\11/" ${wrtdir}/package/kernel/mac80211/files/lib/wifi/mac80211.sh
-# p "调整内核版本 ( 5.15 )"
-#     sed -Ei "s/(KERNEL_PATCHVER:=).*/\15.15/" ${wrtdir}/target/linux/amlogic/Makefile
-#     wget https://github.com/coolsnowwolf/lede/raw/a8788c3/target/linux/generic/backport-5.15/601-v5.18-page_pool-Add-recycle-stats.patch \
-#         -O ${wrtdir}/target/linux/generic/backport-5.15/601-v5.18-page_pool-Add-recycle-stats.patch
-#     wget https://github.com/coolsnowwolf/lede/raw/de89956/include/kernel-5.15 -O ${wrtdir}/include/kernel-5.15
 p "针对 N1 的编译优化"
     sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
     sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
@@ -140,13 +139,6 @@ fs.file-max = 65535
 " >> ./package/base-files/files/etc/sysctl.d/10-default.conf
 
 
-p "LuCI 自定义 nft 规则页面"
-patch -p1 < ${ffdir}/patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
-pushd feeds/luci
-patch -p1 <${ffdir}/patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
-popd
-
-
 p "调整刷机脚本"
 patch -p1 < ${ffdir}/scripts/lede/custom_target_amlogic_scripts.patch
 mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
@@ -165,26 +157,16 @@ EOF
 p "预编译 node"
 rm -rf ./feeds/packages/lang/node
 clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
-p "更换 golang 版本"
-rm -rf ./feeds/packages/lang/golang
-clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
 p "rust"
 wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
-
-p "一些补充翻译"
-echo '
-msgid "Custom rules allow you to execute arbitrary nft commands which are not otherwise covered by the firewall framework. The rules are executed after each firewall restart, right after the default ruleset has been loaded."
-msgstr "自定义规则允许您执行不属于防火墙框架的任意 nft 命令。每次重启防火墙时，这些命令在默认的规则运行后立即执行。"
-' >> ./package/lean/default-settings/po/zh-cn/default.po
+sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
 
 p "mount cgroupv2"
 pushd feeds/packages
-patch -p1 < ${ffdir}/patch/cgroupfs/0001-fix-cgroupfs-mount.patch
+patch -p1 < ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
 popd
 mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
-cp -rf ${ffdir}/patch/cgroupfs/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
-cp -rf ${ffdir}/patch/cgroupfs/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
-cp -rf ${ffdir}/patch/cgroupfs/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/90* ./feeds/packages/utils/cgroupfs-mount/patches/
 
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box
@@ -217,6 +199,8 @@ cp -rf ${otherdir}/openwrt-momo ./package/add/luci-app-momo
 p "Nlbw 带宽监控"
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
+p "Bandix 流量监控"
+cp -rf ${otherdir}/openwrt-add/{openwrt-bandix,luci-app-bandix} ./package/add/
 p "终端 TTYD"
 sed -i 's,services,system,g' ./feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 
@@ -226,7 +210,9 @@ cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-
 sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/packages
 wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
+wget -qO- https://github.com/openwrt/packages/pull/20054.patch | patch -p1
 popd
+sed -i '/sysctl.d/d' feeds/packages/utils/dockerd/Makefile
 pushd package/add/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
@@ -234,16 +220,15 @@ popd
 p "Filebrowser 文件管理器"
 rm -rf ./feeds/luci/applications/luci-app-filebrowser ./feeds/packages/utils/filebrowser
 cp -rf ${otherdir}/sbwml_pkg/{luci-app-filebrowser-go,filebrowser} ./package/add/
-p "Daed"
-rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
-cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-daed ./feeds/luci/applications/luci-app-daed
-cp -rf ${otherdir}/imm_pkg_ma/net/daed ./feeds/packages/net/daed
 
 
 p "复制自定义文件目录"
 cp -rf ${ffdir}/patch/files ./files
 mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/scripts/lede/zzz-default-settings ./files/etc/uci-defaults/
-echo -e "\n\033[34mLEDE\033[0m ${distrib_revision} | ${build_date//./-}\n" > ./files/etc/banner
+length="$((26 + ${#distrib_revision}))"
+for ((i=0; i<length; i++)); do echo -n "=" >> ./files/etc/banner; done
+echo -e "--   \033[36mLEDE ${distrib_revision}\033[0m ${build_date//./-}   --" >> ./files/etc/banner
+for ((i=0; i<length; i++)); do echo -n "=" >> ./files/etc/banner; done
 
 
 p "清理临时文件"

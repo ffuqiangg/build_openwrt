@@ -1,6 +1,6 @@
 # Phicomm N1
 
-本仓库编译的 N1 固件大致上分为 LEDE，iStoreOS 的直接编译和 ImmortalWrt，OpenWrt 的 Armbian 内核打包两种类型，在刷机和初始化配置上会有些不同。每个固件由于代码差异所以包含的插件也会有一定的区别，详细情况见 Releases 说明。
+本仓库编译的 N1 固件大致上分为 LEDE，iStoreOS 的直接编译和 ImmortalWrt，OpenWrt 的 Armbian 内核打包两种类型，在刷机和初始化配置上会有些不同。
 
 ## 使用说明
 
@@ -9,11 +9,11 @@
 
 ### 1. 安装前准备
 
-EMMC 中，ImmortalWrt 和 OpenWrt 系统默认的系统分区为 820M，LEDE 和 iStoreOS 系统默认的 overlay 分区大小为 1G。在将系统写入 EMMC 前可以通过下面的命令调整大小，但修改后预留给 docker 的运行空间也会相应的变化 ( 系统/overlay 增大 > docker 空间缩小 )。如果不修改请忽略这部分内容。
+EMMC 中，ImmortalWrt 和 OpenWrt 系统默认的系统分区，LEDE 和 iStoreOS 系统默认的 overlay 分区大小均为 1G。在将系统写入 EMMC 前可以通过下面的命令调整大小，但修改后预留给 docker 的运行空间也会相应的变化 ( 系统/overlay 增大 > docker 空间缩小 )。如果不修改请忽略这部分内容。
 
 1. ImmortalWrt 和 OpenWrt 系统，将命令中的 `NUM` 修改为你想要的大小，单位 MiB。
 ```bash
-sed -i '/^ROOT/s/820/NUM/g' /usr/sbin/openwrt-install-amlogic
+sed -i '/^ROOT/s/1024/NUM/g' /usr/sbin/openwrt-install-amlogic
 ```
 
 2. LEDE 和 iStoreOS 系统，将命令中的 `NUM` 修改为你想要的大小，单位 MiB。
@@ -48,7 +48,7 @@ openwrt-update-amlogic
 
 ### 3. LEDE、iStoreOS 固件的安装使用
 
-LEDE 和 iStoreOS 固件采用 squashfs 格式，在安装好之后还需要挂载 overlay 和 docker 分区。iStoreOS 固件默认已挂载好 overlay 分区，可跳过该步骤。
+LEDE 和 iStoreOS 固件采用 squashfs 格式，在安装好之后还需要挂载 overlay 和 docker 分区。iStoreOS 固件默认已挂载好 overlay 分区，仅手动挂载 docker 分区即可。
 
 1. 安装系统：连接 ssh，输入命令 
 ```bash
@@ -65,3 +65,15 @@ echo -e "y\n" | install-to-emmc.sh
 > - **overlay 及 docker 分区的挂载操作建议在修改系统设置前执行。如果修改后再挂载，操作相对复杂且存在挂载失败的可能。**
 > - 更新系统需要先将固件文件解压为 `.img.gz` 格式再上传，否则系统无法识别。
 > - 使用过程中 docker 容器中的目录如需映射到 EMMC 务必映射到 `/opt` 目录。
+
+### 4. 科学插件简单对比
+
+| 插件名称 | ipv6 | 内核 | 特点与评价 | 文档 |
+| :--- | :---: | :---: | :--- | :--- |
+| passwall | ✅ | 可选 | 老牌科学插件，功能完善。使用 xray / sing-box 核心时可手动设置分流。 | [Github](https://github.com/Openwrt-Passwall/openwrt-passwall) |
+| nikki | ✅ | mihomo | 通过 LuCI 可进行极细致的调整，但分流规则的调整不够灵活。 | [Wiki](https://github.com/nikkinikki-org/OpenWrt-nikki/wiki) |
+| momo | ✅ | sing-box | 插件主要用于配置网络环境，配置文件须用户自行调整，适合搭配订阅转换服务使用。 | [Wiki](https://github.com/nikkinikki-org/OpenWrt-momo/wiki) |
+| homeproxy | ✅ | sing-box | 无 Web 面板，优点是无需 sing-box 订阅。适合使用大陆白名单模式的用户。 | [Github](https://github.com/immortalwrt/homeproxy) |
+| V2rayA | ✅ | xray | 通过专用的 RoutingA 语言可自由配置 DNS 和路由规则。 | [Docs](https://v2raya.org/docs/prologue/introduction/) |
+| sing-box 脚本 | ❌ | sing-box | 需要 sing-box 订阅，可以方便的设置常用分流。裸核运行没有 LuCI 。 | [Docs](sing-box.md) [Wiki](https://sing-box.sagernet.org/zh/) |
+| mihomo 脚本 | ✅ | mihomo | mihomo 启动器，最大的特点是多个订阅会自动合并。裸核运行没有 LuCI 。 | [Docs](mihomo.md) [Wiki](https://wiki.metacubex.one) |

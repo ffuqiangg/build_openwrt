@@ -391,6 +391,22 @@ if (override === '1') {
             {
                 ip_is_private: true,
                 outbound: '直连'
+            },
+            {
+                type: 'logical',
+                mode: 'and',
+                rules: [
+                    {
+                        rule_set: 'geosite-youtube'
+                    },
+                    {
+                        network: 'udp'
+                    },
+                    {
+                        port: '443'
+                    }
+                ],
+                action: 'reject'
             }
         ],
         rule_set: []
@@ -492,6 +508,14 @@ if (override === '1') {
         url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs',
         download_detour: '直连'
     });
+    if (!('YouTube' in stream_list))
+        push(config.route.rule_set, {
+            tag: 'geosite-youtube',
+            type: 'remote',
+            format: 'binary',
+            url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/youtube.srs',
+            download_detour: '直连'
+        });
 } else {
     config.route = json(jsonfile).route;
 

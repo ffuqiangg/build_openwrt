@@ -1,0 +1,284 @@
+# url 里填写自己的订阅,名称不能重复
+proxy-providers:
+  provider1:
+    url: ""
+    type: http
+    interval: 28800
+    health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
+    override:
+      additional-prefix: "[provider1] "
+  provider2:
+    url: ""
+    type: http
+    interval: 28800
+    health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
+    override:
+      additional-prefix: "[provider2] "
+
+proxies: 
+  - name: "直连"
+    type: direct
+    udp: true
+
+find-process-mode: strict
+mixed-port: 7890
+ipv6: true
+allow-lan: true
+unified-delay: true
+tcp-concurrent: true
+external-controller: 0.0.0.0:9090
+external-ui: ui
+external-ui-url: "https://gh-proxy.com/github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+sniffer:
+  enable: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  skip-domain:
+    - "Mijia Cloud"
+    - "+.push.apple.com"
+
+tun:
+  enable: true
+  stack: mixed
+  dns-hijack:
+    - "any:53"
+    - "tcp://any:53"
+  auto-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+
+# 用于 p2p 直连。使用时 p2p 软件设置代理类型：SOCKS5 ，IP：路由IP，端口：10808 。
+listeners:
+  - name: socks5-in-1
+    type: socks
+    port: 10808
+    listen: 0.0.0.0
+    udp: true
+    users: []
+    proxy: 直连
+
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-filter:
+    - rule-set:private_domain
+    - rule-set:cn_domain
+    - +.miwifi.com
+    - +.docker.io
+    - +.market.xiaomi.com
+    - +.push.apple.com
+  default-nameserver:
+    - tls://223.5.5.5
+    - tls://223.6.6.6
+  nameserver:
+    - https://dns.google/dns-query
+    - https://dns.cloudfalre.com/dns-query
+  direct-nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+  proxy-server-nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+
+proxy-groups:
+  - name: 默认
+    type: select
+    proxies: [自动选择,直连,香港,台湾,日本,新加坡,美国,其它地区,全部节点]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/png/Sub-Store.png"
+  - name: Google
+    type: select
+    proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Google.svg"
+  - name: Telegram
+    type: select
+    proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Telegram.svg"
+  - name: Twitter
+    type: select
+    proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Twitter.svg"
+  - name: YouTube
+    type: select
+    proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/YouTube.svg"
+  - name: NETFLIX
+    type: select
+    proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/NETFLIX.svg"
+  - name: Spotify
+    type: select
+    proxies:  [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Spotify.svg"
+  - name: Github
+    type: select
+    proxies:  [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Github.svg"
+  - name: 其他
+    type: select
+    proxies:  [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Graph.svg"
+
+  - name: 香港
+    type: select
+    include-all: true
+    exclude-type: direct
+    filter: "(?i)港|hk|hongkong|hong kong"
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Hongkong.svg"
+  - name: 台湾
+    type: select
+    include-all: true
+    exclude-type: direct
+    filter: "(?i)台|tw|taiwan"
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Taiwan.svg"
+  - name: 日本
+    type: select
+    include-all: true
+    exclude-type: direct
+    filter: "(?i)日|jp|japan"
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Japan.svg"
+  - name: 美国
+    type: select
+    include-all: true
+    exclude-type: direct
+    filter: "(?i)美|us|unitedstates|united states"
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/USA.svg"
+  - name: 新加坡
+    type: select
+    include-all: true
+    exclude-type: direct
+    filter: "(?i)(新|sg|singapore)"
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Singapore.svg"
+  - name: 其它地区
+    type: select
+    include-all: true
+    exclude-type: direct
+    filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/UN.svg"
+  - name: 全部节点
+    type: select
+    include-all: true
+    exclude-type: direct
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/DirectUP.svg"
+  - name: 自动选择
+    type: url-test
+    include-all: true
+    exclude-type: direct
+    tolerance: 10
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Pixelated.svg"
+
+rules:
+  - AND,((RULE-SET,youtube_domain),(NETWORK,UDP),(DST-PORT,443)),REJECT
+  - RULE-SET,direct_domain,直连
+  - RULE-SET,private_ip,直连,no-resolve
+  - RULE-SET,github_domain,Github
+  - RULE-SET,twitter_domain,Twitter
+  - RULE-SET,youtube_domain,YouTube
+  - RULE-SET,google_domain,Google
+  - RULE-SET,telegram_domain,Telegram
+  - RULE-SET,netflix_domain,NETFLIX
+  - RULE-SET,spotify_domain,Spotify
+  - RULE-SET,cn_domain,直连
+  - RULE-SET,geolocation-!cn,其他
+  - RULE-SET,google_ip,Google
+  - RULE-SET,netflix_ip,NETFLIX
+  - RULE-SET,telegram_ip,Telegram
+  - RULE-SET,twitter_ip,Twitter
+  - RULE-SET,cn_ip,直连
+  - MATCH,其他
+
+rule-anchor:
+  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
+  domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
+
+rule-providers:
+  private_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"
+  cn_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
+  github_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"
+  twitter_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.mrs"
+  youtube_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"
+  google_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"
+  telegram_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"
+  netflix_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"
+  spotify_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"
+  geolocation-!cn:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
+
+  private_ip:
+    <<: *ip
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs"
+  cn_ip:
+    <<: *ip
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"
+  google_ip:
+    <<: *ip
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"
+  netflix_ip:
+    <<: *ip
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"
+  twitter_ip:
+    <<: *ip
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/twitter.mrs"
+  telegram_ip:
+    <<: *ip
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
+
+  direct_domain:
+    type: inline
+    behavior: classical
+    format: yaml
+    payload:
+      - DOMAIN-SUFFIX,apple.com
+      - DOMAIN-SUFFIX,bing.com
+      - DOMAIN-SUFFIX,sooplive.com
+      - DOMAIN-SUFFIX,q19jcg.com
+      - DOMAIN-SUFFIX,haotv.store
+      - DOMAIN-SUFFIX,bnyxgd.com
+      - DOMAIN-SUFFIX,jisuzyv.com
+      - DOMAIN-SUFFIX,rsfcxq.com
+      - DOMAIN-SUFFIX,xpgtv.net
+      - DOMAIN-SUFFIX,olemovienews.com
+      - DOMAIN-SUFFIX,akamaized.net
+      - DOMAIN-SUFFIX,dytt-cinema.com
+      - DOMAIN-SUFFIX,dmbus.cc
+      - DOMAIN-SUFFIX,bgm.tv
+      - DOMAIN-SUFFIX,ok213.top
+      - DOMAIN-SUFFIX,gh-proxy.com
+      - DOMAIN-KEYWORD,modujx
+      - DOMAIN-KEYWORD,ddys
+      - DOMAIN-KEYWORD,bdzybf
+      - DOMAIN-KEYWORD,lz-cdn
+      - DOMAIN-KEYWORD,lzcdn
+      - DOMAIN-KEYWORD,tyyszywvod
+      - DOMAIN-KEYWORD,toutiao
+      - DOMAIN-KEYWORD,omofun

@@ -4,6 +4,11 @@
 uci set dropbear.@dropbear[0].Interface='lan'
 uci commit dropbear
 
+# ZRam
+uci set system.@system[0].zram_comp_algo='lz4'
+uci set system.@system[0].zram_size_mb=500
+uci commit system
+
 # nginx 设置
 sed -i 's,deny all,allow all,g' /etc/nginx/restrict_locally
 uci delete nginx._redirect2ssl.return
@@ -25,14 +30,27 @@ uci commit cpufreq
 uci set mosdns.config.log_level='error'
 uci commit mosdns
 
+# Nikki
+uci batch << EOI
+set nikki.mixin.geosite_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat'
+set nikki.mixin.geoip_mmdb_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb'
+set nikki.mixin.geoip_dat_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat'
+set nikki.mixin.geoip_asn_url='https://cdn.gh-proxy.org/github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb'
+EOI
+uci commit nikki
+
 # 默认开启 Packet Steering
-uci set network.globals.packet_steering='1'
+uci set network.globals.packet_steering='2'
 uci set network.globals.steering_flows='128'
 uci commit network
 
 # 通用即插即用
 uci set upnpd.config.enabled='1'
 uci commit upnpd
+
+#bandix
+uci set bandix.general.log_level='error'
+uci commit bandix
 
 # V2rayA
 [ ! -d /usr/share/xray ] && mkdir -p /usr/share/xray

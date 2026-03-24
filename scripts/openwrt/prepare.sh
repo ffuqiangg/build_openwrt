@@ -18,7 +18,7 @@ sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 p "获取基础变量"
 build_date=$(date +%Y.%m.%d)
-latest_release=$(curl -s https://github.com/openwrt/openwrt/tags | grep -Po "v[0-9\.]+-*r*c*[0-9]*(?=\.tar\.gz)" | sed -n '/24.10/p' | sed -n 1p | sed 's/v//g')
+latest_release=$(curl -s https://github.com/openwrt/openwrt/tags | grep -Po "v[0-9\.]+-*r*c*[0-9]*(?=\.tar\.gz)" | sed -n '/25.12/p' | sed -n 1p | sed 's/v//g')
 . set_env "build_date" "${build_date}"
 . set_env "latest_release" "${latest_release}"
 
@@ -33,7 +33,7 @@ popd
 
 p "获取内核版本"
 current_version=$(sed -n 's/^KERNEL_PATCHVER:=//p' ${wrtdir}/target/linux/armsr/Makefile)
-kernel_version=$(sed -n "s/^LINUX_VERSION-${current_version} = //p" ${wrtdir}/include/kernel-${current_version})
+kernel_version=$(sed -n "s/^LINUX_VERSION-${current_version} = //p" ${wrtdir}/target/linux/generic/kernel-${current_version})
 . set_env "current_version" "${current_version}"
 . set_env "kernel_version" "${current_version}${kernel_version}"
 
@@ -42,21 +42,24 @@ p "下载其它仓库"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
-clone openwrt-24.10 ${autocore_arm_repo} ${otherdir}/autocore &
-clone master ${dockerman_repo} ${otherdir}/dockerman &
+clone openwrt-25.12 ${autocore_arm_repo} ${otherdir}/autocore &
 clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkgs &
+clone master ${dockerman_repo} ${otherdir}/dockerman &
+clone master ${docker_lib_repo} ${otherdir}/docker_lib &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone main ${momo_repo} ${otherdir}/openwrt-momo &
 clone main ${amlogic_repo} ${otherdir}/amlogic &
+clone 25.12 ${yaof_repo} ${otherdir}/yaof &
 wait && sync
 
 p "一些调整"
-p "设置默认密码 ( password )"
-    sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7:::/g' ${wrtdir}/package/base-files/files/etc/shadow
 # p "修改 IP ( 192.168.1.99 )"
 #     sed -i 's/192.168.1.1/192.168.1.99/g' ${wrtdir}/package/base-files/files/bin/config_generate
 p "编译优化"
     sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
+    sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
+p "删除 apk 提示"
+    rm -f ${wrtdir}/package/base-files/files/etc/profile.d/apk-cheatsheet.sh
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
@@ -78,7 +81,9 @@ p "更新 Feeds"
 
 
 p "卸载无法编译的包"
-./scripts/feeds uninstall exim onionshare-cli python-zope-event python-zope-interface python-gevent python-twisted || true
+./scripts/feeds uninstall onionshare-cli luci-app-mjpg-streamer || true
+p "取消 attendedsysupgrade"
+sed -i '/attendedsysupgrade/d' ${wrtdir}/feeds/luci/collections/luci-nginx/Makefile
 
 p "应用自定义修改"
 mkdir -p ./package/add
@@ -147,41 +152,28 @@ net.ipv4.tcp_collapse_max_bytes = 5242880
 fs.file-max = 65535
 
 " >> ./package/base-files/files/etc/sysctl.d/10-default.conf
-
-
-p "LuCI 自定义 nft 规则页面"
-patch -p1 < ${ffdir}/patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
-pushd feeds/luci
-patch -p1 <${ffdir}/patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
-popd
-
+p "NETKIT"
+echo '
+CONFIG_NETKIT=y
+' >> ./target/linux/generic/config-${current_version}
 
 p "预编译 node"
 rm -rf ./feeds/packages/lang/node
 clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
 p "更换 golang 版本"
 rm -rf ./feeds/packages/lang/golang
-clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
+cp -rf ${otherdir}/imm_pkg_ma/lang/golang ./feeds/packages/lang/golang
 p "rust"
 wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
-
-p "一些补充翻译"
-cp -rf ${ffdir}/patch/trans-zh ./package/add/
+sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
 
 p "mount cgroupv2"
-pushd feeds/packages
-patch -p1 < ${ffdir}/patch/cgroupfs/0001-fix-cgroupfs-mount.patch
-popd
 mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
-cp -rf ${ffdir}/patch/cgroupfs/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
-cp -rf ${ffdir}/patch/cgroupfs/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
-cp -rf ${ffdir}/patch/cgroupfs/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/90* ./feeds/packages/utils/cgroupfs-mount/patches/
 
 p "IP/MAC 绑定"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-app-arpbind
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makefile
-p "DDNS scripts aliyun"
-cp -rf ${otherdir}/sbwml_pkgs/ddns-scripts-aliyun ./package/add/
 p "Coremark"
 rm -rf ./feeds/packages/utils/coremark
 cp -rf ${otherdir}/sbwml_pkgs/coremark ./feeds/packages/utils/coremark
@@ -214,9 +206,6 @@ cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
 p "OpenWrt-momo"
 cp -rf ${otherdir}/openwrt-momo ./package/add/luci-app-momo
 
-p "Daed"
-cp -rf ${otherdir}/openwrt-add/luci-app-daed ./package/add/
-cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./package/add/
 p "HomeProxy"
 cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
 
@@ -226,10 +215,14 @@ cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-
 sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/packages
 wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
+wget -qO- https://github.com/openwrt/packages/pull/20054.patch | patch -p1
 popd
+sed -i '/sysctl.d/d' feeds/packages/utils/dockerd/Makefile
 pushd package/add/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
+cp -rf ${otherdir}/docker_lib/collections/luci-lib-docker ./package/add/
+sed -i '/PKG_VERSION/s/v//' ./package/add/{luci-app-dockerman/Makefile,luci-lib-docker/Makefile}
 
 p "Zerotier"
 rm -rf ./feeds/luci/applications/luci-app-zerotier ./feeds/packages/net/zerotier
@@ -247,6 +240,8 @@ cp -rf ${otherdir}/imm_pkg_ma/net/vsftpd ./feeds/packages/net/vsftpd
 p "Nlbw 带宽监控"
 sed -i 's,services,network,g' ./package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' ./package/feeds/luci/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
+p "Bandix 流量监控"
+cp -rf ${otherdir}/openwrt-add/{openwrt-bandix,luci-app-bandix} ./package/add/
 p "终端 TTYD"
 sed -i 's,services,system,g' ./package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 
@@ -265,7 +260,10 @@ rm -f profiles.json
 p "复制自定义文件目录"
 cp -rf ${ffdir}/patch/files ./files
 mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/scripts/openwrt/zzz-default-settings ./files/etc/uci-defaults/
-echo -e "\n\033[34mOpenWrt\033[0m ${latest_release} | ${build_date//./-}\n" > ./files/etc/banner
+length="$((29 + ${#latest_release}))"
+for ((i=0; i<length; i++)); do echo -n "=" >> ./files/etc/banner; done
+echo -e "--   \033[36mOpenWrt ${latest_release}\033[0m ${build_date//./-}   --" >> ./files/etc/banner
+for ((i=0; i<length; i++)); do echo -n "=" >> ./files/etc/banner; done
 
 
 p "清理临时文件"
