@@ -9,8 +9,8 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@dev/pa
 ```
 
 - 偷懒用法直接按照配置文件中的注释写入订阅地址即可。
-- 配置文件位于 /etc/mihomo/config.yaml ，基于 [mihomo 快捷配置](https://wiki.metacubex.one/example/conf/#__tabbed_1_2) 优化调整。源文件在 [这里](https://github.com/ffuqiangg/build_openwrt/tree/main/patch/mihomo/config.yaml) 。
-- 配置文件使用 mihomo 标准配置，自己按照 [mihomo 官方文档](https://wiki.metacubex.one) 手搓也行。手搓配置需要注意 `external-controller` 项监听的 IP 必须为 `0.0.0.0` 。
+- 配置文件位于 /etc/mihomo/config.yaml ，基于 ⌈ [mihomo 快捷配置](https://wiki.metacubex.one/example/conf/#__tabbed_1_2) ⌋ 优化调整。源文件在 [这里](https://github.com/ffuqiangg/build_openwrt/tree/main/patch/mihomo/config.yaml) 。
+- 配置文件使用 mihomo 标准配置，自己按照 ⌈ [mihomo 官方文档](https://wiki.metacubex.one) ⌋ 手搓也行。手搓配置需要注意 `external-controller` 项监听的 IP 必须为 `0.0.0.0` 。
 
 ### 使用基础
 
@@ -41,7 +41,7 @@ proxy-providers:
     override:
       additional-prefix: "[provider2] "
 ```
-- `provider1` `provider2` 为订阅名称，不能重复，建议不要和策略组名称重复
+- `provider1` `provider2` 订阅名称，不能重复，建议不要和策略组名称重复
 - `url` 订阅地址
 - `interval` 订阅更新间隔时间，单位秒
 - `additional-prefix` 为节点名称添加固定前缀，方便多个订阅时区分节点
@@ -68,4 +68,4 @@ listeners:
 ```
 - 用于 p2p 连接，使用时 p2p 软件设置代理类型：SOCKS5 ，IP：路由IP，端口：10808
 
-如需进行更加细致的调整请自行阅读 [mihomo 官方文档](https://wiki.metacubex.one/config/)
+如需进行更加细致的调整请自行阅读 ⌈ [mihomo 官方文档](https://wiki.metacubex.one/config/) ⌋ 。
