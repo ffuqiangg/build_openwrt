@@ -78,6 +78,7 @@ dns:
   fake-ip-filter:
     - rule-set:private_domain
     - rule-set:cn_domain
+    - rule-set:fakeip-filter
     - +.miwifi.com
     - +.docker.io
     - +.market.xiaomi.com
@@ -89,7 +90,7 @@ dns:
     - https://dns.google/dns-query
     - https://dns.cloudflare.com/dns-query
   nameserver-policy:
-    "rule-set:cn_domain,private_domain,direct_domain":
+    "rule-set:cn_domain,private_domain":
       - https://doh.pub/dns-query
       - https://dns.alidns.com/dns-query
   direct-nameserver:
@@ -209,6 +210,8 @@ rules:
   - RULE-SET,direct_domain,直连
   - RULE-SET,private_ip,直连,no-resolve
   - RULE-SET,cn_domain,直连
+  - RULE-SET,microsoft@cn_domain,直连
+  - RULE-SET,apple@cn_domain,直连
   - RULE-SET,github_domain,Github
   - RULE-SET,twitter_domain,Twitter
   - RULE-SET,youtube_domain,YouTube
@@ -226,8 +229,8 @@ rules:
   - MATCH,其他
 
 rule-anchor:
-  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
-  domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
+  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs, proxy: 直连}
+  domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs, proxy: 直连}
 
 rule-providers:
   private_domain:
@@ -260,6 +263,15 @@ rule-providers:
   geolocation-!cn:
     <<: *domain
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
+  microsoft@cn_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.mrs"
+  apple@cn_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"
+  fakeip-filter:
+    <<: *domain
+    url: "https://gh-proxy.com/github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/fakeip-filter.mrs"
 
   private_ip:
     <<: *ip
