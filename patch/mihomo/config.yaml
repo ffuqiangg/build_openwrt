@@ -22,7 +22,6 @@ proxies:
     udp: true
 
 # 基础配置
-find-process-mode: strict
 mixed-port: 7890
 ipv6: false
 allow-lan: true
