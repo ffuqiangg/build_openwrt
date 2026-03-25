@@ -90,7 +90,7 @@ dns:
     - https://dns.google/dns-query
     - https://dns.cloudflare.com/dns-query
   nameserver-policy:
-    "rule-set:cn_domain,private_domain":
+    "rule-set:cn_domain,private_domain,direct_domain":
       - https://doh.pub/dns-query
       - https://dns.alidns.com/dns-query
   direct-nameserver:
@@ -209,9 +209,9 @@ rules:
 
   - RULE-SET,direct_domain,直连
   - RULE-SET,private_ip,直连,no-resolve
-  - RULE-SET,cn_domain,直连
   - RULE-SET,microsoft@cn_domain,直连
   - RULE-SET,apple@cn_domain,直连
+  - RULE-SET,cn_domain,直连
   - RULE-SET,github_domain,Github
   - RULE-SET,twitter_domain,Twitter
   - RULE-SET,youtube_domain,YouTube
@@ -292,6 +292,7 @@ rule-providers:
     <<: *ip
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
 
+  # 强制直连的域名可按格式添加到下面
   direct_domain:
     type: inline
     behavior: classical
