@@ -7,9 +7,10 @@
 ```bash
 sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@dev/patch/mihomo/install.sh)"
 ```
-配置文件位于 /etc/mihomo/config.yaml
 
-> 此命令使用的配置文件基于 [mihomo 快捷配置](https://wiki.metacubex.one/example/conf/#__tabbed_1_2) 修改优化。源文件在 [这里](https://github.com/ffuqiangg/build_openwrt/tree/main/patch/mihomo/config.yaml) 。
+- 偷懒用法直接按照配置文件中的注释写入订阅地址即可。
+- 配置文件位于 /etc/mihomo/config.yaml ，基于 [mihomo 快捷配置](https://wiki.metacubex.one/example/conf/#__tabbed_1_2) 优化调整。源文件在 [这里](https://github.com/ffuqiangg/build_openwrt/tree/main/patch/mihomo/config.yaml) 。
+- 配置文件使用 mihomo 标准配置，自己按照 [mihomo 官方文档](https://wiki.metacubex.one) 手搓也行。手搓配置需要注意 `external-controller` 项监听的 IP 必须为 `0.0.0.0` 。
 
 ### 使用基础
 
@@ -21,24 +22,42 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@dev/pa
 | 停止服务 | `/etc/init.d/mihomo stop` | <kbd>停止</kbd> |
 | 重启服务 | `/etc/init.d/mihomo restart` | <kbd>重启</kbd> |
 
-### 配置文件说明
+### 配置文件简要说明
 
 ```yaml
 proxy-providers:
-  provider1: # 订阅名称，可自定义
-    url: "" # 订阅地址
+  provider1:
+    url: ""
     type: http
-    interval: 28800 # 自动更新订阅间隔时间，单位秒
+    interval: 28800
     health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
     override:
-      additional-prefix: "[provider1] " # 节点名称前缀，多个订阅时方便区分节点来源
+      additional-prefix: "[provider1] "
 
-# 按下面的设置 Web 面板登录地址：路由IP:9090/ui
-external-controller: 0.0.0.0:9090 # Web 面板监听地址，路由器/网关使用必须设置为 0.0.0.0
-external-ui: ui # Web 面板文件目录，影响面板登录地址
-external-ui-url: "https://gh-proxy.com/github.com/Zephyruso/zashboard/releases/latest/download/dist.zip" # Web 面板源文件下载地址
+  provider2:
+    url: ""
+    type: http
+    interval: 28800
+    health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
+    override:
+      additional-prefix: "[provider2] "
+```
+- `provider1` `provider2` 为订阅名称，不能重复，建议不要和策略组名称重复
+- `url` 订阅地址
+- `interval` 订阅更新间隔时间，单位秒
+- `additional-prefix` 为节点名称添加固定前缀，方便多个订阅时区分节点
 
-# 用于 p2p 连接，使用时 p2p 软件设置代理类型：SOCKS5 ，IP：路由IP，端口：10808 。
+```yaml
+external-controller: 0.0.0.0:9090
+external-ui-url: "https://gh-proxy.com/github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
+secret: ""
+```
+- 默认 Web 面板登录地址 http://路由IP:9090/ui，密码为空
+- `external-controller` 外部监听地址，路由器上使用 IP 必须为 0.0.0.0
+- `external-ui-url` Web 面板源码下载地址
+- `secret` Web 面板登录密码
+
+```yaml
 listeners:
   - name: socks5-in-1
     type: socks
@@ -48,5 +67,6 @@ listeners:
     users: []
     proxy: 直连
 ```
+- 用于 p2p 连接，使用时 p2p 软件设置代理类型：SOCKS5 ，IP：路由IP，端口：10808
 
 如需进行更加细致的调整请自行阅读 [mihomo 官方文档](https://wiki.metacubex.one/config/)

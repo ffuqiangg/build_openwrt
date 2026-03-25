@@ -21,19 +21,22 @@ proxies:
     type: direct
     udp: true
 
+# 基础配置
 find-process-mode: strict
 mixed-port: 7890
-ipv6: true
+ipv6: false
 allow-lan: true
 unified-delay: true
 tcp-concurrent: true
-external-controller: 0.0.0.0:9090
-external-ui: ui
-external-ui-url: "https://gh-proxy.com/github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
-
 profile:
   store-selected: true
   store-fake-ip: true
+
+# Web 面板配置，默认登录地址 http://路由IP:9090/ui，密码为空。secret 可设置登录密码。
+external-controller: 0.0.0.0:9090
+external-ui: ui
+external-ui-url: "https://gh-proxy.com/github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
+secret: ""
 
 sniffer:
   enable: true
@@ -56,7 +59,7 @@ tun:
     - "any:53"
     - "tcp://any:53"
   auto-route: true
-  auto-redirect: true
+  strict-route: true
   auto-detect-interface: true
 
 # 用于 p2p 直连。使用时 p2p 软件设置代理类型：SOCKS5 ，IP：路由IP，端口：10808 。
@@ -85,7 +88,11 @@ dns:
     - tls://223.6.6.6
   nameserver:
     - https://dns.google/dns-query
-    - https://dns.cloudfalre.com/dns-query
+    - https://dns.cloudflare.com/dns-query
+  nameserver-policy:
+    "rule-set:cn_domain,private_domain,direct_domain":
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
   direct-nameserver:
     - https://doh.pub/dns-query
     - https://dns.alidns.com/dns-query
@@ -94,7 +101,7 @@ dns:
     - https://dns.alidns.com/dns-query
 
 proxy-groups:
-
+  # 分流分组
   - name: 默认
     type: select
     proxies: [自动选择,直连,香港,台湾,日本,新加坡,美国,其它地区,全部节点]
@@ -197,10 +204,12 @@ proxy-groups:
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Pixelated.svg"
 
 rules:
+  # 1. 拦截 QUIC 流量（防止 YouTube 降速或走 UDP 导致连接不稳定）
   - AND,((RULE-SET,youtube_domain),(NETWORK,UDP),(DST-PORT,443)),REJECT
 
   - RULE-SET,direct_domain,直连
   - RULE-SET,private_ip,直连,no-resolve
+  - RULE-SET,cn_domain,直连
   - RULE-SET,github_domain,Github
   - RULE-SET,twitter_domain,Twitter
   - RULE-SET,youtube_domain,YouTube
@@ -208,7 +217,6 @@ rules:
   - RULE-SET,telegram_domain,Telegram
   - RULE-SET,netflix_domain,NETFLIX
   - RULE-SET,spotify_domain,Spotify
-  - RULE-SET,cn_domain,直连
   - RULE-SET,geolocation-!cn,其他
 
   - RULE-SET,google_ip,Google
