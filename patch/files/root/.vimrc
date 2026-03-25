@@ -38,10 +38,10 @@ cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 vnoremap < <gv
 vnoremap > >gv
-imap n <down>
-imap p <up>
-imap b <left>
-imap f <right>
+imap j <down>
+imap k <up>
+imap h <left>
+imap l <right>
 
 hi TabLine cterm=none ctermfg=15 ctermbg=none
 hi TabLineFill cterm=none ctermbg=none
