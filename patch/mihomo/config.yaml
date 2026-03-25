@@ -7,7 +7,6 @@ proxy-providers:
     health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
     override:
       additional-prefix: "[provider1] "
-
   provider2:
     url: ""
     type: http
@@ -16,6 +15,7 @@ proxy-providers:
     override:
       additional-prefix: "[provider2] "
 
+# 定义直连出站
 proxies: 
   - name: "直连"
     type: direct
@@ -37,6 +37,7 @@ external-ui: ui
 external-ui-url: "https://gh-proxy.com/github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
 secret: ""
 
+# 流量嗅探
 sniffer:
   enable: true
   sniff:
@@ -51,6 +52,7 @@ sniffer:
     - "Mijia Cloud"
     - "+.push.apple.com"
 
+# TUN 模式配置
 tun:
   enable: true
   stack: mixed
@@ -71,14 +73,15 @@ listeners:
     users: []
     proxy: 直连
 
+# DNS 配置
 dns:
   enable: true
   ipv6: false
   enhanced-mode: fake-ip
+  respect-rules: true
   fake-ip-filter:
     - rule-set:private_domain
     - rule-set:cn_domain
-    - rule-set:fakeip-filter
     - +.miwifi.com
     - +.docker.io
     - +.market.xiaomi.com
@@ -90,7 +93,7 @@ dns:
     - https://dns.google/dns-query
     - https://dns.cloudflare.com/dns-query
   nameserver-policy:
-    "rule-set:cn_domain,private_domain,direct_domain":
+    "rule-set:cn_domain,private_domain":
       - https://doh.pub/dns-query
       - https://dns.alidns.com/dns-query
   direct-nameserver:
@@ -106,42 +109,34 @@ proxy-groups:
     type: select
     proxies: [自动选择,直连,香港,台湾,日本,新加坡,美国,其它地区,全部节点]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/png/Sub-Store.png"
-
   - name: Google
     type: select
     proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Google.svg"
-
   - name: Telegram
     type: select
     proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Telegram.svg"
-
   - name: Twitter
     type: select
     proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Twitter.svg"
-
   - name: YouTube
     type: select
     proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/YouTube.svg"
-
   - name: NETFLIX
     type: select
     proxies: [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/NETFLIX.svg"
-
   - name: Spotify
     type: select
     proxies:  [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Spotify.svg"
-
   - name: Github
     type: select
     proxies:  [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Github.svg"
-
   - name: 其他
     type: select
     proxies:  [默认,香港,台湾,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
@@ -154,48 +149,41 @@ proxy-groups:
     exclude-type: direct
     filter: "(?i)港|hk|hongkong|hong kong"
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Hongkong.svg"
-
   - name: 台湾
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)台|tw|taiwan"
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Taiwan.svg"
-
   - name: 日本
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)日|jp|japan"
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Japan.svg"
-
   - name: 美国
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)美|us|unitedstates|united states"
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/USA.svg"
-
   - name: 新加坡
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)(新|sg|singapore)"
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Singapore.svg"
-
   - name: 其它地区
     type: select
     include-all: true
     exclude-type: direct
     filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/UN.svg"
-
   - name: 全部节点
     type: select
     include-all: true
     exclude-type: direct
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/DirectUP.svg"
-
   - name: 自动选择
     type: url-test
     include-all: true
@@ -203,12 +191,15 @@ proxy-groups:
     tolerance: 10
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Pixelated.svg"
 
+# 分流规则
 rules:
-  # 1. 拦截 QUIC 流量（防止 YouTube 降速或走 UDP 导致连接不稳定）
+  # 1. 拦截 YouTube QUIC 流量
   - AND,((RULE-SET,youtube_domain),(NETWORK,UDP),(DST-PORT,443)),REJECT
 
+  # 2. 域名规则
   - RULE-SET,direct_domain,直连
   - RULE-SET,private_ip,直连,no-resolve
+  - RULE-SET,private_domain,直连
   - RULE-SET,microsoft@cn_domain,直连
   - RULE-SET,apple@cn_domain,直连
   - RULE-SET,cn_domain,直连
@@ -221,18 +212,24 @@ rules:
   - RULE-SET,spotify_domain,Spotify
   - RULE-SET,geolocation-!cn,其他
 
-  - RULE-SET,google_ip,Google
-  - RULE-SET,netflix_ip,NETFLIX
-  - RULE-SET,telegram_ip,Telegram
-  - RULE-SET,twitter_ip,Twitter
-  - RULE-SET,cn_ip,直连
+  # 3. IP 规则
+  - RULE-SET,google_ip,Google,no-resolve
+  - RULE-SET,netflix_ip,NETFLIX,no-resolve
+  - RULE-SET,telegram_ip,Telegram,no-resolve
+  - RULE-SET,twitter_ip,Twitter,no-resolve
+  - RULE-SET,cn_ip,直连,no-resolve
+
+  # 4. 兜底规则
   - MATCH,其他
 
+# 规则行为模板
 rule-anchor:
   ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs, proxy: 直连}
   domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs, proxy: 直连}
 
+# 规则提供者
 rule-providers:
+  # 域名规则
   private_domain:
     <<: *domain
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"
@@ -269,10 +266,8 @@ rule-providers:
   apple@cn_domain:
     <<: *domain
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"
-  fakeip-filter:
-    <<: *domain
-    url: "https://gh-proxy.com/github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/fakeip-filter.mrs"
 
+  # IP 规则
   private_ip:
     <<: *ip
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs"
@@ -292,11 +287,10 @@ rule-providers:
     <<: *ip
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
 
-  # 强制直连的域名可按格式添加到下面
+  # 附加直连规则，强制直连的域名可按格式添加到下面
   direct_domain:
     type: inline
     behavior: classical
-    format: yaml
     payload:
       - DOMAIN-SUFFIX,apple.com
       - DOMAIN-SUFFIX,bing.com

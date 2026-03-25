@@ -6,7 +6,7 @@ set bs=2 tw=0 so=2 ls=1
 set ts=4 sts=4 sw=4
 set noswf nobk noudf nolz tf
 set fillchars=vert:│
-set ttimeoutlen=100
+set ttimeoutlen=50
 set path+=**
 set nowrap novb noeb sc
 set hls is ic scs ai si et sr

@@ -403,7 +403,7 @@ if (override === '1') {
                         network: 'udp'
                     },
                     {
-                        port: '443'
+                        port: 443
                     }
                 ],
                 action: 'reject'

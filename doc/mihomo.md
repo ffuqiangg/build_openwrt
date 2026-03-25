@@ -33,7 +33,6 @@ proxy-providers:
     health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
     override:
       additional-prefix: "[provider1] "
-
   provider2:
     url: ""
     type: http
