@@ -15,14 +15,14 @@ fi
 
 # 下载文件
 echo -e "${GREEN_COLOR}INFO${RES} Download Mihomo init ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/init.d/mihomo ${mirror}https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/mihomo/mihomo.init
+curl --connect-timeout 30 -m 600 -kLo /etc/init.d/mihomo ${mirror}https://raw.githubusercontent.com/ffuqiangg/build_openwrt/dev/patch/mihomo/mihomo.init
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} download Mihomo init failed."
     exit 1
 fi
 echo -e "${GREEN_COLOR}INFO${RES} Download Mihomo config ..."
 mkdir -p /etc/mihomo
-curl --connect-timeout 30 -m 600 -kLo /etc/mihomo/config.yaml ${mirror}https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/mihomo/mihomo.yaml
+curl --connect-timeout 30 -m 600 -kLo /etc/mihomo/config.yaml ${mirror}https://raw.githubusercontent.com/ffuqiangg/build_openwrt/dev/patch/mihomo/mihomo.yaml
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} download Mihomo config failed."
     exit 1

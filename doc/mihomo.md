@@ -5,7 +5,7 @@
 ### 一键安装
 
 ```bash
-sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/patch/mihomo/install.sh)"
+sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@dev/patch/mihomo/install.sh)"
 ```
 配置文件位于 /etc/mihomo/config.yaml
 
