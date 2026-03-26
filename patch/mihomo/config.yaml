@@ -81,6 +81,7 @@ hosts:
 # DNS 配置
 dns:
   enable: true
+  cache-algorithm: arc
   ipv6: false
   enhanced-mode: fake-ip
   respect-rules: true
