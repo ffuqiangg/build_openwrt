@@ -73,6 +73,11 @@ listeners:
     users: []
     proxy: 直连
 
+# 重定向
+hosts:
+  services.googleapis.cn: services.googleapis.com
+  google.cn: google.com
+
 # DNS 配置
 dns:
   enable: true
@@ -93,7 +98,7 @@ dns:
     - https://dns.google/dns-query
     - https://dns.cloudflare.com/dns-query
   nameserver-policy:
-    "rule-set:cn_domain,private_domain":
+    "rule-set:cn_domain,private_domain,apple@cn_domain,microsoft@cn_domain":
       - https://doh.pub/dns-query
       - https://dns.alidns.com/dns-query
   direct-nameserver:
