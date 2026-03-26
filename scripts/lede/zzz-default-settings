@@ -31,7 +31,7 @@ uci set mosdns.config.log_level='error'
 uci commit mosdns
 
 # 默认开启 Packet Steering
-uci set network.globals.packet_steering='2'
+uci set network.globals.packet_steering='1'
 uci set network.globals.steering_flows='128'
 uci commit network
 
