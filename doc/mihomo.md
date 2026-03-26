@@ -10,7 +10,10 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@dev/pa
 
 - 偷懒用法直接按照配置文件中的注释写入订阅地址即可。
 - 配置文件位于 /etc/mihomo/config.yaml ，基于 ⌈ [mihomo 快捷配置](https://wiki.metacubex.one/example/conf/#__tabbed_1_2) ⌋ 优化调整。源文件在 [这里](https://github.com/ffuqiangg/build_openwrt/tree/main/patch/mihomo/config.yaml) 。
-- 配置文件使用 mihomo 标准配置，自己按照 ⌈ [mihomo 官方文档](https://wiki.metacubex.one) ⌋ 手搓也行。手搓配置需要注意 `external-controller` 项监听的 IP 必须为 `0.0.0.0` 。
+- 配置文件使用 mihomo 标准配置，自己按照 ⌈ [mihomo 官方文档](https://wiki.metacubex.one) ⌋ 手搓也行。
+
+> [!IMPORTANT]
+> 路由器 / 网关使用 `external-controller` 项监听的 IP 必须设置为 `0.0.0.0` 。
 
 ### 使用基础
 
