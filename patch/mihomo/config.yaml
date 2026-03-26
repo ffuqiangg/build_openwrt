@@ -219,11 +219,11 @@ rules:
   - RULE-SET,geolocation-!cn,其他
 
   # 3. IP 规则
-  - RULE-SET,google_ip,Google,no-resolve
-  - RULE-SET,netflix_ip,NETFLIX,no-resolve
-  - RULE-SET,telegram_ip,Telegram,no-resolve
-  - RULE-SET,twitter_ip,Twitter,no-resolve
-  - RULE-SET,cn_ip,直连,no-resolve
+  - RULE-SET,google_ip,Google
+  - RULE-SET,netflix_ip,NETFLIX
+  - RULE-SET,telegram_ip,Telegram
+  - RULE-SET,twitter_ip,Twitter
+  - RULE-SET,cn_ip,直连
 
   # 4. 兜底规则
   - MATCH,其他
