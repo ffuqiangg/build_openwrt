@@ -23,7 +23,7 @@ proxies:
 
 # 基础配置
 mixed-port: 7890
-ipv6: false
+ipv6: true
 allow-lan: true
 unified-delay: true
 tcp-concurrent: true
@@ -82,7 +82,7 @@ hosts:
 dns:
   enable: true
   cache-algorithm: arc
-  ipv6: false
+  ipv6: true
   enhanced-mode: fake-ip
   respect-rules: true
   fake-ip-filter:
