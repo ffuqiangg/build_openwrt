@@ -28,8 +28,6 @@ nnoremap j gj
 nnoremap gj j
 nmap <s-h> gT
 nmap <s-l> gt
-imap <c-j> <c-o>o
-imap <c-k> <c-o>O
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 vnoremap < <gv
