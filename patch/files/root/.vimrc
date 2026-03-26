@@ -2,11 +2,10 @@ syntax off
 filetype indent on
 
 set nocompatible
-set bs=2 tw=0 so=2 ls=1
+set bs=2 tw=0 so=2 ls=2
 set ts=4 sts=4 sw=4
 set noswf nobk noudf nolz tf
-set fillchars=vert:│
-set ttimeoutlen=50
+set ttimeoutlen=100
 set path+=**
 set nowrap novb noeb sc
 set hls is ic scs ai si et sr
@@ -23,9 +22,6 @@ nmap <c-j> <c-w>j
 nmap <c-k> <c-w>k
 nmap <c-h> <c-w>h
 nmap <c-l> <c-w>l
-nmap j <c-w>_
-nmap h <c-w><bar>
-nmap k <c-w>=
 nnoremap k gk
 nnoremap gk k
 nnoremap j gj
@@ -38,10 +34,6 @@ cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 vnoremap < <gv
 vnoremap > >gv
-imap j <down>
-imap k <up>
-imap h <left>
-imap l <right>
 
 hi TabLine cterm=none ctermfg=15 ctermbg=none
 hi TabLineFill cterm=none ctermbg=none
@@ -49,6 +41,5 @@ hi TabLineSel cterm=underline ctermfg=11 ctermbg=none
 hi Pmenu ctermfg=188 ctermbg=242
 hi PmenuSel ctermfg=0 ctermbg=15
 hi MatchParen cterm=underline ctermfg=39 ctermbg=none
-hi VertSplit cterm=none ctermbg=none ctermfg=238
-hi StatusLine cterm=none ctermfg=250 ctermbg=242
-hi StatusLineNC cterm=none ctermfg=15 ctermbg=242
+
+set statusline=%<%t%h%w%m%r\ (%l,%c%V)\ \|\ ft:%{&filetype}\ \|\ %{&fileencoding}%=%P
