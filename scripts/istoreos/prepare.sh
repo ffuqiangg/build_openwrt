@@ -263,9 +263,9 @@ cp -rf ${ffdir}/patch/files ./files
 mkdir -p ./files/etc/uci-defaults
 cp -f ${ffdir}/scripts/istoreos/zzz-default-settings ./files/etc/uci-defaults/
 length="$((30 + ${#latest_release}))"
-for ((i=0; i<length; i++)); do echo -n "=" >> ./files/etc/banner; done
+for ((i=0; i<length; i++)); do echo -n "=" >> ./files/etc/banner; done; echo "" >> ./files/etc/banner
 echo -e "--   \033[36miStoreOS ${latest_release}\033[0m ${build_date//./-}   --" >> ./files/etc/banner
-for ((i=0; i<length; i++)); do echo -n "=" >> ./files/etc/banner; done
+for ((i=0; i<length; i++)); do echo -n "=" >> ./files/etc/banner; done; echo "" >> ./files/etc/banner
 
 
 p "清理临时文件"
