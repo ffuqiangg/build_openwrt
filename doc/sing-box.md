@@ -101,7 +101,7 @@ config sing-box 'basic'
 	option redirect_port '2331'                 # redirect 监听端口
 ```
 - 按照默认设置面板登录地址为 `设备IP:9900/ui`，密钥 `ffuqiangg` 。
-- 这部分配置的详细说明可以查看 [sing-box 官方配置文档](https://sing-box.sagernet.org/zh/configuration/) 的对应条目。
+- 这部分配置的详细说明可以查看 ⌈ [sing-box 官方文档](https://sing-box.sagernet.org/zh/configuration/) ⌋ 的对应条目。
 - 如需修改端口配置要注意端口冲突，避免使用已占用的端口。
 - mixed 代理用于提供 socks4, socks4a, socks5 和 http 代理服务（注意 mixed 仅代理 tcp 流量）。
 - 更新或替换面板方法：删除 `/etc/sing-box/run/ui` 目录，然后重启 sing-box 服务。
@@ -133,7 +133,7 @@ config sing-box 'advanced'
 
 5. **私货** `自用功能，运行结果不符合预期概不负责`
 - 仅在 `override` 开启时生效。用于自定义域名分流和强制域名直连 / 代理。
-- 在 `/etc/sing-box/resources` 目录新建 custom.json 文件。其 `top` 对象键为出站分组 / 节点（如果分组不存在则自动创建），值为一组无头规则。示例文件 [custom.json](https://gist.github.com/ffuqiangg/00a6acb48a1fb9f60a424e606e7a930a) ，语法参考 [sing-box 无头规则](https://sing-box.sagernet.org/zh/configuration/rule-set/headless-rule/) 。
+- 在 `/etc/sing-box/resources` 目录新建 custom.json 文件。其 `top` 对象键为出站分组 / 节点（如果分组不存在则自动创建），值为一组无头规则。示例文件 [custom.json](https://gist.github.com/ffuqiangg/00a6acb48a1fb9f60a424e606e7a930a) ，语法参考 ⌈ [sing-box 无头规则](https://sing-box.sagernet.org/zh/configuration/rule-set/headless-rule/) ⌋ 。
 
 ### 最小配置
 
