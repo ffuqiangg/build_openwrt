@@ -13,7 +13,7 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@dev/pa
 - 配置文件使用 mihomo 标准配置，自己按照 ⌈ [mihomo 官方文档](https://wiki.metacubex.one) ⌋ 手搓也行。
 
 > [!IMPORTANT]
-> 路由器 / 网关使用 `external-controller` 项监听的 IP 必须设置为 `0.0.0.0` 。
+> 手搓配置文件时要注意 `external-controller` 项监听的 IP 必须设置为 `0.0.0.0` 。
 
 ### 使用基础
 
