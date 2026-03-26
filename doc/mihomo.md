@@ -8,7 +8,7 @@
 sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@dev/patch/mihomo/install.sh)"
 ```
 
-- 偷懒用法直接按照配置文件中的注释写入订阅地址即可。
+- 偷懒用法按照配置文件中的注释写入订阅地址即可。默认 Web 面板登陆地址：路由IP:9090/ui ，无密码。
 - 配置文件位于 /etc/mihomo/config.yaml ，基于 ⌈ [mihomo 快捷配置](https://wiki.metacubex.one/example/conf/#__tabbed_1_2) ⌋ 优化调整。源文件在 [这里](https://github.com/ffuqiangg/build_openwrt/tree/main/patch/mihomo/config.yaml) 。
 - 配置文件使用 mihomo 标准配置，自己按照 ⌈ [mihomo 官方文档](https://wiki.metacubex.one) ⌋ 手搓也行。
 
@@ -54,7 +54,6 @@ external-controller: 0.0.0.0:9090
 external-ui-url: "https://gh-proxy.com/github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
 secret: ""
 ```
-- 默认 Web 面板登录地址 http://路由IP:9090/ui，密码为空
 - `external-controller` 外部监听地址，路由器上使用 IP 必须为 0.0.0.0
 - `external-ui-url` Web 面板源码下载地址
 - `secret` Web 面板登录密码
