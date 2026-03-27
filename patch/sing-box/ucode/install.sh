@@ -4,7 +4,7 @@ WHITE_COLOR='\e[30;47m'
 YELLOW_COLOR='\e[30;43m'
 RES='\e[0m'
 
-# GitHub mirror
+# 检测网络环境并配置 Github 镜像
 ip_info=$(curl -sk https://ip.cooluc.com)
 country_code=$(echo $ip_info | sed -r 's/.*country_code":"([^"]*).*/\1/')
 if [ $country_code = "CN" ]; then
@@ -16,13 +16,13 @@ fi
 
 echo -e "\r\n${WHITE_COLOR} INFO ${RES} Download files ...\r\n"
 
-# prepare
+# 准备变量
 if [ -n "$(nft list tables 2>/dev/null)" ]; then firewall="nftables"; else firewall="iptables"; fi
 download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/ucode"
 [ -d /etc/sing-box ] && rm -rf /etc/sing-box
 for dir in scripts resources run profiles; do mkdir -p /etc/sing-box/${dir}; done
 
-# download
+# 下载文件
 echo -e "${WHITE_COLOR} INFO ${RES} Download Sing-box init ..."
 curl --connect-timeout 30 -m 600 -kLo /etc/init.d/sing-box ${mirror}${download_dir}/${firewall}/sing-box.init
 if [ $? -ne 0 ]; then
@@ -59,6 +59,8 @@ if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR} ERRO ${RES} download stream file failed."
     exit 1
 fi
+
+# 设置权限
 echo -e "${WHITE_COLOR} INFO ${RES} Fix permissions ...\n"
 chmod +x /etc/init.d/sing-box
 if [ $? -ne 0 ]; then
