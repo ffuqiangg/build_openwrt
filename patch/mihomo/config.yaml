@@ -7,6 +7,7 @@ proxy-providers:
     health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
     override:
       additional-prefix: "[provider1] "
+      ip-version: ipv4-prefer
   provider2:
     url: ""
     type: http
@@ -14,6 +15,7 @@ proxy-providers:
     health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
     override:
       additional-prefix: "[provider2] "
+      ip-version: ipv4-prefer
 
 # 定义直连出站
 proxies: 
@@ -60,7 +62,7 @@ tun:
     - "any:53"
     - "tcp://any:53"
   auto-route: true
-  strict-route: true
+  auto-redirect: true
   auto-detect-interface: true
 
 # 用于 p2p 直连。使用时 p2p 软件设置代理类型：SOCKS5 ，IP：路由IP，端口：10808 。

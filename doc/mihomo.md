@@ -36,6 +36,7 @@ proxy-providers:
     health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
     override:
       additional-prefix: "[provider1] "
+      ip-version: ipv4-prefer
   provider2:
     url: ""
     type: http
@@ -43,6 +44,7 @@ proxy-providers:
     health-check: {enable: true,url: "https://www.gstatic.com/generate_204",interval: 300}
     override:
       additional-prefix: "[provider2] "
+      ip-version: ipv4-prefer
 ```
 - `provider1` `provider2` 订阅名称，不能重复，建议不要和策略组名称重复
 - `url` 订阅地址
