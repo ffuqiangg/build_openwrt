@@ -1,4 +1,4 @@
-# url 里填写自己的订阅,名称不能重复
+# url 里填写自己的订阅,名称不能重复。interval 订阅更新间隔，单位秒
 proxy-providers:
   provider1:
     url: ""
