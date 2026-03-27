@@ -34,7 +34,7 @@ vnoremap < <gv
 vnoremap > >gv
 
 hi TabLine cterm=underline ctermfg=242 ctermbg=none
-hi TabLineFill cterm=underline ctermbg=none
+hi TabLineFill cterm=underline ctermfg=242 ctermbg=none
 hi TabLineSel cterm=none ctermfg=15 ctermbg=none
 hi Pmenu ctermfg=188 ctermbg=242
 hi PmenuSel ctermfg=0 ctermbg=15
