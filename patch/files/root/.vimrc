@@ -33,10 +33,10 @@ cnoremap <c-e> <end>
 vnoremap < <gv
 vnoremap > >gv
 
-hi TabLine cterm=underline ctermfg=242 ctermbg=none
-hi TabLineFill cterm=underline ctermfg=242 ctermbg=none
-hi TabLineSel cterm=underline ctermfg=180 ctermbg=none
-hi Pmenu ctermfg=188 ctermbg=242
+hi TabLine cterm=underline ctermfg=59 ctermbg=none
+hi TabLineFill cterm=underline ctermfg=59 ctermbg=none
+hi TabLineSel cterm=underline ctermfg=39 ctermbg=none
+hi Pmenu ctermfg=188 ctermbg=59
 hi PmenuSel ctermfg=0 ctermbg=15
 hi MatchParen cterm=underline ctermfg=39 ctermbg=none
 
