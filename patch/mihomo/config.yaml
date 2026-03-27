@@ -64,6 +64,7 @@ tun:
   auto-route: true
   auto-redirect: true
   auto-detect-interface: true
+  strick-route: true
 
 # 用于 p2p 直连。使用时 p2p 软件设置代理类型：SOCKS5 ，IP：路由IP，端口：10808 。
 listeners:
@@ -88,6 +89,7 @@ dns:
   enhanced-mode: fake-ip
   respect-rules: true
   fake-ip-filter:
+    - rule-set:fakeip-filter
     - rule-set:private_domain
     - rule-set:cn_domain
     - +.miwifi.com
@@ -221,11 +223,11 @@ rules:
   - RULE-SET,geolocation-!cn,其他
 
   # 3. IP 规则
-  - RULE-SET,google_ip,Google
-  - RULE-SET,netflix_ip,NETFLIX
-  - RULE-SET,telegram_ip,Telegram
-  - RULE-SET,twitter_ip,Twitter
-  - RULE-SET,cn_ip,直连
+  - RULE-SET,google_ip,Google,no-resolve
+  - RULE-SET,netflix_ip,NETFLIX,no-resolve
+  - RULE-SET,telegram_ip,Telegram,no-resolve
+  - RULE-SET,twitter_ip,Twitter,no-resolve
+  - RULE-SET,cn_ip,直连,no-resolve
 
   # 4. 兜底规则
   - MATCH,其他
@@ -274,6 +276,9 @@ rule-providers:
   apple@cn_domain:
     <<: *domain
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"
+  fakeip-filter:
+    <<: *domain
+    url: "https://gh-proxy.com/github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/fakeip-filter.mrs"
 
   # IP 规则
   private_ip:
