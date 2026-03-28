@@ -71,7 +71,7 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/p
 - 修改 `subscription` 部分：`option url '你的订阅地址'`
 
 2. **方案 B：使用本地文件**
-- 将 `sing-box.json` 上传至 `/etc/sing-box/profiles/`。
+- 将 `sing-box.json` 上传至 `/etc/sing-box/profiles/` 目录。
 - 修改 `main` 部分：`option enabled '1'`
 - 修改 `subscription` 部分：`option remote '0'`
 
