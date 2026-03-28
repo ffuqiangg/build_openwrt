@@ -48,8 +48,7 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/p
 
 > [!WARNING]
 > 1. 安装脚本会重置 `/etc/sing-box` 目录及 `/etc/config/sing-box` 配置文件。执行前请务必备份个人数据。
-> 2. 使用非本仓库固件自行检查安装依赖项 `ucode` , `ucode-mod-uci` , `ucode-mod-fs` 。
-> 3. 日志文件时间戳如果出现时区错误，可通过安装 `zoneinfo-asia` (重启系统生效) 解决，本仓库最新固件已默认编译。
+> 2. 安装 `zoneinfo-asia` (重启系统生效) 可解决日志时间戳错误，本仓库最新固件已默认编译。
 
 
 ### 🛠️ 服务管理
