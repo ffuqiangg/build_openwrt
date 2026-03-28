@@ -40,4 +40,4 @@ hi Pmenu ctermfg=188 ctermbg=59
 hi PmenuSel ctermfg=0 ctermbg=15
 hi MatchParen cterm=underline ctermfg=39 ctermbg=none
 
-set statusline=%<%t%h%w%m%r\ (%l,%c%V)\ \|\ ft:%{&filetype}\ \|\ %{&fileencoding}%=\ \ -%p%%-
+set statusline=%<%f%h%w%m%r\ (%l,%c%V)\ \|\ ft:%{&filetype}\ \|\ %{&fileencoding}%=\ \ -%p%%-
