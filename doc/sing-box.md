@@ -3,7 +3,7 @@
 本方案采用 `redirect (TCP)` + `tproxy (UDP)` 代理模式，兼容 **fw3** 与 **fw4**。支持订阅自动更新、分流规则自定义，并解决了 Docker Bridge 网络的联网痛点。
 
 > [!IMPORTANT]
-> 仅支持 **IPv4**，不支持 IPv6。本项目不含订阅转换功能，如需转换请参考 [sing-box-subscribe 文档](subscribe.md)
+> 仅支持 **IPv4**，不支持 IPv6。本项目不含订阅转换功能，如需转换请参考 [sing-box-subscribe 文档](subscribe.md) 。
 
 
 ### 🕒 更新记录
@@ -90,7 +90,7 @@ config sing-box 'main'
 	option pass_cn_ip '0'                       # 跳过中国大陆 IP，0 否，1 是
 ```
 - `enabled`: 核心总开关。
-- `common_ports`: 开启后**仅代理常用端口**，可避免 P2P 下载流量进入 sing-box 核心。
+- `common_ports`: 开启后仅代理常用端口，可避免 P2P 下载流量进入 sing-box 核心。
 - `pass_cn_ip`: 开启后直连中国大陆 IP。
 
 2. **订阅管理 (subscription)** `2025.12.08 更新 支持仅更新当前订阅`
