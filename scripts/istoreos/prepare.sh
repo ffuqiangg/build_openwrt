@@ -225,6 +225,8 @@ sed -i '/sysctl.d/d' feeds/packages/utils/dockerd/Makefile
 pushd package/add/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
+p "Diskman 磁盘管理"
+cp -rf ${otherdir}/openwrt-add/luci-app-diskman ./package/add/luci-app-diskman
 
 p "Coremark"
 rm -rf ./feeds/packages/utils/coremark
