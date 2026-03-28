@@ -1,10 +1,13 @@
-## sing-box 安装使用文档
+## sing-box OpenWrt 安装与配置指南
 
-重新写了一个 sing-box 服务。使用 redirect(tcp) + tproxy(udp) 代理，fw3、fw4 都可以使用，支持自动下载订阅，自动重启更新订阅，修复了老方法 docker bridge 网络的联网问题，一些配置参数可自定义，支持调整 DNS 及路由分流规则等，仅支持 ipv4，不支持 ipv6 。
+本方案采用 `redirect (TCP)` + `tproxy (UDP)` 代理模式，兼容 **fw3** 与 **fw4**。支持订阅自动更新、分流规则自定义，并解决了 Docker Bridge 网络的联网痛点。
 
-本项目不具备订阅转换功能，如果机场没有提供 sing-box 订阅可以使用转换服务。仓库的 [另一篇文档](subscribe.md) 中有使用 sing-box-subscribe 配合本项目使用的一些简单介绍。
+> [!IMPORTANT]
+> 仅支持 **IPv4**，不支持 IPv6。本项目不含订阅转换功能，如需转换请参考 [sing-box-subscribe 文档](subscribe.md)
 
-**更新记录**  
+
+### 🕒 更新记录
+
 - **2025.02.06** 更新支持多订阅，并新增跳过中国大陆 IP 和仅代理常用端口功能。
 - **2025.02.09** 修复了一些错误。另外：现在的版本仅支持 sing-box 1.10.x 版本，后续会支持 1.11.x 版本。
 - **2025.02.10** 修复 fw3 上仅代理常用端口错误。
@@ -29,36 +32,56 @@
 - **2025.12.22** 移除国内 DNS 必须使用 IP 的限制。
 - **2026.04.04** 重新整理 config 配置文件并移除全局屏蔽 QUIC 选项。调整为开启 `advanced.override` 时自动屏蔽 YouTube 的 QUIC 流量。
 
-### 安装命令
 
-ucode 版本安装命令（推荐使用）
+### 🚀 安装步骤
+
+推荐使用 **ucode** 版本（需固件支持 `ucode`, `ucode-mod-uci`, `ucode-mod-fs`）。
+
+**ucode 版本（推荐）：**
 ```bash
 sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/patch/sing-box/ucode/install.sh)"
 ```
-jq 版本安装命令（2025.04.01 后停止维护）
+**jq 版本（停止维护）：**
 ```bash
 sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/patch/sing-box/jq/install.sh)"
 ```
 
-- 注意本命令安装时会重置 /etc/sing-box 目录及 /etc/config/sing-box 文件，如有需要请提前备份数据。
-- 本仓库最新固件都可使用 ucode 版本，其它固件自行检查安装依赖项 ucode , ucode-mod-uci , ucode-mod-fs 。
-- 日志文件时间戳如果出现时区错误，可通过安装 zoneinfo-asia (重启系统生效) 解决，本仓库最新固件已默认编译。
+> [!WARNING]
+> 1. 安装脚本会**重置** `/etc/sing-box` 目录及 `/etc/config/sing-box` 配置文件。执行前请务必备份个人数据。
+> 2. 使用非本仓库固件自行检查安装依赖项 `ucode` , `ucode-mod-uci` , `ucode-mod-fs` 。
+> 3. 日志文件时间戳如果出现时区错误，可通过安装 `zoneinfo-asia` (重启系统生效) 解决，本仓库最新固件已默认编译。
 
-### 使用基础
 
-| 作用 | 终端命令 | 启动项按钮 |
+### 🛠️ 服务管理
+
+| 目标效果 | 终端命令 | 启动项管理 (LuCI) |
 | :--- | :--- | :--- |
-| 启用服务（开机自启） | `/etc/init.d/sing-box enable` | <kbd>已禁用</kbd> |
-| 禁用服务（关闭自启） | `/etc/init.d/sing-box disable` | <kbd>启用</kbd> |
-| 启动服务 | `/etc/init.d/sing-box start` | <kbd>启动</kbd> |
-| 停止服务 | `/etc/init.d/sing-box stop` | <kbd>停止</kbd> |
-| 重启服务 | `/etc/init.d/sing-box restart` | <kbd>重启</kbd> |
+| 开机自启 | `/etc/init.d/sing-box enable` | 点击 <kbd>已禁用</kbd> |
+| 禁止自启 | `/etc/init.d/sing-box disable` | 点击 <kbd>启用</kbd> |
+| 启动服务 | `/etc/init.d/sing-box start` | 点击 <kbd>启动</kbd> |
+| 停止服务 | `/etc/init.d/sing-box stop` | 点击 <kbd>停止</kbd> |
+| 重启服务 | `/etc/init.d/sing-box restart` | 点击 <kbd>重启</kbd> |
 
-### 配置服务
+##
 
-所有的配置选项都通过修改 /etc/config/sing-box 文件实现，下面分几个部分说明其各个选项的作用。文末有分别使用订阅链接和本地配置文件的 [最小配置](#最小配置) 实例。  
+### 💡 快速上手 (最小配置)
 
-1. **基本设置**
+1. **方案 A：使用订阅链接**
+- 修改 `main` 部分：`option enabled '1'`
+- 修改 `subscription` 部分：`option url '你的订阅地址'`
+
+2. **方案 B：使用本地文件**
+- 将 `sing-box.json` 上传至 `/etc/sing-box/profiles/`。
+- 修改 `main` 部分：`option enabled '1'`
+- 修改 `subscription` 部分：`option remote '0'`
+
+##
+
+### ⚙️ 核心配置详解
+
+所有配置均通过修改 `/etc/config/sing-box` 实现。
+
+1. **基础设置 (main)**
 ```config
 config sing-box 'main'
 	option enabled '0'                          # 总开关，设为 1 服务才能运行
@@ -66,10 +89,11 @@ config sing-box 'main'
 	option common_ports '0'                     # 仅代理常用端口，0 否，1 是
 	option pass_cn_ip '0'                       # 跳过中国大陆 IP，0 否，1 是
 ```
-- workdir 为服务运行目录，不建议修改否则运行可能会出错。
-- 使用 p2p 下载可开启 `common_ports`，避免 p2p 流量进入 sing-box 核心。
+- `enabled`: 核心总开关。
+- `common_ports`: 开启后**仅代理常用端口**，可避免 P2P 下载流量进入 sing-box 核心。
+- `pass_cn_ip`: 开启后直连中国大陆 IP。
 
-2. **配置文件和订阅相关** `2025.12.08 更新 支持仅更新当前订阅`
+2. **订阅管理 (subscription)** `2025.12.08 更新 支持仅更新当前订阅`
 ```config
 config sing-box 'subscription'
 	option remote '1'                           # 使用订阅还是本地配置，0 本地配置文件，1 订阅1，2 订阅2 ...
@@ -79,11 +103,13 @@ config sing-box 'subscription'
 	option auto_restart '1'                     # 定时重启，0 禁用，1 启用
 	option restart_cron '0 5 * * *'             # 定时重启 cron，默认为每天早上 5 点
 ```
-- 本地配置文件保存到 `/etc/sing-box/profiles` 目录命名为 sing-box.json 。
-- 使用订阅时服务启动会自动下载配置文件，所以定时重启也能起到定时更新订阅的作用。
-- 如果有更多订阅，配置中新建更多 `list url` 项目即可。`update_all` 开启时则每次启动更新全部订阅，否则仅更新当前使用的订阅。
+- `remote`: 模式切换。`0` 为本地配置，`1, 2...` 对应不同的订阅链接。
+- 本地配置文件保存到 `/etc/sing-box/profiles` 目录命名为 `sing-box.json` 。
+- 如果有更多订阅，配置中新建更多 `list url` 项目即可。
+- `update_all`: 设为 `0` 时仅更新当前使用的订阅。
+- `auto_restart`: 建议开启，配合 `restart_cron` 可实现定时更新订阅并重启服务。
 
-3. **基础配置** `2025.05.25 更新 整理合并设置条目，调整默认面板`
+3. **进阶设置 (basic)** `2025.05.25 更新 整理合并设置条目，调整默认面板`
 ```config
 config sing-box 'basic'
 	option level 'warn'                         # 日志等级
@@ -100,13 +126,14 @@ config sing-box 'basic'
 	option dns_port '2053'                      # DNS 入站端口 (direct)
 	option redirect_port '2331'                 # redirect 监听端口
 ```
-- 按照默认设置面板登录地址为 `设备IP:9900/ui`，密钥 `ffuqiangg` 。
+- **Web 面板**：支持 `metacubexd`, `zashboard`, `yacd`。默认登录地址为 `设备IP:9900/ui`，密钥为 `ffuqiangg`。
+- `mixed_port`: 提供 HTTP/SOCKS 混合代理。
+- `dns_port`: DNS 入站端口，用于接管设备 DNS 请求。
 - 这部分配置的详细说明可以查看 ⌈ [sing-box 官方文档](https://sing-box.sagernet.org/zh/configuration/) ⌋ 的对应条目。
 - 如需修改端口配置要注意端口冲突，避免使用已占用的端口。
-- mixed 代理用于提供 socks4, socks4a, socks5 和 http 代理服务（注意 mixed 仅代理 tcp 流量）。
 - 更新或替换面板方法：删除 `/etc/sing-box/run/ui` 目录，然后重启 sing-box 服务。
 
-4. **高级设置** `2025.12.22 移除国内 DNS 必须使用 IP 的限制`
+4. **高级设置 (advanced)** `2025.12.22 移除国内 DNS 必须使用 IP 的限制`
 ```config
 config sing-box 'advanced'
 	option override '1'                                              # 覆写，0 禁用，1 启用
@@ -123,10 +150,10 @@ config sing-box 'advanced'
 	option stream '0'                                                # 路由分流规则，0 禁用，1 启用
 	option stream_list 'Google,Github,Telegram,OpenAI,Spotify'       # 启用的分流规则，英文逗号分割
 ```
-- `override` 覆写是高级设置的总开关，默认情况下会生成不带去广告的大陆白名单模式配置文件。
-- 禁用 `override` 时所有高级设置均不会生效，除了 `基础设置` 涉及的部分外不会对配置文件做其他修改。禁用 `override` 时请确保配置文件符合当前 sing-box 版本的要求。
+- `override` 覆写是高级设置的总开关，默认设置情况下会生成不带去广告的大陆白名单模式配置文件。
+- 禁用 `override` 时所有高级设置均不会生效，除了 `进阶设置` 涉及的部分外不会对配置文件做其他修改。禁用 `override` 时请确保配置文件符合当前 sing-box 版本的要求。
 - 去广告功能可以同时使用多个规则集，自行添加更多的 `list ad_ruleset` 条目即可，规则集要求使用 srs 格式且地址可直连。多个规则集注意文件名不能相同。
-- `filter_nodes` 过滤的节点会从配置文件中完全删除，而不仅仅是不出现在分组中。
+- `filter_nodes` 通过关键字自动剔除无用节点。
 - `gourp_nodes` 可用的分组地区包含香港、台湾、日本、韩国、新加坡、美国、德国。订阅中没有的节点地区会自动跳过不会生成空分组。添加地区可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
 - `stream_list` 脚本预置的可使用分流规则有 Google，Gemini，YouTube，Github，Telegram，OpenAI，DMM，HBO，NETFLIX，Spotify，Instagram 。添加分流规则可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
 - `stream_list` 的设置中，当两个分流规则集存在包含关系时要尤其注意先后顺序。例如 Google 规则集中包含有 Gemini 规则集，所以要同时使用这两个规则集时须将 Gemini 放在 Google 前面，如果 Google 放在前面则优先命中会造成 Gemini 分流失效。
@@ -135,27 +162,6 @@ config sing-box 'advanced'
 - 仅在 `override` 开启时生效。用于自定义域名分流和强制域名直连 / 代理。
 - 在 `/etc/sing-box/resources` 目录新建 custom.json 文件。其 `top` 对象键为出站分组 / 节点（如果分组不存在则自动创建），值为一组无头规则。示例文件 [custom.json](https://gist.github.com/ffuqiangg/00a6acb48a1fb9f60a424e606e7a930a) ，语法参考 ⌈ [sing-box 无头规则](https://sing-box.sagernet.org/zh/configuration/rule-set/headless-rule/) ⌋ 。
 
-### 最小配置
-
-面板登录地址：`设备IP:9900/ui`，密钥：`ffuqiangg` 。
-
-1. **使用订阅** 修改如下选项
-```config
-config sing-box 'main'
-	option enabled '1'
-
-config sing-box 'subscription'
-	option url '订阅地址'
-```
-
-2. **使用本地配置文件** 将配置文件放到 /etc/sing-box/profiles 目录命名为 sing-box.json，并修改如下选项
-```config
-config sing-box 'main'
-	option enabled '1'
-
-config sing-box 'subscription'
-	option remote '0'
-```
 
 ##
 
