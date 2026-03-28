@@ -35,7 +35,8 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@dev/pa
 
 ### 📝 配置文件关键字段说明
 
-1. **订阅服务 (Proxy Providers)**  
+1. **订阅服务 (Proxy Providers)**
+
 通过 `proxy-providers` 可以实现多订阅管理：
 ```yaml
 proxy-providers:
@@ -62,6 +63,7 @@ proxy-providers:
 - `additional-prefix`：为该订阅的节点统一添加前缀，方便区分不同机场。
 
 2. **外部控制 (External Control)**
+
 ```yaml
 external-controller: 0.0.0.0:9090
 external-ui-url: "https://gh-proxy.com/github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
@@ -71,7 +73,8 @@ secret: ""
 - `external-ui-url`：Web 面板（如 Zashboard）的远程下载地址。
 - `secret`：面板登录密码，默认为空，建议手动设置。
 
-3. **P2P 优化 (Listeners)**  
+3. **P2P 优化 (Listeners)**
+
 针对 P2P 软件（如 BitTorrent）的特殊监听：
 ```yaml
 listeners:
