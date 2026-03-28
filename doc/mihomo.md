@@ -16,7 +16,7 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@dev/pa
 - **参考资料：** 本配置基于 ⌈ [mihomo 快捷配置](https://wiki.metacubex.one/example/conf/#__tabbed_1_2) ⌋ 优化；如需深度定制，请参考 ⌈ [mihomo 官方文档](https://wiki.metacubex.one) ⌋ 。
 
 > [!IMPORTANT]
-> **自定义配置时的硬性要求：**  
+> **自定义配置时的硬性要求：**
 > 1. `external-controller` 监听 IP 必须设置为 `0.0.0.0`。
 > 2. `allow-lan` 必须设置为 `true`，否则局域网设备无法分流。
 
@@ -94,5 +94,5 @@ listeners:
 
 
 ##
-**想了解更多细节**
+**想了解更多细节？**  
 建议访问 ⌈ [mihomo 配置详解](https://wiki.metacubex.one/config/) ⌋ 进阶学习。
