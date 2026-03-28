@@ -2,7 +2,7 @@
 
 - 默认 IP：192.168.1.99 ， 默认密码：password
 - sing-box 脚本文档： ⌈ [sing-box OpenWrt 安装与配置指南](https://github.com/ffuqiangg/build_openwrt/blob/main/doc/sing-box.md) ⌋ 、mihomo 脚本文档：⌈ [Mihomo 核心轻量化启动器说明文档](https://github.com/ffuqiangg/build_openwrt/blob/main/doc/mihomo.md) ⌋
-- 各个科学插件如果不知道如何选择可以看看 **Readme 文档** 的 [科学插件简单对比](https://github.com/ffuqiangg/build_openwrt/blob/main/doc/readme.md#4-科学插件简单对比) 部分。
+- 各个科学插件如果不知道如何选择可以看看 **Readme 文档** 的 [科学上网插件对比](https://github.com/ffuqiangg/build_openwrt/blob/dev/doc/readme.md#4-🛡️-科学上网插件对比) 部分。
 - packages.zip 无须下载，LEDE 及 iStoreOS 固件可通过下面的命令将其部署为本地源（ 占用存储空间 < 20MiB ）
 
 ```bash
