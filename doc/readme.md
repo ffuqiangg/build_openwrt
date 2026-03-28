@@ -49,9 +49,7 @@ openwrt-update-amlogic
 > [!IMPORTANT]
 > - **严禁改动系统挂载点！** 否则可能导致无法开机。
 > - 更新前务必将固件解压为 `.img.gz` 格式，否则系统无法识别。
-> - 如果使用 `晶晨宝盒` - `在线下载更新` 功能更新固件会变为 [breakings](https://github.com/breakings/OpenWrt) 或 [ophub](https://github.com/ophub/amlogic-s9xxx-openwrt) 仓库的固件。
 > - Docker 容器如需映射 EMMC 路径，请务必指向 `/mnt/mmcblk2p4` 。
-> - `晶晨宝盒` 可单独升级内核，但升级内核后固件针对安装内核模块的优化可能失效。
 
 ### 3. 💾 LEDE / iStoreOS 安装与配置
 
