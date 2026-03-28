@@ -126,7 +126,7 @@ config sing-box 'basic'
 	option dns_port '2053'                      # DNS 入站端口 (direct)
 	option redirect_port '2331'                 # redirect 监听端口
 ```
-- **Web 面板**：支持 `metacubexd`, `zashboard`, `yacd`。默认登录地址为 `设备IP:9900/ui`，密钥为 `ffuqiangg`。
+- Web 面板：支持 `metacubexd`, `zashboard`, `yacd`。默认登录地址为 `设备IP:9900/ui`，密钥为 `ffuqiangg`。
 - `mixed_port`: 提供 HTTP/SOCKS 混合代理。
 - `dns_port`: DNS 入站端口，用于接管设备 DNS 请求。
 - 这部分配置的详细说明可以查看 ⌈ [sing-box 官方文档](https://sing-box.sagernet.org/zh/configuration/) ⌋ 的对应条目。
