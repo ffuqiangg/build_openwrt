@@ -224,7 +224,7 @@ popd
 cp -rf ${otherdir}/docker_lib/collections/luci-lib-docker ./package/add/
 sed -i '/PKG_VERSION/s/v//' ./package/add/{luci-app-dockerman/Makefile,luci-lib-docker/Makefile}
 p "Diskman 磁盘管理"
-cp -rf ${otherdir}/openwrt-add/luci-app-diskman ./package/add/luci-app-diskman
+cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/luci-app-diskman ./package/add/luci-app-diskman
 
 p "Zerotier"
 rm -rf ./feeds/luci/applications/luci-app-zerotier ./feeds/packages/net/zerotier

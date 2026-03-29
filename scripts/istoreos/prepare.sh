@@ -226,7 +226,7 @@ pushd package/add/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
 p "Diskman 磁盘管理"
-cp -rf ${otherdir}/openwrt-add/luci-app-diskman ./package/add/luci-app-diskman
+cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/luci-app-diskman ./package/add/luci-app-diskman
 
 p "Coremark"
 rm -rf ./feeds/packages/utils/coremark

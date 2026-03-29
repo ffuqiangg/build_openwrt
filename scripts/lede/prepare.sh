@@ -32,9 +32,6 @@ popd
 p "获取 distrib_revision"
 distrib_revision=$(grep 'DISTRIB_REVISION=' ${wrtdir}/package/lean/default-settings/files/zzz-default-settings | sed -E "s/.*'(.+)'.*/\1/")
 . set_env "distrib_revision" "${distrib_revision}"
-p "获取内核版本"
-current_version=$(sed -n 's/^KERNEL_PATCHVER:=//p' ${wrtdir}/target/linux/amlogic/Makefile)
-. set_env "current_version" "${current_version}"
 
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
