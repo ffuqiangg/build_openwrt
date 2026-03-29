@@ -118,7 +118,7 @@ rule-providers:
       - DST-PORT,8443
       - DST-PORT,9418
 ```
-- 分别在配置文件的 `rules` 和 `rule-providers` 字段添加如上内容
+- 此方法需手动设置，分别在配置文件的 `rules` 和 `rule-providers` 字段添加如上内容
 
 ##
 
