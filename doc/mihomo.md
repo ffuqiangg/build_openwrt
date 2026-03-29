@@ -75,8 +75,10 @@ secret: ""
 
 3. **P2P 优化 (Listeners)**
 
-针对 P2P 软件（如 BitTorrent）的特殊监听：
+避免 P2P 流量使用代理的两种方法：
+
 ```yaml
+# 1. 使用专门的监听端口：
 listeners:
   - name: socks5-in-1
     type: socks
@@ -88,6 +90,36 @@ listeners:
 ```
 - SOCKS5 代理：默认端口 `10808` 。
 - 使用方法：在 P2P 软件中设置代理类型为 `SOCKS5`，地址为 `路由器 IP`，端口为 `10808` 。
+- P2P 服务如果是由 docker 部署在本机上，此种方法可能无效请使用第二种方法。
+
+```yaml
+# 2. 使用规则分流仅代理常用端口:
+rules:
+  - NOT,((RULE-SET,common_port)),直连 # 务必加到最前面
+
+rule-providers:
+
+  common_port:
+    type: inline
+    behavior: classical
+    payload:
+      - DST-PORT,22
+      - DST-PORT,53
+      - DST-PORT,80
+      - DST-PORT,143
+      - DST-PORT,443
+      - DST-PORT,465
+      - DST-PORT,587
+      - DST-PORT,853
+      - DST-PORT,873
+      - DST-PORT,993
+      - DST-PORT,995
+      - DST-PORT,5222
+      - DST-PORT,8080
+      - DST-PORT,8443
+      - DST-PORT,9418
+```
+- 分别在配置文件的 `rules` 和 `rule-providers` 字段添加如上内容
 
 ##
 
