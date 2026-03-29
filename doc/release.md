@@ -13,7 +13,7 @@ sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@mai
 
 ### 更新内容
 
-- 插件调整：新增 Bandix 流量监控，取消 DDNS、daed、带宽监控。
+- 插件调整：新增 qBittorrent、Bandix 流量监控，取消 DDNS、daed、带宽监控。
 - 新增内存压缩功能。LuCI 页面 `系统` -> `系统` -> `ZRam 设置` 可调整相关参数。
 - OpenWrt 和 ImmortalWrt 固件更新到 25.12（ 6.12 内核 ）启用 apk 包管理器，apk 命令使用方法阅读官方 ⌈ [opkg 到 apk 对照速查表](https://openwrt.org/zh/docs/guide-user/additional-software/opkg-to-apk-cheatsheet) ⌋
 - iStoreOS 固件切换到 istoreos-24.10 分支，使用 fw4 ，插件与其它固件保持一致。（ OpenClash 没有了 ）
