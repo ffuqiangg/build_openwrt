@@ -217,7 +217,7 @@ pushd package/add/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
 
-p "Bittorrent 客户端"
+p "qBittorrent 客户端"
 rm -rf ./feeds/luci/applications/luci-app-qbittorrent ./feeds/packages/net/qBittorrent
 cp -rf ${otherdir}/openwrt-add/openwrt-qBittorrent ./package/add/
 p "Filebrowser 文件管理器"

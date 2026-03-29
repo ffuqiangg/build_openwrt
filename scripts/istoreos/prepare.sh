@@ -248,7 +248,7 @@ rm -rf ./feeds/packages/net/vsftpd
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-vsftpd ./package/add/luci-app-vsftpd
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-vsftpd/Makefile
 cp -rf ${otherdir}/imm_pkg_ma/net/vsftpd ./feeds/packages/net/vsftpd
-p "Bittorrent 客户端"
+p "qBittorrent 客户端"
 cp -rf ${otherdir}/openwrt-add/openwrt-qBittorrent ./package/add/
 
 p "Nlbw 带宽监控"

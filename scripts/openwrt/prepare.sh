@@ -238,7 +238,7 @@ p "FTP 服务器"
 rm -rf ./feeds/packages/net/vsftpd
 cp -rf ${otherdir}/sbwml_pkgs/luci-app-vsftpd ./package/add/luci-app-vsftpd
 cp -rf ${otherdir}/imm_pkg_ma/net/vsftpd ./feeds/packages/net/vsftpd
-p "Bittorrent 客户端"
+p "qBittorrent 客户端"
 cp -rf ${otherdir}/openwrt-add/openwrt-qBittorrent ./package/add/
 
 p "Nlbw 带宽监控"
