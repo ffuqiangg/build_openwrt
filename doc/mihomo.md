@@ -98,7 +98,6 @@ rules:
   - NOT,((RULE-SET,common_port)),直连 # 务必加到分流规则第一行
 
 rule-providers:
-
   common_port:
     type: inline
     behavior: classical
