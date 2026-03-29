@@ -239,9 +239,7 @@ rm -rf ./feeds/packages/net/vsftpd
 cp -rf ${otherdir}/sbwml_pkgs/luci-app-vsftpd ./package/add/luci-app-vsftpd
 cp -rf ${otherdir}/imm_pkg_ma/net/vsftpd ./feeds/packages/net/vsftpd
 p "Bittorrent 客户端"
-cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-qbittorrent ./package/add/
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-qbittorrent/Makefile
-cp -rf ${otherdir}/imm_pkg_ma/net/qBittorrent-Enhanced-Edition ./package/add/
+cp -rf ${otherdir}/openwrt-add/openwrt-qBittorrent ./package/add/
 
 p "Nlbw 带宽监控"
 sed -i 's,services,network,g' ./package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
