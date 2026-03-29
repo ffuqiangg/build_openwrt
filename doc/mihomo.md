@@ -10,7 +10,7 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@dev/pa
 
 ### ⚙️ 配置指南
 
-- 快捷上手： 直接编辑配置文件中的 `proxy-providers` 部分，填入你的订阅地址即可。
+- 快捷上手： 直接编辑配置文件中的 `proxy-providers` 部分，依照注释填入你的订阅地址即可。
 - 文件路径： `/etc/mihomo/config.yalml`
 - 默认控制台： `http://路由器IP:9090/ui` （默认无密码）
 - 参考资料： 本配置基于 ⌈ [mihomo 快捷配置](https://wiki.metacubex.one/example/conf/#__tabbed_1_2) ⌋ 优化；如需深度定制，请参考 ⌈ [mihomo 官方文档](https://wiki.metacubex.one) ⌋ 。
