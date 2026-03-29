@@ -21,6 +21,7 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@dev/pa
 > 2. `allow-lan` 必须设置为 `true`，否则局域网设备无法分流。
 
 ### 🛠️ 服务管理
+
 你可以通过命令行或系统启动项页面进行操作：
 
 | 目标效果 | 终端命令 | 启动项管理 (LuCI) |
