@@ -95,7 +95,7 @@ listeners:
 ```yaml
 # 2. 使用规则分流仅代理常用端口:
 rules:
-  - NOT,((RULE-SET,common_port)),直连 # 务必加到最前面
+  - NOT,((RULE-SET,common_port)),直连 # 务必加到分流规则第一行
 
 rule-providers:
 
