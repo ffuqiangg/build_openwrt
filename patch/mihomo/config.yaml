@@ -29,9 +29,7 @@ ipv6: true
 allow-lan: true
 unified-delay: true
 tcp-concurrent: true
-profile:
-  store-selected: true
-  store-fake-ip: true
+profile: {store-selected: true, store-fake-ip: true}
 
 # Web 面板配置，默认登录地址 http://路由IP:9090/ui，密码为空。secret 设置密码。
 external-controller: 0.0.0.0:9090
