@@ -106,7 +106,7 @@ dns:
     "rule-set:cn_domain,private_domain,apple@cn_domain,microsoft@cn_domain":
       - https://dns.alidns.com/dns-query
       - https://doh.pub/dns-query
-    "rule-set:google_domain,github_domain,netflix_domain,telegram_domain,twitter_domain,spotify_domain,geolocation-!cn":
+    "rule-set:geolocation-!cn":
       - https://dns.google/dns-query
       - https://dns.cloudflare.com/dns-query
   direct-nameserver:
