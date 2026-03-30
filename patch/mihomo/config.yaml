@@ -79,6 +79,11 @@ hosts:
   services.googleapis.cn: services.googleapis.com
   google.cn: google.com
 
+# 国内 DNS
+direct-dns: &direct-dns ['https://dns.alidns.com/dns-query', 'https://doh.pub/dns-query']
+# 国外 DNS
+proxy-dns: &proxy-dns ['https://dns.google/dns-query', 'https://dns.cloudflare.com/dns-query']
+
 # DNS 配置
 dns:
   enable: true
@@ -97,22 +102,16 @@ dns:
   default-nameserver:
     - tls://223.5.5.5
     - tls://223.6.6.6
-  nameserver:
-    - https://dns.google/dns-query
-    - https://dns.cloudflare.com/dns-query
+  nameserver: *proxy-dns
   nameserver-policy:
-    "rule-set:cn_domain,private_domain,apple@cn_domain,microsoft@cn_domain":
-      - https://dns.alidns.com/dns-query
-      - https://doh.pub/dns-query
-    "rule-set:geolocation-!cn":
-      - https://dns.google/dns-query
-      - https://dns.cloudflare.com/dns-query
-  direct-nameserver:
-    - https://dns.alidns.com/dns-query
-    - https://doh.pub/dns-query
-  proxy-server-nameserver:
-    - https://dns.alidns.com/dns-query
-    - https://doh.pub/dns-query
+    'rule-set:direct_domain': *direct-dns
+    'rule-set:cn_domain': *direct-dns
+    'rule-set:private_domain': *direct-dns
+    'rule-set:apple@cn_domain': *direct-dns
+    'rule-set:microsoft@cn_domain': *direct-dns
+    'rule-set:geolocation-!cn': *proxy-dns
+  direct-nameserver: *direct-dns
+  proxy-server-nameserver: *direct-dns
 
 # 分流分组，icon 是分组图标链接
 proxy-groups:
