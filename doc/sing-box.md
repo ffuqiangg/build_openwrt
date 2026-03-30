@@ -84,7 +84,7 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/p
 
 所有配置均通过修改 `/etc/config/sing-box` 实现。
 
-1. **基础设置 (main)** `2026.04.04 移除 QUIC 开关改为自动处理`
+1. **基础设置 (main)**
 
 ```config
 config sing-box 'main'
@@ -97,7 +97,7 @@ config sing-box 'main'
 - `common_ports`: 开启后仅代理常用端口，可避免 P2P 下载流量进入 sing-box 核心。
 - `pass_cn_ip`: 开启后直连中国大陆 IP。
 
-2. **订阅管理 (subscription)** `2025.12.08 支持仅更新当前订阅`
+2. **订阅管理 (subscription)**
 
 ```config
 config sing-box 'subscription'
@@ -114,7 +114,7 @@ config sing-box 'subscription'
 - `update_all`: 设为 `0` 时仅更新当前使用的订阅。
 - `auto_restart`: 建议开启，配合 `restart_cron` 可实现定时更新订阅并重启服务。
 
-3. **进阶设置 (basic)** `2025.05.25 整理合并设置条目，调整默认面板`
+3. **进阶设置 (basic)**
 
 ```config
 config sing-box 'basic'
@@ -139,7 +139,7 @@ config sing-box 'basic'
 - 如需修改端口配置要注意端口冲突，避免使用已占用的端口。
 - 更新或替换面板方法：删除 `/etc/sing-box/run/ui` 目录，然后重启 sing-box 服务。
 
-4. **高级设置 (advanced)** `2025.12.22 移除国内 DNS 必须使用 IP 的限制`
+4. **高级设置 (advanced)**
 
 ```config
 config sing-box 'advanced'
@@ -165,8 +165,9 @@ config sing-box 'advanced'
 - `stream_list` 脚本预置的可使用分流规则有 Google，Gemini，YouTube，Github，Telegram，OpenAI，DMM，HBO，NETFLIX，Spotify，Instagram 。添加分流规则可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
 - `stream_list` 的设置中，当两个分流规则集存在包含关系时要尤其注意先后顺序。例如 Google 规则集中包含有 Gemini 规则集，所以要同时使用这两个规则集时须将 Gemini 放在 Google 前面，如果 Google 放在前面则优先命中会造成 Gemini 分流失效。
 
-5. **私货** `自用功能，运行结果不符合预期概不负责`
+5. **私货**
 
+- 自用功能，运行结果不符合预期概不负责。
 - 仅在 `override` 开启时生效。用于自定义域名分流和强制域名直连 / 代理。
 - 在 `/etc/sing-box/resources` 目录新建 custom.json 文件。其 `top` 对象键为出站分组 / 节点（如果分组不存在则自动创建），值为一组无头规则。示例文件 [custom.json](https://gist.github.com/ffuqiangg/00a6acb48a1fb9f60a424e606e7a930a) ，语法参考 ⌈ [sing-box 无头规则](https://sing-box.sagernet.org/zh/configuration/rule-set/headless-rule/) ⌋ 。
 
