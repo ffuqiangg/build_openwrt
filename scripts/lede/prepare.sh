@@ -200,6 +200,9 @@ p "Bandix 流量监控"
 cp -rf ${otherdir}/openwrt-add/{openwrt-bandix,luci-app-bandix} ./package/add/
 p "终端 TTYD"
 sed -i 's,services,system,g' ./feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+p "Ksmbd Samba 服务器"
+rm -rf ./feeds/packages/net/ksmbd-tools
+cp -rf ${otherdir}/imm_pkg_ma/net/ksmbd-tools ./feeds/packages/net/ksmbd-tools
 
 p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
