@@ -2,7 +2,7 @@ syntax off
 filetype indent on
 colorscheme desert
 hi Normal ctermbg=none
-hi EndOfBuffer ctermfg=81 ctermbg=none
+hi EndOfBuffer ctermfg=241 ctermbg=none
 
 set nocompatible
 set bs=2 tw=0 so=2 ls=1
