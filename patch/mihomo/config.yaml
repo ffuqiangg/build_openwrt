@@ -79,10 +79,14 @@ hosts:
   services.googleapis.cn: services.googleapis.com
   google.cn: google.com
 
-# 国内 DNS
-direct-dns: &direct-dns ['https://dns.alidns.com/dns-query', 'https://doh.pub/dns-query']
-# 国外 DNS
-proxy-dns: &proxy-dns ['https://dns.google/dns-query', 'https://dns.cloudflare.com/dns-query']
+# 国内 DNS 服务
+direct-dns: &direct-dns
+  - https://dns.alidns.com/dns-query
+  - https://doh.pub/dns-query
+# 国外 DNS 服务
+proxy-dns: &proxy-dns
+  - https://dns.google/dns-query
+  - https://dns.cloudflare.com/dns-query
 
 # DNS 配置
 dns:
