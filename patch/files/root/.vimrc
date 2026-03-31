@@ -1,8 +1,11 @@
 syntax off
 filetype indent on
+colorscheme desert
+hi Normal ctermbg=none
+hi EndOfBuffer ctermfg=81 ctermbg=none
 
 set nocompatible
-set bs=2 tw=0 so=2 ls=2
+set bs=2 tw=0 so=2 ls=1
 set ts=4 sts=4 sw=4
 set noswf nobk noudf nolz tf
 set ttimeoutlen=100
@@ -32,12 +35,3 @@ cnoremap <c-a> <home>
 cnoremap <c-e> <end>
 vnoremap < <gv
 vnoremap > >gv
-
-hi TabLine cterm=underline ctermfg=59 ctermbg=none
-hi TabLineFill cterm=underline ctermfg=59 ctermbg=none
-hi TabLineSel cterm=underline ctermfg=39 ctermbg=none
-hi Pmenu ctermfg=188 ctermbg=59
-hi PmenuSel ctermfg=0 ctermbg=15
-hi MatchParen cterm=underline ctermfg=39 ctermbg=none
-
-set statusline=%<%f%h%w%m%r\ (%l,%c%V)\ \|\ ft:%{&filetype}\ \|\ %{&fileencoding}%=\ \ -%p%%-
