@@ -18,16 +18,18 @@ au BufRead,BufNewFile /etc/init.d/* set ft=sh
 au BufRead,BufNewFile /etc/config/* set ft=conf
 au BufRead,BufNewFile *.log set ft=conf
 
-nmap <c-j> <c-w>j
-nmap <c-k> <c-w>k
-nmap <c-h> <c-w>h
-nmap <c-l> <c-w>l
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
 nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
-nmap <s-h> gT
-nmap <s-l> gt
+nnoremap <s-h> gT
+nnoremap <s-l> gt
+nnoremap <s-t> H
+nnoremap <s-b> L
 cnoremap <c-a> <home>
 vnoremap < <gv
 vnoremap > >gv
