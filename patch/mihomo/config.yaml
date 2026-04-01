@@ -124,10 +124,6 @@ proxy-groups:
     type: select
     proxies: [自动选择,直连,香港,日本,新加坡,美国,其它地区,全部节点]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/png/Sub-Store.png"
-  - name: Google
-    type: select
-    proxies: [默认,香港,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
-    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Google.svg"
   - name: Telegram
     type: select
     proxies: [默认,香港,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
@@ -211,16 +207,13 @@ rules:
   - RULE-SET,microsoft@cn_domain,直连
   - RULE-SET,apple@cn_domain,直连
   - RULE-SET,cn_domain,直连
-  - RULE-SET,github_domain,Github
   - RULE-SET,twitter_domain,Twitter
   - RULE-SET,youtube_domain,YouTube
-  - RULE-SET,google_domain,Google
   - RULE-SET,telegram_domain,Telegram
   - RULE-SET,netflix_domain,NETFLIX
   - RULE-SET,spotify_domain,Spotify
   - RULE-SET,geolocation-!cn,其他
   # 3. IP 规则
-  - RULE-SET,google_ip,Google,no-resolve
   - RULE-SET,netflix_ip,NETFLIX,no-resolve
   - RULE-SET,telegram_ip,Telegram,no-resolve
   - RULE-SET,twitter_ip,Twitter,no-resolve
@@ -242,18 +235,12 @@ rule-providers:
   cn_domain:
     <<: *domain
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
-  github_domain:
-    <<: *domain
-    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"
   twitter_domain:
     <<: *domain
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.mrs"
   youtube_domain:
     <<: *domain
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"
-  google_domain:
-    <<: *domain
-    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"
   telegram_domain:
     <<: *domain
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"
@@ -283,9 +270,6 @@ rule-providers:
   cn_ip:
     <<: *ip
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"
-  google_ip:
-    <<: *ip
-    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"
   netflix_ip:
     <<: *ip
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"
