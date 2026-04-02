@@ -1,4 +1,4 @@
-### 基础信息
+### 📝 基础信息
 
 - 默认 IP：192.168.1.99 ， 密码：password
 - sing-box 脚本文档： ⌈ [sing-box OpenWrt 安装与配置指南](https://github.com/ffuqiangg/build_openwrt/blob/main/doc/sing-box.md) ⌋ 、mihomo 脚本文档：⌈ [Mihomo 核心轻量化启动器说明文档](https://github.com/ffuqiangg/build_openwrt/blob/main/doc/mihomo.md) ⌋
@@ -11,7 +11,7 @@ sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@mai
 
 ##
 
-### 更新内容
+### ✨ 更新内容
 
 - 插件调整：新增 qBittorrent、Bandix 流量监控，取消 DDNS、daed、带宽监控。
 - 新增内存压缩功能。LuCI 页面 `系统` -> `系统` -> `ZRam 设置` 可调整相关参数。
