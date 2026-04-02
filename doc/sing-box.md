@@ -151,19 +151,10 @@ config sing-box 'advanced'
 	option adblock '0'                                               # 去广告，0 禁用，1 启用
 	list ad_ruleset 'https://testingcf.jsdelivr.net/gh/ffuqiangg/sing-box-adsruleset@main/rule/adguard-dns-filter.srs'
 	list ad_ruleset ''                                               # 去广告规则集，必须使用 srs 格式且地址可直连
-	option filter_nodes '0'                                          # 过滤节点，0 禁用，1 启用
-	option filter_keywords '流量,套餐,重置,官網,官网,群组'             # 过滤关键字，多个关键字用英文逗号分割
-	option group_nodes '0'                                           # 节点按地区分组，0 禁用，1 启用
-	option stream '0'                                                # 路由分流规则，0 禁用，1 启用
-	option stream_list 'Google,Github,Telegram,OpenAI,Spotify'       # 启用的分流规则，英文逗号分割
 ```
 - `override` 覆写是高级设置的总开关，默认设置情况下会生成不带去广告的大陆白名单模式配置文件。
 - 禁用 `override` 时所有高级设置均不会生效，除了 `进阶设置` 涉及的部分外不会对配置文件做其他修改。禁用 `override` 时请确保配置文件符合当前 sing-box 版本的要求。
 - 去广告功能可以同时使用多个规则集，自行添加更多的 `list ad_ruleset` 条目即可，规则集要求使用 srs 格式且地址可直连。多个规则集注意文件名不能相同。
-- `filter_nodes` 通过关键字自动剔除无用节点。
-- `gourp_nodes` 可用的分组地区包含香港、台湾、日本、韩国、新加坡、美国、德国。订阅中没有的节点地区会自动跳过不会生成空分组。添加地区可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
-- `stream_list` 脚本预置的可使用分流规则有 Google，Gemini，YouTube，Github，Telegram，OpenAI，DMM，HBO，NETFLIX，Spotify，Instagram 。添加分流规则可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
-- `stream_list` 的设置中，当两个分流规则集存在包含关系时要尤其注意先后顺序。例如 Google 规则集中包含有 Gemini 规则集，所以要同时使用这两个规则集时须将 Gemini 放在 Google 前面，如果 Google 放在前面则优先命中会造成 Gemini 分流失效。
 
 5. **私货**
 
