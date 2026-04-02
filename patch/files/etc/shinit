@@ -1,7 +1,7 @@
 [ -x /bin/more ] || [ -x /usr/bin/more ] || alias more=less
 [ -x /usr/bin/vim ] && alias vi=vim || alias vim=vi
 
-export PS1='[\u@\h \W]\$ '
+export PS1='\[\e[34m\]\w\[\e[0m\] \[\e[1;32m\]>\[\e[0m\] '
 
 # Alias's for multiple directory listing commands
 alias ll='ls -alhF --color=auto'
