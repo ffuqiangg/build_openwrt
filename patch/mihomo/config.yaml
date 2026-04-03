@@ -1,4 +1,15 @@
-# url 里填写自己的订阅,名称不能重复。interval 订阅更新间隔，单位秒
+# 本文件基于 mihomo 快捷配置 (https://wiki.metacubex.one/example/conf/#__tabbed_1_2) 优化。 
+# 节点地区分组包含香港、日本、新加坡、美国。
+# 分流规则包含 Telegram、Twitter、YouTube、NETFLIX、Spotify、Github 。
+# 默认屏蔽 youtube QUIC 流量。
+# p2p 软件设置代理类型：SOCKS5，地址：路由器IP，端口：10808 。
+# 需要强制直连的域名可按格式添加到文件末尾规则集中。
+
+
+# provider1 , provider2 订阅名称
+# url 订阅地址
+# interval 订阅更新间隔时间，单位秒
+# additional-prefix 节点名称前缀，方便区分节点
 proxy-providers:
   provider1:
     url: ""
@@ -8,6 +19,7 @@ proxy-providers:
     override:
       additional-prefix: "[provider1] "
       ip-version: ipv4-prefer
+    proxy: 直连
   provider2:
     url: ""
     type: http
@@ -16,6 +28,7 @@ proxy-providers:
     override:
       additional-prefix: "[provider2] "
       ip-version: ipv4-prefer
+    proxy: 直连
 
 # 定义直连出站
 proxies: 
@@ -62,7 +75,7 @@ tun:
   auto-detect-interface: true
   strick-route: true
 
-# 用于 p2p 直连。在 p2p 软件中设置代理类型：SOCKS5，地址：路由器IP，端口：10808 。
+# 监听端口，用于直连 p2p
 listeners:
   - name: socks5-in-1
     type: socks
