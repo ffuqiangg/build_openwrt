@@ -37,6 +37,9 @@
     "Gemini": {
       "geosite-gemini": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google-gemini.srs"
     },
+    "YouTube": {
+      "geosite-youtube": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/youtube.srs"
+    },
     "Github": {
       "geosite-github": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/github.srs"
     },

@@ -98,17 +98,17 @@ for (let v in json(jsonfile).outbounds)
     if (v.type === 'direct')
         outbounds_direct_tag = v.tag;
 
-let nodes_list = [];
+let nodes_list_tag = [];
 for (let v in json(jsonfile).outbounds)
     if (!(v.type in ['direct', 'dns', 'block', 'selector', 'urltest']))
-        push(nodes_list, v.tag);
+        push(nodes_list_tag, v.tag);
 if (filter_nodes === '1')
     for (let v in split(filter_keywords, ','))
-        nodes_list = filter(nodes_list, x => index(x, v) == -1);
+        nodes_list_tag = filter(nodes_list_tag, x => index(x, v) == -1);
 
 let nodes_area = [];
 for (let v in keys(json(streamfile).area_group))
-    map(nodes_list, (x) => {
+    map(nodes_list_tag, (x) => {
         for (let k in split(json(streamfile)['area_group'][v]['filter'], '|'))
             if (index(x, k) > -1)
                 push(nodes_area, v);
@@ -117,7 +117,7 @@ nodes_area = uniq(nodes_area);
 
 let area_nodes = [];
 for (let v in nodes_area)
-    for (let k in nodesFilter(json(streamfile)['area_group'][v]['filter'], nodes_list))
+    for (let k in nodesFilter(json(streamfile)['area_group'][v]['filter'], nodes_list_tag))
         push(area_nodes, k);
 
 let proxy_group_out = [];
@@ -125,11 +125,11 @@ push(proxy_group_out, '节点选择');
 if (group_nodes === '1') {
     for (let k in nodes_area)
         push(proxy_group_out, k);
-    if (length(nodes_list) > length(area_nodes))
+    if (length(nodes_list_tag) > length(area_nodes))
         push(proxy_group_out, '其他');
 }
 push(proxy_group_out, '直连');
-for (let k in nodes_list)
+for (let k in nodes_list_tag)
     push(proxy_group_out, k);
 
 let ad_rulelist = [];
@@ -141,7 +141,7 @@ let custom_file;
 if (access(workdir + '/resources/custom.json'))
     custom_file = trim(readfile(workdir + '/resources/custom.json'));
 
-const outbounds_list = split(join(',', nodes_list) + ',' + join(',', nodes_area) + ',' + stream_list + ',节点选择,自动选择,直连', ',');
+const outbounds_list = split(join(',', nodes_list_tag) + ',' + join(',', nodes_area) + ',' + stream_list + ',节点选择,自动选择,直连', ',');
 /* UCI config end */
 
 const config = {};
@@ -296,11 +296,11 @@ if (override === '1') {
     if (group_nodes === '1') {
         for (let v in nodes_area)
             push(config.outbounds[0].outbounds, v);
-        if (length(nodes_list) > length(area_nodes))
+        if (length(nodes_list_tag) > length(area_nodes))
             push(config.outbounds[0].outbounds, '其他');
     }
     push(config.outbounds[0].outbounds, '直连');
-    for (let v in nodes_list) {
+    for (let v in nodes_list_tag) {
         push(config.outbounds[0].outbounds, v);
         push(config.outbounds[1].outbounds, v);
     }
@@ -329,15 +329,15 @@ if (override === '1') {
             push(config.outbounds, {
                 tag: v,
                 type: json(streamfile)['area_group'][v]['type'],
-                outbounds: nodesFilter(json(streamfile)['area_group'][v]['filter'], nodes_list)
+                outbounds: nodesFilter(json(streamfile)['area_group'][v]['filter'], nodes_list_tag)
             });
         }
 
-        if (length(nodes_list) > length(area_nodes))
+        if (length(nodes_list_tag) > length(area_nodes))
             push(config.outbounds, {
                 tag: '其他',
                 type: 'urltest',
-                outbounds: filter(nodes_list, x => (!(x in area_nodes)))
+                outbounds: filter(nodes_list_tag, x => (!(x in area_nodes)))
             });
     }
 
@@ -349,7 +349,7 @@ if (override === '1') {
 
     /* nodes */
     for (let v in json(jsonfile).outbounds)
-        if (v.tag in nodes_list)
+        if (v.tag in nodes_list_tag)
             push(config.outbounds, v);
 } else {
     config.outbounds = json(jsonfile).outbounds;

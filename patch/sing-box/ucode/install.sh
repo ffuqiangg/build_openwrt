@@ -13,7 +13,7 @@ if [ $country_code = "CN" ]; then
     fi
 fi
 
-echo -e "\r\n${GREEN_COLOR}INFO${RES} Download files ...\r\n"
+echo -e "${GREEN_COLOR}INFO${RES} Download files ..."
 
 # prepare
 if [ -n "$(nft list tables 2>/dev/null)" ]; then firewall="nftables"; else firewall="iptables"; fi
@@ -58,7 +58,7 @@ if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} download stream file failed."
     exit 1
 fi
-echo -e "${GREEN_COLOR}INFO${RES} Fix permissions ...\n"
+echo -e "${GREEN_COLOR}INFO${RES} Fix permissions ..."
 chmod +x /etc/init.d/sing-box
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} fix permissions failed."
