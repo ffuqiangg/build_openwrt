@@ -279,7 +279,7 @@ cp -f ${ffdir}/patch/sing-box/ucode/shared/generate_config.uc ./files/etc/sing-b
 cp -f ${ffdir}/patch/sing-box/ucode/shared/sing-box.conf ./files/etc/config/sing-box
 cp -f ${ffdir}/patch/sing-box/ucode/nftables/firewall_post.ut ./files/etc/sing-box/scripts/
 cp -f ${ffdir}/patch/sing-box/ucode/nftables/china_ip4.txt ./files/etc/sing-box/resources/
-cp -f ${ffdir}/patch/sing-box/ucode/nftables/sing-box.init ./fiels/etc/init.d/sing-box
+cp -f ${ffdir}/patch/sing-box/ucode/nftables/sing-box.init ./files/etc/init.d/sing-box
 cp -f ${ffdir}/patch/mihomo/config.yaml ./files/etc/mihomo/
 cp -f ${ffdir}/patch/mihomo/mihomo.init ./files/etc/init.d/mihomo
 
