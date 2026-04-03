@@ -1,10 +1,9 @@
 #!/bin/sh
-RED_COLOR='\e[37;41m'
-WHITE_COLOR='\e[30;47m'
-YELLOW_COLOR='\e[30;43m'
+RED_COLOR='\e[1;31m'
+GREEN_COLOR='\e[1;32m'
 RES='\e[0m'
 
-# 检测网络环境并配置 Github 镜像
+# 测试环境并设置下载镜像
 ip_info=$(curl -sk https://ip.cooluc.com)
 country_code=$(echo $ip_info | sed -r 's/.*country_code":"([^"]*).*/\1/')
 if [ $country_code = "CN" ]; then
@@ -14,58 +13,58 @@ if [ $country_code = "CN" ]; then
     fi
 fi
 
-echo -e "\r\n${WHITE_COLOR} INFO ${RES} Download files ...\r\n"
+echo -e "${GREEN_COLOR}INFO${RES} Download files ..."
 
-# 准备变量
+# 准备环境
 if [ -n "$(nft list tables 2>/dev/null)" ]; then firewall="nftables"; else firewall="iptables"; fi
 download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/ucode"
 [ -d /etc/sing-box ] && rm -rf /etc/sing-box
 for dir in scripts resources run profiles; do mkdir -p /etc/sing-box/${dir}; done
 
 # 下载文件
-echo -e "${WHITE_COLOR} INFO ${RES} Download Sing-box init ..."
+echo -e "${GREEN_COLOR}INFO${RES} Download Sing-box init ..."
 curl --connect-timeout 30 -m 600 -kLo /etc/init.d/sing-box ${mirror}${download_dir}/${firewall}/sing-box.init
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR} ERRO ${RES} download Sing-box init failed."
+    echo -e "${RED_COLOR}ERROR${RES} download Sing-box init failed."
     exit 1
 fi
-echo -e "${WHITE_COLOR} INFO ${RES} Download sing-box config ..."
+echo -e "${GREEN_COLOR}INFO${RES} Download sing-box config ..."
 curl --connect-timeout 30 -m 600 -kLo /etc/config/sing-box ${mirror}${download_dir}/shared/sing-box.conf
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR} ERRO ${RES} download sing-box config failed."
+    echo -e "${RED_COLOR}ERROR${RES} download sing-box config failed."
     exit 1
 fi
-echo -e "${WHITE_COLOR} INFO ${RES} Download generate config script ..."
+echo -e "${GREEN_COLOR}INFO${RES} Download generate config script ..."
 curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/scripts/generate_config.uc ${mirror}${download_dir}/shared/generate_config.uc
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR} ERRO ${RES} download generate config script failed."
+    echo -e "${RED_COLOR}ERROR${RES} download generate config script failed."
     exit 1
 fi
-echo -e "${WHITE_COLOR} INFO ${RES} Download firewall rules ..."
+echo -e "${GREEN_COLOR}INFO${RES} Download firewall rules ..."
 curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/scripts/firewall_post.ut ${mirror}${download_dir}/${firewall}/firewall_post.ut
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR} ERRO ${RES} download firewall rules failed."
+    echo -e "${RED_COLOR}ERROR${RES} download firewall rules failed."
     exit 1
 fi
-echo -e "${WHITE_COLOR} INFO ${RES} Download china_ip4 file ..."
+echo -e "${GREEN_COLOR}INFO${RES} Download china_ip4 file ..."
 curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/resources/china_ip4.txt ${mirror}${download_dir}/${firewall}/china_ip4.txt
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR} ERRO ${RES} download china_ip4 file failed."
+    echo -e "${RED_COLOR}ERROR${RES} download china_ip4 file failed."
     exit 1
 fi
-echo -e "${WHITE_COLOR} INFO ${RES} Download stream file ..."
+echo -e "${GREEN_COLOR}INFO${RES} Download stream file ..."
 curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/resources/stream.json ${mirror}${download_dir}/shared/stream.json
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR} ERRO ${RES} download stream file failed."
+    echo -e "${RED_COLOR}ERROR${RES} download stream file failed."
     exit 1
 fi
 
-# 设置权限
-echo -e "${WHITE_COLOR} INFO ${RES} Fix permissions ...\n"
+# 配置权限
+echo -e "${GREEN_COLOR}INFO${RES} Fix permissions ..."
 chmod +x /etc/init.d/sing-box
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR} ERRO ${RES} fix permissions failed."
+    echo -e "${RED_COLOR}ERROR${RES} fix permissions failed."
     exit 1
 fi
 
-echo -e "${WHITE_COLOR} INFO ${RES} Done."
+echo -e "${GREEN_COLOR}INFO${RES} Done."

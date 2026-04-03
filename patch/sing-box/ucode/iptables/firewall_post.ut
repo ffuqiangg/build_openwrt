@@ -8,6 +8,7 @@
 
     uci.load('sing-box');
     const workdir = uci.get('sing-box', 'main', 'workdir') || '/etc/sing-box',
+          fuck_quic = uci.get('sing-box', 'main', 'fuck_quic') || '1',
           common_ports = uci.get('sing-box', 'main', 'common_ports') || '0',
           pass_cn_ip = uci.get('sing-box', 'main', 'pass_cn_ip') || '0',
           tproxy_port = uci.get('sing-box', 'inbounds', 'tproxy_port') || '10105',
@@ -59,6 +60,9 @@ iptables -t mangle -A sing_tproxy -d {{ x }} -j RETURN
 {% if (pass_cn_ip === '1'): %} 
 iptables -t mangle -A sing_tproxy -m set --match-set china_ip4 dst -j RETURN
 {% endif /* pass_cn_ip */ %}
+{% if (fuck_quic === '1'): %}
+iptables -t mangle -A sing_tproxy -p udp -m multiport --dport 80,443 -j DROP
+{% endif /* fuck_quic */ %}
 {% if (common_ports === '1'): %}
 iptables -t mangle -A sing_tproxy -p udp -m multiport ! --dport {{ proxy_ports }} -j RETURN
 {% endif /* common_ports */ %}
