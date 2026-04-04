@@ -3,6 +3,7 @@
 # 分流规则包含 Telegram、Twitter、YouTube、NETFLIX、Spotify、Github 。
 # 默认屏蔽 youtube QUIC 流量。
 # p2p 软件设置代理类型：SOCKS5，地址：路由器IP，端口：10808 。
+# 如果 p2p 软件不支持 SOCKS5 代理，取消 tun.route-address-set 注释可绕过常用端口路由。
 # 需要强制直连的域名可按格式添加到文件末尾规则集中。
 
 
@@ -65,7 +66,7 @@ sniffer:
     - "Mijia Cloud"
     - "+.push.apple.com"
 
-# TUN 模式配置
+# TUN 模式配置，取消 route-address-set 注释可绕过常用端口路由。
 tun:
   enable: true
   stack: mixed
@@ -74,6 +75,7 @@ tun:
   auto-redirect: true
   auto-detect-interface: true
   strick-route: true
+  # route-address-set: ["common_port"]
 
 # 监听端口，用于直连 p2p
 listeners:
@@ -320,3 +322,23 @@ rule-providers:
       - DOMAIN-KEYWORD,tyyszywvod
       - DOMAIN-KEYWORD,toutiao
       - DOMAIN-KEYWORD,omofun
+
+  # 附加端口规则，包含常用端口
+  common_port:
+    type: inline
+    behavior: classical
+    payload:
+      - DST-PORT,22
+      - DST-PORT,53
+      - DST-PORT,80
+      - DST-PORT,143
+      - DST-PORT,443
+      - DST-PORT,465
+      - DST-PORT,587
+      - DST-PORT,853
+      - DST-PORT,873
+      - DST-PORT,993
+      - DST-PORT,995
+      - DST-PORT,5222
+      - DST-PORT,8080
+      - DST-PORT,8443
