@@ -324,13 +324,12 @@ if (override === '1' || profile === 'all') {
 
     /* area-group */
     if (!isEmpty(area)) {
-        for (let v in split(area, ',')) {
+        for (let v in split(area, ','))
             push(config.outbounds, {
                 tag: v,
                 type: json(streamfile)['area_group'][v]['type'],
                 outbounds: nodesFilter(json(streamfile)['area_group'][v]['filter'], nodes_list_tag)
             });
-        }
 
         if (length(nodes_list_tag) > length(nodes_area_tag))
             push(config.outbounds, {
