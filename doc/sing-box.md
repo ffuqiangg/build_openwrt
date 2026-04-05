@@ -70,12 +70,12 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/p
 
 1. **方案 A：使用订阅链接**
 - 修改 `main` 部分：`option enabled '1'`
-- 修改 `subscription` 部分：`option url '你的订阅地址'`
+- 修改 `profile` 部分：`option url '你的订阅地址'`
 
 2. **方案 B：使用本地文件**
 - 将 `sing-box.json` 上传至 `/etc/sing-box/profiles/` 目录。
 - 修改 `main` 部分：`option enabled '1'`
-- 修改 `subscription` 部分：`option remote '0'`
+- 修改 `profile` 部分：`option profile 'file:sing-box.json'`
 
 ##
 
@@ -97,30 +97,28 @@ config sing-box 'main'
 - `common_ports`: 开启后仅代理常用端口，可避免 P2P 下载流量进入 sing-box 核心。
 - `pass_cn_ip`: 开启后直连中国大陆 IP。
 
-2. **订阅管理 (subscription)**
+2. **配置管理 (profile)**
 
 ```config
-config sing-box 'subscription'
-	option remote '1'                           # 使用订阅还是本地配置，0 本地配置文件，1 订阅1，2 订阅2 ...
-	option update_all '0'                       # 更新全部订阅，0 仅更新当前订阅，1 更新全部订阅。
+config sing-box 'profile'
+	option profile 'sub:1'                      # 模式切换，可选 sub:NUM ，file:xxx.json ，all
+	list prefix '[provider1] '                  # 前缀 1
 	list url ''                                 # 订阅链接 1
+	list prefix '[provider2] '                  # 前缀 2
 	list url ''                                 # 订阅链接 2
-	option auto_restart '1'                     # 定时重启，0 禁用，1 启用
-	option restart_cron '0 5 * * *'             # 定时重启 cron，默认为每天早上 5 点
+	option restart_cron '0 5 * * *'             # 定时重启 cron，留空禁用
 ```
-- `remote`: 模式切换。`0` 为本地配置，`1, 2...` 对应不同的订阅链接。
-- 本地配置文件保存到 `/etc/sing-box/profiles` 目录命名为 `sing-box.json` 。
+- `profile`: `sub:NUM` 使用 订阅NUM ，`file:xxx.json` 使用本地配置文件 `/etc/sing-box/profiles/xxx.json` ，`all` 自动合并全部订阅。
+- `prefix`：自动添加节点名称前缀，仅 `profile` 设置为 `all` 时生效且必要。
+- `restart_cron` 启用可实现定时更新订阅并重启服务。
 - 如果有更多订阅，配置中新建更多 `list url` 项目即可。
-- `update_all`: 设为 `0` 时仅更新当前使用的订阅。
-- `auto_restart`: 建议开启，配合 `restart_cron` 可实现定时更新订阅并重启服务。
 
 3. **进阶设置 (basic)**
 
 ```config
 config sing-box 'basic'
-	option level 'warn'                         # 日志等级
-	option log_file '0'                         # 日志输出方式，0 输出到面板，1 输出到文件
-	option output '/var/log/sing-box.log'       # 日志文件路径（log_file 为 0 时此项无效）
+	option log_level 'warn'                     # 日志等级
+	option log_file '/var/log/sing-box.log'     # 日志文件路径，留空则日志输出到 Web 面板
 	option external_controller_port '9900'      # 后台页面端口
 	option external_ui 'ui'                     # 面板文件目录
 	option secret 'ffuqiangg'                   # 后台页面登陆密钥
@@ -132,9 +130,9 @@ config sing-box 'basic'
 	option dns_port '2053'                      # DNS 入站端口 (direct)
 	option redirect_port '2331'                 # redirect 监听端口
 ```
-- Web 面板：支持 `metacubexd`, `zashboard`, `yacd`。默认登录地址为 `设备IP:9900/ui`，密钥为 `ffuqiangg`。
 - `mixed_port`: 提供 HTTP/SOCKS 混合代理。
 - `dns_port`: DNS 入站端口，用于接管设备 DNS 请求。
+- 默认 Web 面板登录地址为 `http://路由器IP:9900/ui`，密钥为 `ffuqiangg`。
 - 这部分配置的详细说明可以查看 ⌈ [sing-box 官方文档](https://sing-box.sagernet.org/zh/configuration/) ⌋ 的对应条目。
 - 如需修改端口配置要注意端口冲突，避免使用已占用的端口。
 - 更新或替换面板方法：删除 `/etc/sing-box/run/ui` 目录，然后重启 sing-box 服务。
@@ -148,22 +146,16 @@ config sing-box 'advanced'
 	option main_dns_server 'dns.google'                              # 国外 DNS 服务地址
 	option china_dns_type 'h3'                                       # 国内 DNS 类型
 	option china_dns_server '223.5.5.5'                              # 国内 DNS 服务地址
-	option adblock '0'                                               # 去广告，0 禁用，1 启用
-	list ad_ruleset 'https://testingcf.jsdelivr.net/gh/ffuqiangg/sing-box-adsruleset@main/rule/adguard-dns-filter.srs'
-	list ad_ruleset ''                                               # 去广告规则集，必须使用 srs 格式且地址可直连
-	option filter_nodes '0'                                          # 过滤节点，0 禁用，1 启用
-	option filter_keywords '流量,套餐,重置,官網,官网,群组'             # 过滤关键字，多个关键字用英文逗号分割
-	option group_nodes '0'                                           # 节点按地区分组，0 禁用，1 启用
-	option stream '0'                                                # 路由分流规则，0 禁用，1 启用
-	option stream_list 'Google,Github,Telegram,OpenAI,Spotify'       # 启用的分流规则，英文逗号分割
+	option ad_ruleset 'https://testingcf.jsdelivr.net/gh/ffuqiangg/sing-box-adsruleset@main/rule/adguard-dns-filter.srs'
+	option nodes_filter ''                                           # 排除节点关键字，英文逗号分割。留空禁用
+	option area ''                                                   # 节点按地区分组，英文逗号分割。留空禁用
+	option bypass ''                                                 # 启用的分流规则，英文逗号分割。留空禁用
 ```
-- `override` 覆写是高级设置的总开关，默认设置情况下会生成不带去广告的大陆白名单模式配置文件。
-- 禁用 `override` 时所有高级设置均不会生效，除了 `进阶设置` 涉及的部分外不会对配置文件做其他修改。禁用 `override` 时请确保配置文件符合当前 sing-box 版本的要求。
-- 去广告功能可以同时使用多个规则集，自行添加更多的 `list ad_ruleset` 条目即可，规则集要求使用 srs 格式且地址可直连。多个规则集注意文件名不能相同。
-- `filter_nodes` 过滤的节点会从配置文件中完全删除，而不仅仅是不出现在分组中。
-- `gourp_nodes` 可用的分组地区包含香港、台湾、日本、韩国、新加坡、美国、德国。订阅中没有的节点地区会自动跳过不会生成空分组。添加地区可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
-- `stream_list` 脚本预置的可使用分流规则有 Google，Gemini，YouTube，Github，Telegram，OpenAI，DMM，HBO，NETFLIX，Spotify，Instagram 。添加分流规则可按格式修改 `/etc/sing-box/resources/stream.json` 文件，参考 [STREAM 分流文档](stream.md) 。
-- `stream_list` 的设置中，当两个分流规则集存在包含关系时要尤其注意先后顺序。例如 Google 规则集中包含有 Gemini 规则集，所以要同时使用这两个规则集时须将 Gemini 放在 Google 前面，如果 Google 放在前面则优先命中会造成 Gemini 分流失效。
+- `override` 禁用时所有高级设置均不会生效，除了 `进阶设置` 涉及的部分外不会对配置文件做其它修改。
+- `ad_ruleset` 去广告规则集下载地址，要求 srs 格式且地址可直连。留空则禁用去广告规则。
+- `area` 可选项： 香港,台湾,日本,韩国,新加坡,美国,德国 。
+- `bypass` 可选项： Gemini,YouTube,Google,MicrosoftCN,Github,Microsoft,Telegram,OpenAI,DMM,NETFLIX,Spotify,Instagram,Apple,AppleCN 。注意前后顺序避免规则失效。
+- `area` 及 `bypass` 使用的数据来自 `/etc/sing-box/resources/stream.json` 文件，可按格式自行修改。
 
 5. **私货**
 

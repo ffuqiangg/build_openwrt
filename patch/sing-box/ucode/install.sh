@@ -29,13 +29,13 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 echo -e "${GREEN_COLOR}INFO${RES} Download sing-box config ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/config/sing-box ${mirror}${download_dir}/shared/sing-box.conf
+curl --connect-timeout 30 -m 600 -kLo /etc/config/sing-box ${mirror}${download_dir}/generic/sing-box.conf
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} Download sing-box config failed."
     exit 1
 fi
 echo -e "${GREEN_COLOR}INFO${RES} Download generate config script ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/scripts/generate_config.uc ${mirror}${download_dir}/shared/generate_config.uc
+curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/scripts/generate_config.uc ${mirror}${download_dir}/generic/generate_config.uc
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} Download generate config script failed."
     exit 1
@@ -53,7 +53,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 echo -e "${GREEN_COLOR}INFO${RES} Download stream file ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/resources/stream.json ${mirror}${download_dir}/shared/stream.json
+curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/resources/stream.json ${mirror}${download_dir}/generic/stream.json
 if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} Download stream file failed."
     exit 1

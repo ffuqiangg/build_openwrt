@@ -34,11 +34,11 @@
       "geoip-google": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/google.srs",
       "geosite-google": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google.srs"
     },
-    "Gemini": {
-      "geosite-gemini": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google-gemini.srs"
-    },
     "YouTube": {
       "geosite-youtube": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/youtube.srs"
+    },
+    "Gemini": {
+      "geosite-gemini": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/google-gemini.srs"
     },
     "Github": {
       "geosite-github": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/github.srs"
@@ -53,9 +53,6 @@
     "DMM": {
       "geosite-dmm": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/dmm.srs"
     },
-    "HBO": {
-      "geosite-hbo": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/hbo.srs"
-    },
     "NETFLIX": {
       "geoip-netflix": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/netflix.srs",
       "geosite-netflix": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/netflix.srs"
@@ -65,6 +62,19 @@
     },
     "Instagram": {
       "geosite-instagram": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/instagram.srs"
+    },
+    "MicrosoftCN": {
+      "geosite-microsoft": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/microsoft@cn.srs"
+    },
+    "Microsoft": {
+      "geosite-microsoft": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/microsoft.srs"
+    },
+    "AppleCN": {
+      "geosite-apple": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/apple@cn.srs"
+    },
+    "Apple": {
+      "geosite-apple": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/apple.srs",
+      "geoip-apple": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/apple.srs"
     }
   }
 }
