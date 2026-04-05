@@ -25,7 +25,7 @@ if [ $? -ne 0 ]; then
 fi
 if [ ! -e "/etc/mihomo/config.yaml" ]; then
     echo -e "${GREEN_COLOR}INFO${RES} Download Mihomo config ..."
-    [ -d /etc/mihomo ] || mkdir -p /etc/mihomo
+    [ -d "/etc/mihomo" ] || mkdir -p /etc/mihomo
     curl --connect-timeout 30 -m 600 -kLo /etc/mihomo/config.yaml ${mirror}https://raw.githubusercontent.com/ffuqiangg/build_openwrt/dev/patch/mihomo/config.yaml
     if [ $? -ne 0 ]; then
         echo -e "${RED_COLOR}ERROR${RES} Download Mihomo config failed."
