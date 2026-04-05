@@ -153,8 +153,8 @@ config sing-box 'advanced'
 ```
 - `override`：禁用时所有高级设置均不会生效，除了 `进阶设置` 涉及的部分外不会对配置文件做其它修改。
 - `ad_ruleset`：去广告规则集下载地址，要求 srs 格式且地址可直连。留空则禁用去广告规则。
-- `area`：可选项 - 香港,台湾,日本,韩国,新加坡,美国,德国 。
-- `bypass`：可选项 - Gemini,YouTube,Google,MicrosoftCN,Github,Microsoft,Telegram,OpenAI,DMM,NETFLIX,Spotify,Instagram,Apple,AppleCN 。注意前后顺序避免规则失效。
+- `area`：可选项 香港,台湾,日本,韩国,新加坡,美国,德国 。
+- `bypass`：可选项 Gemini,YouTube,Google,MicrosoftCN,Github,Microsoft,Telegram,OpenAI,DMM,NETFLIX,Spotify,Instagram,AppleCN,Apple 。注意前后顺序避免规则失效。
 - `area` 及 `bypass` 使用的数据来自 `/etc/sing-box/resources/stream.json` 文件，可按格式自行修改。
 
 5. **私货**
