@@ -124,7 +124,7 @@ config sing-box 'basic'
 	option secret 'ffuqiangg'                   # 后台页面登陆密钥
 	option ui_name 'zashboard'                  # Web 面板，可选值 metacubexd / zashboard / yacd
 	option default_mode 'rule'                  # clash 默认模式
-	option store_rdrc '0'                       # 缓存 rdrc，0 禁用，1 启用
+	option store_rdrc '1'                       # 缓存 rdrc，0 禁用，1 启用
 	option tproxy_port '10105'                  # tproxy 监听端口
 	option mixed_port '2881'                    # mixed 代理端口
 	option dns_port '2053'                      # DNS 入站端口 (direct)
