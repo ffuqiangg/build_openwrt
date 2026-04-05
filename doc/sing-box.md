@@ -93,9 +93,9 @@ config sing-box 'main'
 	option common_ports '0'                     # 仅代理常用端口，0 否，1 是
 	option pass_cn_ip '0'                       # 跳过中国大陆 IP，0 否，1 是
 ```
-- `enabled`: 核心总开关。
-- `common_ports`: 开启后仅代理常用端口，可避免 P2P 下载流量进入 sing-box 核心。
-- `pass_cn_ip`: 开启后直连中国大陆 IP。
+- `enabled`：核心总开关。
+- `common_ports`：开启后仅代理常用端口，可避免 P2P 下载流量进入 sing-box 核心。
+- `pass_cn_ip`：开启后直连中国大陆 IP。
 
 2. **配置管理 (profile)**
 
@@ -108,9 +108,9 @@ config sing-box 'profile'
 	list url ''                                 # 订阅链接 2
 	option restart_cron '0 5 * * *'             # 定时重启 cron，留空禁用
 ```
-- `profile`: `sub:NUM` 使用 订阅NUM ，`file:xxx.json` 使用本地配置文件 `/etc/sing-box/profiles/xxx.json` ，`all` 自动合并全部订阅。
+- `profile`：`sub:NUM` 使用 订阅NUM ，`file:xxx.json` 使用本地配置文件 `/etc/sing-box/profiles/xxx.json` ，`all` 自动合并全部订阅。
 - `prefix`：自动添加节点名称前缀，仅 `profile` 设置为 `all` 时生效且必要。
-- `restart_cron` 启用可实现定时更新订阅并重启服务。
+- `restart_cron`：启用可实现定时更新订阅并重启服务。
 - 如果有更多订阅，配置中新建更多 `list url` 项目即可。
 
 3. **进阶设置 (basic)**
@@ -130,8 +130,8 @@ config sing-box 'basic'
 	option dns_port '2053'                      # DNS 入站端口 (direct)
 	option redirect_port '2331'                 # redirect 监听端口
 ```
-- `mixed_port`: 提供 HTTP/SOCKS 混合代理。
-- `dns_port`: DNS 入站端口，用于接管设备 DNS 请求。
+- `mixed_port`：提供 HTTP/SOCKS 混合代理。
+- `dns_port`：DNS 入站端口，用于接管设备 DNS 请求。
 - 默认 Web 面板登录地址为 `http://路由器IP:9900/ui`，密钥为 `ffuqiangg`。
 - 这部分配置的详细说明可以查看 ⌈ [sing-box 官方文档](https://sing-box.sagernet.org/zh/configuration/) ⌋ 的对应条目。
 - 如需修改端口配置要注意端口冲突，避免使用已占用的端口。
@@ -151,10 +151,10 @@ config sing-box 'advanced'
 	option area ''                                                   # 节点按地区分组，英文逗号分割。留空禁用
 	option bypass ''                                                 # 启用的分流规则，英文逗号分割。留空禁用
 ```
-- `override` 禁用时所有高级设置均不会生效，除了 `进阶设置` 涉及的部分外不会对配置文件做其它修改。
-- `ad_ruleset` 去广告规则集下载地址，要求 srs 格式且地址可直连。留空则禁用去广告规则。
-- `area` 可选项： 香港,台湾,日本,韩国,新加坡,美国,德国 。
-- `bypass` 可选项： Gemini,YouTube,Google,MicrosoftCN,Github,Microsoft,Telegram,OpenAI,DMM,NETFLIX,Spotify,Instagram,Apple,AppleCN 。注意前后顺序避免规则失效。
+- `override`：禁用时所有高级设置均不会生效，除了 `进阶设置` 涉及的部分外不会对配置文件做其它修改。
+- `ad_ruleset`：去广告规则集下载地址，要求 srs 格式且地址可直连。留空则禁用去广告规则。
+- `area`：可选项 - 香港,台湾,日本,韩国,新加坡,美国,德国 。
+- `bypass`：可选项 - Gemini,YouTube,Google,MicrosoftCN,Github,Microsoft,Telegram,OpenAI,DMM,NETFLIX,Spotify,Instagram,Apple,AppleCN 。注意前后顺序避免规则失效。
 - `area` 及 `bypass` 使用的数据来自 `/etc/sing-box/resources/stream.json` 文件，可按格式自行修改。
 
 5. **私货**
