@@ -30,7 +30,7 @@ function removeBlankAttrs(res) {
     }
 
     return content;
-};
+}
 
 function nodesFilter(key, list) {
     let content = [];
@@ -43,11 +43,11 @@ function nodesFilter(key, list) {
     });
 
     return uniq(content);
-};
+}
 
 function isEmpty(res) {
     return !res || res === 'nil' || (type(res) in ['array', 'object'] && length(res) === 0);
-};
+}
 
 function addNodePrefix(arr, prefix) {
     let content = arr;
@@ -244,7 +244,8 @@ config.experimental = {
         external_ui: external_ui,
         external_ui_download_url: 'https://gh-proxy.com/' + ltrim(ui_url, 'https://'),
         external_ui_download_detour: (override === '1' || profile === 'all') ? '直连' : direct_tag,
-        secret: secret
+        secret: secret,
+        default_mode: 'rule'
     },
     cache_file: {
         enabled: true,
