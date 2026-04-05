@@ -229,6 +229,17 @@ length="$((33 + ${#latest_release}))"
 for ((i=0; i<length; i++)); do echo -n "=" >> ./files/etc/banner; done; echo "" >> ./files/etc/banner
 echo -e "--   \033[36mImmortalWrt ${latest_release}\033[0m ${build_date//./-}   --" >> ./files/etc/banner
 for ((i=0; i<length; i++)); do echo -n "=" >> ./files/etc/banner; done; echo "" >> ./files/etc/banner
+p "预置 sing-box / mihomo 脚本"
+mkdir -p ./files/etc/sing-box/{resources,scripts,profiles,run} ./files/etc/{init.d,config,mihomo}
+touch ./files/etc/sing-box/profiles/.gitkeep ./files/etc/sing-box/run/.gitkeep
+cp -f ${ffdir}/patch/sing-box/ucode/generic/stream.json ./files/etc/sing-box/resources/
+cp -f ${ffdir}/patch/sing-box/ucode/generic/generate_config.uc ./files/etc/sing-box/scripts/
+cp -f ${ffdir}/patch/sing-box/ucode/generic/sing-box.conf ./files/etc/config/sing-box
+cp -f ${ffdir}/patch/sing-box/ucode/nftables/firewall_post.ut ./files/etc/sing-box/scripts/
+cp -f ${ffdir}/patch/sing-box/ucode/nftables/china_ip4.txt ./files/etc/sing-box/resources/
+cp -f ${ffdir}/patch/sing-box/ucode/nftables/sing-box.init ./files/etc/init.d/sing-box
+cp -f ${ffdir}/patch/mihomo/config.yaml ./files/etc/mihomo/
+cp -f ${ffdir}/patch/mihomo/mihomo.init ./files/etc/init.d/mihomo
 
 
 p "清理临时文件"
