@@ -123,7 +123,6 @@ config sing-box 'basic'
 	option external_ui 'ui'                     # 面板文件目录
 	option secret 'ffuqiangg'                   # 后台页面登陆密钥
 	option ui_name 'zashboard'                  # Web 面板，可选值 metacubexd / zashboard / yacd
-	option default_mode 'rule'                  # clash 默认模式
 	option store_rdrc '1'                       # 缓存 rdrc，0 禁用，1 启用
 	option tproxy_port '10105'                  # tproxy 监听端口
 	option mixed_port '2881'                    # mixed 代理端口
@@ -131,7 +130,6 @@ config sing-box 'basic'
 	option redirect_port '2331'                 # redirect 监听端口
 ```
 - `mixed_port`：提供 HTTP/SOCKS 混合代理。
-- `dns_port`：DNS 入站端口，用于接管设备 DNS 请求。
 - 默认 Web 面板登录地址为 `http://路由器IP:9900/ui`，密钥为 `ffuqiangg`。
 - 这部分配置的详细说明可以查看 ⌈ [sing-box 官方文档](https://sing-box.sagernet.org/zh/configuration/) ⌋ 的对应条目。
 - 如需修改端口配置要注意端口冲突，避免使用已占用的端口。
