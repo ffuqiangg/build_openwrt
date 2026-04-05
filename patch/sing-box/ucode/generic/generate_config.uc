@@ -49,7 +49,7 @@ function isEmpty(res) {
     return !res || res === 'nil' || (type(res) in ['array', 'object'] && length(res) === 0);
 };
 
-function addPrefix(arr, prefix) {
+function addNodePrefix(arr, prefix) {
     let content = arr;
 
     for (let i = 0; i < length(content); i++)
@@ -114,7 +114,7 @@ let nodes_list_tag = [];
 let outbounds_nodes_all = [];
 if (profile === 'all') {
     for (let i = 0; i < length(url); i++)
-        for (let v in addPrefix(json(trim(readfile(workdir + '/profiles/subscription' + (i + 1) + '.json'))).outbounds, prefix[i]))
+        for (let v in addNodePrefix(json(trim(readfile(workdir + '/profiles/subscription' + (i + 1) + '.json'))).outbounds, prefix[i]))
             if (!(v.type in ['direct', 'dns', 'block', 'selector', 'urltest'])) {
                 push(nodes_list_tag, v.tag);
                 push(outbounds_nodes_all, v);
