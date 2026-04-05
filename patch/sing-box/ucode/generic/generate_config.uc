@@ -73,7 +73,6 @@ const workdir = uci.get('sing-box', 'main', 'workdir') || '/etc/sing-box',
       external_ui = uci.get('sing-box', 'basic', 'external_ui') || 'ui',
       secret = uci.get('sing-box', 'basic', 'secret') || '',
       ui_name = uci.get('sing-box', 'basic', 'ui_name') || 'zashboard',
-      default_mode = uci.get('sing-box', 'basic', 'default_mode') || 'rule',
       store_rdrc = uci.get('sing-box', 'basic', 'store_rdrc') || '0',
       tproxy_port = uci.get('sing-box', 'basic', 'tproxy_port') || '10105',
       mixed_port = uci.get('sing-box', 'basic', 'mixed_port') || '2881',
@@ -245,8 +244,7 @@ config.experimental = {
         external_ui: external_ui,
         external_ui_download_url: 'https://gh-proxy.com/' + ltrim(ui_url, 'https://'),
         external_ui_download_detour: (override === '1' || profile === 'all') ? '直连' : direct_tag,
-        secret: secret,
-        default_mode: default_mode
+        secret: secret
     },
     cache_file: {
         enabled: true,

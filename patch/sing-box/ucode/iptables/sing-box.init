@@ -6,7 +6,7 @@ USE_PROCD=1
 PROG="/usr/bin/sing-box"
 
 DNSMASQ_UCI_CONFIG=$(uci -q show "dhcp.@dnsmasq[0]" | awk 'NR==1 {split($0, conf, /[.=]/); print conf[2]}')
-if [ -f "/tmp/etc/dnsmasq.conf.$DNSMASQ_UCI_CONFIG" ]; then
+if [ -e "/tmp/etc/dnsmasq.conf.$DNSMASQ_UCI_CONFIG" ]; then
     DNSMASQ_DIR="$(awk -F '=' '/^conf-dir=/ {print $2}' "/tmp/etc/dnsmasq.conf.$DNSMASQ_UCI_CONFIG")/dnsmasq-sing.d"
 else
     DNSMASQ_DIR="/tmp/dnsmasq.d/dnsmasq-sing.d"
@@ -19,19 +19,29 @@ start_service() {
     config_get_bool enabled "main" "enabled" 0
     [ "$enabled" = 1 ] || return
 
-    local workdir profile url restart_cron
+    local k workdir profile url restart_cron
     config_get workdir "main" "workdir" "/etc/sing-box"
     config_get profile "profile" "profile" "sub:1"
     config_get url "profile" "url"
     config_get restart_cron "profile" "restart_cron" "0 5 * * *"
 
+    k=1
     if [ "$profile" = "^sub:*" ] && [ -n "$url" ]; then
         update_subscription
-        if [ ! -f "$workdir/profiles/subscription${profile/sub:/}.json" ]; then
+        if [ ! -e "$workdir/profiles/subscription${profile/sub:/}.json" ]; then
             echo -e "\e[1;31mERROR\e[0m Subscription ${profile/sub:/} is not found. Exit"
             return
         fi
-    elif [ "$profile" = "^file:*" ] && [ ! -f "$workdir/profiles/${profile/file:/}" ]; then
+    elif [ "$profile" = "all" ] && [ -n "$url" ]; then
+        update_subscription
+        for i in $url; do
+            if [ ! -e "$workdir/profiles/subscription$k.json" ]; then
+                echo -e "\e[1;31mERROR\e[0m Subscription $k is not found. Exit"
+                return
+            fi
+            let k++
+        done
+    elif [ "$profile" = "^file:*" ] && [ ! -e "$workdir/profiles/${profile/file:/}" ]; then
         echo -e "\e[1;31mERROR\e[0m Profile is not found. Exit"
         return
     fi
@@ -118,7 +128,7 @@ stop_service() {
 
     local workdir
     config_get workdir "main" "workdir" "/etc/sing-box"
-    if [ -f /var/run/br_netfilter.flag ]; then
+    if [ -e "/var/run/br_netfilter.flag" ]; then
         rm -f /var/run/br_netfilter.flag
         sysctl -q -w net.bridge.bridge-nf-call-iptables=1
     fi
@@ -139,7 +149,7 @@ update_subscription () {
     for i in $url; do
         if [ "$profile" = "all" ] || [ "${profile/sub:/}" = "$a" ]; then
             curl -fsL -A sing-box -m 120 --connect-timeout 15 --retry 3 -X GET -o $workdir/profiles/config.tmp $i
-            if [ -f "$workdir/profiles/config.tmp" ]; then
+            if [ -e "$workdir/profiles/config.tmp" ]; then
                 mv $workdir/profiles/config.tmp $workdir/profiles/subscription$a.json
             else
                 echo -e "\e[1;33mWARN\e[0m Subscription $a download failed."

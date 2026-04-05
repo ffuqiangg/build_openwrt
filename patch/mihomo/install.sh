@@ -23,9 +23,7 @@ if [ $? -ne 0 ]; then
     echo -e "${RED_COLOR}ERROR${RES} download Mihomo init failed."
     exit 1
 fi
-if [ -f /etc/mihomo/config.yaml ]; then
-    echo -e "${YELLOW_COLOR}WARN${RES} Mihomo config already exists, skip download."
-else
+if [ ! -e "/etc/mihomo/config.yaml" ]; then
     echo -e "${GREEN_COLOR}INFO${RES} Download Mihomo config ..."
     [ -d /etc/mihomo ] || mkdir -p /etc/mihomo
     curl --connect-timeout 30 -m 600 -kLo /etc/mihomo/config.yaml ${mirror}https://raw.githubusercontent.com/ffuqiangg/build_openwrt/dev/patch/mihomo/config.yaml
@@ -33,6 +31,8 @@ else
         echo -e "${RED_COLOR}ERROR${RES} Download Mihomo config failed."
         exit 1
     fi
+else
+    echo -e "${YELLOW_COLOR}WARN${RES} Mihomo config already exists, skip download."
 fi
 
 # 设置权限
