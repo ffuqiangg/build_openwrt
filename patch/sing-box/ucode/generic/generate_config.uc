@@ -113,7 +113,7 @@ if (!(profile === 'all'))
 let nodes_list_tag = [];
 let outbounds_nodes_all = [];
 if (profile === 'all') {
-    for (let i = 0; i < length(url); i++)
+    for (let i = 0; i < length(filter(url, length)); i++)
         for (let v in addNodePrefix(json(trim(readfile(workdir + '/profiles/subscription' + (i + 1) + '.json'))).outbounds, prefix[i]))
             if (!(v.type in ['direct', 'dns', 'block', 'selector', 'urltest'])) {
                 push(nodes_list_tag, v.tag);

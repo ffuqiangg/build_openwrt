@@ -12,7 +12,7 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@dev/pa
 
 - 快捷上手： 直接编辑配置文件中的 `proxy-providers` 部分，依照注释填入你的订阅地址即可。
 - 文件路径： `/etc/mihomo/config.yalml`
-- 默认控制台： `http://路由器IP:9090/ui` （无密码）
+- 默认控制台： `http://路由器IP:9090/ui` （密码：ffuqiangg）
 - 参考资料： 本配置基于 ⌈ [mihomo 快捷配置](https://wiki.metacubex.one/example/conf/#__tabbed_1_2) ⌋ 优化；如需深度定制，请参考 ⌈ [mihomo 官方文档](https://wiki.metacubex.one) ⌋ 。
 
 > [!IMPORTANT]
@@ -68,11 +68,11 @@ proxy-providers:
 ```yaml
 external-controller: 0.0.0.0:9090
 external-ui-url: "https://gh-proxy.com/github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
-secret: ""
+secret: "ffuqiangg"
 ```
 - `external-controller`：外部监听地址。在路由器环境请务必保持 `0.0.0.0:9090`。
 - `external-ui-url`：Web 面板（如 Zashboard）的远程下载地址。
-- `secret`：面板登录密码，默认为空，建议手动设置。
+- `secret`：面板登录密码。
 
 3. **P2P 优化 (Listeners)**
 
