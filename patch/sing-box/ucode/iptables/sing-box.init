@@ -32,11 +32,9 @@ start_service() {
         return
     elif [ -n "$url" ]; then
         update_subscription
-        if [ "$profile" = "^sub:*" ]; then
-            if [ ! -e "$workdir/profiles/subscription${profile/sub:}.json" ]; then
-                echo -e "\e[1;31mERROR\e[0m subscription${profile/sub:}.json is not found. Exit"
-                return
-            fi
+        if [ "$profile" = "^sub:*" ] && [ ! -e "$workdir/profiles/subscription${profile/sub:}.json" ]; then
+            echo -e "\e[1;31mERROR\e[0m subscription${profile/sub:}.json is not found. Exit"
+            return
         elif [ "$profile" = "all" ]; then
             for i in $(seq 1 $#); do
                 if [ ! -e "$workdir/profiles/subscription$i.json" ]; then
