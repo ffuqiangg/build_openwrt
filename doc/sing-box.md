@@ -8,6 +8,7 @@
 <details>
 <summary>🕒 点击展开更新日志</summary>
 
+- **2026.04.10** 新增多订阅合并功能，重构 config 配置文件。
 - **2025.12.22** 解除国内 DNS 必须使用 IP 地址的限制。
 - **2025.12.08** 支持多订阅环境下仅更新当前使用的订阅。
 - **2025.09.08** 整理运行目录。
@@ -94,8 +95,8 @@ config sing-box 'main'
 	option pass_cn_ip '0'                       # 跳过中国大陆 IP，0 否，1 是
 ```
 - `enabled`：核心总开关。
-- `common_ports`：开启后仅代理常用端口，可避免 P2P 下载流量进入 sing-box 核心。
-- `pass_cn_ip`：开启后直连中国大陆 IP。
+- `common_ports`：仅代理常用端口，可避免 P2P 下载流量进入 sing-box 核心。
+- `pass_cn_ip`：中国大陆 IP 链接不进入 sing-box 核心。
 
 2. **配置管理 (profile)**
 
@@ -109,9 +110,9 @@ config sing-box 'profile'
 	option restart_cron '0 5 * * *'             # 定时重启 cron，留空禁用
 ```
 - `profile`：`sub:NUM` 使用 订阅NUM ，`file:xxx.json` 使用本地配置文件 `/etc/sing-box/profiles/xxx.json` ，`all` 自动合并全部订阅。
-- `prefix`：自动添加节点名称前缀，仅 `profile` 设置为 `all` 时生效且必要。
+- `prefix`：节点名称前缀与 `url` 一一对应，仅 `profile` 设置为 `all` 时生效且必要。
 - `restart_cron`：启用可实现定时更新订阅并重启服务。
-- 如果有更多订阅，配置中新建更多 `list url` 项目即可。
+- 更多订阅添加 `list url` 项目即可。订阅合并功能依赖高级设置，`profile` 设置为 `all` 时高级设置（advanced）默认生效。
 
 3. **进阶设置 (basic)**
 
@@ -130,7 +131,7 @@ config sing-box 'basic'
 	option redirect_port '2331'                 # redirect 监听端口
 ```
 - `mixed_port`：提供 HTTP/SOCKS 混合代理。
-- 默认 Web 面板登录地址为 `http://路由器IP:9900/ui`，密钥为 `ffuqiangg`。
+- 默认 Web 面板登录地址为 `http://路由器IP:9900/ui`，密钥为 `ffuqiangg` 。
 - 这部分配置的详细说明可以查看 ⌈ [sing-box 官方文档](https://sing-box.sagernet.org/zh/configuration/) ⌋ 的对应条目。
 - 如需修改端口配置要注意端口冲突，避免使用已占用的端口。
 - 更新或替换面板方法：删除 `/etc/sing-box/run/ui` 目录，然后重启 sing-box 服务。
@@ -146,8 +147,8 @@ config sing-box 'advanced'
 	option china_dns_server '223.5.5.5'                              # 国内 DNS 服务地址
 	option ad_ruleset 'https://testingcf.jsdelivr.net/gh/ffuqiangg/sing-box-adsruleset@main/rule/adguard-dns-filter.srs'
 	option nodes_filter ''                                           # 排除节点关键字，英文逗号分割。留空禁用
-	option area ''                                                   # 节点按地区分组，英文逗号分割。留空禁用
-	option bypass ''                                                 # 启用的分流规则，英文逗号分割。留空禁用
+	option area '香港,日本,新加坡,美国'                                # 节点按地区分组，英文逗号分割。留空禁用
+	option bypass 'YouTube,Google,Telegram,NETFLIX'                  # 启用的分流规则，英文逗号分割。留空禁用
 ```
 - `override`：禁用时所有高级设置均不会生效，除了 `进阶设置` 涉及的部分外不会对配置文件做其它修改。
 - `ad_ruleset`：去广告规则集下载地址，要求 srs 格式且地址可直连。留空则禁用去广告规则。
