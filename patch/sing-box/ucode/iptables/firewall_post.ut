@@ -8,7 +8,7 @@
 
     uci.load('sing-box');
     const workdir = uci.get('sing-box', 'main', 'workdir') || '/etc/sing-box',
-          fuck_quic = uci.get('sing-box', 'main', 'fuck_quic') || '1',
+          fuck_quic = uci.get('sing-box', 'main', 'fuck_quic') || '0',
           common_ports = uci.get('sing-box', 'main', 'common_ports') || '0',
           pass_cn_ip = uci.get('sing-box', 'main', 'pass_cn_ip') || '0',
           tproxy_port = uci.get('sing-box', 'basic', 'tproxy_port') || '10105',
