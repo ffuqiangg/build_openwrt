@@ -1,9 +1,16 @@
 #!/bin/sh
-RED_COLOR='\e[1;31m'
-GREEN_COLOR='\e[1;32m'
-RES='\e[0m'
+#
+# 此脚本用于安装 openwrt 裸核运行 sing-box 相关文件
+# 源码: https://github.com/ffuqiangg/build_openwrt/tree/main/patch/sing-box
+# 文档: https://github.com/ffuqiangg/build_openwrt/blob/main/doc/sing-box.md
+#
 
-# GitHub mirror
+# 打印输出信息函数
+msg_red() { printf "\033[1;31m%s\033[0m %s\n" "$@"; }
+msg_green() { printf "\033[1;32m%s\033[0m %s\n" "$@"; }
+msg_yellow() { printf "\033[1;33m%s\033[0m %s\n" "$@"; }
+
+# 检测网络环境决定是否使用 github 代理
 ip_info=$(curl -sk https://ip.cooluc.com)
 country_code=$(echo $ip_info | sed -r 's/.*country_code":"([^"]*).*/\1/')
 if [ $country_code = "CN" ]; then
@@ -13,56 +20,89 @@ if [ $country_code = "CN" ]; then
     fi
 fi
 
-echo -e "${GREEN_COLOR}INFO${RES} Download files ..."
+# 用于对比配置文件差异
+compare_and_restore() {
+    local BAK_FILE="/etc/config/sing-box.bak"
+    local NEW_FILE="/etc/config/sing-box"
 
-# prepare
-if [ -n "$(nft list tables 2>/dev/null)" ]; then firewall="nftables"; else firewall="iptables"; fi
+    if [ ! -f "$BAK_FILE" ]; then
+        return 0
+    fi
+
+    diffs=$(awk '
+        function trim(s) { sub(/^[ \t]+/, "", s); sub(/[ \t]+$/, "", s); return s }
+        NR==FNR {
+            line = trim($0)
+            if (line ~ /^$/ || line ~ /^#/) next
+            if ($1 == "config") { ctx = $1 " " $2 " " $3; f1[ctx] = 1 }
+            else if ($1 == "option" || $1 == "list") { f1[ctx "->" $1 " " $2] = 1 }
+            next
+        }
+        {
+            line = trim($0)
+            if (line ~ /^$/ || line ~ /^#/) next
+            if ($1 == "config") { ctx = $1 " " $2 " " $3; f2[ctx] = 1; if(!(ctx in f1)) print "new" }
+            else if ($1 == "option" || $1 == "list") { key = ctx "->" $1 " " $2; f2[key] = 1; if(!(key in f1)) print "new" }
+        }
+        END { for (k in f1) { if (!(k in f2)) print "del" } }
+    ' "$BAK_FILE" "$NEW_FILE")
+
+    if [ -z "$diffs" ]; then
+        mv "$BAK_FILE" "$NEW_FILE"
+    fi
+}
+
+# 准备基础变量，处理目录和文件
 download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/ucode"
-[ -d /etc/sing-box ] && rm -rf /etc/sing-box
 for dir in scripts resources run profiles; do mkdir -p /etc/sing-box/${dir}; done
+[ -x "/sbin/fw4" ] && firewall='nftables' || firewall='iptables'
+[ -f /etc/config/sing-box ] && mv /etc/config/sing-box /etc/config/sing-box.bak
+[ -f /etc/sing-box/config.json ] && rm -f /etc/sing-box/config.json
 
-# download
-echo -e "${GREEN_COLOR}INFO${RES} Download Sing-box init ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/init.d/sing-box ${mirror}${download_dir}/${firewall}/sing-box.init
+# 下载文件
+msg_green "Downloading:" "sing-box.init ..."
+curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/sing-box ${mirror}${download_dir}/${firewall}/sing-box.init
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}ERROR${RES} download Sing-box init failed."
+    msg_red "Error:" "download sing-box.init failed."
     exit 1
 fi
-echo -e "${GREEN_COLOR}INFO${RES} Download sing-box config ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/config/sing-box ${mirror}${download_dir}/shared/sing-box.conf
+[ -x "/etc/init.d/sing-box" ] || chmod +x /etc/init.d/sing-box
+
+msg_green "Downloading:" "sing-box.conf ..."
+curl -fkL --connect-timeout 30 -m 600 -o /etc/config/sing-box ${mirror}${download_dir}/generic/sing-box.conf
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}ERROR${RES} download sing-box config failed."
+    msg_red "Error:" "download sing-box.conf failed."
     exit 1
 fi
-echo -e "${GREEN_COLOR}INFO${RES} Download generate config script ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/scripts/generate_config.uc ${mirror}${download_dir}/shared/generate_config.uc
+compare_and_restore
+[ -f /etc/config/sing-box.bak ] && msg_yellow "Warning:" "config backup /etc/config/sing-box.bak!"
+
+msg_green "Downloading:" "generate_config.uc ..."
+curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/scripts/generate_config.uc ${mirror}${download_dir}/generic/generate_config.uc
 if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}ERROR${RES} download generate config script failed."
-    exit 1
-fi
-echo -e "${GREEN_COLOR}INFO${RES} Download firewall rules ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/scripts/firewall_post.ut ${mirror}${download_dir}/${firewall}/firewall_post.ut
-if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}ERROR${RES} download firewall rules failed."
-    exit 1
-fi
-echo -e "${GREEN_COLOR}INFO${RES} Download china_ip4 file ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/resources/china_ip4.txt ${mirror}${download_dir}/${firewall}/china_ip4.txt
-if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}ERROR${RES} download china_ip4 file failed."
-    exit 1
-fi
-echo -e "${GREEN_COLOR}INFO${RES} Download stream file ..."
-curl --connect-timeout 30 -m 600 -kLo /etc/sing-box/resources/stream.json ${mirror}${download_dir}/shared/stream.json
-if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}ERROR${RES} download stream file failed."
-    exit 1
-fi
-echo -e "${GREEN_COLOR}INFO${RES} Fix permissions ..."
-chmod +x /etc/init.d/sing-box
-if [ $? -ne 0 ]; then
-    echo -e "${RED_COLOR}ERROR${RES} fix permissions failed."
+    msg_red "Error:" "download generate_config.uc failed."
     exit 1
 fi
 
-echo -e "${GREEN_COLOR}INFO${RES} Done."
+msg_green "Downloading:" "firewall_post.ut ..."
+curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/scripts/firewall_post.ut ${mirror}${download_dir}/${firewall}/firewall_post.ut
+if [ $? -ne 0 ]; then
+    msg_red "Error:" "download firewall_post.ut failed."
+    exit 1
+fi
+
+msg_green "Downloading:" "china_ip4.txt ..."
+curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/resources/china_ip4.txt ${mirror}${download_dir}/${firewall}/china_ip4.txt
+if [ $? -ne 0 ]; then
+    msg_red "Error:" "download china_ip4.txt failed."
+    exit 1
+fi
+
+msg_green "Downloading:" "stream.json ..."
+curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/resources/stream.json ${mirror}${download_dir}/generic/stream.json
+if [ $? -ne 0 ]; then
+    msg_red "Error:" "download stream.json failed."
+    exit 1
+fi
+
+msg_green "Everything is fine. Enjoy!"
