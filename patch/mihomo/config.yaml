@@ -1,0 +1,319 @@
+#
+# 本文件基于 mihomo 快捷配置 (https://wiki.metacubex.one/example/conf/#__tabbed_1_2) 优化。 
+# 节点地区分组包含香港、日本、新加坡、美国。
+# 分流规则包含 Telegram、Twitter、YouTube、NETFLIX、Spotify、Github 。
+# 默认屏蔽 youtube QUIC 流量。
+# p2p 软件直连 - 设置代理类型：SOCKS5，地址：路由器IP，端口：10808 。
+# 需要强制直连的域名可按格式添加到文件末尾规则集中。
+#
+
+
+# provider1 , provider2 订阅名称
+# url 订阅地址
+# interval 订阅更新间隔时间，单位秒
+# additional-prefix 节点名称前缀，方便区分节点
+proxy-providers:
+  provider1:
+    url: ""
+    type: http
+    interval: 28800
+    health-check: { enable: true, url: "https://www.gstatic.com/generate_204", interval: 300 }
+    override:
+      additional-prefix: "[provider1] "
+      ip-version: ipv4-prefer
+    proxy: 直连
+  provider2:
+    url: ""
+    type: http
+    interval: 28800
+    health-check: { enable: true, url: "https://www.gstatic.com/generate_204", interval: 300 }
+    override:
+      additional-prefix: "[provider2] "
+      ip-version: ipv4-prefer
+    proxy: 直连
+
+# 定义直连出站
+proxies: 
+  - name: "直连"
+    type: direct
+    udp: true
+
+# 基础配置
+mixed-port: 7890
+ipv6: false
+allow-lan: true
+unified-delay: true
+tcp-concurrent: true
+profile: { store-selected: true, store-fake-ip: true }
+
+# Web 面板配置，默认登录地址 http://路由器IP:9090/ui (密码: ffuqiangg)
+external-controller: 0.0.0.0:9090
+external-ui: ui
+external-ui-url: "https://gh-proxy.com/github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
+secret: "ffuqiangg"
+
+# 流量嗅探
+sniffer:
+  enable: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  skip-domain:
+    - "Mijia Cloud"
+    - "+.push.apple.com"
+
+# TUN 模式配置
+tun:
+  enable: true
+  stack: mixed
+  dns-hijack: ["any:53", "tcp://any:53"]
+  auto-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+  strick-route: true
+
+# SOCKS5 监听端口，用于直连 P2P
+listeners:
+  - name: socks5-in-1
+    type: socks
+    port: 10808
+    listen: 0.0.0.0
+    udp: true
+    users: []
+    proxy: 直连
+
+# DNS 配置
+direct-dns: &direct-dns ['https://223.5.5.5/dns-query#直连&h3=true', 'https://1.12.12.12/dns-query#直连']
+proxy-dns: &proxy-dns ['https://dns.google/dns-query#默认', 'https://dns.cloudflare.com/dns-query#默认']
+
+dns:
+  enable: true
+  cache-algorithm: arc
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-filter:
+    - rule-set:fakeip-filter
+    - rule-set:private_domain
+    - rule-set:cn_domain
+    - +.miwifi.com
+    - +.docker.io
+    - +.market.xiaomi.com
+    - +.push.apple.com
+  default-nameserver: *direct-dns
+  nameserver: *proxy-dns
+  direct-nameserver: *direct-dns
+  proxy-server-nameserver: *direct-dns
+  nameserver-policy:
+    'rule-set:direct_domain': *direct-dns
+    'rule-set:private_domain': *direct-dns
+    'rule-set:apple@cn_domain': *direct-dns
+    'rule-set:microsoft@cn_domain': *direct-dns
+    'rule-set:cn_domain': *direct-dns
+    'rule-set:twitter_domain': *proxy-dns
+    'rule-set:youtube_domain': *proxy-dns
+    'rule-set:telegram_domain': *proxy-dns
+    'rule-set:netflix_domain': *proxy-dns
+    'rule-set:spotify_domain': *proxy-dns
+    'rule-set:geolocation-!cn': *proxy-dns
+
+# 分流分组，icon 是分组图标链接
+proxy-groups:
+  # 分流分组
+  - name: 默认
+    type: select
+    proxies: [自动选择,直连,香港,日本,新加坡,美国,其它地区,全部节点]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/png/Sub-Store.png"
+  - name: Telegram
+    type: select
+    proxies: [默认,香港,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Telegram.svg"
+  - name: Twitter
+    type: select
+    proxies: [默认,香港,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Twitter.svg"
+  - name: YouTube
+    type: select
+    proxies: [默认,香港,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/YouTube.svg"
+  - name: NETFLIX
+    type: select
+    proxies: [默认,香港,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/NETFLIX.svg"
+  - name: Spotify
+    type: select
+    proxies: [默认,香港,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Spotify.svg"
+  - name: Github
+    type: select
+    proxies: [默认,香港,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Github.svg"
+  - name: 其他
+    type: select
+    proxies: [默认,香港,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Unlimited.svg"
+
+  #分隔,下面是地区分组
+  - name: 香港
+    type: select
+    include-all: true
+    exclude-type: direct
+    filter: "(?i)港|hk|hongkong|hong kong"
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Hongkong.svg"
+  - name: 日本
+    type: select
+    include-all: true
+    exclude-type: direct
+    filter: "(?i)日|jp|japan"
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Japan.svg"
+  - name: 美国
+    type: select
+    include-all: true
+    exclude-type: direct
+    filter: "(?i)美|us|unitedstates|united states"
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/USA.svg"
+  - name: 新加坡
+    type: select
+    include-all: true
+    exclude-type: direct
+    filter: "(?i)(新|sg|singapore)"
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Singapore.svg"
+  - name: 其它地区
+    type: select
+    include-all: true
+    exclude-type: direct
+    filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/UN.svg"
+  - name: 全部节点
+    type: select
+    include-all: true
+    exclude-type: direct
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/DirectUP.svg"
+  - name: 自动选择
+    type: url-test
+    include-all: true
+    exclude-type: direct
+    tolerance: 10
+    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Pixelated.svg"
+
+# 分流规则
+rules:
+  # 1. 拦截 YouTube QUIC 流量
+  - AND,((RULE-SET,youtube_domain),(NETWORK,UDP),(DST-PORT,80/443)),REJECT
+  # 2. 本机 luci-app-qbittorrent 插件直连
+  - PROCESS-PATH,/usr/bin/qbittorrent-nox,直连
+  # 3. 修复 play 商店无法下载
+  - DOMAIN-SUFFIX,services.googleapis.cn,默认
+  - DOMAIN-SUFFIX,xn--ngstr-lra8j.com,默认
+  # 4. 域名规则
+  - RULE-SET,direct_domain,直连
+  - RULE-SET,private_ip,直连,no-resolve
+  - RULE-SET,private_domain,直连
+  - RULE-SET,microsoft@cn_domain,直连
+  - RULE-SET,apple@cn_domain,直连
+  - RULE-SET,cn_domain,直连
+  - RULE-SET,twitter_domain,Twitter
+  - RULE-SET,youtube_domain,YouTube
+  - RULE-SET,telegram_domain,Telegram
+  - RULE-SET,netflix_domain,NETFLIX
+  - RULE-SET,spotify_domain,Spotify
+  - RULE-SET,geolocation-!cn,其他
+  # 5. IP 规则
+  - RULE-SET,netflix_ip,NETFLIX,no-resolve
+  - RULE-SET,telegram_ip,Telegram,no-resolve
+  - RULE-SET,twitter_ip,Twitter,no-resolve
+  - RULE-SET,cn_ip,直连,no-resolve
+  # 6. 兜底规则
+  - MATCH,其他
+
+# 规则行为模板
+rule-anchor:
+  ip: &ip { type: http, interval: 86400, behavior: ipcidr, format: mrs, proxy: 直连 }
+  domain: &domain { type: http, interval: 86400, behavior: domain, format: mrs, proxy: 直连 }
+
+# 规则提供者
+rule-providers:
+  # 域名规则
+  private_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"
+  cn_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"
+  twitter_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/twitter.mrs"
+  youtube_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"
+  telegram_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"
+  netflix_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/netflix.mrs"
+  spotify_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"
+  geolocation-!cn:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
+  microsoft@cn_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft@cn.mrs"
+  apple@cn_domain:
+    <<: *domain
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple@cn.mrs"
+  fakeip-filter:
+    <<: *domain
+    url: "https://gh-proxy.com/github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/fakeip-filter.mrs"
+
+  # IP 规则
+  private_ip:
+    <<: *ip
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/private.mrs"
+  cn_ip:
+    <<: *ip
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"
+  netflix_ip:
+    <<: *ip
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs"
+  twitter_ip:
+    <<: *ip
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/twitter.mrs"
+  telegram_ip:
+    <<: *ip
+    url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
+
+  # 附加直连规则，强制直连的域名可按格式添加到下面
+  direct_domain:
+    type: inline
+    behavior: classical
+    payload:
+      - DOMAIN-SUFFIX,apple.com
+      - DOMAIN-SUFFIX,bing.com
+      - DOMAIN-SUFFIX,q19jcg.com
+      - DOMAIN-SUFFIX,haotv.store
+      - DOMAIN-SUFFIX,bnyxgd.com
+      - DOMAIN-SUFFIX,jisuzyv.com
+      - DOMAIN-SUFFIX,rsfcxq.com
+      - DOMAIN-SUFFIX,xpgtv.net
+      - DOMAIN-SUFFIX,olemovienews.com
+      - DOMAIN-SUFFIX,akamaized.net
+      - DOMAIN-SUFFIX,dytt-cinema.com
+      - DOMAIN-SUFFIX,dmbus.cc
+      - DOMAIN-SUFFIX,bgm.tv
+      - DOMAIN-SUFFIX,ok213.top
+      - DOMAIN-SUFFIX,gh-proxy.com
+      - DOMAIN-KEYWORD,modujx
+      - DOMAIN-KEYWORD,ddys
+      - DOMAIN-KEYWORD,bdzybf
+      - DOMAIN-KEYWORD,lz-cdn
+      - DOMAIN-KEYWORD,lzcdn
+      - DOMAIN-KEYWORD,tyyszywvod
+      - DOMAIN-KEYWORD,toutiao
+      - DOMAIN-KEYWORD,omofun
