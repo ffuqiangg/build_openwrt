@@ -56,7 +56,6 @@ compare_and_restore() {
 download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/ucode"
 for dir in scripts resources run profiles; do mkdir -p /etc/sing-box/${dir}; done
 [ -x "/sbin/fw4" ] && firewall='nftables' || firewall='iptables'
-[ -f /etc/config/sing-box ] && mv /etc/config/sing-box /etc/config/sing-box.bak
 [ -f /etc/sing-box/config.json ] && rm -f /etc/sing-box/config.json
 
 # 下载文件
@@ -69,8 +68,10 @@ fi
 [ -x "/etc/init.d/sing-box" ] || chmod +x /etc/init.d/sing-box
 
 msg_green "Downloading:" "sing-box.conf ..."
+[ -f /etc/config/sing-box ] && mv /etc/config/sing-box /etc/config/sing-box.bak
 curl -fkL --connect-timeout 30 -m 600 -o /etc/config/sing-box ${mirror}${download_dir}/generic/sing-box.conf
 if [ $? -ne 0 ]; then
+    [ -f /etc/config/sing-box.bak ] && mv /etc/config/sing-box.bak /etc/config/sing-box
     msg_red "Error:" "download sing-box.conf failed."
     exit 1
 fi
@@ -80,6 +81,7 @@ compare_and_restore
 msg_green "Downloading:" "generate_config.uc ..."
 curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/scripts/generate_config.uc ${mirror}${download_dir}/generic/generate_config.uc
 if [ $? -ne 0 ]; then
+    [ -f /etc/config/sing-box.bak ] && mv /etc/config/sing-box.bak /etc/config/sing-box
     msg_red "Error:" "download generate_config.uc failed."
     exit 1
 fi
@@ -87,6 +89,7 @@ fi
 msg_green "Downloading:" "firewall_post.ut ..."
 curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/scripts/firewall_post.ut ${mirror}${download_dir}/${firewall}/firewall_post.ut
 if [ $? -ne 0 ]; then
+    [ -f /etc/config/sing-box.bak ] && mv /etc/config/sing-box.bak /etc/config/sing-box
     msg_red "Error:" "download firewall_post.ut failed."
     exit 1
 fi
@@ -94,6 +97,7 @@ fi
 msg_green "Downloading:" "china_ip4.txt ..."
 curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/resources/china_ip4.txt ${mirror}${download_dir}/${firewall}/china_ip4.txt
 if [ $? -ne 0 ]; then
+    [ -f /etc/config/sing-box.bak ] && mv /etc/config/sing-box.bak /etc/config/sing-box
     msg_red "Error:" "download china_ip4.txt failed."
     exit 1
 fi
@@ -101,6 +105,7 @@ fi
 msg_green "Downloading:" "stream.json ..."
 curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/resources/stream.json ${mirror}${download_dir}/generic/stream.json
 if [ $? -ne 0 ]; then
+    [ -f /etc/config/sing-box.bak ] && mv /etc/config/sing-box.bak /etc/config/sing-box
     msg_red "Error:" "download stream.json failed."
     exit 1
 fi
