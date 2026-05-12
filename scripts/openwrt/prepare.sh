@@ -18,7 +18,7 @@ sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 p "获取基础变量"
 build_date=$(date +%Y.%m.%d)
-latest_release=$(curl -s https://github.com/openwrt/openwrt/tags | grep -Po "v[0-9\.]+-*r*c*[0-9]*(?=\.tar\.gz)" | sed -n '/24.10/p' | sed -n 1p | sed 's/v//g')
+latest_release=$(curl -s https://github.com/openwrt/openwrt/tags | grep -Po "v[0-9\.]+-*r*c*[0-9]*(?=\.tar\.gz)" | sed -n '/25.12/p' | sed -n 1p | sed 's/v//g')
 . set_env "build_date" "${build_date}"
 . set_env "latest_release" "${latest_release}"
 
@@ -33,7 +33,7 @@ popd
 
 p "获取内核版本"
 current_version=$(sed -n 's/^KERNEL_PATCHVER:=//p' ${wrtdir}/target/linux/armsr/Makefile)
-kernel_version=$(sed -n "s/^LINUX_VERSION-${current_version} = //p" ${wrtdir}/include/kernel-${current_version})
+kernel_version=$(sed -n "s/^LINUX_VERSION-${current_version} = //p" ${wrtdir}/target/linux/generic/kernel-${current_version})
 . set_env "current_version" "${current_version}"
 . set_env "kernel_version" "${current_version}${kernel_version}"
 
@@ -42,21 +42,22 @@ p "下载其它仓库"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
-clone openwrt-24.10 ${autocore_arm_repo} ${otherdir}/autocore &
-clone master ${dockerman_repo} ${otherdir}/dockerman &
 clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkgs &
+clone master ${dockerman_repo} ${otherdir}/dockerman &
+clone master ${docker_lib_repo} ${otherdir}/docker_lib &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
-clone main ${momo_repo} ${otherdir}/openwrt-momo &
 clone main ${amlogic_repo} ${otherdir}/amlogic &
+clone 25.12 ${yaof_repo} ${otherdir}/yaof &
 wait && sync
 
 p "一些调整"
-p "设置默认密码 ( password )"
-    sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.::0:99999:7:::/g' ${wrtdir}/package/base-files/files/etc/shadow
 # p "修改 IP ( 192.168.1.99 )"
 #     sed -i 's/192.168.1.1/192.168.1.99/g' ${wrtdir}/package/base-files/files/bin/config_generate
 p "编译优化"
     sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
+    sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
+p "删除 apk 提示"
+    rm -f ${wrtdir}/package/base-files/files/etc/profile.d/apk-cheatsheet.sh
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
@@ -78,15 +79,15 @@ p "更新 Feeds"
 
 
 p "卸载无法编译的包"
-./scripts/feeds uninstall exim onionshare-cli python-zope-event python-zope-interface python-gevent python-twisted || true
+./scripts/feeds uninstall onionshare-cli luci-app-mjpg-streamer || true
+p "luci-app-attendedsysupgrade"
+sed -i '/luci-app-attendedsysupgrade/d' ./feeds/luci/collections/luci-nginx/Makefile
 
 p "应用自定义修改"
 mkdir -p ./package/add
 p "vermagic"
 sed -i '/CONFIG_BUILDBOT/d' ./include/feeds.mk
 sed -i 's/;)\s*\\/; \\/' ./include/feeds.mk
-p "确保加载 /etc/shinit"
-echo -e "\n[ -f /etc/shinit ] && . /etc/shinit" >> ./package/base-files/files/etc/profile
 
 
 p "Nginx"
@@ -105,6 +106,9 @@ sed -i '$a cgi-timeout = 600' ./feeds/packages/net/uwsgi/files-luci-support/luci
 sed -i 's/threads = 1/threads = 2/g' ./feeds/packages/net/uwsgi/files-luci-support/luci-webui.ini
 sed -i 's/processes = 3/processes = 4/g' ./feeds/packages/net/uwsgi/files-luci-support/luci-webui.ini
 sed -i 's/cheaper = 1/cheaper = 2/g' ./feeds/packages/net/uwsgi/files-luci-support/luci-webui.ini
+# rpcd
+sed -i 's/option timeout 30/option timeout 60/g' ./package/system/rpcd/files/rpcd.config
+sed -i 's#20) \* 1000#60) \* 1000#g' ./feeds/luci/modules/luci-base/htdocs/luci-static/resources/rpc.js
 
 p "配置优化"
 echo "
@@ -147,13 +151,10 @@ net.ipv4.tcp_collapse_max_bytes = 5242880
 fs.file-max = 65535
 
 " >> ./package/base-files/files/etc/sysctl.d/10-default.conf
-
-
-p "LuCI 自定义 nft 规则页面"
-patch -p1 < ${ffdir}/patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
-pushd feeds/luci
-patch -p1 <${ffdir}/patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
-popd
+p "NETKIT"
+echo '
+CONFIG_NETKIT=y
+' >> ./target/linux/generic/config-${current_version}
 
 
 p "预编译 node"
@@ -161,33 +162,23 @@ rm -rf ./feeds/packages/lang/node
 clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
 p "更换 golang 版本"
 rm -rf ./feeds/packages/lang/golang
-clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
+cp -rf ${otherdir}/imm_pkg_ma/lang/golang ./feeds/packages/lang/golang
 p "rust"
-wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
-
-p "一些补充翻译"
-cp -rf ${ffdir}/patch/trans-zh ./package/add/
+wget https://github.com/rust-lang/rust/commit/cdae267.patch -O ./feeds/packages/lang/rust/patches/cdae267.patch
+sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
 
 p "mount cgroupv2"
-pushd feeds/packages
-patch -p1 < ${ffdir}/patch/cgroupfs/0001-fix-cgroupfs-mount.patch
-popd
 mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
-cp -rf ${ffdir}/patch/cgroupfs/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
-cp -rf ${ffdir}/patch/cgroupfs/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
-cp -rf ${ffdir}/patch/cgroupfs/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/90* ./feeds/packages/utils/cgroupfs-mount/patches/
 
 p "IP/MAC 绑定"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-app-arpbind
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makefile
-p "DDNS scripts aliyun"
-cp -rf ${otherdir}/sbwml_pkgs/ddns-scripts-aliyun ./package/add/
 p "Coremark"
 rm -rf ./feeds/packages/utils/coremark
 cp -rf ${otherdir}/sbwml_pkgs/coremark ./feeds/packages/utils/coremark
 p "Autocore"
-cp -rf ${otherdir}/autocore ./package/add/autocore
-sed -i 's/$(uname -m)/ARMv8 Processor/' ./package/add/autocore/files/generic/cpuinfo
+cp -rf ${otherdir}/openwrt-add/autocore-arm ./package/add/autocore
 
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box
@@ -196,29 +187,24 @@ p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
 cp -rf ${otherdir}/imm_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
+p "Passwall & OpenWrt-momo"
+rm -rf ./feeds/packages/net/{xray-core,microsocks}
+cp -rf ${otherdir}/openwrt-add/openwrt_helloworld ./package/add/
+rm -rf ./package/add/openwrt_helloworld/{v2ray-geodata,luci-app-ssr-plus}
+sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openwrt_helloworld/luci-app-passwall/Makefile
+sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
+p "OpenWrt-nikki"
+rm -rf ./package/add/openwrt_helloworld/{mihomo-alpha,mihomo-meta}
+cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
+rm -rf ./package/add/luci-app-nikki/mihomo-alpha
+sed -i '/mihomo-alpha/d' ./package/add/luci-app-nikki/mihomo-meta/Makefile
+p "HomeProxy"
+cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
 
 p "MosDNS"
 rm -rf ./feeds/packages/net/{v2ray-geodata,mosdns}
 cp -rf ${otherdir}/openwrt-add/luci-app-mosdns ./package/add/luci-app-mosdns
 cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
-
-p "Passwall"
-rm -rf ./feeds/packages/net/{xray-core,microsocks}
-cp -rf ${otherdir}/openwrt-add/openwrt_helloworld ./package/add/
-rm -rf ./package/add/openwrt_helloworld/v2ray-geodata
-sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openwrt_helloworld/luci-app-passwall/Makefile
-sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
-
-p "OpenWrt-nikki"
-cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
-p "OpenWrt-momo"
-cp -rf ${otherdir}/openwrt-momo ./package/add/luci-app-momo
-
-p "Daed"
-cp -rf ${otherdir}/openwrt-add/luci-app-daed ./package/add/
-cp -rf ${otherdir}/imm_pkg_ma/libs/libcron ./package/add/
-p "HomeProxy"
-cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
 
 p "Docker 容器"
 rm -rf ./feeds/luci/applications/luci-app-dockerman
@@ -226,10 +212,17 @@ cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-
 sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/packages
 wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
+wget -qO- https://github.com/openwrt/packages/pull/20054.patch | patch -p1
 popd
+sed -i '/sysctl.d/d' ./feeds/packages/utils/dockerd/Makefile
 pushd package/add/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
+cp -rf ${otherdir}/docker_lib/collections/luci-lib-docker ./package/add/
+sed -i '/PKG_VERSION/s/v//' ./package/add/{luci-app-dockerman/Makefile,luci-lib-docker/Makefile}
+p "Diskman 磁盘管理"
+cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-diskman ./package/add/luci-app-diskman
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-diskman/Makefile
 
 p "Zerotier"
 rm -rf ./feeds/luci/applications/luci-app-zerotier ./feeds/packages/net/zerotier
@@ -243,10 +236,14 @@ p "FTP 服务器"
 rm -rf ./feeds/packages/net/vsftpd
 cp -rf ${otherdir}/sbwml_pkgs/luci-app-vsftpd ./package/add/luci-app-vsftpd
 cp -rf ${otherdir}/imm_pkg_ma/net/vsftpd ./feeds/packages/net/vsftpd
+p "qBittorrent 客户端"
+cp -rf ${otherdir}/openwrt-add/openwrt-qBittorrent ./package/add/
 
 p "Nlbw 带宽监控"
 sed -i 's,services,network,g' ./package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' ./package/feeds/luci/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
+p "Bandix 流量监控"
+cp -rf ${otherdir}/openwrt-add/{openwrt-bandix,luci-app-bandix} ./package/add/
 p "终端 TTYD"
 sed -i 's,services,system,g' ./package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 
@@ -258,15 +255,18 @@ p "Vermagic 内核兼容模块"
 wget https://downloads.openwrt.org/releases/${latest_release}/targets/armsr/armv8/profiles.json
 jq -r '.linux_kernel.vermagic' profiles.json > .vermagic
 cat .vermagic
-sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' include/kernel-defaults.mk
+sed -i -e 's/^\(.\).*vermagic$/\1cp $(TOPDIR)\/.vermagic $(LINUX_DIR)\/.vermagic/' ./include/kernel-defaults.mk
 rm -f profiles.json
 
 
 p "复制自定义文件目录"
 cp -rf ${ffdir}/patch/files ./files
 mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/scripts/openwrt/zzz-default-settings ./files/etc/uci-defaults/
-echo -e "\n\033[34mOpenWrt\033[0m ${latest_release} | ${build_date//./-}\n" > ./files/etc/banner
-
+p "写入 banner"
+cat <<-EOF > files/etc/banner
+ ▄▄ ▄▄ ▄▄▄ ▄▄▄ ▄ ▄ ▄ ▄▄  ▄▄▄
+ ▀▀ ▀  ▀▀  ▀ ▀  ▀ ▀  ▀ ▀  ▀
+EOF
 
 p "清理临时文件"
 rm -rf ${otherdir}

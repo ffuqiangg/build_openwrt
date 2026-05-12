@@ -37,11 +37,12 @@ p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
-clone main ${momo_repo} ${otherdir}/openwrt-momo &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone master ${dockerman_repo} ${otherdir}/dockerman &
+clone master ${docker_lib_repo} ${otherdir}/docker_lib &
 clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkg &
+clone 25.12 ${yaof_repo} ${otherdir}/yaof &
 wait && sync
 
 p "一些调整"
@@ -50,11 +51,6 @@ p "修改 IP ( 192.168.1.99 )"
 p "禁用 WIFI"
     sed -i '/wireless/d' ${wrtdir}/package/lean/default-settings/files/zzz-default-settings
     sed -Ei "s/(disabled=)0/\11/" ${wrtdir}/package/kernel/mac80211/files/lib/wifi/mac80211.sh
-# p "调整内核版本 ( 5.15 )"
-#     sed -Ei "s/(KERNEL_PATCHVER:=).*/\15.15/" ${wrtdir}/target/linux/amlogic/Makefile
-#     wget https://github.com/coolsnowwolf/lede/raw/a8788c3/target/linux/generic/backport-5.15/601-v5.18-page_pool-Add-recycle-stats.patch \
-#         -O ${wrtdir}/target/linux/generic/backport-5.15/601-v5.18-page_pool-Add-recycle-stats.patch
-#     wget https://github.com/coolsnowwolf/lede/raw/de89956/include/kernel-5.15 -O ${wrtdir}/include/kernel-5.15
 p "针对 N1 的编译优化"
     sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
     sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
@@ -76,8 +72,6 @@ p "应用自定义修改"
 mkdir -p ./package/add
 p "启用 bash"
 sed -i 's,/bin/ash,/bin/bash,' ./package/base-files/files/{etc/passwd,usr/libexec/login.sh}
-p "确保加载 /etc/shinit"
-echo -e "\n[ -f /etc/shinit ] && . /etc/shinit" >> ./package/base-files/files/etc/profile
 
 
 p "Nginx"
@@ -96,6 +90,9 @@ sed -i '$a cgi-timeout = 600' ./feeds/packages/net/uwsgi/files-luci-support/luci
 sed -i 's/threads = 1/threads = 2/g' ./feeds/packages/net/uwsgi/files-luci-support/luci-webui.ini
 sed -i 's/processes = 3/processes = 4/g' ./feeds/packages/net/uwsgi/files-luci-support/luci-webui.ini
 sed -i 's/cheaper = 1/cheaper = 2/g' ./feeds/packages/net/uwsgi/files-luci-support/luci-webui.ini
+# rpcd
+sed -i 's/option timeout 30/option timeout 60/g' ./package/system/rpcd/files/rpcd.config
+sed -i 's#20) \* 1000#60) \* 1000#g' ./feeds/luci/modules/luci-base/htdocs/luci-static/resources/rpc.js
 
 p "配置优化"
 echo "
@@ -140,13 +137,6 @@ fs.file-max = 65535
 " >> ./package/base-files/files/etc/sysctl.d/10-default.conf
 
 
-p "LuCI 自定义 nft 规则页面"
-patch -p1 < ${ffdir}/patch/firewall/100-openwrt-firewall4-add-custom-nft-command-support.patch
-pushd feeds/luci
-patch -p1 <${ffdir}/patch/firewall/04-luci-add-firewall4-nft-rules-file.patch
-popd
-
-
 p "调整刷机脚本"
 patch -p1 < ${ffdir}/scripts/lede/custom_target_amlogic_scripts.patch
 mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
@@ -165,26 +155,16 @@ EOF
 p "预编译 node"
 rm -rf ./feeds/packages/lang/node
 clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
-p "更换 golang 版本"
-rm -rf ./feeds/packages/lang/golang
-clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
 p "rust"
 wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
-
-p "一些补充翻译"
-echo '
-msgid "Custom rules allow you to execute arbitrary nft commands which are not otherwise covered by the firewall framework. The rules are executed after each firewall restart, right after the default ruleset has been loaded."
-msgstr "自定义规则允许您执行不属于防火墙框架的任意 nft 命令。每次重启防火墙时，这些命令在默认的规则运行后立即执行。"
-' >> ./package/lean/default-settings/po/zh-cn/default.po
+sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
 
 p "mount cgroupv2"
 pushd feeds/packages
-patch -p1 < ${ffdir}/patch/cgroupfs/0001-fix-cgroupfs-mount.patch
+patch -p1 < ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
 popd
 mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
-cp -rf ${ffdir}/patch/cgroupfs/900-mount-cgroup-v2-hierarchy-to-sys-fs-cgroup-cgroup2.patch ./feeds/packages/utils/cgroupfs-mount/patches/
-cp -rf ${ffdir}/patch/cgroupfs/901-fix-cgroupfs-umount.patch ./feeds/packages/utils/cgroupfs-mount/patches/
-cp -rf ${ffdir}/patch/cgroupfs/902-mount-sys-fs-cgroup-systemd-for-docker-systemd-suppo.patch ./feeds/packages/utils/cgroupfs-mount/patches/
+cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/90* ./feeds/packages/utils/cgroupfs-mount/patches/
 
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box
@@ -193,6 +173,19 @@ p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
 cp -rf ${otherdir}/imm_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
+p "Passwall & OpenWrt-momo"
+rm -rf ./feeds/luci/applications/luci-app-passwall
+rm -rf ./feeds/packages/net/{chinadns-ng,dns2socks,dns2tcp,geoview,hysteria,microsocks,pdnsd-alt,tcping,trojan,xray-core}
+cp -rf ${otherdir}/openwrt-add/openwrt_helloworld ./package/add/
+rm -rf ./package/add/openwrt_helloworld/{v2ray-geodata,luci-app-ssr-plus}
+sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openwrt_helloworld/luci-app-passwall/Makefile
+sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
+p "OpenWrt-nikki"
+rm -rf ./feeds/luci/applications/luci-app-nikki ./feeds/packages/net/nikki
+rm -rf ./package/add/openwrt_helloworld/{mihomo-alpha,mihomo-meta}
+cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
+rm -rf ./package/add/luci-app-nikki/mihomo-alpha
+sed -i '/mihomo-alpha/d' ./package/add/luci-app-nikki/mihomo-meta/Makefile
 
 p "MosDNS"
 rm -rf ./feeds/luci/applications/luci-app-mosdns ./feeds/packages/utils/v2dat
@@ -200,23 +193,11 @@ rm -rf ./feeds/packages/net/{mosdns,v2ray-geodata}
 cp -rf ${otherdir}/openwrt-add/luci-app-mosdns ./package/add/luci-app-mosdns
 cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
 
-p "Passwall"
-rm -rf ./feeds/luci/applications/luci-app-passwall
-rm -rf ./feeds/packages/net/{chinadns-ng,dns2socks,dns2tcp,geoview,hysteria,microsocks,pdnsd-alt,tcping,trojan,xray-core}
-cp -rf ${otherdir}/openwrt-add/openwrt_helloworld ./package/add/
-rm -rf ./package/add/openwrt_helloworld/v2ray-geodata
-sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openwrt_helloworld/luci-app-passwall/Makefile
-sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
-
-p "OpenWrt-nikki"
-rm -rf ./feeds/luci/applications/luci-app-nikki ./feeds/packages/net/nikki
-cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
-p "OpenWrt-momo"
-cp -rf ${otherdir}/openwrt-momo ./package/add/luci-app-momo
-
 p "Nlbw 带宽监控"
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
+p "Bandix 流量监控"
+cp -rf ${otherdir}/openwrt-add/{openwrt-bandix,luci-app-bandix} ./package/add/
 p "终端 TTYD"
 sed -i 's,services,system,g' ./feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 
@@ -226,24 +207,32 @@ cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-
 sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
 pushd feeds/packages
 wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
+wget -qO- https://github.com/openwrt/packages/pull/20054.patch | patch -p1
 popd
+sed -i '/sysctl.d/d' ./feeds/packages/utils/dockerd/Makefile
 pushd package/add/luci-app-dockerman
 bash ${ffdir}/scripts/docker.sh
 popd
+cp -rf ${otherdir}/docker_lib/collections/luci-lib-docker ./package/add/
+sed -i '/PKG_VERSION/s/v//' ./package/add/{luci-app-dockerman/Makefile,luci-lib-docker/Makefile}
 
+p "qBittorrent 客户端"
+rm -rf ./feeds/luci/applications/luci-app-qbittorrent ./feeds/packages/net/qBittorrent
+rm -rf ./feeds/packages/libs/{qtbase,qttools}
+cp -rf ${otherdir}/openwrt-add/openwrt-qBittorrent ./package/add/
 p "Filebrowser 文件管理器"
 rm -rf ./feeds/luci/applications/luci-app-filebrowser ./feeds/packages/utils/filebrowser
 cp -rf ${otherdir}/sbwml_pkg/{luci-app-filebrowser-go,filebrowser} ./package/add/
-p "Daed"
-rm -rf ./feeds/packages/net/daed ./feeds/luci/applications/luci-app-daed
-cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-daed ./feeds/luci/applications/luci-app-daed
-cp -rf ${otherdir}/imm_pkg_ma/net/daed ./feeds/packages/net/daed
 
 
 p "复制自定义文件目录"
 cp -rf ${ffdir}/patch/files ./files
 mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/scripts/lede/zzz-default-settings ./files/etc/uci-defaults/
-echo -e "\n\033[34mLEDE\033[0m ${distrib_revision} | ${build_date//./-}\n" > ./files/etc/banner
+p "写入 banner"
+cat <<-EOF > files/etc/banner
+ ▄   ▄▄▄  ▄ ▄▄▄
+ ▀▀▀ ▀▀  ▀▀ ▀▀
+EOF
 
 
 p "清理临时文件"

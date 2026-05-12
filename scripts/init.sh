@@ -47,8 +47,8 @@ EOF
 # --- 3. 定义 d (Runner 身份执行 + 自动同步变量) ---
 cat <<'EOF' > $bin_host/d
 #!/bin/bash
-p "runner@buildos: $*"
-docker exec -u runner -e BASH_ENV=${workdir}/ci_env buildos bash -c "$*"
+p "runner@opbe: $*"
+docker exec -u runner -e BASH_ENV=${workdir}/ci_env opbe bash -c "$*"
 EXIT_CODE=$?
 
 # === 自动化同步逻辑开始 ===
@@ -68,8 +68,8 @@ EOF
 # --- 4. 定义 dr (Root 身份执行 + 自动同步变量) ---
 cat <<'EOF' > $bin_host/dr
 #!/bin/bash
-p "root@buildos: $*"
-docker exec -u root -e BASH_ENV=${workdir}/ci_env buildos bash -c "$*"
+p "root@opbe: $*"
+docker exec -u root -e BASH_ENV=${workdir}/ci_env opbe bash -c "$*"
 EXIT_CODE=$?
 
 # === 自动化同步逻辑开始 ===
@@ -83,7 +83,7 @@ fi
 exit $EXIT_CODE
 EOF
 
-# --- 5. clone 命令---
+# --- 5. clone 命令 ---
 cat <<'EOF' > $bin_host/clone
 #!/bin/bash
 if [ $# -lt 2 ]; then
@@ -93,8 +93,6 @@ fi
 p "浅克隆: $2 (branch: $1) $3"
 git clone -q --filter=blob:none --single-branch -b "$1" "$2" "$3"
 EOF
-
-sed -i "s/buildos/${build_os}/g" $bin_host/{dr,d}
 
 chmod +x $bin_host/*
 echo "$bin_host" >> $GITHUB_PATH
@@ -106,24 +104,18 @@ df -h
 
 
 
-p "准备 ${build_os^^}"
+p "准备编译容器"
 . set_env "workdir" "/ci"  # 必须使用 . set_env ，否则变量不会在当前 shell 生效
 . set_env "workdir_host" "/mnt${workdir}"
 . set_env "ffdir" "${workdir}/ffos"
 
 sudo mkdir ${workdir_host} && sudo chown -R runner:runner ${workdir_host}
 
-if [ "${build_os}" == 'ubuntu' ]; then
-    docker_image='ubuntu:22.04'
-elif [ "${build_os}" == 'cachyos' ]; then
-    docker_image='cachyos/cachyos-v3'
-fi
-
 # tail -f /dev/null: 保持容器运行
 GH_ENV_DIR=$(dirname "$GITHUB_ENV")
 GH_PATH_DIR=$(dirname "$GITHUB_PATH")
-docker pull ${docker_image}
-docker run -d --name ${build_os} \
+docker pull ffuqiangg/opbe
+docker run -d --name opbe \
     -v ${workdir_host}:${workdir} \
     -v "$bin_host:/usr/local/bin_host" \
     -e PATH="/usr/local/bin_host:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
@@ -132,7 +124,7 @@ docker run -d --name ${build_os} \
     -e ffdir="${ffdir}" \
     -e BASH_ENV="${workdir}/ci_env" \
     -w ${workdir} \
-    ${docker_image} tail -f /dev/null
+    ffuqiangg/opbe tail -f /dev/null
 
 
 p "初始化容器环境文件"
@@ -144,48 +136,13 @@ dr '. set_env workdir "${workdir}"'
 dr '. set_env workdir_host "${workdir_host}"'
 dr '. set_env ffdir "${ffdir}"'
 
-
-p "安装依赖"
-if [ "${build_os}" == 'ubuntu' ]; then
-    dr apt-get -y -qq update
-    dr DEBIAN_FRONTEND=noninteractive \
-        apt-get -y -qq install ack antlr3 asciidoc autoconf automake autopoint binutils \
-        bison build-essential bzip2 ccache clang cmake cpio curl device-tree-compiler \
-        ecj fastjar flex gawk gettext gcc-multilib g++-multilib git gnutls-dev gperf haveged \
-        help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev libglib2.0-dev libgmp3-dev \
-        libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev libreadline-dev libssl-dev \
-        libtool libyaml-dev libz-dev lld llvm llvm-dev lrzsz mkisofs msmtp nano ninja-build p7zip p7zip-full \
-        patch pkgconf python3 python3-pip python3-ply python3-docutils python3-pyelftools qemu-utils \
-        re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs upx-ucl unzip vim wget \
-        xmlto xxd zlib1g-dev zstd sudo
-
-    p "确保用户一致并配置 sudo"
-    dr "mkdir -p /etc/sudoers.d;"
-    dr "groupadd -g 1001 runner || true;"
-    dr "useradd -u 1001 -g 1001 -m -s /bin/bash runner;"
-    dr "echo 'runner ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/runner;"
-    dr "chmod 0440 /etc/sudoers.d/runner;"
-    dr "chown -R runner:runner /home/runner"
-elif [ "${build_os}" == 'cachyos' ]; then
-    dr pacman -Syu --noconfirm
-    dr pacman -S --needed --noconfirm base-devel asciidoc autoconf automake binutils bison \
-        bzip2 ccache llvm clang cmake cpio curl dtc eclipse-ecj fastjar flex gawk gettext \
-        gcc-multilib git gnutls gperf haveged help2man intltool lib32-gcc-libs lib32-glibc \
-        libelf glib2 gmp libtool libmpc mpfr ncurses python python-pip python-ply \
-        python-docutils python-pyelftools qemu-img re2c rsync scons squashfs-tools \
-        subversion swig texinfo uglify-js upx unzip wget xmlto xxd zstd 7zip \
-        paru sudo shadow jq ninja python-setuptools python-pyelftools bc libxslt openssl time \
-        util-linux which perl-extutils-makemaker fuse2 less tree
-        # 不要添加zlib，会冲突
-
-    p "确保用户一致并配置 sudo"
-    dr "groupadd -g $(id -g runner) runner || true;"
-    dr "useradd -u $(id -u runner) -g $(id -g runner) -m -s /bin/bash runner;"
-    dr "echo 'runner ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/runner;"
-    dr "chmod 0440 /etc/sudoers.d/runner;"
-    dr "chown -R runner:runner /home/runner"
-fi
-
+p "确保用户一致并配置 sudo"
+dr "mkdir -p /etc/sudoers.d;"
+dr "groupadd -g 1001 runner || true;"
+dr "useradd -u 1001 -g 1001 -m -s /bin/bash runner;"
+dr "echo 'runner ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/runner;"
+dr "chmod 0440 /etc/sudoers.d/runner;"
+dr "chown -R runner:runner /home/runner"
 
 
 p "d 命令已可用"
@@ -221,9 +178,8 @@ d '
     . set_env "sbwml_pkgs_repo" "https://github.com/sbwml/openwrt_pkgs"
     . set_env "autocore_arm_repo" "https://github.com/sbwml/autocore-arm"
     . set_env "homeproxy_repo" "https://github.com/immortalwrt/homeproxy"
+    . set_env "yaof_repo" "https://github.com/QiuSimons/YAOF"
 '
-
-[ "${build_os}" == 'cachyos' ] && d paru --noconfirm -S ack antlr3
 
 p "复制仓库到容器内 ${ffdir}"
 cp -r $GITHUB_WORKSPACE ${workdir_host}/ffos

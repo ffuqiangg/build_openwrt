@@ -16,7 +16,6 @@ jobs:
 
     env:
       DEBIAN_FRONTEND: noninteractive
-      build_os: "ubuntu"
       build_success: ""
 
     steps:
@@ -146,8 +145,8 @@ jobs:
         d '
           p "重新打包固件"
           cd ${workdir}/artifact/
-          7z a -tzip N1-iStoreOS-22.03.7-${build_date}-sfs.zip *n1*squashfs*
-          7z a -r -tzip N1-iStoreOS-22.03.7-${build_date}-packages.zip packages/
+          7z a -tzip N1-iStoreOS-${latest_release}-${build_date}-sfs.zip *n1*squashfs*
+          7z a -r -tzip N1-iStoreOS-${latest_release}-${build_date}-packages.zip packages/
         '
 
         p "打印剩余空间"
@@ -171,13 +170,13 @@ jobs:
         files=$(curl -fsSL https://github.com/ffuqiangg/build_openwrt/releases/expanded_assets/${{ env.build_date }} | \
           grep -oE "N1-.*\.zip" | sort -u | wc -l)
         date="
-        ${{ env.build_date }} 固件已发布
-        ￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣
-        📖 更新内容 NEW
+        📖 **${{ env.build_date }} 固件发布**
+
+        📝 **更新日志**
         "
         url="
 
-        📍 固件下载地址
+        🔗 **固件下载地址**
         https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.build_date }}
         "
         new="$(sed -n '/更新内容/,$p' ./doc/release.md | sed '1,2d' | sed 's/^-/・/g')"
