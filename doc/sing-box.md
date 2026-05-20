@@ -95,7 +95,7 @@ sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/p
 
 1. **基础设置 (main)**
 
-```config
+```
 config sing-box 'main'
 	option enabled '0'                                   # 总开关，0/1
 	option workdir '/etc/sing-box'                       # 运行目录 ( 此项不要修改 )
@@ -103,14 +103,13 @@ config sing-box 'main'
 	option common_ports '0'                              # 仅代理常用端口，0/1
 	option pass_cn_ip '0'                                # 跳过中国大陆 IP ，0/1
 ```
-
 - `enabled` : 核心总开关。设为 1 服务脚本才能运行
 - `common_ports` : 仅代理常用端口，可避免 P2P 下载流量进入 sing-box 核心
 - `pass_cn_ip` : 中国大陆 IP 链接不进入 sing-box 核心
 
 2. **配置管理 (profile)**
 
-```config
+```
 config sing-box 'profile'
 	list prefix '[provider1] '                           # 前缀 1 ，用于多个配置时区分节点
 	list conf ''                                         # 配置信息 1 ，支持订阅和本地配置文件
@@ -118,7 +117,6 @@ config sing-box 'profile'
 	list conf ''                                         # 配置信息 2 ，支持订阅和本地配置文件
 	option restart_cron '0 5 * * *'                      # 定时重启 cron，留空禁用
 ```
-
 - `prefix` : 节点名称前缀，与 `conf` 一一对应，仅配置多个 `conf` 时生效
 - `conf` : 填入订阅地址或 `file:文件名` （本地文件），本地文件目录 `/etc/sing-box/profiles` 。更多配置可按格式自行添加
 - `restart_cron` : 启用可实现定时更新订阅并重启服务
@@ -126,7 +124,7 @@ config sing-box 'profile'
 
 3. **进阶设置 (basic)**
 
-```config
+```
 config sing-box 'basic'
 	option log_level 'warn'                              # 日志等级
 	option log_file '/var/log/sing-box.log'              # 日志文件路径，留空则日志输出到 Web 面板
@@ -139,7 +137,6 @@ config sing-box 'basic'
 	option dns_port '2053'                               # DNS 入站端口 (direct)
 	option redirect_port '2331'                          # redirect(TCP) 监听端口
 ```
-
 - `mixed_port` : 提供 HTTP/SOCKS 混合代理
 - 默认 Web 面板登录地址为 `http://路由器IP:9900/ui` (密码：ffuqiangg)
 - 这部分配置的详细说明可以查看 ⌈ [sing-box 官方文档](https://sing-box.sagernet.org/zh/configuration/) ⌋ 的对应条目
@@ -148,7 +145,7 @@ config sing-box 'basic'
 
 4. **高级设置 (advanced)**
 
-```config
+```
 config sing-box 'advanced'
 	option enabled '1'                                   # 覆写，0/1
 	option main_dns_type 'https'                         # 国外 DNS 类型
@@ -160,7 +157,6 @@ config sing-box 'advanced'
 	option area ''                                       # 地区分组，留空禁用 (英文逗号分割)
 	option bypass ''                                     # 分流规则，留空禁用 (英文逗号分割)
 ```
-
 - `enabled` : 禁用时所有高级设置均不生效，除了 `进阶设置` 涉及的部分外不会对配置文件做其它修改。配置有多个 `profile -> conf` 时高级设置默认开启不受此选项影响
 - `ad_ruleset` : 去广告规则集下载地址，要求 srs 格式且地址可直连
 - `bypass` : 注意前后顺序避免规则失效
