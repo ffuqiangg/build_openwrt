@@ -25,9 +25,9 @@ download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/pat
 [ -d "/etc/mihomo" ] || mkdir -p /etc/mihomo
 
 # 下载文件
-if curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/mihomo ${mirror}${download_dir}/mihomo.init > /dev/null 2>&1; then
-    info "Download mihomo.init success."
-else
+info "Downloading mihomo.init ..."
+curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/mihomo ${mirror}${download_dir}/mihomo.init
+if [ $? -ne 0 ]; then
     erro "Download mihomo.init failed."
     exit 1
 fi
@@ -36,9 +36,9 @@ fi
 if [ -f "/etc/mihomo/config.yaml" ]; then
     warn "Mihomo config exists, skip download."
 else
-    if curl -fkL --connect-timeout 30 -m 600 -o /etc/mihomo/config.yaml ${mirror}${download_dir}/config.yaml > /dev/null 2>&1; then
-        info "Download mihomo config success."
-    else
+    info "Downloading config.yaml ..."
+    curl -fkL --connect-timeout 30 -m 600 -o /etc/mihomo/config.yaml ${mirror}${download_dir}/config.yaml
+    if [ $? -ne 0 ]; then
         erro "Download mihomo config failed."
         exit 1
     fi
