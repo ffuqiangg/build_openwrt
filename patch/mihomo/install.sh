@@ -6,9 +6,9 @@
 #
 
 # 打印输出信息函数
-erro() { printf "\033[1;31mERRO\033[0m %s\n" "$@"; }
-info() { printf "\033[1;36mINFO\033[0m %s\n" "$@"; }
-warn() { printf "\033[1;33mWARN\033[0m %s\n" "$@"; }
+red_msg() { printf "\033[1;31m%s\033[0m %s\n" "$@"; }
+green_msg() { printf "\033[1;32m%s\033[0m %s\n" "$@"; }
+yellow_msg() { printf "\033[1;33m%s\033[0m %s\n" "$@"; }
 
 # 检测网络环境决定是否使用 github 代理
 ip_info=$(curl -sk https://ip.cooluc.com)
@@ -25,23 +25,23 @@ download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/pat
 [ -d "/etc/mihomo" ] || mkdir -p /etc/mihomo
 
 # 下载文件
-info "Downloading mihomo.init ..."
+green_msg "Downloading:" "/etc/init.d/mihomo ..."
 curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/mihomo ${mirror}${download_dir}/mihomo.init
 if [ $? -ne 0 ]; then
-    erro "Download mihomo.init failed."
+    red_msg "Error:" "download failed. exit!"
     exit 1
 fi
 [ -x "/etc/init.d/mihomo" ] || chmod +x /etc/init.d/mihomo
 
 if [ -f "/etc/mihomo/config.yaml" ]; then
-    warn "Mihomo config exists, skip download."
+    yellow_msg "Warning:" "/etc/mihomo/config.yaml exists, skip download."
 else
-    info "Downloading config.yaml ..."
+    green_msg "Downloading:" "/etc/mihomo/config.yaml ..."
     curl -fkL --connect-timeout 30 -m 600 -o /etc/mihomo/config.yaml ${mirror}${download_dir}/config.yaml
     if [ $? -ne 0 ]; then
-        erro "Download mihomo config failed."
+        red_msg "Error:" "/etc/mihomo/config.yaml download failed."
         exit 1
     fi
 fi
 
-info "Everything is fine, Enjoy🎉"
+echo "🎉 All done, Enjoy!"
