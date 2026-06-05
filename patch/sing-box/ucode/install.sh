@@ -110,4 +110,4 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "🎉 All done. Enjoy!"
+green_msg "Success:" "All done, Enjoy! 🎉"

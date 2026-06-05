@@ -44,4 +44,4 @@ else
     fi
 fi
 
-echo "🎉 All done, Enjoy!"
+green_msg "Success:" "All done, Enjoy! 🎉"
