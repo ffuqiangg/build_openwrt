@@ -9,7 +9,12 @@ WORKDIR="/usr/share/mihomo"
 USER="root"
 
 start_service() {
-    mkdir -p "$WORKDIR"
+    if [ ! -f "$CONF" ]; then
+        echo -e "\033[1;31mERRO\033[0m ${CONF} is not found. Exit!"
+        return
+    fi
+
+    [ -d "$WORKDIR" ] || mkdir -p "$WORKDIR"
     local group="$(id -ng $USER)"
     chown $USER:$group "$WORKDIR"
 
