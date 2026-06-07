@@ -44,7 +44,7 @@ function removeBlankAttrs(res) {
         map(keys(res), (k) => {
             if (type(res[k]) in ['array', 'object'])
                 content[k] = removeBlankAttrs(res[k]);
-            else if (res[k] !== null && res[k] !== '')
+            else if (res[k] !== 'nil' && res[k] !== '')
                 content[k] = res[k];
         });
     } else if (type(res) === 'array') {
@@ -52,7 +52,7 @@ function removeBlankAttrs(res) {
         map(res, (k, i) => {
             if (type(k) in ['array', 'object'])
                 push(content, removeBlankAttrs(k));
-            else if (k !== null && k !== '')
+            else if (k !== 'nil' && k !== '')
                 push(content, k);
         });
     } else {
@@ -168,7 +168,7 @@ const config = {};
 config.log = {
     disabled: false,
     level: log_level,
-    output: !isEmpty(log_file) ? log_file : null,
+    output: !isEmpty(log_file) ? log_file : 'nil',
     timestamp: true
 };
 
@@ -180,14 +180,14 @@ if (adv_enabled === '1' || length(filter(conf, length)) > 1) {
                 tag: 'main-dns',
                 type: main_dns_type,
                 server: main_dns_server,
-                domain_resolver: !(iptoarr(main_dns_server)) ? 'china-dns' : null,
+                domain_resolver: !(iptoarr(main_dns_server)) ? 'china-dns' : 'nil',
                 detour: '节点选择'
             },
             {
                 tag: 'china-dns',
                 type: china_dns_type,
                 server: china_dns_server,
-                domain_resolver: !(iptoarr(china_dns_server)) ? 'default-dns' : null,
+                domain_resolver: !(iptoarr(china_dns_server)) ? 'default-dns' : 'nil',
                 detour: '直连'
             }
         ],
@@ -256,8 +256,8 @@ config.experimental = {
     },
     cache_file: {
         enabled: true,
-        store_fakeip: ('fakeip' in dns_types) || null,
-        store_rdrc: (store_rdrc === '1') || null
+        store_fakeip: ('fakeip' in dns_types) || 'nil',
+        store_rdrc: (store_rdrc === '1') || 'nil'
     }
 };
 

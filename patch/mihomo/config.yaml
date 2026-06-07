@@ -88,9 +88,6 @@ listeners:
     proxy: 直连
 
 # DNS 配置
-direct-dns: &direct-dns ['https://223.5.5.5/dns-query#h3=true', 'https://1.12.12.12/dns-query']
-proxy-dns: &proxy-dns ['https://dns.google/dns-query', 'https://dns.cloudflare.com/dns-query']
-
 dns:
   enable: true
   cache-algorithm: arc
@@ -105,22 +102,17 @@ dns:
     - +.docker.io
     - +.market.xiaomi.com
     - +.push.apple.com
-  default-nameserver: *direct-dns
-  nameserver: *proxy-dns
-  direct-nameserver: *direct-dns
-  proxy-server-nameserver: *direct-dns
-  nameserver-policy:
-    'rule-set:direct_domain': *direct-dns
-    'rule-set:private_domain': *direct-dns
-    'rule-set:apple@cn_domain': *direct-dns
-    'rule-set:microsoft@cn_domain': *direct-dns
-    'rule-set:cn_domain': *direct-dns
-    'rule-set:twitter_domain': *proxy-dns
-    'rule-set:youtube_domain': *proxy-dns
-    'rule-set:telegram_domain': *proxy-dns
-    'rule-set:netflix_domain': *proxy-dns
-    'rule-set:spotify_domain': *proxy-dns
-    'rule-set:geolocation-!cn': *proxy-dns
+  default-nameserver:
+    - https://223.5.5.5/dns-query
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  direct-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  nameserver:
+    - https://dns.google/dns-query
+    - https://dns.cloudflare.com/dns-query
 
 # 分流分组，icon 是分组图标链接
 proxy-groups:
@@ -153,10 +145,6 @@ proxy-groups:
     type: select
     proxies: [默认,香港,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Github.svg"
-  - name: 其他
-    type: select
-    proxies: [默认,香港,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
-    icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Unlimited.svg"
 
   #分隔,下面是地区分组
   - name: 香港
@@ -205,12 +193,10 @@ proxy-groups:
 rules:
   # 1. 拦截 YouTube QUIC 流量
   - AND,((RULE-SET,youtube_domain),(NETWORK,UDP),(DST-PORT,80/443)),REJECT
-  # 2. 本机 luci-app-qbittorrent 插件直连
-  - PROCESS-PATH,/usr/bin/qbittorrent-nox,直连
-  # 3. 修复 play 商店无法下载
+  # 2. 修复 play 商店无法下载
   - DOMAIN-SUFFIX,services.googleapis.cn,默认
   - DOMAIN-SUFFIX,xn--ngstr-lra8j.com,默认
-  # 4. 域名规则
+  # 3. 域名规则
   - RULE-SET,direct_domain,直连
   - RULE-SET,private_ip,直连,no-resolve
   - RULE-SET,private_domain,直连
@@ -223,13 +209,13 @@ rules:
   - RULE-SET,netflix_domain,NETFLIX
   - RULE-SET,spotify_domain,Spotify
   - RULE-SET,geolocation-!cn,其他
-  # 5. IP 规则
+  # 4. IP 规则
   - RULE-SET,netflix_ip,NETFLIX,no-resolve
   - RULE-SET,telegram_ip,Telegram,no-resolve
   - RULE-SET,twitter_ip,Twitter,no-resolve
   - RULE-SET,cn_ip,直连,no-resolve
-  # 6. 兜底规则
-  - MATCH,其他
+  # 5. 兜底规则
+  - MATCH,默认
 
 # 规则行为模板
 rule-anchor:
