@@ -59,55 +59,55 @@ for dir in scripts resources run profiles; do mkdir -p /etc/sing-box/${dir}; don
 [ -f "/etc/sing-box/config.json" ] && rm -f /etc/sing-box/config.json
 
 # 下载文件
-green_msg "Downloading:" "/etc/init.d/sing-box ..."
+green_msg "INFO" "Downloading /etc/init.d/sing-box ..."
 curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/sing-box ${mirror}${download_dir}/${firewall}/sing-box.init
 if [ $? -ne 0 ]; then
-    red_msg "Error:" "/etc/init.d/sing-box download failed."
+    red_msg "ERROR" "/etc/init.d/sing-box download failed."
     exit 1
 fi
 [ -x "/etc/init.d/sing-box" ] || chmod +x /etc/init.d/sing-box
 
-green_msg "Downloading:" "/etc/config/sing-box ..."
+green_msg "INFO" "Downloading /etc/config/sing-box ..."
 [ -f "/etc/config/sing-box" ] && mv /etc/config/sing-box /etc/config/sing-box.bak
 curl -fkL --connect-timeout 30 -m 600 -o /etc/config/sing-box ${mirror}${download_dir}/generic/sing-box.conf
 if [ $? -ne 0 ]; then
     [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
-    red_msg "Error:" "/etc/config/sing-box download failed."
+    red_msg "ERROR" "/etc/config/sing-box download failed."
     exit 1
 fi
 compare_and_restore
-[ -f "/etc/config/sing-box.bak" ] && yellow_msg "Backupfile:" "/etc/config/sing-box.bak!"
+[ -f "/etc/config/sing-box.bak" ] && yellow_msg "WARN" "Backupfile /etc/config/sing-box.bak!"
 
-green_msg "Downloading:" "/etc/sing-box/scripts/generate_config.uc ..."
+green_msg "INFO" "Downloading /etc/sing-box/scripts/generate_config.uc ..."
 curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/scripts/generate_config.uc ${mirror}${download_dir}/generic/generate_config.uc
 if [ $? -ne 0 ]; then
     [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
-    red_msg "Error:" "/etc/sing-box/scripts/generate_config.uc download failed."
+    red_msg "ERROR" "/etc/sing-box/scripts/generate_config.uc download failed."
     exit 1
 fi
 
-green_msg "Downloading:" "/etc/sing-box/scripts/firewall_post.ut ..."
+green_msg "INFO" "Downloading /etc/sing-box/scripts/firewall_post.ut ..."
 curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/scripts/firewall_post.ut ${mirror}${download_dir}/${firewall}/firewall_post.ut
 if [ $? -ne 0 ]; then
     [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
-    red_msg "Error:" "/etc/sing-box/scripts/firewall_post.ut download failed."
+    red_msg "ERROR" "/etc/sing-box/scripts/firewall_post.ut download failed."
     exit 1
 fi
 
-green_msg "Downloading:" "/etc/sing-box/resources/china_ip4.txt ..."
+green_msg "INFO" "Downloading /etc/sing-box/resources/china_ip4.txt ..."
 curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/resources/china_ip4.txt ${mirror}${download_dir}/${firewall}/china_ip4.txt
 if [ $? -ne 0 ]; then
     [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
-    red_msg "Error:" "/etc/sing-box/resources/china_ip4.txt download failed."
+    red_msg "ERROR" "/etc/sing-box/resources/china_ip4.txt download failed."
     exit 1
 fi
 
-green_msg "Downloading:" "/etc/sing-box/resources/stream.json ..."
+green_msg "INFO" "Downloading /etc/sing-box/resources/stream.json ..."
 curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/resources/stream.json ${mirror}${download_dir}/generic/stream.json
 if [ $? -ne 0 ]; then
     [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
-    red_msg "Error:" "/etc/sing-box/resources/stream.json download failed."
+    red_msg "ERROR" "/etc/sing-box/resources/stream.json download failed."
     exit 1
 fi
 
-green_msg "Success:" "All done, Enjoy! 🎉"
+green_msg "SUCCESS" "All done, Enjoy! 🎉"
