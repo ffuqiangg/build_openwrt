@@ -146,7 +146,7 @@ proxy-groups:
     proxies: [默认,香港,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Github.svg"
 
-  #分隔,下面是地区分组
+  # 地区分组
   - name: 香港
     type: select
     include-all: true

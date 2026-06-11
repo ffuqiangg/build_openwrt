@@ -28,20 +28,20 @@ download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/pat
 green_msg "INFO" "Downloading /etc/init.d/mihomo ..."
 curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/mihomo ${mirror}${download_dir}/mihomo.init
 if [ $? -ne 0 ]; then
-    red_msg "ERROR" "download failed. exit!"
+    red_msg "ERRO" "/etc/init.d/mihomo download failed. Exit!"
     exit 1
 fi
 [ -x "/etc/init.d/mihomo" ] || chmod +x /etc/init.d/mihomo
 
 if [ -f "/etc/mihomo/config.yaml" ]; then
-    yellow_msg "WARN" "/etc/mihomo/config.yaml exists, skip download."
+    yellow_msg "WARN" "/etc/mihomo/config.yaml exists, Skip download."
 else
     green_msg "INFO" "Downloading /etc/mihomo/config.yaml ..."
     curl -fkL --connect-timeout 30 -m 600 -o /etc/mihomo/config.yaml ${mirror}${download_dir}/config.yaml
     if [ $? -ne 0 ]; then
-        red_msg "ERROR" "/etc/mihomo/config.yaml download failed."
+        red_msg "ERRO" "/etc/mihomo/config.yaml download failed. Exit!"
         exit 1
     fi
 fi
 
-green_msg "SUCCESS" "All done, Enjoy! 🎉"
+green_msg "✔" "All done, Enjoy!"
