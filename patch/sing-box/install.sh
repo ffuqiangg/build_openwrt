@@ -53,7 +53,7 @@ compare_and_restore() {
 }
 
 # 准备基础变量，处理目录和文件
-download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box/ucode"
+download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box"
 for dir in scripts resources run profiles; do mkdir -p /etc/sing-box/${dir}; done
 [ -x "/sbin/fw4" ] && firewall='nftables' || firewall='iptables'
 [ -f "/etc/sing-box/config.json" ] && rm -f /etc/sing-box/config.json

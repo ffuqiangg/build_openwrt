@@ -40,7 +40,7 @@
 ### 🚀 一键安装
 
 ```bash
-sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/patch/sing-box/ucode/install.sh)"
+sh -c "$(curl -ksS https://fastly.jsdelivr.net/gh/ffuqiangg/build_openwrt@main/patch/sing-box/install.sh)"
 ```
 
 > [!WARNING]
