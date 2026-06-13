@@ -62,7 +62,7 @@ for dir in scripts resources run profiles; do mkdir -p /etc/sing-box/${dir}; don
 green_msg "INFO" "Downloading /etc/init.d/sing-box ..."
 curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/sing-box ${mirror}${download_dir}/${firewall}/sing-box.init
 if [ $? -ne 0 ]; then
-    red_msg "ERRO" "/etc/init.d/sing-box download failed Exit!"
+    red_msg "ERRO" "/etc/init.d/sing-box download failed. Exit!"
     exit 1
 fi
 [ -x "/etc/init.d/sing-box" ] || chmod +x /etc/init.d/sing-box

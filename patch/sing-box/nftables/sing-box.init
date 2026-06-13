@@ -34,7 +34,7 @@ start_service() {
             echo -e "\033[1;31mERRO\033[0m ${i#file:} is not found. Exit!"
             return
         elif [ ! -f "$workdir/profiles/$(echo -n $i | md5sum | awk '{print $1}')" ]; then
-            echo -e "\033[1;31mERRO\033[0m subscription $a is not found. Exit!"
+            echo -e "\033[1;31mERRO\033[0m Subscription $a is not found. Exit!"
             return
         fi
         a=$((a + 1))
@@ -126,7 +126,7 @@ update_subscription () {
             if curl -fsL -A sing-box -m 120 --connect-timeout 15 --retry 3 -X GET -o $workdir/profiles/config.tmp $i > /dev/null 2>&1; then
                 mv $workdir/profiles/config.tmp "$workdir/profiles/$(echo -n $i | md5sum | awk '{print $1}')"
             else
-                echo -e "\033[1;33mWARN\033[0m subscription $a download failed."
+                echo -e "\033[1;33mWARN\033[0m Subscription $a download failed."
             fi
         fi
         a=$((a + 1))
