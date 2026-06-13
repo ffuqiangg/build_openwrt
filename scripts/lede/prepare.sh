@@ -141,9 +141,12 @@ p "调整 default-settings"
 sed -i '/services/d' ./package/lean/default-settings/files/zzz-default-settings
 
 
-p "预编译 node"
+p "node"
 rm -rf ./feeds/packages/lang/node
 clone packages-24.10 ${node_repo} ./feeds/packages/lang/node
+p "golang"
+rm -rf ./feeds/packages/lang/golang
+clone 26.x ${golang_repo} ./feeds/packages/lang/golang
 
 p "mount cgroupv2"
 pushd feeds/packages

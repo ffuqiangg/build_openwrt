@@ -174,6 +174,7 @@ d '
     . set_env "podman_repo" "https://github.com/Zerogiven-OpenWRT-Packages/luci-app-podman"
     . set_env "rust_repo" "https://github.com/sbwml/packages_lang_rust"
     . set_env "node_repo" "https://github.com/sbwml/feeds_packages_lang_node-prebuilt"
+    . set_env "golang_repo" "https://github.com/sbwml/packages_lang_golang"
 '
 
 p "复制仓库到容器内 ${ffdir}"

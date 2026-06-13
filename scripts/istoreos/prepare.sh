@@ -153,12 +153,12 @@ sed -i 'N;/\n.*commit dockerd/!P;D' ./package/istoreos-files/files/etc/uci-defau
 sed -i '/commit dockerd/{N;d;}' ./package/istoreos-files/files/etc/uci-defaults/09_istoreos
 
 
-p "预编译 node"
+p "node"
 rm -rf ./feeds/packages/lang/node
 clone packages-24.10 ${node_repo} ./feeds/packages/lang/node
-p "更换 golang 版本"
+p "golang"
 rm -rf ./feeds/packages/lang/golang
-clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
+clone 26.x ${golang_repo} ./feeds/packages/lang/golang
 p "rust"
 rm -rf ./feeds/packages/lang/rust
 clone main ${rust_repo} ./feeds/packages/lang/rust

@@ -148,12 +148,12 @@ CONFIG_NETKIT=y
 ' >> ./target/linux/generic/config-${current_version}
 
 
-p "预编译 node"
+p "node"
 rm -rf ./feeds/packages/lang/node/node
 clone packages-24.10 ${node_repo} ./feeds/packages/lang/node/node
-p "更换 golang 版本"
+p "golang"
 rm -rf ./feeds/packages/lang/golang
-cp -rf ${otherdir}/imm_pkg_ma/lang/golang ./feeds/packages/lang/golang
+clone 26.x ${golang_repo} ./feeds/packages/lang/golang
 p "rust"
 rm -rf ./feeds/packages/lang/rust
 clone main ${rust_repo} ./feeds/packages/lang/rust
