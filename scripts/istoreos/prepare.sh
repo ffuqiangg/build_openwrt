@@ -38,9 +38,9 @@ clone master ${immortalwrt_repo} ${otherdir}/immortalwrt &
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone main ${podman_repo} ${otherdir}/podman &
+clone openwrt-24.10 ${autocore_arm_repo} ${otherdir}/autocore-arm &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
-clone openwrt-24.10 ${autocore_arm_repo} ${otherdir}/autocore &
 clone 24.10 ${yaof_repo} ${otherdir}/yaof &
 wait && sync
 
@@ -171,7 +171,7 @@ mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
 cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/90* ./feeds/packages/utils/cgroupfs-mount/patches/
 
 p "Autocore"
-cp -rf ${otherdir}/autocore ./package/add/autocore-arm
+cp -rf ${otherdir}/autocore-arm ./package/add/autocore
 p "IP/MAC 绑定"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-app-arpbind
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makefile

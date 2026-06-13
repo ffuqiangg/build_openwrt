@@ -43,6 +43,7 @@ clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone main ${podman_repo} ${otherdir}/podman &
+clone openwrt-25.12 ${autocore_arm_repo} ${otherdir}/autocore-arm &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone main ${amlogic_repo} ${otherdir}/amlogic &
 clone 25.12 ${yaof_repo} ${otherdir}/yaof &
@@ -173,7 +174,7 @@ p "IP/MAC 绑定"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-app-arpbind
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makefile
 p "Autocore"
-cp -rf ${otherdir}/openwrt-add/autocore-arm ./package/add/autocore
+cp -rf ${otherdir}/autocore-arm ./package/add/autocore
 
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box
