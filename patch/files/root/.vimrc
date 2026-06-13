@@ -34,11 +34,6 @@ cnoremap <c-a> <home>
 vnoremap < <gv
 vnoremap > >gv
 
-set t_Co=256
-colorscheme desert
-hi Normal ctermbg=none
-hi EndOfBuffer ctermfg=245 ctermbg=none
-hi LineNr ctermfg=245 ctermbg=none
-hi TabLine ctermfg=245 ctermbg=none
-hi TabLineSel cterm=underline ctermfg=231 ctermbg=none
-hi TabLineFill ctermfg=245 ctermbg=none
+hi TabLine cterm=none ctermfg=242 ctermbg=none
+hi TabLineSel cterm=none ctermfg=11 ctermbg=none
+hi TabLineFill cterm=none ctermbg=none

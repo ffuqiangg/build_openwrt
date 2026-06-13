@@ -37,8 +37,7 @@ p "下载其它仓库"
 clone master ${immortalwrt_repo} ${otherdir}/immortalwrt &
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
-clone master ${dockerman_repo} ${otherdir}/dockerman &
-clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkgs &
+clone main ${podman_repo} ${otherdir}/podman &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone openwrt-24.10 ${autocore_arm_repo} ${otherdir}/autocore &
@@ -73,7 +72,7 @@ p "更新 Feeds"
 
 
 p "卸载无法编译的包"
-./scripts/feeds uninstall exim onionshare-cli radicale3 python-pika python-zope-event python-zope-interface python-gevent python-twisted luci-app-baidupcs-web || true
+./scripts/feeds uninstall luci-app-radicale exim onionshare-cli radicale3 python-pika python-zope-event python-zope-interface python-gevent python-twisted luci-app-baidupcs-web || true
 
 p "应用自定义修改"
 mkdir -p ./package/add
@@ -152,24 +151,17 @@ p "调整 default-settings"
 sed -i '/dockerd.globals.data_root/d' ./package/istoreos-files/files/etc/uci-defaults/09_istoreos
 sed -i 'N;/\n.*commit dockerd/!P;D' ./package/istoreos-files/files/etc/uci-defaults/09_istoreos 
 sed -i '/commit dockerd/{N;d;}' ./package/istoreos-files/files/etc/uci-defaults/09_istoreos
-sed -i '/exit/d' ./package/istoreos-files/files/etc/uci-defaults/09_istoreos
-cat <<-EOF >> package/istoreos-files/files/etc/uci-defaults/09_istoreos
-sed -i '/BUILD_DATE/d' /etc/openwrt_release
-echo "BUILD_DATE='${build_date}'" >> /etc/openwrt_release
-
-exit 0
-EOF
 
 
 p "预编译 node"
 rm -rf ./feeds/packages/lang/node
-clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
+clone packages-24.10 ${node_repo} ./feeds/packages/lang/node
 p "更换 golang 版本"
 rm -rf ./feeds/packages/lang/golang
 clone 26.x https://github.com/sbwml/packages_lang_golang ./feeds/packages/lang/golang
 p "rust"
-wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
-sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
+rm -rf ./feeds/packages/lang/rust
+clone main ${rust_repo} ./feeds/packages/lang/rust
 
 p "mount cgroupv2"
 pushd feeds/packages
@@ -211,24 +203,17 @@ rm -rf ./feeds/packages/net/v2ray-geodata
 cp -rf ${otherdir}/openwrt-add/luci-app-mosdns ./package/add/luci-app-mosdns
 cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
 
-p "Docker 容器"
-rm -rf ./feeds/luci/applications/luci-app-dockerman
-cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-app-dockerman
-sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
-pushd feeds/packages
-wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
-popd
-sed -i '/sysctl.d/d' ./feeds/packages/utils/dockerd/Makefile
-pushd package/add/luci-app-dockerman
-bash ${ffdir}/scripts/docker.sh
-popd
+p "Podman"
+cp -rf ${otherdir}/podman ./package/luci-app-podman
+sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/resources/podman/model/{Pod.js,Image.js,Model.js,Container.js}
+sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/resources/view/podman/{overview.js,container.js,pod.js,pod-tab/info.js}
+sed -i 's#admin/#&services/#g' ./package/luci-app-podman/root/usr/share/luci/menu.d/luci-app-podman.json
+rm -rf ./feeds/packages/utils/podman
+cp -rf ${otherdir}/imm_pkg_ma/utils/podman ./feeds/packages/utils/podman
 p "Diskman 磁盘管理"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-diskman ./package/add/luci-app-diskman
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-diskman/Makefile
 
-p "Coremark"
-rm -rf ./feeds/packages/utils/coremark
-cp -rf ${otherdir}/sbwml_pkgs/coremark ./package/add/
 p "Curl"
 rm -rf ./feeds/packages/net/curl
 cp -rf ${otherdir}/imm_pkg_ma/net/curl ./feeds/packages/net/curl
@@ -238,24 +223,19 @@ cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-cpufreq ./package/add/luci-
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-cpufreq/Makefile
 cp -rf ${otherdir}/immortalwrt/package/emortal/cpufreq ./package/add/cpufreq
 p "Filebrowser 文件管理器"
-cp -rf ${otherdir}/sbwml_pkgs/{luci-app-filebrowser-go,filebrowser} ./package/add/
+cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
 p "KMS 服务器"
-cp -rf ${otherdir}/sbwml_pkgs/{luci-app-vlmcsd,vlmcsd} ./package/add/
-p "FTP 服务器"
-rm -rf ./feeds/packages/net/vsftpd
-cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-vsftpd ./package/add/luci-app-vsftpd
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-vsftpd/Makefile
-cp -rf ${otherdir}/imm_pkg_ma/net/vsftpd ./feeds/packages/net/vsftpd
-p "qBittorrent 客户端"
-cp -rf ${otherdir}/openwrt-add/openwrt-qBittorrent ./package/add/
+cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-vlmcsd ./package/add/
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-vlmcsd/Makefile
+cp -rf ${otherdir}/imm_pkg_ma/net/vlmcsd ./package/add/
 
 p "Nlbw 带宽监控"
-sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
-sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
+sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
+sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
 p "Bandix 流量监控"
 cp -rf ${otherdir}/openwrt-add/{openwrt-bandix,luci-app-bandix} ./package/add/
 p "终端 TTYD"
-sed -i 's,services,system,g' ./feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+sed -i 's/services/system/g' ./feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 p "iStore"
 sed -i 's|"admin",|& "services",|g' ./feeds/store/luci/luci-app-store/luasrc/controller/store.lua
 
@@ -263,12 +243,15 @@ sed -i 's|"admin",|& "services",|g' ./feeds/store/luci/luci-app-store/luasrc/con
 p "复制自定义文件目录"
 cp -rf ${ffdir}/patch/files ./files
 mkdir -p ./files/etc/uci-defaults
-cp -f ${ffdir}/scripts/istoreos/zzz-default-settings ./files/etc/uci-defaults/
+cp -f ${ffdir}/scripts/istoreos/zzz-default-settings ./files/etc/uci-defaults/ && \
+sed -i "s/build_date/${build_date}/g" ./files/etc/uci-defaults/zzz-default-settings
 p "写入 banner"
-cat <<-EOF > files/etc/banner
- ▄  ▄▄ ▄▄▄ ▄▄ ▄▄  ▄▄▄ ▄▄  ▄▄
- ▀ ▀▀   ▀  ▀▀ ▀ ▀ ▀▀  ▀▀ ▀▀
-EOF
+length=$((${#latest_release} + ${#build_date} + 18))
+echo -n "." >> ./files/etc/banner && \
+for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "." >> ./files/etc/banner
+echo "|  \"iStoreOS ${latest_release} @ ${build_date}\"  |" >> ./files/etc/banner
+echo -n "'" >> ./files/etc/banner && \
+for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "'" >> ./files/etc/banner
 
 
 p "清理临时文件"

@@ -1,0 +1,125 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    if: github.event.repository.owner.id == github.event.sender.id
+
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v6
+
+    - name: 环境准备
+      env:
+          DEBIAN_FRONTEND: noninteractive
+      run: |
+        mkdir -p ${{ github.workspace }}/artifact
+
+        # 安装 jq 用于解析 GitHub API 响应
+        sudo -E apt-get -y update
+        sudo -E apt-get -y install jq
+
+        # 获取 run id
+        immortalwrt_run_id="$(
+          curl \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ffuqiangg/build_openwrt/actions/runs |
+          jq -r '.workflow_runs[] | select(.name == "ImmortalWrt") | .id' |
+           head -n 1
+        )"
+        openwrt_run_id="$(
+          curl \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ffuqiangg/build_openwrt/actions/runs |
+          jq -r '.workflow_runs[] | select(.name == "OpenWrt") | .id' |
+           head -n 1
+        )"
+        lede_run_id="$(
+          curl \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ffuqiangg/build_openwrt/actions/runs |
+          jq -r '.workflow_runs[] | select(.name == "LEDE") | .id' |
+           head -n 1
+        )"
+        istoreos_run_id="$(
+          curl \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ffuqiangg/build_openwrt/actions/runs |
+          jq -r '.workflow_runs[] | select(.name == "iStoreOS") | .id' |
+           head -n 1
+        )"
+        echo "IMMORTALWRT_RUN_ID=$immortalwrt_run_id" >> $GITHUB_ENV
+        echo "OPENWRT_RUN_ID=$openwrt_run_id" >> $GITHUB_ENV
+        echo "LEDE_RUN_ID=$lede_run_id" >> $GITHUB_ENV
+        echo "ISTOREOS_RUN_ID=$istoreos_run_id" >> $GITHUB_ENV
+
+    - name: 下载固件 ( ImmortalWrt )
+      uses: actions/download-artifact@main
+      with:
+        name: firmware
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path: ${{ github.workspace }}/artifact
+        run-id: ${{ env.IMMORTALWRT_RUN_ID }}
+
+    - name: 下载固件 ( OpenWrt )
+      uses: actions/download-artifact@main
+      with:
+        name: firmware
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path: ${{ github.workspace }}/artifact
+        run-id: ${{ env.OPENWRT_RUN_ID }}
+
+    - name: 下载固件 ( LEDE )
+      uses: actions/download-artifact@main
+      with:
+        name: firmware
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path: ${{ github.workspace }}/artifact
+        run-id: ${{ env.LEDE_RUN_ID }}
+
+    - name: 下载固件 ( iStoreOS )
+      uses: actions/download-artifact@main
+      with:
+        name: firmware
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path: ${{ github.workspace }}/artifact
+        run-id: ${{ env.ISTOREOS_RUN_ID }}
+
+    - name: 检查固件
+      run: |
+        build_date=$(ls ${{ github.workspace }}/artifact/*.zip | xargs -n 1 basename | awk -F '-' '{print $4}' | sed 's/.zip//' | sort -u)
+        [ "${build_date}" == "${build_date/ /_}" ] || exit 1
+        echo "BUILD_DATE=$build_date" >> $GITHUB_ENV
+
+    - name: 发布固件
+      uses: ncipollo/release-action@main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag: ${{ env.BUILD_DATE }}
+        allowUpdates: true
+        replacesArtifacts: true
+        artifacts: ${{ github.workspace }}/artifact/*.zip
+        bodyFile: ./doc/release.md
+
+    - name: TG 通知
+      run: |
+        date="
+        📖 **${{ env.BUILD_DATE }} 固件发布**
+
+        📝 **更新日志**
+        "
+        url="
+
+        🔗 **固件下载地址**
+        https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.BUILD_DATE }}
+        "
+        new="$(sed -n '/更新内容/,$p' ./doc/release.md | sed '1,2d' | sed 's/^-/・/g')"
+        msg="${date}${new}${url}"
+        if [ "${files}" == '6' ]; then
+          curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${msg}&parse_mode=MarkDown&disable_web_page_preview=true"
+        fi

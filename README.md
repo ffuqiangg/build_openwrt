@@ -19,14 +19,14 @@
 - ImmortalWrt，OpenWrt 固件由 Armbian 内核打包制作，LEDE 及 iStoreOS 为原生编译。
 - 固件不定时更新，更新通知可关注 Telegram 频道 [N1 Openwrt firmware](https://t.me/zhenzhushan)，下载前往 [Releases](https://github.com/ffuqiangg/build_openwrt/releases) 。
 - 默认 IP：192.168.1.99， 默认密码：password 。
-- 插件：PassWall，v2rayA，Homeproxy，Nikki，Momo，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，FTP 服务器，DockerMan，Docker-Compose，UPNP，Bandix 流量监控。
+- 插件：PassWall，v2rayA，Homeproxy，Nikki，Momo，MosDNS，硬盘休眠，KMS，FileBrowser，Frpc，网络共享，Podman，UPNP，Bandix 流量监控。
 - ImmortalWrt，OpenWrt 固件经过特殊优化可避免安装 kmod 内核模块时出现 pkg_hash 错误。iStoreOS，LEDE 固件可以通过命令一键部署本地 kmod 源解决 kmod 安装问题（见 release 说明）。
-- 固件对一些命令进行了简化，如解压 .gz 文件 `ungz`，设置可执行权限 `mx`，创建并进入目录 `mkdirg` 等，详情可查看仓库 [shinit](patch/files/etc/shinit) 文件。
+- 固件对一些命令进行了简化，如解压 .gz 文件 `ungz`，设置可执行权限 `mx`，创建并进入目录 `mkdirg` 等，详情可查看 `/etc/profile.d/sys_init.sh` 文件。
 - 在终端里输入命令起始部分再通过键盘 <kbd>▲</kbd> <kbd>▼</kbd> 可以匹配执行过的历史命令快速输入。
-- 固件刷机：具体方法请认真阅读 ⌈ [使用说明](doc/readme.md) ⌋ 。
+- 固件刷机方法见 ⌈ [Phicomm N1 固件安装与使用指南](doc/readme.md) ⌋ 。
 
 > [!NOTE]
-> iStoreOS 固件相对于其官方固件仅保留插件商店，可以看作包含 iStore 插件商店的原版 OpenWrt-24.10 固件。
+> iStoreOS 固件相对于其官方固件仅保留插件商店，可以看作包含 iStore 插件商店的原版 OpenWrt 固件。
 
 ### 🙏 致谢
 

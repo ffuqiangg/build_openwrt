@@ -13,8 +13,8 @@ sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@mai
 
 ### ✨ 更新内容
 
-- 插件调整 : 新增 qBittorrent、Bandix 流量监控，取消 DDNS、daed、带宽监控。
-- 新增内存压缩功能，LuCI 页面 `系统 -> 系统 -> ZRam 设置` 可调整相关参数。
+- 插件调整 : 取消 DDNS、daed、带宽监控、FTP 服务器，新增 Bandix 流量监控，使用 podman 替代 docker 。
 - OpenWrt 和 ImmortalWrt 固件更新到 25.12 (6.12 内核) 启用 apk 包管理，apk 命令使用方法参考 ⌈ [opkg 到 apk 对照速查表](https://openwrt.org/zh/docs/guide-user/additional-software/opkg-to-apk-cheatsheet) ⌋
 - iStoreOS 固件切换到 istoreos-24.10 分支，使用 fw4 ，调整插件与其它固件保持一致。
 - iStoreOS 和 LEDE 固件升级到 6.6 内核，使用 hy2 节点如果出现断流问题可尝试在 Nikki / Momo 插件中开启 `禁用 quic-go 的通用分段卸载`，sing-box / mihomo 脚本和 Homeproxy 插件会自动处理。
+- 固件 sing-box 核心保留在 1.12.x 版本，如自行更新至 1.13.x 及以上版本会造成 homeproxy 插件不可用，是否升级自行斟酌。

@@ -39,18 +39,13 @@ clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
-clone master ${dockerman_repo} ${otherdir}/dockerman &
-clone master ${docker_lib_repo} ${otherdir}/docker_lib &
-clone main ${sbwml_pkgs_repo} ${otherdir}/sbwml_pkg &
+clone main ${podman_repo} ${otherdir}/podman &
 clone 25.12 ${yaof_repo} ${otherdir}/yaof &
 wait && sync
 
 p "一些调整"
 p "修改 IP ( 192.168.1.99 )"
     sed -i "/lan) ipad=\${ipaddr:-/s/\${ipaddr:-\"[^\"]*\"}/\${ipaddr:-\"192.168.1.99\"}/" ${wrtdir}/package/base-files/*/bin/config_generate
-p "禁用 WIFI"
-    sed -i '/wireless/d' ${wrtdir}/package/lean/default-settings/files/zzz-default-settings
-    sed -Ei "s/(disabled=)0/\11/" ${wrtdir}/package/kernel/mac80211/files/lib/wifi/mac80211.sh
 p "针对 N1 的编译优化"
     sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
     sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
@@ -143,21 +138,12 @@ mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
 mv -f ./target/linux/amlogic/mesongx/base-files/root ./target/linux/amlogic/mesongx/base-files/usr/sbin
 
 p "调整 default-settings"
-sed -i '/services/d;/exit/d' ./package/lean/default-settings/files/zzz-default-settings
-cat <<-EOF >> package/lean/default-settings/files/zzz-default-settings
-sed -i '/BUILD_DATE/d' /etc/openwrt_release
-echo "BUILD_DATE='${build_date}'" >> /etc/openwrt_release
-
-exit 0
-EOF
+sed -i '/services/d' ./package/lean/default-settings/files/zzz-default-settings
 
 
 p "预编译 node"
 rm -rf ./feeds/packages/lang/node
-clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node
-p "rust"
-wget https://github.com/rust-lang/rust/commit/e8d97f0.patch -O ./feeds/packages/lang/rust/patches/e8d97f0.patch
-sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
+clone packages-24.10 ${node_repo} ./feeds/packages/lang/node
 
 p "mount cgroupv2"
 pushd feeds/packages
@@ -194,45 +180,48 @@ cp -rf ${otherdir}/openwrt-add/luci-app-mosdns ./package/add/luci-app-mosdns
 cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
 
 p "Nlbw 带宽监控"
-sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
-sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
+sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
+sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
 p "Bandix 流量监控"
 cp -rf ${otherdir}/openwrt-add/{openwrt-bandix,luci-app-bandix} ./package/add/
 p "终端 TTYD"
-sed -i 's,services,system,g' ./feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+sed -i 's/services/system/g' ./feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 
-p "Docker 容器"
-rm -rf ./feeds/luci/applications/luci-app-dockerman
-cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-app-dockerman
-sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
-pushd feeds/packages
-wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
-wget -qO- https://github.com/openwrt/packages/pull/20054.patch | patch -p1
-popd
-sed -i '/sysctl.d/d' ./feeds/packages/utils/dockerd/Makefile
-pushd package/add/luci-app-dockerman
-bash ${ffdir}/scripts/docker.sh
-popd
-cp -rf ${otherdir}/docker_lib/collections/luci-lib-docker ./package/add/
-sed -i '/PKG_VERSION/s/v//' ./package/add/{luci-app-dockerman/Makefile,luci-lib-docker/Makefile}
+p "Podman"
+cp -rf ${otherdir}/podman ./package/luci-app-podman
+sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/resources/podman/model/{Pod.js,Image.js,Model.js,Container.js}
+sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/resources/view/podman/{overview.js,container.js,pod.js,pod-tab/info.js}
+sed -i 's#admin/#&services/#g' ./package/luci-app-podman/root/usr/share/luci/menu.d/luci-app-podman.json
+rm -rf ./feeds/packages/utils/podman
+cp -rf ${otherdir}/imm_pkg_ma/utils/podman ./feeds/packages/utils/podman
+rm -rf ./feeds/packages/utils/crun
+cp -rf ${otherdir}/imm_pkg_ma/utils/crun ./feeds/packages/utils/crun
+cp -rf ${otherdir}/imm_pkg_ma/net/aardvark-dns ./package/add/
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' ./package/add/aardvark-dns/Makefile
+cp -rf ${otherdir}/imm_pkg_ma/net/netavark ./package/add/
+sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' ./package/add/netavark/Makefile
 
-p "qBittorrent 客户端"
-rm -rf ./feeds/luci/applications/luci-app-qbittorrent ./feeds/packages/net/qBittorrent
-rm -rf ./feeds/packages/libs/{qtbase,qttools}
-cp -rf ${otherdir}/openwrt-add/openwrt-qBittorrent ./package/add/
 p "Filebrowser 文件管理器"
-rm -rf ./feeds/luci/applications/luci-app-filebrowser ./feeds/packages/utils/filebrowser
-cp -rf ${otherdir}/sbwml_pkg/{luci-app-filebrowser-go,filebrowser} ./package/add/
+rm -rf ./feeds/luci/applications/luci-app-filebrowser-go ./feeds/packages/utils/filebrowser
+cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
+p "Samba4 网络共享"
+sed -i 's/nas/services/g' ./feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
+p "硬盘休眠"
+sed -i 's/nas/services/g' ./feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
 
 
 p "复制自定义文件目录"
 cp -rf ${ffdir}/patch/files ./files
-mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/scripts/lede/zzz-default-settings ./files/etc/uci-defaults/
+mkdir -p ./files/etc/uci-defaults
+cp -f ${ffdir}/scripts/lede/zzz-default-settings ./files/etc/uci-defaults/ && \
+sed -i "s/build_date/${build_date}/g" ./files/etc/uci-defaults/zzz-default-settings
 p "写入 banner"
-cat <<-EOF > files/etc/banner
- ▄   ▄▄▄  ▄ ▄▄▄
- ▀▀▀ ▀▀  ▀▀ ▀▀
-EOF
+length=$((${#distrib_revision} + ${#build_date} + 14))
+echo -n "." >> ./files/etc/banner && \
+for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "." >> ./files/etc/banner
+echo "|  \"LEDE ${distrib_revision} @ ${build_date}\"  |" >> ./files/etc/banner
+echo -n "'" >> ./files/etc/banner && \
+for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "'" >> ./files/etc/banner
 
 
 p "清理临时文件"

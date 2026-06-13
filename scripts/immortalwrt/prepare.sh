@@ -43,8 +43,7 @@ clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone main ${amlogic_repo} ${otherdir}/amlogic &
-clone master ${dockerman_repo} ${otherdir}/dockerman &
-clone master ${docker_lib_repo} ${otherdir}/docker_lib &
+clone main ${podman_repo} ${otherdir}/podman &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone 25.12 ${yaof_repo} ${otherdir}/yaof &
 wait && sync
@@ -71,7 +70,7 @@ p "更新 Feeds"
 
 
 p "卸载无法编译的包"
-./scripts/feeds uninstall onionshare-cli luci-app-mjpg-streamer || true
+./scripts/feeds uninstall onionshare-cli || true
 p "luci-app-attendedsysupgrade"
 sed -i '/luci-app-attendedsysupgrade/d' ./feeds/luci/collections/luci-nginx/Makefile
 
@@ -151,13 +150,13 @@ CONFIG_NETKIT=y
 
 p "预编译 node"
 rm -rf ./feeds/packages/lang/node/node
-clone packages-24.10 https://github.com/sbwml/feeds_packages_lang_node-prebuilt ./feeds/packages/lang/node/node
+clone packages-24.10 ${node_repo} ./feeds/packages/lang/node/node
 p "更换 golang 版本"
 rm -rf ./feeds/packages/lang/golang
 cp -rf ${otherdir}/imm_pkg_ma/lang/golang ./feeds/packages/lang/golang
 p "rust"
-wget https://github.com/rust-lang/rust/commit/cdae267.patch -O ./feeds/packages/lang/rust/patches/cdae267.patch
-sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ./feeds/packages/lang/rust/Makefile
+rm -rf ./feeds/packages/lang/rust
+clone main ${rust_repo} ./feeds/packages/lang/rust
 
 p "mount cgroupv2"
 mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
@@ -189,26 +188,26 @@ rm -rf ./feeds/packages/net/{v2ray-geodata,mosdns}
 cp -rf ${otherdir}/openwrt-add/luci-app-mosdns ./package/add/luci-app-mosdns
 cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
 
-p "Docker 容器"
-rm -rf ./feeds/luci/applications/luci-app-dockerman
-cp -rf ${otherdir}/dockerman/applications/luci-app-dockerman ./package/add/luci-app-dockerman
-sed -i '/auto_start/d' ./package/add/luci-app-dockerman/root/etc/uci-defaults/luci-app-dockerman
-pushd feeds/packages
-wget -qO- https://github.com/openwrt/packages/commit/e2e5ee69.patch | patch -p1
-wget -qO- https://github.com/openwrt/packages/pull/20054.patch | patch -p1
-popd
-sed -i '/sysctl.d/d' ./feeds/packages/utils/dockerd/Makefile
-pushd package/add/luci-app-dockerman
-bash ${ffdir}/scripts/docker.sh
-popd
-cp -rf ${otherdir}/docker_lib/collections/luci-lib-docker ./package/add/
-sed -i '/PKG_VERSION/s/v//' ./package/add/{luci-app-dockerman/Makefile,luci-lib-docker/Makefile}
+p "Podman"
+cp -rf ${otherdir}/podman ./package/luci-app-podman
+sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/resources/podman/model/{Pod.js,Image.js,Model.js,Container.js}
+sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/resources/view/podman/{overview.js,container.js,pod.js,pod-tab/info.js}
+sed -i 's#admin/#&services/#g' ./package/luci-app-podman/root/usr/share/luci/menu.d/luci-app-podman.json
+rm -rf ./feeds/packages/utils/podman
+cp -rf ${otherdir}/imm_pkg_ma/utils/podman ./feeds/packages/utils/podman
 
 p "Nlbw 带宽监控"
-sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
-sed -i 's,services,network,g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
+sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
+sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
 p "Bandix 流量监控"
 cp -rf ${otherdir}/openwrt-add/{openwrt-bandix,luci-app-bandix} ./package/add/
+p "Samba4 网络共享"
+sed -i 's/nas/services/g' ./feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
+p "硬盘休眠"
+sed -i 's/nas/services/g' ./feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
+p "Filebrowser 文件管理器"
+rm -rf ./feeds/luci/applications/luci-app-filebrowser-go ./feeds/packages/utils/filebrowser
+cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
 
 p "晶晨宝盒"
 cp -rf ${otherdir}/amlogic/luci-app-amlogic ./package/add/
@@ -224,12 +223,16 @@ rm -f profiles.json
 
 p "复制自定义文件目录"
 cp -rf ${ffdir}/patch/files ./files
-mkdir -p ./files/etc/uci-defaults && cp -f ${ffdir}/scripts/immortalwrt/zzz-default-settings ./files/etc/uci-defaults/
+mkdir -p ./files/etc/uci-defaults
+cp -f ${ffdir}/scripts/immortalwrt/zzz-default-settings ./files/etc/uci-defaults/ && \
+sed -i "s/build_date/${build_date}/g" ./files/etc/uci-defaults/zzz-default-settings
 p "写入 banner"
-cat <<-EOF > files/etc/banner
- ▄  ▄ ▄ ▄  ▄▄ ▄▄  ▄▄▄  ▄  ▄
- ▀ ▀ ▀ ▀ ▀ ▀▀ ▀ ▀  ▀  ▀ ▀ ▀▀
-EOF
+length=$((${#latest_release} + ${#build_date} + 21))
+echo -n "." >> ./files/etc/banner && \
+for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "." >> ./files/etc/banner
+echo "|  \"ImmortalWrt ${latest_release} @ ${build_date}\"  |" >> ./files/etc/banner
+echo -n "'" >> ./files/etc/banner && \
+for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "'" >> ./files/etc/banner
 
 
 p "清理临时文件"

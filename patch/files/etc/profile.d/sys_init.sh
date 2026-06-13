@@ -1,7 +1,6 @@
-[ -x /bin/more ] || [ -x /usr/bin/more ] || alias more=less
-[ -x /usr/bin/vim ] && alias vi=vim || alias vim=vi
-
-export PS1='\w \$ '
+#
+# 一些命令缩写和增强
+#
 
 # 命令缩写
 alias ll='ls -alhF --color=auto'
@@ -20,8 +19,8 @@ alias 666='chmod -R 666'
 alias 755='chmod -R 755'
 alias 777='chmod -R 777'
 
-# 自用，依赖 `docker pull ffuqiangg/m3u8-dl`
-# alias m3u8-dl='docker run --rm -v "/mnt/sda1:/downloads" ffuqiangg/m3u8-dl'
+# 自用，依赖 `podman pull ffuqiangg/m3u8-dl`
+# alias m3u8-dl='podman run --rm -v "/mnt/sda1:/downloads" ffuqiangg/m3u8-dl'
 
 # 复制并进入目录
 cpg ()
@@ -69,11 +68,3 @@ up ()
 # 匹配命令历史
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
-
-[ -z "$KSH_VERSION" -o \! -s /etc/mkshrc ] || . /etc/mkshrc
-
-[ -x /usr/bin/arp -o -x /sbin/arp ] || arp() { cat /proc/net/arp; }
-[ -x /usr/bin/ldd ] || ldd() { LD_TRACE_LOADED_OBJECTS=1 $*; }
-
-[ -n "$KSH_VERSION" -o \! -s "$HOME/.shinit" ] || . "$HOME/.shinit"
-[ -z "$KSH_VERSION" -o \! -s "$HOME/.mkshrc" ] || . "$HOME/.mkshrc"

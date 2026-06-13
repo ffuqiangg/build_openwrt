@@ -9,16 +9,16 @@
 - 打包版 : ImmortalWrt, OpenWrt (基于 Armbian 内核打包)
 
 > [!TIP]
-> **默认服务说明：** 为了节省资源，固件默认禁用了 **docker** 和 **ttyd** 。
-> - 启用 ttyd : 前往 `系统 -> 启动项`，找到 `ttyd` 点击 `启用` 并 `启动`。 (禁用不影响 SSH 连接)
-> - 启用 Docker : 在 `DockerMan` 配置页面开启 `自动启动`，并在概览页点击 `启动`。
+> **默认服务说明：** 为了节省资源，固件默认禁用了 **podman** 和 **ttyd** 。
+> - 启用方法 : 在 `系统 -> 启动项` 页面 `启用` + `启动` 对应服务。
+> - 首次启动 podman 务必在 `luci-app-podman -> 网络` 页检查初始化状态，出现 ❌ 则点击该符号完成初始化配置。
 
 ##
 
 ### 1. 🛠️ 安装前准备：调整分区空间
 
 在写入 EMMC 前，你可以根据需求调整系统分区大小 (默认 1G) 。  
-注意 : 增大系统分区会相应压缩 Docker 的可用空间。如无需调整，请跳过此步。
+注意 : 增大系统分区会相应压缩 podman 的可用空间。如无需调整，请跳过此步。
 
 1. **ImmortalWrt / OpenWrt** ：将 `NUM` 修改为所需大小 (单位 MiB)
 ```bash
@@ -85,8 +85,8 @@ echo -e "y\n" | install-to-emmc.sh
 | :--- | :---: | :---: | :--- | :--- |
 | passwall | ✅ | 可选 | 老牌科学插件，功能完善。使用 xray / sing-box 核心可一定程度配置分流。 | [Github](https://github.com/Openwrt-Passwall/openwrt-passwall) |
 | nikki | ✅ | mihomo | 通过 LuCI 可进行极细致的调整，但分流规则的调整不够灵活。 | [Wiki](https://github.com/nikkinikki-org/OpenWrt-nikki/wiki) |
-| momo | ✅ | sing-box | 插件主要用于配置网络环境，配置文件须用户自行调整，适合搭配订阅转换服务使用。 | [Wiki](https://github.com/nikkinikki-org/OpenWrt-momo/wiki) |
+| momo | ✅ | sing-box | 插件着力于配置防火墙，配置文件须用户自行调整，适合搭配订阅转换服务使用。 | [Wiki](https://github.com/nikkinikki-org/OpenWrt-momo/wiki) |
 | homeproxy | ✅ | sing-box | 无 Web 面板，优点是无需 sing-box 订阅。适合使用大陆白名单模式的用户。 | [Github](https://github.com/immortalwrt/homeproxy) |
 | V2rayA | ✅ | xray | 通过专用的 RoutingA 语言可自由配置 DNS 和路由规则。 | [Docs](https://v2raya.org/docs/prologue/introduction/) |
-| sing-box 脚本 | ❌ | sing-box | 需要 sing-box 订阅，合并订阅，方便的设置分流。裸核运行没有 LuCI 。 | [Docs](sing-box.md) [Wiki](https://sing-box.sagernet.org/zh/) |
-| mihomo 脚本 | ✅ | mihomo | mihomo 启动器，最大的特点是多个订阅会自动合并。裸核运行没有 LuCI 。 | [Docs](mihomo.md) [Wiki](https://wiki.metacubex.one) |
+| sing-box 脚本 | ❌ | sing-box | 用于裸核 sing-box 的脚本。在原版基础上增加了多订阅合并功能。 | [Docs](sing-box.md) [Wiki](https://sing-box.sagernet.org/zh/) |
+| mihomo 脚本 | ✅ | mihomo | 裸核 mihomo 启动器，原汁原味的 mihomo 体验。 | [Docs](mihomo.md) [Wiki](https://wiki.metacubex.one) |

@@ -7,7 +7,7 @@
 如果只是想要大陆白名单规则和基础的订阅转换，可以直接使用下面的命令创建容器。再使用链接 `http://宿主机IP:5050/config/订阅链接` 作为 sing-box 订阅地址。
 
 docker-compose
-```docker-compse
+```yaml
 services:
   subscribe:
     container_name: subscribe
@@ -18,7 +18,7 @@ services:
     restart: always
 ```
 docker run
-```docker
+```sh
 docker run -d \
   --name subscribe \
   -p 5050:5000 \
@@ -33,7 +33,7 @@ docker run -d \
 自定义分流需要自己写模板文件放到 docker 宿主机中，然后用下面的命令创建容器。使用链接 `http://宿主机IP:5050/config/订阅链接` 作为 sing-box 订阅地址。
 
 docker-compose
-```docker-compse
+```yaml
 services:
   subscribe:
     container_name: subscribe
@@ -46,7 +46,7 @@ services:
     restart: always
 ```
 docker run
-```docker
+```sh
 docker run -d \
   --name subscribe \
   -v 模板文件目录:/sing-box-subscribe/config_template \

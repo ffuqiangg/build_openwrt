@@ -1,11 +1,11 @@
 #!/bin/sh
+#
+# 首次启动后执行，进行一些默认设置。运行后会自动删除此脚本。
+#
 
-# 时区 & ZRam
+# 时区
 uci set system.@system[0].timezone=CST-8
 uci set system.@system[0].zonename=Asia/Shanghai
-uci set system.@system[0].zram_enabled='1'
-uci set system.@system[0].zram_comp_algo='lz4'
-uci set system.@system[0].zram_size_mb=1000
 uci del system.ntp.server
 uci add_list system.ntp.server='ntp.aliyun.com'
 uci add_list system.ntp.server='cn.ntp.org.cn'
@@ -20,8 +20,12 @@ sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:
 uci set dropbear.@dropbear[0].Interface='lan'
 uci commit dropbear
 
+# 禁用 wifi
+uci set wireless.@wifi-device[0].disabled='1'
+uci commit wireless
+
 # nginx 设置
-sed -i 's,deny all,allow all,g' /etc/nginx/restrict_locally
+sed -i 's/deny all/allow all/g' /etc/nginx/restrict_locally
 uci delete nginx._redirect2ssl.return
 uci delete nginx._redirect2ssl.include
 uci add_list nginx._redirect2ssl.include='restrict_locally'
@@ -37,16 +41,24 @@ set cpufreq.cpufreq.maxfreq0='1512000'
 EOI
 uci commit cpufreq
 
+# 启用 KMS 服务器
+uci batch << EOI
+set vlmcsd.config.enabled='1'
+set vlmcsd.config.auto_activate='1'
+set vlmcsd.config.internet_access='1'
+EOI
+uci commit vlmcsd
+
 # MosDNS
 uci set mosdns.config.log_level='error'
 uci commit mosdns
 
 # Feeds 更换镜像源
-sed -i 's,downloads.openwrt.org,mirror.sjtu.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf
+sed -i 's#downloads.openwrt.org#mirror.nju.edu.cn/openwrt#g' /etc/opkg/distfeeds.conf
 
 # 默认开启 Packet Steering
 uci set network.globals.packet_steering='2'
-uci set network.globals.steering_flows='128'
+uci set network.globals.steering_flows='256'
 uci commit network
 
 # 通用即插即用
@@ -71,25 +83,14 @@ uci commit system
 [ -f /usr/share/v2ray/geoip.dat ] && ln -sf /usr/share/v2ray/geoip.dat /usr/share/xray/geoip.dat
 [ -f /usr/share/v2ray/geosite.dat ] && ln -sf /usr/share/v2ray/geosite.dat /usr/share/xray/geosite.dat
 
-# rpcd
-[ $(uci -q get rpcd.@rpcd[0].timeout) -lt 60 ] && uci set rpcd.@rpcd[0].timeout=60 && uci commit rpcd
+# Podman
+sed -i '/firewall_driver/c\firewall_driver = "nftables"' /etc/containers/containers.conf
+sed -i '/^graphroot/c\graphroot = "/opt/containers/storage"' /etc/containers/storage.conf
 
 # Flag packages (禁止更新)
 opkg flag hold luci-app-firewall
 opkg flag hold firewall
 opkg flag hold dnsmasq-full
-
-# 禁用Docker自动启动
-uci set dockerd.globals.auto_start='0'
-uci commit dockerd
-
-# docker 镜像站点
-if [ -f /etc/config/dockerd ]; then
-    uci del dockerd.globals.registry_mirrors
-    uci add_list dockerd.globals.registry_mirrors='https://dockerproxy.net'
-    uci add_list dockerd.globals.registry_mirrors='https://docker.m.daocloud.io'
-    uci commit dockerd
-fi
 
 # 禁用某些可能会自启动且用不上的依赖包服务
 /etc/init.d/haproxy disable 2>/dev/null
@@ -100,8 +101,12 @@ fi
 /etc/init.d/sing-box stop
 /etc/init.d/ttyd disable 2>/dev/null
 /etc/init.d/ttyd stop
-/etc/init.d/dockerd disable 2>/dev/null
-/etc/init.d/dockerd stop
+/etc/init.d/podman disable 2>/dev/null
+/etc/init.d/podman stop
+
+# openwr_release 写入编译日期
+sed -i '/BUILD_DATE/d' /etc/openwrt_release
+echo "BUILD_DATE='build_date'" >> /etc/openwrt_release
 
 # 清除 LuCI 残留缓存
 rm -rf /tmp/luci-modulecache
