@@ -26,7 +26,7 @@ fi
 # 下载文件
 curl -fkL --connect-timeout 30 -m 600 -o /www/packages.zip ${mirror}${download_url}${download_file}
 if [ $? -ne 0 ]; then
-    echo -e "\033[1;31mError:\033[0m packages download failed. Exit!"
+    echo -e "\033[1;31mERRO\033[0m Packages download failed. Exit!"
     exit 1
 fi
 
