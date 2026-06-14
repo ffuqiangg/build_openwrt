@@ -157,6 +157,9 @@ clone 26.x ${golang_repo} ./feeds/packages/lang/golang
 p "rust"
 rm -rf ./feeds/packages/lang/rust
 clone main ${rust_repo} ./feeds/packages/lang/rust
+p "Coremark"
+rm -rf ./feeds/packages/utils/coremark
+cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
 
 p "mount cgroupv2"
 mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches

@@ -175,6 +175,9 @@ cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makefile
 p "Autocore"
 cp -rf ${otherdir}/autocore-arm ./package/add/autocore
+p "Coremark
+rm -rf ./feeds/packages/utils/coremark
+cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
 
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box

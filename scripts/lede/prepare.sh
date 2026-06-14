@@ -147,6 +147,9 @@ clone packages-24.10 ${node_repo} ./feeds/packages/lang/node
 p "golang"
 rm -rf ./feeds/packages/lang/golang
 clone 26.x ${golang_repo} ./feeds/packages/lang/golang
+p "Coremark"
+rm -rf ./feeds/packages/utils/coremark
+cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
 
 p "mount cgroupv2"
 pushd feeds/packages
