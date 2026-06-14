@@ -7,10 +7,6 @@
 uci set dropbear.@dropbear[0].Interface='lan'
 uci commit dropbear
 
-# 禁用 wifi
-uci set wireless.@wifi-device[0].disabled='1'
-uci commit wireless
-
 # nginx 设置
 sed -i 's/deny all/allow all/g' /etc/nginx/restrict_locally
 uci delete nginx._redirect2ssl.return

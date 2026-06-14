@@ -46,17 +46,19 @@ wait && sync
 
 p "一些调整"
 p "修改 IP ( 192.168.1.99 )"
-    sed -i "s/\s'dhcp'//" ${wrtdir}/target/linux/amlogic/base-files/etc/board.d/02_network
-    sed -i 's/192.168.100.1/192.168.1.99/g' ${wrtdir}/package/istoreos-files/Makefile
+sed -i "s/\s'dhcp'//" ${wrtdir}/target/linux/amlogic/base-files/etc/board.d/02_network
+sed -i 's/192.168.100.1/192.168.1.99/g' ${wrtdir}/package/istoreos-files/Makefile
 p "修改主题 ( bootstrap )"
-    sed -i '/luci-theme-argon/d' ${wrtdir}/package/istoreos-files/Makefile
-    sed -i 'N;/\n.*shortcut icon/!P;D' ${wrtdir}/package/istoreos-files/Makefile
-    sed -i '/shortcut icon/,/luci-argon-config/d' ${wrtdir}/package/istoreos-files/Makefile
-    sed -i '/config\/argon/,+6d' ${wrtdir}/package/istoreos-files/files/etc/uci-defaults/09_istoreos
-    rm -f ${wrtdir}/package/istoreos-files/files/etc/uci-defaults/99_theme
+sed -i '/luci-theme-argon/d' ${wrtdir}/package/istoreos-files/Makefile
+sed -i 'N;/\n.*shortcut icon/!P;D' ${wrtdir}/package/istoreos-files/Makefile
+sed -i '/shortcut icon/,/luci-argon-config/d' ${wrtdir}/package/istoreos-files/Makefile
+sed -i '/config\/argon/,+6d' ${wrtdir}/package/istoreos-files/files/etc/uci-defaults/09_istoreos
+rm -f ${wrtdir}/package/istoreos-files/files/etc/uci-defaults/99_theme
 p "针对 N1 的编译优化"
-    sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
-    sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
+sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
+sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
+p "取消 wifi 编译"
+sed -i '/43455-sdio/d' ./target/linux/amlogic/image/meson.mk
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
