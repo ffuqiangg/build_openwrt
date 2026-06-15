@@ -29,6 +29,10 @@ uci add_list nginx._redirect2ssl.include='conf.d/*.locations'
 uci commit nginx
 /etc/init.d/nginx restart
 
+# 禁用 WIFI
+uci set wireless.@wifi-device[0].disabled='1'
+uci commit wireless
+
 # Cpufreq 设置
 uci batch << EOI
 set cpufreq.cpufreq.governor0='schedutil'

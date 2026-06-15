@@ -49,8 +49,8 @@ sed -i "/lan) ipad=\${ipaddr:-/s/\${ipaddr:-\"[^\"]*\"}/\${ipaddr:-\"192.168.1.9
 p "针对 N1 的编译优化"
 sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
 sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
-p "取消 wifi 编译"
-sed -i '/43455-sdio/d' ./target/linux/amlogic/image/mesongx.mk
+p "禁用 WIFI"
+sed -i "s/disabled='0'/disabled='1'/g" ./package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
