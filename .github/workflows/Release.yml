@@ -108,18 +108,16 @@ jobs:
     - name: TG 通知
       run: |
         date="
-        📖 **${{ env.BUILD_DATE }} 固件发布**
+        ✨ **${{ env.BUILD_DATE }} 固件发布**
 
-        📝 **更新日志**
-        "
-        url="
-
-        🔗 **固件下载地址**
-        https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.BUILD_DATE }}
         "
         new="$(sed -n '/更新内容/,$p' ./doc/release.md | sed '1,2d' | sed 's/^-/・/g')"
+        url="
+
+        --- 固件下载地址 ---
+        https://github.com/ffuqiangg/build\_openwrt/releases/tag/${{ env.BUILD_DATE }}
+        "
         msg="${date}${new}${url}"
-        if [ "${files}" == '6' ]; then
-          curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
-            -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${msg}&parse_mode=MarkDown&disable_web_page_preview=true"
-        fi
+
+        curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+          -d "chat_id=${{ secrets.TELEGRAM_TO }}&text=${msg}&parse_mode=MarkDown&disable_web_page_preview=true"
