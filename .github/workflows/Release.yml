@@ -25,28 +25,28 @@ jobs:
         # 获取 run id
         immortalwrt_run_id="$(
           curl \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ffuqiangg/build_openwrt/actions/runs |
           jq -r '.workflow_runs[] | select(.name == "ImmortalWrt") | .id' |
            head -n 1
         )"
         openwrt_run_id="$(
           curl \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ffuqiangg/build_openwrt/actions/runs |
           jq -r '.workflow_runs[] | select(.name == "OpenWrt") | .id' |
            head -n 1
         )"
         lede_run_id="$(
           curl \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ffuqiangg/build_openwrt/actions/runs |
           jq -r '.workflow_runs[] | select(.name == "LEDE") | .id' |
            head -n 1
         )"
         istoreos_run_id="$(
           curl \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ffuqiangg/build_openwrt/actions/runs |
           jq -r '.workflow_runs[] | select(.name == "iStoreOS") | .id' |
            head -n 1
@@ -60,7 +60,7 @@ jobs:
       uses: actions/download-artifact@main
       with:
         name: firmware
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GH_TOKEN }}
         path: ${{ github.workspace }}/artifact
         run-id: ${{ env.IMMORTALWRT_RUN_ID }}
 
@@ -68,7 +68,7 @@ jobs:
       uses: actions/download-artifact@main
       with:
         name: firmware
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GH_TOKEN }}
         path: ${{ github.workspace }}/artifact
         run-id: ${{ env.OPENWRT_RUN_ID }}
 
@@ -76,7 +76,7 @@ jobs:
       uses: actions/download-artifact@main
       with:
         name: firmware
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GH_TOKEN }}
         path: ${{ github.workspace }}/artifact
         run-id: ${{ env.LEDE_RUN_ID }}
 
@@ -84,7 +84,7 @@ jobs:
       uses: actions/download-artifact@main
       with:
         name: firmware
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GH_TOKEN }}
         path: ${{ github.workspace }}/artifact
         run-id: ${{ env.ISTOREOS_RUN_ID }}
 
@@ -97,7 +97,7 @@ jobs:
     - name: 发布固件
       uses: ncipollo/release-action@main
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
         tag: ${{ env.BUILD_DATE }}
         allowUpdates: true
