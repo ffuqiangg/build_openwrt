@@ -85,7 +85,7 @@ echo -e "y\n" | install-to-emmc.sh
 | :--- | :---: | :---: | :--- | :--- |
 | passwall | ✅ | 可选 | 老牌科学插件，功能完善。使用 xray / sing-box 核心可一定程度配置分流。 | [Github](https://github.com/Openwrt-Passwall/openwrt-passwall) |
 | nikki | ✅ | mihomo | 通过 LuCI 可进行极细致的调整，但分流规则的调整不够灵活。 | [Wiki](https://github.com/nikkinikki-org/OpenWrt-nikki/wiki) |
-| momo | ✅ | sing-box | 插件着力于配置防火墙，配置文件须用户自行调整，适合搭配订阅转换服务使用。 | [Wiki](https://github.com/nikkinikki-org/OpenWrt-momo/wiki) |
+| momo | ✅ | sing-box | 插件需要按特定要求修改配置文件，适合搭配订阅转换服务使用。 | [Wiki](https://github.com/nikkinikki-org/OpenWrt-momo/wiki) |
 | homeproxy | ✅ | sing-box | 无 Web 面板，优点是无需 sing-box 订阅。适合使用大陆白名单模式的用户。 | [Github](https://github.com/immortalwrt/homeproxy) |
 | V2rayA | ✅ | xray | 通过专用的 RoutingA 语言可自由配置 DNS 和路由规则。 | [Docs](https://v2raya.org/docs/prologue/introduction/) |
 | sing-box 脚本 | ❌ | sing-box | 用于裸核 sing-box 的脚本。在原版基础上增加了多订阅合并功能。 | [Docs](sing-box.md) [Wiki](https://sing-box.sagernet.org/zh/) |
