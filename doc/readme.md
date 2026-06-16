@@ -51,7 +51,7 @@ openwrt-update-amlogic
 > [!IMPORTANT]
 > - **严禁改动系统挂载点！** 否则可能导致无法开机。
 > - 更新前务必将固件解压为 `.img.gz` 格式，否则系统无法识别。
-> - Docker 容器如需映射 EMMC 路径，请务必指向 `/mnt/mmcblk2p4` 。
+> - Podman 容器如需映射 EMMC 路径，请务必指向 `/mnt/mmcblk2p4` 。
 
 ### 3. 💾 LEDE / iStoreOS 安装与配置
 
@@ -77,7 +77,7 @@ echo -e "y\n" | install-to-emmc.sh
 4. 更新系统 : 前往 `系统 -> 备份与升级 -> 刷写新的固件`，同样需使用 `.img.gz` 格式
 
 > [!IMPORTANT]
-> Docker 容器如需映射 EMMC 路径，请务必指向 `/opt` 。
+> Podman 容器如需映射 EMMC 路径，请务必指向 `/opt` 。
 
 ### 4. 🛡️ 科学上网插件对比
 
