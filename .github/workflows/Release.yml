@@ -108,11 +108,11 @@ jobs:
     - name: TG 通知
       run: |
         message="
-        ✨ *${{ env.BUILD_DATE }} 固件发布*
+        *${{ env.BUILD_DATE }} 固件发布*
 
-        $(awk '/更新内容/{f=1; c=2; next} f && --c<=0' ./doc/release.md | sed 's/^-/ ▎/g' | sed 'G')
+        $(awk '/更新内容/{f=1; c=2; next} f && --c<=0' ./doc/release.md | sed 'G')
 
-        ➕ [固件下载地址](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ env.BUILD_DATE }}) | [刷机说明](https://github.com/ffuqiangg/build_openwrt/doc/readme.md)
+        [固件下载地址](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ env.BUILD_DATE }}) | [刷机说明](https://github.com/ffuqiangg/build_openwrt/doc/readme.md)
         "
 
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
