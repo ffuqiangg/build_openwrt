@@ -68,7 +68,7 @@ echo -n '(2/6) downloading sing-box.conf ... '
 if curl -fkL --connect-timeout 30 -m 600 -o /etc/config/sing-box ${mirror}${download_dir}/generic/sing-box.conf > /dev/null 2>&1; then
     echo 'done'
     compare_and_restore
-    [ -f "/etc/config/sing-box.bak" ] && echo -e "[ \033[1;33mW\033[0m ] config backup to /etc/config/sing-box.bak!"
+    [ -f "/etc/config/sing-box.bak" ] && echo -e "[ \033[1;33m!\033[0m ] config backup to /etc/config/sing-box.bak!"
 else
     [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
     echo 'failed'
