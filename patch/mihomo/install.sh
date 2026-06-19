@@ -5,11 +5,6 @@
 # 文档: https://github.com/ffuqiangg/build_openwrt/blob/main/doc/mihomo.md
 #
 
-# 打印输出信息函数
-red_msg() { printf "\033[1;31m%s\033[0m %s\n" "$@"; }
-green_msg() { printf "\033[1;32m%s\033[0m %s\n" "$@"; }
-yellow_msg() { printf "\033[1;33m%s\033[0m %s\n" "$@"; }
-
 # 检测网络环境决定是否使用 github 代理
 ip_info=$(curl -sk https://ip.cooluc.com)
 country_code=$(echo $ip_info | sed -r 's/.*country_code":"([^"]*).*/\1/')
@@ -25,23 +20,25 @@ download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/pat
 [ -d "/etc/mihomo" ] || mkdir -p /etc/mihomo
 
 # 下载文件
-green_msg "INFO" "Downloading /etc/init.d/mihomo ..."
-curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/mihomo ${mirror}${download_dir}/mihomo.init
-if [ $? -ne 0 ]; then
-    red_msg "ERRO" "/etc/init.d/mihomo download failed. Exit!"
+echo -n '(1/2) downloading mihomo.init ... '
+if curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/mihomo ${mirror}${download_dir}/mihomo.init > /dev/null 2>&1; then
+    echo 'done'
+    [ -x "/etc/init.d/mihomo" ] || chmod +x /etc/init.d/mihomo
+else
+    echo 'failed'
     exit 1
 fi
-[ -x "/etc/init.d/mihomo" ] || chmod +x /etc/init.d/mihomo
 
+echo -n '(2/2) downloading config.yaml ... '
 if [ -f "/etc/mihomo/config.yaml" ]; then
-    yellow_msg "WARN" "/etc/mihomo/config.yaml exists, Skip download."
+    echo 'skip'
 else
-    green_msg "INFO" "Downloading /etc/mihomo/config.yaml ..."
-    curl -fkL --connect-timeout 30 -m 600 -o /etc/mihomo/config.yaml ${mirror}${download_dir}/config.yaml
-    if [ $? -ne 0 ]; then
-        red_msg "ERRO" "/etc/mihomo/config.yaml download failed. Exit!"
+    if curl -fkL --connect-timeout 30 -m 600 -o /etc/mihomo/config.yaml ${mirror}${download_dir}/config.yaml > /dev/null 2>&1; then
+        echo 'done'
+    else
+        echo 'failed'
         exit 1
     fi
 fi
 
-green_msg "✔" "All done, Enjoy!"
+echo -e "[ \033[1;32m✔\033[0m ] All done, Enjoy!"

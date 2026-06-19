@@ -5,11 +5,6 @@
 # 文档: https://github.com/ffuqiangg/build_openwrt/blob/main/doc/sing-box.md
 #
 
-# 打印输出信息函数
-red_msg() { printf "\033[1;31m%s\033[0m %s\n" "$@"; }
-green_msg() { printf "\033[1;32m%s\033[0m %s\n" "$@"; }
-yellow_msg() { printf "\033[1;33m%s\033[0m %s\n" "$@"; }
-
 # 检测网络环境决定是否使用 github 代理
 ip_info=$(curl -sk https://ip.cooluc.com)
 country_code=$(echo $ip_info | sed -r 's/.*country_code":"([^"]*).*/\1/')
@@ -59,55 +54,61 @@ for dir in scripts resources run profiles; do mkdir -p /etc/sing-box/${dir}; don
 [ -f "/etc/sing-box/config.json" ] && rm -f /etc/sing-box/config.json
 
 # 下载文件
-green_msg "INFO" "Downloading /etc/init.d/sing-box ..."
-curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/sing-box ${mirror}${download_dir}/${firewall}/sing-box.init
-if [ $? -ne 0 ]; then
-    red_msg "ERRO" "/etc/init.d/sing-box download failed. Exit!"
+echo -n '(1/6) downloading sing-box.init ... '
+if curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/sing-box ${mirror}${download_dir}/${firewall}/sing-box.init > /dev/null 2>&1; then
+    echo 'done'
+else
+    echo 'failed'
     exit 1
 fi
 [ -x "/etc/init.d/sing-box" ] || chmod +x /etc/init.d/sing-box
 
-green_msg "INFO" "Downloading /etc/config/sing-box ..."
 [ -f "/etc/config/sing-box" ] && mv /etc/config/sing-box /etc/config/sing-box.bak
-curl -fkL --connect-timeout 30 -m 600 -o /etc/config/sing-box ${mirror}${download_dir}/generic/sing-box.conf
-if [ $? -ne 0 ]; then
+echo -n '(2/6) downloading sing-box.conf ... '
+if curl -fkL --connect-timeout 30 -m 600 -o /etc/config/sing-box ${mirror}${download_dir}/generic/sing-box.conf > /dev/null 2>&1; then
+    echo 'done'
+    compare_and_restore
+    [ -f "/etc/config/sing-box.bak" ] && echo -e "[ \033[1;33mW\033[0m ] config backup to /etc/config/sing-box.bak!"
+else
     [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
-    red_msg "ERRO" "/etc/config/sing-box download failed. Exit!"
-    exit 1
-fi
-compare_and_restore
-[ -f "/etc/config/sing-box.bak" ] && yellow_msg "WARN" "Backupfile /etc/config/sing-box.bak!"
-
-green_msg "INFO" "Downloading /etc/sing-box/scripts/generate_config.uc ..."
-curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/scripts/generate_config.uc ${mirror}${download_dir}/generic/generate_config.uc
-if [ $? -ne 0 ]; then
-    [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
-    red_msg "ERRO" "/etc/sing-box/scripts/generate_config.uc download failed. Exit!"
+    echo 'failed'
     exit 1
 fi
 
-green_msg "INFO" "Downloading /etc/sing-box/scripts/firewall_post.ut ..."
-curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/scripts/firewall_post.ut ${mirror}${download_dir}/${firewall}/firewall_post.ut
-if [ $? -ne 0 ]; then
+echo -n '(3/6) downloading generate_config.uc ... '
+if curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/scripts/generate_config.uc ${mirror}${download_dir}/generic/generate_config.uc > /dev/null 2>&1; then
+    echo 'done'
+else
     [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
-    red_msg "ERRO" "/etc/sing-box/scripts/firewall_post.ut download failed. Exit!"
+    echo 'failed'
     exit 1
 fi
 
-green_msg "INFO" "Downloading /etc/sing-box/resources/china_ip4.txt ..."
-curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/resources/china_ip4.txt ${mirror}${download_dir}/${firewall}/china_ip4.txt
-if [ $? -ne 0 ]; then
+echo -n '(4/6) downloading firewall_post.ut ... '
+if curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/scripts/firewall_post.ut ${mirror}${download_dir}/${firewall}/firewall_post.ut > /dev/null 2>&1; then
+    echo 'done'
+else
     [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
-    red_msg "ERRO" "/etc/sing-box/resources/china_ip4.txt download failed. Exit!"
+    echo 'failed'
     exit 1
 fi
 
-green_msg "INFO" "Downloading /etc/sing-box/resources/stream.json ..."
-curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/resources/stream.json ${mirror}${download_dir}/generic/stream.json
-if [ $? -ne 0 ]; then
+echo -n '(5/6) downloading china_ip4.txt ... '
+if curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/resources/china_ip4.txt ${mirror}${download_dir}/${firewall}/china_ip4.txt > /dev/null 2>&1; then
+    echo 'done'
+else
     [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
-    red_msg "ERRO" "/etc/sing-box/resources/stream.json download failed. Exit!"
+    echo 'failed'
     exit 1
 fi
 
-green_msg "✔" "All done, Enjoy!"
+echo -n '(6/6) downloading stream.json ... '
+if curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/resources/stream.json ${mirror}${download_dir}/generic/stream.json > /dev/null 2>&1; then
+    echo 'done'
+else
+    [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
+    echo 'failed'
+    exit 1
+fi
+
+echo -e "[ \033[1;32m✔\033[0m ] All done, Enjoy!"
