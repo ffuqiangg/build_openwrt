@@ -5,12 +5,12 @@ START=99
 
 PROG="/usr/bin/mihomo"
 CONF="/etc/mihomo/config.yaml"
-WORKDIR="/usr/share/mihomo"
+WORKDIR="/etc/mihomo/run"
 USER="root"
 
 start_service() {
     if [ ! -f "$CONF" ]; then
-        echo -e "\033[1;31mERRO\033[0m ${CONF} is not found. Exit!"
+        echo -e "\033[1;31m✘\033[0m ${CONF} is not found. Exit!"
         return
     fi
 
