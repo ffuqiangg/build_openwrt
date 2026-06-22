@@ -103,7 +103,7 @@ if curl -fkL --connect-timeout 30 -m 600 -o /etc/config/sing-box ${mirror}${down
     compare_and_restore
     [ -f "/etc/config/sing-box.bak" ] && echo -e "✨ config backup to /etc/config/sing-box.bak!"
 else
-    mv /etc/config/sing-box.bak /etc/config/sing-box
+    [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
     echo 'failed'
     exit 1
 fi
