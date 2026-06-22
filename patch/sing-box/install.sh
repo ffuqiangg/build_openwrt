@@ -54,7 +54,8 @@ for dir in scripts resources run profiles; do mkdir -p /etc/sing-box/${dir}; don
 [ -f "/etc/sing-box/config.json" ] && rm -f /etc/sing-box/config.json
 
 # 下载文件
-echo -n '(1/6) downloading sing-box.init ... '
+echo -e "\033[1;34m==>\033[0m Installing sing-box scripts:"
+echo -n '(1/6) /etc/init.d/sing-box ... '
 if curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/sing-box ${mirror}${download_dir}/${firewall}/sing-box.init > /dev/null 2>&1; then
     echo 'done'
 else
@@ -63,52 +64,48 @@ else
 fi
 [ -x "/etc/init.d/sing-box" ] || chmod +x /etc/init.d/sing-box
 
-[ -f "/etc/config/sing-box" ] && mv /etc/config/sing-box /etc/config/sing-box.bak
-echo -n '(2/6) downloading sing-box.conf ... '
-if curl -fkL --connect-timeout 30 -m 600 -o /etc/config/sing-box ${mirror}${download_dir}/generic/sing-box.conf > /dev/null 2>&1; then
-    echo 'done'
-    compare_and_restore
-    [ -f "/etc/config/sing-box.bak" ] && echo -e "[ \033[1;33m!\033[0m ] config backup to /etc/config/sing-box.bak!"
-else
-    [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
-    echo 'failed'
-    exit 1
-fi
-
-echo -n '(3/6) downloading generate_config.uc ... '
+echo -n '(2/6) /etc/sing-box/scripts/generate_config.uc ... '
 if curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/scripts/generate_config.uc ${mirror}${download_dir}/generic/generate_config.uc > /dev/null 2>&1; then
     echo 'done'
 else
-    [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
     echo 'failed'
     exit 1
 fi
 
-echo -n '(4/6) downloading firewall_post.ut ... '
+echo -n '(3/6) /etc/sing-box/scripts/firewall_post.ut ... '
 if curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/scripts/firewall_post.ut ${mirror}${download_dir}/${firewall}/firewall_post.ut > /dev/null 2>&1; then
     echo 'done'
 else
-    [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
     echo 'failed'
     exit 1
 fi
 
-echo -n '(5/6) downloading china_ip4.txt ... '
+echo -n '(4/6) /etc/sing-box/resources/china_ip4.txt ... '
 if curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/resources/china_ip4.txt ${mirror}${download_dir}/${firewall}/china_ip4.txt > /dev/null 2>&1; then
     echo 'done'
 else
-    [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
     echo 'failed'
     exit 1
 fi
 
-echo -n '(6/6) downloading stream.json ... '
+echo -n '(5/6) /etc/sing-box/resources/stream.json ... '
 if curl -fkL --connect-timeout 30 -m 600 -o /etc/sing-box/resources/stream.json ${mirror}${download_dir}/generic/stream.json > /dev/null 2>&1; then
     echo 'done'
 else
-    [ -f "/etc/config/sing-box.bak" ] && mv /etc/config/sing-box.bak /etc/config/sing-box
     echo 'failed'
     exit 1
 fi
 
-echo -e "[ \033[1;32m✔\033[0m ] All done, Enjoy!"
+[ -f "/etc/config/sing-box" ] && mv /etc/config/sing-box /etc/config/sing-box.bak
+echo -n '(6/6) /etc/config/sing-box ... '
+if curl -fkL --connect-timeout 30 -m 600 -o /etc/config/sing-box ${mirror}${download_dir}/generic/sing-box.conf > /dev/null 2>&1; then
+    echo 'done'
+    compare_and_restore
+    [ -f "/etc/config/sing-box.bak" ] && echo -e "✨ config backup to /etc/config/sing-box.bak!"
+else
+    mv /etc/config/sing-box.bak /etc/config/sing-box
+    echo 'failed'
+    exit 1
+fi
+
+echo -e "🎉 All done, Enjoy!"

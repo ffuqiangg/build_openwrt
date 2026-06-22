@@ -10,7 +10,7 @@ USER="root"
 
 start_service() {
     if [ ! -f "$CONF" ]; then
-        echo -e "[ \033[1;31m✘\033[0m ] ${CONF} is not found. Exit!"
+        echo -e "❌ ${CONF} is not found. Exit!"
         return
     fi
 

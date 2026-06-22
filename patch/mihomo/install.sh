@@ -20,7 +20,8 @@ download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/pat
 [ -d "/etc/mihomo" ] || mkdir -p /etc/mihomo
 
 # 下载文件
-echo -n '(1/2) downloading mihomo.init ... '
+echo -e "\033[1;34m==>\033[0m Installing mihomo scripts:"
+echo -n '(1/2) /etc/init.d/mihomo ... '
 if curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/mihomo ${mirror}${download_dir}/mihomo.init > /dev/null 2>&1; then
     echo 'done'
     [ -x "/etc/init.d/mihomo" ] || chmod +x /etc/init.d/mihomo
@@ -29,7 +30,7 @@ else
     exit 1
 fi
 
-echo -n '(2/2) downloading config.yaml ... '
+echo -n '(2/2) /etc/mihomo/config.yaml ... '
 if [ -f "/etc/mihomo/config.yaml" ]; then
     echo 'skip'
 else
@@ -41,4 +42,4 @@ else
     fi
 fi
 
-echo -e "[ \033[1;32m✔\033[0m ] All done, Enjoy!"
+echo -e "🎉 All done, Enjoy!"
