@@ -3,7 +3,7 @@
 # 此脚本用于部署本地 kmod 源
 #
 
-# 准备基础变量
+# --- 准备基础变量 ---
 source /etc/openwrt_release
 [ ! -n "$BUILD_DATE" ] && BUILD_DATE=$(grep -oE "[0-9]{4}\.[0-9]{2}\.[0-9]{2}" /etc/banner)
 download_url="https://github.com/ffuqiangg/build_openwrt/releases/download/${BUILD_DATE}/"
@@ -13,7 +13,7 @@ elif [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'iStoreOS') -ne 0 ]; then
     download_file="N1-iStoreOS-${DISTRIB_RELEASE}-${BUILD_DATE}-packages.zip"
 fi
 
-# 检测网络环境决定是否使用 github 代理
+# --- 检测网络环境决定是否使用 github 代理 ---
 ip_info=$(curl -sk https://ip.cooluc.com)
 country_code=$(echo $ip_info | sed -r 's/.*country_code":"([^"]*).*/\1/')
 if [ $country_code = "CN" ]; then
@@ -23,17 +23,15 @@ if [ $country_code = "CN" ]; then
     fi
 fi
 
-# 下载文件
+# --- 准备文件 ---
 curl -fkL --connect-timeout 30 -m 600 -o /www/packages.zip ${mirror}${download_url}${download_file}
 if [ $? -ne 0 ]; then
-    echo -e "\033[1;31mERRO\033[0m Packages download failed. Exit!"
+    echo -e "\033[1;31mE\033[0m Packages download failed. Exit!"
     exit 1
 fi
-
-# 解压文件
 rm -rf /www/packages && unzip -q /www/packages.zip -d /www/ && rm -f /www/packages.zip
 
-# 调整 distfeeds.conf
+# --- 调整 distfeeds.conf ---
 if [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'LEDE') -ne 0  ]; then
     sed -i '/openwrt_core/c src\/gz openwrt_core file:\/\/\/www\/packages' /etc/opkg/distfeeds.conf
 elif [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'iStoreOS') -ne 0 ]; then
@@ -41,7 +39,7 @@ elif [ $(echo "$DISTRIB_DESCRIPTION" | grep -c 'iStoreOS') -ne 0 ]; then
     sed -i '$a src\/gz openwrt_core file:\/\/\/www\/packages' /etc/opkg/compatfeeds.conf
 fi
 
-# 更新源
+# --- 更新源 ---
 opkg update
 
 exit 0

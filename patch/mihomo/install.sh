@@ -5,7 +5,7 @@
 # 文档: https://github.com/ffuqiangg/build_openwrt/blob/main/doc/mihomo.md
 #
 
-# 检测网络环境决定是否使用 github 代理
+# --- 检测网络环境决定是否使用 github 代理 ---
 ip_info=$(curl -sk https://ip.cooluc.com)
 country_code=$(echo $ip_info | sed -r 's/.*country_code":"([^"]*).*/\1/')
 if [ $country_code = "CN" ]; then
@@ -15,11 +15,11 @@ if [ $country_code = "CN" ]; then
     fi
 fi
 
-# 准备基础变量和目录
+# --- 准备基础变量和目录 ---
 download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/mihomo"
 [ -d "/etc/mihomo" ] || mkdir -p /etc/mihomo
 
-# 下载文件
+# --- 准备文件 ---
 echo -e "\033[1;34m::\033[0m Installing mihomo scripts:"
 echo -n '(1/2) /etc/init.d/mihomo ... '
 if curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/mihomo ${mirror}${download_dir}/mihomo.init > /dev/null 2>&1; then

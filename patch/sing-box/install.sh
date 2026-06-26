@@ -5,7 +5,7 @@
 # 文档: https://github.com/ffuqiangg/build_openwrt/blob/main/doc/sing-box.md
 #
 
-# 检测网络环境决定是否使用 github 代理
+# --- 检测网络环境决定是否使用 github 代理 ---
 ip_info=$(curl -sk https://ip.cooluc.com)
 country_code=$(echo $ip_info | sed -r 's/.*country_code":"([^"]*).*/\1/')
 if [ $country_code = "CN" ]; then
@@ -15,7 +15,7 @@ if [ $country_code = "CN" ]; then
     fi
 fi
 
-# 用于对比配置文件差异
+# --- 用于对比配置文件差异 ---
 compare_and_restore() {
     local BAK_FILE="/etc/config/sing-box.bak"
     local NEW_FILE="/etc/config/sing-box"
@@ -47,13 +47,13 @@ compare_and_restore() {
     fi
 }
 
-# 准备基础变量，处理目录和文件
+# --- 准备基础变量，处理目录和文件 ---
 download_dir="https://raw.githubusercontent.com/ffuqiangg/build_openwrt/main/patch/sing-box"
 for dir in scripts resources run profiles; do mkdir -p /etc/sing-box/${dir}; done
 [ -x "/sbin/fw4" ] && firewall='nftables' || firewall='iptables'
 [ -f "/etc/sing-box/config.json" ] && rm -f /etc/sing-box/config.json
 
-# 下载文件
+# --- 准备文件 ---
 echo -e "\033[1;34m::\033[0m Installing sing-box scripts:"
 echo -n '(1/6) /etc/init.d/sing-box ... '
 if curl -fkL --connect-timeout 30 -m 600 -o /etc/init.d/sing-box ${mirror}${download_dir}/${firewall}/sing-box.init > /dev/null 2>&1; then

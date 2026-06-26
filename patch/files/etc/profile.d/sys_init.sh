@@ -2,7 +2,7 @@
 # 一些命令缩写和增强
 #
 
-# 命令缩写
+# --- 命令缩写 ---
 alias ll='ls -alhF --color=auto'
 alias la='ls -A'
 alias l='ls -CF'
@@ -19,10 +19,10 @@ alias 666='chmod -R 666'
 alias 755='chmod -R 755'
 alias 777='chmod -R 777'
 
-# 自用，依赖 `podman pull ffuqiangg/m3u8-dl`
+# --- 自用，依赖 `podman pull ffuqiangg/m3u8-dl` ---
 # alias m3u8-dl='podman run --rm -v "/mnt/sda1:/downloads" ffuqiangg/m3u8-dl'
 
-# 复制并进入目录
+# --- 复制并进入目录 ---
 cpg ()
 {
     if [ -d "$2" ];then
@@ -32,7 +32,7 @@ cpg ()
     fi
 }
 
-# 移动并进入目录
+# --- 移动并进入目录 ---
 mvg ()
 {
     if [ -d "$2" ];then
@@ -42,14 +42,14 @@ mvg ()
     fi
 }
 
-# 创建并进入目录
+# --- 创建并进入目录 ---
 mkdirg ()
 {
     mkdir -p "$1"
     cd "$1"
 }
 
-# 返回 N 级目录
+# --- 返回 N 级目录 ---
 up ()
 {
     local d=""
@@ -65,6 +65,6 @@ up ()
     cd $d
 }
 
-# 匹配命令历史
+# --- 匹配命令历史 ---
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
