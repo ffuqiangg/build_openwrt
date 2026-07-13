@@ -253,12 +253,10 @@ mkdir -p ./files/etc/uci-defaults
 cp -f ${ffdir}/scripts/openwrt/zzz-default-settings ./files/etc/uci-defaults/ && \
 sed -i "s/build_date/${build_date}/g" ./files/etc/uci-defaults/zzz-default-settings
 p "写入 banner"
-length=$((${#latest_release} + ${#build_date} + 17))
-echo -n "." >> ./files/etc/banner && \
-for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "." >> ./files/etc/banner
-echo "|  \"OpenWrt ${latest_release} @ ${build_date}\"  |" >> ./files/etc/banner
-echo -n "'" >> ./files/etc/banner && \
-for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "'" >> ./files/etc/banner
+length=$((${#latest_release} + ${#build_date} + 15))
+for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "" >> ./files/etc/banner
+echo -e " \033[7m OpenWrt \033[0m ${latest_release} @ ${build_date}" >> ./files/etc/banner
+for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "" >> ./files/etc/banner
 
 
 p "清理临时文件"

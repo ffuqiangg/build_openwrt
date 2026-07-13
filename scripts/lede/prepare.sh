@@ -224,12 +224,10 @@ mkdir -p ./files/etc/uci-defaults
 cp -f ${ffdir}/scripts/lede/zzz-default-settings ./files/etc/uci-defaults/ && \
 sed -i "s/build_date/${build_date}/g" ./files/etc/uci-defaults/zzz-default-settings
 p "写入 banner"
-length=$((${#distrib_revision} + ${#build_date} + 14))
-echo -n "." >> ./files/etc/banner && \
-for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "." >> ./files/etc/banner
-echo "|  \"LEDE ${distrib_revision} @ ${build_date}\"  |" >> ./files/etc/banner
-echo -n "'" >> ./files/etc/banner && \
-for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "'" >> ./files/etc/banner
+length=$((${#distrib_revision} + ${#build_date} + 12))
+for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "" >> ./files/etc/banner
+echo -e " \033[7m LEDE \033[0m ${distrib_revision} @ ${build_date}" >> ./files/etc/banner
+for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "" >> ./files/etc/banner
 
 
 p "清理临时文件"
