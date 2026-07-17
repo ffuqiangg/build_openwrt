@@ -32,7 +32,7 @@ fi
 
 echo -n '(2/2) /etc/mihomo/config.yaml ... '
 if [ -f "/etc/mihomo/config.yaml" ]; then
-    echo -e "\033[1;33mskip\033[0m"
+    echo -e "\033[1;33mwarning\033[0m"
     echo -e "💡 config.yaml is already exists, skip download!"
 else
     if curl -fkL --connect-timeout 30 -m 600 -o /etc/mihomo/config.yaml ${mirror}${download_dir}/config.yaml > /dev/null 2>&1; then
