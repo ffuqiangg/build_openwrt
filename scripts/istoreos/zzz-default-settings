@@ -3,7 +3,7 @@
 # 首次启动后执行，进行一些默认设置。运行后会自动删除此脚本。
 #
 
-# 时区
+# --- 时区 ---
 uci set system.@system[0].timezone=CST-8
 uci set system.@system[0].zonename=Asia/Shanghai
 uci del system.ntp.server
@@ -12,15 +12,15 @@ uci add_list system.ntp.server='cn.ntp.org.cn'
 uci add_list system.ntp.server='ntp.ntsc.ac.cn'
 uci commit system
 
-# 默认密码 ( password )
+# --- 默认密码 (password) ---
 sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
 sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
 
-# Dropbear
+# --- Dropbear ---
 uci set dropbear.@dropbear[0].Interface='lan'
 uci commit dropbear
 
-# nginx 设置
+# --- nginx 设置 ---
 sed -i 's/deny all/allow all/g' /etc/nginx/restrict_locally
 uci delete nginx._redirect2ssl.return
 uci delete nginx._redirect2ssl.include
@@ -29,11 +29,11 @@ uci add_list nginx._redirect2ssl.include='conf.d/*.locations'
 uci commit nginx
 /etc/init.d/nginx restart
 
-# 禁用 WIFI
+# --- 禁用 WIFI ---
 uci set wireless.@wifi-device[0].disabled='1'
 uci commit wireless
 
-# Cpufreq 设置
+# --- Cpufreq 设置 ---
 uci batch << EOI
 set cpufreq.cpufreq.governor0='schedutil'
 set cpufreq.cpufreq.minfreq0='500000'
@@ -41,7 +41,7 @@ set cpufreq.cpufreq.maxfreq0='1512000'
 EOI
 uci commit cpufreq
 
-# 启用 KMS 服务器
+# --- 启用 KMS 服务器 ---
 uci batch << EOI
 set vlmcsd.config.enabled='1'
 set vlmcsd.config.auto_activate='1'
@@ -49,50 +49,50 @@ set vlmcsd.config.internet_access='1'
 EOI
 uci commit vlmcsd
 
-# MosDNS
+# --- MosDNS ---
 uci set mosdns.config.log_level='error'
 uci commit mosdns
 
-# Feeds 更换镜像源
+# --- Feeds 更换镜像源 ---
 sed -i 's#downloads.openwrt.org#mirror.nju.edu.cn/openwrt#g' /etc/opkg/distfeeds.conf
 
-# 默认开启 Packet Steering
+# --- 默认开启 Packet Steering ---
 uci set network.globals.packet_steering='2'
 uci set network.globals.steering_flows='256'
 uci commit network
 
-# 通用即插即用
+# --- 通用即插即用 ---
 uci set upnpd.config.enabled='1'
 uci commit upnpd
 
-# bandix
+# --- bandix ---
 uci set bandix.general.log_level='error'
 uci commit bandix
 
-# 计划任务
+# --- 计划任务 ---
 uci set system.@system[0].cronloglevel="9"
 uci commit system
 /etc/init.d/cron restart
 
-# OpenClash
+# --- OpenClash ---
 [ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geosite.dat /etc/openclash/GeoSite.dat
 [ -f /usr/share/v2ray/geoip.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geoip.dat /etc/openclash/GeoIP.dat
 
-# V2rayA
+# --- V2rayA ---
 [ -d /usr/share/xray ] || mkdir -p /usr/share/xray
 [ -f /usr/share/v2ray/geoip.dat ] && ln -sf /usr/share/v2ray/geoip.dat /usr/share/xray/geoip.dat
 [ -f /usr/share/v2ray/geosite.dat ] && ln -sf /usr/share/v2ray/geosite.dat /usr/share/xray/geosite.dat
 
-# Podman
+# --- Podman ---
 sed -i '/firewall_driver/c\firewall_driver = "nftables"' /etc/containers/containers.conf
 sed -i '/^graphroot/c\graphroot = "/opt/containers/storage"' /etc/containers/storage.conf
 
-# Flag packages (禁止更新)
+# --- Flag packages (禁止更新) ---
 opkg flag hold luci-app-firewall
 opkg flag hold firewall
 opkg flag hold dnsmasq-full
 
-# 禁用某些可能会自启动且用不上的依赖包服务
+# --- 禁用某些可能会自启动且用不上的依赖包服务 ---
 /etc/init.d/haproxy disable 2>/dev/null
 /etc/init.d/haproxy stop
 /etc/init.d/kcptun disable 2>/dev/null
@@ -104,11 +104,11 @@ opkg flag hold dnsmasq-full
 /etc/init.d/podman disable 2>/dev/null
 /etc/init.d/podman stop
 
-# openwr_release 写入编译日期
+# --- openwr_release 写入编译日期 ---
 sed -i '/BUILD_DATE/d' /etc/openwrt_release
 echo "BUILD_DATE='build_date'" >> /etc/openwrt_release
 
-# 清除 LuCI 残留缓存
+# --- 清除 LuCI 残留缓存 ---
 rm -rf /tmp/luci-modulecache
 rm -f /tmp/luci-indexcache
 

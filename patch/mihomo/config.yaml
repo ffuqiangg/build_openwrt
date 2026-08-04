@@ -8,6 +8,7 @@
 #
 
 
+# --- 订阅配置 ---
 # provider1 , provider2 订阅名称
 # url 订阅地址
 # interval 订阅更新间隔时间，单位秒
@@ -33,13 +34,13 @@ proxy-providers:
       ip-version: ipv4-prefer
     proxy: 直连
 
-# 定义直连出站
+# --- 定义直连出站 ---
 proxies: 
   - name: "直连"
     type: direct
     udp: true
 
-# 基础配置
+# --- 基础配置 ---
 mixed-port: 7890
 ipv6: false
 allow-lan: true
@@ -47,13 +48,14 @@ unified-delay: true
 tcp-concurrent: true
 profile: { store-selected: true, store-fake-ip: true }
 
-# Web 面板配置，默认登录地址 http://路由器IP:9090/ui (密码: ffuqiangg)
+# --- Web 面板配置 ---
+# 默认登录地址 http://路由器IP:9090/ui (密码: ffuqiangg)
 external-controller: 0.0.0.0:9090
 external-ui: ui
 external-ui-url: "https://gh-proxy.com/github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
 secret: "ffuqiangg"
 
-# 流量嗅探
+# --- 流量嗅探 ---
 sniffer:
   enable: true
   sniff:
@@ -68,7 +70,7 @@ sniffer:
     - "Mijia Cloud"
     - "+.push.apple.com"
 
-# TUN 模式配置
+# --- TUN 模式配置 ---
 tun:
   enable: true
   stack: mixed
@@ -78,7 +80,7 @@ tun:
   auto-detect-interface: true
   strick-route: true
 
-# SOCKS5 监听端口，用于直连 P2P
+# --- SOCKS5 监听端口，用于直连 P2P ---
 listeners:
   - name: socks5-in-1
     type: socks
@@ -88,7 +90,7 @@ listeners:
     users: []
     proxy: 直连
 
-# DNS 配置
+# --- DNS 配置 ---
 dns:
   enable: true
   cache-algorithm: arc
@@ -115,9 +117,8 @@ dns:
     - https://dns.google/dns-query
     - https://dns.cloudflare.com/dns-query
 
-# 分流分组，icon 是分组图标链接
+# --- 分流分组 ---
 proxy-groups:
-  # 分流分组
   - name: 默认
     type: select
     proxies: [自动选择,直连,香港,日本,新加坡,美国,其它地区,全部节点]
@@ -147,7 +148,6 @@ proxy-groups:
     proxies: [默认,香港,日本,新加坡,美国,其它地区,全部节点,自动选择,直连]
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Github.svg"
 
-  # 地区分组
   - name: 香港
     type: select
     include-all: true
@@ -190,7 +190,7 @@ proxy-groups:
     tolerance: 10
     icon: "https://gh-proxy.com/raw.githubusercontent.com/ffuqiangg/icon/main/svg/Pixelated.svg"
 
-# 分流规则
+# --- 分流规则 ---
 rules:
   # 1. 拦截 YouTube QUIC 流量
   - AND,((RULE-SET,youtube_domain),(NETWORK,UDP),(DST-PORT,80/443)),REJECT
@@ -218,12 +218,12 @@ rules:
   # 5. 兜底规则
   - MATCH,默认
 
-# 规则行为模板
+# --- 规则行为模板 ---
 rule-anchor:
   ip: &ip { type: http, interval: 86400, behavior: ipcidr, format: mrs, proxy: 直连 }
   domain: &domain { type: http, interval: 86400, behavior: domain, format: mrs, proxy: 直连 }
 
-# 规则提供者
+# --- 规则提供者 ---
 rule-providers:
   # 域名规则
   private_domain:
@@ -277,7 +277,7 @@ rule-providers:
     <<: *ip
     url: "https://gh-proxy.com/raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"
 
-  # 附加直连规则，强制直连的域名可按格式添加到下面
+  # --- 附加直连规则，强制直连的域名可按格式添加到下面 ---
   direct_domain:
     type: inline
     behavior: classical
