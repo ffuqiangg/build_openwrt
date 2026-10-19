@@ -199,8 +199,6 @@ rm -rf ./package/add/openwrt_helloworld/{mihomo-alpha,mihomo-meta}
 cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
 rm -rf ./package/add/luci-app-nikki/mihomo-alpha
 sed -i '/mihomo-alpha/d' ./package/add/luci-app-nikki/mihomo-meta/Makefile
-p "HomeProxy"
-cp -rf ${otherdir}/openwrt-add/homeproxy ./package/add/luci-app-homeproxy
 
 p "MosDNS"
 rm -rf ./feeds/packages/net/v2ray-geodata
