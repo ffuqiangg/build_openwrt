@@ -33,7 +33,7 @@ start_service() {
         if [ "${i#file:}" != "$i" ] && [ ! -f "$workdir/profiles/${i#file:}" ]; then
             echo -e "\e[1;31mERRO\e[0m ${i#file:} is not found. Exit!"
             return
-        elif [ ! -f "$workdir/profiles/$(echo -n $i | md5sum | awk '{print $1}')" ]; then
+        elif [ "${i#file:}" == "$i" ] && [ ! -f "$workdir/profiles/$(echo -n $i | md5sum | awk '{print $1}')" ]; then
             echo -e "\e[1;31mERRO\e[0m Subscription $a is not found. Exit!"
             return
         fi

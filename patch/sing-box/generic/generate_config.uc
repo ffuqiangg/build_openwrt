@@ -17,7 +17,7 @@ const workdir = uci.get('sing-box', 'main', 'workdir') || '/etc/sing-box',
       external_controller_port  = uci.get('sing-box', 'basic', 'external_controller_port') || '9900',
       secret = uci.get('sing-box', 'basic', 'secret') || '',
       ui_name = uci.get('sing-box', 'basic', 'ui_name') || 'zashboard',
-      store_rdrc = uci.get('sing-box', 'basic', 'store_rdrc') || '1',
+      store_dns = uci.get('sing-box', 'basic', 'store_dns') || '1',
       tproxy_port = uci.get('sing-box', 'basic', 'tproxy_port') || '10105',
       mixed_port = uci.get('sing-box', 'basic', 'mixed_port') || '2881',
       dns_port = uci.get('sing-box', 'basic', 'dns_port') || '2053',
@@ -228,9 +228,7 @@ if (adv_enabled === '1' || length(filter(conf, length)) > 1) {
         ],
         final: 'main-dns',
         strategy: 'ipv4_only',
-        disable_cache: false,
-        disable_expire: false,
-        independent_cache: true
+        optimistic: true
     };
 
     if (!(iptoarr(china_dns_server)))
@@ -257,7 +255,7 @@ config.experimental = {
     cache_file: {
         enabled: true,
         store_fakeip: ('fakeip' in dns_types) || 'nil',
-        store_rdrc: (store_rdrc === '1') || 'nil'
+        store_dns: (store_dns === '1') || 'nil'
     }
 };
 
