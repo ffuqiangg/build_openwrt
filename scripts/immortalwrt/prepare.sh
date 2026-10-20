@@ -165,11 +165,9 @@ p "mount cgroupv2"
 mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
 cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/90* ./feeds/packages/utils/cgroupfs-mount/patches/
 
-p "替换 sing-box"
-rm -rf ./feeds/packages/net/sing-box
-cp -rf ${otherdir}/imm_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
-cp -rf ${otherdir}/imm_pkg_ma/libs/libcronet ./feeds/packages/libs/libcronet
-ln -sf ./feeds/packages/libs/libcronet ./package/feeds/packages/libcronet
+# p "替换 sing-box"
+# rm -rf ./feeds/packages/net/sing-box
+# cp -rf ${otherdir}/imm_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
