@@ -73,7 +73,7 @@ sniffer:
 # --- TUN 模式配置 ---
 tun:
   enable: true
-  stack: mixed
+  stack: system
   dns-hijack: ["any:53", "tcp://any:53"]
   auto-route: true
   auto-redirect: true
@@ -208,7 +208,7 @@ rules:
   - RULE-SET,telegram_domain,Telegram
   - RULE-SET,netflix_domain,NETFLIX
   - RULE-SET,spotify_domain,Spotify
-  - RULE-SET,geolocation-!cn,其他
+  - RULE-SET,geolocation-!cn,默认
   # 4. IP 规则
   - RULE-SET,private_ip,直连,no-resolve
   - RULE-SET,netflix_ip,NETFLIX,no-resolve

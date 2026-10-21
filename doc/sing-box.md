@@ -102,7 +102,7 @@ config sing-box 'basic'
 	option external_controller_port '9900'               # 后台页面端口
 	option secret 'ffuqiangg'                            # 后台页面登陆密钥
 	option ui_name 'zashboard'                           # Web 面板，可选值 metacubexd / zashboard / yacd
-	option store_dns '1'                                 # 缓存 dns ，0/1
+	option store_rdrc '1'                                # 缓存 rdrc ，0/1
 	option tproxy_port '10105'                           # tproxy(UDP) 监听端口
 	option mixed_port '2881'                             # mixed 代理端口
 	option dns_port '2053'                               # DNS 入站端口 (direct)
