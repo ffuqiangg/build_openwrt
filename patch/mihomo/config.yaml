@@ -46,8 +46,12 @@ ipv6: false
 allow-lan: true
 unified-delay: true
 tcp-concurrent: true
-profile: { store-selected: true, store-fake-ip: true }
 find-process-mode: off
+
+# --- 缓存配置 ---
+profile:
+  store-selected: true
+  store-fake-ip: true
 
 # --- Web 面板配置 ---
 # 默认登录地址 http://路由器IP:9090/ui (密码: ffuqiangg)
