@@ -100,6 +100,7 @@ dns:
   cache-algorithm: arc
   ipv6: false
   enhanced-mode: fake-ip
+  respect-rules: true
   fake-ip-filter:
     - rule-set:fakeip-filter
     - rule-set:private_domain
@@ -109,6 +110,12 @@ dns:
     - tls://223.5.5.5
     - tls://223.6.6.6
   nameserver:
+    - https://dns.google/dns-query
+    - https://cloudflare-dns.com/dns-query
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  direct-nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
 
