@@ -37,6 +37,7 @@ p "下载其它仓库"
 clone master ${immortalwrt_repo} ${otherdir}/immortalwrt &
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
+clone master ${openwrt_pkg_repo} ${otherdir}/op_pkg_ma &
 clone main ${podman_repo} ${otherdir}/podman &
 clone openwrt-24.10 ${autocore_arm_repo} ${otherdir}/autocore-arm &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
@@ -181,7 +182,7 @@ sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makef
 
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box
-cp -rf ${otherdir}/imm_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
+cp -rf ${otherdir}/op_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
