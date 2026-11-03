@@ -78,7 +78,6 @@ sniffer:
 # --- TUN 模式配置 ---
 tun:
   enable: true
-  stack: mips
   dns-hijack: ["any:53", "tcp://any:53"]
   auto-route: true
   auto-redirect: true

@@ -17,7 +17,7 @@ const workdir = uci.get('sing-box', 'main', 'workdir') || '/etc/sing-box',
       external_controller_port  = uci.get('sing-box', 'basic', 'external_controller_port') || '9900',
       secret = uci.get('sing-box', 'basic', 'secret') || '',
       ui_name = uci.get('sing-box', 'basic', 'ui_name') || 'zashboard',
-      store_rdrc = uci.get('sing-box', 'basic', 'store_rdrc') || '1',
+      store_dns = uci.get('sing-box', 'basic', 'store_dns') || '1',
       tproxy_port = uci.get('sing-box', 'basic', 'tproxy_port') || '10105',
       mixed_port = uci.get('sing-box', 'basic', 'mixed_port') || '2881',
       dns_port = uci.get('sing-box', 'basic', 'dns_port') || '2053',
@@ -208,7 +208,15 @@ if (adv_enabled === '1' || length(filter(conf, length)) > 1) {
                 server: 'main-dns'
             },
             {
-                rule_set: 'geosite-cn',
+                rule_set: [
+                    'geosite-cn',
+                    'geosite-microsoft@cn',
+                    'geosite-apple@cn'
+                ],
+                server: 'china-dns'
+            },
+            {
+                action: 'evaluate',
                 server: 'china-dns'
             },
             {
@@ -220,6 +228,7 @@ if (adv_enabled === '1' || length(filter(conf, length)) > 1) {
                         invert: true
                     },
                     {
+                        match_response: true,
                         rule_set: 'geoip-cn'
                     }
                 ],
@@ -228,9 +237,7 @@ if (adv_enabled === '1' || length(filter(conf, length)) > 1) {
         ],
         final: 'main-dns',
         strategy: 'ipv4_only',
-        disable_cache: false,
-        disable_expire: false,
-        independent_cache: true
+        optimistic: true
     };
 
     if (!(iptoarr(china_dns_server)))
@@ -257,7 +264,7 @@ config.experimental = {
     cache_file: {
         enabled: true,
         store_fakeip: ('fakeip' in dns_types) || 'nil',
-        store_rdrc: (store_rdrc === '1') || 'nil'
+        store_dns: (store_dns === '1') || 'nil'
     }
 };
 
@@ -365,12 +372,21 @@ for (let i = 0; i < length(config.outbounds); i++)
     if (!(config.outbounds[i].type in ['selector', 'urltest', 'block', 'dns']))
         config.outbounds[i].routing_mark = '101';
 
+/* Http clients */
+config.http_clients = [
+    {
+        tag: '直连下载',
+        detour: '直连'
+    }
+];
+
 /* Route */
 if (adv_enabled === '1' || length(filter(conf, length)) > 1) {
     config.route = {
         final: '节点选择',
         auto_detect_interface: true,
         default_domain_resolver: 'china-dns',
+        default_http_client: '直连下载',
         rules: [
             {
                 action: 'sniff'
@@ -413,23 +429,15 @@ if (adv_enabled === '1' || length(filter(conf, length)) > 1) {
             tag: 'adblock',
             type: 'remote',
             format: 'binary',
-            url: ad_ruleset,
-            download_detour: '直连'
+            url: ad_ruleset
         });
     }
 
     /* for myself */
     if (custom_file) {
         for (let k in keys(json(custom_file))) {
-            push(config.route.rules, {
-                rule_set: k + '-ruleset',
-                outbound: k
-            });
-            push(config.route.rule_set, {
-                tag: k + '-ruleset',
-                type: 'inline',
-                rules: json(custom_file)[k]
-            });
+            push(config.route.rules, json(custom_file)[k]);
+            config.route.rules[length(config.route.rules) - 1].outbound = k;
         }
     }
 
@@ -446,8 +454,7 @@ if (adv_enabled === '1' || length(filter(conf, length)) > 1) {
                     tag: v,
                     type: 'remote',
                     format: 'binary',
-                    url: json(streamfile)['proxy_group'][k][v],
-                    download_detour: '直连'
+                    url: json(streamfile)['proxy_group'][k][v]
                 });
         }
     }
@@ -456,7 +463,9 @@ if (adv_enabled === '1' || length(filter(conf, length)) > 1) {
     push(config.route.rules, {
         rule_set: [
             'geosite-cn',
-            'geoip-cn'
+            'geoip-cn',
+            'geosite-microsoft@cn',
+            'geosite-apple@cn'
         ],
         outbound: '直连'
     });
@@ -480,22 +489,31 @@ if (adv_enabled === '1' || length(filter(conf, length)) > 1) {
         tag: 'geosite-cn',
         type: 'remote',
         format: 'binary',
-        url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-cn.srs',
-        download_detour: '直连'
+        url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-cn.srs'
     });
     push(config.route.rule_set, {
         tag: 'geoip-cn',
         type: 'remote',
         format: 'binary',
-        url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs',
-        download_detour: '直连'
+        url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs'
+    });
+    push(config.route.rule_set, {
+        tag: 'geosite-microsoft@cn',
+        type: 'remote',
+        format: 'binary',
+        url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/microsoft@cn.srs'
+    });
+    push(config.route.rule_set, {
+        tag: 'geosite-apple@cn',
+        type: 'remote',
+        format: 'binary',
+        url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/apple@cn.srs'
     });
     push(config.route.rule_set, {
         tag: 'geosite-noncn',
         type: 'remote',
         format: 'binary',
-        url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs',
-        download_detour: '直连'
+        url: 'https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs'
     });
 } else {
     config.route = json(jsonfile[0]).route;

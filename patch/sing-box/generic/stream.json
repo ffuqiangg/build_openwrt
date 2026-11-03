@@ -75,6 +75,10 @@
     "Apple": {
       "geosite-apple": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/apple.srs",
       "geoip-apple": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/apple.srs"
+    },
+    "BiliBili": {
+      "geosite-bilibili": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bilibili.srs",
+      "geoip-bilibili": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/bilibili.srs"
     }
   }
 }

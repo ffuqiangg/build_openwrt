@@ -211,6 +211,7 @@ sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/reso
 sed -i 's#admin/#&services/#g' ./package/luci-app-podman/root/usr/share/luci/menu.d/luci-app-podman.json
 rm -rf ./feeds/packages/utils/podman
 cp -rf ${otherdir}/imm_pkg_ma/utils/podman ./feeds/packages/utils/podman
+cp -rf ${otherdir}/imm_pkg_ma/net/passt ./package/add/passt
 p "Diskman 磁盘管理"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-diskman ./package/add/luci-app-diskman
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-diskman/Makefile
