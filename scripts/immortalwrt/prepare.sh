@@ -41,7 +41,6 @@ p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
-clone master ${openwrt_pkg_repo} ${otherdir}/op_pkg_ma &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone main ${amlogic_repo} ${otherdir}/amlogic &
 clone main ${podman_repo} ${otherdir}/podman &
@@ -160,15 +159,16 @@ rm -rf ./feeds/packages/lang/rust
 clone main ${rust_repo} ./feeds/packages/lang/rust
 p "Coremark"
 rm -rf ./feeds/packages/utils/coremark
-cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
+cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
 
-p "mount cgroupv2"
-mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
-cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/90* ./feeds/packages/utils/cgroupfs-mount/patches/
+# p "mount cgroupv2"
+# mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
+# cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/90* ./feeds/packages/utils/cgroupfs-mount/patches/
 
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box
-cp -rf ${otherdir}/op_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
+cp -rf ${otherdir}/imm_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
+cp -rf ${otherdir}/imm_pkg_ma/libs/libcronet ./package/add/libcronet
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
@@ -177,19 +177,19 @@ p "Passwall & OpenWrt-momo"
 rm -rf ./feeds/luci/applications/luci-app-passwall
 rm -rf ./feeds/packages/lang/lua-neturl
 rm -rf ./feeds/packages/net/{chinadns-ng,dns2socks,dns2tcp,hysteria,ipt2socks,microsocks,redsocks2,shadow-tls,shadowsocks-rust,simple-obfs,tcping,trojan,trojan-plus,tuic-client,v2ray-core,v2ray-plugin,xray-core,xray-plugin}
-cp -rf ${otherdir}/openwrt-add/openwrt_helloworld ./package/add/
+cp -rf ${otherdir}/openwrt-add/legacy/openwrt_helloworld ./package/add/
 rm -rf ./package/add/openwrt_helloworld/{v2ray-geodata,luci-app-ssr-plus}
 sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openwrt_helloworld/luci-app-passwall/Makefile
 sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
 p "OpenWrt-nikki"
 rm -rf ./package/add/openwrt_helloworld/{mihomo-alpha,mihomo-meta}
-cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
+cp -rf ${otherdir}/openwrt-add/apps/OpenWrt-mihomo ./package/add/luci-app-nikki
 rm -rf ./package/add/luci-app-nikki/mihomo-alpha
 sed -i '/mihomo-alpha/d' ./package/add/luci-app-nikki/mihomo-meta/Makefile
 
 p "MosDNS"
 rm -rf ./feeds/packages/net/{v2ray-geodata,mosdns}
-cp -rf ${otherdir}/openwrt-add/luci-app-mosdns ./package/add/luci-app-mosdns
+cp -rf ${otherdir}/openwrt-add/apps/luci-app-mosdns ./package/add/luci-app-mosdns
 cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
 
 p "Podman"
@@ -199,6 +199,7 @@ sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/reso
 sed -i 's#admin/#&services/#g' ./package/luci-app-podman/root/usr/share/luci/menu.d/luci-app-podman.json
 rm -rf ./feeds/packages/utils/podman
 cp -rf ${otherdir}/imm_pkg_ma/utils/podman ./feeds/packages/utils/podman
+cp -rf ${otherdir}/imm_pkg_ma/net/passt ./package/add/passt
 
 p "Nlbw 带宽监控"
 sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
@@ -211,7 +212,7 @@ p "硬盘休眠"
 sed -i 's/nas/services/g' ./feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
 p "Filebrowser 文件管理器"
 rm -rf ./feeds/luci/applications/luci-app-filebrowser-go ./feeds/packages/utils/filebrowser
-cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
+cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
 
 p "晶晨宝盒"
 cp -rf ${otherdir}/amlogic/luci-app-amlogic ./package/add/
