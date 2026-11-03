@@ -41,6 +41,7 @@ p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
+clone master ${openwrt_pkg_repo} ${otherdir}/op_pkg_ma &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone main ${amlogic_repo} ${otherdir}/amlogic &
 clone main ${podman_repo} ${otherdir}/podman &
@@ -153,7 +154,7 @@ rm -rf ./feeds/packages/lang/node/node
 clone packages-24.10 ${node_repo} ./feeds/packages/lang/node/node
 p "golang"
 rm -rf ./feeds/packages/lang/golang
-clone 26.x ${golang_repo} ./feeds/packages/lang/golang
+clone 27.x ${golang_repo} ./feeds/packages/lang/golang
 p "rust"
 rm -rf ./feeds/packages/lang/rust
 clone main ${rust_repo} ./feeds/packages/lang/rust
@@ -161,14 +162,9 @@ p "Coremark"
 rm -rf ./feeds/packages/utils/coremark
 cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
 
-# p "mount cgroupv2"
-# mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
-# cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/90* ./feeds/packages/utils/cgroupfs-mount/patches/
-
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box
-cp -rf ${otherdir}/imm_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
-cp -rf ${otherdir}/imm_pkg_ma/libs/libcronet ./package/add/libcronet
+cp -rf ${otherdir}/op_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya

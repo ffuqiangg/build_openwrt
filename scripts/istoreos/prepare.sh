@@ -159,17 +159,10 @@ rm -rf ./feeds/packages/lang/node
 clone packages-24.10 ${node_repo} ./feeds/packages/lang/node
 p "golang"
 rm -rf ./feeds/packages/lang/golang
-clone 26.x ${golang_repo} ./feeds/packages/lang/golang
+clone 27.x ${golang_repo} ./feeds/packages/lang/golang
 p "rust"
 rm -rf ./feeds/packages/lang/rust
 clone main ${rust_repo} ./feeds/packages/lang/rust
-
-p "mount cgroupv2"
-pushd feeds/packages
-patch -p1 < ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
-popd
-mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
-cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/90* ./feeds/packages/utils/cgroupfs-mount/patches/
 
 p "Autocore"
 cp -rf ${otherdir}/autocore-arm ./package/add/autocore
@@ -189,20 +182,20 @@ cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applica
 cp -rf ${otherdir}/imm_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 p "Passwall & OpenWrt-momo"
 rm -rf feeds/packages/net/{shadowsocks-libev,v2ray-core,xray-core}
-cp -rf ${otherdir}/openwrt-add/openwrt_helloworld ./package/add/
+cp -rf ${otherdir}/openwrt-add/legacy/openwrt_helloworld ./package/add/
 rm -rf ./package/add/openwrt_helloworld/{v2ray-geodata,luci-app-ssr-plus}
 sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openwrt_helloworld/luci-app-passwall/Makefile
 sed -i 's, +libopenssl-legacy,,g' ./package/add/openwrt_helloworld/shadowsocksr-libev/Makefile
 sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
 p "OpenWrt-nikki"
 rm -rf ./package/add/openwrt_helloworld/{mihomo-alpha,mihomo-meta}
-cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
+cp -rf ${otherdir}/openwrt-add/apps/OpenWrt-mihomo ./package/add/luci-app-nikki
 rm -rf ./package/add/luci-app-nikki/mihomo-alpha
 sed -i '/mihomo-alpha/d' ./package/add/luci-app-nikki/mihomo-meta/Makefile
 
 p "MosDNS"
 rm -rf ./feeds/packages/net/v2ray-geodata
-cp -rf ${otherdir}/openwrt-add/luci-app-mosdns ./package/add/luci-app-mosdns
+cp -rf ${otherdir}/openwrt-add/apps/luci-app-mosdns ./package/add/luci-app-mosdns
 cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
 
 p "Podman"
@@ -212,6 +205,7 @@ sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/reso
 sed -i 's#admin/#&services/#g' ./package/luci-app-podman/root/usr/share/luci/menu.d/luci-app-podman.json
 rm -rf ./feeds/packages/utils/podman
 cp -rf ${otherdir}/imm_pkg_ma/utils/podman ./feeds/packages/utils/podman
+cp -rf ${otherdir}/imm_pkg_ma/net/passt ./package/add/passt
 p "Diskman 磁盘管理"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-diskman ./package/add/luci-app-diskman
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-diskman/Makefile
@@ -225,7 +219,7 @@ cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-cpufreq ./package/add/luci-
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-cpufreq/Makefile
 cp -rf ${otherdir}/immortalwrt/package/emortal/cpufreq ./package/add/cpufreq
 p "Filebrowser 文件管理器"
-cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
+cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
 p "KMS 服务器"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-vlmcsd ./package/add/
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-vlmcsd/Makefile
@@ -235,7 +229,7 @@ p "Nlbw 带宽监控"
 sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
 p "Bandix 流量监控"
-cp -rf ${otherdir}/openwrt-add/{openwrt-bandix,luci-app-bandix} ./package/add/
+cp -rf ${otherdir}/openwrt-add/apps/{openwrt-bandix,luci-app-bandix} ./package/add/
 p "终端 TTYD"
 sed -i 's/services/system/g' ./feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 p "iStore"

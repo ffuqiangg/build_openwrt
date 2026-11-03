@@ -79,7 +79,7 @@ p "更新 Feeds"
 
 
 p "卸载无法编译的包"
-./scripts/feeds uninstall onionshare-cli luci-app-mjpg-streamer || true
+./scripts/feeds uninstall onionshare-cli luci-app-mjpg-streamer prosody || true
 p "luci-app-attendedsysupgrade"
 sed -i '/luci-app-attendedsysupgrade/d' ./feeds/luci/collections/luci-nginx/Makefile
 
@@ -162,14 +162,10 @@ rm -rf ./feeds/packages/lang/node
 clone packages-24.10 ${node_repo} ./feeds/packages/lang/node
 p "golang"
 rm -rf ./feeds/packages/lang/golang
-clone 26.x ${golang_repo} ./feeds/packages/lang/golang
+clone 27.x ${golang_repo} ./feeds/packages/lang/golang
 p "rust"
 rm -rf ./feeds/packages/lang/rust
 clone main ${rust_repo} ./feeds/packages/lang/rust
-
-# p "mount cgroupv2"
-# mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
-# cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/90* ./feeds/packages/utils/cgroupfs-mount/patches/
 
 p "IP/MAC 绑定"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-app-arpbind
