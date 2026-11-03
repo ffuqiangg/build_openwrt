@@ -167,9 +167,9 @@ p "rust"
 rm -rf ./feeds/packages/lang/rust
 clone main ${rust_repo} ./feeds/packages/lang/rust
 
-p "mount cgroupv2"
-mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
-cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/90* ./feeds/packages/utils/cgroupfs-mount/patches/
+# p "mount cgroupv2"
+# mkdir -p ./feeds/packages/utils/cgroupfs-mount/patches
+# cp -f ${otherdir}/yaof/PATCH/pkgs/cgroupfs-mount/90* ./feeds/packages/utils/cgroupfs-mount/patches/
 
 p "IP/MAC 绑定"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-app-arpbind
@@ -178,7 +178,7 @@ p "Autocore"
 cp -rf ${otherdir}/autocore-arm ./package/add/autocore
 p "Coremark"
 rm -rf ./feeds/packages/utils/coremark
-cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
+cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
 
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box
@@ -189,19 +189,19 @@ cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applica
 cp -rf ${otherdir}/imm_pkg_ma/net/v2raya ./feeds/packages/net/v2raya
 p "Passwall & OpenWrt-momo"
 rm -rf ./feeds/packages/net/{xray-core,microsocks}
-cp -rf ${otherdir}/openwrt-add/openwrt_helloworld ./package/add/
+cp -rf ${otherdir}/openwrt-add/legacy/openwrt_helloworld ./package/add/
 rm -rf ./package/add/openwrt_helloworld/{v2ray-geodata,luci-app-ssr-plus}
 sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openwrt_helloworld/luci-app-passwall/Makefile
 sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
 p "OpenWrt-nikki"
 rm -rf ./package/add/openwrt_helloworld/{mihomo-alpha,mihomo-meta}
-cp -rf ${otherdir}/openwrt-add/OpenWrt-mihomo ./package/add/luci-app-nikki
+cp -rf ${otherdir}/openwrt-add/apps/OpenWrt-mihomo ./package/add/luci-app-nikki
 rm -rf ./package/add/luci-app-nikki/mihomo-alpha
 sed -i '/mihomo-alpha/d' ./package/add/luci-app-nikki/mihomo-meta/Makefile
 
 p "MosDNS"
 rm -rf ./feeds/packages/net/{v2ray-geodata,mosdns}
-cp -rf ${otherdir}/openwrt-add/luci-app-mosdns ./package/add/luci-app-mosdns
+cp -rf ${otherdir}/openwrt-add/apps/luci-app-mosdns ./package/add/luci-app-mosdns
 cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
 
 p "Podman"
@@ -220,7 +220,7 @@ rm -rf ./feeds/luci/applications/luci-app-zerotier ./feeds/packages/net/zerotier
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-zerotier ./feeds/luci/applications/luci-app-zerotier
 cp -rf ${otherdir}/imm_pkg_ma/net/zerotier ./feeds/packages/net/zerotier
 p "Filebrowser 文件管理器"
-cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
+cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
 p "KMS 服务器"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-vlmcsd ./package/add/
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-vlmcsd/Makefile
@@ -230,7 +230,7 @@ p "Nlbw 带宽监控"
 sed -i 's/services/network/g' ./package/feeds/luci/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
 sed -i 's/services/network/g' ./package/feeds/luci/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
 p "Bandix 流量监控"
-cp -rf ${otherdir}/openwrt-add/{openwrt-bandix,luci-app-bandix} ./package/add/
+cp -rf ${otherdir}/openwrt-add/apps/{openwrt-bandix,luci-app-bandix} ./package/add/
 p "终端 TTYD"
 sed -i 's,services,system,g' ./package/feeds/luci/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
 
