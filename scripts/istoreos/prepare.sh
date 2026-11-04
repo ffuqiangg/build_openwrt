@@ -37,7 +37,6 @@ p "下载其它仓库"
 clone master ${immortalwrt_repo} ${otherdir}/immortalwrt &
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
-clone master ${openwrt_pkg_repo} ${otherdir}/op_pkg_ma &
 clone main ${podman_repo} ${otherdir}/podman &
 clone openwrt-24.10 ${autocore_arm_repo} ${otherdir}/autocore-arm &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
