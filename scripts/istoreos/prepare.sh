@@ -173,7 +173,7 @@ cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makefile
 
 p "替换 sing-box"
-cp -f ${ffdir}/patch/sing-box/Makefile -O ./feeds/packages/net/sing-box/Makefile
+cp -f ${ffdir}/patch/sing-box/Makefile ./feeds/packages/net/sing-box/Makefile
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
