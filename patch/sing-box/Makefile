@@ -41,72 +41,72 @@ include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk
 
 define Package/sing-box
-  SECTION:=net
-  CATEGORY:=Network
-  SUBMENU:=Web Servers/Proxies
-  TITLE:=The universal proxy platform
-  URL:=https://sing-box.sagernet.org/
-  DEPENDS:=$(GO_ARCH_DEPENDS) \
-    +ca-bundle \
-    +kmod-inet-diag \
-    +kmod-netlink-diag \
-    +SING_BOX_BUILD_GVISOR:kmod-tun
-  USERID:=sing-box=5566:sing-box=5566
+	SECTION:=net
+	CATEGORY:=Network
+	SUBMENU:=Web Servers/Proxies
+	TITLE:=The universal proxy platform
+	URL:=https://sing-box.sagernet.org/
+	DEPENDS:=$(GO_ARCH_DEPENDS) \
+		+ca-bundle \
+		+kmod-inet-diag \
+		+kmod-netlink-diag \
+		+SING_BOX_BUILD_GVISOR:kmod-tun
+	USERID:=sing-box=5566:sing-box=5566
 endef
 
 define Package/sing-box/description
-  Sing-box is a universal proxy platform which supports hysteria, SOCKS, Shadowsocks,
-  ShadowTLS, Tor, trojan, VLess, VMess, WireGuard and so on.
+	Sing-box is a universal proxy platform which supports hysteria, SOCKS, Shadowsocks,
+	ShadowTLS, Tor, trojan, VLess, VMess, WireGuard and so on.
 endef
 
 define Package/sing-box/config
-  if PACKAGE_sing-box
-    config SING_BOX_BUILD_ACME
-    bool "Build with ACME TLS certificate issuer support"
-    default y
+	if PACKAGE_sing-box
+		config SING_BOX_BUILD_ACME
+		bool "Build with ACME TLS certificate issuer support"
+		default y
 
-    config SING_BOX_BUILD_CLASH_API
-    bool "Build with Clash API support"
-    default y
+		config SING_BOX_BUILD_CLASH_API
+		bool "Build with Clash API support"
+		default y
 
-    config SING_BOX_BUILD_DHCP
-    bool "Build with DHCP support"
+		config SING_BOX_BUILD_DHCP
+		bool "Build with DHCP support"
 
-    config SING_BOX_BUILD_EMBEDDED_TOR
-    bool "Build with embedded Tor support"
-    depends on BROKEN
+		config SING_BOX_BUILD_EMBEDDED_TOR
+		bool "Build with embedded Tor support"
+		depends on BROKEN
 
-    config SING_BOX_BUILD_GRPC
-    bool "Build with standard gPRC support"
-    help
-      Standard gRPC has good compatibility but poor performance.
+		config SING_BOX_BUILD_GRPC
+		bool "Build with standard gPRC support"
+		help
+		Standard gRPC has good compatibility but poor performance.
 
-    config SING_BOX_BUILD_GVISOR
-    bool "Build with gVisor support"
-    default y
+		config SING_BOX_BUILD_GVISOR
+		bool "Build with gVisor support"
+		default y
 
-    config SING_BOX_BUILD_QUIC
-    bool "Build with QUIC support"
-    default y
-    help
-      Required by HTTP3 DNS transports, Naive inbound,
-      Hysteria inbound / outbound, and v2ray QUIC transport.
+		config SING_BOX_BUILD_QUIC
+		bool "Build with QUIC support"
+		default y
+		help
+		Required by HTTP3 DNS transports, Naive inbound,
+		Hysteria inbound / outbound, and v2ray QUIC transport.
 
-    config SING_BOX_BUILD_TAILSCALE
-    bool "Build with Tailscale support"
-    default y
+		config SING_BOX_BUILD_TAILSCALE
+		bool "Build with Tailscale support"
+		default y
 
-    config SING_BOX_BUILD_UTLS
-    bool "Build with uTLS support"
-    default y
+		config SING_BOX_BUILD_UTLS
+		bool "Build with uTLS support"
+		default y
 
-    config SING_BOX_BUILD_V2RAY_API
-    bool "Build with V2Ray API support"
+		config SING_BOX_BUILD_V2RAY_API
+		bool "Build with V2Ray API support"
 
-    config SING_BOX_BUILD_WIREGUARD
-    bool "Build with WireGuard support"
-    default y
-  endif
+		config SING_BOX_BUILD_WIREGUARD
+		bool "Build with WireGuard support"
+		default y
+	endif
 endef
 
 GO_PKG_TAGS:=$(subst $(space),$(comma),$(strip \
