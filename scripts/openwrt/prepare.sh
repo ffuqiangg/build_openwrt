@@ -177,9 +177,7 @@ rm -rf ./feeds/packages/utils/coremark
 cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
 
 p "替换 sing-box"
-rm -rf ./feeds/packages/net/sing-box
-cp -rf ${otherdir}/op_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
-wget https://github.com/Openwrt-Passwall/openwrt-passwall-packages/raw/refs/heads/main/sing-box/Makefile -O ./feeds/packages/net/sing-box/Makefile
+cp -f ${ffdir}/patch/sing-box/Makefile -O ./feeds/packages/net/sing-box/Makefile
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya

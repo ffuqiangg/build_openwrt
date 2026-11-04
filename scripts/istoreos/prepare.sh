@@ -24,7 +24,7 @@ build_date=$(date +%Y.%m.%d)
 p "克隆 istoreos 到 ${workdir}/openwrt"
 . set_env "wrtdir" "${workdir}/openwrt"
 umask 0022
-clone istoreos-24.10 ${istoreos_repo} ${wrtdir}
+clone istoreos-25.12 ${istoreos_repo} ${wrtdir}
 pushd ${wrtdir}
 git config core.filemode false # 忽略权限变更
 popd
@@ -168,15 +168,13 @@ p "Autocore"
 cp -rf ${otherdir}/autocore-arm ./package/add/autocore
 p "Coremark"
 rm -rf ./feeds/packages/utils/coremark
-cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
+cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
 p "IP/MAC 绑定"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-arpbind ./package/add/luci-app-arpbind
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makefile
 
 p "替换 sing-box"
-rm -rf ./feeds/packages/net/sing-box
-cp -rf ${otherdir}/op_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
-wget https://github.com/Openwrt-Passwall/openwrt-passwall-packages/raw/refs/heads/main/sing-box/Makefile -O ./feeds/packages/net/sing-box/Makefile
+cp -f ${ffdir}/patch/sing-box/Makefile -O ./feeds/packages/net/sing-box/Makefile
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya

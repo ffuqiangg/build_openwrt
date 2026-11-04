@@ -14,3 +14,4 @@ sh -c "$(curl -ksS https://testingcf.jsdelivr.net/gh/ffuqiangg/build_openwrt@mai
 ### ✨ 更新内容
 
 - 插件调整 : 取消编译 homeproxy 。
+- iStoreOS 固件切换到 istoreos-25.12 分支。
