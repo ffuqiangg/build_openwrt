@@ -37,6 +37,7 @@ p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
+clone openwrt-25.12 ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_25 &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone main ${podman_repo} ${otherdir}/podman &
@@ -193,13 +194,12 @@ sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/reso
 sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/resources/view/podman/{overview.js,container.js,pod.js,pod-tab/info.js}
 sed -i 's#admin/#&services/#g' ./package/luci-app-podman/root/usr/share/luci/menu.d/luci-app-podman.json
 rm -rf ./feeds/packages/utils/podman
-cp -rf ${otherdir}/imm_pkg_ma/utils/podman ./feeds/packages/utils/podman
-cp -rf ${otherdir}/imm_pkg_ma/net/passt ./package/add/passt
+cp -rf ${otherdir}/imm_pkg_25/utils/podman ./feeds/packages/utils/podman
 rm -rf ./feeds/packages/utils/crun
-cp -rf ${otherdir}/imm_pkg_ma/utils/crun ./feeds/packages/utils/crun
-cp -rf ${otherdir}/imm_pkg_ma/net/aardvark-dns ./package/add/
+cp -rf ${otherdir}/imm_pkg_25/utils/crun ./feeds/packages/utils/crun
+cp -rf ${otherdir}/imm_pkg_25/net/aardvark-dns ./package/add/
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' ./package/add/aardvark-dns/Makefile
-cp -rf ${otherdir}/imm_pkg_ma/net/netavark ./package/add/
+cp -rf ${otherdir}/imm_pkg_25/net/netavark ./package/add/
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/packages|g' ./package/add/netavark/Makefile
 
 p "Filebrowser 文件管理器"
