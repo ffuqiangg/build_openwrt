@@ -72,7 +72,7 @@ p "更新 Feeds"
 
 
 p "卸载无法编译的包"
-./scripts/feeds uninstall luci-app-radicale exim onionshare-cli radicale3 python-pika python-zope-event python-zope-interface python-gevent python-twisted luci-app-baidupcs-web luci-app-radicale3 || true
+./scripts/feeds uninstall luci-app-radicale exim onionshare-cli radicale3 python-pika python-zope-event python-zope-interface python-gevent python-twisted luci-app-baidupcs-web luci-app-radicale3 prosody || true
 
 p "应用自定义修改"
 mkdir -p ./package/add
@@ -201,9 +201,9 @@ cp -rf ${otherdir}/podman ./package/luci-app-podman
 sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/resources/podman/model/{Pod.js,Image.js,Model.js,Container.js}
 sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/resources/view/podman/{overview.js,container.js,pod.js,pod-tab/info.js}
 sed -i 's#admin/#&services/#g' ./package/luci-app-podman/root/usr/share/luci/menu.d/luci-app-podman.json
-rm -rf ./feeds/packages/utils/podman
-cp -rf ${otherdir}/imm_pkg_ma/utils/podman ./feeds/packages/utils/podman
-cp -rf ${otherdir}/imm_pkg_ma/net/passt ./package/add/passt
+# rm -rf ./feeds/packages/utils/podman
+# cp -rf ${otherdir}/imm_pkg_ma/utils/podman ./feeds/packages/utils/podman
+# cp -rf ${otherdir}/imm_pkg_ma/net/passt ./package/add/passt
 p "Diskman 磁盘管理"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-diskman ./package/add/luci-app-diskman
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-diskman/Makefile
