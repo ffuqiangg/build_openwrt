@@ -23,6 +23,7 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_SING_BOX_BUILD_EMBEDDED_TOR \
 	CONFIG_SING_BOX_BUILD_GRPC \
 	CONFIG_SING_BOX_BUILD_GVISOR \
+	CONFIG_SING_BOX_BUILD_NAIVE_OUTBOUND \
 	CONFIG_SING_BOX_BUILD_QUIC \
 	CONFIG_SING_BOX_BUILD_TAILSCALE \
 	CONFIG_SING_BOX_BUILD_UTLS \
@@ -79,18 +80,21 @@ define Package/sing-box/config
 		config SING_BOX_BUILD_GRPC
 		bool "Build with standard gPRC support"
 		help
-		Standard gRPC has good compatibility but poor performance.
+			Standard gRPC has good compatibility but poor performance.
 
 		config SING_BOX_BUILD_GVISOR
 		bool "Build with gVisor support"
 		default y
 
+		config SING_BOX_BUILD_NAIVE_OUTBOUND
+		bool "Build with NaiveProxy outbound support"
+
 		config SING_BOX_BUILD_QUIC
 		bool "Build with QUIC support"
 		default y
 		help
-		Required by HTTP3 DNS transports, Naive inbound,
-		Hysteria inbound / outbound, and v2ray QUIC transport.
+			Required by HTTP3 DNS transports, Naive inbound,
+			Hysteria inbound / outbound, and v2ray QUIC transport.
 
 		config SING_BOX_BUILD_TAILSCALE
 		bool "Build with Tailscale support"
@@ -116,6 +120,7 @@ GO_PKG_TAGS:=$(subst $(space),$(comma),$(strip \
 	$(if $(CONFIG_SING_BOX_BUILD_EMBEDDED_TOR),with_embedded_tor) \
 	$(if $(CONFIG_SING_BOX_BUILD_GRPC),with_grpc) \
 	$(if $(CONFIG_SING_BOX_BUILD_GVISOR),with_gvisor) \
+	$(if $(CONFIG_SING_BOX_BUILD_NAIVE_OUTBOUND),with_naive_outbound) \
 	$(if $(CONFIG_SING_BOX_BUILD_QUIC),with_quic) \
 	$(if $(CONFIG_SING_BOX_BUILD_TAILSCALE),with_tailscale) \
 	$(if $(CONFIG_SING_BOX_BUILD_UTLS),with_utls) \
@@ -123,19 +128,8 @@ GO_PKG_TAGS:=$(subst $(space),$(comma),$(strip \
 	$(if $(CONFIG_SING_BOX_BUILD_WIREGUARD),with_wireguard) \
 ))
 
-define Package/sing-box/conffiles
-endef
-
 define Package/sing-box/install
 	$(call GoPackage/Package/Install/Bin,$(1))
-
-	$(INSTALL_DIR) $(1)/etc/sing-box
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/release/config/config.json $(1)/etc/sing-box
-
-	$(INSTALL_DIR) $(1)/etc/config/
-	$(INSTALL_CONF) ./files/sing-box.conf $(1)/etc/config/sing-box
-	$(INSTALL_DIR) $(1)/etc/init.d/
-	$(INSTALL_BIN) ./files/sing-box.init $(1)/etc/init.d/sing-box
 endef
 
 $(eval $(call GoBinPackage,sing-box))
