@@ -15,7 +15,7 @@
           mixed_port = uci.get('sing-box', 'basic', 'mixed_port') || '2881',
           redirect_port = uci.get('sing-box', 'basic', 'redirect_port') || '2331';
 
-    const proxy_ports = '22,80,143,443,465,587,853,873,993,995,8080,8443,9418' + ',' + mixed_port;
+    const proxy_ports = '22,80,143,443,465,587,853,873,993,995,5228,8080,8443,9418' + ',' + mixed_port;
 
     const dns_hijacked = uci.get('dhcp', '@dnsmasq[0]', 'dns_redirect') || '0',
           dns_port = uci.get('sing-box', 'basic', 'dns_port') || '2053';

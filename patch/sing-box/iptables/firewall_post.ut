@@ -20,7 +20,7 @@
         "172.16.0.0/12", "192.168.0.0/16", "224.0.0.0/4", "240.0.0.0/4", "255.255.255.255/32"
     ];
 
-    const proxy_ports = '22,80,143,443,465,587,853,873,993,995,8080,8443,9418' + ',' + mixed_port;
+    const proxy_ports = '22,80,143,443,465,587,853,873,993,995,5228,8080,8443,9418' + ',' + mixed_port;
 
     const dns_hijacked = uci.get('dhcp', '@dnsmasq[0]', 'dns_redirect') || '0',
           dns_port = uci.get('sing-box', 'basic', 'dns_port') || '2053';
