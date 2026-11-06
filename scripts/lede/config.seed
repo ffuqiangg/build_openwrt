@@ -12,3 +12,43 @@ CONFIG_ZLIB_OPTIMIZE_SPEED=y
 CONFIG_DEVEL=y
 CONFIG_BUILD_LOG=y
 CONFIG_BUILD_LOG_DIR="./logs"
+
+# basic
+CONFIG_PACKAGE_autocore-arm=y
+CONFIG_PACKAGE_bash=y
+CONFIG_PACKAGE_bsdtar=y
+CONFIG_PACKAGE_cfdisk=y
+CONFIG_PACKAGE_coremark=y
+CONFIG_PACKAGE_curl=y
+CONFIG_PACKAGE_ddns-scripts_aliyun=n
+CONFIG_PACKAGE_ddns-scripts_dnspod=n
+CONFIG_PACKAGE_dnsmasq-full=y
+CONFIG_PACKAGE_dnsmasq_full_ipset=y
+CONFIG_PACKAGE_dnsmasq=n
+CONFIG_PACKAGE_ethtool=y
+CONFIG_PACKAGE_htop=y
+CONFIG_PACKAGE_iftop=y
+CONFIG_PACKAGE_iperf3=y
+CONFIG_PACKAGE_jq=y
+CONFIG_PACKAGE_kmod-fs-f2fs=y
+CONFIG_PACKAGE_openssh-sftp-server=y
+CONFIG_PACKAGE_podman=y
+CONFIG_PACKAGE_vim-fuller=y
+CONFIG_PACKAGE_wget-ssl=y
+CONFIG_PACKAGE_zoneinfo-asia=y
+
+# ucode
+CONFIG_PACKAGE_ucode=y
+CONFIG_PACKAGE_ucode-mod-uci=y
+CONFIG_PACKAGE_ucode-mod-fs=y
+CONFIG_PACKAGE_ucode-mod-digest=y
+
+# luci
+CONFIG_PACKAGE_luci-nginx=y
+CONFIG_PACKAGE_luci=n
+CONFIG_PACKAGE_luci-theme-bootstrap=y
+CONFIG_PACKAGE_luci-compat=y
+
+# firewall
+CONFIG_PACKAGE_firewall=n
+CONFIG_PACKAGE_firewall4=y
