@@ -152,7 +152,7 @@ rm -rf ./feeds/packages/lang/golang
 clone 27.x ${golang_repo} ./feeds/packages/lang/golang
 p "Coremark"
 rm -rf ./feeds/packages/utils/coremark
-cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
+cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
 p "升级 jool"
 rm -rf ./feeds/packages/net/jool
 cp -rf ${otherdir}/imm_pkg_ma/net/jool ./feeds/packages/net/jool
