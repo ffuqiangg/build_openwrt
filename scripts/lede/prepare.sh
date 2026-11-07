@@ -41,7 +41,6 @@ clone openwrt-25.12 ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_25 &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone main ${podman_repo} ${otherdir}/podman &
-clone 25.12 ${yaof_repo} ${otherdir}/yaof &
 wait && sync
 
 p "一些调整"

@@ -46,7 +46,6 @@ clone main ${podman_repo} ${otherdir}/podman &
 clone openwrt-25.12 ${autocore_arm_repo} ${otherdir}/autocore-arm &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone main ${amlogic_repo} ${otherdir}/amlogic &
-clone 25.12 ${yaof_repo} ${otherdir}/yaof &
 wait && sync
 
 p "一些调整"

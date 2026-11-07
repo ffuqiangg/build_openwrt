@@ -41,7 +41,6 @@ clone main ${podman_repo} ${otherdir}/podman &
 clone openwrt-24.10 ${autocore_arm_repo} ${otherdir}/autocore-arm &
 clone master ${openwrt_add_repo} ${otherdir}/openwrt-add &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
-clone 24.10 ${yaof_repo} ${otherdir}/yaof &
 wait && sync
 
 p "一些调整"
