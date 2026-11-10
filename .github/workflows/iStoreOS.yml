@@ -84,7 +84,7 @@ jobs:
           p "开始下载"
           make download -j$(($(nproc) + 1))
           p "开始编译"
-          make kernel_olddefconfg && make -j$(($(nproc) + 1))
+          yes "" | make target/linux/compile && make -j$(($(nproc) + 1))
           if [ $? -ne 0 ]; then
             p "！！编译失败！！开启单线程"
             make -j1 V=s
