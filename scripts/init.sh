@@ -123,6 +123,8 @@ docker run -d --name opbe \
     -e workdir_host="${workdir_host}" \
     -e ffdir="${ffdir}" \
     -e BASH_ENV="${workdir}/ci_env" \
+    -e FORCE_UNSAFE_CONFIGURE=1 \
+    -e CI=true \
     -w ${workdir} \
     ffuqiangg/opbe tail -f /dev/null
 
