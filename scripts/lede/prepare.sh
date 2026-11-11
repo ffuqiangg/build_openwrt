@@ -51,8 +51,6 @@ sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
 # sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
 p "禁用 WIFI"
 sed -i "s/disabled='0'/disabled='1'/g" ${wrtdir}/package/kernel/mac80211/files/lib/wifi/mac80211.sh
-p "删除 apk 提示"
-rm -f ${wrtdir}/package/base-files/files/etc/profile.d/apk-cheatsheet.sh
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
