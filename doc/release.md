@@ -10,4 +10,4 @@
 
 - 插件调整 : sing-box 核心跟随上游升级到最新版，取消编译 homeproxy 。
 - iStoreOS 固件切换到 istoreos-25.12 分支。
-- LEDE，iStoreOS 固件不在编译提供 packages 包（感觉没什么大用）。
+- LEDE，iStoreOS 固件不再编译提供 packages 包（感觉没什么大用）。
