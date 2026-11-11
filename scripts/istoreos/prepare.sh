@@ -75,7 +75,7 @@ p "更新 Feeds"
 
 
 p "卸载无法编译的包"
-./scripts/feeds uninstall luci-app-radicale exim onionshare-cli radicale3 python-pika python-zope-event python-zope-interface python-gevent python-twisted luci-app-baidupcs-web luci-app-radicale3 prosody || true
+./scripts/feeds uninstall luci-app-vlmcsd vlmcsd luci-app-radicale exim onionshare-cli radicale3 python-pika python-zope-event python-zope-interface python-gevent python-twisted luci-app-baidupcs-web luci-app-radicale3 prosody || true
 
 p "应用自定义修改"
 mkdir -p ./package/add
