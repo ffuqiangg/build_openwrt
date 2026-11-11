@@ -60,6 +60,8 @@ p "调整内核配置"
 echo "
 # CONFIG_TRANSPARENT_HUGEPAGE_NEVER is not set
 " >> ${wrtdir}/target/linux/amlogic/meson/config-6.12
+p "修复 AUTORELEASE 提示"
+sed -i 's/PKG_RELEASE:=*/PKG_RELEASE:=1/' ${wrtdir}/package/boot/uboot-amlogic-prebuilt/Makefile
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
