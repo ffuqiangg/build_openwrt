@@ -56,6 +56,14 @@ rm -f ${wrtdir}/package/istoreos-files/files/etc/uci-defaults/99_theme
 p "针对 N1 的编译优化"
 sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
 # sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
+p "调整内核配置"
+sed -i '/CONFIG_TRANSPARENT_HUGEPAGE/d' ${wrtdir}/target/linux/generic/config-6.12
+echo "
+CONFIG_TRANSPARENT_HUGEPAGE=y
+CONFIG_TRANSPARENT_HUGEPAGE_MADVISE=y
+# CONFIG_TRANSPARENT_HUGEPAGE_ALWAYS is not set
+# CONFIG_TRANSPARENT_HUGEPAGE_NEVER is not set
+" >> ${wrtdir}/target/linux/generic/config-6.12
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
