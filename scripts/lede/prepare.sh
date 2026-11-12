@@ -188,6 +188,9 @@ p "Bandix 流量监控"
 cp -rf ${otherdir}/openwrt-add/apps/{openwrt-bandix,luci-app-bandix} ./package/add/
 p "终端 TTYD"
 sed -i 's/services/system/g' ./feeds/luci/applications/luci-app-ttyd/root/usr/share/luci/menu.d/luci-app-ttyd.json
+p "VIM"
+rm -rf ./feeds/packages/utils/vim
+cp -rf ${otherdir}/imm_pkg_ma/utils/vim ./feeds/packages/utils/vim
 
 p "Podman"
 cp -rf ${otherdir}/podman ./package/luci-app-podman
