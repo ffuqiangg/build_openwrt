@@ -226,10 +226,12 @@ mkdir -p ./files/etc/uci-defaults
 cp -f ${ffdir}/scripts/immortalwrt/zzz-default-settings ./files/etc/uci-defaults/ && \
 sed -i "s/build_date/${build_date}/g" ./files/etc/uci-defaults/zzz-default-settings
 p "写入 banner"
-length=$((${#latest_release} + ${#build_date} + 19))
-for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "" >> ./files/etc/banner
-echo -e " \033[7m ImmortalWrt \033[0m ${latest_release} @ ${build_date}" >> ./files/etc/banner
-for ((i=0; i<length; i++)); do echo -n "-" >> ./files/etc/banner; done && echo "" >> ./files/etc/banner
+cat << EOF
+
+ Welcome to ImmortalWrt !
+https://github.com/ffuqiangg/build_openwrt
+
+EOF > ./files/etc/banner
 
 
 p "清理临时文件"
