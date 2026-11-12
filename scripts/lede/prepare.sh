@@ -155,8 +155,8 @@ p "Coremark"
 rm -rf ./feeds/packages/utils/coremark
 cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
 
-p "替换 sing-box"
-cp -f ${ffdir}/patch/sing-box/Makefile ./feeds/packages/net/sing-box/Makefile
+# p "替换 sing-box"
+# cp -f ${ffdir}/patch/sing-box/Makefile ./feeds/packages/net/sing-box/Makefile
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya

@@ -176,7 +176,7 @@ cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/coremark ./feeds/packages/uti
 
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box/*
-cp -f ${ffdir}/patch/sing-box/Makefile ./feeds/packages/net/sing-box/Makefile
+wget https://github.com/coolsnowwolf/packages/raw/refs/heads/master/net/sing-box/Makefile -O ./feeds/packages/net/sing-box/Makefile
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
