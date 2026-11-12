@@ -11,3 +11,4 @@
 - 插件调整 : 取消编译 homeproxy 。
 - iStoreOS 固件切换到 istoreos-25.12 分支。
 - LEDE，iStoreOS 固件不再编译提供 packages 包（感觉没什么大用）。
+- 撤销部分作用不大的优化措施。
