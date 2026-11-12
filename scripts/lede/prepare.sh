@@ -208,6 +208,9 @@ rm -rf ./feeds/luci/applications/luci-app-filebrowser-go ./feeds/packages/utils/
 cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
 p "Samba4 网络共享"
 sed -i 's/nas/services/g' ./feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
+p "FTP 服务器"
+sed -i -e 's/nas/services/g' -e 's/NAS/Services/g' ./feeds/luci/applications/luci-app-vsftpd/luasrc/controller/vsftpd.lua
+sed -i 's/nas/services/g' ./feeds/luci/applications/luci-app-vsftpd/luasrc/model/cbi/vsftpd/{item.lua,users.lua}
 p "硬盘休眠"
 sed -i 's/nas/services/g' ./feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
 
