@@ -221,12 +221,12 @@ mkdir -p ./files/etc/uci-defaults
 cp -f ${ffdir}/scripts/lede/zzz-default-settings ./files/etc/uci-defaults/ && \
 sed -i "s/build_date/${build_date}/g" ./files/etc/uci-defaults/zzz-default-settings
 p "写入 banner"
-cat << EOF
+cat << EOF > ./files/etc/banner
 
  Welcome to LEDE !
 https://github.com/ffuqiangg/build_openwrt
 
-EOF > ./files/etc/banner
+EOF
 
 
 p "清理临时文件"

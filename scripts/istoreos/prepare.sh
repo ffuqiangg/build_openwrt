@@ -63,8 +63,6 @@ p "调整内核配置"
 echo "
 # CONFIG_TRANSPARENT_HUGEPAGE_NEVER is not set
 " >> ${wrtdir}/target/linux/amlogic/meson/config-6.12
-p "修复 AUTORELEASE 提示"
-sed -i 's/PKG_RELEASE:=*/PKG_RELEASE:=1/' ${wrtdir}/package/boot/uboot-amlogic-prebuilt/Makefile
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
@@ -249,12 +247,12 @@ mkdir -p ./files/etc/uci-defaults
 cp -f ${ffdir}/scripts/istoreos/zzz-default-settings ./files/etc/uci-defaults/ && \
 sed -i "s/build_date/${build_date}/g" ./files/etc/uci-defaults/zzz-default-settings
 p "写入 banner"
-cat << EOF
+cat << EOF > ./files/etc/banner
 
  Welcome to iStoreOS !
 https://github.com/ffuqiangg/build_openwrt
 
-EOF > ./files/etc/banner
+EOF
 
 
 p "清理临时文件"
