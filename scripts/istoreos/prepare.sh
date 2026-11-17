@@ -242,7 +242,7 @@ sed -i 's|"admin",|& "services",|g' ./feeds/store/luci/luci-app-store/luasrc/con
 
 
 p "复制自定义文件目录"
-cp -rf ${ffdir}/patch/files ./files
+cp -rf ${ffdir}/files ./files
 mkdir -p ./files/etc/uci-defaults
 cp -f ${ffdir}/scripts/istoreos/zzz-default-settings ./files/etc/uci-defaults/ && \
 sed -i "s/build_date/${build_date}/g" ./files/etc/uci-defaults/zzz-default-settings
