@@ -76,8 +76,6 @@ p "更新 Feeds"
 ./scripts/feeds install -f -a
 
 
-p "卸载无法编译的包"
-./scripts/feeds uninstall onionshare-cli luci-app-mjpg-streamer prosody || true
 p "luci-app-attendedsysupgrade"
 sed -i '/luci-app-attendedsysupgrade/d' ./feeds/luci/collections/luci-nginx/Makefile
 
