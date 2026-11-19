@@ -78,6 +78,10 @@ p "更新 Feeds"
 ./scripts/feeds install -f -a
 
 
+p "卸载无法编译的包"
+./scripts/feeds uninstall luci-app-weechat luci-app-baidupcs-web prosody tailscale telegraf  || true
+
+
 p "应用自定义修改"
 mkdir -p ./package/add
 p "启用 bash"
@@ -226,9 +230,7 @@ cp -rf ${otherdir}/immortalwrt/package/emortal/cpufreq ./package/add/cpufreq
 p "Filebrowser 文件管理器"
 cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
 p "KMS 服务器"
-cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-vlmcsd ./package/add/
-sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-vlmcsd/Makefile
-cp -rf ${otherdir}/imm_pkg_ma/net/vlmcsd ./package/add/
+cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{luci-app-vlmcsd,vlmcsd} ./package/add/
 
 p "Nlbw 带宽监控"
 sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
