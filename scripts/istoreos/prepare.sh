@@ -229,8 +229,8 @@ sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-cpufreq/Makef
 cp -rf ${otherdir}/immortalwrt/package/emortal/cpufreq ./package/add/cpufreq
 p "Filebrowser 文件管理器"
 cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
-p "KMS 服务器"
-cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{luci-app-vlmcsd,vlmcsd} ./package/add/
+# p "KMS 服务器"
+# cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{luci-app-vlmcsd,vlmcsd} ./package/add/
 
 p "Nlbw 带宽监控"
 sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json

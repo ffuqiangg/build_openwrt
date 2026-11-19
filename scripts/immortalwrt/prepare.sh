@@ -69,6 +69,8 @@ p "更新 Feeds"
 ./scripts/feeds install -f -a
 
 
+p "规范 Makefile 版本号"
+sed -i 's/PKG_RELEASE:=\$(AUTORELEASE)/PKG_RELEASE:=1/' ./package/boot/uboot-amlogic-prebuilt/Makefile
 p "luci-app-attendedsysupgrade"
 sed -i '/luci-app-attendedsysupgrade/d' ./feeds/luci/collections/luci-nginx/Makefile
 
