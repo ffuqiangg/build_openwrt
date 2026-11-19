@@ -41,6 +41,7 @@ p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
 clone master ${immortalwrt_pkg_repo} ${otherdir}/imm_pkg_ma &
+clone master ${openwrt_pkg_repo} ${otherdir}/op_pkg_ma &
 clone master ${v2ray_geodata_repo} ${otherdir}/v2ray_geodata &
 clone main ${podman_repo} ${otherdir}/podman &
 clone openwrt-25.12 ${autocore_arm_repo} ${otherdir}/autocore-arm &
@@ -173,8 +174,10 @@ rm -rf ./feeds/packages/utils/coremark
 cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
 
 p "替换 sing-box"
-rm -rf ./feeds/packages/net/sing-box/*
-wget https://github.com/coolsnowwolf/packages/raw/refs/heads/master/net/sing-box/Makefile -O ./feeds/packages/net/sing-box/Makefile
+rm -rf ./feeds/packages/net/sing-box
+cp -rf ${otherdir}/op_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
+sed -i '/^define Package\/sing-box$/,/^endef$/ { /DEFAULT_VARIANT/d }' ./feeds/packages/net/sing-box/Makefile
+sed -i '/^define Package\/sing-box-tiny$/a\  DEFAULT_VARIANT:=1' ./feeds/packages/net/sing-box/Makefile
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
