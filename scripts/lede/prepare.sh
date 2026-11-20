@@ -68,6 +68,9 @@ p "更新 Feeds"
 ./scripts/feeds install -f -a
 
 
+p "卸载无法编译的包"
+./scripts/feeds uninstall luci-app-homeproxy || true
+
 p "应用自定义修改"
 mkdir -p ./package/add
 p "启用 bash"
@@ -172,6 +175,7 @@ cp -rf ${otherdir}/openwrt-add/legacy/openwrt_helloworld ./package/add/
 rm -rf ./package/add/openwrt_helloworld/{v2ray-geodata,luci-app-ssr-plus}
 sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openwrt_helloworld/luci-app-passwall/Makefile
 sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
+sed -i 's/ +sing-box//' ./package/add/openwrt_helloworld/momo/Makefile
 p "OpenWrt-nikki"
 rm -rf ./feeds/luci/applications/luci-app-nikki ./feeds/packages/net/nikki
 rm -rf ./package/add/openwrt_helloworld/{mihomo-alpha,mihomo-meta}

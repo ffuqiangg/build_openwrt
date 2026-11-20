@@ -70,6 +70,7 @@ CONFIG_PACKAGE_libustream-openssl=y
 CONFIG_PACKAGE_libustream-wolfssl=n
 CONFIG_PACKAGE_openssh-sftp-server=y
 CONFIG_PACKAGE_podman=y
+CONFIG_PACKAGE_sing-box=y
 CONFIG_PACKAGE_vim-full=y
 CONFIG_PACKAGE_vim-runtime=y
 CONFIG_PACKAGE_wget-ssl=y
