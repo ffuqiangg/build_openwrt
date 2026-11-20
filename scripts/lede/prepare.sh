@@ -162,8 +162,6 @@ cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/coremark ./feeds/packages/uti
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ${otherdir}/op_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
-sed -i '/^define Package\/sing-box$/,/^endef$/ { /DEFAULT_VARIANT/d }' ./feeds/packages/net/sing-box/Makefile
-sed -i '/^define Package\/sing-box-tiny$/a\  DEFAULT_VARIANT:=1' ./feeds/packages/net/sing-box/Makefile
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
