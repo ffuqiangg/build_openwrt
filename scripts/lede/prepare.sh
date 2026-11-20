@@ -29,10 +29,6 @@ pushd ${wrtdir}
 git config core.filemode false # 忽略权限变更
 popd
 
-p "获取 distrib_revision"
-distrib_revision=$(grep 'DISTRIB_REVISION=' ${wrtdir}/package/lean/default-settings/files/zzz-default-settings | sed -E "s/.*'(.+)'.*/\1/")
-. set_env "distrib_revision" "${distrib_revision}"
-
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &

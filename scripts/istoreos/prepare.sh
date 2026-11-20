@@ -29,9 +29,6 @@ pushd ${wrtdir}
 git config core.filemode false # 忽略权限变更
 popd
 
-latest_release=$(grep "VERSION_NUMBER:=" ${wrtdir}/include/version.mk | tail -n 1 | sed 's/.*,//;s/)//')
-. set_env "latest_release" "${latest_release}"
-
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
 clone master ${immortalwrt_repo} ${otherdir}/immortalwrt &
