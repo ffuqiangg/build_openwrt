@@ -175,7 +175,7 @@ sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openw
 sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
 sed -i 's/ +sing-box//' ./package/add/openwrt_helloworld/momo/Makefile
 p "OpenWrt-nikki"
-rm -rf ./feeds/luci/applications/luci-app-nikki ./feeds/packages/net/nikki
+rm -rf ./feeds/luci/applications/luci-app-nikki ./feeds/packages/net/nikki ./feeds/packages/net/mihomo
 rm -rf ./package/add/openwrt_helloworld/{mihomo-alpha,mihomo-meta}
 cp -rf ${otherdir}/openwrt-add/apps/OpenWrt-mihomo ./package/add/luci-app-nikki
 rm -rf ./package/add/luci-app-nikki/mihomo-alpha
