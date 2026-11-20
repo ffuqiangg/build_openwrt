@@ -78,6 +78,8 @@ p "更新 Feeds"
 ./scripts/feeds install -f -a
 
 
+p "规范 Makefile 版本号"
+sed -i 's/PKG_RELEASE:=\$(AUTORELEASE)/PKG_RELEASE:=1/' ./package/boot/uboot-amlogic-prebuilt/Makefile
 p "卸载无法编译的包"
 ./scripts/feeds uninstall luci-app-weechat luci-app-tailscale-community luci-app-baidupcs-web prosody tailscale telegraf  || true
 
@@ -183,8 +185,6 @@ sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-arpbind/Makef
 p "替换 sing-box"
 rm -rf ./feeds/packages/net/sing-box
 cp -rf ${otherdir}/op_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
-sed -i '/^define Package\/sing-box$/,/^endef$/ { /DEFAULT_VARIANT/d }' ./feeds/packages/net/sing-box/Makefile
-sed -i '/^define Package\/sing-box-tiny$/a\  DEFAULT_VARIANT:=1' ./feeds/packages/net/sing-box/Makefile
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
@@ -196,6 +196,7 @@ rm -rf ./package/add/openwrt_helloworld/{v2ray-geodata,luci-app-ssr-plus}
 sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openwrt_helloworld/luci-app-passwall/Makefile
 sed -i 's, +libopenssl-legacy,,g' ./package/add/openwrt_helloworld/shadowsocksr-libev/Makefile
 sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
+sed -i 's/ +sing-box//' ./package/add/openwrt_helloworld/momo/Makefile
 p "OpenWrt-nikki"
 rm -rf ./package/add/openwrt_helloworld/{mihomo-alpha,mihomo-meta}
 cp -rf ${otherdir}/openwrt-add/apps/OpenWrt-mihomo ./package/add/luci-app-nikki
@@ -229,8 +230,9 @@ sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-cpufreq/Makef
 cp -rf ${otherdir}/immortalwrt/package/emortal/cpufreq ./package/add/cpufreq
 p "Filebrowser 文件管理器"
 cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
-# p "KMS 服务器"
-# cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{luci-app-vlmcsd,vlmcsd} ./package/add/
+p "KMS 服务器"
+rm -rf ./feeds/third/{luci-app-vlmcsd,vlmcsd}
+cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{luci-app-vlmcsd,vlmcsd} ./package/add/
 
 p "Nlbw 带宽监控"
 sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json

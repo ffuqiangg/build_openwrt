@@ -69,8 +69,8 @@ p "更新 Feeds"
 ./scripts/feeds install -f -a
 
 
-p "规范 Makefile 版本号"
-sed -i 's/PKG_RELEASE:=\$(AUTORELEASE)/PKG_RELEASE:=1/' ./package/boot/uboot-amlogic-prebuilt/Makefile
+p "卸载无法编译的包"
+./scripts/feeds uninstall luci-app-homeproxy || true
 p "luci-app-attendedsysupgrade"
 sed -i '/luci-app-attendedsysupgrade/d' ./feeds/luci/collections/luci-nginx/Makefile
 
@@ -178,6 +178,7 @@ cp -rf ${otherdir}/openwrt-add/legacy/openwrt_helloworld ./package/add/
 rm -rf ./package/add/openwrt_helloworld/{v2ray-geodata,luci-app-ssr-plus}
 sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openwrt_helloworld/luci-app-passwall/Makefile
 sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
+sed -i 's/\s+sing-box//' ./package/add/openwrt_helloworld/momo/Makefile
 p "OpenWrt-nikki"
 rm -rf ./package/add/openwrt_helloworld/{mihomo-alpha,mihomo-meta}
 cp -rf ${otherdir}/openwrt-add/apps/OpenWrt-mihomo ./package/add/luci-app-nikki
