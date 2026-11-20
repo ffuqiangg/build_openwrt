@@ -72,7 +72,7 @@ p "更新 Feeds"
 
 
 p "卸载无法编译的包"
-./scripts/feeds uninstall luci-app-weechat prosody tailscale telegraf || true
+./scripts/feeds uninstall luci-app-weechat luci-app-tailscale-community prosody tailscale telegraf || true
 p "luci-app-attendedsysupgrade"
 sed -i '/luci-app-attendedsysupgrade/d' ./feeds/luci/collections/luci-nginx/Makefile
 
