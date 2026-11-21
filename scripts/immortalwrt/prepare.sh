@@ -156,8 +156,8 @@ rm -rf ./feeds/packages/utils/coremark
 cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/coremark ./feeds/packages/utils/coremark
 
 p "替换 sing-box"
-rm -rf ./feeds/packages/net/sing-box
-cp -rf ${otherdir}/op_pkg_ma/net/sing-box ./feeds/packages/net/sing-box
+rm -rf ./feeds/packages/net/sing-box/*
+wget https://github.com/coolsnowwolf/packages/raw/refs/heads/master/net/sing-box/Makefile -O ./feeds/packages/net/sing-box/Makefile
 p "v2rayA"
 rm -rf ./feeds/luci/applications/luci-app-v2raya ./feeds/packages/net/v2raya
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-v2raya ./feeds/luci/applications/luci-app-v2raya
@@ -170,7 +170,6 @@ cp -rf ${otherdir}/openwrt-add/legacy/openwrt_helloworld ./package/add/
 rm -rf ./package/add/openwrt_helloworld/{v2ray-geodata,luci-app-ssr-plus}
 sed -i '/select PACKAGE_geoview/{n;s/default n/default y/;}' ./package/add/openwrt_helloworld/luci-app-passwall/Makefile
 sed -i '/#dde2ff/d;/#2c323c/d' ./package/add/openwrt_helloworld/luci-app-passwall/luasrc/view/passwall/global/status.htm
-sed -i 's/ +sing-box//' ./package/add/openwrt_helloworld/momo/Makefile
 p "OpenWrt-nikki"
 rm -rf ./package/add/openwrt_helloworld/{mihomo-alpha,mihomo-meta}
 cp -rf ${otherdir}/openwrt-add/apps/OpenWrt-mihomo ./package/add/luci-app-nikki
