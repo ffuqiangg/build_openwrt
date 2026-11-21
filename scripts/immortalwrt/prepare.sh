@@ -210,8 +210,7 @@ rm -f profiles.json
 p "复制自定义文件目录"
 cp -rf ${ffdir}/files ./files
 mkdir -p ./files/etc/uci-defaults
-cp -f ${ffdir}/scripts/immortalwrt/zzz-default-settings ./files/etc/uci-defaults/ && \
-sed -i "s/build_date/${build_date}/g" ./files/etc/uci-defaults/zzz-default-settings
+cp -f ${ffdir}/scripts/immortalwrt/zzz-default-settings ./files/etc/uci-defaults/
 p "写入 banner"
 cat << EOF > ./files/etc/banner
 
