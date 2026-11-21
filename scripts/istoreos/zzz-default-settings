@@ -74,10 +74,6 @@ uci set system.@system[0].cronloglevel="9"
 uci commit system
 /etc/init.d/cron restart
 
-# --- OpenClash ---
-[ -f /usr/share/v2ray/geosite.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geosite.dat /etc/openclash/GeoSite.dat
-[ -f /usr/share/v2ray/geoip.dat ] && [ -d /etc/openclash ] && ln -sf /usr/share/v2ray/geoip.dat /etc/openclash/GeoIP.dat
-
 # --- V2rayA ---
 [ -d /usr/share/xray ] || mkdir -p /usr/share/xray
 [ -f /usr/share/v2ray/geoip.dat ] && ln -sf /usr/share/v2ray/geoip.dat /usr/share/xray/geoip.dat
