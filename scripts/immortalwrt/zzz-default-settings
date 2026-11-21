@@ -91,10 +91,6 @@ opkg flag hold dnsmasq-full
 /etc/init.d/podman disable 2>/dev/null
 /etc/init.d/podman stop
 
-# --- openwr_release 写入编译日期 ---
-sed -i '/BUILD_DATE/d' /etc/openwrt_release
-echo "BUILD_DATE='build_date'" >> /etc/openwrt_release
-
 # --- 清除 LuCI 残留缓存 ---
 rm -rf /tmp/luci-modulecache
 rm -f /tmp/luci-indexcache
