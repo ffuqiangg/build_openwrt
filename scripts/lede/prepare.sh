@@ -43,7 +43,7 @@ wait && sync
 p "一些调整"
 p "修改 IP ( 192.168.1.99 )"
 sed -i "/lan) ipad=\${ipaddr:-/s/\${ipaddr:-\"[^\"]*\"}/\${ipaddr:-\"192.168.1.99\"}/" ${wrtdir}/package/base-files/*/bin/config_generate
-p "针对 N1 的编译优化"
+p "编译优化"
 sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
 p "禁用 WIFI"
 sed -i "s/disabled='0'/disabled='1'/g" ${wrtdir}/package/kernel/mac80211/files/lib/wifi/mac80211.sh

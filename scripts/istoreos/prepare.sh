@@ -51,7 +51,7 @@ sed -i 'N;/\n.*shortcut icon/!P;D' ${wrtdir}/package/istoreos-files/Makefile
 sed -i '/shortcut icon/,/luci-argon-config/d' ${wrtdir}/package/istoreos-files/Makefile
 sed -i '/config\/argon/,+6d' ${wrtdir}/package/istoreos-files/files/etc/uci-defaults/09_istoreos
 rm -f ${wrtdir}/package/istoreos-files/files/etc/uci-defaults/99_theme
-p "针对 N1 的编译优化"
+p "编译优化"
 sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
 p "删除 apk / welcome 提示"
 rm -f ${wrtdir}/package/base-files/files/etc/profile.d/apk-cheatsheet.sh
