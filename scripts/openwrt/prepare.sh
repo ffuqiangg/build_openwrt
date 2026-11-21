@@ -44,11 +44,8 @@ clone main ${amlogic_repo} ${otherdir}/amlogic &
 wait && sync
 
 p "一些调整"
-# p "修改 IP ( 192.168.1.99 )"
-# sed -i 's/192.168.1.1/192.168.1.99/g' ${wrtdir}/package/base-files/files/bin/config_generate
 p "编译优化"
 sed -i 's/Os/O2/g' ${wrtdir}/include/target.mk
-# sed -i 's/-mcpu=cortex-a53/&+crypto+crc -fpredictive-commoning -ftree-partial-pre -floop-interchange -fschedule-insns -fsched-pressure -ftree-vectorize -fvect-cost-model=cheap -mno-outline-atomics -fweb -frename-registers -fno-plt/' ${wrtdir}/include/target.mk
 p "删除 apk 提示"
 rm -f ${wrtdir}/package/base-files/files/etc/profile.d/apk-cheatsheet.sh
 
@@ -198,9 +195,6 @@ cp -rf ${otherdir}/podman ./package/luci-app-podman
 sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/resources/podman/model/{Pod.js,Image.js,Model.js,Container.js}
 sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/resources/view/podman/{overview.js,container.js,pod.js,pod-tab/info.js}
 sed -i 's#admin/#&services/#g' ./package/luci-app-podman/root/usr/share/luci/menu.d/luci-app-podman.json
-# rm -rf ./feeds/packages/utils/podman
-# cp -rf ${otherdir}/imm_pkg_ma/utils/podman ./feeds/packages/utils/podman
-# cp -rf ${otherdir}/imm_pkg_ma/net/passt ./package/add/passt
 p "Diskman 磁盘管理"
 cp -rf ${otherdir}/imm_luci_ma/applications/luci-app-diskman ./package/add/luci-app-diskman
 sed -i 's|\.\./\.\.|$(TOPDIR)/feeds/luci|g' ./package/add/luci-app-diskman/Makefile
