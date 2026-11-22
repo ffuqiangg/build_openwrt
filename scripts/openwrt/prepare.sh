@@ -31,6 +31,12 @@ pushd ${wrtdir}
 git config core.filemode false # 忽略权限变更
 popd
 
+p "获取内核版本"
+current_version=$(sed -n 's/^KERNEL_PATCHVER:=//p' ${wrtdir}/target/linux/armsr/Makefile)
+kernel_version=$(sed -n "s/^LINUX_VERSION-${current_version} = //p" ${wrtdir}/target/linux/generic/kernel-${current_version})
+. set_env "current_version" "${current_version}"
+. set_env "kernel_version" "${current_version}${kernel_version}"
+
 p "下载其它仓库"
 . set_env "otherdir" "${workdir}/other"
 clone master ${immortalwrt_luci_repo} ${otherdir}/imm_luci_ma &
