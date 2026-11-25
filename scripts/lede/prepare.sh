@@ -133,9 +133,9 @@ fs.file-max = 65535
 
 
 p "调整刷机脚本"
-cp -f ${ffdir}/scripts/lede/install-to-emmc.sh ./target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh
-mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
-mv -f ./target/linux/amlogic/mesongx/base-files/root ./target/linux/amlogic/mesongx/base-files/usr/sbin
+mkdir -p ./target/linux/amlogic/mesongx/base-files/usr/sbin
+rm -rf ./target/linux/amlogic/mesongx/base-files/root
+cp -f ${ffdir}/scripts/lede/install-to-emmc.sh ./target/linux/amlogic/mesongx/base-files/usr/sbin/install-to-emmc.sh
 
 p "调整 default-settings"
 sed -i '/services/d' ./package/lean/default-settings/files/zzz-default-settings
