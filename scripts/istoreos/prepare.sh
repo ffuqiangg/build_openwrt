@@ -152,8 +152,7 @@ fs.file-max = 65535
 
 
 p "调整刷机脚本"
-wget https://github.com/istoreos/istoreos/raw/refs/heads/istoreos-24.10/target/linux/amlogic/meson/base-files/usr/sbin/install-to-emmc.sh -O ./target/linux/amlogic/meson/base-files/usr/sbin/install-to-emmc.sh
-patch -p1 < ${ffdir}/scripts/istoreos/custom_target_amlogic_scripts.patch
+cp -f ${ffdir}/scripts/istoreos/install-to-emmc.sh ./target/linux/amlogic/meson/base-files/usr/sbin/install-to-emmc.sh
 p "调整 default-settings"
 sed -i '/dockerd.globals.data_root/d' ./package/istoreos-files/files/etc/uci-defaults/09_istoreos
 sed -i 'N;/\n.*commit dockerd/!P;D' ./package/istoreos-files/files/etc/uci-defaults/09_istoreos 

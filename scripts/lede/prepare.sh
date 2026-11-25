@@ -133,7 +133,7 @@ fs.file-max = 65535
 
 
 p "调整刷机脚本"
-patch -p1 < ${ffdir}/scripts/lede/custom_target_amlogic_scripts.patch
+cp -f ${ffdir}/scripts/lede/install-to-emmc.sh ./target/linux/amlogic/mesongx/base-files/root/install-to-emmc.sh
 mkdir -p ./target/linux/amlogic/mesongx/base-files/usr
 mv -f ./target/linux/amlogic/mesongx/base-files/root ./target/linux/amlogic/mesongx/base-files/usr/sbin
 
