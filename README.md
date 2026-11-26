@@ -5,10 +5,10 @@
 <p align="center">本项目用于编译斐讯 N1 使用的 OpenWrt , ImmortalWrt , LEDE , iStoreOS 固件</p>
 
 <p align="center">
-  <a href="https://github.com/ffuqiangg/build_openwrt/stargazers"><img src="https://img.shields.io/github/stars/ffuqiangg/build_openwrt?color=ffcb47&labelColor=black&logo=github&label=Stars" /></a>
-  <a href="https://github.com/ffuqiangg/build_openwrt/releases"><img src="https://img.shields.io/github/downloads/ffuqiangg/build_openwrt/total?color=2c9678&labelColor=black&logo=github&label=Downloads" /></a>
-  <a href="https://github.com/ffuqiangg/build_openwrt/releases/latest"><img src="https://img.shields.io/github/v/release/ffuqiangg/build_openwrt?color=2775b6&labelColor=black&logo=github&label=Latest%20Release" /></a>
-  <a href="https://t.me/zhenzhushan"><img src="https://img.shields.io/badge/Follow-blue?color=813c85&logo=telegram&logoColor=white&labelColor=black" /></a>
+  <a href="https://github.com/ffuqiangg/build_openwrt/stargazers"><img src="https://img.shields.io/github/stars/ffuqiangg/build_openwrt?style=flat-square&logo=github&color=8fa3bc" /></a>
+  <a href="https://github.com/ffuqiangg/build_openwrt/releases"><img src="https://img.shields.io/github/downloads/ffuqiangg/build_openwrt/total?style=flat-square&logo=github&label=Downloads&color=55746b" /></a>
+  <a href="https://github.com/ffuqiangg/build_openwrt/releases/latest"><img src="https://img.shields.io/github/v/release/ffuqiangg/build_openwrt?logo=github&style=flat-square&label=Latest%20Release" /></a>
+  <a href="https://t.me/zhenzhushan"><img src="https://img.shields.io/badge/Follow-blue?color=813c85&logo=telegram&logoColor=white&style=flat-square" /></a>
 </p>
 
 ---
