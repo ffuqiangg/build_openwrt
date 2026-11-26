@@ -60,6 +60,8 @@ p "调整内核配置"
 echo "
 # CONFIG_TRANSPARENT_HUGEPAGE_NEVER is not set
 " >> ${wrtdir}/target/linux/amlogic/meson/config-6.12
+p "删除 third 源"
+sed -i '/third/s/^/# /' ${wrtdir}/feeds.conf.default
 
 
 p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
@@ -223,7 +225,6 @@ cp -rf ${otherdir}/immortalwrt/package/emortal/cpufreq ./package/add/cpufreq
 p "Filebrowser 文件管理器"
 cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
 p "KMS 服务器"
-rm -rf ./feeds/third/{luci-app-vlmcsd,vlmcsd}
 cp -rf ${otherdir}/openwrt-add/legacy/openwrt_pkgs/{luci-app-vlmcsd,vlmcsd} ./package/add/
 
 p "Nlbw 带宽监控"
