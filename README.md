@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://github.com/ffuqiangg/build_openwrt/stargazers"><img src="https://img.shields.io/github/stars/ffuqiangg/build_openwrt?logo=github"/></a>
   <a href="https://github.com/ffuqiangg/build_openwrt/releases"><img src="https://img.shields.io/github/downloads/ffuqiangg/build_openwrt/total?logo=github&label=Downloads&labelColor=35333c&color=2c9678"/></a>
-  <a href="https://github.com/ffuqiangg/build_openwrt/releases/latest"><img src="https://img.shields.io/github/v/release/ffuqiangg/build_openwrt?logo=github&label=Latest%20Release&labelColor=35333c&color=2775b6"/></a>
+  <a href="https://github.com/ffuqiangg/build_openwrt/releases/latest"><img src="https://img.shields.io/github/v/release/ffuqiangg/build_openwrt?logo=github&label=Release&labelColor=35333c&color=2775b6"/></a>
   <a href="https://t.me/zhenzhushan"><img src="https://img.shields.io/badge/Follow-blue?color=813c85&logo=telegram&logoColor=white"/></a>
 </p>
 
